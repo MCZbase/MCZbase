@@ -2299,7 +2299,10 @@ limitations under the License.
 						{
 							text: "Save",
 							click: function(){
-console.log($('##'+whichGrid+'saveForm').serialize());
+								var url = $('##'+whichGrid+'saveForm url').val();
+								var execute = $('##'+whichGrid+'saveForm execute').val();
+								var search_name = $('##'+whichGrid+'saveForm search_name').val();
+								saveSearch(url, execute, search_name, targetDiv);
 								$(this).dialog("close"); 
 							},
 							tabindex: 0

@@ -6432,4 +6432,47 @@ function showLLFormat(orig_units) {
 	<cfthread action="join" name="getPartCondHist" />
 	<cfreturn getPartCondHist.output>
 </cffunction>
+
+<cffunction name="saveSearch" access="remote" returntype="query">
+	<cfargument name="search_name" type="numeric" required="yes">
+	<cfargument name="execute" type="string" required="yes">
+	<cfargument name="url" type="string" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT user_id 
+				FROM cf_users
+				WHERE
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO cf_canned_search
+				(
+					search_name,
+					url,
+					execute,
+					user_id
+				)
+				VALUES
+				(
+					search_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_name#">
+					url = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url#">
+					execute = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#execute#">
+					USER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#">
+				)
+			</cfquery>
+		</cftransaction>
+		<cfset result = querynew("MESSAGE")>
+		<cfset temp = queryaddrow(result,1)>
+		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+
 </cfcomponent>

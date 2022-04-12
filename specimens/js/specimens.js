@@ -1027,3 +1027,4 @@ function makeSpecSearchColsAutocomplete(inputId, targetField) {
 		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
 	};
 };
+
