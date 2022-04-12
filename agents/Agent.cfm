@@ -775,6 +775,7 @@ limitations under the License.
 									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 									</cfif>	
 								</div>
+							</section>
 	
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
