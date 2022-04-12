@@ -695,7 +695,7 @@ limitations under the License.
 								</div>
 							</section>
 							<section class="accordion" id="collectorSection1">
-								<div class="card mb-2 bg-light">
+								<div class="card mb-2 py-1 bg-light">
 									<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 										SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 										FROM locality
@@ -764,8 +764,8 @@ limitations under the License.
 													]
 												}
 											</script>
-											<div class="border rounded px-1 py-2 mx-1">
-												<div id="map" class="w-100 rounded my-1" style="height: 175px;"></div>
+											<div class="border rounded px-1 mx-1">
+												<div id="map" class="w-100 rounded" style="height: 175px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
 													<button id="change-gradient" class="border mt-2 py-1 rounded btn-xs btn small">Change Color</button>
 												</div>
