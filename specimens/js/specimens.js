@@ -1,34 +1,13 @@
-function checkFormValidity(form) { 
-	var result = false;
-	if (!form.checkValidity || form.checkValidity()) { 
-		result = true;
-	} else { 
-		var message = "Form Input validation problem.<br><dl>";
-		for(var i=0; i < form.elements.length; i++){
-			var element = form.elements[i];
-			if (element.checkValidity() == false) { 
-				var label = $( "label[for=" + element.id + "] ").text();
-				if (label==null || label=='') { label = element.id; }
-					message = message + "<dt>" + label + ":</dt> <dd>" + element.validationMessage + "</dd>";
-				}
-			}
-			message = message + "</dl>"
-			messageDialog(message,'Unable to Save');
-		}
-	return result;
-};
+/** Functions used on the specimen details page.  **/
+
 /** loadMedia populate an html block with the media 
  * @param media_id 
  * @param form 
+ *
+ * @deprecated
  **/
-
-
-/** updateMedia function 
- * @method getMedia in functions.cfc
- * @param media_id
- * @param targetDiv the id
- **/
-function loadMedia(media_id,targetDivId) {
+function loadMediaFromMediaID(media_id,targetDivId) {
+	// TODO: Remove this, it appears to be a duplicate unused function, was named loadMedia, duplicating name of loadMedia(collection_object_id, targetDivID 
 	jQuery.ajax(
 	{
 		dataType: "json",
@@ -51,6 +30,14 @@ function loadMedia(media_id,targetDivId) {
 	}
 	)
 };
+
+/** loadMedia populate an html block with the media for 
+ * a cataloged item
+ * @param collection_object_id for the cataloged item for which
+ *   to look up media
+ * @param targetDivId the id for the div in the dom, without a leading #
+ *  selector, for which to replace the html content with the response
+ **/
 function loadMedia(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
@@ -67,6 +54,8 @@ function loadMedia(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+/** TODO: Document this function **/ 
 function removeMedia(media_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
@@ -84,7 +73,7 @@ function removeMedia(media_id,form) {
 	});
 };
 
-
+// TODO: Fix documentation and uncomment, or remove if not needed 
 /** loadMedia populate an html block with the media 
  * @param collection_object_id identifying the cataloged item
  * @param targetDivId the id for the div in the dom, without a leading #
@@ -105,6 +94,8 @@ function removeMedia(media_id,form) {
 //	}
 //	)
 //}
+
+
 /**openEditMediaDialog (plural) open a dialog for editing 
  * media objects for a cataloged item.
  * @param collection_object_id for the cataloged_item for which to edit media.
@@ -132,6 +123,12 @@ function openEditMediaDialog(collection_object_id,dialogId,guid,callback) {
 	},
 	)
 };
+
+/** updateMedia function 
+ * @method getMedia in functions.cfc
+ * @param media_id
+ * @param targetDiv the id
+ **/
 function updateMedia(media_id,targetDiv) {
 	jQuery.ajax(
 	{
@@ -156,6 +153,7 @@ function updateMedia(media_id,targetDiv) {
 	},
 	)
 };
+
 /** updateIdentifications function 
  * @method getIdentification in functions.cfc
  * @param identification_id
@@ -441,7 +439,6 @@ function openEditCitationsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Citations for " + guid;
 	createCitationEditDialog(dialogId,title,callback);
 	jQuery.ajax({
-		//url: "/specimens/Citations.cfm",
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCitationHTML",
