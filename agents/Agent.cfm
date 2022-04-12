@@ -368,8 +368,8 @@ limitations under the License.
 															<li class="col-auto px-0">
 																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#">
 																	<cfif len(media_id) gt 0>
-																		<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
-																		<div id="mediaBlock#images.media_id#">
+																		<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textShort")>
+																		<div id="mediaBlock#getMedia.media_id#">
 																			#mediaBlock#
 																		</div>
 																	</cfif>
