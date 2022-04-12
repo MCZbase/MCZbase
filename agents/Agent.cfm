@@ -723,7 +723,7 @@ limitations under the License.
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-															mapTypeIds: ["satellite", "terrain""],
+															mapTypeIds: ["satellite", "terrain"],
 															zoomControl:false,
 														},
 														mapTypeId: 'satellite'
