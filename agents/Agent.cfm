@@ -187,7 +187,7 @@ limitations under the License.
 									<div class="card-header py-0">
 										<h2 class="h4 my-1 text-dark-gray mx-2 px-2">Internal Remarks</h2>
 									</div>
-									<div class="card-body px-3">
+									<div class="card-body px-3 py-2">
 										<span class="small90">#agent_remarks#</span>
 									</div>
 								</div>
