@@ -156,7 +156,7 @@ limitations under the License.
 												mapTypeIds: ["satellite", "terrain","fontSize: '6px'"],
 												zoomControl:false,
 												fontSize:'6px',
-												controlUI.style.border = "2px solid red";
+												style.border = '2px solid red',
 											},
 											mapTypeId: 'satellite'
 										});
