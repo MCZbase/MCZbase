@@ -362,8 +362,8 @@ limitations under the License.
 											<h3 class="small95 mt-2 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
 											<div class="card-body pb-1 mb-1">
 												<cfif getMedia.recordcount GT 0>
-													<cfloop query="getMedia">
-														<ul class="list-group list-group-horizontal border p-2 mt-1 mb-0">
+													<ul class="list-group list-group-horizontal border p-2 mt-1 mb-0">
+														<cfloop query="getMedia">
 														<cfif getMedia.media_type IS "image">
 															<li class="col-auto px-0">
 																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#">
@@ -372,24 +372,12 @@ limitations under the License.
 																		<div id="mediaBlock#images.media_id#">
 																			#mediaBlock#
 																		</div>
-																	<cfelse>
-																		<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75">
 																	</cfif>
 																</a>
 															</li>
-															<li class="col-10 col-md-7 col-xl-9 px-0">
-																<ul class="list-group small">
-																	<li class="list-group-item pt-0"><a href="/media/#getMedia.media_id#">Media Details</a></li>
-																	<li class="list-group-item pt-0">#getMedia.descriptor#</li>
-																	<li class="list-group-item pt-0">#getMedia.subject#</li>
-																	<li class="list-group-item pt-0"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
-																	<li class="list-group-item pt-0">#getMedia.credit#</li>
-																</ul>
-
-															</li>
 														</cfif>
-														</ul>
-													</cfloop>
+														</cfloop>
+													</ul>
 												</cfif>
 											</div>
 										</div><!--- end mediaCardBodyWrap --->
