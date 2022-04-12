@@ -155,11 +155,7 @@ limitations under the License.
 												mapTypeIds: ["satellite", "terrain"],
 											zoomControl:false,
 											},
-											mapTypeId: 'satellite',
-											"stylers": [
-  												{ "color": "##99FF33" }
-												]
-											},
+											mapTypeId: 'satellite'
 										});
 										heatmap = new google.maps.visualization.HeatmapLayer({
 											data: getPoints(),
