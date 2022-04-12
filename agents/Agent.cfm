@@ -188,7 +188,7 @@ limitations under the License.
 										<button type="button" class="headerLnk text-left w-100 h-100 collapse" data-toggle="collapse" data-target="##internalCardBodyWrap" aria-expanded="false" aria-controls="internalCardBodyWrap">Internal Remarks
 										</button>
 									</div>
-									<div class="card-body px-3 py-2 collapsed" id="internalCardBodyWrap" aria-controls="collectorCardBodyWrap">
+									<div class="card-body px-3 py-2 collapsed" id="internalCardBodyWrap" aria-controls="internalCardBodyWrap">
 										<span class="small90">#agent_remarks#</span>
 									</div>
 								</div>
