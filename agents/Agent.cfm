@@ -193,7 +193,7 @@ limitations under the License.
 										</cfloop>
 										]
 									}
-									function mapTypeControl(map) {
+									function mapTypeId(map) {
 									  // Set CSS for the control border.
 									  const controlUI = document.createElement("div");
 
@@ -220,7 +220,7 @@ limitations under the License.
 									  controlUI.appendChild(controlText);
 									  // Setup the click event listeners: simply set the map to Chicago.
 									  controlUI.addEventListener("click", () => {
-										map.mapTypeControl(map);
+										map.mapTypeId(map);
 									  });
 									}
 									//end InitMap
