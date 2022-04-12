@@ -109,6 +109,7 @@ limitations under the License.
 	<script type="text/javascript" src="/specimens/js/specimens.js"></script> 
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
+	<script type="text/javascript" src="/users/js/internal.js"></script>
 </cfif>
 
 <!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
