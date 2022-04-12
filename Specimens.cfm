@@ -2113,19 +2113,7 @@ limitations under the License.
 		function populateSaveSearch(gridId,whichGrid) { 
 			// set up a dialog for saving the current search.
 			var uri = "/Specimens.cfm?execute=true&" + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
-			$("##"+whichGrid+"saveDialog").html("\n\
-					<div class='row'>\n\
-						<form id='"+whichGrid+"saveForm'>\n\
-							<input type='hidden' value='"+uri+"' name='url'>\n\
-							<div class="col-12">\n\
-								<label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'>\n\
-							</div>\n\
-							<div class="col-12">\n\
-								<label>Execute Immediately</label><input type='radio' name='execute' value='yes'><input type='radio' name='execute' value='No'>\n\
-							</div>\n\
-						</form>\n\
-					</div>\n\
-			");
+			$("##"+whichGrid+"saveDialog").html("<div class='row'> <form id='"+whichGrid+"saveForm'> <input type='hidden' value='"+uri+"' name='url'> <div class='col-12'> <label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'> </div> <div class='col-12'> <label>Execute Immediately</label><input type='radio' name='execute' value='yes'><input type='radio' name='execute' value='No'> </div> </form> </div>");
 		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
