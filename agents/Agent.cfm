@@ -30,6 +30,7 @@ limitations under the License.
 	<cflocation url="/Agents.cfm">
 </cfif>
 <cfinclude template = "/shared/_header.cfm">
+	<cfinclude template = "/media/component/search.cfm">
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -353,8 +354,8 @@ limitations under the License.
 											<cfelse>
 												<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 															<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
-											<div id="mediaBlock#images.media_id#">
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textShort")>
+											<div id="mediaBlock#getMedia.media_id#">
 												#mediaBlock#
 											</div>
 											</cfif>
