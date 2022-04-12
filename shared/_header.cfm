@@ -116,7 +116,6 @@ limitations under the License.
 <!--- TODO: Replace with jqx multiselect instead of using additional library --->
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
