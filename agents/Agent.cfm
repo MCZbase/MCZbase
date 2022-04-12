@@ -185,7 +185,7 @@ limitations under the License.
 								<section class="accordion mx-1" id="internalSection">
 								<div class="col-12 card bg-light mb-0 px-0">
 									<div class="card-header py-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##internalCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="internalCardBodyWrap">Internal Remarks
+										<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##internalCardBodyWrap" aria-expanded="false" aria-controls="internalCardBodyWrap">Internal Remarks
 										</button>
 									</div>
 									<div class="card-body px-3 py-2" id="internalCardBodyWrap">
