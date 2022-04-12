@@ -352,7 +352,9 @@ limitations under the License.
 									</div>
 									<div id="mediaCardBodyWrap" class="#bodyClass# px-3" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
-											No Media Records
+											<ul class="list-group">
+												<li class="list-group-item">No media showing this agent</li>
+											</ul>
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
