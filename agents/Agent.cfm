@@ -193,54 +193,61 @@ limitations under the License.
 										</cfloop>
 										]
 									}
-									function CenterControl(controlDiv: Element, map: google.maps.Map) {
-									  // Set CSS for the control border.
-									  const controlUI = document.createElement("div");
+								class CenterControl {
+  map_;
+  center_;
+  constructor(controlDiv, map, center) {
+    this.map_ = map;
+    // Set the center property upon construction
+    this.center_ = new google.maps.LatLng(center);
+    controlDiv.style.clear = "both";
 
-									  controlUI.style.backgroundColor = "#fff";
-									  controlUI.style.border = "2px solid #fff";
-									  controlUI.style.borderRadius = "3px";
-									  controlUI.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
-									  controlUI.style.cursor = "pointer";
-									  controlUI.style.marginTop = "8px";
-									  controlUI.style.marginBottom = "22px";
-									  controlUI.style.textAlign = "center";
-									  controlUI.title = "Click to recenter the map";
-									  controlDiv.appendChild(controlUI);
+    // Set CSS for the control border
+    const goCenterUI = document.createElement("div");
 
-									  // Set CSS for the control interior.
-									  const controlText = document.createElement("div");
+    goCenterUI.id = "goCenterUI";
+    goCenterUI.title = "Click to recenter the map";
+    controlDiv.appendChild(goCenterUI);
 
-									  controlText.style.color = "rgb(25,25,25)";
-									  controlText.style.fontFamily = "Roboto,Arial,sans-serif";
-									  controlText.style.fontSize = "16px";
-									  controlText.style.lineHeight = "38px";
-									  controlText.style.paddingLeft = "5px";
-									  controlText.style.paddingRight = "5px";
-									  controlText.innerHTML = "Center Map";
-									  controlUI.appendChild(controlText);
+    // Set CSS for the control interior
+    const goCenterText = document.createElement("div");
 
-									  // Setup the click event listeners: simply set the map to Chicago.
-									  controlUI.addEventListener("click", () => {
-										map.setCenter(chicago);
-									  });
-									}
+    goCenterText.id = "goCenterText";
+    goCenterText.innerHTML = "Center Map";
+    goCenterUI.appendChild(goCenterText);
 
-									function initMap(): void {
-									  map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
-										zoom: 12,
-										center: chicago,
-									  });
+    // Set CSS for the setCenter control border
+    const setCenterUI = document.createElement("div");
 
-									  // Create the DIV to hold the control and call the CenterControl()
-									  // constructor passing in this DIV.
-									  const centerControlDiv = document.createElement("div");
+    setCenterUI.id = "setCenterUI";
+    setCenterUI.title = "Click to change the center of the map";
+    controlDiv.appendChild(setCenterUI);
 
-									  CenterControl(centerControlDiv, map);
+    // Set CSS for the control interior
+    const setCenterText = document.createElement("div");
 
-									  map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
-									}
+    setCenterText.id = "setCenterText";
+    setCenterText.innerHTML = "Set Center";
+    setCenterUI.appendChild(setCenterText);
+    // Set up the click event listener for 'Center Map': Set the center of
+    // the map
+    // to the current center of the control.
+    goCenterUI.addEventListener("click", () => {
+      const currentCenter = this.center_;
 
+      this.map_.setCenter(currentCenter);
+    });
+    // Set up the click event listener for 'Set Center': Set the center of
+    // the control to the current center of the map.
+    setCenterUI.addEventListener("click", () => {
+      const newCenter = this.map_.getCenter();
+
+      if (newCenter) {
+        this.center_ = newCenter;
+      }
+    });
+  }
+}
 									//end InitMap
 								</script>
 
