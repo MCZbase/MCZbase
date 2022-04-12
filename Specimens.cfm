@@ -2280,7 +2280,7 @@ limitations under the License.
 			);
 			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ><!--- TODO: coldfusion_user --->
 				$("##"+whichGrid+"saveDialogButton").html(
-				`<buttonid="`+gridId+`saveDialogOpener"
+				`<button id="`+gridId+`saveDialogOpener"
 						onclick=" populateSaveSearch('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`saveDialog').dialog('open'); " 
 						class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
 				`);
