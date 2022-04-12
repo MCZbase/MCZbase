@@ -350,15 +350,13 @@ limitations under the License.
 									</div>
 									<div id="mediaCardBodyWrap" class="#bodyClass# px-5" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
-											<cfset mediaLink = "no media records">
+											No Media Records
 										<cfelse>
-											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textShort")>
 											<div id="mediaBlock#getMedia.media_id#">
 												#mediaBlock#
 											</div>
-											<h3 class="small90 mt-0 px-0">#prefName# is the subject of #mediaLink#.</h3>
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
