@@ -329,7 +329,7 @@ limitations under the License.
 										FROM media_relations 
 											left join media on media_relations.media_id = media.media_id
 											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-										WHERE media_relationship like '% agent'
+										WHERE media_relationship like 'shows agent'
 											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											and mczbase.is_media_encumbered(media.media_id) < 1
 									</cfquery>
