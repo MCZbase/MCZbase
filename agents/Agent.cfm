@@ -296,6 +296,7 @@ limitations under the License.
 									left join media_relations on media_relations.media_id = media.media_id
 								WHERE
 									media_relations.related_primary_key = <cfqueryparam value="#agent_id#" cfsqltype="CF_SQL_DECIMAL">
+									and media_relations.media_relationship = 'shows agent'
 								</cfquery>
 								<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
 								<div id="mediaBlock#images.media_id#">
