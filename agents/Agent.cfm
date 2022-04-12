@@ -353,7 +353,7 @@ limitations under the License.
 									<div id="mediaCardBodyWrap" class="#bodyClass# px-3" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
 											<ul class="list-group">
-												<li class="list-group-item pb-2">No media showing this agent</li>
+												<li class="list-group-item py-2">No media showing this agent</li>
 											</ul>
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
