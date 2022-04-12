@@ -694,21 +694,21 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
+							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
+								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
+								FROM locality
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									on flat.locality_id = locality.locality_id
+									left join lat_long on lat_long.locality_id = flat.locality_id
+									left join collector on collector.collection_object_id = flat.collection_object_id
+									left join agent
+									on agent.agent_id = collector.agent_id
+								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							</cfquery>	
+							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
-								<div class="card mb-2 py-1 bg-light">
-									<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
-										SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
-										FROM locality
-											left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-											on flat.locality_id = locality.locality_id
-											left join lat_long on lat_long.locality_id = flat.locality_id
-											left join collector on collector.collection_object_id = flat.collection_object_id
-											left join agent
-											on agent.agent_id = collector.agent_id
-										WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-									</cfquery>							
-									<cfif points.recordcount gt 0>
-										<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+								<div class="card mb-2 py-1 bg-light">		
+									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 										<div class="heatmap">
 											<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 											<script>
@@ -767,14 +767,13 @@ limitations under the License.
 											<div class="border rounded p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 175px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
-													<button id="change-gradient" class="border mt-2 py-1 rounded btn-xs btn small">Change Color</button>
+													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small">Change Color</button>
 												</div>
 											</div>
-									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-									</cfif>	
+								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
 								</div>
 							</section>
-	
+							</cfif>	
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
