@@ -157,7 +157,7 @@ limitations under the License.
 											},
 											mapTypeId: 'satellite',
 											"stylers": [
-  												{ "color": "#99FF33" }
+  												{ "color": "##99FF33" }
 												]
 											},
 										});
