@@ -156,7 +156,6 @@ limitations under the License.
 												mapTypeIds: ["satellite", "terrain"],
 												zoomControl:false,
 												fontSize: '6px',
-												},
 											},
 											mapTypeId: 'satellite'
 										});
