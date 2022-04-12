@@ -765,7 +765,7 @@ limitations under the License.
 												}
 											</script>
 											<div class="border rounded px-1 mx-1">
-												<div id="map" class="w-100 rounded" style="height: 175px;"></div>
+												<div id="map" class="w-100 py-1 rounded" style="height: 175px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
 													<button id="change-gradient" class="border mt-2 py-1 rounded btn-xs btn small">Change Color</button>
 												</div>
