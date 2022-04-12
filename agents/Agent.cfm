@@ -93,7 +93,7 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 mt-3">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
-						<div class="col-12 col-md-10 px-3">
+						<div class="col-12 col-md-12 border px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
@@ -108,7 +108,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
 							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span> 		
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary border btn-xs float-right">Edit</a>
 								</cfif>
 							</h1>
 							<ul class="list-group py-0 list-unstyled px-0">
@@ -123,7 +123,7 @@ limitations under the License.
 									</li>
 								</cfif>
 							</ul>
-							<div class="col-12 col-md-9 px-0 mb-0">
+							<div class="col-12 col-md-11 border px-0 mb-0">
 								#biography#
 							</div>
 						</div>
@@ -348,11 +348,11 @@ limitations under the License.
 											</button>
 										</h2>
 									</div>
-									<div id="mediaCardBodyWrap" class="#bodyClass# px-5" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+									<div id="mediaCardBodyWrap" class="#bodyClass# px-3" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
 											No Media Records
 										<cfelse>
-											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
 											<div id="mediaBlock#getMedia.media_id#">
 												#mediaBlock#
@@ -764,7 +764,7 @@ limitations under the License.
 													]
 												}
 											</script>
-											<div class="border rounded p-1 mx-1">
+											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 175px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
 													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small">Change Color</button>
