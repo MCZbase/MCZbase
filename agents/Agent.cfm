@@ -314,55 +314,54 @@ limitations under the License.
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
 								<div class="card mb-2 bg-light">
-										<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-											SELECT media.media_id,
-												mczbase.get_media_descriptor(media.media_id) as descriptor,
-												mczbase.get_medialabel(media.media_id,'subject') as subject,
-												media.media_uri,
-												media.preview_uri,
-												media.media_type,
-												CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-												CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-												MCZBASE.get_media_credit(media.media_id) as credit 
-											FROM media_relations 
-												left join media on media_relations.media_id = media.media_id
-												left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-											WHERE media_relationship like '% agent'
-												and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-												and mczbase.is_media_encumbered(media.media_id) < 1
-										</cfquery>
-											<cfif getMedia.recordcount GT 2>
-												<!--- cardState = collapsed --->
-												<cfset bodyClass = "collapse">
-												<cfset ariaExpanded ="false">
-											<cfelse>
-												<!--- cardState = expanded --->
-												<cfset bodyClass = "collapse show">
-												<cfset ariaExpanded ="true">
-											</cfif>
-										<div class="card-header" id="mediaHeader">
-											<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-											<h2 class="h4 my-0">
-												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
-													Subject of #getMedia.recordcount# Media Record#plural#
-												</button>
-											</h2>
-										</div>
-										<div id="mediaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediaHeader" data-parent="##mediaSection">
-											<cfif getMedia.recordcount eq 0>
-												<cfset mediaLink = "no media records">
-											<cfelse>
-												<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
-															<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+										SELECT media.media_id,
+											mczbase.get_media_descriptor(media.media_id) as descriptor,
+											mczbase.get_medialabel(media.media_id,'subject') as subject,
+											media.media_uri,
+											media.preview_uri,
+											media.media_type,
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+											MCZBASE.get_media_credit(media.media_id) as credit 
+										FROM media_relations 
+											left join media on media_relations.media_id = media.media_id
+											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+										WHERE media_relationship like '% agent'
+											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											and mczbase.is_media_encumbered(media.media_id) < 1
+									</cfquery>
+									<cfif getMedia.recordcount GT 2>
+										<!--- cardState = collapsed --->
+										<cfset bodyClass = "collapse">
+										<cfset ariaExpanded ="false">
+									<cfelse>
+										<!--- cardState = expanded --->
+										<cfset bodyClass = "collapse show">
+										<cfset ariaExpanded ="true">
+									</cfif>
+									<div class="card-header" id="mediaHeader">
+										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+										<h2 class="h4 my-0">
+											<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
+												Subject of #getMedia.recordcount# Media Record#plural#
+											</button>
+										</h2>
+									</div>
+									<div id="mediaCardBodyWrap" class="#bodyClass# px-5" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+										<cfif getMedia.recordcount eq 0>
+											<cfset mediaLink = "no media records">
+										<cfelse>
+											<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
+											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textShort")>
 											<div id="mediaBlock#getMedia.media_id#">
 												#mediaBlock#
 											</div>
-											<h3 class="small95 mt-1 px-3 pb-2">#prefName# is the subject of #mediaLink#.</h3>
-											</cfif>
-							
-										</div><!--- end mediaCardBodyWrap --->
-									</div>
+											<h3 class="small90 mt-0 px-3">#prefName# is the subject of #mediaLink#.</h3>
+										</cfif>
+									</div><!--- end mediaCardBodyWrap --->
+								</div>
 							</section>
 							<!--- emails/phone numbers --->
 							<cfif oneOfUs EQ 1>
