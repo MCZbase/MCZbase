@@ -353,7 +353,7 @@ limitations under the License.
 											No Media Records
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textShort")>
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
 											<div id="mediaBlock#getMedia.media_id#">
 												#mediaBlock#
 											</div>
