@@ -358,7 +358,7 @@ limitations under the License.
 											<div id="mediaBlock#getMedia.media_id#">
 												#mediaBlock#
 											</div>
-											<h3 class="small90 mt-0 px-3">#prefName# is the subject of #mediaLink#.</h3>
+											<h3 class="small90 mt-0 px-0">#prefName# is the subject of #mediaLink#.</h3>
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
