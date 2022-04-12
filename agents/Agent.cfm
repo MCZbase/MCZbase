@@ -358,28 +358,9 @@ limitations under the License.
 											<div id="mediaBlock#getMedia.media_id#">
 												#mediaBlock#
 											</div>
-											</cfif>
 											<h3 class="small95 mt-2 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
-											<div class="card-body pb-1 mb-1">
-												<cfif getMedia.recordcount GT 0>
-													<ul class="list-group list-group-horizontal border p-2 mt-1 mb-0">
-														<cfloop query="getMedia">
-														<cfif getMedia.media_type IS "image">
-															<li class="col-auto px-0">
-																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#">
-																	<cfif len(media_id) gt 0>
-																		<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textShort")>
-																		<div id="mediaBlock#getMedia.media_id#">
-																			#mediaBlock#
-																		</div>
-																	</cfif>
-																</a>
-															</li>
-														</cfif>
-														</cfloop>
-													</ul>
-												</cfif>
-											</div>
+											</cfif>
+							
 										</div><!--- end mediaCardBodyWrap --->
 									</div>
 							</section>
