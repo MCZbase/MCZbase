@@ -764,10 +764,10 @@ limitations under the License.
 													]
 												}
 											</script>
-											<div class="border rounded px-1 mx-1 pb-1">
+											<div class="border rounded px-1 py-1 mx-1">
 												<div id="map" class="w-100 rounded" style="height: 175px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
-													<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change Color</button>
+													<button id="change-gradient" class="border py-1 rounded btn-xs btn small">Change Color</button>
 												</div>
 											</div>
 									<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
