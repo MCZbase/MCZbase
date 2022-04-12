@@ -185,7 +185,7 @@ limitations under the License.
 								<section class="accordion mx-1">
 								<div class="col-12 card bg-light mb-2 px-0">
 									<div class="card-header py-0">
-										<h3 class="h4 my-1 text-dark-gray mx-2 px-2 small95 mt-2 mb-1">Internal Remarks</h3>
+										<h2 class="h4 my-1 text-dark-gray mx-2 px-2">Internal Remarks</h2>
 									</div>
 									<div class="card-body px-3">
 										<span class="small90">#agent_remarks#</span>
