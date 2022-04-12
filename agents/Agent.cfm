@@ -149,16 +149,13 @@ limitations under the License.
 										map = new google.maps.Map(document.getElementById('map'), {
 											center: Cambridge,
 											zoom: 2,
+											maxWidth:200,
 										
 											mapTypeControl: true,
 											mapTypeControlOptions: {
 												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-												mapTypeIds: ["satellite", "terrain","fontSize: '6px'"],
-												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU.SMALL,
+												mapTypeIds: ["satellite", "terrain"],
 												zoomControl:true,
-												zoomControlOptions: {
-													style: google.maps.ZoomControlStyle.SMALL
-												}
 											},
 											mapTypeId: 'satellite'
 										});
