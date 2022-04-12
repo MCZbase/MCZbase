@@ -93,7 +93,7 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 mt-3">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
-						<div class="col-12 col-md-12 border px-3">
+						<div class="col-12 col-md-12 px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
@@ -108,7 +108,7 @@ limitations under the License.
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
 							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span> 		
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
-								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary border btn-xs float-right">Edit</a>
+								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 								</cfif>
 							</h1>
 							<ul class="list-group py-0 list-unstyled px-0">
@@ -123,14 +123,11 @@ limitations under the License.
 									</li>
 								</cfif>
 							</ul>
-							<div class="col-12 col-md-11 border px-0 mb-0">
+							<div class="col-12 col-md-11 px-0 mb-0">
 								#biography#
 							</div>
 						</div>
-					
-	
 					</div>
-
 					<cfif oneOfUs EQ 1>
 						<cfquery name="getDupAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDupAgentRel_result">
 							SELECT agent_relationship, related_agent_id, MCZBASE.get_agentnameoftype(related_agent_id) as related_name,
@@ -183,15 +180,14 @@ limitations under the License.
 					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-				
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<section class="accordion">
+								<section class="accordion mx-1">
 								<div class="col-12 card bg-light mb-2 px-0">
 									<div class="card-header py-0">
 										<h3 class="h4 my-1 text-dark-gray mx-2 px-2 small95 mt-2 mb-1">Internal Remarks</h3>
 									</div>
-									<div class="card-body">
+									<div class="card-body px-3">
 										<span class="small90">#agent_remarks#</span>
 									</div>
 								</div>
