@@ -327,7 +327,6 @@ limitations under the License.
 												left join media on media_relations.media_id = media.media_id
 												left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 											WHERE media_relationship like '% agent'
-												and media_relationship <> 'created by agent'
 												and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 												and mczbase.is_media_encumbered(media.media_id) < 1
 										</cfquery>
@@ -353,6 +352,11 @@ limitations under the License.
 												<cfset mediaLink = "no media records">
 											<cfelse>
 												<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
+															<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
+											<div id="mediaBlock#images.media_id#">
+												#mediaBlock#
+											</div>
 											</cfif>
 											<h3 class="small95 mt-2 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
 											<div class="card-body pb-1 mb-1">
@@ -363,7 +367,6 @@ limitations under the License.
 															<li class="col-auto px-0">
 																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#">
 																	<cfif len(media_id) gt 0>
-																				<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 																		<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
 																		<div id="mediaBlock#images.media_id#">
 																			#mediaBlock#
