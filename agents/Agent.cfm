@@ -182,7 +182,7 @@ limitations under the License.
 					<div class="row mx-0">
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<section class="accordion w-100 mx-1" id="internalSection">
+								<section class="accordion w-100 mx-1 mt-2" id="internalSection">
 								<div class="col-12 card bg-light mb-0 px-0">
 									<div class="card-header py-0" id="internalHeader">
 										<h2 class="h4 my-0">
