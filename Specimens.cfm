@@ -756,6 +756,8 @@ limitations under the License.
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4">Results: </h1>
 													<span class="d-block px-3 p-2" id="fixedresultCount"></span> <span id="fixedresultLink" class="d-block p-2"></span>
+													<div id="fixedsaveDialogButton" class="d-block p-2"></div>
+													<div id="fixedsaveDialog"></div>
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row pick-column-width" id="fixedcolumnPick_row">
@@ -899,6 +901,8 @@ limitations under the License.
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4">Results: </h1>
 													<span class="d-block px-3 p-2" id="keywordresultCount"></span> <span id="keywordresultLink" class="d-block p-2"></span>
+													<div id="keywordsaveDialogButton" class="d-block p-1"></div>
+													<div id="keywordsaveDialog"></div>
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row pick-column-width" id="keywordcolumnPick_row">
@@ -1314,6 +1318,8 @@ limitations under the License.
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4">Results: </h1>
 													<span class="d-block px-3 p-2" id="builderresultCount"></span> <span id="builderresultLink" class="d-block p-2"></span>
+													<div id="buildersaveDialogButton" class="d-block p-2"></div>
+													<div id="buildersaveDialog"></div>
 													<div id="buildercolumnPickDialog">
 														<div class="container-fluid">
 															<div class="row pick-column-width" id="buildercolumnPick_row">
@@ -1567,6 +1573,7 @@ limitations under the License.
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
 				$('##fixedmanageButton').html('');
+				$('##fixedsaveDialogButton').html('');
 				/*var debug = $('##fixedSearchForm').serialize();
 				console.log(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
@@ -1741,6 +1748,8 @@ limitations under the License.
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
 				$("##keywordresultLink").html("");
+				$('##keywordmanageButton').html('');
+				$('##keywordsaveDialogButton').html('');
 				var debug = $("##keywordSearchForm").serialize();
 				console.log(debug);
 		
@@ -1866,7 +1875,7 @@ limitations under the License.
 						<cfelse>
 							$('##keywordmanageButton').html('');
 						</cfif>
-					</cfif>
+					</cfif>				
 					pageLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 						console.log(#session.specimens_pin_guid#);
@@ -1915,6 +1924,8 @@ limitations under the License.
 				$("##buildersearchResultsGrid").replaceWith('<div id="buildersearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##builderresultCount").html("");
 				$("##builderresultLink").html("");
+				$('##buildermanageButton').html('');
+				$('##buildersaveDialogButton').html('');
 				var debug = $("##builderSearchForm").serialize();
 				console.log(debug);
 		
@@ -2099,6 +2110,11 @@ limitations under the License.
 			}
 		</cfloop>
 	
+		function populateSaveSearch(gridId,whichGrid) { 
+			// set up a dialog for saving the current search.
+			var uri = "/Specimens.cfm?execute=true&" + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+			$("##"+whichGrid+"saveDialog").html("<div class='row'> <form id='"+whichGrid+"saveForm'> <input type='hidden' value='"+uri+"' name='url'> <div class='col-12'> <label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'> </div> <div class='col-12'> <label>Execute Immediately</label><input type='radio' name='execute' value='yes'><input type='radio' name='execute' value='No'> </div> </form> </div>");
+		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
 			var columns = $('##' + gridId).jqxGrid('columns').records;
@@ -2264,6 +2280,54 @@ limitations under the License.
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 				`
 			);
+			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ><!--- TODO: coldfusion_user --->
+				$("##"+whichGrid+"saveDialog").dialog({
+					height: 'auto',
+					width: 'auto',
+					adaptivewidth: true,
+					title: 'Save Search',
+					autoOpen: false,
+					modal: true,
+					reszable: true,
+					close: function(event, ui) { 
+						window.columnHiddenSettings = getColumnVisibilities(gridId);		
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
+						</cfif>
+					},
+					buttons: [
+						{
+							text: "Save",
+							click: function(){
+								var url = $('##'+whichGrid+'saveForm url').val();
+								var execute = $('##'+whichGrid+'saveForm execute').val();
+								var search_name = $('##'+whichGrid+'saveForm search_name').val();
+								saveSearch(url, execute, search_name, targetDiv);
+								$(this).dialog("close"); 
+							},
+							tabindex: 0
+						},
+						{
+							text: "Cancel",
+							click: function(){ 
+								$(this).dialog("close"); 
+							},
+							tabindex: 0
+						}
+					],
+					open: function (event, ui) {
+						var maxZIndex = getMaxZIndex();
+						// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+						$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+						$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+					}
+				});
+				$("##"+whichGrid+"saveDialogButton").html(
+				`<button id="`+gridId+`saveDialogOpener"
+						onclick=" populateSaveSearch('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`saveDialog').dialog('open'); " 
+						class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+				`);
+			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 			// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 			maxZIndex = getMaxZIndex();

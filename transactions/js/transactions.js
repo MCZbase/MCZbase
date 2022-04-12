@@ -448,7 +448,7 @@ function updateAccnItemCount(transactionId,targetDiv) {
 		}
 	},
 	)
-};
+}
 
 /* Update the content of a div containing dispositions of the items in an accession.
  * @param transactionId the transaction_id of the accession to lookup
