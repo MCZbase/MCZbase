@@ -126,89 +126,7 @@ limitations under the License.
 								#biography#
 							</div>
 						</div>
-						<div class="col-12 col-md-2 px-0">
-						<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
-							SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
-							FROM locality
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-								on flat.locality_id = locality.locality_id
-								left join lat_long on lat_long.locality_id = flat.locality_id
-								left join collector on collector.collection_object_id = flat.collection_object_id
-								left join agent
-								on agent.agent_id = collector.agent_id
-							WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-						</cfquery>							
-						<cfif points.recordcount gt 0>
-							<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-							<section class="heatmap mt-2 float-left w-100">
-								<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-								<script>
-									let map, heatmap;
-									function initMap() {
-										var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-										map = new google.maps.Map(document.getElementById('map'), {
-											center: Cambridge,
-											zoom: 2,
-											maxWidth:200,
-											mapTypeControl: true,
-											mapTypeControlOptions: {
-												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-												mapTypeIds: ["satellite", "terrain"],
-												zoomControl:true,
-											},
-											mapTypeId: 'satellite'
-										});
-										heatmap = new google.maps.visualization.HeatmapLayer({
-											data: getPoints(),
-												map: map,
-										});
-											document
-												.getElementById("change-gradient")
-												.addEventListener("click", changeGradient);
-									}
-									function toggleHeatmap(){
-										heatmap.setMap(heatmap.getMap() ? null : map);
-									}
-									function changeGradient() {
-										const gradient = [
-											"rgba(0, 255, 255, 0)",
-											"rgba(0, 255, 255, 1)",
-											"rgba(0, 191, 255, 1)",
-											"rgba(0, 127, 255, 1)",
-											"rgba(0, 63, 255, 1)",
-											"rgba(0, 0, 255, 1)",
-											"rgba(0, 0, 223, 1)",
-											"rgba(0, 0, 191, 1)",
-											"rgba(0, 0, 159, 1)",
-											"rgba(0, 0, 127, 1)",
-											"rgba(63, 0, 91, 1)",
-											"rgba(127, 0, 63, 1)",
-											"rgba(191, 0, 31, 1)",
-											"rgba(255, 0, 0, 1)",
-										];
-										heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-									}
-									function getPoints(){
-										return [
-										<cfloop query="points">
-											new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-										</cfloop>
-										]
-									}
-								</script>
-
-								<div class="col-12 px-0 float-left">
-									<div class="border rounded px-1 mx-1 pb-1">
-										<div id="map" class="w-100 rounded" style="height: 175px;"></div>
-										<div id="floating-panel" class="w-100 mx-auto">
-											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change Color</button>
-										</div>
-									</div>
-								</div>
-								<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-							</section><!--- end heat map---> 	
-						</cfif>	
-						</div>
+					
 	
 					</div>
 
@@ -413,7 +331,7 @@ limitations under the License.
 												and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 												and mczbase.is_media_encumbered(media.media_id) < 1
 										</cfquery>
-											<cfif getMedia.recordcount GT 20 OR getMedia.recordcount EQ 0>
+											<cfif getMedia.recordcount GT 2>
 												<!--- cardState = collapsed --->
 												<cfset bodyClass = "collapse">
 												<cfset ariaExpanded ="false">
@@ -443,7 +361,17 @@ limitations under the License.
 														<ul class="list-group list-group-horizontal border p-2 mt-1 mb-0">
 														<cfif getMedia.media_type IS "image">
 															<li class="col-auto px-0">
-																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><cfif len(preview_uri) gt 0><img src="#getMedia.preview_uri#" alt="#getMedia.descriptor#" width="75"><cfelse><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></cfif></a>
+																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#">
+																	<cfif len(media_id) gt 0>
+																				<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+																		<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
+																		<div id="mediaBlock#images.media_id#">
+																			#mediaBlock#
+																		</div>
+																	<cfelse>
+																		<img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75">
+																	</cfif>
+																</a>
 															</li>
 															<li class="col-10 col-md-7 col-xl-9 px-0">
 																<ul class="list-group small">
