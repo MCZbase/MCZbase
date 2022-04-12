@@ -30,7 +30,7 @@ limitations under the License.
 	<cflocation url="/Agents.cfm">
 </cfif>
 <cfinclude template = "/shared/_header.cfm">
-	<cfinclude template = "/media/component/search.cfm">
+<cfinclude template = "/media/component/search.cfc">
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
