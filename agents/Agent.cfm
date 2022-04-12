@@ -193,7 +193,7 @@ limitations under the License.
 										</cfloop>
 										]
 									}
-									function mapTypeControl(controlDiv, map) {
+									function mapTypeControl(map) {
 									  // Set CSS for the control border.
 									  const controlUI = document.createElement("div");
 
