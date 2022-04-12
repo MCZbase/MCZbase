@@ -155,7 +155,8 @@ limitations under the License.
 												style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 												mapTypeIds: ["satellite", "terrain","fontSize: '6px'"],
 												zoomControl:false,
-												fontSize: '6px',
+												fontSize:'6px',
+												controlUI.style.border = "2px solid red";
 											},
 											mapTypeId: 'satellite'
 										});
@@ -227,7 +228,7 @@ limitations under the License.
 									<div class="border rounded px-1 mx-1 pb-1">
 										<div id="map" class="w-100 rounded" style="height: 175px;"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
-											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change gradient</button>
+											<button id="change-gradient" class="mt-1 border-info rounded btn-xs btn small">Change Color</button>
 										</div>
 									</div>
 								</div>
