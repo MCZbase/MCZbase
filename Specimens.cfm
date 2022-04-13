@@ -2292,19 +2292,13 @@ limitations under the License.
 					autoOpen: false,
 					modal: true,
 					reszable: true,
-					close: function(event, ui) { 
-						window.columnHiddenSettings = getColumnVisibilities(gridId);		
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-						</cfif>
-					},
 					buttons: [
 						{
 							text: "Save",
 							click: function(){
-								var url = $('##'+whichGrid+'saveForm url').val();
-								var execute = $('##'+whichGrid+'saveForm execute').val();
-								var search_name = $('##'+whichGrid+'saveForm search_name').val();
+								var url = $('##'+whichGrid+'saveForm :input[name=url]').val();
+								var execute = $('##'+whichGrid+'saveForm :input[name=execute]').val();
+								var search_name = $('##'+whichGrid+'saveForm :input[name=search_name]').is(':checked');
 								saveSearch(url, execute, search_name, whichGrid+"actionFeedback");
 								$(this).dialog("close"); 
 							},

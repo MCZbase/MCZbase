@@ -6437,6 +6437,8 @@ function showLLFormat(orig_units) {
 	<cfargument name="search_name" type="numeric" required="yes">
 	<cfargument name="execute" type="string" required="yes">
 	<cfargument name="url" type="string" required="yes">
+	<cfif execute EQ "true"><cfset execute="1"></cfif>
+	<cfif execute EQ "false"><cfset execute="0"></cfif>
 	<cftry>
 		<cftransaction>
 			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
