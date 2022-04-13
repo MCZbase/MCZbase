@@ -2363,30 +2363,6 @@ limitations under the License.
 	//		changeYear: true
 	//	}).val()
 	//});
-	
-	function saveSearch(returnURL){
-		messageDialog("Not implemented yet");
-	//	var sName=prompt("Name this search", "my search");
-	//	if (sName!==null){
-	//		var sn=encodeURIComponent(sName);
-	//		var ru=encodeURI(returnURL);
-	//		jQuery.getJSON("/component/functions.cfc",
-	//			{
-	//				method : "saveSearch",
-	//				returnURL : ru,
-	//				srchName : sn,
-	//				returnformat : "json",
-	//				queryformat : 'column'
-	//			},
-	//			function (r) {
-	//				if(r!='success'){
-	//					alert(r);
-	//				}
-	//			}
-	//		);
-	//	}
-	}
-	
 	</script>
 	<!---  script>
 	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
