@@ -6457,10 +6457,10 @@ function showLLFormat(orig_units) {
 				)
 				VALUES
 				(
-					search_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_name#">
-					url = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url#">
-					execute = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#execute#">
-					USER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#execute#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#">
 				)
 			</cfquery>
 		</cftransaction>
