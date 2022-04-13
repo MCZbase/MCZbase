@@ -261,7 +261,7 @@ limitations under the License.
 													</script>
 			
 										</div><!---end col-12--->
-									</div>	
+
 									<!---Start of Label Block--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
