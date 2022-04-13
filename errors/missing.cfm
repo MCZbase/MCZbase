@@ -195,6 +195,12 @@
 						<cfset "#T#" = "#urldecode(v)#">
 					</cfloop>
 					<cfinclude template="/SpecimenResults.cfm">
+				<cfelseif d.url contains "/Specimens.cfm?">
+					<cfset target="#application.protocol#//#application.serverRootUrl#/#d.url#">
+					If you are not redirected, please click this link: <a href="#target#">#target#</a>
+					<script>
+						document.location='#target#';
+					</script>
 				<cfelseif left(d.url,7) is "http://">
 					Click to continue: <a href="#d.url#">#d.url#</a>
 				<cfelse>
