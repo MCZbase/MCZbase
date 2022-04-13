@@ -732,20 +732,12 @@ limitations under the License.
 													});
 													var bounds = new google.maps.LatLngBounds();
 														for (i = 0; i < LatLngs.length; i++) {
-															position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-
-															marker = new google.maps.Marker({
-																position: position,
-																map: map
-															});
-
-															bounds.extend(position)
-														}
-
-														map.fitBounds(bounds);
-													heatmap = new google.maps.visualization.HeatmapLayer({
-														data: getPoints(),
+															position = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+															heatmap = new google.maps.visualization.HeatmapLayer({
+															data: getPoints(),
 															map: map,
+															});
+															bounds.extend(position)
 													});
 														document
 															.getElementById("change-gradient")
