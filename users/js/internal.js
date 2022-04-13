@@ -9,7 +9,7 @@ function saveSearch(url, execute, search_name, targetDiv) {
 			method : "saveSearch",
 			url : url,
 			execute : execute,
-			search_name :  search_name.
+			search_name :  search_name,
 			returnformat : "json",
 			queryformat : 'column'
 		},
