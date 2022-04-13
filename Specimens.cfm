@@ -779,6 +779,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class="d-block p-2"></span>
+													<div id="fixedactionFeedback"></div>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -924,6 +925,7 @@ limitations under the License.
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class="d-block p-2"></span>
+													<div id="keywordactionFeedback"></div>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1341,6 +1343,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class="d-block p-2"></span>
+													<div id="builderactionFeedback"></div>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -2113,7 +2116,7 @@ limitations under the License.
 		function populateSaveSearch(gridId,whichGrid) { 
 			// set up a dialog for saving the current search.
 			var uri = "/Specimens.cfm?execute=true&" + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
-			$("##"+whichGrid+"saveDialog").html("<div class='row'> <form id='"+whichGrid+"saveForm'> <input type='hidden' value='"+uri+"' name='url'> <div class='col-12'> <label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'> </div> <div class='col-12'> <label>Execute Immediately</label><input type='radio' name='execute' value='yes'><input type='radio' name='execute' value='No'> </div> </form> </div>");
+			$("##"+whichGrid+"saveDialog").html("<div class='row'> <form id='"+whichGrid+"saveForm'> <input type='hidden' value='"+uri+"' name='url'> <div class='col-12'> <label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'> </div> <div class='col-12'> <label>Execute Immediately</label><input type='checkbox' name='execute' checked></div> </form> </div>");
 		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
@@ -2302,7 +2305,7 @@ limitations under the License.
 								var url = $('##'+whichGrid+'saveForm url').val();
 								var execute = $('##'+whichGrid+'saveForm execute').val();
 								var search_name = $('##'+whichGrid+'saveForm search_name').val();
-								saveSearch(url, execute, search_name, targetDiv);
+								saveSearch(url, execute, search_name, whichGrid+"actionFeedback");
 								$(this).dialog("close"); 
 							},
 							tabindex: 0
