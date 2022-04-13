@@ -6434,7 +6434,7 @@ function showLLFormat(orig_units) {
 </cffunction>
 
 <cffunction name="saveSearch" access="remote" returntype="query">
-	<cfargument name="search_name" type="numeric" required="yes">
+	<cfargument name="search_name" type="string" required="yes">
 	<cfargument name="execute" type="string" required="yes">
 	<cfargument name="url" type="string" required="yes">
 	<cfif execute EQ "true"><cfset execute="1"></cfif>
