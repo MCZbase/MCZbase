@@ -771,7 +771,8 @@ limitations under the License.
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
-													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small">Change Color</button>
+													<span class="text-left d-block float-left">Collecting Events</span>
+													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Color</button>
 												</div>
 											</div>
 								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
