@@ -247,7 +247,6 @@ limitations under the License.
 													</div>
 													<div class="col-9 px-0 float-left">
 														<button class="btn btn-xs btn-primary float-left" type="button" onClick="">Save Relationships Changes</button>
-														<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="EditMediaRelations(#media_id#,reloadMedia)">Media</button>
 													</div>
 													<script>
 														(function () {
@@ -260,8 +259,7 @@ limitations under the License.
 															});
 														})();
 													</script>
-												</div>
-											</div>
+			
 										</div><!---end col-12--->
 									</div>	
 									<!---Start of Label Block--->
