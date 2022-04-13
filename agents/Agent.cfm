@@ -767,6 +767,20 @@ limitations under the License.
 													</cfloop>
 													]
 												}
+												var bounds = new google.maps.LatLngBounds();
+
+													for (i = 0; i < LatLngs.length; i++) {
+														position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+
+														marker = new google.maps.Marker({
+															position: position,
+															map: map
+														});
+
+														bounds.extend(position)
+													}
+
+													map.fitBounds(bounds);
 											</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
