@@ -2297,8 +2297,8 @@ limitations under the License.
 							text: "Save",
 							click: function(){
 								var url = $('##'+whichGrid+'saveForm :input[name=url]').val();
-								var execute = $('##'+whichGrid+'saveForm :input[name=execute]').val();
-								var search_name = $('##'+whichGrid+'saveForm :input[name=search_name]').is(':checked');
+								var execute = $('##'+whichGrid+'saveForm :input[name=execute]').is(':checked');
+								var search_name = $('##'+whichGrid+'saveForm :input[name=search_name]').val();
 								saveSearch(url, execute, search_name, whichGrid+"actionFeedback");
 								$(this).dialog("close"); 
 							},
