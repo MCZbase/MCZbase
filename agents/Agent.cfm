@@ -718,10 +718,10 @@ limitations under the License.
 											<script>
 												let map, heatmap;
 												function initMap() {
-													var Bounds = new google.maps.LatLngBounds(#points2.mylat#, #points2.mylng#);
+													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
-														center: Bounds,
-														//zoom: 2,
+														center: Cambridge,
+														zoom: 2,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
@@ -730,17 +730,14 @@ limitations under the License.
 														},
 														mapTypeId: 'satellite'
 													});
-												
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
 															map: map,
 													});
-													bounds.extend(position)
-													document
-														.getElementById("change-gradient")
-														.addEventListener("click", changeGradient);
+														document
+															.getElementById("change-gradient")
+															.addEventListener("click", changeGradient);
 												}
-												map.fitBounds(bounds);
 												function toggleHeatmap(){
 													heatmap.setMap(heatmap.getMap() ? null : map);
 												}
