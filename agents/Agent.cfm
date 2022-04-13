@@ -730,6 +730,19 @@ limitations under the License.
 														},
 														mapTypeId: 'satellite'
 													});
+													var bounds = new google.maps.LatLngBounds();
+														for (i = 0; i < LatLngs.length; i++) {
+															position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+
+															marker = new google.maps.Marker({
+																position: position,
+																map: map
+															});
+
+															bounds.extend(position)
+														}
+
+														map.fitBounds(bounds);
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
 															map: map,
@@ -760,6 +773,8 @@ limitations under the License.
 													];
 													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 												}
+												
+												
 												function getPoints(){
 													return [
 													<cfloop query="points">
