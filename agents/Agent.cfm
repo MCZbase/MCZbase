@@ -718,10 +718,10 @@ limitations under the License.
 											<script>
 												let map, heatmap;
 												function initMap() {
-													var bounds= new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-														position = new google.maps.LatLng(LatLng(#points2.mylat#[i][0],#points2.mylng#[i][0]));
+													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
-														center: bounds,
+														center: Cambridge,
+														zoom: 2,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
@@ -760,8 +760,6 @@ limitations under the License.
 													];
 													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 												}
-												
-												map.fitBounds(bounds);
 												function getPoints(){
 													return [
 													<cfloop query="points">
