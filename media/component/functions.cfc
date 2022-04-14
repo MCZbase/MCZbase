@@ -199,45 +199,8 @@ Backing methods for managing media
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-			
-			
 
-			
-			
-<!---	Michelle Testing below this comment		--->
-			
 
-<!---
-Given a media_relations_id, delete the matching row from the media_relations table.
-@return a data structure with status or an http 400 status.
---->
-<cffunction name="deleteRelationship" access="remote" returntype="any" returnformat="json">
-	<cfargument name="media_relations_id" type="numeric" required="yes">
-	<cftry>
-		<cftransaction>
-			<cfquery name="deleteRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteHabitat_result">
-				DELETE FROM
-					media_relations
-				WHERE
-					media_relations_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relations_id#">
-			</cfquery>
-			<cfif deleteHabitat_result.recordcount NEQ 1>
-				<cftransaction action="rollback"/>
-				<cfthrow message="Other than one row (#deleteRelationship_result.recordcount#) would be deleted.  Delete canceled and rolled back">
-			</cfif>
-		</cftransaction>
-		<cfset row = StructNew()>
-		<cfset row["status"] = "deleted">
-		<cfset data[1] = row>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
+
 
 </cfcomponent>
