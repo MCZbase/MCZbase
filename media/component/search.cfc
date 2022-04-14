@@ -1417,6 +1417,7 @@ imgStyleClass=value
 					FROM
 						media, media_relations
 					WHERE media.media_id = media_relations.media_relationship
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 				<cfif getMedia.recordcount GT 0>
 					<h3 class="h3">#getMedia.media_id#</h3>
