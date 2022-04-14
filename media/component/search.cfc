@@ -1417,13 +1417,13 @@ imgStyleClass=value
 			<cfoutput>
 				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_URI 
+						media_relationship, media_id 
 					FROM
 						media_relations
 					WHERE rownum < 2
 				</cfquery>
 				<cfif getCounter.recordcount GT 0>
-					<h3 class="h3">#getCounter.media_URI#</h3>
+					<h3 class="h3">#getCounter.media_relationship#</h3>
 					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
 		
 				<cfelse>
