@@ -1419,18 +1419,16 @@ imgStyleClass=value
 					SELECT 
 						media_id 
 					FROM
-						media
+						media_relations
 					WHERE rownum < 2
 				</cfquery>
 				<cfif getCounter.recordcount GT 0>
 					<h3 class="h3">#getCounter.media_id#</h3>
-					<ul><li>#getCounter.counter#</li></ul>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
-					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
+		
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
-					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
