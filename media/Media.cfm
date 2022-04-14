@@ -76,7 +76,6 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
-		<cfset param = #media_id#>
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
@@ -194,7 +193,7 @@ limitations under the License.
 												<main id="content" class="container-fluid">
 													<div class="row">
 														<div class="col-12">
-															<cfset counterBlockContent= getCounterHtml(parameter="#media.media_id#")>
+															<cfset counterBlockContent= getCounterHtml(media_id="#media.media_id#")>
 															<div id="counterBlock">
 																#counterBlockContent#
 															</div>
