@@ -33,6 +33,14 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfargument name="parameter" type="string" required="yes">
 	<cfargument name="other_parameter" type="string" required="yes">
 
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.parameter = arguments.parameter>
+	<cfset variables.other_parameter = arguments.other_parameter>
+
 	<!--- 
 
 	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
@@ -61,12 +69,12 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				<cfif getCounter.recordcount GT 0>
 					<h3 class="h3">#getCounter.text#</h3>
 					<ul><li>#getCounter.counter#</li></ul>
-					<ul><li>#encodeForHtml(parameter)#</li></ul>
-					<ul><li>#encodeForHtml(other_parameter)#</li></ul>
+					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
+					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
-					<ul><li>#encodeForHtml(parameter)#</li></ul>
-					<ul><li>#encodeForHtml(other_parameter)#</li></ul>
+					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
+					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
