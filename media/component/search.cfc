@@ -1385,15 +1385,20 @@ imgStyleClass=value
 					
 					
 					
-<cffunction name="getMediaRelHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
+<cffunction name="getCounterHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="parameter" type="string" required="yes">
+	<cfargument name="other_parameter" type="string" required="yes">
+
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
-	<cfset variables.media_id = arguments.media_id>
+	<cfset variables.parameter = arguments.parameter>
+	<cfset variables.other_parameter = arguments.other_parameter>
+
 	<!--- 
+
 	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
 		within a loop in coldfusion in a coldfusion page) then the thread name must be unique for each invocation,
 		so generate a highly likely to be unique thread name as follows:	
@@ -1405,26 +1410,27 @@ imgStyleClass=value
 
 	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
 		does not need to be unique.
+
 	--->
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="mediaRelationsThread#tn#">
+	<cfthread name="getCounterThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_id, media_uri, preview_uri
+						text, counter 
 					FROM
-						media
-					WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.media_id#">
+						MCZBASE.cf_helloworld
+					WHERE rownum < 2
 				</cfquery>
-				<cfif getMedia.recordcount GT 0>
-					<cfif getCounter.recordcount GT 0>
-					<h3 class="h3">#getMedia.media_uri#</h3>
+				<cfif getCounter.recordcount GT 0>
+					<h3 class="h3">#getCounter.text#</h3>
+					<ul><li>#getCounter.counter#</li></ul>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
-					</cfif>
+					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
+					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
@@ -1438,8 +1444,8 @@ imgStyleClass=value
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="mediaRelationsThread#tn#" />
-	<cfreturn mediaRelationsThread#tn#.output>
+	<cfthread action="join" name="getCounterThread" />
+	<cfreturn getCounterThread.output>
 </cffunction>
 			
 </cfcomponent>
