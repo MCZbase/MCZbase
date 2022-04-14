@@ -22,6 +22,9 @@ limitations under the License.
 <cfset pageTitle="Ajax Demonstration">
 <cfinclude template="/shared/_header.cfm">
 
+<!--- Put the getCounterHtml function in scope, so that it can be invoked directly in this page --->
+<cfinclude template="/hello/component/functions.cfc">
+
 <cfset param = "dynamic value">
 
 <cfoutput>
