@@ -1386,7 +1386,7 @@ imgStyleClass=value
 					
 					
 <cffunction name="getCounterHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="parameter" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="other_parameter" type="string" required="yes">
 
 	<!---
@@ -1394,7 +1394,7 @@ imgStyleClass=value
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
-	<cfset variables.parameter = arguments.parameter>
+	<cfset variables.parameter = arguments.media_id>
 	<cfset variables.other_parameter = arguments.other_parameter>
 
 	<!--- 
@@ -1417,13 +1417,13 @@ imgStyleClass=value
 			<cfoutput>
 				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						text, counter 
+						media_id 
 					FROM
-						MCZBASE.cf_helloworld
+						media
 					WHERE rownum < 2
 				</cfquery>
 				<cfif getCounter.recordcount GT 0>
-					<h3 class="h3">#getCounter.text#</h3>
+					<h3 class="h3">#getCounter.media_id#</h3>
 					<ul><li>#getCounter.counter#</li></ul>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
 					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
