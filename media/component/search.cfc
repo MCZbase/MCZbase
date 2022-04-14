@@ -1387,14 +1387,12 @@ imgStyleClass=value
 					
 <cffunction name="getMediaRelHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="media_uri" type="string" required="yes">
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
 	<cfset variables.media_id = arguments.media_id>
-	<cfset variables.media_uri = arguments.media_uri>
 	<!--- 
 	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
 		within a loop in coldfusion in a coldfusion page) then the thread name must be unique for each invocation,
