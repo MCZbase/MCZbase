@@ -76,7 +76,7 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
-		<cfset param = "#media_id#">
+		<cfset param = #media_id#>
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
@@ -192,7 +192,6 @@ limitations under the License.
 											<div id="mediahtmlBlock">
 												#mediaBlockContent#
 											</div>
-
 										</div><!---end col-12--->
 
 									<!---Start of Label Block--->
