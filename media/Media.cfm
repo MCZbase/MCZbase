@@ -53,16 +53,15 @@ limitations under the License.
 <!---------------------------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="edit">
-	<cfquery name="getRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from media_relations where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-	</cfquery>
+		<cfquery name="getRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select * from media_relations where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		</cfquery>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, auto_host,
 				mczbase.get_media_descriptor(media_id) as alttag, MCZBASE.get_media_title(media.media_id) as caption 
 			from media
 			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-
 		<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				media_label,
@@ -77,6 +76,7 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
+		<cfset param = "#media_id#">
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
@@ -187,7 +187,7 @@ limitations under the License.
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-											<cfset mediaBlockContent= getMediaRelHtml(parameter="#media_id#",other_parameter="static value")>
+											<cfset mediaBlockContent= getMediaRelHtml("parameter=#param#")>
 											<div id="mediahtmlBlock">
 												#mediaBlockContent#
 											</div>
