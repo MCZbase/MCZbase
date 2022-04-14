@@ -1406,7 +1406,8 @@ imgStyleClass=value
 	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
 		does not need to be unique.
 	--->
-	<cfthread name="mediaRelationsThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="mediaRelationsThread#tn#">
 		<cftry>
 			<cfoutput>
 				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1437,8 +1438,8 @@ imgStyleClass=value
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="mediaRelationsThread" />
-	<cfreturn mediaRelationsThread.output>
+	<cfthread action="join" name="mediaRelationsThread#tn#" />
+	<cfreturn mediaRelationsThread#tn#.output>
 </cffunction>
 			
 </cfcomponent>
