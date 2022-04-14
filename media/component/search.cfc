@@ -1386,7 +1386,7 @@ imgStyleClass=value
 					
 					
 <cffunction name="getCounterHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="#param#" type="string" required="yes">
 
 
 	<!---
@@ -1394,7 +1394,7 @@ imgStyleClass=value
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
-	<cfset variables.parameter = arguments.media_id>
+	<cfset variables.parameter = arguments.param>
 
 
 	<!--- 
