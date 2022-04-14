@@ -1381,6 +1381,60 @@ imgStyleClass=value
 	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
 			
+<cffunction name="getMediaRelHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="media_uri" type="string" required="yes">
 
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.media_id = arguments.media_id>
+	<cfset variables.media_uri = arguments.media_uri>
+
+	<!--- 
+
+	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
+		within a loop in coldfusion in a coldfusion page) then the thread name must be unique for each invocation,
+		so generate a highly likely to be unique thread name as follows:	
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfthread name="getCounterThread#tn#" threadName="mediaWidgetThread#tn#">
+
+	Likewise, include #tn# in the names of the thread in all the other cfthread tags within this cffunction 
+
+	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
+		does not need to be unique.
+
+	--->
+	<cfthread name="mediaRelationsThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						media_id, media_uri, preview_uri,media_relationship
+					FROM
+						media, media_relations
+					WHERE media.media_id = media_relations.media_relationship
+				</cfquery>
+				<cfif getMedia.recordcount GT 0>
+					<h3 class="h3">#getMedia.media_id#</h3>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<!--- For functions that return html blocks to be embedded in a page, the error can be included in the output --->
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="mediaRelationsThread" />
+	<cfreturn mediaRelationsThread.output>
+</cffunction>
 			
 </cfcomponent>
