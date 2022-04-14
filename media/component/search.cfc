@@ -1380,11 +1380,14 @@ imgStyleClass=value
 	<cfthread action="join" name="showMoreMediaThread" />
 	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
-			
+		
+
+					
+					
+					
 <cffunction name="getMediaRelHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="media_uri" type="string" required="yes">
-
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
@@ -1392,9 +1395,7 @@ imgStyleClass=value
 	--->
 	<cfset variables.media_id = arguments.media_id>
 	<cfset variables.media_uri = arguments.media_uri>
-#variables.media_id#
 	<!--- 
-
 	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
 		within a loop in coldfusion in a coldfusion page) then the thread name must be unique for each invocation,
 		so generate a highly likely to be unique thread name as follows:	
@@ -1406,7 +1407,6 @@ imgStyleClass=value
 
 	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
 		does not need to be unique.
-
 	--->
 	<cfthread name="mediaRelationsThread">
 		<cftry>
@@ -1417,10 +1417,10 @@ imgStyleClass=value
 					FROM
 						media, media_relations
 					WHERE media.media_id = media_relations.media_relationship
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.media_id#">
+					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 				<cfif getMedia.recordcount GT 0>
-					<h3 class="h3">#getMedia.media_id#</h3>
+					<h3 class="h3">#variables.media_id#</h3>
 				</cfif>
 			</cfoutput>
 		<cfcatch>

@@ -76,7 +76,6 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-		<cfset param = "#media.media_id#">
 		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
 			<div class="container-fluid container-xl">
@@ -93,7 +92,7 @@ limitations under the License.
 							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
-							<input type="hidden" id="media_id" name="media_id" value="#media_id#">
+							<input type="hidden" id="media_id" name="media_id" value="#media.media_id#">
 							<div class="col-12 px-0 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
 									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="full",size="300",captionAs="textFull")>
