@@ -1411,14 +1411,21 @@ imgStyleClass=value
 			<cfoutput>
 				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_id, media_uri, preview_uri,media_relationship
+						media_id, media_uri, preview_uri
 					FROM
-						media, media_relations
-					WHERE media.media_id = media_relations.media_relationship
-					and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.media_id#">
+						media
+					WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.media_id#">
 				</cfquery>
 				<cfif getMedia.recordcount GT 0>
-					<h3 class="h3">#variables.media_id#</h3>
+					<cfif getCounter.recordcount GT 0>
+					<h3 class="h3">#getMedia.media_uri#</h3>
+					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
+			
+				<cfelse>
+					<h3 class="h3">No Entries</h3>
+					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
+		
+				</cfif>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
