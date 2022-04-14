@@ -194,7 +194,7 @@ limitations under the License.
 												<main id="content" class="container-fluid">
 													<div class="row">
 														<div class="col-12">
-															<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="static value")>
+															<cfset counterBlockContent= getCounterHtml(parameter="#media.media_id#")>
 															<div id="counterBlock">
 																#counterBlockContent#
 															</div>
