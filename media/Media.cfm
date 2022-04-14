@@ -76,7 +76,7 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
-		<cfset param = "#media_id#">
+
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
@@ -180,14 +180,15 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
-						<form>
+						<form id="relationshipForm">
+						<cfset param = "#media_id#">
 							<div class="col-12 col-md-12 px-0 float-left">
 									<div class="form-row my-1">
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-											<cfset mediaBlockContent= getMediaRelHtml("parameter=#param#")>
+											<cfset mediaBlockContent= getMediaRelHtml("media_id=#param#")>
 											<div id="mediahtmlBlock">
 												#mediaBlockContent#
 											</div>
