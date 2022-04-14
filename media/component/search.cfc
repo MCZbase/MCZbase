@@ -1420,7 +1420,7 @@ imgStyleClass=value
 					<cfif getCounter.recordcount GT 0>
 					<h3 class="h3">#getMedia.media_uri#</h3>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
-			
+					</cfif>
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
