@@ -200,7 +200,7 @@ Backing methods for managing media
 </cffunction>
 
 
-<cffunction name="getMediaRelationshipHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaRelHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="media_uri" type="string" required="yes">
 
@@ -227,7 +227,7 @@ Backing methods for managing media
 		does not need to be unique.
 
 	--->
-	<cfthread name="mediaRelationshipsHtmlThread">
+	<cfthread name="mediaRelationsThread">
 		<cftry>
 			<cfoutput>
 				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -252,8 +252,8 @@ Backing methods for managing media
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="mediaRelationshipsHtmlThread" />
-	<cfreturn mediaRelationshipsHtmlThread.output>
+	<cfthread action="join" name="mediaRelationsThread" />
+	<cfreturn mediaRelationsThread.output>
 </cffunction>
 
 

@@ -186,7 +186,7 @@ limitations under the License.
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-											<cfset mediaBlockContent= getMediaRelationshipHtml(parameter="#media_id#",other_parameter="static value")>
+											<cfset mediaBlockContent= getMediaRelHtml(parameter="#media_id#",other_parameter="static value")>
 											<div id="mediahtmlBlock">
 												#mediaBlockContent#
 											</div>
