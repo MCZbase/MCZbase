@@ -1394,7 +1394,7 @@ imgStyleClass=value
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
-<!---	<cfset variables.parameter = arguments.param>--->
+	<cfset variables.media_id = arguments.media_id>
 
 
 	<!--- 
@@ -1415,21 +1415,20 @@ imgStyleClass=value
 	<cfthread name="getCounterThread">
 		<cftry>
 			<cfoutput>
-				#variables.parameter#
 				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_id 
+						media_URI 
 					FROM
 						media_relations
 					WHERE rownum < 2
 				</cfquery>
 				<cfif getCounter.recordcount GT 0>
-					<h3 class="h3">#getCounter.media_id#</h3>
-					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
+					<h3 class="h3">#getCounter.media_URI#</h3>
+					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
 		
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
-					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
+					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
