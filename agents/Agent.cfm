@@ -721,7 +721,20 @@ limitations under the License.
 													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														zoom: 2,
+													var bounds = new google.maps.LatLngBounds();
+
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+
+													bounds.extend(position)
+												}
+
+												map.fitBounds(bounds);
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
@@ -767,6 +780,20 @@ limitations under the License.
 													</cfloop>
 													]
 												}
+												var bounds = new google.maps.LatLngBounds();
+
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+
+													bounds.extend(position)
+												}
+
+												map.fitBounds(bounds);
 											</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
