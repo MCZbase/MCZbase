@@ -1424,8 +1424,6 @@ imgStyleClass=value
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
-		
-				</cfif>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
