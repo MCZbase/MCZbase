@@ -1387,7 +1387,7 @@ imgStyleClass=value
 					
 <cffunction name="getCounterHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="other_parameter" type="string" required="yes">
+
 
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
@@ -1395,7 +1395,7 @@ imgStyleClass=value
    	scope issues related to cfthread 
 	--->
 	<cfset variables.parameter = arguments.media_id>
-	<cfset variables.other_parameter = arguments.other_parameter>
+
 
 	<!--- 
 
@@ -1415,6 +1415,7 @@ imgStyleClass=value
 	<cfthread name="getCounterThread">
 		<cftry>
 			<cfoutput>
+				#variables.parameter#
 				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						media_id 
