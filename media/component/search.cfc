@@ -1386,7 +1386,7 @@ imgStyleClass=value
 					
 					
 <cffunction name="getCounterHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="#param#" type="string" required="yes">
+	<cfargument name="param" type="string" required="yes">
 
 
 	<!---
