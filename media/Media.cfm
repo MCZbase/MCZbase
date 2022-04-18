@@ -363,6 +363,7 @@ limitations under the License.
 							</div>
 
 							<div class="form-row mx-0 mt-2">
+								<!---NOTES to USER--->
 								<div class="col-12 px-4">
 									<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
 										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
@@ -372,9 +373,9 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mt-2 mx-0">
-								<div class="col-12 px-0">
-									<div class="col-12 col-6 float-left">
-										<label for="relationships" class="data-entry-label">Media Relationships</label>
+								<div class="col-10 px-0">
+									<div class="col-12 px-0 float-left">
+										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple relationships. </span></label>
 										<div id="relationships">
 											<div id="relationshiperror"></div>
 											<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
@@ -390,8 +391,8 @@ limitations under the License.
 											<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
 										</div>
 									</div>
-									<div class="col-12 col-md-12 float-left">
-										<label for="labels" class="data-entry-label">Media Labels</label>
+									<div class="col-12 px-0 float-left">
+										<label for="labels" class="h4 data-entry-label">Media Labels</label>
 										<p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
 										<label for="labels" class="data-entry-label">Media Labels 
 											<span onclick="getCtDoc('ctmedia_label');"> Define</span>
@@ -411,7 +412,7 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 												<div class="col-12 float-left">
-												<span class="infoLink" id="addLabel" class="" onclick="addLabelTo(#i#,'labels','addLabel');">
+												<span class="infoLink" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">
 													Add Label
 												</span>
 											</div>
