@@ -320,7 +320,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mx-0 mt-2">
-								<div class="col-6 col-md-5 col-xl-4 px-4 float-left">
+								<div class="col-6 col-md-5 col-xl-4 px-0 float-left">
 									<label for="mime_type" class="data-entry-label">MIME Type</label>
 									<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
 										<option value=""></option>
@@ -409,9 +409,10 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 												<div class="col-12 float-left">
-												<span class="infoLink" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">
+												<a class="infoLink" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">
 													Add Label
-												</span>
+												</a>
+												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div>
 										</div>
 									</div>
