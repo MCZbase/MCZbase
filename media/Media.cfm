@@ -293,7 +293,7 @@ limitations under the License.
 					<div class="col-12 mt-4 pb-5">
 						<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
 							Create Media 
-							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]">
+							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 						</h1>
 						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 							<cfset mediaBlock= getMediaBlockHtml(media_id="1504669",displayAs="full",size="300",captionAs="textNone")>
