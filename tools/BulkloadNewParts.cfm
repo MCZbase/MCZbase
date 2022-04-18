@@ -119,7 +119,7 @@
 			<cfquery name="ins" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
 			</cfquery>
-			insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)
+			<!---insert into cf_temp_parts (#colNames#) values (#preservesinglequotes(colVals)#)--->
 		</cfif>
 	</cfloop>
 

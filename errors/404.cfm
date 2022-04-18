@@ -31,7 +31,7 @@
 		</cfif>
 		<cfabort>
 	</cfif>
-	<cfset nono="wp-admin,tipguide,userfiles,okey,@@version,w00tw00t,announce,php,cgi,ini,config,client,webmail,roundcubemail,roundcube,HovercardLauncher,README,cube,mail,board,zboard,phpMyAdmin,Diagnostics,connector,info_sub,fuseaction">
+	<cfset nono="wp-admin,tipguide,userfiles,okey,@@version,w00tw00t,announce,php,cgi,ini,config,client,webmail,roundcubemail,roundcube,HovercardLauncher,README,cube,mail,board,zboard,phpMyAdmin,Diagnostics,connector,info_sub,fuseaction,_unselectableClass,phpunit,mysql,MyAdmin">
 	<cfset fourohthree="dll,asp">
 	<cfloop list="#cgi.redirect_url#" delimiters="./" index="i">
 		<cfif listfindnocase(nono,i)>
