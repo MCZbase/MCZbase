@@ -779,6 +779,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class="d-block p-2"></span>
+													<div id="fixedactionFeedback"></div>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -924,6 +925,7 @@ limitations under the License.
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class="d-block p-2"></span>
+													<div id="keywordactionFeedback"></div>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1297,15 +1299,6 @@ limitations under the License.
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
 												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
 												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
-												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-													<!--- TODO: Move to top of search results bar, available after running search --->
-													<!--- TODO: Add handler to carry out this action --->
-													<!--- 
-													<button type="button" class="btn btn-xs btn-primary col-12 col-md-auto px-md-3 mx-0 my-1" id="save-account" aria-label="save this search">
-														Save to My Account <i class="fa fa-user-cog"></i>
-													</button>
-													--->
-												</cfif>
 											</div>
 										</div>
 									</form>
@@ -1341,6 +1334,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class="d-block p-2"></span>
+													<div id="builderactionFeedback"></div>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -2113,7 +2107,7 @@ limitations under the License.
 		function populateSaveSearch(gridId,whichGrid) { 
 			// set up a dialog for saving the current search.
 			var uri = "/Specimens.cfm?execute=true&" + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
-			$("##"+whichGrid+"saveDialog").html("<div class='row'> <form id='"+whichGrid+"saveForm'> <input type='hidden' value='"+uri+"' name='url'> <div class='col-12'> <label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'> </div> <div class='col-12'> <label>Execute Immediately</label><input type='radio' name='execute' value='yes'><input type='radio' name='execute' value='No'> </div> </form> </div>");
+			$("##"+whichGrid+"saveDialog").html("<div class='row'> <form id='"+whichGrid+"saveForm'> <input type='hidden' value='"+uri+"' name='url'> <div class='col-12'> <label>Search Name</label><input type='text' name='search_name' value='' class='data-entry-input'> </div> <div class='col-12'> <label>Execute Immediately</label><input type='checkbox' name='execute' checked></div> </form> </div>");
 		}
 		function populateColumnPicker(gridId,whichGrid) {
 			// add a control to show/hide columns organized by category
@@ -2289,20 +2283,14 @@ limitations under the License.
 					autoOpen: false,
 					modal: true,
 					reszable: true,
-					close: function(event, ui) { 
-						window.columnHiddenSettings = getColumnVisibilities(gridId);		
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							saveColumnVisibilities('#cgi.script_name#',window.columnHiddenSettings,'Default');
-						</cfif>
-					},
 					buttons: [
 						{
 							text: "Save",
 							click: function(){
-								var url = $('##'+whichGrid+'saveForm url').val();
-								var execute = $('##'+whichGrid+'saveForm execute').val();
-								var search_name = $('##'+whichGrid+'saveForm search_name').val();
-								saveSearch(url, execute, search_name, targetDiv);
+								var url = $('##'+whichGrid+'saveForm :input[name=url]').val();
+								var execute = $('##'+whichGrid+'saveForm :input[name=execute]').is(':checked');
+								var search_name = $('##'+whichGrid+'saveForm :input[name=search_name]').val();
+								saveSearch(url, execute, search_name, whichGrid+"actionFeedback");
 								$(this).dialog("close"); 
 							},
 							tabindex: 0
@@ -2360,30 +2348,6 @@ limitations under the License.
 	//		changeYear: true
 	//	}).val()
 	//});
-	
-	function saveSearch(returnURL){
-		messageDialog("Not implemented yet");
-	//	var sName=prompt("Name this search", "my search");
-	//	if (sName!==null){
-	//		var sn=encodeURIComponent(sName);
-	//		var ru=encodeURI(returnURL);
-	//		jQuery.getJSON("/component/functions.cfc",
-	//			{
-	//				method : "saveSearch",
-	//				returnURL : ru,
-	//				srchName : sn,
-	//				returnformat : "json",
-	//				queryformat : 'column'
-	//			},
-	//			function (r) {
-	//				if(r!='success'){
-	//					alert(r);
-	//				}
-	//			}
-	//		);
-	//	}
-	}
-	
 	</script>
 	<!---  script>
 	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
