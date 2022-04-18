@@ -289,8 +289,12 @@ limitations under the License.
 	<cfcase value="new">
 		<cfoutput>
 			<div class="container-fluid container-xl">
-				<div class="row">
-					<div class="col-12 mt-4 pb-5">
+				<form name="newMedia" method="post" action="media.cfm">
+					<input type="hidden" name="action" value="saveNew">
+					<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
+					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
+					<div class="row">
+						<div class="col-12 mt-4 pb-5">
 						<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
 							Create Media 
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
@@ -303,10 +307,6 @@ limitations under the License.
 								<p class="small mb-0">Placeholder Image</p>
 								<p class="small mb-0">MCZ Building (front)</p>
 						</div>
-						<form name="newMedia" method="post" action="media.cfm">
-							<input type="hidden" name="action" value="saveNew">
-							<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
-							<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12 col-md-9 col-xl-10 px-4 float-left">
 									<label for="media_uri" class="data-entry-label">Media URI</label>
@@ -361,7 +361,6 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-
 							<div class="form-row mx-0 mt-2">
 								<!---NOTES to USER--->
 								<div class="col-12 px-4">
@@ -425,38 +424,36 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</form>
-						<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
-							<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								  select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-							</cfquery>
-							<script language="javascript" type="text/javascript">
-								$("##relationship__1").val('shows cataloged_item');
-								$("##related_value__1").val('#s.guid#');
-								$("##related_id__1").val('#collection_object_id#');
-							</script>
-						</cfif>
-						<cfif isdefined("relationship") and len(relationship) gt 0>
-							<cfquery name="s" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select media_relationship from ctmedia_relationship where media_relationship= 
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
-							</cfquery>
-							<cfif s.recordCount eq 1 >
-								<script language="javascript" type="text/javascript">
-								<script language="javascript" type="text/javascript">
-									$("##relationship__1").val('#relationship#');
-									$("##related_value__1").val('#related_value#');
-									$("##related_id__1").val('#related_id#');
-								</script>
-							<cfelse>
-								<script language="javascript" type="text/javascript">
-										$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
-								</script>
-							</cfif>
-						</cfif>
 					</div>
-					</div>
-				</div>
+				</form>
+				<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
+					<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						  select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<script language="javascript" type="text/javascript">
+						$("##relationship__1").val('shows cataloged_item');
+						$("##related_value__1").val('#s.guid#');
+						$("##related_id__1").val('#collection_object_id#');
+					</script>
+				</cfif>
+				<cfif isdefined("relationship") and len(relationship) gt 0>
+					<cfquery name="s" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select media_relationship from ctmedia_relationship where media_relationship= 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+					</cfquery>
+					<cfif s.recordCount eq 1 >
+						<script language="javascript" type="text/javascript">
+						<script language="javascript" type="text/javascript">
+							$("##relationship__1").val('#relationship#');
+							$("##related_value__1").val('#related_value#');
+							$("##related_id__1").val('#related_id#');
+						</script>
+					<cfelse>
+						<script language="javascript" type="text/javascript">
+								$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
+						</script>
+					</cfif>
+				</cfif>
 			</div>
 		</cfoutput>
 	</cfcase>
