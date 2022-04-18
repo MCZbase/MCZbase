@@ -296,7 +296,7 @@ limitations under the License.
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 						</h1>
 						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-							<cfset mediaBlock= getMediaBlockHtml(media_id="1504669",displayAs="full",size="300",captionAs="textNone")>
+							<cfset mediaBlock= getMediaBlockHtml(media_id="1504670",displayAs="full",size="300",captionAs="textNone")>
 							<div id="mediaBlock" class="mx-auto text-center pt-1">
 								#mediaBlock#
 							</div><!---end image block--->
