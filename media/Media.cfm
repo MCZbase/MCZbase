@@ -300,7 +300,8 @@ limitations under the License.
 							<div id="mediaBlock" class="mx-auto text-center pt-1">
 								#mediaBlock#
 							</div><!---end image block--->
-								Placeholder Image
+								Placeholder Image<br>
+								MCZ Building (front)
 						</div>
 						<form name="newMedia" method="post" action="media.cfm">
 							<input type="hidden" name="action" value="saveNew">
@@ -360,14 +361,10 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mx-0 mt-4">
-								<div class="col-12 col-md-6 px-4 float-left">
-									<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
-								</div>
-							</div>
+
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12 px-4">
-									<ul class="list-group float-left border-success border-right border-left mt-2 border-buttom border-top rounded p-2">
+									<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
 										<p class="mb-0">Notes:</p>
 										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 										<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
@@ -376,7 +373,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mt-2 mx-0">
-								<div class="col-12 col-md-6 px-4">
+								<div class="col-12 col-6 float-left">
 									<label for="relationships" class="data-entry-label">Media Relationships</label>
 									<div id="relationships">
 										<div id="relationshiperror"></div>
@@ -389,12 +386,11 @@ limitations under the License.
 										<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input">
 										<input type="hidden" name="related_id__1" id="related_id__1">
 									</div>
-								
-								<div class="col-12 px-4">						
-									<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
+									<div class="col-12 px-4">						
+										<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
+									</div>
 								</div>
-								</div>
-								<div class="col-12 col-md-6 col-xl-2 col-md-3 px-0">
+								<div class="col-12 col-md-6 float-left">
 									<label for="labels" class="data-entry-label">Media Labels</label>
 									<p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
 									<label for="labels" class="data-entry-label">Media Labels 
@@ -419,7 +415,11 @@ limitations under the License.
 										</span>
 									</div>
 								</div>
-					
+								<div class="form-row mx-0 mt-4">
+									<div class="col-12 col-md-6 px-4 float-left">
+										<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
+									</div>
+								</div>
 							</div>
 						</form>
 						<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
