@@ -372,55 +372,60 @@ limitations under the License.
 									</ul>
 								</div>
 							</div>
-							<div class="form-row mt-2 mx-0">
-								<div class="col-10 px-0">
-									<div class="col-12 px-0 float-left">
-										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships </span></label>
-										<div id="relationships">
-											<div id="relationshiperror"></div>
-											<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
-												<option value="">None/Unpick</option>
-												<cfloop query="ctmedia_relationship">
-													<option value="#media_relationship#">#media_relationship#</option>
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<div class="form-row mt-2 mx-0">
+									<div class="col-10 px-0">
+										<div class="col-12 px-0 float-left">
+											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships </span></label>
+											<div id="relationships">
+												<div id="relationshiperror"></div>
+												<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
+													<option value="">None/Unpick</option>
+													<cfloop query="ctmedia_relationship">
+														<option value="#media_relationship#">#media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
+												<input type="hidden" name="related_id__1" id="related_id__1">
+											</div>
+											<div class="col-12 float-left">						
+												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
+											</div>
+										</div>
+										<div class="col-12 px-0 float-left">
+											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+											</label>
+											<div id="labels">
+												<cfset i=1>
+												<cfloop>
+													<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
+														<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-6 px-0 float-left">
+															<option value="delete">Select label...</option>
+															<cfloop query="ctmedia_label">
+															<option value="#media_label#">#media_label#</option>
+															</cfloop>
+														</select>
+														<input class="data-entry-input col-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+													</div>
+													<cfset i=i+1>
 												</cfloop>
-											</select>
-											<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
-											<input type="hidden" name="related_id__1" id="related_id__1">
-										</div>
-										<div class="col-12 float-left">						
-											<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
-										</div>
-									</div>
-									<div class="col-12 px-0 float-left">
-										<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
-										</label>
-										<div id="labels">
-											<cfset i=1>
-											<cfloop>
-												<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
-													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-6 px-0 float-left">
-														<option value="delete">Select label...</option>
-														<cfloop query="ctmedia_label">
-														<option value="#media_label#">#media_label#</option>
-														</cfloop>
-													</select>
-													<input class="data-entry-input col-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+													<div class="col-12 float-left">
+													<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 												</div>
-												<cfset i=i+1>
-											</cfloop>
-												<div class="col-12 float-left">
-												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-row mx-0 mt-2">
-								<div class="col-12 px-0 float-left">
-									<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
+								<div class="form-row mx-0 mt-2">
+									<div class="col-12 px-0 float-left">
+										<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
+									</div>
 								</div>
 							</div>
-						</form>
+						</div>
+					</form>
 						<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 							<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								  select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
