@@ -14,7 +14,7 @@ function saveSearch(url, execute, search_name, targetDiv) {
 			queryformat : 'column'
 		},
 		success: function (result) {
-			var message = result.DATA.MESSAGE[0];
+			var message = "Saved: [" + result[0].message + "]." ;
 			$("#"+targetDiv).html(message);
 		},
 		error: function (jqXHR, textStatus, error) {

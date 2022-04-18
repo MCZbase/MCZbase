@@ -45,7 +45,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 		</cfcatch>
 	</cftry>
-	<cfreturn #serializeJSON(data)#>
+	<cfreturn result>
 </cffunction>
 
 <!---getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
@@ -6433,12 +6433,14 @@ function showLLFormat(orig_units) {
 	<cfreturn getPartCondHist.output>
 </cffunction>
 
-<cffunction name="saveSearch" access="remote" returntype="query">
+<cffunction name="saveSearch" access="remote" returntype="any" returnformat="json">
 	<cfargument name="search_name" type="string" required="yes">
 	<cfargument name="execute" type="string" required="yes">
 	<cfargument name="url" type="string" required="yes">
 	<cfif execute EQ "true"><cfset execute="1"></cfif>
 	<cfif execute EQ "false"><cfset execute="0"></cfif>
+
+	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cftransaction>
 			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -6464,9 +6466,10 @@ function showLLFormat(orig_units) {
 				)
 			</cfquery>
 		</cftransaction>
-		<cfset result = querynew("MESSAGE")>
-		<cfset temp = queryaddrow(result,1)>
-		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "saved">
+		<cfset row["name"] = "#encodeForHTML(search_name)#">
+		<cfset data[1] = row>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfif error_message CONTAINS "ORA-00001: unique constraint">
@@ -6477,7 +6480,7 @@ function showLLFormat(orig_units) {
 			<cfabort>
 		</cfcatch>
 	</cftry>
-	<cfreturn result>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 </cfcomponent>
