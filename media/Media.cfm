@@ -300,8 +300,8 @@ limitations under the License.
 							<div id="mediaBlock" class="mx-auto text-center pt-1">
 								#mediaBlock#
 							</div><!---end image block--->
-								Placeholder Image<br>
-								MCZ Building (front)
+								<p class="small mb-0">Placeholder Image</p>
+								<p class="small mb-0">MCZ Building (front)</p>
 						</div>
 						<form name="newMedia" method="post" action="media.cfm">
 							<input type="hidden" name="action" value="saveNew">
@@ -415,7 +415,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="form-row mx-0 mt-4">
+							<div class="form-row mx-0 mt-2">
 								<div class="col-12 px-0 float-left">
 									<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
 								</div>
