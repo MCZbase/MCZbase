@@ -307,7 +307,7 @@ limitations under the License.
 									<p class="small mb-0">Placeholder Image for Create Media Page</p>
 									<p class="small mb-0">Description: MCZ Building (front)</p>
 							</div>
-							<div class="col-12 col-sm-6 col-md-3 col-xl-2 px-0 float-left">
+							<div class="col-12 col-md-8 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-md-9 col-xl-10 px-0 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
