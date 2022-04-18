@@ -295,21 +295,22 @@ limitations under the License.
 							Create Media 
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]">
 						</h1>
-						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
+						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 							<cfset mediaBlock= getMediaBlockHtml(media_id="1504669",displayAs="full",size="300",captionAs="textNone")>
 							<div id="mediaBlock" class="mx-auto text-center pt-1">
 								#mediaBlock#
 							</div><!---end image block--->
+								Placeholder Image
 						</div>
 						<form name="newMedia" method="post" action="media.cfm">
 						<input type="hidden" name="action" value="saveNew">
 						<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 						<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
-						<div class="col-12 col-md-9 col-xl-10 mt-4">
-							<label for="media_uri" class="data-etry-label">Media URI</label>
+						<div class="col-12 col-md-9 col-xl-10 mt-4 float-left">
+							<label for="media_uri" class="data-entry-label">Media URI</label>
 							<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 						</div>
-						<div class="col-12 col-md-9 col-xl-10 mt-2">
+						<div class="col-12 col-md-9 col-xl-10 mt-2 float-left">
 							<label for="preview_uri" class="data-entry-label">Preview URI</label>
 							<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
 						</div>
