@@ -312,8 +312,8 @@ limitations under the License.
 									<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 								</div>
 							</div>
-							<div class="form-row mx-0">
-								<div class="col-12 col-md-9 col-xl-10 mt-2 px-4 float-left">
+							<div class="form-row mx-0 mt-2">
+								<div class="col-12 col-md-9 col-xl-10 px-4 float-left">
 									<label for="preview_uri" class="data-entry-label">Preview URI</label>
 									<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
 								</div>
@@ -328,7 +328,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-6 col-md-5 col-xl-4 px-4 float-left">
+								<div class="col-6 col-md-5 col-xl-4 mt-2 px-4 float-left">
 									<label for="media_type" class="data-entry-label">Media Type</label>
 									<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 										<option value=""></option>
@@ -338,8 +338,8 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mx-0">
-								<div class="col-12 col-md-6 px-4 mt-3 float-left">
+							<div class="form-row mx-0 mt-2">
+								<div class="col-12 col-md-6 px-4 float-left">
 									<label for="media_license_id" class="data-entry-label">
 										License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 									</label>
@@ -351,7 +351,7 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mx-0">
+							<div class="form-row mx-0 mt-2">
 								<div class="col-12 col-md-3 col-md-3 px-4 float-left">
 									<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 									<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
@@ -360,8 +360,8 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mx-0">
-								<div class="col-12 col-md-6">
+							<div class="form-row mx-0 mt-2">
+								<div class="col-12 col-md-6 px-4">
 									<ul class="list-group float-left border-success border-right border-left mt-2 border-buttom border-top rounded p-2">
 										<p class="mb-0">Notes:</p>
 										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
@@ -384,12 +384,11 @@ limitations under the License.
 										<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input">
 										<input type="hidden" name="related_id__1" id="related_id__1">
 									</div>
-								</div>
+								
 								<div class="col-12 px-4">						
 									<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
 								</div>
-							</div>
-							<div class="form-row mt-2 mx-0">
+								</div>
 								<div class="col-12 col-md-6 col-xl-2 col-md-3 px-0">
 									<label for="labels" class="data-entry-label">Media Labels</label>
 									<p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
@@ -400,14 +399,13 @@ limitations under the License.
 										<cfset i=1>
 										<cfloop>
 											<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
-												<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select">
+												<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-6 px-0">
 													<option value="delete">Select label...</option>
 													<cfloop query="ctmedia_label">
 													<option value="#media_label#">#media_label#</option>
 													</cfloop>
 												</select>
-												:&nbsp;
-												<input class="data-entry-label" type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="">
+												<input class="data-entry-label col-6 px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
 											</div>
 											<cfset i=i+1>
 										</cfloop>
