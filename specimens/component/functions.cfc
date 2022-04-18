@@ -1197,7 +1197,7 @@ limitations under the License.
 		</cftransaction>
 	</cfoutput>
 </cffunction>
-<!--TEST-function getImagesHtml obtain an html block to popluate an edit dialog for an images 
+<!---TEST function getImagesHtml obtain an html block to popluate an edit dialog for an images 
  @param media_id the media.media_id to edit.
  @return html for editing the media record 
 --->
@@ -6433,10 +6433,14 @@ function showLLFormat(orig_units) {
 	<cfreturn getPartCondHist.output>
 </cffunction>
 
-<cffunction name="saveSearch" access="remote" returntype="query">
-	<cfargument name="search_name" type="numeric" required="yes">
+<cffunction name="saveSearch" access="remote" returntype="any" returnformat="json">
+	<cfargument name="search_name" type="string" required="yes">
 	<cfargument name="execute" type="string" required="yes">
 	<cfargument name="url" type="string" required="yes">
+	<cfif execute EQ "true"><cfset execute="1"></cfif>
+	<cfif execute EQ "false"><cfset execute="0"></cfif>
+
+	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cftransaction>
 			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -6455,24 +6459,28 @@ function showLLFormat(orig_units) {
 				)
 				VALUES
 				(
-					search_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_name#">
-					url = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url#">
-					execute = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#execute#">
-					USER_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_name#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#execute#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#">
 				)
 			</cfquery>
 		</cftransaction>
-		<cfset result = querynew("MESSAGE")>
-		<cfset temp = queryaddrow(result,1)>
-		<cfset temp = QuerySetCell(result, "message", "success", 1)>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "saved">
+		<cfset row["name"] = "#encodeForHTML(search_name)#">
+		<cfset data[1] = row>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfif error_message CONTAINS "ORA-00001: unique constraint">
+				<cfset error_message = "Unable to save search, the search name and the search must each be unique.  You have already saved either a search with the same name, or a search with the same URI.  See the list of saved searches in your user profile.">
+			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
 	</cftry>
-	<cfreturn result>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 </cfcomponent>
