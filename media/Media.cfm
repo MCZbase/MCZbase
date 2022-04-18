@@ -375,7 +375,7 @@ limitations under the License.
 							<div class="form-row mt-2 mx-0">
 								<div class="col-10 px-0">
 									<div class="col-12 px-0 float-left">
-										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple relationships. </span></label>
+										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships. </span></label>
 										<div id="relationships">
 											<div id="relationshiperror"></div>
 											<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
