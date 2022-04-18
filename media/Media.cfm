@@ -82,10 +82,11 @@ limitations under the License.
 					<div class="col-12 mt-3 pb-5">
 						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
+							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
 						</h1>
 						<div class="px-1">
 							<h4 class="pr-3 d-inline-block">Media ID = #media_id#</h4>
-							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Media Record</a>
+							
 						</div>
 						<form name="editMedia" method="post" action="media.cfm" class="my-2">
 							<input type="hidden" name="action" value="saveEdit">
