@@ -377,20 +377,20 @@ limitations under the License.
 									<label for="relationships" class="data-entry-label">Media Relationships</label>
 									<div id="relationships">
 										<div id="relationshiperror"></div>
-										<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 px-0">
+										<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
 											<option value="">None/Unpick</option>
 											<cfloop query="ctmedia_relationship">
 												<option value="#media_relationship#">#media_relationship#</option>
 											</cfloop>
 										</select>
-										<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input">
+										<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
 										<input type="hidden" name="related_id__1" id="related_id__1">
 									</div>
 									<div class="col-12 px-4">						
 										<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
 									</div>
 								</div>
-								<div class="col-12 col-md-6 float-left">
+								<div class="col-12 col-md-12 float-left">
 									<label for="labels" class="data-entry-label">Media Labels</label>
 									<p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
 									<label for="labels" class="data-entry-label">Media Labels 
@@ -400,13 +400,13 @@ limitations under the License.
 										<cfset i=1>
 										<cfloop>
 											<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
-												<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-6 px-0">
+												<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-6 px-0 float-left">
 													<option value="delete">Select label...</option>
 													<cfloop query="ctmedia_label">
 													<option value="#media_label#">#media_label#</option>
 													</cfloop>
 												</select>
-												<input class="data-entry-label col-6 px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+												<input class="data-entry-label col-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
 											</div>
 											<cfset i=i+1>
 										</cfloop>
@@ -416,7 +416,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-4">
-									<div class="col-12 col-md-6 px-4 float-left">
+									<div class="col-12 px-0 float-left">
 										<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
 									</div>
 								</div>
