@@ -355,16 +355,18 @@ limitations under the License.
 										<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
 										<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
 									</ul>
+									
+									<div class="col-12 col-md-3 px-0 float-left">
+										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
+										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
+											<option value="0" selected="selected">Public</option>
+											<option value="1">Hidden</option>
+										</select>
+									</div>
 								</div>
 							</div>
 							<div class="form-row mt-2 mx-0">
-								<div class="col-12 col-md-6 px-0">
-									<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
-									<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
-										<option value="0" selected="selected">Public</option>
-										<option value="1">Hidden</option>
-									</select>
-								</div>
+								
 							</div>
 							<div class="form-row mt-2 mx-0">
 								<div class="col-12 col-md-6 col-xl-2 col-md-3 px-0">
