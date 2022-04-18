@@ -339,7 +339,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mx-0">
-								<div class="col-12 col-md-9 col-xl-7 px-4 mt-3 float-left">
+								<div class="col-12 col-md-6 px-4 mt-3 float-left">
 									<label for="media_license_id" class="data-entry-label">
 										License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 									</label>
@@ -350,7 +350,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-6">
 									<ul class="list-group float-left border-success border-right border-left mt-2 border-buttom border-top rounded p-2">
 										<p class="mb-0">Notes:</p>
 										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
