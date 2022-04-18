@@ -290,13 +290,13 @@ limitations under the License.
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
-					<div class="col-12 mt-3 pb-5">
-						<h1 class="h2 px-1 border-bottom border-dark pb-2">
+					<div class="col-12 mt-4 pb-5">
+						<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
 							Create Media 
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]">
 						</h1>
 						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
-							<cfset mediaBlock= getMediaBlockHtml(media_id="1504669",displayAs="full",size="300",captionAs="textFull")>
+							<cfset mediaBlock= getMediaBlockHtml(media_id="1504669",displayAs="full",size="300",captionAs="textNone")>
 							<div id="mediaBlock" class="mx-auto text-center pt-1">
 								#mediaBlock#
 							</div><!---end image block--->
@@ -305,17 +305,17 @@ limitations under the License.
 						<input type="hidden" name="action" value="saveNew">
 						<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 						<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
-						<div class="col-12 col-md-9 col-xl-10 mt-2">
-							<label for="media_uri">Media URI</label>
-							<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr">
+						<div class="col-12 col-md-9 col-xl-10 mt-4">
+							<label for="media_uri" class="data-etry-label">Media URI</label>
+							<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 						</div>
 						<div class="col-12 col-md-9 col-xl-10 mt-2">
-							<label for="preview_uri">Preview URI</label>
-							<input type="text" name="preview_uri" id="preview_uri" size="105">
+							<label for="preview_uri" class="data-entry-label">Preview URI</label>
+							<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
 						</div>
 						<div class="form-row mx-0 mt-2">
 							<div class="col-6 col-md-5 col-xl-4 px-0">
-								<label for="mime_type">MIME Type</label>
+								<label for="mime_type" class>MIME Type</label>
 								<select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;">
 									<option value=""></option>
 									<cfloop query="ctmime_type">
@@ -440,6 +440,7 @@ limitations under the License.
 						</cfif>
 
 					</div>
+						</form>
 					</div>
 				</div>
 			</div>
