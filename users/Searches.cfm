@@ -1,9 +1,9 @@
 <cfset pageTitle="Saved Searches">
 <cfinclude template="/shared/_header.cfm">
 
-<cfif #action# is "manage">
-<script type='text/javascript' src='/includes/_treeAjax.js'></script>
-<script type="text/javascript" language="javascript">
+	<!--- TODO Rework remove function, remove treeAjax --->
+	<script type='text/javascript' src='/includes/_treeAjax.js'></script>
+	<script type="text/javascript" language="javascript">
 	function killMe(canned_id) {
 		jQuery.getJSON("/component/functions.cfc",
 			{
@@ -24,10 +24,10 @@
 			alert(result);
 		}
 	}
-</script>
+	</script>
 
 <cfoutput>
-        <div class="basic_box">
+	<div class="basic_box">
 	<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT SEARCH_NAME, URL, canned_id, execute
 		FROM 
@@ -35,13 +35,12 @@
 			left join cf_canned_search on  cf_users.user_id=cf_canned_search.user_id
 		WHERE
 			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		ORDER_BY search_name
-</cfquery>
+		ORDER BY search_name
+	</cfquery>
    
 <cfif hasCanned.recordcount is 0>
- <p>You may save Specimen Results from searches on the home page for later reference.</p>
- <p>They will appear here when you have done so.</p>
-
+	 <p>You may save Specimen Results from searches on the home page for later reference.</p>
+ 	<p>They will appear here when you have done so.</p>
 <cfelse>
 
 <table border>
@@ -69,5 +68,5 @@
     </div>
 </cfif>
 </cfoutput>
-</cfif>
+
 <cfinclude template="/shared/_footer.cfm">
