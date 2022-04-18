@@ -365,7 +365,6 @@ limitations under the License.
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12 px-4">
 									<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
-										<p class="mb-0">Notes:</p>
 										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 										<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
 										<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
@@ -396,7 +395,7 @@ limitations under the License.
 									<label for="labels" class="data-entry-label">Media Labels 
 										<span onclick="getCtDoc('ctmedia_label');"> Define</span>
 									</label>
-									<div id="labels" class="border-succes">
+									<div id="labels">
 										<cfset i=1>
 										<cfloop>
 											<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
@@ -410,10 +409,11 @@ limitations under the License.
 											</div>
 											<cfset i=i+1>
 										</cfloop>
-										<span class="infoLink" id="addLabel" class="" onclick="addLabelTo(#i#,'labels','addLabel');">
-											Add Label
-										</span>
-									</div>
+											<div class="col-12 float-left">
+											<span class="infoLink" id="addLabel" class="" onclick="addLabelTo(#i#,'labels','addLabel');">
+												Add Label
+											</span>
+										</div>
 								</div>
 								<div class="form-row mx-0 mt-4">
 									<div class="col-12 px-0 float-left">
