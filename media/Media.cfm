@@ -307,19 +307,19 @@ limitations under the License.
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 							<div class="form-row mx-0">
-								<div class="col-12 col-md-9 col-xl-10 mt-4 float-left">
+								<div class="col-12 col-md-9 col-xl-10 mt-2 px-4 float-left">
 									<label for="media_uri" class="data-entry-label">Media URI</label>
 									<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 								</div>
 							</div>
 							<div class="form-row mx-0">
-								<div class="col-12 col-md-9 col-xl-10 mt-2 float-left">
+								<div class="col-12 col-md-9 col-xl-10 mt-2 px-4 float-left">
 									<label for="preview_uri" class="data-entry-label">Preview URI</label>
 									<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
 								</div>
 							</div>
 							<div class="form-row mx-0 mt-2">
-								<div class="col-6 col-md-5 col-xl-4 px-0 float-left">
+								<div class="col-6 col-md-5 col-xl-4 px-4 float-left">
 									<label for="mime_type" class="data-entry-label">MIME Type</label>
 									<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
 										<option value=""></option>
@@ -328,7 +328,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-6 col-md-5 col-xl-4 px-0 float-left">
+								<div class="col-6 col-md-5 col-xl-4 px-4 float-left">
 									<label for="media_type" class="data-entry-label">Media Type</label>
 									<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 										<option value=""></option>
@@ -338,11 +338,11 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row">
-								<div class="col-12 col-md-9 col-xl-6">
+							<div class="form-row mx-0">
+								<div class="col-12 col-md-9 col-xl-6 px-4 mt-3 float-left">
 									<div class="license_box">
 										<label for="media_license_id" class="data-entry-label">
-											License  <a class="infoLink" onClick="popupDefine()">Define Licenses</a>
+											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
 										<select name="media_license_id" id="media_license_id" class="data-entry-select">
 											<option value="">Research copyright &amp; then choose...</option>
@@ -350,8 +350,8 @@ limitations under the License.
 												<option value="#media_license_id#">#media_license#</option>
 											</cfloop>
 										</select>
-										<ul class="list-group">
-											<p>Notes:</p>
+										<ul class="list-group border-success border-right border-left border-buttom border-top rounded p-4">
+											<p class="mb-0">Notes:</p>
 											<li class="list-group-item">media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 											<li class="list-group-item">remove media immediately if owner requests it</li>
 											<li class="list-group-item">contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
@@ -360,9 +360,9 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mt-2 mx-0">
-								<div class="col-12 col-md-6 col-xl-2 col-md-3 px-0">
+								<div class="col-12 col-md-6 px-0">
 									<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
-									<select name="mask_media_fg" value="mask_media_fg" class="data-input-select">
+									<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 										<option value="0" selected="selected">Public</option>
 										<option value="1">Hidden</option>
 									</select>
