@@ -1197,7 +1197,7 @@ limitations under the License.
 		</cftransaction>
 	</cfoutput>
 </cffunction>
-<!--TEST-function getImagesHtml obtain an html block to popluate an edit dialog for an images 
+<!---TEST function getImagesHtml obtain an html block to popluate an edit dialog for an images 
  @param media_id the media.media_id to edit.
  @return html for editing the media record 
 --->
