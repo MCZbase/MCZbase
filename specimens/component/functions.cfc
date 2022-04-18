@@ -45,7 +45,7 @@ limitations under the License.
 			<cfset temp = QuerySetCell(result, "message", "A query error occured: #cfcatch.Message# #cfcatch.Detail#", 1)>
 		</cfcatch>
 	</cftry>
-	<cfreturn result>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <!---getEditImagesHTML obtain a block of html to populate an images editor dialog for a specimen.
@@ -6469,6 +6469,9 @@ function showLLFormat(orig_units) {
 		<cfset temp = QuerySetCell(result, "message", "success", 1)>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfif error_message CONTAINS "ORA-00001: unique constraint">
+				<cfset error_message = "Unable to save search, the search name and the search must each be unique.  You have already saved either a search with the same name, or a search with the same URI.  See the list of saved searches in your user profile.">
+			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
