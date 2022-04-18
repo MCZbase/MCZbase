@@ -320,7 +320,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mx-0 mt-2">
-								<div class="col-6 col-md-5 col-xl-4 px-0 float-left">
+								<div class="col-6 col-md-5 col-xl-4 px-4 float-left">
 									<label for="mime_type" class="data-entry-label">MIME Type</label>
 									<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
 										<option value=""></option>
@@ -329,7 +329,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-6 col-md-5 col-xl-4 px-4 float-left">
+								<div class="col-6 col-md-5 col-xl-4 px-0 float-left">
 									<label for="media_type" class="data-entry-label">Media Type</label>
 									<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 										<option value=""></option>
