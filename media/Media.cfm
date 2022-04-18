@@ -387,8 +387,8 @@ limitations under the License.
 											<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
 											<input type="hidden" name="related_id__1" id="related_id__1">
 										</div>
-										<div class="col-12 px-4">						
-											<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-4" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
+										<div class="col-12 float-left">						
+											<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
 										</div>
 									</div>
 									<div class="col-12 px-0 float-left">
@@ -409,7 +409,7 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 												<div class="col-12 float-left">
-												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div>
 										</div>
 									</div>
