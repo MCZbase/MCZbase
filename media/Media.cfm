@@ -340,23 +340,21 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0">
 								<div class="col-12 col-md-9 col-xl-6 px-4 mt-3 float-left">
-									<div class="license_box">
-										<label for="media_license_id" class="data-entry-label">
-											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
-										</label>
-										<select name="media_license_id" id="media_license_id" class="data-entry-select">
-											<option value="">Research copyright &amp; then choose...</option>
-											<cfloop query="ctmedia_license">
-												<option value="#media_license_id#">#media_license#</option>
-											</cfloop>
-										</select>
-										<ul class="list-group border-success border-right border-left border-buttom border-top rounded p-4">
-											<p class="mb-0">Notes:</p>
-											<li class="list-group-item">media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
-											<li class="list-group-item">remove media immediately if owner requests it</li>
-											<li class="list-group-item">contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
-										</ul>
-									</div>
+									<label for="media_license_id" class="data-entry-label">
+										License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
+									</label>
+									<select name="media_license_id" id="media_license_id" class="data-entry-select">
+										<option value="">Research copyright &amp; then choose...</option>
+										<cfloop query="ctmedia_license">
+											<option value="#media_license_id#">#media_license#</option>
+										</cfloop>
+									</select>
+									<ul class="list-group float-left border-success border-right border-left mt-2 border-buttom border-top rounded p-2">
+										<p class="mb-0">Notes:</p>
+										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
+										<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
+										<li class="mx-4" style="list-style:circle">contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+									</ul>
 								</div>
 							</div>
 							<div class="form-row mt-2 mx-0">
