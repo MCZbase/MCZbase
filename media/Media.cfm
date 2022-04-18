@@ -372,7 +372,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mt-2 mx-0">
-								<div class="col-12">
+								<div class="col-12 px-0">
 									<div class="col-12 col-6 float-left">
 										<label for="relationships" class="data-entry-label">Media Relationships</label>
 										<div id="relationships">
@@ -406,7 +406,7 @@ limitations under the License.
 														<option value="#media_label#">#media_label#</option>
 														</cfloop>
 													</select>
-													<input class="data-entry-label col-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+													<input class="data-entry-input col-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
 												</div>
 												<cfset i=i+1>
 											</cfloop>
