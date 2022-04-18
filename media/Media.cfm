@@ -306,8 +306,8 @@ limitations under the License.
 							<input type="hidden" name="action" value="saveNew">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
-							<div class="form-row mx-0">
-								<div class="col-12 col-md-9 col-xl-10 mt-2 px-4 float-left">
+							<div class="form-row mx-0 mt-2">
+								<div class="col-12 col-md-9 col-xl-10 px-4 float-left">
 									<label for="media_uri" class="data-entry-label">Media URI</label>
 									<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 								</div>
@@ -328,7 +328,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-6 col-md-5 col-xl-4 mt-2 px-4 float-left">
+								<div class="col-6 col-md-5 col-xl-4 px-4 float-left">
 									<label for="media_type" class="data-entry-label">Media Type</label>
 									<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 										<option value=""></option>
@@ -352,12 +352,17 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mx-0 mt-2">
-								<div class="col-12 col-md-3 col-md-3 px-4 float-left">
+								<div class="col-12 col-md-3 px-4 float-left">
 									<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 									<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 										<option value="0" selected="selected">Public</option>
 										<option value="1">Hidden</option>
 									</select>
+								</div>
+							</div>
+							<div class="form-row mx-0 mt-2">
+								<div class="col-12 col-md-6 col-xl-2 col-md-2 px-0 float-left">
+									<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
 								</div>
 							</div>
 							<div class="form-row mx-0 mt-2">
@@ -414,9 +419,7 @@ limitations under the License.
 										</span>
 									</div>
 								</div>
-								<div class="col-12 col-md-6 col-xl-2 col-md-2 px-0">
-									<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
-								</div>
+					
 							</div>
 						</form>
 						<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
