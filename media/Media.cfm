@@ -350,14 +350,6 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-6">
-									<ul class="list-group float-left border-success border-right border-left mt-2 border-buttom border-top rounded p-2">
-										<p class="mb-0">Notes:</p>
-										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
-										<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
-										<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
-									</ul>
-								</div>
 							</div>
 							<div class="form-row mx-0">
 								<div class="col-12 col-md-3 col-md-5 px-0 float-left">
@@ -368,22 +360,32 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
+							<div class="form-row mx-0">
+								<div class="col-12 col-md-6">
+									<ul class="list-group float-left border-success border-right border-left mt-2 border-buttom border-top rounded p-2">
+										<p class="mb-0">Notes:</p>
+										<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
+										<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
+										<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+									</ul>
+								</div>
+							</div>
 							<div class="form-row mt-2 mx-0">
 								<div class="col-12 col-md-6 px-0">
 									<label for="relationships" class="data-entry-label">Media Relationships</label>
 									<div id="relationships">
 										<div id="relationshiperror"></div>
-										<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select">
+										<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 px-0">
 											<option value="">None/Unpick</option>
 											<cfloop query="ctmedia_relationship">
 												<option value="#media_relationship#">#media_relationship#</option>
 											</cfloop>
 										</select>
+										<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input">
+										<input type="hidden" name="related_id__1" id="related_id__1">
 									</div>
 								</div>
-								<div class="col-12 col-md-6 px-0">
-									<input type="text" name="related_value__1" id="related_value__1" class="data-entry-input">
-									<input type="hidden" name="related_id__1" id="related_id__1">
+								<div class="col-12 px-0">						
 									<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
 								</div>
 							</div>
