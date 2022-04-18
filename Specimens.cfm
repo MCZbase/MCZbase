@@ -779,7 +779,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class="d-block p-2"></span>
-													<div id="fixedactionFeedback" class="d-block p-2"></div>
+													<output id="fixedactionFeedback" class="d-block p-2"></output>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -925,7 +925,7 @@ limitations under the License.
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class="d-block p-2"></span>
-													<div id="keywordactionFeedback" class="d-block p-2"></div>
+													<output id="keywordactionFeedback" class="d-block p-2"></output>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1334,7 +1334,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class="d-block p-2"></span>
-													<div id="builderactionFeedback" class="d-block p-2"></div>
+													<output id="builderactionFeedback" class="d-block p-2"></output>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
