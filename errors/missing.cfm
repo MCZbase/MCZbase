@@ -196,7 +196,7 @@
 					</cfloop>
 					<cfinclude template="/SpecimenResults.cfm">
 				<cfelseif d.url contains "/Specimens.cfm?">
-					<cfset target="#application.serverRootUrl#/#d.url#">
+					<cfset target="#application.serverRootUrl##d.url#">
 					If you are not redirected, please click this link: <a href="#target#">#target#</a>
 					<script>
 						document.location='#target#';
