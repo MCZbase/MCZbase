@@ -10,8 +10,7 @@ function saveSearch(url, execute, search_name, targetDiv) {
 			url : url,
 			execute : execute,
 			search_name :  search_name,
-			returnformat : "json",
-			queryformat : 'column'
+			dataType : "json"
 		},
 		success: function (result) {
 			var message = "Saved: [" + result[0].message + "]." ;
