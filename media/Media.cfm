@@ -352,7 +352,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mx-0">
-								<div class="col-12 col-md-3 col-md-5 px-0 float-left">
+								<div class="col-12 col-md-3 col-md-3 px-4 float-left">
 									<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 									<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 										<option value="0" selected="selected">Public</option>
@@ -371,7 +371,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mt-2 mx-0">
-								<div class="col-12 col-md-6 px-0">
+								<div class="col-12 col-md-6 px-4">
 									<label for="relationships" class="data-entry-label">Media Relationships</label>
 									<div id="relationships">
 										<div id="relationshiperror"></div>
@@ -385,7 +385,7 @@ limitations under the License.
 										<input type="hidden" name="related_id__1" id="related_id__1">
 									</div>
 								</div>
-								<div class="col-12 px-0">						
+								<div class="col-12 px-4">						
 									<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span>
 								</div>
 							</div>
@@ -416,8 +416,8 @@ limitations under the License.
 										</span>
 									</div>
 								</div>
-								<div class="col-12 col-md-6 col-xl-2 col-md-3 px-0">
-									<input type="submit" value="Create Media" class="data-entry-input">
+								<div class="col-12 col-md-6 col-xl-2 col-md-2 px-0">
+									<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
 								</div>
 							</div>
 						</form>
