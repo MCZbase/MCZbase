@@ -4,7 +4,7 @@ function saveSearch(url, execute, search_name, targetDiv) {
 	jQuery.ajax(
 	{
 		dataType: "json",
-		url: "/specimens/component/functions.cfc",
+		url: "/users/component/functions.cfc",
 		data: { 
 			method : "saveSearch",
 			url : url,

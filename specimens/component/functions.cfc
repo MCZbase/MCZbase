@@ -6433,54 +6433,5 @@ function showLLFormat(orig_units) {
 	<cfreturn getPartCondHist.output>
 </cffunction>
 
-<cffunction name="saveSearch" access="remote" returntype="any" returnformat="json">
-	<cfargument name="search_name" type="string" required="yes">
-	<cfargument name="execute" type="string" required="yes">
-	<cfargument name="url" type="string" required="yes">
-	<cfif execute EQ "true"><cfset execute="1"></cfif>
-	<cfif execute EQ "false"><cfset execute="0"></cfif>
-
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cftransaction>
-			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT user_id 
-				FROM cf_users
-				WHERE
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfquery name="upIns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				INSERT INTO cf_canned_search
-				(
-					search_name,
-					url,
-					execute,
-					user_id
-				)
-				VALUES
-				(
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#search_name#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#url#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#execute#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#">
-				)
-			</cfquery>
-		</cftransaction>
-		<cfset row = StructNew()>
-		<cfset row["status"] = "saved">
-		<cfset row["name"] = "#encodeForHTML(search_name)#">
-		<cfset data[1] = row>
-		<cfcatch>
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfif error_message CONTAINS "ORA-00001: unique constraint">
-				<cfset error_message = "Unable to save search, the search name and the search must each be unique.  You have already saved either a search with the same name, or a search with the same URI.  See the list of saved searches in your user profile.">
-			</cfif>
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-			<cfabort>
-		</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
 
 </cfcomponent>
