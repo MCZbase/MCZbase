@@ -375,7 +375,7 @@ limitations under the License.
 							<div class="form-row mt-2 mx-0">
 								<div class="col-10 px-0">
 									<div class="col-12 px-0 float-left">
-										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships. </span></label>
+										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships </span></label>
 										<div id="relationships">
 											<div id="relationshiperror"></div>
 											<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
@@ -392,10 +392,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 px-0 float-left">
-										<label for="labels" class="h4 data-entry-label">Media Labels</label>
-										<p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
-										<label for="labels" class="data-entry-label">Media Labels 
-											<span onclick="getCtDoc('ctmedia_label');"> Define</span>
+										<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
 										</label>
 										<div id="labels">
 											<cfset i=1>
