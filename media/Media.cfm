@@ -188,24 +188,18 @@ limitations under the License.
 											<h2>
 												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-										
-
-								
-												<main id="content" class="container-fluid">
-													<div class="row">
-														<div class="col-12">
-															<cfset counterBlockContent= getCounterHtml(media_id="#media.media_id#")>
-															<div id="counterBlock">
-																#counterBlockContent#
-															</div>
-														</div>
+											<div class="row">
+												<div class="col-12">
+													<cfset counterBlockContent= getCounterHtml(media_id="#media.media_id#")>
+													<div id="counterBlock">
+														#counterBlockContent#
 													</div>
-													<div class="row">
-														<div class="col-12">
-														</div>
-													</div>
-												</main>
-								
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-12">
+												</div>
+											</div>
 										</div><!---end col-12--->
 
 									<!---Start of Label Block--->
