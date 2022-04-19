@@ -271,6 +271,18 @@
 
 	<!---------------------------- login ------------------------------------------------>
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
+		<cfquery name="checkUser" datasource="uam_god">
+			SELECT count(*) 
+			FROM dba_users
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+				and default_tablespace = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_tablespace#">
+				and (profile = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_profile#"> or user_id < 100);
+		</cfquery>
+		<cfif checkUser.ct NEQ 1>
+			<cfset session.username = "">
+			<cfset session.epw = "">
+			<cflocation url="login.cfm?badPW=true&username=#encodeForURL(username)#">
+		</cfif>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
 			select * 
 			from cf_users 
@@ -281,7 +293,7 @@
 		<cfif getPrefs.recordcount is 0>
 			<cfset session.username = "">
 			<cfset session.epw = "">
-			<cflocation url="login.cfm?badPW=true&username=#username#">
+			<cflocation url="login.cfm?badPW=true&username=#encodeForURL(username)#">
 		</cfif>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">
