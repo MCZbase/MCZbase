@@ -293,7 +293,7 @@ limitations under the License.
 							Create Media 
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 						</h1>
-							<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
+							<div class="rounded border bg-light col-12 col-sm-5 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<cfset mediaBlock= getMediaBlockHtml(media_id="1504670",displayAs="full",size="300",captionAs="textNone")>
 								<div id="mediaBlock" class="mx-auto text-center pt-1">
 									#mediaBlock#
@@ -303,7 +303,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-xl-8 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-md-9 col-xl-10 px-0 px-md-4 float-left">
+									<div class="col-12 col-sm-7 col-md-9 col-xl-10 px-0 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
 										<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 									</div>
