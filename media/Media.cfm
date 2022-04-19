@@ -173,7 +173,7 @@ limitations under the License.
 										<div class="form-row mx-0 mt-2 mb-4">
 											<div class="col-12 float-left">
 											<!---  TODO: Change to ajax save of form. ---->
-												<input type="submit" value="Save Core Media Data"	class="btn btn-xs btn-primary">
+												<input type="submit" value="Save Core Media Data" class="btn btn-xs btn-primary">
 											</div>
 										</div>
 									</div>
@@ -196,13 +196,8 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-12">
-												</div>
-											</div>
 										</div><!---end col-12--->
-
-									<!---Start of Label Block--->
+											<!---Start of Label Block--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
 												<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
@@ -259,7 +254,7 @@ limitations under the License.
 													</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
 												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
@@ -382,18 +377,21 @@ limitations under the License.
 									<div class="col-12 px-0 float-left">
 										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships </span></label>
 										<div id="relationships">
-											<div id="relationshiperror"></div>
-											<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
-												<option value="">None/Unpick</option>
-												<cfloop query="ctmedia_relationship">
-													<option value="#media_relationship#">#media_relationship#</option>
-												</cfloop>
-											</select>
-											<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
-											<input type="hidden" name="related_id__1" id="related_id__1">
-										</div>
-										<div class="col-12 float-left">						
-											<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
+											<cfset i=1>
+											<cfloop>
+												<div id="relationshiperror"></div>
+												<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
+													<option value="">None/Unpick</option>
+													<cfloop query="ctmedia_relationship">
+														<option value="#media_relationship#">#media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
+												<input type="hidden" name="related_id__1" id="related_id__1">
+											</cfloop>
+											<div class="col-12 float-left">						
+												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
+											</div>
 										</div>
 									</div>
 									<div class="col-12 px-0 float-left">
@@ -406,14 +404,14 @@ limitations under the License.
 													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-6 px-0 float-left">
 														<option value="delete">Select label...</option>
 														<cfloop query="ctmedia_label">
-														<option value="#media_label#">#media_label#</option>
+															<option value="#media_label#">#media_label#</option>
 														</cfloop>
 													</select>
 													<input class="data-entry-input col-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
 												</div>
 												<cfset i=i+1>
 											</cfloop>
-												<div class="col-12 float-left">
+											<div class="col-12 float-left">
 												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div>
 										</div>
@@ -430,7 +428,7 @@ limitations under the License.
 				</form>
 				<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 					<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						  select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
 					<script language="javascript" type="text/javascript">
 						$("##relationship__1").val('shows cataloged_item');
@@ -445,14 +443,13 @@ limitations under the License.
 					</cfquery>
 					<cfif s.recordCount eq 1 >
 						<script language="javascript" type="text/javascript">
-						<script language="javascript" type="text/javascript">
 							$("##relationship__1").val('#relationship#');
 							$("##related_value__1").val('#related_value#');
 							$("##related_id__1").val('#related_id#');
 						</script>
 					<cfelse>
 						<script language="javascript" type="text/javascript">
-								$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
+							$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
 						</script>
 					</cfif>
 				</cfif>
