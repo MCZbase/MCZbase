@@ -69,13 +69,13 @@
 							<cfcase value="/Transactions.cfm"><cfset target="Transactions"></cfcase>
 						</cfswitch>
 						<cfset execute_text = "">
-						<cfset doExectute = true>
+						<cfset doExecute = true>
 						<cfif target NEQ "Specimens (old)">
 							<cfif getSavedSearches.execute EQ 1>
-								<cfset doExectute = true>
+								<cfset doExecute = true>
 								<cfset execute_text = "Run immediately">
 							<cfelseif getSavedSearches.execute EQ 0>
-								<cfset doExectute = false>
+								<cfset doExecute = false>
 								<cfset execute_text = "Populate search form">
 							</cfif>
 						</cfif>
