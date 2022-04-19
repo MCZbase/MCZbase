@@ -173,7 +173,7 @@ limitations under the License.
 										<div class="form-row mx-0 mt-2 mb-4">
 											<div class="col-12 float-left">
 											<!---  TODO: Change to ajax save of form. ---->
-												<input type="submit" value="Save Core Media Data"	class="btn btn-xs btn-primary">
+												<input type="submit" value="Save Core Media Data" class="btn btn-xs btn-primary">
 											</div>
 										</div>
 									</div>
@@ -196,13 +196,8 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-12">
-												</div>
-											</div>
 										</div><!---end col-12--->
-
-									<!---Start of Label Block--->
+											<!---Start of Label Block--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 											<h2>
 												<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
@@ -259,7 +254,7 @@ limitations under the License.
 													</script>
 													<cfset i=i+1>
 												</cfloop>
-												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-4" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div><!---end id labels--->
 											<div class="col-12 px-0 float-left">
 												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
@@ -391,9 +386,9 @@ limitations under the License.
 											</select>
 											<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
 											<input type="hidden" name="related_id__1" id="related_id__1">
-										</div>
 										<div class="col-12 float-left">						
 											<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
+										</div>
 										</div>
 									</div>
 									<div class="col-12 px-0 float-left">
@@ -413,7 +408,7 @@ limitations under the License.
 												</div>
 												<cfset i=i+1>
 											</cfloop>
-												<div class="col-12 float-left">
+											<div class="col-12 float-left">
 												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div>
 										</div>
