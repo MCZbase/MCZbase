@@ -274,9 +274,9 @@
 		<cfquery name="checkUser" datasource="uam_god">
 			SELECT count(*) as ct
 			FROM dba_users
-			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+			WHERE upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 				and default_tablespace = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_tablespace#">
-				and (profile = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_profile#"> or user_id < 100)
+				and ( profile = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_profile#"> or user_id < 100 )
 		</cfquery>
 		<cfif checkUser.ct NEQ 1>
 			<cfset session.username = "">
