@@ -428,7 +428,7 @@ limitations under the License.
 				</form>
 				<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 					<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						  select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
 					<script language="javascript" type="text/javascript">
 						$("##relationship__1").val('shows cataloged_item');
@@ -443,14 +443,13 @@ limitations under the License.
 					</cfquery>
 					<cfif s.recordCount eq 1 >
 						<script language="javascript" type="text/javascript">
-						<script language="javascript" type="text/javascript">
 							$("##relationship__1").val('#relationship#');
 							$("##related_value__1").val('#related_value#');
 							$("##related_id__1").val('#related_id#');
 						</script>
 					<cfelse>
 						<script language="javascript" type="text/javascript">
-								$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
+							$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
 						</script>
 					</cfif>
 				</cfif>
