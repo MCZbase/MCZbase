@@ -79,7 +79,7 @@
 								<cfset execute_text = "Populate search form">
 							</cfif>
 						</cfif>
-						<cfif doExecute>
+						<cfif NOT doExecute >
 							<cfset url = replace(url,"&execute=true","","all")>
 							<cfset url = replace(url,"?execute=true","")>
 						</cfif>
