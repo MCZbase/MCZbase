@@ -69,17 +69,24 @@
 							<cfcase value="/Transactions.cfm"><cfset target="Transactions"></cfcase>
 						</cfswitch>
 						<cfset execute_text = "">
+						<cfset doExectute = true>
 						<cfif target NEQ "Specimens (old)">
 							<cfif getSavedSearches.execute EQ 1>
+								<cfset doExectute = true>
 								<cfset execute_text = "Run immediately">
 							<cfelseif getSavedSearches.execute EQ 0>
+								<cfset doExectute = false>
 								<cfset execute_text = "Populate search form">
 							</cfif>
+						</cfif>
+						<cfif doExecute>
+							<cfset url = replace(url,"&execute=true","","all")>
+							<cfset url = replace(url,"?execute=true","")>
 						</cfif>
 						<tr id="tr#canned_id#">
 							<td>#target#</td>
 							<td><a href="/saved/#encodeForURL(search_name)#">#search_name#</a></td>
-							<td>#url#</td>
+							<td><a href="#url#" target="_blank">#url#</a></td>
 							<td>#execute_text#</td>
 							<td><button class="btn btn-xs btn-danger" onClick="killMe('#canned_id#');">Delete</button></td>
 						</tr>
