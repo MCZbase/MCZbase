@@ -1387,30 +1387,21 @@ imgStyleClass=value
 					
 <cffunction name="getRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-
-
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
 	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
    	scope issues related to cfthread 
 	--->
 	<cfset variables.media_id = arguments.media_id>
-
-
 	<!--- 
-
 	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
 		within a loop in coldfusion in a coldfusion page) then the thread name must be unique for each invocation,
 		so generate a highly likely to be unique thread name as follows:	
-
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="getCounterThread#tn#" threadName="mediaWidgetThread#tn#">
-
 	Likewise, include #tn# in the names of the thread in all the other cfthread tags within this cffunction 
-
 	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
 		does not need to be unique.
-
 	--->
 	<cfthread name="getRelationsThread">
 		<cftry>
@@ -1423,7 +1414,6 @@ imgStyleClass=value
 					WHERE rownum < 2
 				</cfquery>
 				<cfif getRelationships.recordcount GT 0>
-
 			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
 				<cfif relns.recordcount is 0>
@@ -1514,7 +1504,7 @@ imgStyleClass=value
 		</cftry>
 	</cfthread>
 	<cfthread action="join" name="getRelationsThread" />
-	<cfreturn getReltionsThread.output>
+	<cfreturn getRelationsThread.output>
 </cffunction>
 			
 </cfcomponent>
