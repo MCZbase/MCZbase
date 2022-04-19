@@ -376,7 +376,7 @@ limitations under the License.
 								<div class="col-10 px-0">
 									<div class="col-12 px-0 float-left">
 										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships </span></label>
-										<div id="relationships">
+										<div id="relationshipDiv">
 											<cfset i=1>
 											<cfloop>
 												<div id="relationshiperror"></div>
