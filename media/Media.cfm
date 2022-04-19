@@ -181,7 +181,6 @@ limitations under the License.
 							</div>
 						</form>
 						<form id="relationshipForm">
-						
 							<div class="col-12 col-md-12 px-0 float-left">
 									<div class="form-row my-1">
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
@@ -190,9 +189,9 @@ limitations under the License.
 											</h2>
 											<div class="row">
 												<div class="col-12">
-													<cfset counterBlockContent= getCounterHtml(media_id="#media.media_id#")>
-													<div id="counterBlock">
-														#counterBlockContent#
+													<cfset relationsBlockContent= getRelationsHtml(media_id="#media.media_id#")>
+													<div id="relationsBlock">
+														#relationsBlockContent#
 													</div>
 												</div>
 											</div>
@@ -231,7 +230,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-														<button class="btn btn-danger btn-xs float-left small"> Delete </button>
+														<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 														<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
 													</div>
 													<script type="text/javascript">
@@ -289,34 +288,34 @@ limitations under the License.
 					<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 					<div class="row mx-0">
-						<div class="col-12 mt-4 pb-5">
+						<div class="col-12 px-0 mt-4 pb-2 pb-md-4">
 						<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
 							Create Media 
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 						</h1>
-							<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
+							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<cfset mediaBlock= getMediaBlockHtml(media_id="1504670",displayAs="full",size="300",captionAs="textNone")>
 								<div id="mediaBlock" class="mx-auto text-center pt-1">
 									#mediaBlock#
 								</div><!---end image block--->
-									<p class="small mb-0">Placeholder Image for Create Media Page</p>
-									<p class="small mb-0">Description: MCZ Building (front)</p>
+								<p class="small mb-0">Placeholder Image for Create Media Page</p>
+								<p class="small mb-0">Description: MCZ Building (front)</p>
 							</div>
-							<div class="col-12 col-md-8 px-0 float-left">
+							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-md-9 col-xl-10 px-0 px-md-4 float-left">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
 										<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-md-9 col-xl-10 px-0 px-md-4 float-left">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
 										<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
 									</div>
 								</div>
-								<div class="form-row mx-0 mt-2">
-									<div class="col-6 col-md-5 col-xl-4 px-0 px-md-4 float-left">
+								<div class="form-row col-12 px-0 mx-0 mt-2">
+									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
 											<option value=""></option>
@@ -325,7 +324,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-6 col-md-5 col-xl-4 px-0 float-left">
+									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_type" class="data-entry-label">Media Type</label>
 										<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 											<option value=""></option>
@@ -336,7 +335,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-md-6 px-4 float-left">
+									<div class="col-12 col-sm-8 col-md-6 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
@@ -349,7 +348,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-md-3 px-4 float-left">
+									<div class="col-12 col-md-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 											<option value="0" selected="selected">Public</option>
@@ -359,7 +358,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mx-0 mt-2">
 									<!---NOTES to USER--->
-									<div class="col-12 px-4">
+									<div class="col-12 px-0 px-sm-2 px-md-4">
 										<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
 											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
@@ -371,26 +370,26 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12">
+						<div class="col-12 pb-5 px-0">
 							<div class="form-row mt-2 mx-0">
-								<div class="col-10 px-0">
+								<div class="col-12 col-xl-10 px-0">
 									<div class="col-12 px-0 float-left">
-										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships </span></label>
-										<div id="relationships">
+										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible.<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
+										<div id="relationshipDiv">
 											<cfset i=1>
 											<cfloop>
 												<div id="relationshiperror"></div>
-												<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-6 float-left px-0">
+												<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-6 float-left px-0">
 													<option value="">None/Unpick</option>
 													<cfloop query="ctmedia_relationship">
 														<option value="#media_relationship#">#media_relationship#</option>
 													</cfloop>
 												</select>
-												<input type="text" name="related_value__1" id="related_value__1" class="col-6 px-0 data-entry-input float-left">
+												<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 px-0 data-entry-input float-left">
 												<input type="hidden" name="related_id__1" id="related_id__1">
 											</cfloop>
 											<div class="col-12 float-left">						
-												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(2)">Add Relationship (+)</span>
+												<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>
 											</div>
 										</div>
 									</div>
@@ -401,18 +400,18 @@ limitations under the License.
 											<cfset i=1>
 											<cfloop>
 												<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
-													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-6 px-0 float-left">
+													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-12 col-md-6 px-0 float-left">
 														<option value="delete">Select label...</option>
 														<cfloop query="ctmedia_label">
 															<option value="#media_label#">#media_label#</option>
 														</cfloop>
 													</select>
-													<input class="data-entry-input col-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+													<input class="data-entry-input col-12 col-md-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
 												</div>
 												<cfset i=i+1>
 											</cfloop>
 											<div class="col-12 float-left">
-												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 											</div>
 										</div>
 									</div>
