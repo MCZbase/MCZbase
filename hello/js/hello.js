@@ -39,7 +39,7 @@ function incrementCounter(callback) {
 	jQuery.ajax({
 		url: "/hello/component/functions.cfc",
 		data : {
-			method : "incrementCounterHtml"
+			method : "incrementCounter"
 		},
 		success: function (result) {
 			console.log(result[0].counter);
