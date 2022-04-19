@@ -181,7 +181,6 @@ limitations under the License.
 							</div>
 						</form>
 						<form id="relationshipForm">
-						
 							<div class="col-12 col-md-12 px-0 float-left">
 									<div class="form-row my-1">
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
@@ -190,9 +189,9 @@ limitations under the License.
 											</h2>
 											<div class="row">
 												<div class="col-12">
-													<cfset counterBlockContent= getCounterHtml(media_id="#media.media_id#")>
-													<div id="counterBlock">
-														#counterBlockContent#
+													<cfset relationsBlockContent= getRelationsHtml(media_id="#media.media_id#")>
+													<div id="relationsBlock">
+														#relationsBlockContent#
 													</div>
 												</div>
 											</div>
@@ -231,7 +230,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-														<button class="btn btn-danger btn-xs float-left small"> Delete </button>
+														<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 														<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
 													</div>
 													<script type="text/javascript">

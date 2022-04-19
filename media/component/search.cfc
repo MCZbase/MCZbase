@@ -1385,7 +1385,7 @@ imgStyleClass=value
 					
 					
 					
-<cffunction name="getCounterHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 
 
@@ -1412,17 +1412,17 @@ imgStyleClass=value
 		does not need to be unique.
 
 	--->
-	<cfthread name="getCounterThread">
+	<cfthread name="getRelationsThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						media_relationship, media_id 
 					FROM
 						media_relations
 					WHERE rownum < 2
 				</cfquery>
-				<cfif getCounter.recordcount GT 0>
+				<cfif getRelationships.recordcount GT 0>
 
 			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
@@ -1451,7 +1451,7 @@ imgStyleClass=value
 							</select>
 							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
 							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
-							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelations.media_id#,relationshipDiv__#i#)"> Remove </button>
+							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 							value="Edit" style="width: 50px;"></input>
 						</div>
@@ -1513,8 +1513,8 @@ imgStyleClass=value
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getCounterThread" />
-	<cfreturn getCounterThread.output>
+	<cfthread action="join" name="getRelationsThread" />
+	<cfreturn getReltionsThread.output>
 </cffunction>
 			
 </cfcomponent>
