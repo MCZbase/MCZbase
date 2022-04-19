@@ -48,7 +48,7 @@ function incrementCounter(callback) {
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"incrementing hello world counter);
+			handleFail(jqXHR,textStatus,error,"incrementing hello world counter");
 		},
 		dataType: "html"
 	});
