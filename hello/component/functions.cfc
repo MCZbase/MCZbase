@@ -92,4 +92,43 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfreturn getCounterThread.output>
 </cffunction>
 
+<!--- incrementCounter, increment the hello world counter (for all rows in cf_helloworld).
+  @return json containing status(=saved), counter, and text.
+  @throws returns error using reportError() and rollsback transaction
+--->
+<cffunction name="incrementCounter" access="remote" returntype="any" returnformat="json">
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE 
+					MCZBASE.cf_helloworld
+				SET
+					counter = counter + 1 
+			</cfquery>
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					text, counter 
+				FROM
+					MCZBASE.cf_helloworld
+				WHERE rownum < 2
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["counter"] = "#getCounter.counter#">
+			<cfset row["text"] = "#getCounter.text#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
