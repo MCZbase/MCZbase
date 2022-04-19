@@ -309,12 +309,12 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-md-9 col-xl-10 px-0 px-md-4 float-left">
+									<div class="col-12 col-sm-7 col-md-9 col-xl-10 px-0 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
 										<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
 									</div>
 								</div>
-								<div class="form-row mx-0 mt-2">
+								<div class="form-row col-12 px-0 mx-0 mt-2">
 									<div class="col-6 col-md-5 col-xl-4 px-0 px-md-4 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
