@@ -309,7 +309,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 px-0 px-md-4 float-left">
+									<div class="col-12 col-xl-10 px-0 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
 										<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
 									</div>
