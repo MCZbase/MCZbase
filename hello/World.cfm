@@ -42,7 +42,7 @@ limitations under the License.
 		</div>
 		<div class="row">
 			<div class="col-12">
-				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param in page#','param in reload button');">Reload counterBlock</button> 
+				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button');">Reload counterBlock</button> 
 			</div>
 		</div>
 	</main>
