@@ -272,7 +272,7 @@
 	<!---------------------------- login ------------------------------------------------>
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
 		<cfquery name="checkUser" datasource="uam_god">
-			SELECT count(*) 
+			SELECT count(*) as ct
 			FROM dba_users
 			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 				and default_tablespace = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_tablespace#">
