@@ -58,7 +58,10 @@
 					<tbody>
 					<cfloop query="getSavedSearches">
 						<cfset target = "">
-						<cfset page="#reMatch('/[A-Za-z]+\.cfm',getSavedSearches.URL)[0]#">
+						<cfset matches="#reMatch('/[A-Za-z]+\.cfm',getSavedSearches.URL)#">
+						<cfif ArrayLen(matches) EQ 1>
+							<cfset page="#matches[1]#">
+						</cfif>
 						<cfswitch expression="#page#">
 							<cfcase value="/Specimens.cfm"><cfset target="Specimens"></cfcase>
 							<cfcase value="/SpecimenResults.cfm"><cfset target="Specimens (old)"></cfcase>
