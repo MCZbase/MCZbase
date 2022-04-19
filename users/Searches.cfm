@@ -82,6 +82,7 @@
 						<cfset useUrl = getSavedSearches.url >
 						<cfif NOT doExecute >
 							<cfset useUrl = replace(useUrl,"&execute=true","","all")>
+							<cfset useUrl = replace(useUrl,"?execute=true&","?")>
 							<cfset useUrl = replace(useUrl,"?execute=true","")>
 						</cfif>
 						<tr id="tr#canned_id#">
