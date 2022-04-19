@@ -42,7 +42,7 @@ function incrementCounter(callback) {
 			method : "incrementCounterHtml"
 		},
 		success: function (result) {
-			console.log((result[0].counter);
+			console.log(result[0].counter);
 			if (jQuery.type(callback)==='function') {
 				callback();
 			}
