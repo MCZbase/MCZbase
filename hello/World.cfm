@@ -43,8 +43,14 @@ limitations under the License.
 		<div class="row">
 			<div class="col-12">
 				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button');">Reload counterBlock</button> 
+				<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
 			</div>
 		</div>
+		<script>
+			function doReload() { 
+				console.log("doReload() invoked");
+				loadHello('counterBlock','#param#','param in doReload');
+			} 
 	</main>
 </cfoutput>
 
