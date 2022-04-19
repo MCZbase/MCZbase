@@ -79,9 +79,10 @@
 								<cfset execute_text = "Populate search form">
 							</cfif>
 						</cfif>
+						<cfset useUrl = getSavedSearches.url >
 						<cfif NOT doExecute >
-							<cfset url = replace(url,"&execute=true","","all")>
-							<cfset url = replace(url,"?execute=true","")>
+							<cfset useUrl = replace(useUrl,"&execute=true","","all")>
+							<cfset useUrl = replace(useUrl,"?execute=true","")>
 						</cfif>
 						<tr id="tr#canned_id#">
 							<td>#target#</td>
