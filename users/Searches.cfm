@@ -30,6 +30,7 @@
 	<main class="container py-3" id="content" >
 		<section class="row border rounded my-2">
 			<h1 class="h2">Saved Searches for #session.username#</h1>
+			<br>
 			<cfquery name="getSavedSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSavedSearches_result">
 				SELECT SEARCH_NAME, URL, canned_id, execute
 				FROM 
