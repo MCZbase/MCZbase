@@ -358,7 +358,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mx-0 mt-2">
 									<!---NOTES to USER--->
-									<div class="col-12 px-0 px-md-4">
+									<div class="col-12 px-0 px-sm-2 px-md-4">
 										<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
 											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
