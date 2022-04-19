@@ -22,16 +22,19 @@ limitations under the License.
 <cfset pageTitle="Ajax Demonstration">
 <cfinclude template="/shared/_header.cfm">
 
+<!--- Script includes are normally in shared/_header.cfm, but in one-off non-reused, can be in the page --->
+<script type="text/javascript" src="/hello/js/hello.js"></script>
+
 <!--- Put the getCounterHtml function in scope, so that it can be invoked directly in this page --->
 <cfinclude template="/hello/component/functions.cfc">
 
-<cfset param = "dynamic value">
+<cfset param = "param in page">
 
 <cfoutput>
 	<main id="content" class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="static value")>
+				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page")>
 				<div id="counterBlock">
 					#counterBlockContent#
 				</div>
@@ -39,6 +42,7 @@ limitations under the License.
 		</div>
 		<div class="row">
 			<div class="col-12">
+				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param in page#','param in reload button');">Reload counterBlock</button> 
 			</div>
 		</div>
 	</main>
