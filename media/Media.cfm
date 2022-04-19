@@ -335,7 +335,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-sm-8 col-md-6 px-0 px-md-4 float-left">
+									<div class="col-12 col-sm-8 col-md-6 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
@@ -348,7 +348,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-md-4 px-2 px-md-4 float-left">
+									<div class="col-12 col-md-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 											<option value="0" selected="selected">Public</option>
