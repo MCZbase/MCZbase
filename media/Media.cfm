@@ -301,7 +301,7 @@ limitations under the License.
 									<p class="small mb-0">Placeholder Image for Create Media Page</p>
 									<p class="small mb-0">Description: MCZ Building (front)</p>
 							</div>
-							<div class="col-12 col-md-8 px-0 float-left">
+							<div class="col-12 col-xl-8 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-md-9 col-xl-10 px-0 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
@@ -372,7 +372,7 @@ limitations under the License.
 					<div class="row mx-0">
 						<div class="col-12 pb-5">
 							<div class="form-row mt-2 mx-0">
-								<div class="col-12 col-md-10 px-0">
+								<div class="col-12 col-xl-10 px-0">
 									<div class="col-12 px-0 float-left">
 										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Add multiple relationships </span></label>
 										<div id="relationshipDiv">
