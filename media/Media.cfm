@@ -374,7 +374,7 @@ limitations under the License.
 							<div class="form-row mt-2 mx-0">
 								<div class="col-12 col-xl-10 px-0">
 									<div class="col-12 px-0 float-left">
-										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible.</span></label>
+										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible.<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
 										<div id="relationshipDiv">
 											<cfset i=1>
 											<cfloop>
