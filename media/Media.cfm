@@ -298,8 +298,8 @@ limitations under the License.
 								<div id="mediaBlock" class="mx-auto text-center pt-1">
 									#mediaBlock#
 								</div><!---end image block--->
-									<p class="small mb-0">Placeholder Image for Create Media Page</p>
-									<p class="small mb-0">Description: MCZ Building (front)</p>
+								<p class="small mb-0">Placeholder Image for Create Media Page</p>
+								<p class="small mb-0">Description: MCZ Building (front)</p>
 							</div>
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
@@ -370,7 +370,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0">
-						<div class="col-12 pb-5">
+						<div class="col-12 pb-5 px-0">
 							<div class="form-row mt-2 mx-0">
 								<div class="col-12 col-xl-10 px-0">
 									<div class="col-12 px-0 float-left">
