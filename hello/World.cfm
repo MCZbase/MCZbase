@@ -50,7 +50,8 @@ limitations under the License.
 			function doReload() { 
 				console.log("doReload() invoked");
 				loadHello('counterBlock','#param#','param in doReload');
-			} 
+			}
+		</script> 
 	</main>
 </cfoutput>
 
