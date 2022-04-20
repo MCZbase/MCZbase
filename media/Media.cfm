@@ -311,7 +311,7 @@ limitations under the License.
 							}
 						</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-								<img id="previewImg" src="/shared/images/placeholderMediaURI.png" alt="Placeholder" style="max-width: width:auto">
+								<img id="previewImg" src="/shared/images/placeholderMediaURI.png" alt="Placeholder" style="max-width: 230px; width:auto">
 								<p class="small mb-0">Preview of Large Image </p>
 							</div>
 					
