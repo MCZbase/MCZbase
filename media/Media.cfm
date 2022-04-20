@@ -294,20 +294,8 @@ limitations under the License.
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 						</h1>
 
-							<script>
-							function previewFile(input){
-								var file = $("input[type=file]").get(0).files[0];
+						<script>
 
-								if(file){
-									var reader = new FileReader();
-
-									reader.onload = function(){
-										$("##media_uri").attr("src", reader.result);
-									}
-
-									reader.readAsDataURL(file);
-								}
-							}
 							function previewFile(input){
 								var file = $("input[type=file]").get(0).files[0];
 
@@ -322,13 +310,9 @@ limitations under the License.
 								}
 							}
 						</script>
-						
-								<p>
-									<input type="file" name="photo" onchange="previewFile(this);" required>
-								</p>
+							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
+								<input type="file" name="photo" onchange="previewFile(this);" required>
 								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder" style="width:300px;">
-								<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-			
 								<p class="small mb-0">Preview of Large Image (300 pixels wide)</p>
 								
 							</div>
