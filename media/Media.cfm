@@ -189,7 +189,7 @@ limitations under the License.
 											</h2>
 											<div class="row">
 												<div class="col-12">
-													<cfset relationsBlockContent= getRelationsHtml(media_id="#relns.media_id#")>
+													<cfset relationsBlockContent= getRelationsHtml(media_id="#media.media_id#")>
 													<div id="relationsBlock">
 														#relationsBlockContent#
 													</div>
@@ -197,7 +197,7 @@ limitations under the License.
 											</div>
 											<div class="row">
 												<div class="col-12">
-													<button class="btn btn-primary btn-xs" onClick="loadHello('relationsBlock','#media.media_id#','#media.media_relations_id#');">Reload counterBlock</button> 
+													<button class="btn btn-primary btn-xs" onClick="loadHello('relationsBlock','#media.media_id#','#relns.media_relations_id#');">Reload counterBlock</button> 
 													<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
 												</div>
 											</div>
