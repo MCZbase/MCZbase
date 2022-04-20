@@ -1799,21 +1799,6 @@
 	</cftry>
 	<cfreturn result>
 </cffunction>
-<!------------------------------------------------------->
-
-<cffunction name="kill_canned_search" returntype="string">
-	<cfargument name="canned_id" type="numeric" required="yes">
-	<cftry>
-		<cfquery name="res" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from cf_canned_search where canned_id=#canned_id#
-		</cfquery>
-		<cfset result="#canned_id#">
-	<cfcatch>
-		<cfset result = "failure: #cfcatch.Message# #cfcatch.Detail#">
-	</cfcatch>
-	</cftry>
-		<cfreturn result>
-</cffunction>
 <!---------------------------------->
 <cffunction name="get_sql_result" returntype="query">
 	<cfargument name="sql" type="string" required="yes">

@@ -34,8 +34,8 @@ limitations under the License.
 	<cfif execute EQ "false"><cfset execute="0"></cfif>
 
 	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cftransaction>
+	<cftransaction>
+		<cftry>
 			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT user_id 
 				FROM cf_users
@@ -58,12 +58,13 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserID.user_id#">
 				)
 			</cfquery>
-		</cftransaction>
-		<cfset row = StructNew()>
-		<cfset row["status"] = "saved">
-		<cfset row["name"] = "#encodeForHTML(search_name)#">
-		<cfset data[1] = row>
+			<cftransaction action="commit"> 
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["name"] = "#encodeForHTML(search_name)#">
+			<cfset data[1] = row>
 		<cfcatch>
+			<cftransaction action="rollback"> 
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfif error_message CONTAINS "ORA-00001: unique constraint">
 				<cfset error_message = "Unable to save search, the search name and the search must each be unique.  You have already saved either a search with the same name, or a search with the same URI.  See the list of saved searches in your user profile.">
@@ -72,7 +73,54 @@ limitations under the License.
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
 		</cfcatch>
-	</cftry>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- deleteSavedSearch delete a saved search owned by the current user 
+ @param canned_id the id of the saved search to delete. 
+ @return a json structure containing status=deleted on success, otherwise
+   throws an exception through reportError.
+--->
+<cffunction name="deleteSavedSearch" access="remote" returntype="any" returnformat="json">
+	<cfargument name="canned_id" type="numeric" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="getUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT user_id 
+				FROM cf_users
+				WHERE
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="doDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doDelete_result">
+				DELETE 
+				FROM cf_canned_search 
+				WHERE 
+					canned_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#canned_id#">
+					AND user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+			</cfquery>
+			<cfif doDelete_result.recordcount EQ 0>
+				<cfthrow message = "delete failed, no search with that id for the current user">
+			<cfelseif doDelete_result.recordcount GT 0>
+				<cfthrow message = "delete failed, error condition">
+			</cfif> 
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["removed_id"] = "#canned_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 

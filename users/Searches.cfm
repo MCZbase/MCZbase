@@ -1,30 +1,29 @@
 <cfset pageTitle="Saved Searches">
 <cfinclude template="/shared/_header.cfm">
 
-	<!--- TODO Rework remove function, remove treeAjax --->
-	<script type='text/javascript' src='/includes/_treeAjax.js'></script>
-	<script type="text/javascript" language="javascript">
-	function killMe(canned_id) {
-		jQuery.getJSON("/component/functions.cfc",
-			{
-				method : "kill_canned_search",
+<script type="text/javascript" language="javascript">
+	function deleteSavedSearch(canned_id) {
+		jQuery.ajax({
+			url: "/users/component/functions.cfc",
+			data: {
+				method : "deleteSavedSearch",
 				canned_id : canned_id,
-				returnformat : "json",
-				queryformat : 'column'
 			},
-			killMe_success
-		);
+			success : function(result) { 
+				retval = JSON.parse(result)
+				if (retval[0].status=="deleted") { 
+					$("#tr" + retval[0].removed_id).hide();
+				} else {
+					// we shouldn't get here, but in case.
+					alert("Error, problem deleting saved search");
+				}
+			}, 
+			 error: function (jqXHR, textStatus, error) {
+         	handleFail(jqXHR,textStatus,error,"retrieving hello world data");
+      	}
+		});
 	}
-	function killMe_success (result) {
-		if (IsNumeric(result)) {
-			var e = "document.getElementById('tr" + result + "')";
-			var el = eval(e);
-			el.style.display='none';
-		}else{
-			alert(result);
-		}
-	}
-	</script>
+</script>
 
 <cfoutput>
 	<main class="container py-3" id="content" >
@@ -91,7 +90,7 @@
 							<td><a href="/saved/#encodeForURL(search_name)#">#search_name#</a></td>
 							<td><a href="#useUrl#" target="_blank">#useUrl#</a></td>
 							<td>#execute_text#</td>
-							<td><button class="btn btn-xs btn-danger" onClick="killMe('#canned_id#');">Delete</button></td>
+							<td><button class="btn btn-xs btn-danger" onClick="deleteSavedSearch('#canned_id#');">Delete</button></td>
 						</tr>
 					</cfloop>
 					</tbody>
