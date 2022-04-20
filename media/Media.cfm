@@ -311,10 +311,8 @@ limitations under the License.
 							}
 						</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-					
-								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder" style="width:300px;">
-								<p class="small mb-0">Preview of Large Image (300 pixels wide)</p>
-								
+								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder" style="width:auto">
+								<p class="small mb-0">Preview of Large Image </p>
 							</div>
 					
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
@@ -329,7 +327,7 @@ limitations under the License.
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
 										<input type="file" name="preview_uri" onchange="previewPreview(this)" size="105" class="data-entry-input">
-										<input type="submit" class="btn btn-xs btn-secondary py-1">
+							
 									</div>
 								</div>
 								<div class="form-row col-12 px-0 mx-0 mt-2">
