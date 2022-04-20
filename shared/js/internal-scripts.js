@@ -241,9 +241,6 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
   * @param n the serial integer that identifies the set of relationship fields.
   * @depricated
   */
-function addRelation (n) {
-	addRelationTo(n,"relationships");
-}
 
 /** Add a set of fields for entering a media relationship to a form, the fields
   * comprise inputs for relationship__{n}, related_value__{n}, and related_id__{n}
@@ -254,12 +251,13 @@ function addRelation (n) {
   * @param targetId the id of the element in the dom to which to attach the created div, 
   *   not including a leading # selector.
   */
-function addRelationTo (n,targetId) {
+function addRelation(n,targetId,buttonId) {
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
-	nDiv.id='relationshipDiv__' + n;
+	nDiv.classList='form-row col-12 px-0 mx-0 relationshipDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
+
 	var selName='relationship__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
 	nSel.name="relationship__" + n;
@@ -267,17 +265,13 @@ function addRelationTo (n,targetId) {
 	nSel.value='';
 	nDiv.appendChild(nSel);
 
-	c = document.createElement("textNode");
-	c.innerHTML="";
-	nDiv.appendChild(c);
-
-	var n1=n-1;
 	var inpName='related_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
 	nInp.name="related_value__" + n;
 	nInp.id="related_value__" + n;
 	nInp.value='';
 	nDiv.appendChild(nInp);
+	
 
 	var hName='related_id__' + n1;
 	var nHid = document.getElementById(hName).cloneNode(true);
@@ -297,6 +291,7 @@ function addRelationTo (n,targetId) {
 }
 
 
+
 /** Add a set of fields for entering a media label to a form, the fields
   * comprise inputs for label__{n} and label_value__{n}, 
   * in a div with id labelDiv__{n} the div is attached to the element in 
@@ -312,7 +307,7 @@ function addLabelTo (n,targetId,buttonId) {
 	// Note: addLabel() conflcits with a name in an included library.
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
-	nDiv.id='labelsDiv__' + n;
+	nDiv.classList='form-row col-12 px-0 mx-0 labelDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
 	var selName='label__' + n1;
@@ -322,17 +317,13 @@ function addLabelTo (n,targetId,buttonId) {
 	nSel.value='';
 	nDiv.appendChild(nSel);
 
-	c = document.createElement("textNode");
-	c.innerHTML="";
-	nDiv.appendChild(c);
-
 	var inpName='label_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
 	nInp.name="label_value__" + n;
 	nInp.id="label_value__" + n;
 	nInp.value='';
 	nDiv.appendChild(nInp);
-
+	
 	var mS = document.getElementById(buttonId);
 	//pDiv.removeChild(mS);
 	mS.remove();

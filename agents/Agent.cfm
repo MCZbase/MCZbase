@@ -30,6 +30,7 @@ limitations under the License.
 	<cflocation url="/Agents.cfm">
 </cfif>
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template = "/media/component/search.cfc">
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -70,6 +71,20 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
+<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+	SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
+	FROM locality
+		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+			on flat.locality_id = locality.locality_id
+		left join lat_long on lat_long.locality_id = flat.locality_id
+		left join collector on collector.collection_object_id = flat.collection_object_id
+		left join agent on agent.agent_id = collector.agent_id
+	WHERE 
+		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and flat.guid IS NOT NULL
+		and lat_long.dec_lat is not null
+		and lat_long.accepted_lat_long_fg = 1
+</cfquery>
 <cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
@@ -78,7 +93,7 @@ limitations under the License.
 				<div id="agentTopDiv" class="col-12 mt-3">
 					<!--- agent name, biography, remarks as one wide section across top of page --->
 					<div class="row mx-0">
-						<div class="col-12 col-md-11 px-3">
+						<div class="col-12 col-md-12 px-3">
 							<cfset dates ="">
 							<cfif getAgent.agent_type EQ "person">
 								<cfif oneOfUs EQ 1 OR len(getAgent.death_date) GT 0>
@@ -91,17 +106,11 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span></h1>
-						</div>
-						<div class="col-12 col-md-1 mt-0 mt-md-2 float-right">
-							<!--- edit button at upper right for those authorized to edit agent records --->
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span> 		
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
-							</cfif>
-						</div>
-					</div>
-					<div class="row mx-0">
-						<div class="col-10 px-3">
+								</cfif>
+							</h1>
 							<ul class="list-group py-0 list-unstyled px-0">
 								<cfif len(agentguid) GT 0>
 									<cfif len(ctguid_type_agent.resolver_regex) GT 0>
@@ -114,6 +123,9 @@ limitations under the License.
 									</li>
 								</cfif>
 							</ul>
+							<div class="col-12 col-md-11 px-0 mb-0">
+								#biography#
+							</div>
 						</div>
 					</div>
 					<cfif oneOfUs EQ 1>
@@ -168,17 +180,21 @@ limitations under the License.
 					</cfif>
 					<!--- full width, biograhy and remarks, presented with no headings --->
 					<div class="row mx-0">
-						<div class="col-12 px-3 mb-0">
-							#biography#
-						</div>
 						<cfif oneOfUs EQ 1>
 							<cfif len(agent_remarks) GT 0>
-								<div class="col-12 px-0">
-									<div class="col-auto mt-2 pb-2 mx-1 internalRemarks card">
-										<h3 class="small95 mt-2 mb-1">Internal Remarks</h3>
+								<section class="accordion w-100 mx-1 mt-2" id="internalSection">
+								<div class="col-12 card bg-light mb-0 px-0">
+									<div class="card-header py-0" id="internalHeader">
+										<h2 class="h4 my-0">
+											<button type="button" class="headerLnk text-left w-100 h-100 collapsed" data-toggle="collapse" data-target="##internalCardBodyWrap" aria-expanded="false" aria-controls="internalCardBodyWrap">Internal Remarks
+											</button>
+										</h2>
+									</div>
+									<div class="card-body px-3 py-2 collapse" id="internalCardBodyWrap" aria-controls="internalCardBodyWrap">
 										<span class="small90">#agent_remarks#</span>
 									</div>
 								</div>
+								</section>
 							</cfif>
 						</cfif>
 					</div>
@@ -186,7 +202,7 @@ limitations under the License.
 				<!--- three columns of information about the agent gleaned from related tables --->
 				<div class="col-12 mt-2" id="agentBlocks">
 					<div class="row mx-0">
-						<div class="d-block mb-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
+						<div class="d-block mb-0 mb-xl-5 float-left px-0 px-md-1 col-12 col-md-3 col-xl-3 rounded rounded h-auto">
 							<!--- agent names --->
 							<section class="accordion">
 								<div class="card mb-2 bg-light">
@@ -256,7 +272,6 @@ limitations under the License.
 											ORDER BY
 												member_order
 										</cfquery>
-
 										<cfif groupMembers.recordcount GT 20 OR groupMembers.recordcount eq 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
@@ -301,73 +316,54 @@ limitations under the License.
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
 								<div class="card mb-2 bg-light">
-										<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-											SELECT media.media_id,
-												mczbase.get_media_descriptor(media.media_id) as descriptor,
-												mczbase.get_medialabel(media.media_id,'subject') as subject,
-												media.media_uri,
-												media.preview_uri,
-												media.media_type,
-												CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-												CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-												MCZBASE.get_media_credit(media.media_id) as credit 
-											FROM media_relations 
-												left join media on media_relations.media_id = media.media_id
-												left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-											WHERE media_relationship like '% agent'
-												and media_relationship <> 'created by agent'
-												and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-												and mczbase.is_media_encumbered(media.media_id) < 1
-										</cfquery>
-											<cfif getMedia.recordcount GT 20 OR getMedia.recordcount EQ 0>
-												<!--- cardState = collapsed --->
-												<cfset bodyClass = "collapse">
-												<cfset ariaExpanded ="false">
-											<cfelse>
-												<!--- cardState = expanded --->
-												<cfset bodyClass = "collapse show">
-												<cfset ariaExpanded ="true">
-											</cfif>
-										<div class="card-header" id="mediaHeader">
-											<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
-											<h2 class="h4 my-0">
-												<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
-													Subject of #getMedia.recordcount# Media Record#plural#
-												</button>
-											</h2>
-										</div>
-										<div id="mediaCardBodyWrap" class="#bodyClass#" aria-labelledby="mediaHeader" data-parent="##mediaSection">
-											<cfif getMedia.recordcount eq 0>
-												<cfset mediaLink = "no media records">
-											<cfelse>
-												<cfset mediaLink = "<a href='/MediaSearch.cfm?action=search&related_primary_key__1=#agent_id#&relationship__1=agent' target='_blank'>#getMedia.recordcount# Media Record#plural#</a>">
-											</cfif>
-											<h3 class="small95 mt-2 px-3 mb-0">#prefName# is the subject of #mediaLink#.</h3>
-											<div class="card-body pb-1 mb-1">
-												<cfif getMedia.recordcount GT 0>
-													<cfloop query="getMedia">
-														<ul class="list-group list-group-horizontal border p-2 mt-1 mb-0">
-														<cfif getMedia.media_type IS "image">
-															<li class="col-auto px-0">
-																<a class="d-block" href="/MediaSet.cfm?media_id=#getMedia.media_id#"><cfif len(preview_uri) gt 0><img src="#getMedia.preview_uri#" alt="#getMedia.descriptor#" width="75"><cfelse><img src="#getMedia.media_uri#" alt="#getMedia.descriptor#" width="75"></cfif></a>
-															</li>
-															<li class="col-10 col-md-7 col-xl-9 px-0">
-																<ul class="list-group small">
-																	<li class="list-group-item pt-0"><a href="/media/#getMedia.media_id#">Media Details</a></li>
-																	<li class="list-group-item pt-0">#getMedia.descriptor#</li>
-																	<li class="list-group-item pt-0">#getMedia.subject#</li>
-																	<li class="list-group-item pt-0"><a href="#getMedia.license_uri#">#getMedia.license_display#</a></li>
-																	<li class="list-group-item pt-0">#getMedia.credit#</li>
-																</ul>
-
-															</li>
-														</cfif>
-														</ul>
-													</cfloop>
-												</cfif>
-											</div>
-										</div><!--- end mediaCardBodyWrap --->
+									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+										SELECT media.media_id,
+											mczbase.get_media_descriptor(media.media_id) as descriptor,
+											mczbase.get_medialabel(media.media_id,'subject') as subject,
+											media.media_uri,
+											media.preview_uri,
+											media.media_type,
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
+											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+											MCZBASE.get_media_credit(media.media_id) as credit 
+										FROM media_relations 
+											left join media on media_relations.media_id = media.media_id
+											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+										WHERE media_relationship like 'shows agent'
+											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+											and mczbase.is_media_encumbered(media.media_id) < 1
+									</cfquery>
+									<cfif getMedia.recordcount GT 2>
+										<!--- cardState = collapsed --->
+										<cfset bodyClass = "collapse">
+										<cfset ariaExpanded ="false">
+									<cfelse>
+										<!--- cardState = expanded --->
+										<cfset bodyClass = "collapse show">
+										<cfset ariaExpanded ="true">
+									</cfif>
+									<div class="card-header" id="mediaHeader">
+										<cfif getMedia.recordcount EQ 1><cfset plural =""><cfelse><cfset plural="s"></cfif>
+										<h2 class="h4 my-0">
+											<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##mediaCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="mediaCardBodyWrap">
+												Subject of #getMedia.recordcount# Media Record#plural#
+											</button>
+										</h2>
 									</div>
+									<div id="mediaCardBodyWrap" class="#bodyClass# px-3" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+										<cfif getMedia.recordcount eq 0>
+											<ul class="list-group">
+												<li class="list-group-item py-2">No media showing this agent</li>
+											</ul>
+										<cfelse>
+											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
+											<div id="mediaBlock#getMedia.media_id#" class="px-xl-5 px-md-0 px-sm-5 px-0">
+												#mediaBlock#
+											</div>
+										</cfif>
+									</div><!--- end mediaCardBodyWrap --->
+								</div>
 							</section>
 							<!--- emails/phone numbers --->
 							<cfif oneOfUs EQ 1>
@@ -612,7 +608,7 @@ limitations under the License.
 								</section>
 							</cfif>
 						</div>
-						<div class="d-block mb-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
+						<div class="d-block mb-0 mb-xl-5 float-left h-auto px-0 px-md-1 col-12 col-md-4 col-xl-4">
 							<!--- Collector in collections--->
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 bg-light">
@@ -702,6 +698,101 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
+							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
+								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
+								FROM locality
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									on flat.locality_id = locality.locality_id
+									left join lat_long on lat_long.locality_id = flat.locality_id
+									left join collector on collector.collection_object_id = flat.collection_object_id
+									left join agent
+									on agent.agent_id = collector.agent_id
+								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+							</cfquery>	
+							<cfif points.recordcount gt 0>
+							<section class="accordion" id="collectorSection1">
+								<div class="card mb-2 py-1 bg-light">		
+									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+										<div class="heatmap">
+											<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+											<script>
+												let map, heatmap;
+												function initMap() {
+														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													map = new google.maps.Map(document.getElementById('map'), {
+														center: Cambridge,
+														zoom: 2,
+														mapTypeControl: true,
+														mapTypeControlOptions: {
+															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+															mapTypeIds: ["satellite", "terrain"],
+															zoomControl:false,
+														},
+														mapTypeId: 'satellite'
+													});
+													heatmap = new google.maps.visualization.HeatmapLayer({
+														data: getPoints(),
+															map: map,
+													});
+														document
+															.getElementById("change-gradient")
+															.addEventListener("click", changeGradient);
+												}
+												function toggleHeatmap(){
+													heatmap.setMap(heatmap.getMap() ? null : map);
+												}
+												function changeGradient() {
+													const gradient = [
+														"rgba(0, 255, 255, 0)",
+														"rgba(0, 255, 255, 1)",
+														"rgba(0, 191, 255, 1)",
+														"rgba(0, 127, 255, 1)",
+														"rgba(0, 63, 255, 1)",
+														"rgba(0, 0, 255, 1)",
+														"rgba(0, 0, 223, 1)",
+														"rgba(0, 0, 191, 1)",
+														"rgba(0, 0, 159, 1)",
+														"rgba(0, 0, 127, 1)",
+														"rgba(63, 0, 91, 1)",
+														"rgba(127, 0, 63, 1)",
+														"rgba(191, 0, 31, 1)",
+														"rgba(255, 0, 0, 1)",
+													];
+													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+												}
+												function getPoints(){
+													return [
+													<cfloop query="points">
+														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+													</cfloop>
+													]
+												}
+												var bounds = new google.maps.LatLngBounds();
+
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+
+													bounds.extend(position)
+												}
+
+												map.fitBounds(bounds);
+											</script>
+											<div class="p-1 mx-1">
+												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
+												<div id="floating-panel" class="w-100 mx-auto">
+													<span class="text-left d-block float-left">Collecting Events</span>
+													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Color</button>
+												</div>
+											</div>
+								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
+								</div>
+							</section>
+							</cfif>	
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
@@ -888,7 +979,7 @@ limitations under the License.
 												</ul>
 												<cfif len(earlyeststart) GT 0 AND len(latestend) GT 0>
 													<cfif LSParseNumber(earlyeststart) +80 LT LSParseNumber(latestend)>
-														<h3 class="small95 mt-2 px-2 mb-0">Range of years collected is greater that 80 (#earlyeststart#-#latestend#) </h3>
+														<h3 class="small95 mt-2 px-2 mb-0">Range of years collected is greater than 80 (#earlyeststart#-#latestend#) </h3>
 													</cfif>
 												</cfif>
 											</cfif>
@@ -1204,7 +1295,7 @@ limitations under the License.
 								</section>
 							</cfif>
 						</div>
-						<div class="d-block mb-5 float-left h-auto col-12 col-md-5 col-xl-5 px-0 px-md-1">
+						<div class="d-block mb-0 mb-xl-5 float-left h-auto col-12 col-md-5 col-xl-5 px-0 px-md-1">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="loanItemSection"> 

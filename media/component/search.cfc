@@ -1204,7 +1204,7 @@ imgStyleClass=value
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
 									<cfelse>
-										<cfset hw = 'width="80" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --->
+										<cfset hw = 'width="80" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
 									</cfif>
 								</cfif>
 							<cfelse>
@@ -1286,7 +1286,7 @@ imgStyleClass=value
 											<cfset showTitleText = trim(subject)>
 										</cfif>
 										<cfif len(showTitleText) EQ 0>
-											<cfset showTitleText = "Unlinked Media Object">
+											<cfset showTitleText = "Externally Sourced Media Object">
 										</cfif>
 										<cfif #l_captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
 											<cfif len(showTitleText) GT 100>
@@ -1294,8 +1294,8 @@ imgStyleClass=value
 											</cfif>
 										</cfif>
 										<cfif #l_captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
-											<cfif len(showTitleText) GT 50>
-												<cfset showTitleText = "#left(showTitleText,50)#..." >
+											<cfif len(showTitleText) GT 70>
+												<cfset showTitleText = "#left(showTitleText,70)#..." >
 											</cfif>
 										</cfif>
 										<cfif #l_captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
@@ -1303,7 +1303,7 @@ imgStyleClass=value
 												<cfset showTitleText = "#left(showTitleText,250)#..." >
 											</cfif>
 										</cfif>
-										<p class="text-center col-12 my-0 p-0 smaller">#showTitleText#</p> 
+										<p class="text-center col-12 my-0 p-0 smaller">#showTitleText# </p> 
 										<cfif len(#license_uri#) gt 0>
 											<cfif #l_captionAs# EQ "TextFull">
 											<p class="text-center col-12 p-0 my-0 smaller">
@@ -1331,6 +1331,180 @@ imgStyleClass=value
 	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
 </cffunction>
 
+					
+<cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="specimen_recs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimen_recs_result">
+					select distinct collection_object_id as pk
+					from media_relations
+						join flat_text on related_primary_key = collection_object_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and (media_relations.media_relationship = 'shows cataloged_item')
+				</cfquery>
+				<cfif specimen_recs.recordcount GT 0>
+					<!---The specimen record query "specimen_recs" will give us the collection_object_id based on the media_id that is passed through 
+						in arguments. It will loop through the media_relations to output to the media_id for now.(as a test). --->
+					<cfloop query="specimen_recs">
+						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_relations_result">
+							select distinct media.media_id, preview_uri, media.media_uri,
+								get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+								media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+								CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+									ctmedia_license.uri as license_uri,
+									mczbase.get_media_credit(media.media_id) as credit,
+									MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+							from media_relations
+								 left join media on media_relations.media_id = media.media_id
+								 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+							where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+								AND related_primary_key = <cfqueryparam value=#specimen_recs.pk# CFSQLType="CF_SQL_DECIMAL">
+								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+								AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
+						</cfquery>
+						#media_relations.media_id#
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="showMoreMediaThread" />
+	<cfreturn cfthread["showMoreMediaThread"].output>
+</cffunction>
+		
 
-
+					
+					
+					
+<cffunction name="getRelationsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.media_id = arguments.media_id>
+	<!--- 
+	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
+		within a loop in coldfusion in a coldfusion page) then the thread name must be unique for each invocation,
+		so generate a highly likely to be unique thread name as follows:	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfthread name="getCounterThread#tn#" threadName="mediaWidgetThread#tn#">
+	Likewise, include #tn# in the names of the thread in all the other cfthread tags within this cffunction 
+	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
+		does not need to be unique.
+	--->
+	<cfthread name="getRelationsThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						media_relationship, media_id 
+					FROM
+						media_relations
+					WHERE rownum < 2
+				</cfquery>
+				<cfif getRelationships.recordcount GT 0>
+			<div id="relationships" class="col-12 px-0 float-left">
+				<cfset i=1>
+				<cfif relns.recordcount is 0>
+					<div id="seedMedia" style="display:none">
+						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
+						<cfset d="">
+						<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
+							<cfloop query="ctmedia_relationship">
+								<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+							</cfloop>
+						</select>
+						<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
+						<input type="hidden" name="related_id__0" id="related_id__0">
+					</div>
+				</cfif>
+				<cfloop query="relns">
+					<cfset d=media_relationship>
+						<div class="form-row col-12 px-0 mx-0">	
+							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+							<label for="relationship__#i#"  class="sr-only">Relationship</label>
+							<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-3 float-left">
+								<cfloop query="ctmedia_relationship">
+									<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+								</cfloop>
+							</select>
+							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
+							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
+							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships.media_id#,relationshipDiv__#i#)"> Remove </button>
+							<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
+							value="Edit" style="width: 50px;"></input>
+						</div>
+						<script type="text/javascript">
+							$(document).ready(function enable_disable() {
+								$("##relationship__#i#").prop("disabled", true);
+								$("##related_value__#i#").prop("disabled", true);
+								$(".slide-toggle__#i#").click(function() {
+									previous = this.value;
+									if (this.value=="Edit") {
+										event.preventDefault();
+										this.value = "Revert";
+										$("##relationship__#i#").prop("disabled", false);
+										$("##related_value__#i#").prop("disabled", false);
+										
+									}
+									else {
+										this.value = "Edit";
+										event.preventDefault();
+										$("##relationship__#i#").prop("disabled", true);
+										$("##related_value__#i#").prop("disabled", true);
+									}
+								});
+							});
+						</script>
+					<cfset i=i+1>
+				</cfloop>
+				<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+			</div>
+			<div class="col-9 px-0 float-left">
+				<button class="btn btn-xs btn-primary float-left" type="button" onClick="newRelationship(#getRelations.media_id#,media_relationship)">Save Relationships Changes</button>
+			</div>
+			<script>
+				(function () {
+					var previous;
+					$("select").on('focus', function () {
+						previous = this.value;
+					}).change(function() {
+						alert(previous);
+						previous = this.value;
+					});
+				})();
+			</script>
+	
+		
+				<cfelse>
+					<h3 class="h3">No Entries</h3>
+					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<!--- For functions that return html blocks to be embedded in a page, the error can be included in the output --->
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRelationsThread" />
+	<cfreturn getRelationsThread.output>
+</cffunction>
+			
 </cfcomponent>
