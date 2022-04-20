@@ -35,7 +35,7 @@ limitations under the License.
 	<main id="content" class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",counter_id="#id_for_counter#")>
+				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",id_for_counter="#id_for_counter#")>
 				<div id="counterBlock">
 					#counterBlockContent#
 				</div>
