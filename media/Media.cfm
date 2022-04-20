@@ -58,7 +58,7 @@ limitations under the License.
 		</cfquery>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, auto_host,
-				mczbase.get_media_descriptor(media_id) as alttag, MCZBASE.get_media_title(media.media_id) as caption 
+				mczbase.get_media_descriptor(media_id) as alttag, MCZBASE.get_media_title(media.media_id) as caption, MCZBASE.
 			from media
 			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
@@ -189,7 +189,7 @@ limitations under the License.
 											</h2>
 											<div class="row">
 												<div class="col-12">
-													<cfset relationsBlockContent= getRelationsHtml(media_id="#media.media_id#")>
+													<cfset relationsBlockContent= getRelationsHtml(media_id="#relns.media_id#")>
 													<div id="relationsBlock">
 														#relationsBlockContent#
 													</div>
