@@ -309,7 +309,7 @@ limitations under the License.
 									var reader = new FileReader();
 
 									reader.onload = function(){
-										$("#previewImg").attr("src", reader.result);
+										$("##media_uri").attr("src", reader.result);
 									}
 
 									reader.readAsDataURL(file);
