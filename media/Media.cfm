@@ -315,21 +315,29 @@ limitations under the License.
 									reader.readAsDataURL(file);
 								}
 							}
-							function previewPreview(input){
+							function previewFile(input){
 								var file = $("input[type=file]").get(0).files[0];
 
 								if(file){
 									var reader = new FileReader();
 
 									reader.onload = function(){
-										$("##preview_uri").attr("src", reader.result);
+										$("##previewImg").attr("src", reader.result);
 									}
 
 									reader.readAsDataURL(file);
 								}
 							}
 						</script>
-								
+							<form action="Media.cfm" method="post">
+								<p>
+									<input type="file" name="photo" onchange="previewFile(this);" required>
+								</p>
+								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder">
+								<p>
+									<input type="submit" value="Submit">
+								</p>
+							</form>
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
