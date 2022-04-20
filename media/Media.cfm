@@ -289,41 +289,38 @@ limitations under the License.
 					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 					<div class="row mx-0">
 						<div class="col-12 px-0 mt-4 pb-2">
-						<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
-							Create Media 
-							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
-						</h1>
+							<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
+								Create Media 
+								<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
+							</h1>
+							<script>
+								function previewFile(input){
+									var file = $("input[type=file]").get(0).files[0];
 
-						<script>
+									if(file){
+										var reader = new FileReader();
 
-							function previewFile(input){
-								var file = $("input[type=file]").get(0).files[0];
+										reader.onload = function(){
+											$("##previewImg").attr("src", reader.result);
+										}
 
-								if(file){
-									var reader = new FileReader();
-
-									reader.onload = function(){
-										$("##previewImg").attr("src", reader.result);
+										reader.readAsDataURL(file);
 									}
-
-									reader.readAsDataURL(file);
 								}
-							}
-							
-							function previewPreviewFile(input){
-								var file = $("input.preview[type=file]").get(0).files[0];
+								function previewPreviewFile(input){
+									var file = $("input.preview[type=file]").get(0).files[0];
 
-								if(file){
-									var reader = new FileReader();
+									if(file){
+										var reader = new FileReader();
 
-									reader.onload = function(){
-										$("##previewPreviewImg").attr("src", reader.result);
+										reader.onload = function(){
+											$("##previewPreviewImg").attr("src", reader.result);
+										}
+
+										reader.readAsDataURL(file);
 									}
-
-									reader.readAsDataURL(file);
 								}
-							}
-						</script>
+							</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
 								<p class="small mb-0">Preview of Media URI </p>
@@ -350,7 +347,7 @@ limitations under the License.
 								<div class="form-row mx-0 mt-0 mb-5">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<p class="pl-3 mt-2 mb-1">OR</p>
-										<label for="media_uri" class="data-entry-label">External Link or PDF</label>
+										<label for="media_uri" class="data-entry-label">External Link (No Preview)</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 									</div>
 								</div>
