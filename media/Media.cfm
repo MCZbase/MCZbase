@@ -195,14 +195,14 @@ limitations under the License.
 												 onclick="manyCatItemToMedia('#media_id#')">
 													Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
-<!---											<div class="row">
+											<div class="row">
 												<div class="col-12">
 													<cfset relationsBlockContent= getRelationsHtml(media_id="#media.media_id#")>
 													<div id="relationsBlock">
 														#relationsBlockContent#
 													</div>
 												</div>
-											</div>--->
+											</div>
 											<div class="row">
 												<div class="col-12">
 													<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page")>
