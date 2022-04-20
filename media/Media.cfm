@@ -312,8 +312,12 @@ limitations under the License.
 						</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<img id="previewImg" src="/shared/images/placeholderMediaURI.png" alt="Placeholder" style="max-width: 230px; width:auto">
-								<p class="small mb-0">Preview of Large Image </p>
+								<p class="small mb-0">Preview of Media URI </p>
+								
+									<img id="previewImg" src="/shared/images/placeholderPreviewURI.png" alt="Placeholder" style="max-width: 230px; width:auto" class="mt-3">
+								<p class="small mb-0">Preview of Preview URI </p>
 							</div>
+							
 					
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
@@ -321,12 +325,11 @@ limitations under the License.
 										<label for="media_uri" class="data-entry-label">Media URI</label>
 										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
 									</div>
-									
 								</div>
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
-										<input type="file" name="preview_uri" onchange="previewPreview(this)" size="105" class="data-entry-input">
+										<input type="file" name="preview_uri" onchange="previewFile(this)" size="105" class="data-entry-input">
 							
 									</div>
 								</div>
