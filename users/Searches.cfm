@@ -29,7 +29,7 @@
 <cfoutput>
 	<main class="container py-3" id="content" >
 		<section class="row border rounded my-2 p-2">
-			<div class="col-12">
+			<div class="col-12 pt-2">
 				<h1 class="h2 w-100">Saved Searches for #session.username#</h1>
 				<cfquery name="getSavedSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSavedSearches_result">
 					SELECT SEARCH_NAME, URL, canned_id, execute
@@ -41,7 +41,7 @@
 					ORDER BY search_name
 				</cfquery>
 				<cfif getSavedSearches.recordcount is 0>
-					<h2 class="h3 w-100">No Saved Searches</h2>
+					<h2 class="h4 w-100">No Saved Searches</h2>
 					<p>You may save Specimen Results from searches on the home page for later reference.</p>
 					<p>They will appear here when you have done so.</p>
 				<cfelse>
