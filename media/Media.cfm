@@ -301,12 +301,29 @@ limitations under the License.
 								<p class="small mb-0">Placeholder Image for Create Media Page</p>
 								<p class="small mb-0">Description: MCZ Building (front)</p>
 							</div>
+							<script>
+							function previewFile(input){
+								var file = $("input[type=file]").get(0).files[0];
+
+								if(file){
+									var reader = new FileReader();
+
+									reader.onload = function(){
+										$("#previewImg").attr("src", reader.result);
+									}
+
+									reader.readAsDataURL(file);
+								}
+							}
+						</script>
+								
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
 										<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
 									</div>
+									<button class="btn btn-xs btn-secondary" onClick="previewFile(media_uri)">Preview Img</button>
 								</div>
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
