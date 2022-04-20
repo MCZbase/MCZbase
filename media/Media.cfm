@@ -58,7 +58,7 @@ limitations under the License.
 		</cfquery>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, auto_host,
-				mczbase.get_media_descriptor(media_id) as alttag, MCZBASE.get_media_title(media.media_id) as caption
+				mczbase.get_media_descriptor(media_id) as alttag, MCZBASE.get_media_title(media.media_id) as caption 
 			from media
 			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
@@ -181,19 +181,11 @@ limitations under the License.
 							</div>
 						</form>
 						<form id="relationshipForm">
-							<script type="text/javascript" src="/hello/js/hello.js"></script>
-
-						<!--- Put the getCounterHtml function in scope, so that it can be invoked directly in this page --->
-						<cfinclude template="/hello/component/functions.cfc">
-						<cfset media_id = '1335'>
-						<cfset param = "param in page">
 							<div class="col-12 col-md-12 px-0 float-left">
 									<div class="form-row my-1">
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
 											<h2>
-												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal" 
-												 onclick="manyCatItemToMedia('#media_id#')">
-													Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
+												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 											</h2>
 											<div class="row">
 												<div class="col-12">
@@ -205,24 +197,10 @@ limitations under the License.
 											</div>
 											<div class="row">
 												<div class="col-12">
-													<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page")>
-													<div id="counterBlock">
-														#counterBlockContent#
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-12">
 													<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button');">Reload counterBlock</button> 
 													<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
 												</div>
 											</div>
-											<script>
-												function doReload() { 
-													console.log("doReload() invoked");
-													loadHello('counterBlock','#param#','param in doReload');
-												}
-											</script> 
 										</div><!---end col-12--->
 											<!---Start of Label Block--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
