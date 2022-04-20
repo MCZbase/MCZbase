@@ -44,6 +44,7 @@ Disallow: /tests/
 Disallow: /tools/
 Disallow: /transactions/
 Disallow: /user/
+Disallow: /users/
 Disallow: /vocabularies/
 Disallow: /.gitignore
 Disallow: /.vimrc
@@ -109,7 +110,6 @@ Disallow: /Publication.cfm
 Disallow: /searchAll.cfm
 Disallow: /SelectedLoanItems.cfm
 Disallow: /SpecimenContainerLabels.cfm
-Disallow: /SpecimenQuickSearch.cfm
 Disallow: /specLocality.cfm
 Disallow: /TAG.cfm
 Disallow: /Taxonomy.cfm
