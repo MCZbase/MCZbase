@@ -67,6 +67,7 @@
 							<cfcase value="/SpecimenResults.cfm"><cfset target="Specimens (old)"></cfcase>
 							<cfcase value="/SpecimenResultsHTML.cfm"><cfset target="Specimens (old)"></cfcase>
 							<cfcase value="/Transactions.cfm"><cfset target="Transactions"></cfcase>
+							<cfcase value="/Taxa.cfm"><cfset target="Taxa"></cfcase>
 						</cfswitch>
 						<cfset execute_text = "">
 						<cfset doExecute = true>

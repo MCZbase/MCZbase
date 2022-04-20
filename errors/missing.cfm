@@ -205,7 +205,7 @@
 						<cfset "#T#" = "#urldecode(v)#">
 					</cfloop>
 					<cfinclude template="/SpecimenResults.cfm">
-				<cfelseif d.url contains "/Specimens.cfm?" OR d.url contains "/Transactions.cfm?" OR d.url contains "/Agents.cfm?">
+				<cfelseif d.url contains "/Specimens.cfm?" OR d.url contains "/Transactions.cfm?" OR d.url contains "/Agents.cfm?" OR d.url contains "/Taxa.cfm?">
 					<cfset target="#application.serverRootUrl##useUrl#">
 					If you are not redirected, please click this link: <a href="#target#">#target#</a>
 					<script>

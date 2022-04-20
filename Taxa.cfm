@@ -672,6 +672,7 @@ limitations under the License.
 					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
+					$('##saveDialogButton').html('');
 
 					var search =
 					{
