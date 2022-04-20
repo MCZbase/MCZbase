@@ -311,7 +311,7 @@ limitations under the License.
 							}
 						</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder" style="width:auto">
+								<img id="previewImg" src="/images/kronosaurus_placeholder.png" alt="Placeholder" style="width:auto">
 								<p class="small mb-0">Preview of Large Image </p>
 							</div>
 					
