@@ -197,14 +197,14 @@ limitations under the License.
 											</div>
 											<div class="row">
 												<div class="col-12">
-													<button class="btn btn-primary btn-xs" onClick="loadHello('relationsBlock','#media_id#','param in reload button');">Reload counterBlock</button> 
+													<button class="btn btn-primary btn-xs" onClick="loadHello('relationsBlock','#media_id#','relationsBlock');">Reload counterBlock</button> 
 													<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
 												</div>
 											</div>
 											<script>
 												function doReload() { 
 													console.log("doReload() invoked");
-													loadHello('relationsBlock','#media_id#','param in doReload');
+													loadHello('relationsBlock','#media.media_id#','relationsBlock');
 												}
 											</script> 
 										</div><!---end col-12--->
