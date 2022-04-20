@@ -56,7 +56,7 @@ limitations under the License.
 		<script>
 			function doReload() { 
 				console.log("doReload() invoked");
-				loadHello('counterBlock','#param#','param in doReload');
+				loadHello('counterBlock','#param#','param in doReload','#id_for_counter#');
 			}
 		</script> 
 	</main>
