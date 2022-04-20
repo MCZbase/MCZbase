@@ -313,7 +313,7 @@ limitations under the License.
 							function previewPreviewFile(input){
 								var file = $("input.preview[type=file]").get(0).files[0];
 
-								if(image){
+								if(file){
 									var reader = new FileReader();
 
 									reader.onload = function(){
