@@ -313,7 +313,7 @@ limitations under the License.
 							function previewPreviewFile(input){
 								var file = $("input[type=file]").get(0).files[0];
 
-								if(file){
+								if(image){
 									var reader = new FileReader();
 
 									reader.onload = function(){
@@ -343,7 +343,7 @@ limitations under the License.
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
-										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="data-entry-input">
+										<input type="image" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="data-entry-input">
 							
 									</div>
 								</div>
