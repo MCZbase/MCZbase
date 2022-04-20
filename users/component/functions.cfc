@@ -110,10 +110,17 @@ limitations under the License.
 			<cfelseif doDelete_result.recordcount GT 1>
 				<cfthrow message = "delete failed, error condition">
 			</cfif> 
+			<cfquery name="userSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="userSearches_result">
+				SELECT count(*) ct
+				FROM cf_canned_search
+				WHERE
+					AND user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserId.user_id#">
+			</cfquery>
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
 			<cfset row["status"] = "deleted">
 			<cfset row["removed_id"] = "#canned_id#">
+			<cfset row["user_search_count"] = "#userSearches.ct#">
 			<cfset data[1] = row>
 		<cfcatch>
 			<cftransaction action="rollback">

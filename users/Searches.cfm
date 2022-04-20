@@ -13,6 +13,7 @@
 				retval = JSON.parse(result)
 				if (retval[0].status=="deleted") { 
 					$("#tr" + retval[0].removed_id).hide();
+					$("#userSearchCount").html(retval[0].user_search_count);
 				} else {
 					// we shouldn't get here, but in case.
 					alert("Error, problem deleting saved search");
@@ -43,7 +44,7 @@
 				<p>You may save Specimen Results from searches on the home page for later reference.</p>
  				<p>They will appear here when you have done so.</p>
 			<cfelse>
-				<h2 class="h3">#getSavedSearches.recordcount# Saved Searches</h2>
+				<h2 class="h3"><span id="userSearchCount">#getSavedSearches.recordcount#</span> Saved Searches</h2>
 				<table class="table table-responsive table-striped d-lg-table">
 					<thead class="thead-light">
 					<tr>
