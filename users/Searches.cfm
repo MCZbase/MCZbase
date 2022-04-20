@@ -19,7 +19,7 @@
 				}
 			}, 
 			 error: function (jqXHR, textStatus, error) {
-         	handleFail(jqXHR,textStatus,error,"retrieving hello world data");
+         	handleFail(jqXHR,textStatus,error,"retrieving deleting a saved search");
       	}
 		});
 	}

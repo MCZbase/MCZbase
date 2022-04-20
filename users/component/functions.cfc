@@ -95,12 +95,15 @@ limitations under the License.
 				WHERE
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
+			<cfif getUserId.recordcount NEQ 1>
+				<cfthrow message = "delete failed, user not found">
+			</cfif>
 			<cfquery name="doDelete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doDelete_result">
 				DELETE 
 				FROM cf_canned_search 
 				WHERE 
 					canned_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#canned_id#">
-					AND user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+					AND user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserId.user_id#">
 			</cfquery>
 			<cfif doDelete_result.recordcount EQ 0>
 				<cfthrow message = "delete failed, no search with that id for the current user">
