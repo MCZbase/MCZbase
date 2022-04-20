@@ -107,7 +107,7 @@ limitations under the License.
 			</cfquery>
 			<cfif doDelete_result.recordcount EQ 0>
 				<cfthrow message = "delete failed, no search with that id for the current user">
-			<cfelseif doDelete_result.recordcount GT 0>
+			<cfelseif doDelete_result.recordcount GT 1>
 				<cfthrow message = "delete failed, error condition">
 			</cfif> 
 			<cftransaction action="commit">
