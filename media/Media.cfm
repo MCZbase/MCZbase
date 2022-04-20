@@ -197,7 +197,7 @@ limitations under the License.
 											</div>
 											<div class="row">
 												<div class="col-12">
-													<button class="btn btn-primary btn-xs" onClick="loadHello('relationsBlock','#media.media_id#','#relns.media_relations_id#');">Reload counterBlock</button> 
+													<button class="btn btn-primary btn-xs" onClick="loadHello('relationsBlock','#media.media_id#');">Reload counterBlock</button> 
 													<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
 												</div>
 											</div>
