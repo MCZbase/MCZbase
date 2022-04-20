@@ -228,13 +228,14 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 }
 
 
-function loadRelations(targetDiv, media_relations_id) { 
-	console.log("loadRelations() called for " + targetDiv);
+function loadHello(targetDiv, parameter, other_parameter) { 
+	console.log("loadHello() called for " + targetDiv);
 	jQuery.ajax({
-		url: "/media/component/search.cfc",
+		url: "/hello/component/functions.cfc",
 		data : {
-			method : "getRelationsHtml",
-			media_relations_id : media_relations_id, 
+			method : "getCounterHtml",
+			parameter : parameter, 
+			other_parameter : other_parameter
 		},
 		success: function (result) {
 			$("#" + targetDiv).html(result);
@@ -246,6 +247,7 @@ function loadRelations(targetDiv, media_relations_id) {
 	});
 };
 
+
 /**  
  * Populate a hello world message section of a page with the current 
  * hello and counter information without incrementing the counter.
@@ -253,12 +255,12 @@ function loadRelations(targetDiv, media_relations_id) {
  * @param targetDiv the id, without a leading # selector for the html element
  * to populate with the hello world message.
  */
-function incrementRelations(callback) { 
-	console.log("incrementRelations() called");
+function incrementCounter(callback) { 
+	console.log("incrementCounter() called");
 	jQuery.ajax({
-		url: "/media/component/search.cfc",
+		url: "/hello/component/functions.cfc",
 		data : {
-			method : "incrementRelations"
+			method : "incrementCounter"
 		},
 		success: function (result) {
 			console.log(result[0].counter);
