@@ -29,7 +29,7 @@ limitations under the License.
 <cfinclude template="/hello/component/functions.cfc">
 
 <cfset param = "param in page">
-<cfsset id_for_counter = "counterElement">
+<cfset id_for_counter = "counterElement">
 
 <cfoutput>
 	<main id="content" class="container-fluid">
