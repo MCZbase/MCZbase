@@ -288,7 +288,7 @@ limitations under the License.
 					<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 					<div class="row mx-0">
-						<div class="col-12 px-0 mt-4 pb-2 pb-md-4">
+						<div class="col-12 px-0 mt-4 pb-2">
 						<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
 							Create Media 
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
