@@ -204,7 +204,7 @@ limitations under the License.
 											<script>
 												function doReload() { 
 													console.log("doReload() invoked");
-													loadRelations('relationsBlock','#media.media_id#','#media.media_relations_id#');
+													loadRelations('relationsBlock','#media.media_id#');
 												}
 											</script> 
 										</div><!---end col-12--->
