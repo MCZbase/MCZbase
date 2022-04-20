@@ -197,14 +197,22 @@ limitations under the License.
 											</div>
 											<div class="row">
 												<div class="col-12">
-													<button class="btn btn-primary btn-xs" onClick="loadRelations('relationsBlock','#media_relations_id#');">Reload counterBlock</button> 
+													<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page")>
+													<div id="counterBlock">
+														#counterBlockContent#
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-12">
+													<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button');">Reload counterBlock</button> 
 													<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
 												</div>
 											</div>
 											<script>
 												function doReload() { 
 													console.log("doReload() invoked");
-													loadRelations('relationsBlock','#media_relations_id#');
+													loadHello('counterBlock','#param#','param in doReload');
 												}
 											</script> 
 										</div><!---end col-12--->
