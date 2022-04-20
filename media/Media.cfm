@@ -185,7 +185,7 @@ limitations under the License.
 
 						<!--- Put the getCounterHtml function in scope, so that it can be invoked directly in this page --->
 						<cfinclude template="/hello/component/functions.cfc">
-						<cfset media_id = 1335>
+						<cfset media_id = '1335'>
 						<cfset param = "param in page">
 							<div class="col-12 col-md-12 px-0 float-left">
 									<div class="form-row my-1">
