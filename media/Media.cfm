@@ -326,7 +326,7 @@ limitations under the License.
 						</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="max-width: 230px; width:auto">
-								<p class="small mb-0">Preview of Media Image from the Shared Drive </p>
+								<p class="small mb-0">Preview of Media URI </p>
 								
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="max-width: 230px; width:auto" class="mt-3">
 								<p class="small mb-0">Preview of Preview URI </p>
@@ -336,10 +336,9 @@ limitations under the License.
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-										<label for="media_uri" class="data-entry-label">Media URI for Documents or External Links</label>
-										<input type="text" name="media_uri" class="reqdClr data-entry-input" required>
-										<label for="media_uri" class="data-entry-label">Media URI for Images from the Shared Drive</label>
-										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
+										<label for="media_uri" class="data-entry-label">Media URI</label>
+										<input type="file" name="media_uri" class="reqdClr data-entry-input" required>
+										<button type="button" name="media_uri" class="reqdClr data-entry-input" onClick="previewFile(this);" required>Preview</button>
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
