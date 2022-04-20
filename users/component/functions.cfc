@@ -114,7 +114,7 @@ limitations under the License.
 				SELECT count(*) ct
 				FROM cf_canned_search
 				WHERE
-					AND user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserId.user_id#">
+					user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getUserId.user_id#">
 			</cfquery>
 			<cftransaction action="commit">
 			<cfset row = StructNew()>
