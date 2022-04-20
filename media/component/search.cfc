@@ -1512,11 +1512,61 @@ imgStyleClass=value
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfloop from="1" to="#number_of_relations#" index="n">
+				<cfset failure=0>
+		<cftry>
+			<cfset thisRelationship = #evaluate("relationship__" & n)#>
+			<cfcatch>
+				<cfset failure=1>
+			</cfcatch>
+		</cftry>
+		<cftry>
+			<cfset thisRelatedId = #evaluate("related_id__" & n)#>
+			<cfcatch>
+				<cfset failure=1>
+			</cfcatch>
+		</cftry>
+		<cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
+		<cfif failure EQ 0>
+		<cfif isdefined("media_relations_id__#n#")>
+			<cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
+			<cfelse>
+			<cfset thisRelationID=-1>
+		</cfif>
+		<cfif thisRelationID is -1>
+		<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into media_relations (
+				media_id,media_relationship,related_primary_key
+			) values (
+				#media_id#,'#thisRelationship#',#thisRelatedId#)
+		</cfquery>
+<cfelse>
+	<cfif #thisRelationship# is "delete">
+		<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from 
+				media_relations
+			where media_relations_id=#thisRelationID#
+		</cfquery>
+		<cfelse>
+		<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update 
+				media_relations
+			set
+				media_relationship='#thisRelationship#',
+				related_primary_key=#thisRelatedId#
+			where media_relations_id=#thisRelationID#
+		</cfquery>
+	</cfif><!--- delete or update relation --->
+</cfif><!--- relation exists ---> 
+</cfif><!--- Failure check --->
+</cfloop>
 			<cfquery name="setRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				UPDATE 
-					MCZBASE.cf_helloworld
-				SET
-					counter = counter + 1 
+				update 
+						media_relations
+					set
+						media_relationship='#thisRelationship#',
+						related_primary_key=#thisRelatedId#
+					where media_relations_id=#thisRelationID#
 			</cfquery>
 			<cfquery name="getRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
