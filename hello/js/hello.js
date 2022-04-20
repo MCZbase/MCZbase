@@ -51,8 +51,7 @@ function incrementCounter(callback) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"incrementing hello world counter (1)");
-		},
-		dataType: "html"
+		}
 	});
 };
 
@@ -79,7 +78,6 @@ function incrementCounterUpdate(counterElement) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"incrementing hello world counter (2)");
-		},
-		dataType: "html"
+		}
 	});
 };
