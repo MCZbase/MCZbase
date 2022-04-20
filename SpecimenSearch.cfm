@@ -54,7 +54,7 @@
 			<td class="infolink">
 				<span>Saved Searches:</span> <select name="goCanned" id="goCanned" size="1" onchange="document.location=this.value;">
 					<option value=""></option>
-					<option value="saveSearch.cfm?action=manage">[ Manage ]</option>
+					<option value="/users/Searches.cfm">[ Manage ]</option>
 					<cfloop query="hasCanned">
 						<option value="#url#">#SEARCH_NAME#</option><br />
 					</cfloop>

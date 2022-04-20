@@ -30,7 +30,7 @@
 		document.getElementById('srchName').focus();
 	</script>
 	<p>
-        <a href="saveSearch.cfm?action=manage">[ Manage ]</a></p>
+        <a href="/users/Searches.cfm">[ Manage ]</a></p>
         </div>   
 </cfoutput>
 </cfif>

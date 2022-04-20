@@ -569,6 +569,8 @@ limitations under the License.
 								</span> 
 							</h1>
 							<span id="resultLink" class="d-inline-block px-1 my-1 py-2"></span>
+							<div id="saveDialogButton" class="d-block p-2"></div>
+							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
 									<div class="row">
@@ -583,6 +585,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
+							<output id="actionFeedback" class="d-block p-2"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
@@ -669,6 +672,7 @@ limitations under the License.
 					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 					$('##resultCount').html('');
 					$('##resultLink').html('');
+					$('##saveDialogButton').html('');
 
 					var search =
 					{
@@ -851,6 +855,26 @@ limitations under the License.
 				</cfif>
 			}); /* End document.ready */
 
+			function populateSaveSearch() { 
+				// set up a dialog for saving the current search.
+				var uri = "/Taxa.cfm?execute=true&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+				$("##saveDialog").html(
+					"<div class='row'>"+ 
+					"<form id='saveForm'> " + 
+					" <input type='hidden' value='"+uri+"' name='url'>" + 
+					" <div class='col-12'>" + 
+					"  <label for='search_name_input'>Search Name</label>" + 
+					"  <input type='text' id='search_name_input'  name='search_name' value='' class='data-entry-input reqdClr' pattern='Your name for this search' maxlenght='60' required>" + 
+					" </div>" + 
+					" <div class='col-12'>" + 
+					"  <label for='execute_input'>Execute Immediately</label>"+
+					"  <input id='execute_input' type='checkbox' name='execute' checked>"+
+					" </div>" +
+					"</form>"+
+					"</div>"
+				);
+			}
+	
 			function gridLoaded(gridId, searchType) { 
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
 					window.columnHiddenSettings = getColumnVisibilities('searchResultsGrid');		
@@ -966,6 +990,48 @@ limitations under the License.
 					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
 					`
 				);
+				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ><!--- TODO: coldfusion_user --->
+					$("##saveDialog").dialog({
+						height: 'auto',
+						width: 'auto',
+						adaptivewidth: true,
+						title: 'Save Search',
+						autoOpen: false,
+						modal: true,
+						reszable: true,
+						buttons: [
+							{
+								text: "Save",
+								click: function(){
+									var url = $('##saveForm :input[name=url]').val();
+									var execute = $('##saveForm :input[name=execute]').is(':checked');
+									var search_name = $('##saveForm :input[name=search_name]').val();
+									saveSearch(url, execute, search_name,"actionFeedback");
+									$(this).dialog("close"); 
+								},
+								tabindex: 0
+							},
+							{
+								text: "Cancel",
+								click: function(){ 
+									$(this).dialog("close"); 
+								},
+								tabindex: 0
+							}
+						],
+						open: function (event, ui) {
+							var maxZIndex = getMaxZIndex();
+							// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+							$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+							$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+						}
+					});
+					$("##saveDialogButton").html(
+					`<button id="`+gridId+`saveDialogOpener"
+							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
+							class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+					`);
+				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 				var maxZIndex = getMaxZIndex();

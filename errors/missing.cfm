@@ -176,16 +176,26 @@
 			<cfif listlen(rdurl,"/") gt 1>
 				<cfset sName = listgetat(rdurl,gPos+1,"/")>
 				<cfquery name="d" datasource="cf_dbuser">
-					select url from cf_canned_search where upper(search_name)='#ucase(sName)#'
+					SELECT url, execute 
+					FROM cf_canned_search 
+					WHERE upper(search_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sName)#">
 				</cfquery>
 				<cfif d.recordcount is 0>
 					<cfquery name="d" datasource="cf_dbuser">
-						select url from cf_canned_search where upper(search_name)='#ucase(urldecode(sName))#'
+						SELECT url, execute
+						FROM cf_canned_search
+						WHERE upper(search_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(urldecode(sName))#">
 					</cfquery>
 				</cfif>
 				<cfif d.recordcount is 0>
 					<cfinclude template="/errors/404.cfm">
 					<cfabort>
+				</cfif>
+				<cfset useUrl = d.url >
+				<cfif d.execute EQ 0 >
+					<cfset useUrl = replace(useUrl,"&execute=true","","all")>
+					<cfset useUrl = replace(useUrl,"?execute=true&","?")>
+					<cfset useUrl = replace(useUrl,"?execute=true","")>
 				</cfif>
 				<cfif d.url contains "#application.serverRootUrl#/SpecimenResults.cfm?">
 					<cfset mapurl=replace(d.url,"#application.serverRootUrl#/SpecimenResults.cfm?","","all")>
@@ -195,8 +205,8 @@
 						<cfset "#T#" = "#urldecode(v)#">
 					</cfloop>
 					<cfinclude template="/SpecimenResults.cfm">
-				<cfelseif d.url contains "/Specimens.cfm?">
-					<cfset target="#application.serverRootUrl##d.url#">
+				<cfelseif d.url contains "/Specimens.cfm?" OR d.url contains "/Transactions.cfm?" OR d.url contains "/Agents.cfm?" OR d.url contains "/Taxa.cfm?">
+					<cfset target="#application.serverRootUrl##useUrl#">
 					If you are not redirected, please click this link: <a href="#target#">#target#</a>
 					<script>
 						document.location='#target#';

@@ -1,35 +1,35 @@
 <cfset pageTitle="Saved Searches">
 <cfinclude template="/shared/_header.cfm">
 
-	<!--- TODO Rework remove function, remove treeAjax --->
-	<script type='text/javascript' src='/includes/_treeAjax.js'></script>
-	<script type="text/javascript" language="javascript">
-	function killMe(canned_id) {
-		jQuery.getJSON("/component/functions.cfc",
-			{
-				method : "kill_canned_search",
+<script type="text/javascript" language="javascript">
+	function deleteSavedSearch(canned_id) {
+		jQuery.ajax({
+			url: "/users/component/functions.cfc",
+			data: {
+				method : "deleteSavedSearch",
 				canned_id : canned_id,
-				returnformat : "json",
-				queryformat : 'column'
 			},
-			killMe_success
-		);
+			success : function(result) { 
+				retval = JSON.parse(result)
+				if (retval[0].status=="deleted") { 
+					$("#tr" + retval[0].removed_id).hide();
+					$("#userSearchCount").html(retval[0].user_search_count);
+				} else {
+					// we shouldn't get here, but in case.
+					alert("Error, problem deleting saved search");
+				}
+			}, 
+			 error: function (jqXHR, textStatus, error) {
+         	handleFail(jqXHR,textStatus,error,"retrieving deleting a saved search");
+      	}
+		});
 	}
-	function killMe_success (result) {
-		if (IsNumeric(result)) {
-			var e = "document.getElementById('tr" + result + "')";
-			var el = eval(e);
-			el.style.display='none';
-		}else{
-			alert(result);
-		}
-	}
-	</script>
+</script>
 
 <cfoutput>
 	<main class="container py-3" id="content" >
-		<section class="row border rounded my-2">
-			<h1 class="h2">Saved Searches for #session.username#</h1>
+		<section class="row border rounded my-2 p-2">
+			<h1 class="h2 w-100">Saved Searches for #session.username#</h1>
 			<cfquery name="getSavedSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSavedSearches_result">
 				SELECT SEARCH_NAME, URL, canned_id, execute
 				FROM 
@@ -40,11 +40,11 @@
 				ORDER BY search_name
 			</cfquery>
 			<cfif getSavedSearches.recordcount is 0>
-				<h2 class="h3">No Saved Searches</h2>
+				<h2 class="h3 w-100">No Saved Searches</h2>
 				<p>You may save Specimen Results from searches on the home page for later reference.</p>
  				<p>They will appear here when you have done so.</p>
 			<cfelse>
-				<h2 class="h3">#getSavedSearches.recordcount# Saved Searches</h2>
+				<h2 class="h3"><span id="userSearchCount">#getSavedSearches.recordcount#</span> Saved Searches</h2>
 				<table class="table table-responsive table-striped d-lg-table">
 					<thead class="thead-light">
 					<tr>
@@ -58,27 +58,40 @@
 					<tbody>
 					<cfloop query="getSavedSearches">
 						<cfset target = "">
-						<cfset page="#reMatch('/[A-Za-z]+\.cfm')[0]#"
+						<cfset matches="#reMatch('/[A-Za-z]+\.cfm',getSavedSearches.URL)#">
+						<cfif ArrayLen(matches) EQ 1>
+							<cfset page="#matches[1]#">
+						</cfif>
 						<cfswitch expression="#page#">
 							<cfcase value="/Specimens.cfm"><cfset target="Specimens"></cfcase>
 							<cfcase value="/SpecimenResults.cfm"><cfset target="Specimens (old)"></cfcase>
 							<cfcase value="/SpecimenResultsHTML.cfm"><cfset target="Specimens (old)"></cfcase>
 							<cfcase value="/Transactions.cfm"><cfset target="Transactions"></cfcase>
+							<cfcase value="/Taxa.cfm"><cfset target="Taxa"></cfcase>
 						</cfswitch>
 						<cfset execute_text = "">
+						<cfset doExecute = true>
 						<cfif target NEQ "Specimens (old)">
 							<cfif getSavedSearches.execute EQ 1>
+								<cfset doExecute = true>
 								<cfset execute_text = "Run immediately">
 							<cfelseif getSavedSearches.execute EQ 0>
+								<cfset doExecute = false>
 								<cfset execute_text = "Populate search form">
 							</cfif>
+						</cfif>
+						<cfset useUrl = getSavedSearches.url >
+						<cfif NOT doExecute >
+							<cfset useUrl = replace(useUrl,"&execute=true","","all")>
+							<cfset useUrl = replace(useUrl,"?execute=true&","?")>
+							<cfset useUrl = replace(useUrl,"?execute=true","")>
 						</cfif>
 						<tr id="tr#canned_id#">
 							<td>#target#</td>
 							<td><a href="/saved/#encodeForURL(search_name)#">#search_name#</a></td>
-							<td>#url#</td>
+							<td><a href="#useUrl#" target="_blank">#useUrl#</a></td>
 							<td>#execute_text#</td>
-							<td><button class="btn btn-xs btn-danger" onClick="killMe('#canned_id#');">Delete</button></td>
+							<td><button class="btn btn-xs btn-danger" onClick="deleteSavedSearch('#canned_id#');">Delete</button></td>
 						</tr>
 					</cfloop>
 					</tbody>

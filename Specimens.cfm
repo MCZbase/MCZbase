@@ -2106,7 +2106,7 @@ limitations under the License.
 	
 		function populateSaveSearch(gridId,whichGrid) { 
 			// set up a dialog for saving the current search.
-			var uri = "/Specimens.cfm?execute=true&" + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+			var uri = "/Specimens.cfm?execute=true&" + $('##'+whichGrid+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
 			$("##"+whichGrid+"saveDialog").html(
 				"<div class='row'>"+ 
 				"<form id='"+whichGrid+"saveForm'> " + 
