@@ -20,8 +20,8 @@
 				}
 			}, 
 			 error: function (jqXHR, textStatus, error) {
-         	handleFail(jqXHR,textStatus,error,"retrieving deleting a saved search");
-      	}
+				 handleFail(jqXHR,textStatus,error,"retrieving deleting a saved search");
+			 }
 		});
 	}
 </script>
@@ -29,6 +29,7 @@
 <cfoutput>
 	<main class="container py-3" id="content" >
 		<section class="row border rounded my-2 p-2">
+			<div class="col-12">
 			<h1 class="h2 w-100">Saved Searches for #session.username#</h1>
 			<cfquery name="getSavedSearches" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getSavedSearches_result">
 				SELECT SEARCH_NAME, URL, canned_id, execute
@@ -97,6 +98,7 @@
 					</tbody>
 				</table>
 			</cfif>
+			</div>
 		</section>
 	</main>
 </cfoutput>
