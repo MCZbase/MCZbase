@@ -311,7 +311,7 @@ limitations under the License.
 							}
 						</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-								<input type="file" name="photo" onchange="previewFile(this);" required>
+					
 								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder" style="width:300px;">
 								<p class="small mb-0">Preview of Large Image (300 pixels wide)</p>
 								
@@ -321,8 +321,7 @@ limitations under the License.
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
-										<input type="file" onchange="previewFile(this)" name="media_uri" size="105" class="reqdClr data-entry-input">
-										<input type="submit" class="btn btn-xs btn-secondary py-1">
+										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
 									</div>
 									
 								</div>
