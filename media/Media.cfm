@@ -311,7 +311,7 @@ limitations under the License.
 							}
 							
 							function previewPreviewFile(input){
-								var file = $("input[type=file]").get(0).files[0];
+								var file = $("input.preview[type=file]").get(0).files[0];
 
 								if(image){
 									var reader = new FileReader();
@@ -324,7 +324,7 @@ limitations under the License.
 								}
 							}
 						</script>
-							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-1 float-left mb-3 pt-3 pb-3">
+							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<img id="previewImg" src="/shared/images/placeholderMediaURI.png" alt="Placeholder" style="max-width: 230px; width:auto">
 								<p class="small mb-0">Preview of Media URI </p>
 								
@@ -343,7 +343,7 @@ limitations under the License.
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
-										<input type="image" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="data-entry-input">
+										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
 							
 									</div>
 								</div>
