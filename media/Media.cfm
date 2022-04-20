@@ -334,27 +334,27 @@ limitations under the License.
 							
 					
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
-								<div class="bg-light border p-2 float left">
-									<div class="form-row mx-0 mt-2">
-										<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-											<label for="media_uri" class="data-entry-label">Media URI (Shared Drive)</label>
-											<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
-										</div>
-									</div>
-									<div class="form-row mx-0 mt-2">
-										<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-											<label for="preview_uri" class="data-entry-label">Preview URI (Shared Drive)</label>
-											<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
-										</div>
-									</div>
-									<div class="form-row mx-0 mt-2">
-										<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-											<p>OR</p>
-											<label for="media_uri" class="data-entry-label">External Link or PDF</label>
-											<input name="media_uri" class="reqdClr data-entry-input" required>
-										</div>
+							
+								<div class="form-row mx-0 mt-2">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+										<label for="media_uri" class="data-entry-label">Media URI (Shared Drive)</label>
+										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
 									</div>
 								</div>
+								<div class="form-row mx-0 mt-2">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+										<label for="preview_uri" class="data-entry-label">Preview URI (Shared Drive)</label>
+										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
+									</div>
+								</div>
+								<div class="form-row mx-0 mt-2">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+										<p>OR</p>
+										<label for="media_uri" class="data-entry-label">External Link or PDF</label>
+										<input name="media_uri" class="reqdClr data-entry-input" required>
+									</div>
+								</div>
+			
 								<div class="form-row col-12 px-0 mx-0 mt-2">
 									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
