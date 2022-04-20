@@ -315,21 +315,35 @@ limitations under the License.
 									reader.readAsDataURL(file);
 								}
 							}
+							function previewPreview(input){
+								var file = $("input[type=file]").get(0).files[0];
+
+								if(file){
+									var reader = new FileReader();
+
+									reader.onload = function(){
+										$("##preview_uri").attr("src", reader.result);
+									}
+
+									reader.readAsDataURL(file);
+								}
+							}
 						</script>
 								
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
-										<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
-										<button type="button" class="btn btn-xs btn-secondary py-0" onClick="previewFile(media_uri)">Preview Img</button>
+										<input type="file" onchange="previewFile(this)" name="media_uri" size="105" class="reqdClr data-entry-input">
+										<input type="submit" class="btn btn-xs btn-secondary py-1">View Img</button>
 									</div>
 									
 								</div>
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
-										<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
+										<input type="file" name="preview_uri" onchange="previewPreview(this)" size="105" class="data-entry-input">
+										<input type="submit" class="btn btn-xs btn-secondary py-0">View Img</button>
 									</div>
 								</div>
 								<div class="form-row col-12 px-0 mx-0 mt-2">
