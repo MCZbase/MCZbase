@@ -1509,6 +1509,7 @@ imgStyleClass=value
 			
 				
 <cffunction name="incrementCounter" access="remote" returntype="any" returnformat="json">
+	<cfset variables.media_id = arguments.media_id>
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
