@@ -195,6 +195,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
+
 										</div><!---end col-12--->
 											<!---Start of Label Block--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
@@ -288,32 +289,70 @@ limitations under the License.
 					<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 					<div class="row mx-0">
-						<div class="col-12 px-0 mt-4 pb-2 pb-md-4">
-						<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
-							Create Media 
-							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
-						</h1>
+						<div class="col-12 px-0 mt-4 pb-2">
+							<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
+								Create Media 
+								<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
+							</h1>
+							<script>
+								function previewFile(input){
+									var file = $("input[type=file]").get(0).files[0];
+
+									if(file){
+										var reader = new FileReader();
+
+										reader.onload = function(){
+											$("##previewImg").attr("src", reader.result);
+										}
+
+										reader.readAsDataURL(file);
+									}
+								}
+								function previewPreviewFile(input){
+									var file = $("input.preview[type=file]").get(0).files[0];
+
+									if(file){
+										var reader = new FileReader();
+
+										reader.onload = function(){
+											$("##previewPreviewImg").attr("src", reader.result);
+										}
+
+										reader.readAsDataURL(file);
+									}
+								}
+							</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-								<cfset mediaBlock= getMediaBlockHtml(media_id="1504670",displayAs="full",size="300",captionAs="textNone")>
-								<div id="mediaBlock" class="mx-auto text-center pt-1">
-									#mediaBlock#
-								</div><!---end image block--->
-								<p class="small mb-0">Placeholder Image for Create Media Page</p>
-								<p class="small mb-0">Description: MCZ Building (front)</p>
+								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
+								<p class="small mb-0">Preview of Media URI </p>
+								
+								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
+								<p class="small mb-0">Preview of Preview URI </p>
 							</div>
+							
+					
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
+							
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-										<label for="media_uri" class="data-entry-label">Media URI</label>
-										<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
+										<label for="media_uri" class="data-entry-label">Media URI (Shared Drive)</label>
+										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-										<label for="preview_uri" class="data-entry-label">Preview URI</label>
-										<input type="text" name="preview_uri" id="preview_uri" size="105" class="data-entry-input">
+										<label for="preview_uri" class="data-entry-label">Preview URI (Shared Drive)</label>
+										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
 									</div>
 								</div>
+								<div class="form-row mx-0 mt-0 mb-5">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+										<p class="pl-3 mt-2 mb-1">OR</p>
+										<label for="media_uri" class="data-entry-label">External Link (No Preview)</label>
+										<input name="media_uri" class="reqdClr data-entry-input" required>
+									</div>
+								</div>
+			
 								<div class="form-row col-12 px-0 mx-0 mt-2">
 									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
