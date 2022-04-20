@@ -226,3 +226,50 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	}
 
 }
+
+
+function loadRelations(targetDiv, media_id) { 
+	console.log("loadRelations() called for " + targetDiv);
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		data : {
+			method : "getRelationsHtml",
+			media_id : media_id, 
+	//		other_parameter : other_parameter
+		},
+		success: function (result) {
+			$("#" + targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"retrieving hello world data");
+		},
+		dataType: "html"
+	});
+};
+
+/**  
+ * Populate a hello world message section of a page with the current 
+ * hello and counter information without incrementing the counter.
+ * 
+ * @param targetDiv the id, without a leading # selector for the html element
+ * to populate with the hello world message.
+ */
+function incrementRelations(callback) { 
+	console.log("incrementRelations() called");
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		data : {
+			method : "incrementRelations"
+		},
+		success: function (result) {
+			console.log(result[0].counter);
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"incrementing hello world counter");
+		},
+		dataType: "html"
+	});
+};

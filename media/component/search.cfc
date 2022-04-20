@@ -1508,18 +1508,17 @@ imgStyleClass=value
 </cffunction>
 			
 				
-<cffunction name="incrementCounter" access="remote" returntype="any" returnformat="json">
-	<cfset variables.media_id = arguments.media_id>
+<cffunction name="incrementRelations" access="remote" returntype="any" returnformat="json">
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfquery name="setCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="setRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE 
 					MCZBASE.cf_helloworld
 				SET
 					counter = counter + 1 
 			</cfquery>
-			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
 					text, counter 
 				FROM
@@ -1528,8 +1527,8 @@ imgStyleClass=value
 			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
-			<cfset row["counter"] = "#getCounter.counter#">
-			<cfset row["text"] = "#getCounter.text#">
+			<cfset row["counter"] = "#getRelations.counter#">
+			<cfset row["text"] = "#getRelations.text#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
 		<cfcatch>
