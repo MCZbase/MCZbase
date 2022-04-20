@@ -195,12 +195,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-12">
-													<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button');">Reload counterBlock</button> 
-													<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
-												</div>
-											</div>
+
 										</div><!---end col-12--->
 											<!---Start of Label Block--->
 										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
