@@ -335,7 +335,7 @@ limitations under the License.
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
 										<input type="file" onchange="previewFile(this)" name="media_uri" size="105" class="reqdClr data-entry-input">
-										<input type="submit" class="btn btn-xs btn-secondary py-1">View Img</button>
+										<input type="submit" class="btn btn-xs btn-secondary py-1">
 									</div>
 									
 								</div>
@@ -343,7 +343,7 @@ limitations under the License.
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview URI</label>
 										<input type="file" name="preview_uri" onchange="previewPreview(this)" size="105" class="data-entry-input">
-										<input type="submit" class="btn btn-xs btn-secondary py-0">View Img</button>
+										<input type="submit" class="btn btn-xs btn-secondary py-1">
 									</div>
 								</div>
 								<div class="form-row col-12 px-0 mx-0 mt-2">
