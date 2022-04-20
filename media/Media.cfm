@@ -322,8 +322,9 @@ limitations under the License.
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI</label>
 										<input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr data-entry-input">
+										<button type="button" class="btn btn-xs btn-secondary py-0" onClick="previewFile(media_uri)">Preview Img</button>
 									</div>
-									<button type="button" class="btn btn-xs btn-secondary py-0" onClick="previewFile(media_uri)">Preview Img</button>
+									
 								</div>
 								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
