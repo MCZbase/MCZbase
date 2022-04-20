@@ -189,10 +189,7 @@
 				</span>
 			</cfif>
 		</li>
-	<!---	<li>
-			Review some <a href="http://g-arctos.appspot.com/arctosdoc/search_examples_TOC.html" target="_blank">sample searches</a> to learn about the power of Arctos.
-		</li>--->
-                    <li><a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a> <br><span style="font-size:13px;"> (click Save Search from SpecimenResults to save a search)</span></li>
+      <li><a href="/users/Searches.cfm">Manage your Saved Searches</a> <br><span style="font-size:13px;"> (click Save Search from Specimen Results to save a search)</span></li>
 	</ul>
 	<cfif isInv.allow is 1>
 		<div class="userData" style="background-color:##FF0000; border:2px solid black; width:75%;">

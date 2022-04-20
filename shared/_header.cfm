@@ -793,14 +793,7 @@ limitations under the License.
 										<cfif targetMenu EQ "redesign">
 											<a href="" class="dropdown-item">Settings</a>
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<a href="/saveSearch.cfm?action=manage" class="dropdown-item">Saved Searches</a>
-										<cfelse>
-											<a href="" class="dropdown-item">Saved Searches</a>
-										</cfif>
-										<cfif targetMenu EQ "redesign">
-											<a href="" class="dropdown-item">Saved Search Queries</a>
-										</cfif>
+										<a href="/users/Searches.cfm" class="dropdown-item">Saved Searches</a>
 									</cfif>
 								</li>	
 							</ul>

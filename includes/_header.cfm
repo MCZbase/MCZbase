@@ -404,7 +404,7 @@
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
-								<a class="dropdown-item" target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a>
+								<a class="dropdown-item" target="_top" href="/users/Searches.cfm">Saved Searches</a>
 							</div>
 						</li>
 					</ul>

@@ -231,7 +231,7 @@ limitations under the License.
 							<span style="color:red;"> Your password expires in #pwage# days. </span>
 						</cfif>
 					</h4>
-					<h4> <a href="/saveSearch.cfm?action=manage">Manage your Saved Searches</a><br>
+					<h4> <a href="/users/Searches.cfm">Manage your Saved Searches</a><br>
 						<small>Click "Save Search" from Specimen Results to save a search.</small> </h4>
 						<cfif isInv.allow is 1>
 							You&apos;ve been invited to become an Operator. Password restrictions apply.
