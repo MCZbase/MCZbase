@@ -293,14 +293,7 @@ limitations under the License.
 							Create Media 
 							<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 						</h1>
-							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
-								<cfset mediaBlock= getMediaBlockHtml(media_id="1504670",displayAs="full",size="300",captionAs="textNone")>
-								<div id="mediaBlock" class="mx-auto text-center pt-1">
-									#mediaBlock#
-								</div><!---end image block--->
-								<p class="small mb-0">Placeholder Image for Create Media Page</p>
-								<p class="small mb-0">Description: MCZ Building (front)</p>
-							</div>
+
 							<script>
 							function previewFile(input){
 								var file = $("input[type=file]").get(0).files[0];
@@ -333,8 +326,12 @@ limitations under the License.
 								<p>
 									<input type="file" name="photo" onchange="previewFile(this);" required>
 								</p>
-								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder">
-					
+								<img id="previewImg" src="/examples/images/transparent.png" alt="Placeholder" style="width:300px;">
+								<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
+			
+								<p class="small mb-0">Preview of Large Image (300 pixels wide)</p>
+								
+							</div>
 					
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 								<div class="form-row mx-0 mt-2">
