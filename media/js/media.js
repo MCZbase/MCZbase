@@ -228,14 +228,14 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 }
 
 
-function loadRelations(targetDiv, media_id) { 
+function loadRelations(targetDiv, media_id, media_relations_id) { 
 	console.log("loadRelations() called for " + targetDiv);
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
 			method : "getRelationsHtml",
 			media_id : media_id, 
-	//		other_parameter : other_parameter
+			media_relation_id : media_relations_id
 		},
 		success: function (result) {
 			$("#" + targetDiv).html(result);
