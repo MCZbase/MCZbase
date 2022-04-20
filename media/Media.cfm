@@ -347,7 +347,7 @@ limitations under the License.
 										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
 									</div>
 								</div>
-								<div class="form-row mx-0 mt-2">
+								<div class="form-row mx-0 my-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<p>OR</p>
 										<label for="media_uri" class="data-entry-label">External Link or PDF</label>
