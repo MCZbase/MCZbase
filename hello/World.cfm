@@ -29,12 +29,13 @@ limitations under the License.
 <cfinclude template="/hello/component/functions.cfc">
 
 <cfset param = "param in page">
+<cfsset id_for_counter = "counterElement">
 
 <cfoutput>
 	<main id="content" class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page")>
+				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",counter_id="#id_for_counter#")>
 				<div id="counterBlock">
 					#counterBlockContent#
 				</div>
@@ -42,8 +43,14 @@ limitations under the License.
 		</div>
 		<div class="row">
 			<div class="col-12">
-				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button');">Reload counterBlock</button> 
+				<!---  invoke the loadHello function to just do a ajax replace of the counterBlock --->
+				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#');">Reload counterBlock</button> 
+
+				<!--- invoke the increment counter function with the doReload function as a callback --->
 				<button class="btn btn-primary btn-xs" onClick="incrementCounter(doReload);">Increment Counter</button> 
+
+				<!--- invoke the increment counter function to replace the html of an element with the id of the counter element (also provided as a parameter to getCounterHtml()) --->
+				<button class="btn btn-primary btn-xs" onClick="incrementCounterUpdate('#id_for_counter#');">Increment Counter</button> 
 			</div>
 		</div>
 		<script>

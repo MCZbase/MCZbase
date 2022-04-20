@@ -26,12 +26,15 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 
 @param parameter some arbitrary value, displayed in the returned html.
 @param other_parameter some arbitrary value, displayed in the returned html.
+@param id_for_counter the id to use for the html element that displays the current value 
+  of the counter, must be unique on the page.
 
 @return block of html text with data from cf_helloworld.
 --->
 <cffunction name="getCounterHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="parameter" type="string" required="yes">
 	<cfargument name="other_parameter" type="string" required="yes">
+	<cfargument name="id_for_counter" type="string" required="yes">
 
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
@@ -40,6 +43,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	--->
 	<cfset variables.parameter = arguments.parameter>
 	<cfset variables.other_parameter = arguments.other_parameter>
+	<cfset variables.id_for_counter = arguments.id_for_counter>
 
 	<!--- 
 
@@ -68,7 +72,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				</cfquery>
 				<cfif getCounter.recordcount GT 0>
 					<h3 class="h3">#getCounter.text#</h3>
-					<ul><li>#getCounter.counter#</li></ul>
+					<ul><li id="#encodeForHtml(variables.id_for_counter)#">#getCounter.counter#</li></ul>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
 					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 				<cfelse>
