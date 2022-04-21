@@ -1414,8 +1414,7 @@ imgStyleClass=value
 				<cfset i=1>
 			<!---	<cfif relns.recordcount is 0>--->
 				<script>
-				console.log("relns cfif");
-				}
+					console.log("relns cfif");
 				</script> 
 					<div id="seedMedia" style="display:none">
 						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
