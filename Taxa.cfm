@@ -569,7 +569,7 @@ limitations under the License.
 								</span> 
 							</h1>
 							<span id="resultLink" class="d-inline-block px-1 my-1 py-2"></span>
-							<div id="saveDialogButton" class="d-block p-2"></div>
+							<div id="saveDialogButton" class=" px-3 pb-1 mx-1 mb-1 my-md-2"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -585,7 +585,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
-							<output id="actionFeedback" class="d-block p-2"></output>
+							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
