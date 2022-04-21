@@ -3888,7 +3888,7 @@ function gridLoaded(gridId, searchType) {
 	});
 	$("##saveDialogButton").html(
 	`<button id="`+gridId+`saveDialogOpener"
-			onclick=" populateSaveSearch("+targetAction+"); $('##saveDialog').dialog('open'); " 
+			onclick=" populateSaveSearch('`+targetAction+`'); $('##saveDialog').dialog('open'); " 
 			class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
 	`);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
