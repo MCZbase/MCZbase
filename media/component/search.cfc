@@ -1412,7 +1412,7 @@ imgStyleClass=value
 				<cfif getRelationships.recordcount GT 0>
 			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
-				<cfif relns.recordcount is 0>
+			<!---	<cfif relns.recordcount is 0>--->
 				<script>
 				console.log("relns cfif");
 				}
@@ -1428,7 +1428,7 @@ imgStyleClass=value
 						<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
 						<input type="hidden" name="related_id__0" id="related_id__0">
 					</div>
-				</cfif>
+			<!---	</cfif>--->
 				<cfloop query="relns">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
@@ -1471,20 +1471,17 @@ imgStyleClass=value
 				</cfloop>
 				<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 			</div>
-
-			<script>
-				(function () {
-					var previous;
-					$("select").on('focus', function () {
-						previous = this.value;
-					}).change(function() {
-						alert(previous);
-						previous = this.value;
-					});
-				})();
-			</script>
-	
-		
+					<script>
+						(function () {
+							var previous;
+							$("select").on('focus', function () {
+								previous = this.value;
+							}).change(function() {
+								alert(previous);
+								previous = this.value;
+							});
+						})();
+					</script>
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
@@ -1504,6 +1501,11 @@ imgStyleClass=value
 	<cfthread action="join" name="getRelationsThread" />
 	<cfreturn getRelationsThread.output>
 </cffunction>
+	
+				
+				
+				
+				
 				
 <cffunction name="getLabelsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
