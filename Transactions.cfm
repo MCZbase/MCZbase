@@ -3033,6 +3033,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var loanSearch =
 		{
@@ -3201,6 +3203,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var accnSearch =
 		{
@@ -3365,6 +3369,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var deaccessionSearch =
 		{
@@ -3548,6 +3554,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var borrowSearch =
 		{
