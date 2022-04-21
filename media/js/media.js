@@ -226,3 +226,22 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	}
 
 }
+
+
+function loadRelations(targetDiv, media_id) { 
+	console.log("loadHello() called for " + targetDiv);
+	jQuery.ajax({
+		url: "/media/component/functions.cfc",
+		data : {
+			method : "getRelationsHtml",
+			media_id : media_id
+		},
+		success: function (result) {
+			$("#" + targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"retrieving relationship block");
+		},
+		dataType: "html"
+	});
+};

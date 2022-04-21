@@ -193,8 +193,13 @@ limitations under the License.
 													<div id="relationsBlock">
 														#relationsBlockContent#
 													</div>
+													<div class="col-9 px-0 float-left">
+														<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadRelations('relationsBlock','#media_id#');">Load Relationships 
+														</button>
+													</div>
 												</div>
 											</div>
+											
 
 										</div><!---end col-12--->
 											<!---Start of Label Block--->
