@@ -75,7 +75,7 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-		<!---<cfset relns=getMediaRelations(#media_id#)>--->
+		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
@@ -216,13 +216,13 @@ limitations under the License.
 										</div>
 									</div><!---end col-6--->	
 								</div><!---end form-row Relationships and labels--->
-							</form>
-						</div><!---end col-12--->
-					</div>
+						</form>
+					</div><!---end col-12--->
 				</div>
 			</div>
-			</cfoutput>
-		</cfcase>
+		</div>
+		</cfoutput>
+	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
 	<cfcase value="new">
 		<cfoutput>

@@ -1402,17 +1402,17 @@ imgStyleClass=value
 	<cfthread name="getRelationsThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						media_relationship, media_id,media_relations_id
 					FROM
 						media_relations
 					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				</cfquery>
-				<cfif getRelationships.recordcount GT 0>
-			<div id="relationships" class="col-12 px-0 float-left">
+				</cfquery>--->
+			<cfif relns.recordcount GT 0>
+				<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
-				<cfif getRelationships.recordcount is 0>
+				<cfif relns.recordcount is 0>
 					<div id="seedMedia" style="display:none">
 						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 						<cfset d="">
@@ -1425,7 +1425,7 @@ imgStyleClass=value
 						<input type="hidden" name="related_id__0" id="related_id__0">
 					</div>
 				</cfif>
-				<cfloop query="getRelationships">
+				<cfloop query="relns">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
 							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
