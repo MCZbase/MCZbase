@@ -1410,7 +1410,7 @@ imgStyleClass=value
 					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 			<div id="relationships" class="col-12 px-0 float-left">
-				<cfif getRelationships.recordcount GT 0>
+			
 				<cfset i=1>
 				<cfif relns.recordcount is 0>
 					<div id="seedMedia" style="display:none">
@@ -1424,7 +1424,6 @@ imgStyleClass=value
 						<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
 						<input type="hidden" name="related_id__0" id="related_id__0">
 					</div>
-				</cfif>
 				<cfloop query="relns">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
@@ -1467,7 +1466,6 @@ imgStyleClass=value
 				</cfloop>
 				<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 			</div>
-
 			<script>
 				(function () {
 					var previous;
@@ -1479,8 +1477,6 @@ imgStyleClass=value
 					});
 				})();
 			</script>
-	
-		
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
