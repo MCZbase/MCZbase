@@ -1522,13 +1522,20 @@ imgStyleClass=value
 	<cfthread name="getLabelsThread">
 		<cftry>
 			<cfoutput>
-				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						media_relationship, media_id 
-					FROM
-						media_relations
-					WHERE rownum < 2
+				<cfquery name="getLabels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_label,
+						label_value,
+						agent_name,
+						media_label_id
+					from
+						media_labels,
+						preferred_agent_name
+					where
+						media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
+						media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
+				<cfif getLabels.recordcount GT 0>
 					<div id="labels">
 						<cfset i=1>
 						<cfif labels.recordcount is 0>
