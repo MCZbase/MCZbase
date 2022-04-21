@@ -1407,7 +1407,7 @@ imgStyleClass=value
 					media_relationship, media_id 
 				FROM
 					media_relations
-				WHERE rownum < 2
+				WHERE media_id = 1338
 			</cfquery>
 			<cfif getRelationships.recordcount GT 0>
 			<div id="relationships" class="col-12 px-0 float-left">
@@ -1433,7 +1433,6 @@ imgStyleClass=value
 			<!---	</cfif>--->
 				<cfloop query="relns">
 					<cfset d=media_relationship>
-						#relns#
 						<div class="form-row col-12 px-0 mx-0">	
 							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 							<label for="relationship__#i#"  class="sr-only">Relationship</label>
