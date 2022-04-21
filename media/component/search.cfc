@@ -1402,15 +1402,15 @@ imgStyleClass=value
 	<cfthread name="getRelationsThread">
 		<cftry>
 			<cfoutput>
-<!---				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_relationship, media_id,media_relations_id
+						media_relationship, media_id 
 					FROM
 						media_relations
-					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				</cfquery>--->
-			<cfif relns.recordcount GT 0>
-				<div id="relationships" class="col-12 px-0 float-left">
+					WHERE rownum < 2
+				</cfquery>
+				<cfif getRelationships.recordcount GT 0>
+			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
 				<cfif relns.recordcount is 0>
 					<div id="seedMedia" style="display:none">
@@ -1435,9 +1435,9 @@ imgStyleClass=value
 									<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="related_value__#i#" id="related_value__#i#" value="" class="data-entry-input col-6 float-left px-1">
+							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
 							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
-							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#relns.media_id#,relationshipDiv__#i#)"> Remove </button>
+							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 							value="Edit" style="width: 50px;"></input>
 						</div>
@@ -1468,17 +1468,19 @@ imgStyleClass=value
 				<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 			</div>
 
-				<script>
-					(function () {
-						var previous;
-						$("select").on('focus', function () {
-							previous = this.value;
-						}).change(function() {
-							alert(previous);
-							previous = this.value;
-						});
-					})();
-				</script>
+			<script>
+				(function () {
+					var previous;
+					$("select").on('focus', function () {
+						previous = this.value;
+					}).change(function() {
+						alert(previous);
+						previous = this.value;
+					});
+				})();
+			</script>
+	
+		
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
