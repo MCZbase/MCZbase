@@ -15,7 +15,7 @@ function saveSearch(url, execute, search_name, targetDiv) {
 		success: function (result) {
 			var status = result[0].status;
 			var name = result[0].name;
-			var message = "Saved: [" + result[0].name + "]." ;
+			var message = "Saved: [<a href='users/Searches.cfm' target='_blank'>" + result[0].name + "</a>]." ;
 			$("#"+targetDiv).html(message);
 		},
 		error: function (jqXHR, textStatus, error) {
