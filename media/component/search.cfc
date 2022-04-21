@@ -1404,7 +1404,7 @@ imgStyleClass=value
 			<cfoutput>
 				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_relationship, media_id,media_relations_id 
+						media_relationship, media_id,media_relations_id,summary 
 					FROM
 						media_relations
 					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
