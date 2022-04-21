@@ -1412,7 +1412,7 @@ imgStyleClass=value
 				<cfif getRelationships.recordcount GT 0>
 			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
-				<cfif relns.recordcount is 0>
+				<cfif getRelationships.recordcount is 0>
 					<div id="seedMedia" style="display:none">
 						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 						<cfset d="">
