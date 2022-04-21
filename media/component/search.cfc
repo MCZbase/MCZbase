@@ -1431,6 +1431,7 @@ imgStyleClass=value
 						</script> 
 					</div>
 			<!---	</cfif>--->
+				#relns.media_id#
 				<cfloop query="relns">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
