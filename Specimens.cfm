@@ -1568,6 +1568,7 @@ limitations under the License.
 				$('##fixedresultLink').html('');
 				$('##fixedmanageButton').html('');
 				$('##fixedsaveDialogButton').html('');
+				$('##fixedactionFeedback').html('');
 				/*var debug = $('##fixedSearchForm').serialize();
 				console.log(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
@@ -1744,6 +1745,7 @@ limitations under the License.
 				$("##keywordresultLink").html("");
 				$('##keywordmanageButton').html('');
 				$('##keywordsaveDialogButton').html('');
+				$('##keywordactionFeedback').html('');
 				var debug = $("##keywordSearchForm").serialize();
 				console.log(debug);
 		
@@ -1917,6 +1919,7 @@ limitations under the License.
 				$("##builderresultLink").html("");
 				$('##buildermanageButton').html('');
 				$('##buildersaveDialogButton').html('');
+				$('##builderactionFeedback').html('');
 				var debug = $("##builderSearchForm").serialize();
 				console.log(debug);
 		
