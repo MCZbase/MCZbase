@@ -673,6 +673,7 @@ limitations under the License.
 					$('##resultCount').html('');
 					$('##resultLink').html('');
 					$('##saveDialogButton').html('');
+					$('##actionFeedback').html('');
 
 					var search =
 					{
