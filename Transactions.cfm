@@ -3732,9 +3732,9 @@ $(document).ready(function() {
 
 });
 
-function populateSaveSearch() { 
-// set up a dialog for saving the current search.
-	var uri = "/Transactions.cfm?execute=true&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+function populateSaveSearch(targetAction) { 
+	// set up a dialog for saving the current search.
+	var uri = "/Transactions.cfm?execute=true&action=" + targetAction + "&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
 	$("##saveDialog").html(
 		"<div class='row'>"+ 
 		"<form id='saveForm'> " + 
@@ -3888,7 +3888,7 @@ function gridLoaded(gridId, searchType) {
 	});
 	$("##saveDialogButton").html(
 	`<button id="`+gridId+`saveDialogOpener"
-			onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
+			onclick=" populateSaveSearch("+targetAction+"); $('##saveDialog').dialog('open'); " 
 			class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
 	`);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
