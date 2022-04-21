@@ -1409,22 +1409,23 @@ imgStyleClass=value
 						media_relations
 					WHERE rownum < 2
 				</cfquery>
-				<cfif getRelationships.recordcount GT 0>
+			<cfset relns=getMediaRelations(#media_id#)>
+		<cfif getRelationships.recordcount GT 0>
 			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
 				<cfif relns.recordcount is 0>
-					<div id="seedMedia" style="display:none">
-						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
-						<cfset d="">
-						<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
-							<cfloop query="ctmedia_relationship">
-								<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-							</cfloop>
-						</select>
-						<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
-						<input type="hidden" name="related_id__0" id="related_id__0">
-					</div>
-				</cfif>
+				<div id="seedMedia" style="display:none">
+					<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
+					<cfset d="">
+					<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
+						<cfloop query="ctmedia_relationship">
+							<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+						</cfloop>
+					</select>
+					<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
+					<input type="hidden" name="related_id__0" id="related_id__0">
+				</div>
+	
 				<cfloop query="relns">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
@@ -1480,7 +1481,7 @@ imgStyleClass=value
 				})();
 			</script>
 	
-		
+			</cfif>
 				<cfelse>
 					<h3 class="h3">No Entries</h3>
 					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
