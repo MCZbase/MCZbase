@@ -855,6 +855,7 @@ limitations under the License.
 				</cfif>
 			}); /* End document.ready */
 
+			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 			function populateSaveSearch() { 
 				// set up a dialog for saving the current search.
 				var uri = "/Taxa.cfm?execute=true&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
@@ -874,6 +875,7 @@ limitations under the License.
 					"</div>"
 				);
 			}
+			</cfif>
 	
 			function gridLoaded(gridId, searchType) { 
 				if (Object.keys(window.columnHiddenSettings).length == 0) { 
@@ -990,7 +992,7 @@ limitations under the License.
 					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
 					`
 				);
-				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ><!--- TODO: coldfusion_user --->
+				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
 						height: 'auto',
 						width: 'auto',
