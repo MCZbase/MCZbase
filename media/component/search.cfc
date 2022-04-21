@@ -1404,7 +1404,7 @@ imgStyleClass=value
 			<cfoutput>
 				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_relationship, media_id,media_relations_id,summary 
+						media_relationship, media_id,media_relations_id
 					FROM
 						media_relations
 					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -1435,7 +1435,7 @@ imgStyleClass=value
 									<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
+							<input type="text" name="related_value__#i#" id="related_value__#i#" value="" class="data-entry-input col-6 float-left px-1">
 							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
 							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"

@@ -75,7 +75,7 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-		<cfset relns=getMediaRelations(#media_id#)>
+		<!---<cfset relns=getMediaRelations(#media_id#)>--->
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
@@ -182,61 +182,47 @@ limitations under the License.
 						</form>
 						<form id="relationshipForm">
 							<div class="col-12 col-md-12 px-0 float-left">
-									<div class="form-row my-1">
-										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
-											<h2>
-												<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
-											</h2>
-											<div class="row">
-												<div class="col-12">
-													<cfset relationsBlockContent= getRelationsHtml(media_id="#media.media_id#")>
-													<div id="relationsBlock">
-														#relationsBlockContent#
-													</div>
-													<div class="col-9 px-0 float-left">
-														<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadRelations('relationsBlock','#media_id#');">Load Relationships 
-														</button>
-													</div>
+								<div class="form-row my-1">
+									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pr-lg-2 float-left">
+										<h2>
+											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
+										</h2>
+										<div class="row">
+											<div class="col-12">
+												<cfset relationsBlockContent= getRelationsHtml(media_id="#media.media_id#")>
+												<div id="relationsBlock">
+													#relationsBlockContent#
+												</div>
+												<div class="col-9 px-0 float-left">
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadRelations('relationsBlock','#media_id#');">Load Relationships 
+													</button>
 												</div>
 											</div>
-											
-
-										</div><!---end col-12--->
-											<!---Start of Label Block--->
-										<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
-											<h2>
-												<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
-												</label>
-											</h2>
-											<div class="row">
-												<div class="col-12">
-													<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
-													<div id="labelBlock">
-														#labelBlockContent#
-													</div>
+										</div>
+									</div><!---end col-12--->
+									<!---Start of Label Block--->
+									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
+										<h2>
+											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+											</label>
+										</h2>
+										<div class="row">
+											<div class="col-12">
+												<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
+												<div id="labelBlock">
+													#labelBlockContent#
 												</div>
 											</div>
-										</div><!---end col-6--->	
-									</div><!---end form-row Relationships and labels--->
-
-									<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
-								<!--  TODO: Change to ajax save of form. 
-								<script>
-									$(document).ready(function() {
-										monitorForChanges('editMediaForm',handleChange);
-									});
-									function saveEdits(){ 
-										saveEditsFromForm("editMediaForm","/media/component/functions.cfc","saveResultDiv","saving media record");
-									};
-								</script>
-								-->
-						</form>
-					</div><!---end col-12--->
+										</div>
+									</div><!---end col-6--->	
+								</div><!---end form-row Relationships and labels--->
+							</form>
+						</div><!---end col-12--->
+					</div>
 				</div>
 			</div>
-		</div>
-		</cfoutput>
-	</cfcase>
+			</cfoutput>
+		</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
 	<cfcase value="new">
 		<cfoutput>
