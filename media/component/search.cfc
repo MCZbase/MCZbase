@@ -1399,17 +1399,17 @@ imgStyleClass=value
 	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
 		does not need to be unique.
 	--->
-	<cfthread name="getRelationsThread">
-		<cftry>
-			<cfoutput>
-				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						media_relationship, media_id 
-					FROM
-						media_relations
-					WHERE rownum < 2
-				</cfquery>
-				<cfif getRelationships.recordcount GT 0>
+<cfthread name="getRelationsThread">
+	<cftry>
+		<cfoutput>
+			<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					media_relationship, media_id 
+				FROM
+					media_relations
+				WHERE rownum < 2
+			</cfquery>
+			<cfif getRelationships.recordcount GT 0>
 			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
 			<!---	<cfif relns.recordcount is 0>--->
@@ -1426,6 +1426,9 @@ imgStyleClass=value
 						</select>
 						<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
 						<input type="hidden" name="related_id__0" id="related_id__0">
+						<script>
+							console.log("seed media");
+						</script> 
 					</div>
 			<!---	</cfif>--->
 				<cfloop query="relns">
@@ -1443,6 +1446,9 @@ imgStyleClass=value
 							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
 							value="Edit" style="width: 50px;"></input>
+						<script>
+							console.log("relns");
+						</script> 
 						</div>
 						<script type="text/javascript">
 							$(document).ready(function enable_disable() {
