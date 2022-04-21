@@ -1862,14 +1862,11 @@ limitations under the License.
 						gridLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 						keywordSearchLoaded = 1;
 					}
-					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
-						<!--- manage temporaraly only visible for global admin --->
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
-						<cfelse>
-							$('##keywordmanageButton').html('');
-						</cfif>
-					</cfif>				
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+					<cfelse>
+						$('##keywordmanageButton').html('');
+					</cfif>
 					pageLoaded('keywordsearchResultsGrid','occurrence record','keyword');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 						console.log(#session.specimens_pin_guid#);
@@ -2037,13 +2034,10 @@ limitations under the License.
 						gridLoaded('buildersearchResultsGrid','occurrence record','builder');
 						builderSearchLoaded = 1;
 					}
-					<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") >
-						<!--- manage temporaraly only visible for global admin --->
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
-						<cfelse>
-							$('##buildermanageButton').html('');
-						</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+					<cfelse>
+						$('##buildermanageButton').html('');
 					</cfif>
 					pageLoaded('buildersearchResultsGrid','occurrence record','builder');
 					<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
@@ -2288,7 +2282,7 @@ limitations under the License.
 				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
 				`
 			);
-			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ><!--- TODO: coldfusion_user --->
+			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 				$("##"+whichGrid+"saveDialog").dialog({
 					height: 'auto',
 					width: 'auto',

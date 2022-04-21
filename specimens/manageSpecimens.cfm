@@ -52,6 +52,13 @@ limitations under the License.
 									<li class="nav-item mb-1">
 										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
 									</li>
+									<li class="nav-item mb-1">
+										<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
+										<!---
+											TODO: In progress, BugID:  
+											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession</a>
+										--->
+									</li>
 								</cfif>
 								<li class="nav-item mb-1">
 									<a href="/specimens/changeQueryCollectors.cfm?result_id=#encodeForUrl(result_id)#" class="btn btn-secondary btn-xs nav-link" target="_blank">Collectors/Preparators</a>
