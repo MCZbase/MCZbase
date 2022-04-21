@@ -70,6 +70,8 @@
 								<cfcase value="/Transactions.cfm"><cfset target="Transactions"></cfcase>
 								<cfcase value="/Taxa.cfm"><cfset target="Taxa"></cfcase>
 								<cfcase value="/Agents.cfm"><cfset target="Agents"></cfcase>
+								<cfcase value="/media/findMedia.cfm"><cfset target="Media"></cfcase>
+								<cfcase value="/transactions/Permit.cfm"><cfset target="Permissions & Rights Documents"></cfcase>
 							</cfswitch>
 							<cfset execute_text = "">
 							<cfset doExecute = true>
