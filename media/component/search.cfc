@@ -1404,13 +1404,13 @@ imgStyleClass=value
 			<cfoutput>
 				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						media_relationship, media_id 
+						media_relationship, media_id, media_relations_id 
 					FROM
 						media_relations
-					WHERE rownum < 2
+					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
-				<cfif getRelationships.recordcount GT 0>
 			<div id="relationships" class="col-12 px-0 float-left">
+				<cfif getRelationships.recordcount GT 0>
 				<cfset i=1>
 				<cfif relns.recordcount is 0>
 					<div id="seedMedia" style="display:none">
