@@ -1409,7 +1409,7 @@ imgStyleClass=value
 						media_relations
 					WHERE rownum < 2
 				</cfquery>
-				<cfif getRelationships.recordcount GT 0>
+				<cfif isDefined(media_id)>
 			<div id="relationships" class="col-12 px-0 float-left">
 				<cfset i=1>
 				<cfif relns.recordcount is 0>
