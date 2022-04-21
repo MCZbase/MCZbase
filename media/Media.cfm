@@ -203,61 +203,13 @@ limitations under the License.
 												<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
 												</label>
 											</h2>
-											<div id="labels">
-												<cfset i=1>
-												<cfif labels.recordcount is 0>
-													<!--- seed --->
-													<div id="seedLabel" style="display:none;">
-														<input type="hidden" id="media_label_id__0" name="media_label_id__0">
-														<cfset d="">
-														<label for="label__#i#" class='sr-only'>Media Label</label>
-														<select name="label__0" id="label__0" size="1" class="data-entry-select float-left col-5">
-															<cfloop query="ctmedia_label">
-																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-															</cfloop>
-														</select>
-														<input type="text" name="label_value__0" id="label_value__0" class="col-7 float-left data-entry-input">
+											<div class="row">
+												<div class="col-12">
+													<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
+													<div id="labelBlock">
+														#labelBlockContent#
 													</div>
-													<!--- end labels seed --->
-												</cfif>
-												<cfloop query="labels">
-													<cfset d=media_label>
-													<div class="form-row col-12 px-0 mx-0" id="labelDiv__#i#" >		
-														<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
-														<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-														<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
-															<cfloop query="ctmedia_label">
-																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-															</cfloop>
-														</select>
-														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
-														<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
-														<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
-													</div>
-													<script type="text/javascript">
-														$(document).ready(function edit_revert() {
-																$("##label__#i#").prop("disabled", true);
-																$("##label_value__#i#").prop("disabled", true);
-																$(".edit-toggle__#i#").click(function() {
-																	if (this.value=="Edit") {
-																		this.value = "Revert";
-																		$("##label__#i#").prop("disabled", false);
-																		$("##label_value__#i#").prop("disabled", false);
-																	}
-																	else {
-																		this.value = "Edit";
-																		$("##label__#i#").prop("disabled", true);
-																		$("##label_value__#i#").prop("disabled", true);
-																	}
-																});
-															});
-													</script>
-													<cfset i=i+1>
-												</cfloop>
-												<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
-											</div><!---end id labels--->
-											<div class="col-12 px-0 float-left">
-												<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
+												</div>
 											</div>
 										</div><!---end col-6--->	
 									</div><!---end form-row Relationships and labels--->
@@ -501,113 +453,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
-	<cfcase value="saveNew">
-		<!--- See also function createMedia in /media/component/functions.cfc, which can back an ajax call to create a new media record. --->
-		<cftransaction>
-			<cftry>
-				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select sq_media_id.nextval nv from dual
-				</cfquery>
-				<cfset media_id=mid.nv>
-				<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into media (
-							media_id,
-							media_uri,
-							mime_type,
-							media_type,
-							preview_uri
-						 	<cfif len(media_license_id) gt 0>
-								,media_license_id
-							</cfif>
-						) values (
-							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
-							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">
-							<cfif len(media_license_id) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_license_id#">
-							</cfif>
-						)
-				</cfquery>
-				<cfquery name="makeDescriptionRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into media_labels (
-						media_id,
-						media_label,
-						label_value
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-						'description',
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
-					)
-				</cfquery>
-				<cfloop from="1" to="#number_of_relations#" index="n">
-					<cfset thisRelationship = #evaluate("relationship__" & n)#>
-					<cfset thisRelatedId = #evaluate("related_id__" & n)#>
-					<cfset thisTableName=ListLast(thisRelationship," ")>
-					<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
-						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into media_relations (
-								media_id,
-								media_relationship,
-								related_primary_key
-							) values (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRelationship#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedId#">
-							)
-						</cfquery>
-					</cfif>
-				</cfloop>
-				<cfloop from="1" to="#number_of_labels#" index="n">
-					<cfset thisLabel = #evaluate("label__" & n)#>
-					<cfset thisLabelValue = #evaluate("label_value__" & n)#>
-					<cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
-						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into media_labels (
-								media_id,
-								media_label,
-								label_value
-							) values (
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabel#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabelValue#">
-							)
-						</cfquery>
-					</cfif>
-				</cfloop>
-				<cfset error=false>
-			<cfcatch>
-				<cftransaction action="rollback">
-				<cfset error=true>
-				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfheader statusCode="500" statusText="#message#">
-				<cfoutput>
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<cfif cfcatch.detail contains "ORA-00001: unique constraint (MCZBASE.U_MEDIA_URI)" >
-									<h2>A media record for that resource already exists in MCZbase.</h2>
-								<cfelse>
-									<h2>Internal Server Error.</h2>
-								</cfif>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
-				</cfoutput>
-			</cfcatch>
-			</cftry>
-		</cftransaction>
-			<cfif error EQ false>
-			<cfoutput>
-				<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
-			</cfoutput>
-		</cfif>
-	</cfcase>
+
 </cfswitch>
 
 <cfinclude template="/shared/_footer.cfm">

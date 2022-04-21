@@ -1331,7 +1331,7 @@ imgStyleClass=value
 	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
 </cffunction>
 
-					
+<!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc showMore is not working-- Michelle--->				
 <cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
@@ -1380,11 +1380,7 @@ imgStyleClass=value
 	<cfthread action="join" name="showMoreMediaThread" />
 	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
-		
 
-					
-					
-					
 <cffunction name="getRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
@@ -1505,6 +1501,121 @@ imgStyleClass=value
 	</cfthread>
 	<cfthread action="join" name="getRelationsThread" />
 	<cfreturn getRelationsThread.output>
+</cffunction>
+				
+<cffunction name="getLabelsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.media_id = arguments.media_id>
+	<!--- 
+	NOTE: If this cffunction is invoked more than once in a request (e.g. when called directly as a function
+		within a loop in coldfusion in a coldfusion page) then the thread name must be unique for each invocation,
+		so generate a highly likely to be unique thread name as follows:	
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfthread name="getCounterThread#tn#" threadName="mediaWidgetThread#tn#">
+	Likewise, include #tn# in the names of the thread in all the other cfthread tags within this cffunction 
+	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
+		does not need to be unique.
+	--->
+	<cfthread name="getLabelsThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="getRelationships" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						media_relationship, media_id 
+					FROM
+						media_relations
+					WHERE rownum < 2
+				</cfquery>
+					<div id="labels">
+						<cfset i=1>
+						<cfif labels.recordcount is 0>
+							<!--- seed --->
+							<div id="seedLabel" style="display:none;">
+								<input type="hidden" id="media_label_id__0" name="media_label_id__0">
+								<cfset d="">
+								<label for="label__#i#" class='sr-only'>Media Label</label>
+								<select name="label__0" id="label__0" size="1" class="data-entry-select float-left col-5">
+									<cfloop query="ctmedia_label">
+										<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+									</cfloop>
+								</select>
+								<input type="text" name="label_value__0" id="label_value__0" class="col-7 float-left data-entry-input">
+							</div>
+							<!--- end labels seed --->
+						</cfif>
+						<cfloop query="labels">
+							<cfset d=media_label>
+							<div class="form-row col-12 px-0 mx-0" id="labelDiv__#i#" >		
+								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
+								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
+								<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
+									<cfloop query="ctmedia_label">
+										<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+									</cfloop>
+								</select>
+								<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-7 float-left">
+								<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
+								<input class="btn btn-secondary btn-xs mx-2 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
+							</div>
+							<script type="text/javascript">
+								$(document).ready(function edit_revert() {
+										$("##label__#i#").prop("disabled", true);
+										$("##label_value__#i#").prop("disabled", true);
+										$(".edit-toggle__#i#").click(function() {
+											if (this.value=="Edit") {
+												this.value = "Revert";
+												$("##label__#i#").prop("disabled", false);
+												$("##label_value__#i#").prop("disabled", false);
+											}
+											else {
+												this.value = "Edit";
+												$("##label__#i#").prop("disabled", true);
+												$("##label_value__#i#").prop("disabled", true);
+											}
+										});
+									});
+							</script>
+							<cfset i=i+1>
+						</cfloop>
+						<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+					</div><!---end id labels--->
+					<div class="col-12 px-0 float-left">
+						<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
+					</div>
+					<script>
+						(function () {
+							var previous;
+							$("select").on('focus', function () {
+								previous = this.value;
+							}).change(function() {
+								alert(previous);
+								previous = this.value;
+							});
+						})();
+					</script>
+				<cfelse>
+					<h3 class="h3">No Entries</h3>
+					<ul><li>#encodeForHtml(variables.media_id)#</li></ul>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<!--- For functions that return html blocks to be embedded in a page, the error can be included in the output --->
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getLabelsThread" />
+	<cfreturn getLabelsThread.output>
 </cffunction>
 			
 </cfcomponent>
