@@ -231,7 +231,7 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 function loadRelations(targetDiv, media_id) { 
 	console.log("loadHello() called for " + targetDiv);
 	jQuery.ajax({
-		url: "/media/component/functions.cfc",
+		url: "/media/component/search.cfc",
 		data : {
 			method : "getRelationsHtml",
 			media_id : media_id
