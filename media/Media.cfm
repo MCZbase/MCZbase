@@ -436,6 +436,12 @@ limitations under the License.
 										<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
 										</label>
 										<div id="labels">
+											<div class="form-row mx-0 px-0 col-12">
+												<select class="data-entry-select col-12 col-md-6 px-0 float-left">
+													<option>description</option>
+												</select>
+												<input class="data-entry-input col-12 col-md-6 float-left px-0 reqdClr" type="text" name="label_value__0" id="label_value__0" value="" required>
+											</div>
 											<cfset i=1>
 											<cfloop>
 												<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
