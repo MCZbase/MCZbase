@@ -2618,11 +2618,14 @@ limitations under the License.
 				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border" tabindex="0">
 						<h1 class="h4 m-2 pt-1" tabindex="0">Results: <span class="font-weight-normal text-success px-1" id="resultCount" tabindex="0"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
+						<div id="saveDialogButton" class="d-block p-1"></div>
+						<div id="saveDialog"></div>
 						<div id="columnPickDialog">
 							<div id="columnPick" class="px-1"></div>
 						</div>
 						<div id="columnPickDialogButton"></div>
 						<div id="resultDownloadButtonContainer"></div>
+						<output id="actionFeedback" class="d-block p-1"></output>
 					</div>
 					<div class="row mt-0 mx-0">
 						<!--- div id="searchText"></div  not needed?  --->
@@ -2818,6 +2821,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var search =
 		{
@@ -3028,6 +3033,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var loanSearch =
 		{
@@ -3196,6 +3203,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var accnSearch =
 		{
@@ -3360,6 +3369,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var deaccessionSearch =
 		{
@@ -3543,6 +3554,8 @@ $(document).ready(function() {
 		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 		$('##resultCount').html('');
 		$('##resultLink').html('');
+		$('##saveDialogButton').html('');
+		$('##actionFeedback').html('');
 
 		var borrowSearch =
 		{
@@ -3727,6 +3740,26 @@ $(document).ready(function() {
 
 });
 
+function populateSaveSearch(targetAction) { 
+	// set up a dialog for saving the current search.
+	var uri = "/Transactions.cfm?execute=true&action=" + targetAction + "&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+	$("##saveDialog").html(
+		"<div class='row'>"+ 
+		"<form id='saveForm'> " + 
+		" <input type='hidden' value='"+uri+"' name='url'>" + 
+		" <div class='col-12'>" + 
+		"  <label for='search_name_input'>Search Name</label>" + 
+		"  <input type='text' id='search_name_input'  name='search_name' value='' class='data-entry-input reqdClr' pattern='Your name for this search' maxlenght='60' required>" + 
+		" </div>" + 
+		" <div class='col-12'>" + 
+		"  <label for='execute_input'>Execute Immediately</label>"+
+		"  <input id='execute_input' type='checkbox' name='execute' checked>"+
+		" </div>" +
+		"</form>"+
+		"</div>"
+	);
+}
+
 function gridLoaded(gridId, searchType) { 
 	var targetAction = "findAll"
 	if (searchType == "transaction") { targetAction = "findAll"; }
@@ -3826,6 +3859,46 @@ function gridLoaded(gridId, searchType) {
 	$("##columnPickDialogButton").html(
 		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
 	);
+	$("##saveDialog").dialog({
+		height: 'auto',
+		width: 'auto',
+		adaptivewidth: true,
+		title: 'Save Search',
+		autoOpen: false,
+		modal: true,
+		reszable: true,
+		buttons: [
+			{
+				text: "Save",
+				click: function(){
+					var url = $('##saveForm :input[name=url]').val();
+					var execute = $('##saveForm :input[name=execute]').is(':checked');
+					var search_name = $('##saveForm :input[name=search_name]').val();
+					saveSearch(url, execute, search_name,"actionFeedback");
+					$(this).dialog("close"); 
+				},
+				tabindex: 0
+			},
+			{
+				text: "Cancel",
+				click: function(){ 
+					$(this).dialog("close"); 
+				},
+				tabindex: 0
+			}
+		],
+		open: function (event, ui) {
+			var maxZIndex = getMaxZIndex();
+			// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+			$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+			$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+		}
+	});
+	$("##saveDialogButton").html(
+	`<button id="`+gridId+`saveDialogOpener"
+			onclick=" populateSaveSearch('`+targetAction+`'); $('##saveDialog').dialog('open'); " 
+			class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+	`);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 	// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 	var maxZIndex = getMaxZIndex();
