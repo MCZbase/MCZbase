@@ -563,7 +563,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 pt-1">Results: 
+							<h1 class="h4" style="margin-top:.80rem!important;">Results: 
 								<span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
 									<a class="messageResults" tabindex="0" aria-label="search results"></a>
 								</span> 
@@ -585,7 +585,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
-							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
+							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0" style="font-size:.96rem;"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
@@ -984,7 +984,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded px-2 mx-lg-1"><span style="font-size: 0.96rem;font-weight: 600;margin-top: 0.33rem;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
+					`<span class="border d-inline-block rounded p-1 m-1"><span style="font-size: 0.96rem;font-weight: 600;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
@@ -1032,7 +1032,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+							class="btn btn-xs btn-secondary mr-1" style="margin-top:1px;">Save Search</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
