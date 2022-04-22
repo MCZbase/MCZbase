@@ -286,11 +286,25 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 											console.log(result);
 											console.log(result[0].status);
 											$("##helloworldtextdialogfeedback").html(result[0].status);
+											if (result[0].status.equals("saved") { 
+												$('##helloworldtextdialogfeedback').removeClass('text-danger');
+												$('##helloworldtextdialogfeedback').addClass('text-success');
+												$('##helloworldtextdialogfeedback').removeClass('text-warning');
+											}
 											console.log(result[0].counter);
 											console.log(result[0].text);
 										}
 										).fail(function(jqXHR,textStatus,error){ handleFail(jqXHR,textStatus,error,"incrementing hello world counter (1)"); });
 									};
+									function changed(){
+										$('##helloworldtextdialogfeedback').html('Unsaved changes.');
+										$('##helloworldtextdialogfeedback').addClass('text-danger');
+										$('##helloworldtextdialogfeedback').removeClass('text-success');
+										$('##helloworldtextdialogfeedback').removeClass('text-warning');
+									};
+									$(document).ready(function() {
+										$('##text_form[type=text]').on("change",changed);
+									}
 								</script>
 								<button type="button" class="btn btn-xs btn-primary" onClick="saveText();">Save</button>
 								<output id="helloworldtextdialogfeedback"><output>
