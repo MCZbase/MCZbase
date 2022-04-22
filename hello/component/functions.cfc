@@ -154,9 +154,8 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 </cffunction>
 
 
-<!--- updateText, update the hello world text field for a specified cf_helloworld record.
+<!--- incrementCounter, update the hello world counter for a specified cf_helloworld record.
   @param helloworld_id the primary key value of the row to update.
-  @param text the new value for cf_helloworld.text
   @return json containing status(=saved), counter, and text.
   @throws returns error using reportError() and rollsback transaction
 --->
@@ -171,6 +170,53 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 					MCZBASE.cf_helloworld
 				SET
 					counter = counter + 1 
+				WHERE
+					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
+			</cfquery>
+			<cfquery name="getCounter" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					text, counter 
+				FROM
+					MCZBASE.cf_helloworld
+				WHERE
+					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["counter"] = "#getCounter.counter#">
+			<cfset row["text"] = "#getCounter.text#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- updateText, update the hello world text field for a specified cf_helloworld record,
+  without updating the cunter.
+  @param helloworld_id the primary key value of the row to update.
+  @param text the new value for cf_helloworld.text
+  @return json containing status(=saved), counter, and text.
+  @throws returns error using reportError() and rollsback transaction
+--->
+<cffunction name="updateText" access="remote" returntype="any" returnformat="json">
+	<cfargument name="helloworld_id" type="string" required="yes">
+	<cfargument name="text" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="setText" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE 
+					MCZBASE.cf_helloworld
+				SET
+					text = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#text#">
 				WHERE
 					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
 			</cfquery>
