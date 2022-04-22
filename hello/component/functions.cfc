@@ -285,6 +285,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 										function (result) {
 											console.log(result);
 											console.log(result[0].status);
+											$("##helloworldtextdialogfeedback").html(result[0].status);
 											console.log(result[0].counter);
 											console.log(result[0].text);
 										}
@@ -292,6 +293,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 									};
 								</script>
 								<button type="button" class="btn btn-xs btn-primary" onClick="saveText();">Save</button>
+								<output id="helloworldtextdialogfeedback"><output>
 							</form>
 						</div>
 					</div>
