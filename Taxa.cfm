@@ -563,7 +563,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4" style="margin-top:.80rem!important;">Results: 
+							<h1 class="h4 ml-1" style="margin-top:.80rem!important;">Results: 
 								<span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
 									<a class="messageResults" tabindex="0" aria-label="search results"></a>
 								</span> 
@@ -584,7 +584,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer"></div>
+							<div id="resultDownloadButtonContainer" class="my-1"></div>
 							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0" style="font-size:.96rem;"></output>
 						</div>
 						<div class="row mt-0 mx-0">
@@ -1043,7 +1043,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 mb-md-2" style="margin-top:.33rem;" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 			function togglePinTaxonColumn() { 
