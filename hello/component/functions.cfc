@@ -286,11 +286,13 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 											console.log(result);
 											console.log(result[0].status);
 											$("##helloworldtextdialogfeedback").html(result[0].status);
-											if (result[0].status.equals("saved")) { 
+											var savedVal = "saved";
+											var responseStatus = result[0].status;
+											if (savedVal.equals(responseStatus)) { 
 												$('##helloworldtextdialogfeedback').removeClass('text-danger');
 												$('##helloworldtextdialogfeedback').addClass('text-success');
 												$('##helloworldtextdialogfeedback').removeClass('text-warning');
-											}
+											};
 											console.log(result[0].counter);
 											console.log(result[0].text);
 										}
