@@ -564,7 +564,7 @@ limitations under the License.
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h1 class="h4 ml-1" style="margin-top:.80rem!important;">Results: 
-								<span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
+								<span class="px-1 text-success" style="font-weight:600;" id="resultCount" tabindex="0">
 									<a class="messageResults" tabindex="0" aria-label="search results"></a>
 								</span> 
 							</h1>
