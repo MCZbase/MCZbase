@@ -286,7 +286,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 											console.log(result);
 											console.log(result[0].status);
 											$("##helloworldtextdialogfeedback").html(result[0].status);
-											if (result[0].status.equals("saved") { 
+											if (result[0].status.equals("saved")) { 
 												$('##helloworldtextdialogfeedback').removeClass('text-danger');
 												$('##helloworldtextdialogfeedback').addClass('text-success');
 												$('##helloworldtextdialogfeedback').removeClass('text-warning');
