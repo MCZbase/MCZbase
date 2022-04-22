@@ -280,21 +280,18 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 										jQuery.getJSON("/hello/component/functions.cfc", { 
 											method : "updateText",
 											helloworld_id : id,
-											text: text,
-											returnformat : "json",
-											queryformat : 'column'
+											text: text
 										},
 										function (result) {
-											if (result.DATA.STATUS[0]=='1') { 
-												$('##project_picker_form').html('Relationship to project saved.');
-											} else {
-												messageDialog('Error linking project to transaction record: '+result.DATA.MESSAGE[0], 'Error saving project-transaction relation.');
-											}
+											console.log(result);
+											console.log(result[0].status);
+											console.log(result[0].counter);
+											console.log(result[0].text);
 										}
 										).fail(function(jqXHR,textStatus,error){ handleFail(jqXHR,textStatus,error,"incrementing hello world counter (1)"); });
 									};
 								</script>
-								<button type="button" class="btn btn-xs btn-primary" onClick="saveProjectLink();">Save</button>
+								<button type="button" class="btn btn-xs btn-primary" onClick="saveText();">Save</button>
 							</form>
 						</div>
 					</div>
