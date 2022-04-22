@@ -568,8 +568,8 @@ limitations under the License.
 									<a class="messageResults" tabindex="0" aria-label="search results"></a>
 								</span> 
 							</h1>
-							<span id="resultLink" class="d-inline-block px-1 my-1 py-2"></span>
-							<div id="saveDialogButton" class="d-block p-2"></div>
+							<span id="resultLink" class="d-inline-block px-1 py-2" style="font-weight:600;padding-right:.5rem;padding-left:.5rem;margin-top:.33rem;margin-bottom:.33rem;"></span>
+							<div id="saveDialogButton" class="d-block" style="padding:.6rem;"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -585,7 +585,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
-							<output id="actionFeedback" class="d-block p-2"></output>
+							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
@@ -984,7 +984,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded px-2 mx-lg-1">Show/Hide 
+					`<span class="border d-inline-block rounded px-2 mx-lg-1"><span style="font-size: 0.96rem;font-weight: 600;margin-top: 0.33rem;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
