@@ -156,7 +156,6 @@ function openUpdateTextDialog(helloworld_id, dialogId) {
 	});
 	thedialog.dialog('open');
 	jQuery.ajax({
-		console.log("requesting dialog data");
 		url: "/hello/component/functions.cfc",
 		type: "post",
 		data: {
