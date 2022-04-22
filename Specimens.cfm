@@ -755,8 +755,8 @@ limitations under the License.
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 mt-1 pt-2">Results: 
-														<span class="d-block pr-2" id="fixedresultCount"></span> 
-														<span id="fixedresultLink" class="d-block pr-2"></span>
+														<span class="pr-2" id="fixedresultCount"></span> 
+														<span id="fixedresultLink" class="pr-2"></span>
 													</h1>
 													<div id="fixedsaveDialogButton" class="d-block p-2"></div>
 													<div id="fixedsaveDialog"></div>
