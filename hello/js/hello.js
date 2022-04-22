@@ -84,7 +84,7 @@ function incrementCountersUpdate(counterElement) {
 
 
 /**  
- * Increment a counters and update an element in the page.
+ * Increment a counter and update an element in the page.
  * 
  * @param helloworld_id the row for which to update the counter
  * @param counterElement the id of a element in the dom, the html
@@ -161,7 +161,7 @@ function openUpdateTextDialog(helloworld_id, dialogId) {
 		data: {
 			method: 'getHtml',
 			returnformat: "plain",
-			transaction_id: transaction_id
+			helloworld_id: helloworld_id
 		},
 		success: function(data) {
 			console.log("dialog data returned, populating dialog div");

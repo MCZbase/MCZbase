@@ -79,7 +79,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 					<!--- id_for_counter allows the calling code to specify, and thus know a value to pass to other functions, the id for the counter element in the dom --->
 					<!--- see the use of this in the invocation of the javascript updateCounterElement() function --->
 					<ul><li id="#encodeForHtml(variables.id_for_counter)#">#getCounter.counter#</li></ul>
-					<ul><li><button onClick=" incrementCounter('#variables.id_for_counter#','#getCounter.helloworld_id#')" class="btn btn-xs btn-secondary" >Increment</button></li></ul>
+					<ul><li><button onClick=" incrementCounterUpdate('#variables.id_for_counter#','#getCounter.helloworld_id#')" class="btn btn-xs btn-secondary" >Increment</button></li></ul>
 					<ul><li>#encodeForHtml(variables.parameter)#</li></ul>
 					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 					<!--- id_for_dialog allows the calling code to specify the div for the dialog, 
