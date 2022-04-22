@@ -30,22 +30,23 @@ limitations under the License.
 
 <cfset param = "param in page">
 <cfset id_for_counter = "counterElement">
+<cfset id_for_dialog = "textDialogDiv">
 
 <cfoutput>
 	<main id="content" class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",id_for_counter="#id_for_counter#",id_for_dialog="textDialogDiv")>
+				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",id_for_counter="#id_for_counter#",id_for_dialog="#id_for_dialog#")>
 				<div id="counterBlock">
 					#counterBlockContent#
 				</div>
-				<div id="textDialogDiv"></div>
+				<div id="#id_for_dialog#"></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-12">
 				<!---  invoke the loadHello function to just do a ajax replace of the counterBlock --->
-				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#');">Reload counterBlock</button> 
+				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#','#id_for_dialog#');">Reload counterBlock</button> 
 
 				<!--- invoke the increment counter function with the doReload function as a callback --->
 				<button class="btn btn-primary btn-xs" onClick="incrementCounters(doReload);">Increment Counter</button> 
@@ -57,7 +58,7 @@ limitations under the License.
 		<script>
 			function doReload() { 
 				console.log("doReload() invoked");
-				loadHello('counterBlock','#param#','param in doReload','#id_for_counter#',"textDialogDiv");
+				loadHello('counterBlock','#param#','param in doReload','#id_for_counter#',"#id_for_dialog#");
 			}
 		</script> 
 	</main>
