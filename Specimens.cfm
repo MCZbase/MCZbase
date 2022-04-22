@@ -1342,7 +1342,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class="d-block p-2"></span>
-													<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output> 
+													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output> 
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
