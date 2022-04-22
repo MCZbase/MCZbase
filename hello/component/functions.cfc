@@ -305,7 +305,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 									};
 									$(document).ready(function() {
 										console.log("document.ready in returned dialog html");
-										$('##text_form[type=text]').on("change",changed);
+										$('##text_form [type=text]').on("change",changed);
 									});
 								</script>
 								<button type="button" class="btn btn-xs btn-primary" onClick="saveText();">Save</button>
