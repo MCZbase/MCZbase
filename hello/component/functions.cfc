@@ -258,7 +258,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 		<cftry>
 			<cfquery name="lookupRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupRow_result">
 				select helloworld_id, text, counter
-				from cf_helloworld
+				from MCZBASE.cf_helloworld
 				where
 					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
 			</cfquery>
