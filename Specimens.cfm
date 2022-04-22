@@ -754,7 +754,7 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 mt-1 pt-2 ml-2 ml-md-1">Results: 
+													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
@@ -781,7 +781,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class="d-block p-2"></span>
-													<output id="fixedactionFeedback" class="d-block p-2"></output>
+													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -902,11 +902,11 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 mt-1 pt-2 ml-2 ml-md-1">Results: 
+													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
 														<span class="pr-2 font-weight-normal" id="keywordresultCount"></span> 
-														<span id="keywordresultLink" class="pr-2"></span>
+														<span id="keywordresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
-													<div id="keywordsaveDialogButton" class="d-block p-1"></div>
+													<div id="keywordsaveDialogButton" class="d-block pt-2 px-1"></div>
 													<div id="keywordsaveDialog"></div>
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
@@ -929,7 +929,7 @@ limitations under the License.
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class="d-block p-2"></span>
-													<output id="keywordactionFeedback" class="d-block p-2"></output>
+													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1313,7 +1313,7 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 mt-1 pt-2 ml-2 ml-md-1">
+													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">
 														Results: 
 														<span class="pr-2 font-weight-normal" id="builderresultCount"></span> 
 														<span id="builderresultLink" class="pr-2 font-weight-normal"></span>
@@ -1342,7 +1342,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class="d-block p-2"></span>
-													<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output> 
+													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output> 
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->

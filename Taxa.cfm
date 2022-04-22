@@ -563,7 +563,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 mt-1 pt-2 ml-2 ml-md-1">
+							<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 5px;">
 								Results: 
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" tabindex="0" aria-label="search results"></a>
@@ -571,7 +571,7 @@ limitations under the License.
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
 							
-							<div id="saveDialogButton" class="d-block p-2"></div>
+							<div id="saveDialogButton" class="d-block p-2" style="margin-top: 2px;"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -587,7 +587,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer" class="my-1"></div>
-							<output id="actionFeedback" class="btn btn-transparent h4 px-2 py-2 p-md-2 border-0"></output>
+							<output id="actionFeedback" class="m-1 p-2" style="font-size: 0.96rem;font-weight: 600;"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
@@ -992,7 +992,7 @@ limitations under the License.
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Super/Sub/Infra</button>
 						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Scientific Name</button>
 					</span>
-					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 mb-0 mt-1 my-md-2" >Pin Taxon Column</button>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-2 py-1 mb-0 mt-1 my-md-2" >Pin Taxon Column</button>
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -1049,12 +1049,12 @@ limitations under the License.
 			}
 
 			function togglePinTaxonColumn() { 
-				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'PLAIN_NAME_AUTHOR', 'pinned');
 				$("##searchResultsGrid").jqxGrid('beginupdate');
 				if (state==true) {
-					$('##searchResultsGrid').jqxGrid('unpincolumn', 'display_name_author');
+					$('##searchResultsGrid').jqxGrid('unpincolumn', 'PLAIN_NAME_AUTHOR');
 				} else {
-					$('##searchResultsGrid').jqxGrid('pincolumn', 'display_name_author');
+					$('##searchResultsGrid').jqxGrid('pincolumn', 'PLAIN_NAME_AUTHOR');
 				}
 				$("##searchResultsGrid").jqxGrid('endupdate');
 			}

@@ -59,7 +59,7 @@
 						<tbody>
 						<cfloop query="getSavedSearches">
 							<cfset target = "">
-							<cfset matches="#reMatch('/[A-Za-z]+\.cfm',getSavedSearches.URL)#">
+							<cfset matches="#reMatch('/[A-Za-z/]+\.cfm',getSavedSearches.URL)#">
 							<cfif ArrayLen(matches) EQ 1>
 								<cfset page="#matches[1]#">
 							</cfif>
