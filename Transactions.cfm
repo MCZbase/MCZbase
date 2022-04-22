@@ -3742,7 +3742,13 @@ $(document).ready(function() {
 
 function populateSaveSearch(targetAction) { 
 	// set up a dialog for saving the current search.
-	var uri = "/Transactions.cfm?execute=true&action=" + targetAction + "&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+	var targetForm = "searchForm";
+	if (targetAction=="findLoans") { targetForm = "loanSearchForm"; };
+	if (targetAction=="findBorrows") { targetForm = "borrowSearchForm"; };
+	if (targetAction=="findAccessions") { targetForm = "accnSearchForm"; };
+	if (targetAction=="findDeaccessions") { targetForm = "deaccnSearchForm"; };
+
+	var uri = "/Transactions.cfm?execute=true&action=" + targetAction + "&" + $("##"+targetForm+" :input").filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
 	$("##saveDialog").html(
 		"<div class='row'>"+ 
 		"<form id='saveForm'> " + 
