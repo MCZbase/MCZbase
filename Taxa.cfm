@@ -985,10 +985,10 @@ limitations under the License.
 				});
 				$("##columnPickDialogButton").html(
 					`<span class="border d-inline-block rounded p-1 m-1"><span style="font-size: 0.96rem;font-weight: 600;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
-						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
-						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
-						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
-						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary my-1 ml-1" >Scientific Name</button>
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary">Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary" >Scientific Name</button>
 					</span>
 					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
 					`
