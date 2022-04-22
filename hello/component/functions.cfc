@@ -161,7 +161,6 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 --->
 <cffunction name="incrementCounter" access="remote" returntype="any" returnformat="json">
 	<cfargument name="helloworld_id" type="string" required="yes">
-	<cfargument name="text" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
