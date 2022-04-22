@@ -304,6 +304,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 										$('##helloworldtextdialogfeedback').removeClass('text-warning');
 									};
 									$(document).ready(function() {
+										console.log("document.ready in returned dialog html");
 										$('##text_form[type=text]').on("change",changed);
 									});
 								</script>
