@@ -159,7 +159,7 @@ function openUpdateTextDialog(helloworld_id, dialogId) {
 		url: "/hello/component/functions.cfc",
 		type: "post",
 		data: {
-			method: 'getHtml',
+			method: 'getTextDialogHtml',
 			returnformat: "plain",
 			helloworld_id: helloworld_id
 		},
