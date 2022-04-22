@@ -563,13 +563,15 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 pt-1">Results: 
-								<span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0">
+							<h1 class="h4 mt-1 pt-2 ml-2 ml-md-1">
+								Results: 
+								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" tabindex="0" aria-label="search results"></a>
 								</span> 
+								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
-							<span id="resultLink" class="d-inline-block px-1 py-2" style="font-weight:600;padding-right:.5rem;padding-left:.5rem;margin-top:.33rem;margin-bottom:.33rem;"></span>
-							<div id="saveDialogButton" class="d-block" style="padding:.6rem;"></div>
+							
+							<div id="saveDialogButton" class="d-block p-2"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -584,8 +586,8 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer"></div>
-							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
+							<div id="resultDownloadButtonContainer" class="my-1"></div>
+							<output id="actionFeedback" class="btn btn-transparent h4 px-2 py-2 p-md-2 border-0"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
@@ -984,13 +986,13 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded px-2 mx-lg-1"><span style="font-size: 0.96rem;font-weight: 600;margin-top: 0.33rem;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
-						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
-						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
-						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
-						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary my-1 ml-1" >Scientific Name</button>
+					`<span class="border d-inline-block rounded p-1 m-1"><span style="font-size: 0.96rem;font-weight: 600;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary mb-1 mb-sm-0">Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Scientific Name</button>
 					</span>
-					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 mb-0 mt-1 my-md-2" >Pin Taxon Column</button>
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -1032,7 +1034,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+							class="btn btn-xs btn-secondary mr-1">Save Search</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1043,7 +1045,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 mb-md-2" style="margin-top:.33rem;" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 			function togglePinTaxonColumn() { 
