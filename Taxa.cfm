@@ -1049,12 +1049,12 @@ limitations under the License.
 			}
 
 			function togglePinTaxonColumn() { 
-				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'PLAIN_NAME_AUTHOR', 'pinned');
 				$("##searchResultsGrid").jqxGrid('beginupdate');
 				if (state==true) {
-					$('##searchResultsGrid').jqxGrid('unpincolumn', 'display_name_author');
+					$('##searchResultsGrid').jqxGrid('unpincolumn', 'PLAIN_NAME_AUTHOR');
 				} else {
-					$('##searchResultsGrid').jqxGrid('pincolumn', 'display_name_author');
+					$('##searchResultsGrid').jqxGrid('pincolumn', 'PLAIN_NAME_AUTHOR');
 				}
 				$("##searchResultsGrid").jqxGrid('endupdate');
 			}
