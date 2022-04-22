@@ -904,9 +904,9 @@ limitations under the License.
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
 														<span class="pr-2 font-weight-normal" id="keywordresultCount"></span> 
-														<span id="keywordresultLink" class="pr-2"></span>
+														<span id="keywordresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
-													<div id="keywordsaveDialogButton" class="d-block p-1"></div>
+													<div id="keywordsaveDialogButton" class="d-block pt-2 px-1"></div>
 													<div id="keywordsaveDialog"></div>
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
