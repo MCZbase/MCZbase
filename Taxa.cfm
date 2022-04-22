@@ -563,12 +563,12 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 ml-1" style="margin-top:.80rem!important;">Results: 
-								<span class="px-1 text-success" style="font-weight:500;" id="resultCount" tabindex="0">
+							<h1 class="h4 ml-1">Results: 
+								<span class="pr-2" id="resultCount" tabindex="0">
 									<a class="messageResults" tabindex="0" aria-label="search results"></a>
 								</span> 
 							</h1>
-							<span id="resultLink" class="d-inline-block px-1 py-2" style="font-weight:600;padding-right:.5rem;padding-left:.5rem;margin-top:.33rem;margin-bottom:.33rem;"></span>
+							<span id="resultLink" class="d-inline-block px-1 py-2" style="font-weight:500;padding-right:.5rem;padding-left:.5rem;margin-top:.31rem;margin-bottom:.31rem;"></span>
 							<div id="saveDialogButton" class="d-block" style="padding:.6rem;"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
@@ -585,7 +585,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer" class="my-1"></div>
-							<output id="actionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0" style="font-size:.96rem;"></output>
+							<output id="actionFeedback" class="btn btn-transparent h4 px-2 py-0 p-md-2 border-0"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
