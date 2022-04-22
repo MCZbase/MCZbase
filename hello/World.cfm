@@ -49,10 +49,10 @@ limitations under the License.
 				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#','#id_for_dialog#');">Reload counterBlock</button> 
 
 				<!--- invoke the increment counter function with the doReload function as a callback --->
-				<button class="btn btn-primary btn-xs" onClick="incrementCounters(doReload);">Increment Counter</button> 
+				<button class="btn btn-primary btn-xs" onClick="incrementCounters(doReload);">Increment Counter and Reload</button> 
 
 				<!--- invoke the increment counter function to replace the html of an element with the id of the counter element (also provided as a parameter to getCounterHtml()) --->
-				<button class="btn btn-primary btn-xs" onClick="incrementCountersUpdate('#id_for_counter#');">Increment Counter and Reload</button> 
+				<button class="btn btn-primary btn-xs" onClick="incrementCountersUpdate('#id_for_counter#');">Increment Counter</button> 
 			</div>
 		</div>
 		<script>
