@@ -563,7 +563,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 5px;">
+							<h1 class="h4 pt-2 ml-2 ml-md-1 mt5px">
 								Results: 
 								<span class="pr-2 font-weight-normal" id="resultCount">
 									<a class="messageResults" aria-label="search results"></a>
@@ -571,7 +571,7 @@ limitations under the License.
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
 							
-							<div id="saveDialogButton" class="d-block p-2" style="margin-top: 2px;"></div>
+							<div id="saveDialogButton" class="d-block p-2 mt3px"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">

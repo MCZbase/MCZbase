@@ -2342,6 +2342,12 @@ div.vslider-item[aria-hidden="true"]{
 .pt2px {
 	padding-top:2px;
 }
+.mt3px {
+	margin-top: 3px;
+}
+.mt5px {
+	margin-top: 5px;
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
