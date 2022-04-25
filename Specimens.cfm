@@ -754,7 +754,7 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 ml-2 ml-md-1 mt-0 pt2px"><span tabindex="0">Results:</span> 
+													<h1 class="h4 ml-2 ml-md-1 pt2px"><span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
@@ -902,7 +902,7 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
+													<h1 class="h4 pt3px ml-2 ml-md-1">Results: 
 														<span class="pr-2 font-weight-normal" id="keywordresultCount"></span> 
 														<span id="keywordresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
@@ -1313,8 +1313,8 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">
-														Results: 
+													<h1 class="h4 pt3px ml-2 ml-md-1">
+														<span tabindex="0">Results: </span> 
 														<span class="pr-2 font-weight-normal" id="builderresultCount"></span> 
 														<span id="builderresultLink" class="pr-2 font-weight-normal"></span>
 													</h1>
@@ -1690,7 +1690,7 @@ limitations under the License.
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
-					$('##fixedresultLink').html('<a style="margin-top: 1px;" href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
