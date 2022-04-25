@@ -2340,16 +2340,16 @@ div.vslider-item[aria-hidden="true"]{
     color: #000;
 }
 .pt2px {
-	padding-top:2px;
+	padding-top:2px!important;
 }
 .pt3px {
-	padding-top:3px;
+	padding-top:3px!important;
 }
 .mt3px {
-	margin-top: 3px;
+	margin-top: 3px!important;
 }
 .mt5px {
-	margin-top: 5px;
+	margin-top: 5px!important;
 }
 /****************end all screen styles*********************/
 /**********************************************************/
