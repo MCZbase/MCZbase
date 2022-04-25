@@ -786,7 +786,7 @@ limitations under the License.
 									<div id="gridCardToggleButton"></div>
 								</cfif>
 								<div id="resultDownloadButtonContainer"></div>
-								<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output>
+								<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 pt-1 mx-1 border-0"></output>
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
