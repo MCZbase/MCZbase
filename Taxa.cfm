@@ -563,9 +563,9 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 pt-2 ml-2 ml-md-1 mt5px">
-								Results: 
-								<span class="pr-2 font-weight-normal" id="resultCount">
+							<h1 class="h4 pt3px ml-2 ml-md-1">
+								<span tabindex="0">Results: </span>
+								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" aria-label="search results"></a>
 								</span> 
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
@@ -986,7 +986,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded p-1 m-1"><span style="font-size: 0.96rem;font-weight: 600;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
+					`<span class="border d-inline-block rounded p-1 m-1"><span class="px-2" style="font-size: 0.96rem;font-weight: 600;">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary mb-1 mb-sm-0">Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Super/Sub/Infra</button>
