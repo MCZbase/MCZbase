@@ -2339,6 +2339,9 @@ div.vslider-item[aria-hidden="true"]{
     background-color: #DDF;
     color: #000;
 }
+.pt2px {
+	padding-top:2px;
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
