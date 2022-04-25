@@ -237,16 +237,19 @@ limitations under the License.
 						<div class="col-12 mb-5">
 							<section>
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h1 class="h4">Results: </h1>
-									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-									<div id="saveDialogButton" class="d-block p-2"></div>
+									<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
+										<span class="pr-2 font-weight-normal" id="resultCount"></span> 
+										<span id="resultLink" class="pr-2 font-weight-normal"></span>
+									</h1>
+									
+									<div id="saveDialogButton" class=""></div>
 									<div id="saveDialog"></div>
 									<div id="columnPickDialog">
 										<div id="columnPick" class="px-1"></div>
 									</div>
 									<div id="columnPickDialogButton"></div>
 									<div id="resultDownloadButtonContainer"></div>
-									<output id="actionFeedback" class="d-block p-2"></output>
+									<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output>
 								</div>
 								<div class="row mt-0">
 									<!--- Grid Related code is below along with search handlers --->
@@ -513,7 +516,7 @@ limitations under the License.
 							} 
 						});
 						$("##columnPickDialogButton").html(
-							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 my-2 mx-1' >Show/Hide Columns</button>"
 						);
 
 						<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -555,7 +558,7 @@ limitations under the License.
 							$("##saveDialogButton").html(
 							`<button id="`+gridId+`saveDialogOpener"
 									onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-									class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+									class="btn btn-xs btn-secondary my-2 px-2 mx-1" >Save Search</button>
 							`);
 						</cfif>
 
@@ -565,7 +568,7 @@ limitations under the License.
 						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-						$('##resultDownloadButtonContainer').html('<button id="permitcsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-3 mx-lg-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						$('##resultDownloadButtonContainer').html('<button id="permitcsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					}
 				</script>
 			</cfoutput>
@@ -1745,7 +1748,7 @@ limitations under the License.
 							} 
 						});
 						$("##columnPickDialogButton").html(
-							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 my-2 mx-1' >Show/Hide Columns</button>"
 						);
 						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -1753,7 +1756,7 @@ limitations under the License.
 						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-						$('##resultDownloadButtonContainer').html('<button id="permitcsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-3 mx-lg-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						$('##resultDownloadButtonContainer').html('<button id="permitcsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					}
 				</script>
 				<section class="container-fluid">

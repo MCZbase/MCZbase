@@ -2616,16 +2616,19 @@ limitations under the License.
 		<section class="container-fluid">
 			<div class="row">
 				<div class="col-12 mb-5">
-					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border" tabindex="0">
-						<h1 class="h4 m-2 pt-1" tabindex="0">Results: <span class="font-weight-normal text-success px-1" id="resultCount" tabindex="0"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
-						<div id="saveDialogButton" class="d-block p-1"></div>
+					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
+						<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
+							<span class="font-weight-normal pr-2" id="resultCount"></span>
+							<span id="resultLink" class="pr-2 font-weight-normal"></span>
+						</h1> 
+						<div id="saveDialogButton" class=""></div>
 						<div id="saveDialog"></div>
 						<div id="columnPickDialog">
 							<div id="columnPick" class="px-1"></div>
 						</div>
 						<div id="columnPickDialogButton"></div>
 						<div id="resultDownloadButtonContainer"></div>
-						<output id="actionFeedback" class="d-block p-1"></output>
+						<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output>
 					</div>
 					<div class="row mt-0 mx-0">
 						<!--- div id="searchText"></div  not needed?  --->
@@ -3863,7 +3866,7 @@ function gridLoaded(gridId, searchType) {
 		} 
 	});
 	$("##columnPickDialogButton").html(
-		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
+		"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary px-2 my-2 mx-1' >Show/Hide Columns</button>"
 	);
 	$("##saveDialog").dialog({
 		height: 'auto',
@@ -3903,7 +3906,7 @@ function gridLoaded(gridId, searchType) {
 	$("##saveDialogButton").html(
 	`<button id="`+gridId+`saveDialogOpener"
 			onclick=" populateSaveSearch('`+targetAction+`'); $('##saveDialog').dialog('open'); " 
-			class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+			class="btn btn-xs btn-secondary mx-1 my-2 px-2" >Save Search</button>
 	`);
 	// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 	// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -3911,7 +3914,7 @@ function gridLoaded(gridId, searchType) {
 	$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 	$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+	$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 }
 
 	</script> 
