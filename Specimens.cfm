@@ -149,7 +149,7 @@ limitations under the License.
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-					<h1 class="h3 smallcaps pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small></span></h1>
+					<h1 class="h3 smallcaps pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
 					<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
@@ -754,7 +754,7 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 pt-2 ml-2 ml-md-1 mt-0 pt2px">Results: 
+													<h1 class="h4 pt-2 ml-2 ml-md-1 mt-0 pt2px"><span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
