@@ -1411,7 +1411,7 @@ imgStyleClass=value
 			</cfquery>
 			<cfif getRelationships1.recordcount GT 0>
 			<div class="col-12 px-0 float-left">
-				<cfset i=1>
+		<cfset summary = GET_MEDIA_ID_FOR_RELATION(getMediaRelations1.media_relations_id)
 			<!---	<cfif relns.recordcount is 0>--->
 				<script>
 					console.log("relns cfif");
@@ -1431,6 +1431,7 @@ imgStyleClass=value
 						</script> 
 					</div>--->
 			<!---	</cfif>--->
+				<cfset i=1>
 				<cfloop query="getRelationships1">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
@@ -1441,36 +1442,38 @@ imgStyleClass=value
 									<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#related_value__#i##" class="data-entry-input col-6 float-left px-1">
+							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6 float-left px-1">
 							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
 							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships1.media_id#,relationshipDiv__#i#)"> Remove </button>
-							<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" onclick="enable_disable()" type="button"
+					   <!---onclick="enable_disable()" --->
+							<input class="btn btn-secondary btn-xs mx-2 small float-left slide-toggle__#i#" 
+								   type="button"
 							value="Edit" style="width: 50px;"></input>
 						<script>
 							console.log("relns");
 						</script> 
 						</div>
 						<script type="text/javascript">
-							$(document).ready(function enable_disable() {
-								$("##relationship__#i#").prop("disabled", true);
-								$("##related_value__#i#").prop("disabled", true);
-								$(".slide-toggle__#i#").click(function() {
-									previous = this.value;
-									if (this.value=="Edit") {
-										event.preventDefault();
-										this.value = "Revert";
-										$("##relationship__#i#").prop("disabled", false);
-										$("##related_value__#i#").prop("disabled", false);
-										
-									}
-									else {
-										this.value = "Edit";
-										event.preventDefault();
-										$("##relationship__#i#").prop("disabled", true);
-										$("##related_value__#i#").prop("disabled", true);
-									}
-								});
-							});
+						//	$(document).ready(function enable_disable() {
+//								$("##relationship__#i#").prop("disabled", true);
+//								$("##related_value__#i#").prop("disabled", true);
+//								$(".slide-toggle__#i#").click(function() {
+//									previous = this.value;
+//									if (this.value=="Edit") {
+//										event.preventDefault();
+//										this.value = "Revert";
+//										$("##relationship__#i#").prop("disabled", false);
+//										$("##related_value__#i#").prop("disabled", false);
+//										
+//									}
+//									else {
+//										this.value = "Edit";
+//										event.preventDefault();
+//										$("##relationship__#i#").prop("disabled", true);
+//										$("##related_value__#i#").prop("disabled", true);
+//									}
+//								});
+//							});
 						</script>
 					<cfset i=i+1>
 				</cfloop>
