@@ -1034,7 +1034,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary mx-1 my-2">Save Search</button>
+							class="btn btn-xs btn-secondary mx-1 mt-2 mb-1 my-md-2">Save Search</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1045,7 +1045,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 mx-1 my-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 mx-1 mt-1 mb-2 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 			function togglePinTaxonColumn() { 
