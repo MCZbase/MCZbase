@@ -545,11 +545,11 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
-									<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
-									<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
-									<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
+									<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
+									<button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
+									<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-										<button type="button" class="btn btn-xs btn-warning mt-2 mt-md-0" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
+										<button type="button" class="btn btn-xs btn-warning my-1" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
 									</cfif>
 								</div>
 							</form>
@@ -586,7 +586,7 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer" class="py-1"></div>
+							<div id="resultDownloadButtonContainer" class="py-0 py-md-1"></div>
 							<output id="actionFeedback" class="mx-1 my-2 p-2 h5"></output>
 						</div>
 						<div class="row mt-0 mx-0">
@@ -987,12 +987,12 @@ limitations under the License.
 				});
 				$("##columnPickDialogButton").html(
 					`<span class="border d-inline-block rounded px-1 m-1"><span class="h5 px-2">Show/Hide </span>
-						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-2 px-2 mx-1">Select Columns</button>
-						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary my-2 px-2 mx-1" >Common Names</button>
-						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Super/Sub/Infra</button>
-						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary my-2 px-2 mx-1" >Scientific Name</button>
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-2 mx-1">Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary my-2 mx-1" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary my-2 mx-1" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary my-1 my-md-2 mx-1" >Scientific Name</button>
 					</span>
-					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary px-2 mx-1 my-2" >Pin Taxon Column</button>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1 my-1 my-md-2" >Pin Taxon Column</button>
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
