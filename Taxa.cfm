@@ -571,7 +571,7 @@ limitations under the License.
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
 							
-							<div id="saveDialogButton"></div>
+							<div id="saveDialogButton" class="py-1"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -586,8 +586,8 @@ limitations under the License.
 								</div>
 							</div>
 							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer" class="my-1"></div>
-							<output id="actionFeedback" class="m-1 p-2" style="font-size: 0.96rem;font-weight: 600;"></output>
+							<div id="resultDownloadButtonContainer" class="py-1"></div>
+							<output id="actionFeedback" class="m-1 p-2 h5"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
@@ -986,7 +986,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded px-1 m-1"><span class="h4">Show/Hide </span>
+					`<span class="border d-inline-block rounded px-1 m-1"><span class="h4 px-2">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-2 px-2 mx-1">Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary my-2 px-2 mx-1" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Super/Sub/Infra</button>
