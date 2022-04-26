@@ -562,7 +562,7 @@ limitations under the License.
 			<section class="container-fluid">
 				<div class="row">
 					<div class="col-12 mb-5">
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border px-2 mx-0">
 							<h1 class="h4 pt3px ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
@@ -571,7 +571,7 @@ limitations under the License.
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
 							
-							<div id="saveDialogButton" class="d-block p-2 mt3px"></div>
+							<div id="saveDialogButton"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -986,13 +986,13 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded p-1 m-1"><span class="px-2" style="font-size: 0.96rem;font-weight: 600;">Show/Hide </span>
-						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary mb-1 mb-sm-0">Select Columns</button>
-						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Common Names</button>
-						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Super/Sub/Infra</button>
-						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Scientific Name</button>
+					`<span class="border d-inline-block rounded px-1 m-1"><span class="h4">Show/Hide </span>
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-2 px-2 mx-1">Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary my-2 px-2 mx-1" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary my-2 px-2 mx-1" >Scientific Name</button>
 					</span>
-					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-2 py-1 mb-0 mt-1 my-md-2" >Pin Taxon Column</button>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary px-2 my-2" >Pin Taxon Column</button>
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -1034,7 +1034,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary mr-1">Save Search</button>
+							class="btn btn-xs btn-secondary mx-1 my-2">Save Search</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1045,7 +1045,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 mb-md-2" style="margin-top:.33rem;" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 mx-1 my-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 			function togglePinTaxonColumn() { 
