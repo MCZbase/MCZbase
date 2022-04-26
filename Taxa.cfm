@@ -585,7 +585,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div id="columnPickDialogButton"></div>
+							<div id="columnPickDialogButton" class="pb-1"></div>
 							<div id="resultDownloadButtonContainer" class="py-0 py-md-1"></div>
 							<output id="actionFeedback" class="mx-1 my-2 p-2 h5"></output>
 						</div>
@@ -986,7 +986,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded px-1 m-1"><span class="h5 px-2">Show/Hide </span>
+					`<span class="border d-inline-block rounded px-1 pb-1 pb-sm-0 m-1"><span class="h5 px-2">Show/Hide </span>
 						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-2 mx-1">Select Columns</button>
 						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary my-2 mx-1" >Common Names</button>
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary my-2 mx-1" >Super/Sub/Infra</button>
