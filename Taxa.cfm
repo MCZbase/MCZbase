@@ -587,7 +587,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton" class="pb-1"></div>
 							<div id="resultDownloadButtonContainer" class="py-0 py-md-1"></div>
-							<output id="actionFeedback" class="mx-1 my-2 p-2 h5"></output>
+							<output id="actionFeedback" class="mx-1 my-0 my-md-2 p-2 h5"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
