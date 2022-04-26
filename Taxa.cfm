@@ -563,7 +563,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 pt3px ml-2 ml-md-1">
+							<h1 class="h4 mt-3 ml-2 ml-md-1">
 								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
 									<a class="messageResults" aria-label="search results"></a>
@@ -587,7 +587,7 @@ limitations under the License.
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer" class="py-1"></div>
-							<output id="actionFeedback" class="m-1 p-2 h5"></output>
+							<output id="actionFeedback" class="mx-1 my-2 p-2 h5"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
