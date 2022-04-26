@@ -1407,7 +1407,7 @@ imgStyleClass=value
 					media_relationship, media_id 
 				FROM
 					media_relations
-				WHERE media_id = 1338
+				WHERE media_id = 146269
 			</cfquery>
 			<cfif getRelationships.recordcount GT 0>
 			<div id="relationships" class="col-12 px-0 float-left">
@@ -1416,7 +1416,7 @@ imgStyleClass=value
 				<script>
 					console.log("relns cfif");
 				</script> 
-					<div id="seedMedia" style="display:none">
+<!---					<div id="seedMedia" style="display:none">
 						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 						<cfset d="">
 						<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
@@ -1429,7 +1429,7 @@ imgStyleClass=value
 						<script>
 							console.log("seed media");
 						</script> 
-					</div>
+					</div>--->
 			<!---	</cfif>--->
 				<cfloop query="relns">
 					<cfset d=media_relationship>
