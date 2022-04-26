@@ -762,10 +762,12 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12">
 						<div class="mb-5">
-							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-								<h1 class="h4">Results: </h1>
-								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-								<div id="saveDialogButton" class="d-block p-2"></div>
+							<div class="row my-1 jqx-widget-header border px-2">
+								<h1 class="h4 pt-2 ml-2 ml-md-1 mt-1">Results: 
+									<span class="pr-2 font-weight-normal" id="resultCount"></span> 
+									<span id="resultLink" class="font-weight-normal pr-2"></span>
+								</h1>
+								<div id="saveDialogButton" class=""></div>
 								<div id="saveDialog"></div>
 								<div id="columnPickDialog">
 									<div class="container-fluid">
@@ -784,7 +786,7 @@ limitations under the License.
 									<div id="gridCardToggleButton"></div>
 								</cfif>
 								<div id="resultDownloadButtonContainer"></div>
-								<output id="actionFeedback" class="d-block p-2"></output>
+								<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 pt-1 mx-1 border-0"></output>
 							</div>
 							<div class="row mt-0"> 
 								<!--- Grid Related code is below along with search handlers --->
@@ -1153,11 +1155,11 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 my-1 mx-3' >Show/Hide Columns</button>"
+					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary my-2 mx-1' >Show/Hide Columns</button>"
 				);
 				<cfif Application.serverrole NEQ "production" >
 					$("##gridCardToggleButton").html(
-						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn-xs btn-secondary px-3 my-1 mr-2' >Grid/Card View</button>"
+						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn btn-xs btn-secondary my-2 mx-1' >Grid/Card View</button>"
 					);
 				</cfif>
 
@@ -1200,7 +1202,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+							class="btn btn-xs btn-secondary mx-1 my-2" >Save Search</button>
 					`);
 				</cfif>
 
@@ -1210,7 +1212,7 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 mx-0 my-1" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary mx-1 my-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 		</script> 
 	</cfoutput>

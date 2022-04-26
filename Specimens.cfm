@@ -149,7 +149,7 @@ limitations under the License.
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-					<h1 class="h3 smallcaps pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small></span></h1>
+					<h1 class="h3 smallcaps pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
 					<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
@@ -754,11 +754,12 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
-														<span class="pr-2 font-weight-normal" id="fixedresultCount"></span> 
+													<h1 class="h4 ml-2 ml-md-1 pt3px">
+														<span tabindex="0">Results:</span> 
+														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
 														<span id="fixedresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
-													<div id="fixedsaveDialogButton" class="d-block p-2"></div>
+													<div id="fixedsaveDialogButton" class=""></div>
 													<div id="fixedsaveDialog"></div>
 													<div id="fixedcolumnPickDialog">
 														<div class="container-fluid">
@@ -780,8 +781,8 @@ limitations under the License.
 													</div>
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
-													<span id="fixedmanageButton" class="d-block p-2"></span>
-													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
+													<span id="fixedmanageButton" class=""></span>
+													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -902,11 +903,12 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">Results: 
-														<span class="pr-2 font-weight-normal" id="keywordresultCount"></span> 
+													<h1 class="h4 pt3px ml-2 ml-md-1">
+														<span tabindex="0">Results:</span> 
+														<span class="pr-2 font-weight-normal" id="keywordresultCount" tabindex="0"></span> 
 														<span id="keywordresultLink" class="font-weight-normal pr-2"></span>
 													</h1>
-													<div id="keywordsaveDialogButton" class="d-block pt-2 px-1"></div>
+													<div id="keywordsaveDialogButton"></div>
 													<div id="keywordsaveDialog"></div>
 													<div id="keywordcolumnPickDialog">
 														<div class="container-fluid">
@@ -928,8 +930,8 @@ limitations under the License.
 													</div>
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
-													<span id="keywordmanageButton" class="d-block p-2"></span>
-													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output>
+													<span id="keywordmanageButton" class=""></span>
+													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1313,13 +1315,13 @@ limitations under the License.
 										<div class="col-12">
 											<div class="mb-5">
 												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
-													<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 2px;">
-														Results: 
-														<span class="pr-2 font-weight-normal" id="builderresultCount"></span> 
+													<h1 class="h4 pt3px ml-2 ml-md-1">
+														<span tabindex="0">Results: </span> 
+														<span class="pr-2 font-weight-normal" id="builderresultCount" tabindex="0"></span> 
 														<span id="builderresultLink" class="pr-2 font-weight-normal"></span>
 													</h1>
 													
-													<div id="buildersaveDialogButton" class="d-block p-2"></div>
+													<div id="buildersaveDialogButton"></div>
 													<div id="buildersaveDialog"></div>
 													<div id="buildercolumnPickDialog">
 														<div class="container-fluid">
@@ -1341,8 +1343,8 @@ limitations under the License.
 													</div>
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
-													<span id="buildermanageButton" class="d-block p-2"></span>
-													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-1 px-2 py-0 p-md-2 border-0"></output> 
+													<span id="buildermanageButton" class=""></span>
+													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output> 
 												</div>
 												<div class="row mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
@@ -1690,13 +1692,13 @@ limitations under the License.
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 					// add a link out to this search, serializing the form as http get parameters
-					$('##fixedresultLink').html('<a style="margin-top: 1px;" href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
+					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					if (fixedSearchLoaded==0) { 
 						gridLoaded('fixedsearchResultsGrid','occurrence record','fixed');
 						fixedSearchLoaded = 1;
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+						$('##fixedmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_fixedSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 					<cfelse>
 						$('##fixedmanageButton').html('');
 					</cfif>
@@ -1873,7 +1875,7 @@ limitations under the License.
 						keywordSearchLoaded = 1;
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+						$('##keywordmanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_keywordSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Manage</a>');
 					<cfelse>
 						$('##keywordmanageButton').html('');
 					</cfif>
@@ -2046,7 +2048,7 @@ limitations under the License.
 						builderSearchLoaded = 1;
 					}
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary" >Manage</a>');
+						$('##buildermanageButton').html('<a href="specimens/manageSpecimens.cfm?result_id='+$('##result_id_builderSearch').val()+'" target="_blank" class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Manage</a>');
 					<cfelse>
 						$('##buildermanageButton').html('');
 					</cfif>
@@ -2289,8 +2291,8 @@ limitations under the License.
 			$("##"+whichGrid+"columnPickDialogButton").html(
 				`<button id="columnPickDialogOpener" 
 					onclick=" populateColumnPicker('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`columnPickDialog').dialog('open'); " 
-					class="btn btn-xs btn-secondary  mr-1" >Select Columns</button>
-				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-1 my-2" >Pin GUID Column</button>
+					class="btn btn-xs btn-secondary my-2 mx-1 px-2" >Select Columns</button>
+				<button id="pinGuidToggle" onclick=" togglePinColumn('`+gridId+`','GUID'); " class="btn btn-xs btn-secondary mx-1 px-2 my-2" >Pin GUID Column</button>
 				`
 			);
 			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -2332,7 +2334,7 @@ limitations under the License.
 				$("##"+whichGrid+"saveDialogButton").html(
 				`<button id="`+gridId+`saveDialogOpener"
 						onclick=" populateSaveSearch('`+gridId+`','`+whichGrid+`'); $('##`+whichGrid+`saveDialog').dialog('open'); " 
-						class="btn btn-xs btn-secondary  mr-1" >Save Search</button>
+						class="btn btn-xs btn-secondary px-2 my-2 mx-1" >Save Search</button>
 				`);
 			</cfif>
 			// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -2344,7 +2346,7 @@ limitations under the License.
 			$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
-			$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 mx-sm-2 mt-0 mt-sm-2 mb-0" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+			$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 				console.log(#session.specimens_pin_guid#);
 				setPinColumnState(gridId,'GUID',true);

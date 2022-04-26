@@ -545,11 +545,11 @@ limitations under the License.
 											</div>
 										</cfif>
 									</div>
-									<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
-									<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
-									<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
+									<button type="submit" class="btn btn-xs btn-primary mr-2 my-1" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
+									<button type="reset" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Reset taxon search form to inital values">Reset</button>
+									<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-										<button type="button" class="btn btn-xs btn-warning mt-2 mt-md-0" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
+										<button type="button" class="btn btn-xs btn-warning my-1" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
 									</cfif>
 								</div>
 							</form>
@@ -562,16 +562,16 @@ limitations under the License.
 			<section class="container-fluid">
 				<div class="row">
 					<div class="col-12 mb-5">
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4 pt-2 ml-2 ml-md-1" style="margin-top: 5px;">
-								Results: 
+						<div class="row mt-1 mb-0 pb-0 pt-1 jqx-widget-header border px-2 mx-0">
+							<h1 class="h4 mt-3 ml-2 ml-md-1">
+								<span tabindex="0">Results: </span>
 								<span class="pr-2 font-weight-normal" id="resultCount" tabindex="0">
-									<a class="messageResults" tabindex="0" aria-label="search results"></a>
+									<a class="messageResults" aria-label="search results"></a>
 								</span> 
 								<span id="resultLink" class="pr-2 font-weight-normal"></span>
 							</h1>
 							
-							<div id="saveDialogButton" class="d-block p-2" style="margin-top: 2px;"></div>
+							<div id="saveDialogButton" class="py-1"></div>
 							<div id="saveDialog"></div>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
@@ -585,9 +585,9 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer" class="my-1"></div>
-							<output id="actionFeedback" class="m-1 p-2" style="font-size: 0.96rem;font-weight: 600;"></output>
+							<div id="columnPickDialogButton" class="pb-1"></div>
+							<div id="resultDownloadButtonContainer" class="py-0 py-md-1"></div>
+							<output id="actionFeedback" class="mx-1 my-0 my-md-2 p-2 h5"></output>
 						</div>
 						<div class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
@@ -986,13 +986,13 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border d-inline-block rounded p-1 m-1"><span style="font-size: 0.96rem;font-weight: 600;padding-right: 0.5rem;padding-left: 0.5rem;">Show/Hide </span>
-						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary mb-1 mb-sm-0">Select Columns</button>
-						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Common Names</button>
-						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Super/Sub/Infra</button>
-						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary mb-1 mb-sm-0" >Scientific Name</button>
+					`<span class="border d-inline-block rounded px-1 pb-1 pb-sm-0 m-1"><span class="h5 px-2">Show/Hide </span>
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn btn-xs btn-secondary my-2 mx-1">Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn btn-xs btn-secondary my-2 mx-1" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn btn-xs btn-secondary my-2 mx-1" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn btn-xs btn-secondary mt-2 mb-1 my-md-2 mx-1" >Scientific Name</button>
 					</span>
-					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-2 py-1 mb-0 mt-1 my-md-2" >Pin Taxon Column</button>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn btn-xs btn-secondary mx-1 mt-2 mb-1 my-md-2" >Pin Taxon Column</button>
 					`
 				);
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
@@ -1034,7 +1034,7 @@ limitations under the License.
 					$("##saveDialogButton").html(
 					`<button id="`+gridId+`saveDialogOpener"
 							onclick=" populateSaveSearch(); $('##saveDialog').dialog('open'); " 
-							class="btn btn-xs btn-secondary mr-1">Save Search</button>
+							class="btn btn-xs btn-secondary mx-1 mt-2 mb-1 my-md-2">Save Search</button>
 					`);
 				</cfif>
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -1045,7 +1045,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 mb-md-2" style="margin-top:.33rem;" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary px-2 mx-1 mt-1 mb-2 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 			function togglePinTaxonColumn() { 
