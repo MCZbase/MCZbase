@@ -1409,6 +1409,21 @@ imgStyleClass=value
 					media_relations
 				WHERE media_id = 146269
 			</cfquery>
+			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				select media_relationship from ctmedia_relationship order by media_relationship
+			</cfquery>
+			<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				select media_label from ctmedia_label order by media_label
+			</cfquery>
+			<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				select media_type from ctmedia_type order by media_type
+			</cfquery>
+			<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				select mime_type from ctmime_type order by mime_type
+			</cfquery>
+			<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select media_license_id,display media_license from ctmedia_license order by media_license_id
+			</cfquery>
 			<cfif getRelationships1.recordcount GT 0>
 			<div class="col-12 px-0 float-left">
 	
