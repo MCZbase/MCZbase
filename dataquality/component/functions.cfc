@@ -284,14 +284,14 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
+			<!--- @Provides("bug, wrong id") --->
 			<cfset dqResponse = dwcSciNameDQ.validationGenusNotfound(genus,wormsAuthority) >
 			<cfset r.label = "dwc:genus is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset preamendment["3667556d-d8f5-454c-922b-af8af38f613c"] = r >
+			<cfset preamendment["TODOuuidforgenus"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
@@ -369,14 +369,14 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
 
-			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
+			<!--- @Provides("TODO: check correct UUID") --->
 			<cfset dqResponse = dwcSciNameDQ.validationGenusNotfound(genus,wormsAuthority) >
 			<cfset r.label = "dwc:genus is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset postamendment["3667556d-d8f5-454c-922b-af8af38f613c"] = r >
+			<cfset preamendment["TODOuuidforgenus"] = r >
 			<cfset r=structNew()>
 
 			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
