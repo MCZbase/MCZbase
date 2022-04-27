@@ -2115,10 +2115,10 @@ limitations under the License.
 			// set up a dialog for saving the current search.
 			var uri = "/Specimens.cfm?execute=true&" + $('##'+whichGrid+'SearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
 			$("##"+whichGrid+"saveDialog").html(
-				"<div class='row'>"+ 
+				"<div class='row mx-0'>"+ 
 				"<form id='"+whichGrid+"saveForm'> " + 
 				" <input type='hidden' value='"+uri+"' name='url'>" + 
-				" <div class='col-12'>" + 
+				" <div class='col-12 p-1'>" + 
 				"  <label for='search_name_input_"+whichGrid+"'>Search Name</label>" + 
 				"  <input type='text' id='search_name_input_"+whichGrid+"'  name='search_name' value='' class='data-entry-input reqdClr' pattern='Your name for this search' maxlenght='60' required>" + 
 				" </div>" + 
