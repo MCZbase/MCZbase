@@ -302,6 +302,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
+			<cfset r=structNew()>
 
 			<!--- amendment phase --->
 
@@ -366,6 +367,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
+			<cfset r=structNew()>
 
 			<!--- Add results from phases to result to return --->
 
