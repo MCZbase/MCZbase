@@ -2622,6 +2622,9 @@ ol.flowNone li a,ul.flowNone li a {
 	padding-right: 3px;
 }
 }
+a.wrapurl {
+	overflow-wrap:anywhere;
+}
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px

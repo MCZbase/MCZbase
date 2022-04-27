@@ -93,7 +93,7 @@
 							<tr id="tr#canned_id#">
 								<td>#target#</td>
 								<td><a href="/saved/#encodeForURL(search_name)#">#search_name#</a></td>
-								<td><a href="#useUrl#" target="_blank">#useUrl#</a></td>
+								<td><a class="wrapurl" href="#useUrl#" target="_blank">#useUrl#</a></td>
 								<td>#execute_text#</td>
 								<td><button class="btn btn-xs btn-danger" onClick="deleteSavedSearch('#canned_id#');">Delete</button></td>
 							</tr>
