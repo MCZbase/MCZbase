@@ -1411,7 +1411,7 @@ imgStyleClass=value
 			</cfquery>
 			<cfif getRelationships1.recordcount GT 0>
 			<div class="col-12 px-0 float-left">
-		<cfset summary = GET_MEDIA_ID_FOR_RELATION(media_id)>
+	
 			<!---	<cfif relns.recordcount is 0>--->
 				<script>
 					console.log("relns cfif");
