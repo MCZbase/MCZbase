@@ -233,7 +233,7 @@ function loadRelations(targetDiv, media_id) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
-			method : "getRelationsHtml",
+			method : "getMediaRelationsHtml",
 			media_id : media_id
 		},
 		success: function (result) {

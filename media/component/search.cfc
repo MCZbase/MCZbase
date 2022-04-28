@@ -1381,7 +1381,7 @@ imgStyleClass=value
 	<cfreturn cfthread["showMoreMediaThread"].output>
 </cffunction>
 
-<cffunction name="getRelationsHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
@@ -1399,7 +1399,7 @@ imgStyleClass=value
 	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
 		does not need to be unique.
 	--->
-<cfthread name="getRelationsThread">
+<cfthread name="getMediaRelationsThread">
 	<cftry>
 		<cfoutput>
 			<cfquery name="getRelationships1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1452,12 +1452,12 @@ imgStyleClass=value
 						<div class="form-row col-12 px-0 mx-0">	
 							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 							<label for="relationship__#i#"  class="sr-only">Relationship</label>
-							<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-3 float-left">
+							<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-3 float-left">
 								<cfloop query="ctmedia_relationship">
 									<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="related_value__#i#" id="related_value__#i#" value="" class="data-entry-input col-6 col-md-6 col-xl-7  float-left px-1 float-left">
+							<input type="text" name="related_value__#i#" id="related_value__#i#" value="" class="data-entry-input col-12 col-md-6 col-xl-7  float-left px-1 float-left">
 							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
 							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships1.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<!---onclick="enable_disable()"--->
@@ -1519,8 +1519,8 @@ imgStyleClass=value
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getRelationsThread" />
-	<cfreturn getRelationsThread.output>
+	<cfthread action="join" name="getMediaRelationsThread" />
+	<cfreturn getMediaRelationsThread.output>
 </cffunction>
 	
 				
@@ -1585,7 +1585,7 @@ imgStyleClass=value
 							<div class="form-row col-12 px-0 mx-0 mb-2" id="labelDiv__#i#" >		
 								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-								<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
+								<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-12 col-md-3 float-left">
 									<cfloop query="ctmedia_label">
 										<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 									</cfloop>
