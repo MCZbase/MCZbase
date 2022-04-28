@@ -1490,7 +1490,7 @@ imgStyleClass=value
 						</script>
 					<cfset i=i+1>
 				</cfloop>
-				<span class="infoLink h5 box-shadow-0 d-block col-3 float-right my-1 pr-4" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+				<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
 			</div>
 					<script>
 						(function () {
@@ -1592,7 +1592,7 @@ imgStyleClass=value
 								</select>
 								<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-12 col-md-6 col-xl-7 float-left px-1">
 								<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
-								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
+								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:45px;"></input>
 							</div>
 							<script type="text/javascript">
 								$(document).ready(function edit_revert() {
