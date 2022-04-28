@@ -1407,7 +1407,7 @@ imgStyleClass=value
 					media_relationship, media_id, media_relations_id, related_primary_key 
 				FROM
 					media_relations
-				WHERE media_id = 146269
+				WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 				select media_relationship from ctmedia_relationship order by media_relationship
