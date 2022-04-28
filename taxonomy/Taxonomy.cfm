@@ -372,7 +372,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="data-entry-input">
@@ -456,10 +456,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-auto px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -468,7 +468,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0 d-block small90 line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
