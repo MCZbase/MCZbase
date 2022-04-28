@@ -91,7 +91,9 @@ limitations under the License.
 						<form name="editMedia" method="post" action="media.cfm" class="my-2">
 							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
+							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#relns.media_relations_id#">
+							<input type="hidden" id="media_relationship" name="media_relationship" value="#relns.media_relationship#">
+							<input type="hidden" id="related_primary_key" name="related_primary_key" value="#relns.related_primary_key#">
 							<input type="hidden" id="media_id" name="media_id" value="#media.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
