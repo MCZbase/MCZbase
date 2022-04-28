@@ -54,7 +54,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="edit">
 		<cfquery name="getRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from media_relations where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			select media_relations_id, media_id, media_relationship,created_by_agent_id, related_primary_key from media_relations where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, auto_host,
@@ -194,9 +194,9 @@ limitations under the License.
 													#relationsBlockContent#
 												</div>
 												<div class="col-9 px-0 float-left">
-													<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#','#media_relations_id#');">Load Relationships 
 													</button>
-													<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#','#media_relations_id#');">Save Changes 
+													<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Changes 
 													</button>
 												</div>
 											</div>
