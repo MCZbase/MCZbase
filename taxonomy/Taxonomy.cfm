@@ -369,7 +369,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
+							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-6 pl-0 float-left">
@@ -381,7 +381,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
