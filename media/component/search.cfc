@@ -1582,7 +1582,7 @@ imgStyleClass=value
 						</cfif>
 						<cfloop query="labels">
 							<cfset d=media_label>
-							<div class="form-row col-12 px-0 mx-0" id="labelDiv__#i#" >		
+							<div class="form-row col-12 px-0 mx-0 mb-2" id="labelDiv__#i#" >		
 								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 								<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-3 float-left">
@@ -1590,7 +1590,7 @@ imgStyleClass=value
 										<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 									</cfloop>
 								</select>
-								<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-6 col-md-6 col-xl-7  float-left px-1">
+								<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-12 col-md-6 col-xl-7 float-left px-1">
 								<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:50px;"></input>
 							</div>
@@ -1614,7 +1614,7 @@ imgStyleClass=value
 							</script>
 							<cfset i=i+1>
 						</cfloop>
-						<span class="infoLink h5 box-shadow-0 col-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+						<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 					</div><!---end id labels--->
 					<div class="col-12 px-0 float-left">
 						<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
