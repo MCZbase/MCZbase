@@ -1525,9 +1525,135 @@ imgStyleClass=value
 	
 				
 				
+<cffunction name="saveMediaRelations" access="remote" returntype="any" returnformat="json">
+	<cfargument name="media_relationship" type="string" required="yes">
+	<cfargument name="related_primary_key" type="string" required="yes">
+	<cfargument name="media_relations_id" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
+
+	<cfif execute EQ "true"><cfset execute="1"></cfif>
+	<cfif execute EQ "false"><cfset execute="0"></cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				update media_relations set
+				media_relationship=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relationship#" /> ,
+				related_primary_key=<cfqueryparam cfsqltype="cf_sql_varchar" value="#related_primary_key#" /> ,
+				media_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_id#" /> ,
+				media_relations_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relations_id#" />, 
+				where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
+			</cfquery>
+			<cfloop from="1" to="#number_of_relations#" index="n">
+				<cfset failure=0>
+				<cftry>
+				<cfset thisRelationship = #evaluate("relationship__" & n)#>
+				<cfcatch>
+					<cfset failure=1>
+				</cfcatch>
+				</cftry>
+				<cftry>
+					<cfset thisRelatedId = #evaluate("related_id__" & n)#>
+					<cfcatch>
+						<cfset failure=1>
+					</cfcatch>
+				</cftry>
+				<cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
+				<cfif failure EQ 0>
+				<cfif isdefined("media_relations_id__#n#")>
+				<cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
+				<cfelse>
+				<cfset thisRelationID=-1>
+				</cfif>
+				<cfif thisRelationID is -1>
+				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						insert into media_relations (
+							media_id,media_relationship,related_primary_key
+						) values (
+							#media_id#,'#thisRelationship#',#thisRelatedId#)
+					</cfquery>
+				<cfelse>
+				<cfif #thisRelationship# is "delete">
+					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							delete from 
+								media_relations
+							where media_relations_id=#thisRelationID#
+						</cfquery>
+					<cfelse>
+						<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							update 
+								media_relations
+							set
+								media_relationship='#thisRelationship#',
+								related_primary_key=#thisRelatedId#
+							where media_relations_id=#thisRelationID#
+						</cfquery>
+				</cfif><!--- delete or update relation --->
+				</cfif><!--- relation exists ---> 
+				</cfif><!--- Failure check --->
+			</cfloop>
+		<!---	<cfloop from="1" to="#number_of_labels#" index="n">
+				<cfset thisLabel = #evaluate("label__" & n)#>
+				<cfset thisLabelValue = #evaluate("label_value__" & n)#>
+				<cfif isdefined("media_label_id__#n#")>
+					<cfset thisLabelID=#evaluate("media_label_id__" & n)#>
+				<cfelse>
+					<cfset thisLabelID=-1>
+				</cfif>
+				<cfif thisLabelID is -1>
+				<cfquery name="makeLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						insert into media_labels (media_id,media_label,label_value)
+						values (#media_id#,'#thisLabel#','#thisLabelValue#')
+					</cfquery>
+				<cfelse>
+				<cfif #thisLabel# is "delete">
+					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						delete from 
+							media_labels
+						where media_label_id=#thisLabelID#
+					</cfquery>
+					<cfelse>
+					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update 
+							media_labels
+						set
+							media_label='#thisLabel#',
+							label_value='#thisLabelValue#'
+						where media_label_id=#thisLabelID#
+					</cfquery>
+				</cfif>
+			  </cfif>
+			</cfloop>--->
+			<cfif isdefined("headless") and headless EQ 'true'>
+				<h2>Changes to Media Record Saved <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
+			<cfelse>
+				<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+			</cfif>
+			<cftransaction action="commit"> 
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["name"] = "#encodeForHTML(search_name)#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback"> 
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfif error_message CONTAINS "ORA-00001: unique constraint">
+				<cfset error_message = "Unable to save search, the search name and the search must each be unique.  You have already saved either a search with the same name, or a search with the same URI.  See the <a href='/users/Searches.cfm' target='_blank'>list of saved searches</a> in your user profile.">
+			</cfif>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>	
 				
-				
-				
+
+		
+		
+		
 <cffunction name="getLabelsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
