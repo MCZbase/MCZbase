@@ -1464,6 +1464,10 @@ imgStyleClass=value
 							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships1.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<!---onclick="enable_disable()"--->
 							<input class="btn btn-secondary btn-xs mx-0 small float-left slide-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
+						<div class="col-12">
+							<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#','#media_relationship#');">Save Changes 
+							</button>
+						</div>
 						<script>
 							console.log("relns");
 						</script> 
