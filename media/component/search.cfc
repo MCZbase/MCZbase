@@ -1628,7 +1628,7 @@ imgStyleClass=value
 			<cftransaction action="commit"> 
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
-			<cfset row["name"] = "#encodeForHTML(search_name)#">
+			<cfset row["media_relations_id"] = "#encodeForHTML(media_relations_id)#">
 			<cfset data[1] = row>
 		<cfcatch>
 			<cftransaction action="rollback"> 
