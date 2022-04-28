@@ -1446,7 +1446,7 @@ imgStyleClass=value
 						</script> 
 					</div>--->
 			<!---	</cfif>--->
-					<cfset relns=getMediaRelations(#media_id#)>
+				<!---	<cfset relns=getMediaRelations(#media_id#)>--->
 				<cfset i=1>
 				<cfloop query="relns">
 					<cfset d=media_relationship>
