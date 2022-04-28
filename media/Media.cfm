@@ -189,7 +189,7 @@ limitations under the License.
 										</h2>
 										<div class="row">
 											<div class="col-12">
-												<cfset relationsBlockContent= getMediaRelationsHtml(media_id="#media.media_id#")>
+												<cfset relationsBlockContent= getMediaRelationsHtml(media_id="#media.media_id#","#media_relations_id#")>
 												<div id="relationsBlock">
 													#relationsBlockContent#
 												</div>
