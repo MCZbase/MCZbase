@@ -962,4 +962,60 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 	<cfreturn getHabitatsHtmlThread.output>
 </cffunction>
 
+<cffunction name="lookupInWoRMS" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cfthread name="lookupInWoRMSThread">
+		<cftry>
+			<cfquery name="taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxon_lookup">
+				select taxon_name_id, kingdom, family, scientific_name, author_text
+				from taxonomy 
+				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+			<cfoutput query="taxon">
+				<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
+	
+				<cfset inputName = nameUsage.init()>
+				<cfset validator = wormsService.init(false)>
+				<cfset void = inputName.setInputDbPK(taxon.taxon_name_id) >
+				<cfset void = inputName.setScientificName(taxon.scientific_name) >
+				<cfset void = inputName.setAuthorship(taxon.author_text) >
+				<cfif  len(taxon.kingdom) GT 0> 
+					<cfset void = inputName.setKingdom(taxon.kingdom)>
+				</cfif>
+				<cfif  len(taxon.family) GT 0> 
+					<cfset void = inputName.setFamily(taxon.family)>
+				</cfif>
+					
+				<cfset outputMatch = validator.validate(inputName)>
+	
+				<cfif outputMatch NEQ null>
+					<cfset row = StructNew()>
+					<cfset row["match"] = outputMatch.getMatchDescription()>
+					<cfset row["guid"] = outputMatch.getGuid()>
+					<cfset row["scientific_name"] = outputMatch.getScientificName()>
+					<cfset row["authorship"] = outputMatch.getAuthorship()>
+					<cfset habitats = outputMatch.getExtension()>
+					<cfset row["marine"] = habitats.get("marine")>
+					<cfset row["brackish"] = habitats.get("brackish")>
+					<cfset row["freshwater"] = habitats.get("freshwater")>
+					<cfset row["terrestrial"] = habitats.get("terrestrial")>
+					<cfset row["extinct"] = habitats.get("extinct")>
+					<cfset data[1] = row>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="lookupInWoRMSThread" />
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
