@@ -1447,9 +1447,9 @@ imgStyleClass=value
 						</script> 
 					</div>--->
 			<!---	</cfif>--->
-				<!---	<cfset relns=getMediaRelations(#media_id#)>--->
+					<cfset relns=getMediaRelations(#media_id#)>
 				<cfset i=1>
-				<cfloop query="getRelationships1">
+				<cfloop query="relns">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
 							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -1465,8 +1465,8 @@ imgStyleClass=value
 							<!---onclick="enable_disable()"--->
 							<input class="btn btn-secondary btn-xs mx-0 small float-left slide-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
 						<div class="col-12">
-							<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#','#getRelationships1.media_relationship#');">Save Changes 
-							</button>
+<!---							<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#','#getRelationships1.media_relationship#');">Save Changes 
+							</button>--->
 						</div>
 						<script>
 							console.log("relns");
