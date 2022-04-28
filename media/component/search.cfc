@@ -1717,26 +1717,27 @@ imgStyleClass=value
 								</select>
 								<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-12 col-md-6 col-xl-7 float-left px-1">
 								<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
-								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" onclick="edit_revert()" type="button" value="Edit" style="width:60px;"></input>
+								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
 							</div>
-							<script type="text/javascript">
-								$(document).ready(function edit_revert() {
-										$("##label__#i#").prop("disabled", true);
-										$("##label_value__#i#").prop("disabled", true);
-										$(".edit-toggle__#i#").click(function() {
-											if (this.value=="Edit") {
-												this.value = "Revert";
-												$("##label__#i#").prop("disabled", false);
-												$("##label_value__#i#").prop("disabled", false);
-											}
-											else {
-												this.value = "Edit";
-												$("##label__#i#").prop("disabled", true);
-												$("##label_value__#i#").prop("disabled", true);
-											}
-										});
-									});
-							</script>
+							<!---onclick="edit_revert()"---> 
+//							<script type="text/javascript">
+//								$(document).ready(function edit_revert() {
+//										$("##label__#i#").prop("disabled", true);
+//										$("##label_value__#i#").prop("disabled", true);
+//										$(".edit-toggle__#i#").click(function() {
+//											if (this.value=="Edit") {
+//												this.value = "Revert";
+//												$("##label__#i#").prop("disabled", false);
+//												$("##label_value__#i#").prop("disabled", false);
+//											}
+//											else {
+//												this.value = "Edit";
+//												$("##label__#i#").prop("disabled", true);
+//												$("##label_value__#i#").prop("disabled", true);
+//											}
+//										});
+//									});
+//							</script>
 							<cfset i=i+1>
 						</cfloop>
 						<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
