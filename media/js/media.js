@@ -245,3 +245,21 @@ function loadMediaRelations(targetDiv, media_id) {
 		dataType: "html"
 	});
 };
+
+function saveMediaRelationship(targetDiv, media_id, media_relations_id) { 
+	console.log("loadRelation() called for " + targetDiv);
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		data : {
+			method : "saveMediaRelations",
+			media_id : media_id
+		},
+		success: function (result) {
+			$("#" + targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"retrieving relationship block");
+		},
+		dataType: "html"
+	});
+};
