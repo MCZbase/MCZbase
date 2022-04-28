@@ -1532,8 +1532,7 @@ imgStyleClass=value
 				
 <cffunction name="saveMediaRelations" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfif execute EQ "true"><cfset execute="1"></cfif>
-	<cfif execute EQ "false"><cfset execute="0"></cfif>
+
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
