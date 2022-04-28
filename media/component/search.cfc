@@ -1461,7 +1461,7 @@ imgStyleClass=value
 							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
 							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships1.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<!---onclick="enable_disable()"--->
-							<input class="btn btn-secondary btn-xs mx-0 small float-left slide-toggle__#i#" type="button" value="Edit" style="width: 45px;"></input>
+							<input class="btn btn-secondary btn-xs mx-0 small float-left slide-toggle__#i#" type="button" value="Edit"></input>
 						<script>
 							console.log("relns");
 						</script> 
@@ -1498,7 +1498,6 @@ imgStyleClass=value
 							$("select").on('focus', function () {
 								previous = this.value;
 							}).change(function() {
-								alert(previous);
 								previous = this.value;
 							});
 						})();
