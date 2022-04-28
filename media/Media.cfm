@@ -181,7 +181,7 @@ limitations under the License.
 							</div>
 						</form>
 						<form id="relationshipForm">
-							<div class="col-12 float-left">
+							<div class="col-12 px-1 float-left">
 								<div class="form-row my-1">
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
 										<h2>
