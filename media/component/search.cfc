@@ -1467,26 +1467,26 @@ imgStyleClass=value
 						</script> 
 						</div>
 						<script type="text/javascript">
-							$(document).ready(function enable_disable() {
-								$("##relationship__#i#").prop("disabled", true);
-								$("##related_value__#i#").prop("disabled", true);
-								$(".slide-toggle__#i#").click(function() {
-									previous = this.value;
-									if (this.value=="Edit") {
-										event.preventDefault();
-										this.value = "Revert";
-										$("##relationship__#i#").prop("disabled", false);
-										$("##related_value__#i#").prop("disabled", false);
-										
-									}
-									else {
-										this.value = "Edit";
-										event.preventDefault();
-										$("##relationship__#i#").prop("disabled", true);
-										$("##related_value__#i#").prop("disabled", true);
-									}
-								});
-							});
+//							$(document).ready(function enable_disable() {
+//								$("##relationship__#i#").prop("disabled", true);
+//								$("##related_value__#i#").prop("disabled", true);
+//								$(".slide-toggle__#i#").click(function() {
+//									previous = this.value;
+//									if (this.value=="Edit") {
+//										event.preventDefault();
+//										this.value = "Revert";
+//										$("##relationship__#i#").prop("disabled", false);
+//										$("##related_value__#i#").prop("disabled", false);
+//										
+//									}
+//									else {
+//										this.value = "Edit";
+//										event.preventDefault();
+//										$("##relationship__#i#").prop("disabled", true);
+//										$("##related_value__#i#").prop("disabled", true);
+//									}
+//								});
+//							});
 						</script>
 					<cfset i=i+1>
 				</cfloop>
@@ -1566,7 +1566,7 @@ imgStyleClass=value
 				<cfset thisRelationID=-1>
 				</cfif>
 				<cfif thisRelationID is -1>
-				<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						insert into media_relations (
 							media_id,media_relationship,related_primary_key
 						) values (
@@ -1575,24 +1575,24 @@ imgStyleClass=value
 				<cfelse>
 				<cfif #thisRelationship# is "delete">
 					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							delete from 
-								media_relations
-							where media_relations_id=#thisRelationID#
-						</cfquery>
-					<cfelse>
-						<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update 
-								media_relations
-							set
-								media_relationship='#thisRelationship#',
-								related_primary_key=#thisRelatedId#
-							where media_relations_id=#thisRelationID#
-						</cfquery>
+						delete from 
+							media_relations
+						where media_relations_id=#thisRelationID#
+					</cfquery>
+				<cfelse>
+					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						update 
+							media_relations
+						set
+							media_relationship='#thisRelationship#',
+							related_primary_key=#thisRelatedId#
+						where media_relations_id=#thisRelationID#
+					</cfquery>
 				</cfif><!--- delete or update relation --->
 				</cfif><!--- relation exists ---> 
 				</cfif><!--- Failure check --->
 			</cfloop>
-		<!---	<cfloop from="1" to="#number_of_labels#" index="n">
+<!---			<cfloop from="1" to="#number_of_labels#" index="n">
 				<cfset thisLabel = #evaluate("label__" & n)#>
 				<cfset thisLabelValue = #evaluate("label_value__" & n)#>
 				<cfif isdefined("media_label_id__#n#")>
@@ -1601,34 +1601,29 @@ imgStyleClass=value
 					<cfset thisLabelID=-1>
 				</cfif>
 				<cfif thisLabelID is -1>
-				<cfquery name="makeLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						insert into media_labels (media_id,media_label,label_value)
-						values (#media_id#,'#thisLabel#','#thisLabelValue#')
-					</cfquery>
+					<cfquery name="makeLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into media_labels (media_id,media_label,label_value)
+							values (#media_id#,'#thisLabel#','#thisLabelValue#')
+						</cfquery>
 				<cfelse>
-				<cfif #thisLabel# is "delete">
-					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						delete from 
-							media_labels
-						where media_label_id=#thisLabelID#
-					</cfquery>
-					<cfelse>
-					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update 
-							media_labels
-						set
-							media_label='#thisLabel#',
-							label_value='#thisLabelValue#'
-						where media_label_id=#thisLabelID#
-					</cfquery>
+					<cfif #thisLabel# is "delete">
+						<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							delete from 
+								media_labels
+							where media_label_id=#thisLabelID#
+						</cfquery>
+						<cfelse>
+						<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							update 
+								media_labels
+							set
+								media_label='#thisLabel#',
+								label_value='#thisLabelValue#'
+							where media_label_id=#thisLabelID#
+						</cfquery>
+					</cfif>
 				</cfif>
-			  </cfif>
 			</cfloop>--->
-			<cfif isdefined("headless") and headless EQ 'true'>
-				<h2>Changes to Media Record Saved <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
-			<cfelse>
-				<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
-			</cfif>
 			<cftransaction action="commit"> 
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
@@ -1720,7 +1715,7 @@ imgStyleClass=value
 								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
 							</div>
 							<!---onclick="edit_revert()"---> 
-//							<script type="text/javascript">
+						<script type="text/javascript">
 //								$(document).ready(function edit_revert() {
 //										$("##label__#i#").prop("disabled", true);
 //										$("##label_value__#i#").prop("disabled", true);
@@ -1737,7 +1732,7 @@ imgStyleClass=value
 //											}
 //										});
 //									});
-//							</script>
+						</script>
 							<cfset i=i+1>
 						</cfloop>
 						<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
