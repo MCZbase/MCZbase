@@ -1448,7 +1448,7 @@ imgStyleClass=value
 			<!---	</cfif>--->
 				<!---	<cfset relns=getMediaRelations(#media_id#)>--->
 				<cfset i=1>
-				<cfloop query="relns">
+				<cfloop query="getRelationships1">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
 							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
