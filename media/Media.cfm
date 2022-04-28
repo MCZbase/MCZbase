@@ -194,7 +194,9 @@ limitations under the License.
 													#relationsBlockContent#
 												</div>
 												<div class="col-9 px-0 float-left">
-													<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadRelations('relationsBlock','#media_id#');">Load Relationships 
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
+													</button>
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelations('relationsBlock','#media_id#');">Save Changes 
 													</button>
 												</div>
 											</div>
@@ -203,7 +205,7 @@ limitations under the License.
 									<!---Start of Label Block--->
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 										<h2>
-											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
 											</label>
 										</h2>
 										<div class="row">
