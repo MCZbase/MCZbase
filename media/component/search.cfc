@@ -1576,7 +1576,6 @@ imgStyleClass=value
 				<cfelse>
 				fail to make relationship
 				</cfif><!--- relation exists ---> 
-				</cfif><!--- Failure check --->
 			</cfloop>
 			<cftransaction action="commit"> 
 			<cfset row = StructNew()>
