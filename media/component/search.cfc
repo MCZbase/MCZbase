@@ -1636,7 +1636,7 @@ imgStyleClass=value
 			<cftransaction action="rollback"> 
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfif error_message CONTAINS "ORA-00001: unique constraint">
-				<cfset error_message = "Unable to save search, the search name and the search must each be unique.  You have already saved either a search with the same name, or a search with the same URI.  See the <a href='/users/Searches.cfm' target='_blank'>list of saved searches</a> in your user profile.">
+				<cfset error_message = "Unable to save/edit Media, values must be unique.">
 			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
