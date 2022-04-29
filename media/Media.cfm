@@ -56,11 +56,17 @@ limitations under the License.
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, auto_host,
 				mczbase.get_media_descriptor(media_id) as alttag, MCZBASE.get_media_title(media.media_id) as caption 
-			from media
-			where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			from 
+				media
+			where 
+				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfquery name="getRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select media_relations_id, media_id, media_relationship,created_by_agent_id, related_primary_key from media_relations where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			select media_relations_id, media_id, media_relationship,created_by_agent_id, related_primary_key 
+			from 
+				media_relations 
+			where 
+				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
@@ -72,9 +78,6 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-		<cfset relns=getMediaRelations(#media_id#)>
-			
-
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
@@ -89,10 +92,10 @@ limitations under the License.
 						</div>
 						<form name="editMedia" method="post" action="Media.cfm" class="my-2">
 							<input type="hidden" name="action" value="saveEditMedia">
-							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
-							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#relns.media_relations_id#">
-							<input type="hidden" id="media_relationship" name="media_relationship" value="#relns.media_relationship#">
-							<input type="hidden" id="related_primary_key" name="related_primary_key" value="#relns.related_primary_key#">
+							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#getRelations.recordcount#">
+							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#getRelations.media_relations_id#">
+							<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
+							<input type="hidden" id="related_primary_key" name="related_primary_key" value="#getRelations.related_primary_key#">
 							<input type="hidden" id="media_id" name="media_id" value="#media.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
