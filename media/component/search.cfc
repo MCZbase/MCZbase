@@ -1461,8 +1461,8 @@ imgStyleClass=value
 								</cfloop>
 							</select>
 							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#encodeForHTML(related_primary_key)#" class="data-entry-input col-12 col-md-6 col-xl-7  float-left px-1 float-left">
-							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
-							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships1.media_id#,relationshipDiv__#i#)"> Remove </button>
+							<input type="hidden" name="related_value__#i#" id="related_value__#i#" value="#related_primary_key#">
+							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_id#,#media_relations_id#,relationshipDiv__#i#)"> Remove </button>
 							<!---onclick="enable_disable()"--->
 							<input class="btn btn-secondary btn-xs mx-0 small float-left slide-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
 		
