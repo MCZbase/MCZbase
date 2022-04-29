@@ -1636,7 +1636,7 @@ imgStyleClass=value
 			<cftransaction action="rollback"> 
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfif error_message CONTAINS "ORA-00001: unique constraint">
-				<cfset error_message = "Unable to save/edit Media, values must be unique.">
+				<cfset error_message = "Unable to save/edit Media">
 			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>

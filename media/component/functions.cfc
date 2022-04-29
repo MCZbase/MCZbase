@@ -36,8 +36,8 @@ Backing methods for managing media
 	<cfargument name="description" type="string" required="yes">
 	<cfargument name="preview_uri" type="string" required="no">
 	<cfargument name="media_license_id" type="string" required="no">
-	<cfargument name="number_of_relations" type="string" required="no">
-	<cfargument name="number_of_labels" type="string" required="no">
+<!---	<cfargument name="number_of_relations" type="string" required="no">
+	<cfargument name="number_of_labels" type="string" required="no">--->
 	<cfargument name="mask_media_fg" type="string" required="no">
 
 	<cfoutput>
@@ -85,7 +85,7 @@ Backing methods for managing media
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
 					)
 				</cfquery>
-				<cfloop from="1" to="#number_of_relations#" index="n">
+				<!---<cfloop from="1" to="#number_of_relations#" index="n">
 					<cfset thisRelationship = #evaluate("relationship__" & n)#>
 					<cfset thisRelatedId = #evaluate("related_id__" & n)#>
 					<cfset thisTableName=ListLast(thisRelationship," ")>
@@ -102,8 +102,8 @@ Backing methods for managing media
 							)
 						</cfquery>
 					</cfif>
-				</cfloop>
-				<cfloop from="1" to="#number_of_labels#" index="n">
+				</cfloop>--->
+			<!---	<cfloop from="1" to="#number_of_labels#" index="n">
 					<cfset thisLabel = #evaluate("label__" & n)#>
 					<cfset thisLabelValue = #evaluate("label_value__" & n)#>
 					<cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
@@ -119,7 +119,7 @@ Backing methods for managing media
 							)
 						</cfquery>
 					</cfif>
-				</cfloop>
+				</cfloop>--->
 			<cfcatch>
 				<cftransaction action="rollback">
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
@@ -200,7 +200,7 @@ Backing methods for managing media
 </cffunction>
 
 <!---	Taken from Media.cfm-- it was a case on new media		--->
-<cffunction name="saveNew" access="remote" returntype="any" returnformat="json">
+<cffunction name="editNewCoreMedia" access="remote" returntype="any" returnformat="json">
 		<cftransaction>
 			<cftry>
 				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
