@@ -1461,8 +1461,8 @@ imgStyleClass=value
 								</cfloop>
 							</select>
 							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#encodeForHTML(related_primary_key)#" class="data-entry-input col-12 col-md-6 col-xl-7  float-left px-1 float-left">
-							<input type="hidden" name="related_value__#i#" id="related_value__#i#" value="#related_primary_key#">
-							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_id#,#media_relations_id#,relationshipDiv__#i#)"> Remove </button>
+							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
+							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships1.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<!---onclick="enable_disable()"--->
 							<input class="btn btn-secondary btn-xs mx-0 small float-left slide-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
 		
@@ -1532,7 +1532,7 @@ imgStyleClass=value
 	
 				
 				
-<cffunction name="editMediaRelations" access="remote" returntype="any" returnformat="json">
+<cffunction name="editMediaRelationship" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="media_relationship" type="string" required="yes">
 	<cfargument name="related_primary_key" type="string" required="yes">
@@ -1636,7 +1636,7 @@ imgStyleClass=value
 			<cftransaction action="rollback"> 
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfif error_message CONTAINS "ORA-00001: unique constraint">
-				<cfset error_message = "Unable to save/edit Media">
+				<cfset error_message = "Unable to save search, the search name and the search must each be unique.  You have already saved either a search with the same name, or a search with the same URI.  See the <a href='/users/Searches.cfm' target='_blank'>list of saved searches</a> in your user profile.">
 			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>

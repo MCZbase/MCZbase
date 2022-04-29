@@ -455,7 +455,232 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
-
+	<cfcase value="save">
+		<cfoutput>
+			<div class="container-fluid container-xl">
+				<form name="newMedia" method="post" action="Media.cfm">
+					<input type="hidden" name="action" value="saveEdits">
+					<input type="hidden" id="media_type" name="media_type" value="">
+					<input type="hidden" id="mime_type" name="mime_type" value="">
+					<input type="hidden" id="media_license_id" name="media_license_id" value="">
+					<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
+					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
+					<input type="hidden" id="preview_uri" name="preview_uri" value="">
+					<input type="hidden" id="mask_media_fg" name="mask_media_fg" value="">
+					<input type="hidden" id="media_uri" name="media_uri" value="">
+			
+					<div class="row mx-0">
+						<div class="col-12 px-0 mt-4 pb-2">
+							<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
+								Create Media 
+								<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
+							</h1>
+<!---							<script>
+								function previewFile(input){
+									var file = $("input[type=file]").get(0).files[0];
+									if(file){
+										var reader = new FileReader();
+										reader.onload = function(){
+											$("##previewImg").attr("src", reader.result);
+										}
+										reader.readAsDataURL(file);
+									}
+								}
+								function previewPreviewFile(input){
+									var file = $("input.preview[type=file]").get(0).files[0];
+									if(file){
+										var reader = new FileReader();
+										reader.onload = function(){
+											$("##previewPreviewImg").attr("src", reader.result);
+										}
+										reader.readAsDataURL(file);
+									}
+								}
+							</script>--->
+							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
+								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
+								<p class="small mb-0">Preview of Media URI </p>
+								
+								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
+								<p class="small mb-0">Preview of Preview URI </p>
+							</div>
+							
+					
+							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
+							
+<!---								<div class="form-row mx-0 mt-2">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+										<label for="media_uri" class="data-entry-label">Media URI (Shared Drive)</label>
+										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
+									</div>
+								</div>
+								<div class="form-row mx-0 mt-2">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+										<label for="preview_uri" class="data-entry-label">Preview URI (Shared Drive)</label>
+										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
+									</div>
+								</div>--->
+								<div class="form-row mx-0 mt-0 mb-2">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+									<!---	<p class="pl-3 mt-2 mb-1">OR</p>--->
+										<label for="media_uri" class="data-entry-label">Media URI (No Preview)</label>
+										<input name="media_uri" class="reqdClr data-entry-input" required>
+									</div>
+								</div>
+								<div class="form-row mx-0 mt-0 mb-2">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+								<!---		<p class="pl-3 mt-2 mb-1">OR</p>--->
+										<label for="preview_uri" class="data-entry-label">Preview URI (No Preview)</label>
+										<input name="preview_uri" class="reqdClr data-entry-input" required>
+									</div>
+								</div>
+								<div class="form-row col-12 px-0 mx-0 mt-2">
+									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
+										<label for="mime_type" class="data-entry-label">MIME Type</label>
+										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctmime_type">
+												<option value="#mime_type#">#mime_type#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
+										<label for="media_type" class="data-entry-label">Media Type</label>
+										<select name="media_type" id="media_type" class="reqdClr data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctmedia_type">
+											<option value="#media_type#">#media_type#</option>
+											</cfloop>
+										</select>
+									</div>
+								</div>
+								<div class="form-row mx-0 mt-2">
+									<div class="col-12 col-sm-8 col-md-6 px-0 px-sm-2 px-md-4 float-left">
+										<label for="media_license_id" class="data-entry-label">
+											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
+										</label>
+										<select name="media_license_id" id="media_license_id" class="data-entry-select">
+											<option value="">Research copyright &amp; then choose...</option>
+											<cfloop query="ctmedia_license">
+												<option value="#media_license_id#">#media_license#</option>
+											</cfloop>
+										</select>
+									</div>
+								</div>
+								<div class="form-row mx-0 mt-2">
+									<div class="col-12 col-md-4 px-0 px-sm-2 px-md-4 float-left">
+										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
+										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
+											<option value="0" selected="selected">Public</option>
+											<option value="1">Hidden</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-row mx-0 mt-2">
+									<!---NOTES to USER--->
+									<div class="col-12 px-0 px-sm-2 px-md-4">
+										<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
+											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
+											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
+											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mx-0">
+						<div class="col-12 pb-5 px-0">
+							<div class="form-row mt-2 mx-0">
+								<div class="col-12 col-xl-10 px-0">
+									<div class="col-12 px-0 float-left">
+										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible.<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
+										<div id="relationshipDiv">
+											<cfset i=1>
+											<cfloop>
+												<div id="relationshiperror"></div>
+												<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-6 float-left">
+													<option value="">None/Unpick</option>
+													<cfloop query="ctmedia_relationship">
+														<option value="#media_relationship#">#media_relationship#</option>
+													</cfloop>
+												</select>
+												<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 data-entry-input float-left">
+												<input type="hidden" name="related_id__1" id="related_id__1">
+											</cfloop>
+											<div class="col-12 float-left">						
+												<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-12 px-0 float-left">
+										<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+										</label>
+										<div id="labels">
+											<div class="form-row mx-0 px-0 col-12">
+												<select class="data-entry-select col-12 col-md-6 px-0 float-left">
+													<option>description</option>
+												</select>
+												<input class="data-entry-input col-12 col-md-6 float-left reqdClr" type="text" name="label_value__0" id="label_value__0" value="" required>
+											</div>
+											<cfset i=1>
+											<cfloop>
+												<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
+													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-12 col-md-6 float-left">
+														<option value="delete">Select label...</option>
+														<cfloop query="ctmedia_label">
+															<option value="#media_label#">#media_label#</option>
+														</cfloop>
+													</select>
+													<input class="data-entry-input col-12 col-md-6 float-left" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+												</div>
+												<cfset i=i+1>
+											</cfloop>
+											<div class="col-12 float-left">
+												<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-row mx-0 mt-2">
+								<div class="col-12 px-0 float-left">
+									<input type="submit" value="Create Media" onclick="createMedia()" class="btn btn-xs btn-primary">
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
+					<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select guid from flat where collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<script language="javascript" type="text/javascript">
+						$("##relationship__1").val('shows cataloged_item');
+						$("##related_value__1").val('#s.guid#');
+						$("##related_id__1").val('#collection_object_id#');
+					</script>
+				</cfif>
+				<cfif isdefined("relationship") and len(relationship) gt 0>
+					<cfquery name="s" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select media_relationship from ctmedia_relationship where media_relationship= 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+					</cfquery>
+					<cfif s.recordCount eq 1 >
+						<script language="javascript" type="text/javascript">
+							$("##relationship__1").val('#relationship#');
+							$("##related_value__1").val('#related_value#');
+							$("##related_id__1").val('#related_id#');
+						</script>
+					<cfelse>
+						<script language="javascript" type="text/javascript">
+							$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
+						</script>
+					</cfif>
+				</cfif>
+			</div>
+		</cfoutput>
+	</cfcase>
 </cfswitch>
 
 <cfinclude template="/shared/_footer.cfm">
