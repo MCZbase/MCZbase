@@ -233,8 +233,17 @@ limitations under the License.
 			<div class="container-fluid container-xl">
 				<form name="newMedia" method="post" action="media.cfm">
 					<input type="hidden" name="action" value="saveNew">
+					<input type="hidden" id="media_type" name="media_type" value="">
+					<input type="hidden" id="mime_type" name="mime_type" value="">
+					<input type="hidden" id="description" name="description" value="">
+					<input type="hidden" id="media_license_id" name="media_license_id" value="">
+					<input type="hidden" id="description" name="description" value="">
 					<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
+					<input type="hidden" id="preview_uri" name="preview_uri" value="">
+					<input type="hidden" id="mask_media_fg" name="mask_media_fg" value="">
+					<input type="hidden" id="media_uri" name="media_uri" value="">
+			
 					<div class="row mx-0">
 						<div class="col-12 px-0 mt-4 pb-2">
 							<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
@@ -293,7 +302,6 @@ limitations under the License.
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 									</div>
 								</div>
-			
 								<div class="form-row col-12 px-0 mx-0 mt-2">
 									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
@@ -405,7 +413,7 @@ limitations under the License.
 							</div>
 							<div class="form-row mx-0 mt-2">
 								<div class="col-12 px-0 float-left">
-									<input type="submit" value="Create Media" class="btn btn-xs btn-primary">
+									<input type="submit" value="Create Media" onclick="createMedia()" class="btn btn-xs btn-primary">
 								</div>
 							</div>
 						</div>
