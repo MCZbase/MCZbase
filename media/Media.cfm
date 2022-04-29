@@ -74,7 +74,7 @@ limitations under the License.
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
 			
-			<cfloop list="#relns#" index="i">#relns#</cfloop>
+
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
