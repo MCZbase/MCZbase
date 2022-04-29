@@ -1495,10 +1495,6 @@ imgStyleClass=value
 					<cfset i=i+1>
 				</cfloop>
 				<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
-				<div class="col-12">
-					<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="editMediaRelationship('relationsBlock',#media_id#);">Save Changes 
-					</button>
-				</div>
 			</div>
 					<script>
 						(function () {
