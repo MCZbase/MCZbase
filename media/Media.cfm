@@ -271,19 +271,19 @@ limitations under the License.
 										reader.readAsDataURL(file);
 									}
 								}
-							</script>
+							</script>--->
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
 								<p class="small mb-0">Preview of Media URI </p>
 								
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 								<p class="small mb-0">Preview of Preview URI </p>
-							</div>--->
+							</div>
 							
 					
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
 							
-								<div class="form-row mx-0 mt-2">
+<!---								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media URI (Shared Drive)</label>
 										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
@@ -294,17 +294,17 @@ limitations under the License.
 										<label for="preview_uri" class="data-entry-label">Preview URI (Shared Drive)</label>
 										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
 									</div>
-								</div>
+								</div>--->
 								<div class="form-row mx-0 mt-0 mb-5">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-										<p class="pl-3 mt-2 mb-1">OR</p>
+									<!---	<p class="pl-3 mt-2 mb-1">OR</p>--->
 										<label for="media_uri" class="data-entry-label">Media URI (No Preview)</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-0 mb-5">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-										<p class="pl-3 mt-2 mb-1">OR</p>
+								<!---		<p class="pl-3 mt-2 mb-1">OR</p>--->
 										<label for="preview_uri" class="data-entry-label">Preview URI (No Preview)</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 									</div>
