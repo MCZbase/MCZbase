@@ -1428,10 +1428,12 @@ imgStyleClass=value
 				
 				<cfif getRelationships1.recordcount GT 0>
 			<div class="col-12 px-0 float-left">
-					<script>
+	
+			<!---	<cfif relns.recordcount is 0>--->
+				<script>
 					console.log("relns cfif");
 				</script> 
-					<div id="seedMedia" style="display:none">
+<!---					<div id="seedMedia" style="display:none">
 						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 						<cfset d="">
 						<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
@@ -1444,8 +1446,9 @@ imgStyleClass=value
 						<script>
 							console.log("seed media");
 						</script> 
-					</div>
-				</cfif>
+					</div>--->
+			<!---	</cfif>--->
+			
 				<cfset i=1>
 				<cfloop query="getRelationships1">
 					<cfset d=media_relationship>
@@ -1492,6 +1495,10 @@ imgStyleClass=value
 					<cfset i=i+1>
 				</cfloop>
 				<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+				<div class="col-12">
+					<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="editMediaRelationship('relationsBlock',#media_id#);">Save Changes 
+					</button>
+				</div>
 			</div>
 					<script>
 						(function () {
