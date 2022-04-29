@@ -1596,10 +1596,7 @@ imgStyleClass=value
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>	
-				
-
-		
-		
+			
 		
 <cffunction name="getLabelsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">

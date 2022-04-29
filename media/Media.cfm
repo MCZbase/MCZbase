@@ -18,7 +18,7 @@ limitations under the License.
 
 -->
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-<cfinclude template="/media/component/functions.cfc" runOnce="true">
+
 
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
@@ -73,6 +73,8 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
+			
+			<cfloop list="#relns#" index="i">#relns#</cfloop>
 		<cfoutput>
 			<div class="container-fluid container-xl">
 				<div class="row">
