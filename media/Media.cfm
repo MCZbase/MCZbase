@@ -295,14 +295,14 @@ limitations under the License.
 										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
 									</div>
 								</div>--->
-								<div class="form-row mx-0 mt-0 mb-5">
+								<div class="form-row mx-0 mt-0 mb-4">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 									<!---	<p class="pl-3 mt-2 mb-1">OR</p>--->
 										<label for="media_uri" class="data-entry-label">Media URI (No Preview)</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 									</div>
 								</div>
-								<div class="form-row mx-0 mt-0 mb-5">
+								<div class="form-row mx-0 mt-0 mb-4">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 								<!---		<p class="pl-3 mt-2 mb-1">OR</p>--->
 										<label for="preview_uri" class="data-entry-label">Preview URI (No Preview)</label>
