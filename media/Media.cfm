@@ -174,7 +174,7 @@ limitations under the License.
 										<div class="form-row mx-0 mt-2 mb-4">
 											<div class="col-12 float-left">
 											<!---  TODO: Change to ajax save of form. ---->
-												<input type="submit" value="Save Core Media Data" class="btn btn-xs btn-primary">
+												<input type="submit" value="Save Core Media Data" onClick="editCoreMedia()" class="btn btn-xs btn-primary">
 											</div>
 										</div>
 									</div>
@@ -197,7 +197,7 @@ limitations under the License.
 												<div class="col-9 px-0 float-left">
 													<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>
-													<button class="btn btn-xs btn-primary float-left" type="button" onClick="updateMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
 													</button>
 												</div>
 											</div>

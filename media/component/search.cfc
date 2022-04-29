@@ -1428,12 +1428,12 @@ imgStyleClass=value
 				
 				<cfif getRelationships1.recordcount GT 0>
 			<div class="col-12 px-0 float-left">
-	
-			<!---	<cfif relns.recordcount is 0>--->
+
+				<cfif relns.recordcount is 0>
 				<script>
 					console.log("relns cfif");
 				</script> 
-<!---					<div id="seedMedia" style="display:none">
+					<div id="seedMedia" style="display:none">
 						<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 						<cfset d="">
 						<select name="relationship__0" id="relationship__0" class="data-entry-select  col-5" size="1"  onchange="pickedRelationship(this.id)">
@@ -1446,9 +1446,8 @@ imgStyleClass=value
 						<script>
 							console.log("seed media");
 						</script> 
-					</div>--->
-			<!---	</cfif>--->
-			
+					</div>
+				</cfif>
 				<cfset i=1>
 				<cfloop query="getRelationships1">
 					<cfset d=media_relationship>
@@ -1470,35 +1469,8 @@ imgStyleClass=value
 							console.log("relns");
 						</script> 
 						</div>
-						<script type="text/javascript">
-//							$(document).ready(function enable_disable() {
-//								$("##relationship__#i#").prop("disabled", true);
-//								$("##related_value__#i#").prop("disabled", true);
-//								$(".slide-toggle__#i#").click(function() {
-//									previous = this.value;
-//									if (this.value=="Edit") {
-//										event.preventDefault();
-//										this.value = "Revert";
-//										$("##relationship__#i#").prop("disabled", false);
-//										$("##related_value__#i#").prop("disabled", false);
-//										
-//									}
-//									else {
-//										this.value = "Edit";
-//										event.preventDefault();
-//										$("##relationship__#i#").prop("disabled", true);
-//										$("##related_value__#i#").prop("disabled", true);
-//									}
-//								});
-//							});
-						</script>
 					<cfset i=i+1>
 				</cfloop>
-				<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
-				<div class="col-12">
-					<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="editMediaRelationship('relationsBlock',#media_id#);">Save Changes 
-					</button>
-				</div>
 			</div>
 					<script>
 						(function () {

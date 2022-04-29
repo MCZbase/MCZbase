@@ -252,7 +252,7 @@ function saveMediaRelationship(targetDiv, media_id, media_relations_id) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
-			method : "saveMediaRelations",
+			method : "updateMediaRelationship",
 			media_id : media_id
 		},
 		success: function (result) {
