@@ -1429,7 +1429,7 @@ imgStyleClass=value
 				<cfif getRelationships1.recordcount GT 0>
 			<div class="col-12 px-0 float-left">
 
-				<cfif relns.recordcount is 0>
+				<cfif getRelationships1.recordcount is 0>
 				<script>
 					console.log("relns cfif");
 				</script> 
