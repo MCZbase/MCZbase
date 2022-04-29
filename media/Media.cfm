@@ -235,9 +235,7 @@ limitations under the License.
 					<input type="hidden" name="action" value="saveNew">
 					<input type="hidden" id="media_type" name="media_type" value="">
 					<input type="hidden" id="mime_type" name="mime_type" value="">
-					<input type="hidden" id="description" name="description" value="">
 					<input type="hidden" id="media_license_id" name="media_license_id" value="">
-					<input type="hidden" id="description" name="description" value="">
 					<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 					<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 					<input type="hidden" id="preview_uri" name="preview_uri" value="">
