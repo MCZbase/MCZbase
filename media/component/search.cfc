@@ -1543,8 +1543,8 @@ imgStyleClass=value
 			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update media_relations set
 				media_relationship=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relationship#" /> ,
-				related_primary_key=<cfqueryparam cfsqltype="cf_sql_varchar" value="#related_primary_key#" /> ,
-				media_relations_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relations_id#" />, 
+				related_primary_key=<cfqueryparam cfsqltype="cf_sql_number" value="#related_primary_key#" /> ,
+				media_relations_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_relations_id#" />, 
 				where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
 			</cfquery>
 			<cfloop from="1" to="#number_of_relations#" index="n">
