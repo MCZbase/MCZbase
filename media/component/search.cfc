@@ -1425,8 +1425,8 @@ imgStyleClass=value
 			<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select media_license_id,display media_license from ctmedia_license order by media_license_id
 			</cfquery>
-			<cfset relns=getMediaRelations(#media_id#)>
-			<cfif getRelationships1.recordcount GT 0>
+				
+				<cfif getRelationships1.recordcount GT 0>
 			<div class="col-12 px-0 float-left">
 	
 			<!---	<cfif relns.recordcount is 0>--->
