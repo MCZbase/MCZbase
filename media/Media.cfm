@@ -378,7 +378,7 @@ limitations under the License.
 														<option value="#media_relationship#">#media_relationship#</option>
 													</cfloop>
 												</select>
-												<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 px-0 data-entry-input float-left">
+												<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 data-entry-input float-left">
 												<input type="hidden" name="related_id__1" id="related_id__1">
 											</cfloop>
 											<div class="col-12 float-left">						
@@ -405,7 +405,7 @@ limitations under the License.
 															<option value="#media_label#">#media_label#</option>
 														</cfloop>
 													</select>
-													<input class="data-entry-input col-12 col-md-6 float-left px-0" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+													<input class="data-entry-input col-12 col-md-6 float-left" type="text" name="label_value__#i#" id="label_value__#i#" value="">
 												</div>
 												<cfset i=i+1>
 											</cfloop>
