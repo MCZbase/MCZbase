@@ -1532,7 +1532,7 @@ imgStyleClass=value
 	
 				
 				
-<cffunction name="editMediaRelationship" access="remote" returntype="any" returnformat="json">
+<cffunction name="updateMediaRelationship" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="media_relationship" type="string" required="yes">
 	<cfargument name="related_primary_key" type="string" required="yes">
@@ -1561,12 +1561,10 @@ imgStyleClass=value
 						<cfset failure=1>
 					</cfcatch>
 				</cftry>
-				<cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
-				<cfif failure EQ 0>
 				<cfif isdefined("media_relations_id__#n#")>
-				<cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
+					<cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
 				<cfelse>
-				<cfset thisRelationID=-1>
+					<cfset thisRelationID=-1>
 				</cfif>
 				<cfif thisRelationID is -1>
 					<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1576,57 +1574,10 @@ imgStyleClass=value
 							#media_id#,'#thisRelationship#',#thisRelatedId#)
 					</cfquery>
 				<cfelse>
-				<cfif #thisRelationship# is "delete">
-					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						delete from 
-							media_relations
-						where media_relations_id=#thisRelationID#
-					</cfquery>
-				<cfelse>
-					<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						update 
-							media_relations
-						set
-							media_relationship='#thisRelationship#',
-							related_primary_key=#thisRelatedId#
-						where media_relations_id=#thisRelationID#
-					</cfquery>
-				</cfif><!--- delete or update relation --->
+				fail to make relationship
 				</cfif><!--- relation exists ---> 
 				</cfif><!--- Failure check --->
 			</cfloop>
-<!---			<cfloop from="1" to="#number_of_labels#" index="n">
-				<cfset thisLabel = #evaluate("label__" & n)#>
-				<cfset thisLabelValue = #evaluate("label_value__" & n)#>
-				<cfif isdefined("media_label_id__#n#")>
-					<cfset thisLabelID=#evaluate("media_label_id__" & n)#>
-				<cfelse>
-					<cfset thisLabelID=-1>
-				</cfif>
-				<cfif thisLabelID is -1>
-					<cfquery name="makeLabel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							insert into media_labels (media_id,media_label,label_value)
-							values (#media_id#,'#thisLabel#','#thisLabelValue#')
-						</cfquery>
-				<cfelse>
-					<cfif #thisLabel# is "delete">
-						<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							delete from 
-								media_labels
-							where media_label_id=#thisLabelID#
-						</cfquery>
-						<cfelse>
-						<cfquery name="upRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							update 
-								media_labels
-							set
-								media_label='#thisLabel#',
-								label_value='#thisLabelValue#'
-							where media_label_id=#thisLabelID#
-						</cfquery>
-					</cfif>
-				</cfif>
-			</cfloop>--->
 			<cftransaction action="commit"> 
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
