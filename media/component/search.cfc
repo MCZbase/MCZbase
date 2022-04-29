@@ -1543,7 +1543,6 @@ imgStyleClass=value
 				update media_relations set
 				media_relationship=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relationship#" /> ,
 				related_primary_key=<cfqueryparam cfsqltype="cf_sql_varchar" value="#related_primary_key#" /> ,
-				media_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_id#" /> ,
 				media_relations_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relations_id#" />, 
 				where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
 			</cfquery>
