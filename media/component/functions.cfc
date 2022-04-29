@@ -149,9 +149,9 @@ Backing methods for managing media
 		<div id='savedLinkDiv'>
 			<a href='/media/#media_id#' target='_blank'>Media Details</a>
 		</div>
-		<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
+		<!---<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
 			<div>Created with relationship: #thisRelationship#</div>
-		</cfif>
+		</cfif>--->
 		<script language='javascript' type='text/javascript'>
 			$('##savedLinkDiv').removeClass('ui-widget-content');
 		</script>
