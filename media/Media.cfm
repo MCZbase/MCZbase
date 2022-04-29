@@ -88,8 +88,8 @@ limitations under the License.
 							<h4 class="pr-3 d-inline-block">Media ID = #media_id#</h4>
 							
 						</div>
-						<form name="editMedia" method="post" action="media.cfm" class="my-2">
-							<input type="hidden" name="action" value="saveEdit">
+						<form name="editMedia" method="post" action="Media.cfm" class="my-2">
+							<input type="hidden" name="action" value="saveEditMedia">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#relns.media_relations_id#">
 							<input type="hidden" id="media_relationship" name="media_relationship" value="#relns.media_relationship#">
@@ -231,7 +231,7 @@ limitations under the License.
 	<cfcase value="new">
 		<cfoutput>
 			<div class="container-fluid container-xl">
-				<form name="newMedia" method="post" action="media.cfm">
+				<form name="newMedia" method="post" action="Media.cfm">
 					<input type="hidden" name="action" value="saveNew">
 					<input type="hidden" id="media_type" name="media_type" value="">
 					<input type="hidden" id="mime_type" name="mime_type" value="">
