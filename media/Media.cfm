@@ -250,7 +250,7 @@ limitations under the License.
 								Create Media 
 								<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 							</h1>
-							<script>
+<!---							<script>
 								function previewFile(input){
 									var file = $("input[type=file]").get(0).files[0];
 									if(file){
@@ -278,7 +278,7 @@ limitations under the License.
 								
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 								<p class="small mb-0">Preview of Preview URI </p>
-							</div>
+							</div>--->
 							
 					
 							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
@@ -298,8 +298,15 @@ limitations under the License.
 								<div class="form-row mx-0 mt-0 mb-5">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
 										<p class="pl-3 mt-2 mb-1">OR</p>
-										<label for="media_uri" class="data-entry-label">External Link (No Preview)</label>
+										<label for="media_uri" class="data-entry-label">Media URI (No Preview)</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
+									</div>
+								</div>
+								<div class="form-row mx-0 mt-0 mb-5">
+									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
+										<p class="pl-3 mt-2 mb-1">OR</p>
+										<label for="preview_uri" class="data-entry-label">Preview URI (No Preview)</label>
+										<input name="preview_uri" class="reqdClr data-entry-input" required>
 									</div>
 								</div>
 								<div class="form-row col-12 px-0 mx-0 mt-2">
