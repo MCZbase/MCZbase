@@ -1450,7 +1450,7 @@ imgStyleClass=value
 			<!---	</cfif>--->
 			
 				<cfset i=1>
-				<cfloop query="relns">
+				<cfloop query="getRelationships1">
 					<cfset d=media_relationship>
 						<div class="form-row col-12 px-0 mx-0">	
 							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
@@ -1460,15 +1460,12 @@ imgStyleClass=value
 									<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 								</cfloop>
 							</select>
-							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#encodeForHTML(summary)#" class="data-entry-input col-12 col-md-6 col-xl-7  float-left px-1 float-left">
+							<input type="text" name="related_value__#i#" id="related_value__#i#" value="#encodeForHTML(related_primary_key)#" class="data-entry-input col-12 col-md-6 col-xl-7  float-left px-1 float-left">
 							<input type="hidden" name="related_id" id="related_id" value="#related_primary_key#">
 							<button id="relationshipDiv__#i#" class="btn btn-warning btn-xs float-left small" onClick="deleteRelationship(#media_relations_id#,#getRelationships1.media_id#,relationshipDiv__#i#)"> Remove </button>
 							<!---onclick="enable_disable()"--->
 							<input class="btn btn-secondary btn-xs mx-0 small float-left slide-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
-						<div class="col-12">
-							<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#',,'#media_relations_id#','#media_relationship#');">Save Changes 
-							</button>
-						</div>
+		
 						<script>
 							console.log("relns");
 						</script> 
@@ -1498,6 +1495,10 @@ imgStyleClass=value
 					<cfset i=i+1>
 				</cfloop>
 				<span class="infoLink h5 box-shadow-0 d-block col-12 text-right my-1" id="addRelation" onclick="addRelation(#i#,'relationships','addRelation');"> Relationship (+)</span> 	
+				<div class="col-12">
+					<button class="btn btn-xs btn-primary mx-2 float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#',,'#media_relations_id#','#media_relationship#');">Save Changes 
+					</button>
+				</div>
 			</div>
 					<script>
 						(function () {
