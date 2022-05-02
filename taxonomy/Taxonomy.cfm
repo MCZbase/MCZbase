@@ -329,8 +329,8 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row mx-0 mx-md-1 mt-2 mb-3">
-						<div class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2">
+					<div class="row mx-0 mt-2 mb-3">
+						<div class="col-12 col-md-6 px-0 pb-2 pt-1 mt-2">
 							<label for="taxonid" class="data-entry-label pt-1">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -372,16 +372,15 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
-									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
-									class="data-entry-input">
+									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 								<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
@@ -417,7 +416,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2">
+						<div class="col-12 col-md-6 mt-2 mb-0 pt-1 pb-2">
 							<label for="scientificnameid" class="data-entry-label pt-1">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -430,7 +429,7 @@ limitations under the License.
 								<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
-										<cfset searchtext = "Edit" >
+										<cfset searchtext = "&nbsp; Edit GUID &nbsp;" >
 										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
@@ -459,7 +458,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
