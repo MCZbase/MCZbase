@@ -997,7 +997,7 @@ limitations under the License.
 					</section>
 
 					<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-0 pr-md-1">
-						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+						<div class="border bg-light float-left p-3 w-100 rounded">
 							<script>
 								function reloadCommonNames() {
 									loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv');
@@ -1008,7 +1008,7 @@ limitations under the License.
 							</script>
 							<cfset commonBit = getCommonHtml(taxon_name_id="#getTaxa.taxon_name_id#",target="commonNamesDiv")>
 							<div id="commonNamesDiv">#commonBit#</div>
-							<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
+							<label for="new_common_name" class="data-entry-label float-left mt-4 pb-0">Add New Common Name</label>
 							<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
 							<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" id="newCommonNameButton" >
 							<script>
@@ -1038,7 +1038,7 @@ limitations under the License.
 									loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv');
 								});
 							</script>
-							<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
+							<label for="taxon_habitat" class="data-entry-label float-left mt-4 pb-0">Add New Habitat</label>
 							<select name="taxon_habitat" id="new_taxon_habitat"size="1" class="data-entry-select my-1 w-75 float-left">
 								<cfloop query="cttaxon_habitat">
 									<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>

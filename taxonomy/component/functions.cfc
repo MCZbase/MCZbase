@@ -938,9 +938,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfif habitat.recordcount gt 0>
 					<cfloop query="habitat">
 						<ul class="mx-0 px-0 my-2 list-group">
-							<li class="mx-0 mb-1 list-group-item border col-12 col-xl-10 px-1">
+							<li class="mx-0 mb-1 list-group-item border col-12 col-xl-9 px-1">
 								<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-75 float-left pt-1 px-2">#taxon_habitat#</label>
-								<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-right" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
+								<button value="Remove" class="btn btn-xs btn-warning my-0 float-right" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
 								id="habitatDeleteButton_#i#">Remove</button>
 							</li>
 						</ul>
