@@ -977,11 +977,11 @@ limitations under the License.
 										}
 									}
 								</script>
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-2 pt-1">
 									<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
 										<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
 									</label>
-									<input type="button" value="Create" class="btn btn-xs btn-secondary" style="margin-top:.12em;"
+									<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2"
 										onclick=" addTaxonRelationHandler(); "
 										id="addTaxonRelationButton"
 									>
@@ -1022,8 +1022,8 @@ limitations under the License.
 						</div>
 					</section>
 
-					<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
-						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+					<section class="mt-2 float-left col-12 col-md-6 pl-md-1 px-0">
+						<div class="border bg-light float-left p-3 w-100 rounded">
 							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select taxon_habitat 
 								from taxon_habitat 
@@ -1031,7 +1031,7 @@ limitations under the License.
 							</cfquery>
 						
 							<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-							<h2 class="h3 mt-0">Habitat</h2>
+							<h2 class="h3 mt-0 px-2">Habitat</h2>
 							<div id="habitatsDiv">Loading....</div>
 							<script>
 								$(document).ready(function(){
