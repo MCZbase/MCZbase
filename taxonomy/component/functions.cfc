@@ -688,10 +688,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 											$('##commonEditButton_#i#').toggle();
 										};
 									</script>
-									<label id="label_common_name_#i#" value="#common_name#" class="w-75 float-left pt-1 px-2" 
+									<label id="label_common_name_#i#" value="#common_name#" class="w-auto float-left pt-1 px-2" 
 										onClick="toggleCommon#i#()">#encodeForHtml(common_name)#</label>
 									<input id="common_name_#i#" type="text" name="common_name" value="#encodeForHtml(common_name)#" 
 										class="data-entry-input w-75 float-left" style="display: none;">
+									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 my-0 float-right" 
+										id="commonDeleteButton_#i#">
 									<input type="button" value="Save" class="btn btn-xs btn-secondary ml-1 my-0 float-right" 
 										id="commonSaveButton_#i#"
 										style="display: none;">
@@ -699,8 +701,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 										onClick="toggleCommon#i#()" 
 										id="commonEditButton_#i#"
 										>
-									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 my-0 float-right" 
-										id="commonDeleteButton_#i#">
+									
 									<script>
 										$(document).ready(function () {
 											$('##commonDeleteButton_#i#').click(function(evt){
