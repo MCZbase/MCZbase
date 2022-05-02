@@ -288,7 +288,7 @@ limitations under the License.
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							<label for="source_authority">Edit Taxon Source &nbsp;&nbsp;
+							<label for="source_authority"><span>Edit Taxon Source&nbsp;&nbsp;&nbsp;&nbsp; </span>
 								<cfif isSourceAuthorityCurrent.ct eq 0> (#getTaxa.source_authority#) </cfif>
 							</label>
 							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
@@ -1133,7 +1133,7 @@ limitations under the License.
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getClonedFromTaxon.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							<label for="source_authority">Edit Taxon Source
+							<label for="source_authority"><span>Edit Taxon Source&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								<cfif isSourceAuthorityCurrent.ct GT 0> (Clone source: #encodeForHTML(getClonedFromTaxon.source_authority)#) </cfif>
 							</label>
 							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
