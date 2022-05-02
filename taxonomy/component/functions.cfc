@@ -675,8 +675,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
 						<form name="common#i#" class="row mx-0" action="" onClick=" function(e){e.preventDefault();};">
-							<ul class="mx-0 px-0 my-0 list-group col-12">
-								<li class="mx-0 mb-1 list-group-item border col-12 col-xl-9 px-1">
+							<ul class="mx-0 px-0 mb-1 list-group col-12">
+								<li class="mx-0 pb-1 list-group-item border col-12 col-xl-9 px-1">
 									<script>
 										function doDeleteCN_#i#(){ 
 											deleteCommonName(#common_name_id#,#taxon_name_id#,'#localtarget#');
