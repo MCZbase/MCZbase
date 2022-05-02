@@ -236,7 +236,7 @@ limitations under the License.
 					<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a>"></cfif>
 						<cfset result=result & "#publication#">
 				<cfset result=result & "">
-					<cfset result=result & "</li><button class='btn-xs btn-warning mx-1 col-1 float-right' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button></ul>">
+					<cfset result=result & "</li><li class='mx-0 mb-1 px-4 list-group-item col-10 float-left py-1'><button class='btn-xs btn-warning mx-1 col-1 float-left' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button></ul>">
 				</cfloop>
 			<cfset result=result & "</div>">
 		</cfif>
