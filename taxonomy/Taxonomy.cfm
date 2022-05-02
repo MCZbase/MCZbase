@@ -978,8 +978,8 @@ limitations under the License.
 									}
 								</script>
 								<div class="col-12 col-md-2 pt-1">
-									<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
-										<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
+									<label for="addTaxonRelationButton" class="data-entry-label mt-1" aria-hidden="true">
+										<output id="addTaxonRelationFeedback" style="display: none;"><img src='/shared/images/indicator.gif'>&nbsp;</output>
 									</label>
 									<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2"
 										onclick=" addTaxonRelationHandler(); "
