@@ -675,7 +675,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
 						<form name="common#i#" class="row mx-0" action="" onClick=" function(e){e.preventDefault();};">
-							<ul class="mx-0 px-0 my-0 list-group">
+							<ul class="mx-0 px-0 my-0 list-group col-12">
 								<li class="mx-0 mb-1 list-group-item border col-12 col-xl-9 px-1">
 									<script>
 										function doDeleteCN_#i#(){ 
@@ -692,14 +692,14 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 										onClick="toggleCommon#i#()">#encodeForHtml(common_name)#</label>
 									<input id="common_name_#i#" type="text" name="common_name" value="#encodeForHtml(common_name)#" 
 										class="data-entry-input w-75 float-left" style="display: none;">
-									<input type="button" value="Save" class="btn btn-xs btn-secondary ml-1 my-0 float-left" 
+									<input type="button" value="Save" class="btn btn-xs btn-secondary ml-1 my-0 float-right" 
 										id="commonSaveButton_#i#"
 										style="display: none;">
-									<input type="button" value="Edit" class="btn btn-xs btn-secondary ml-1 my-0 float-left" 
+									<input type="button" value="Edit" class="btn btn-xs btn-secondary ml-1 my-0 float-right" 
 										onClick="toggleCommon#i#()" 
 										id="commonEditButton_#i#"
 										>
-									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 my-0 float-left" 
+									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 my-0 float-right" 
 										id="commonDeleteButton_#i#">
 									<script>
 										$(document).ready(function () {
@@ -937,7 +937,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfset i=1>
 				<cfif habitat.recordcount gt 0>
 					<cfloop query="habitat">
-						<ul class="mx-0 px-0 my-2 list-group">
+						<ul class="mx-0 px-0 my-0 list-group">
 							<li class="mx-0 mb-1 list-group-item border col-12 col-xl-9 px-1">
 								<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-75 float-left pt-1 px-2">#taxon_habitat#</label>
 								<button value="Remove" class="btn btn-xs btn-warning my-0 float-right" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
