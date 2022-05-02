@@ -921,7 +921,7 @@ limitations under the License.
 
 					<section class="col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
-							<h2 class="h3 mt-0 mb-1">Related Taxa</h2>
+							<h2 class="h3 mt-0 mb-1 px-2">Related Taxa</h2>
 							<div id="taxonRelationsDiv">Loading....</div>
 							<div id="editTaxonRelationDialog"></div>
 							<script>
@@ -930,7 +930,7 @@ limitations under the License.
 							<form id="taxonRelationsForm">
 							<div class="form-row">
 								<div class="col-12 col-md-3 col-xl-2">
-									<label for="new_taxon_relationship" class="data-entry-label">Add Relationship</label>
+									<label for="new_taxon_relationship" class="data-entry-label mt-1">Add Relationship</label>
 									<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship" required>
 										<cfloop query="ctRelation">
 											<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
@@ -938,7 +938,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 col-md-4 col-xl-4">
-									<label for="newRelatedName" class="data-entry-label">Related Taxon</label>
+									<label for="newRelatedName" class="data-entry-label mt-1">Related Taxon</label>
 									<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName" required>
 									<input type="hidden" name="newRelatedId" id="newRelatedId">
 									<script>
@@ -948,7 +948,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="col-12 col-md-3 col-xl-4">
-									<label for="new_relation_authority" class="data-entry-label">Authority</label>
+									<label for="new_relation_authority" class="data-entry-label mt-1">Authority</label>
 									<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
 								</div>
 								<script>
