@@ -343,7 +343,7 @@ limitations under the License.
 								<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
-										<cfset searchtext = "Edit" >
+										<cfset searchtext = "&nbsp; Edit GUID &nbsp;" >
 										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
@@ -351,7 +351,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-6 col-xl-2 px-0 float-left">
 								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -372,7 +372,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-8 px-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
@@ -430,14 +430,14 @@ limitations under the License.
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
 										<cfset searchtext = "&nbsp; Edit GUID &nbsp;" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
+										<cfset searchclass = 'class="btn btn-xs small btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="btn btn-xs small btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-6 col-xl-2 px-0 float-left">
 								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -458,7 +458,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-8 px-0 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -467,7 +467,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0 d-block small90 line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0 d-block small90 line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
