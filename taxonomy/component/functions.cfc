@@ -229,16 +229,16 @@ limitations under the License.
 				taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfif tax_pub.recordcount gt 0>
-			<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 col-12 mt-1 list-group px-0'>">
+			<cfset result=result & "<div class='col-12 px-0'>">
 			<cfloop query="tax_pub">
 				<!--- Create a link out of author year. in the publication, ensure that link closes. --->
-				<cfset publication = "<li class='mx-0 mb-1 px-4 list-group-item border rounded col-12 col-xl-0 pr-0 pl-2'><a href='/SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank' class='d-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
+				<cfset publication = "<ul class='mx-0 col-12 mt-1 list-group px-0'><li class='mx-0 mb-1 px-4 list-group-item border rounded col-12 col-xl-0 pr-0 pl-2'><a href='/SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank' class='d-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 					<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a>"></cfif>
 						<cfset result=result & "#publication#">
 				<cfset result=result & "<button class='btn-xs btn-warning mx-1 float-right' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
-					<cfset result=result & "</li>">
+					<cfset result=result & "</li></ul>">
 				</cfloop>
-			<cfset result=result & "</ul></div>">
+			<cfset result=result & "</div>">
 		</cfif>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
@@ -670,7 +670,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3 mt-0">Common Names</h2>
+				<h2 class="h3 mt-0 px-1">Common Names</h2>
 				<cfset i=1>
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
