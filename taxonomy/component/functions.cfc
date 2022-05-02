@@ -333,11 +333,11 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 			<cfoutput>
 				<cfif relations.recordcount gt 0 OR inverse_relations.recordcount gt 0>
 					<cfif relations.recordcount gt 0>
-						<ul class="mx-0 px-4 mt-1 list-style-disc">
+						<ul class="mx-0 px-0 mb-1 list-group col-12">
 							<cfloop query="relations">
 								<cfset i=i+1>
 								<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
-								<li class="mb-1">
+								<li class="mx-0 pb-1 list-group-item border col-12 col-xl-9 px-1">
 									#taxonname# #relations.taxon_relationship#
 									<!--- Create a link out of scientific name --->
 									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
@@ -345,10 +345,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 									<cfif len(relations.relation_authority) GT 0>
 										 fide #relations.relation_authority# 
 									</cfif>
-									<button class='btn-xs btn-secondary mx-1' 
+									<button class='btn-xs btn-secondary mx-1 float-right' 
 										onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog","#target#");' value='Edit' 
 										title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
-									<button class='btn-xs btn-warning mx-1' 
+									<button class='btn-xs btn-warning mx-1 float-right' 
 										onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
 										value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
 									</li>
