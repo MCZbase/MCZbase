@@ -675,8 +675,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
 						<form name="common#i#" class="row mx-0" action="" onClick=" function(e){e.preventDefault();};">
-							<ul class="mx-0 px-4 col-12 my-1 list-style-disc">
-								<li class="mx-0 mb-1">
+							<ul class="mx-0 px-0 my-0 list-group">
+								<li class="mx-0 mb-1 list-group-item border col-12 col-xl-9 px-1">
 									<script>
 										function doDeleteCN_#i#(){ 
 											deleteCommonName(#common_name_id#,#taxon_name_id#,'#localtarget#');
@@ -688,18 +688,18 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 											$('##commonEditButton_#i#').toggle();
 										};
 									</script>
-									<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" 
+									<label id="label_common_name_#i#" value="#common_name#" class="w-75 float-left pt-1 px-2" 
 										onClick="toggleCommon#i#()">#encodeForHtml(common_name)#</label>
 									<input id="common_name_#i#" type="text" name="common_name" value="#encodeForHtml(common_name)#" 
-										class="data-entry-input w-50 float-left" style="display: none;">
-									<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
+										class="data-entry-input w-75 float-left" style="display: none;">
+									<input type="button" value="Save" class="btn btn-xs btn-secondary ml-1 my-0 float-left" 
 										id="commonSaveButton_#i#"
 										style="display: none;">
-									<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
+									<input type="button" value="Edit" class="btn btn-xs btn-secondary ml-1 my-0 float-left" 
 										onClick="toggleCommon#i#()" 
 										id="commonEditButton_#i#"
 										>
-									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
+									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 my-0 float-left" 
 										id="commonDeleteButton_#i#">
 									<script>
 										$(document).ready(function () {
