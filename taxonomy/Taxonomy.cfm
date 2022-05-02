@@ -416,7 +416,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 mt-2 mb-0 pt-1 pb-2">
+						<div class="col-12 col-md-6 px-0 mt-2 mb-0 pt-1 pb-2">
 							<label for="scientificnameid" class="data-entry-label pt-1">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
