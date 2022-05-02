@@ -235,7 +235,7 @@ limitations under the License.
 				<cfset publication = "<ul class='mx-0 mt-1 border rounded list-group px-2'><li class='mx-0 mb-1 px-4 list-group-item col-12 col-xl-0 py-1'><a href='/SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank' class='d-inline-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 					<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a>"></cfif>
 						<cfset result=result & "#publication#">
-				<cfset result=result & "</li><button class='btn-xs btn-warning mx-1 mt-1 float-right' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
+				<cfset result=result & "</li><button class='btn btn-xs btn-warning mx-1 mt-1 float-right' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
 					<cfset result=result & "</ul>">
 				</cfloop>
 			<cfset result=result & "</div>">
