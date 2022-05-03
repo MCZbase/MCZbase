@@ -1185,7 +1185,7 @@ limitations under the License.
 								<cfif getClonedFromTaxon.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
 									<cfset searchtext = "Find GUID" >
-									<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+									<cfset searchclass = 'class="btn btn-xs small btn-secondary findGuidButton external"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -1207,13 +1207,13 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-auto px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="data-entry-input">
-								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
+								<a id="taxonid_link" href="" target="_blank" class="px-1 small py-0 d-block line-height-sm mt-1"></a> 
 								<script>
 									$(document).ready(function(){ 
 										$('##taxonid').show();
