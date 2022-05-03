@@ -1209,7 +1209,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-md-10 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="data-entry-input">
