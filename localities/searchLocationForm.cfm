@@ -49,11 +49,11 @@
 <section class="row border rounded bg-light mt-2 mb-4 p-2" title="Geography Search Form">
 	<div class="col-12"> 
 		<div class="form-row mb-0">
-			<div class="col-12 col-md-2 mb-1 mb-md-0">
-				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive?</label>
+			<div class="col-12 mb-1 mb-md-0">
+				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
         		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
 			</div>
-			<div class="col-12 col-md-8 mb-1 mb-md-0">
+			<div class="col-12 col-md-6">
 				<label for="higher_geog" class="data-entry-input">
 					Higher Geog
 					<span class="small90">
@@ -62,108 +62,138 @@
 				</label>
 				<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 			</div>
-			<div class="col-12 col-md-8 mb-1 mb-md-0">
+			<div class="col-12 col-md-2">
+					<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
+					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
+			</div>
+			<div class="col-12 col-md-2">
 				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(1);">More Options</span>
 			</div>
 		</div>
 		<div id="geogDetail" class="">
 			<div class="form-row mb-0">
-				<div class="col-12 col-md-3 mb-1 mb-md-0">
+				<div class="col-12 col-md-3">
 					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
 						<span class="small90">
 							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='!'+e.value;" >!<span class="sr-only">prefix with = for exact match</span></button>)
 						</span>
 					</label>
 					<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('continent_ocean','continent_ocean');
+						});
+					</script>
 				</div>
-
-<!---  TODO: Rework from here --->
-
-				</td>
-				<td style="padding-left: 1em;">
-					<label for="ocean_region">Ocean Region</label>
-					<input type="text" name="ocean_region" id="ocean_region" size="50">
-				</td>
-			</tr>
-			<tr>
-			<td>
-				<label for="ocean_subregion">Ocean SubRegion</label>
-				<input type="text" name="ocean_subregion" id="ocean_subregion" size="50">
-			</td>
-			<td style="padding-left: 1em;">
-				<label for="sea">Sea</label>
-				<input type="text" name="sea" id="sea" size="50">
-			</td>
-			</tr>
-			<tr>
-			<td>
-				<label for="island">Island</label>
-						<input type="text" name="island" id="island" size="50">
-			</td>
-			<td style="padding-left: 1em;">
-				<label for="island_group">Island Group</label>
-					<select name="island_group" id="island_group">
+				<div class="col-12 col-md-3">
+					<label for="ocean_region" class="data-entry-label" >Ocean Region</label>
+					<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('ocean_region','ocean_region');
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="ocean_subregion" class="data-entry-label">Ocean SubRegion</label>
+					<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="sea" class="data-entry-label">Sea</label>
+					<input type="text" name="sea" id="sea" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('sea','sea');
+						});
+					</script>
+				</div>
+			</div>
+			<div class="form-row mb-0">
+				<div class="col-12 col-md-3">
+					<label for="island" class="data-entry-label">Island</label>
+					<input type="text" name="island" id="island" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('island','island');
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="island_group" class="data-entry-label">Island Group</label>
+					<select name="island_group" id="island_group" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctIslandGroup">
 							<option value = "#ctIslandGroup.island_group#">#ctIslandGroup.island_group#</option>
 						</cfloop>
 					</select>
-			</td>
-			</tr>
-			<tr>
-			<td>
-				<label for="feature">Land Feature</label>
-				<select name="feature" id="feature">
-					<option value=""></option>
-					<cfloop query="ctFeature">
-						<option value = "#ctFeature.feature#">#ctFeature.feature#</option>
-					</cfloop>
-				</select>
-			</td>
-			<td style="padding-left: 1em;">
-					<label for="water_feature">Water Feature</label>
-						<select name="water_feature" id="water_feature">
-							<option value=""></option>
-								<cfloop query="ctWater_Feature">
-								<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
-								</cfloop>
-						</select>
-			</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="country">Country</label>
-					<input type="text" name="country" id="country" size="50">
-				        <span class="infolink" onclick="var e=document.getElementById('country');e.value='='+e.value;">
-									Add = for exact match
-				        </span>
-				</td>
-				<td style="padding-left: 1em;">
-					<label for="state_prov">State or Province</label>
-					<input type="text" name="state_prov" id="state_prov" size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label for="county">County</label>
-					<input type="text" name="county" id="county" size="50">
-				</td>
-				<td style="padding-left: 1em;">
-					<label for="quad">Quad</label>
-					<input type="text" name="quad" id="quad" size="50">
-				</td>
-				</tr>
-				<tr>
-				<td>&nbsp;</td>
-        <td style="padding-left: 1em;">
-					<label for="geog_auth_rec_id">Geog Auth Rec ID</label>
-					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id">
-				</td>
-			</tr>
-		</table>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="feature" class="data-entry-label">Land Feature</label>
+					<input type="text" name="feature" id="feature" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('feature','feature');
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="water_feature" class="data-entry-label">Water Feature</label>
+					<input type="text" name="water_feature" id="water_feature" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('water_feature','water_feature');
+						});
+					</script>
+				</div>
+			</div>
+			<div class="form-row mb-0">
+				<div class="col-12 col-md-3">
+					<label for="country" class="data-entry-label">Country</label>
+					<input type="text" name="country" id="country" class="data-entry-input">
+					<span class="small90">
+						(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('country');e.value='!'+e.value;" >!<span class="sr-only">prefix with = for exact match</span></button>)
+					</span>
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('country','country');
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="state_prov" class="data-entry-label">State or Province</label>
+					<input type="text" name="state_prov" id="state_prov" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('state_prov','state_prov');
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="county" class="data-entry-label">County</label>
+					<input type="text" name="county" id="county" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('county','county');
+						});
+					</script>
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="quad" class="data-entry-label">Quad</label>
+					<input type="text" name="quad" id="quad" class="data-entry-input">
+					<script>
+						jQuery(document).ready(function() {
+							makeGeogSearchAutocomplete('quad','quad');
+						});
+					</script>
+				</div>
+			</div>
 		</div>
-
-</div>
+	</div> 
 
 <cfif #showLocality# is 1>
 	<div class="locGroup">
