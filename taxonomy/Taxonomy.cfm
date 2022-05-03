@@ -1257,7 +1257,7 @@ limitations under the License.
 								<cfif getClonedFromTaxon.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
 									<cfset searchtext = "Find GUID" >
-									<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary small findGuidButton external"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -1279,7 +1279,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-auto px-0 float-left">
-								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
+								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="" 
