@@ -222,7 +222,7 @@ limitations under the License.
 						<form id="relationshipForm">
 							<div class="col-12 px-1 float-left">
 								<div class="form-row my-1">
-<!---									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
+<!---								<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
 										<h2>
 											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 										</h2>
@@ -255,15 +255,14 @@ limitations under the License.
 													#labelBlockContent#
 												</div>
 											</div>
-										</div>
-									</div>--->
+										</div>--->
+								</div>
 										<!---end col-6--->	
-								</div><!---end form-row Relationships and labels--->
+							</div><!---end form-row Relationships and labels--->
 						</form>
 					</div><!---end col-12--->
 				</div>
 			</div>
-		</div>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
