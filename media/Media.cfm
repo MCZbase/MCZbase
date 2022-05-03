@@ -20,9 +20,7 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfinclude template="/hello/component/functions.cfc" runOnce="true">
 <cfinclude template="/hello/js/hello.js">
-<cfset param = "param in page">
-<cfset id_for_counter = "counterElement">
-<cfset id_for_dialog = "textDialogDiv">
+
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
 </cfif>
@@ -81,6 +79,9 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
+			<cfset param = "param in page">
+<cfset id_for_counter = "counterElement">
+<cfset id_for_dialog = "textDialogDiv">
 		<cfoutput>
 			<section id="content" class="container-fluid">
 		<div class="row">
