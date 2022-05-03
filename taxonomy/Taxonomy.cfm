@@ -1212,8 +1212,8 @@ limitations under the License.
 							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
-									class="data-entry-input">
-								<a id="taxonid_link" href="" target="_blank" class="px-1 small py-0 d-block line-height-sm mt-1"></a> 
+									class="data-entry-input small">
+								<a id="taxonid_link" href="" target="_blank" class="px-2 small py-0 d-block line-height-sm mt-1"></a> 
 								<script>
 									$(document).ready(function(){ 
 										$('##taxonid').show();
@@ -1282,10 +1282,10 @@ limitations under the License.
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
-								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="" 
+								<input type="text" name="scientificnameid" class="data-entry-input small" id="scientificnameid" value="" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-								<a id="scientificnameid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
+								<a id="scientificnameid_link" href="" target="_blank" class="px-2 py-0 d-block small line-height-sm mt-1"></a> 
 								<script>
 									$(document).ready(function () { 
 										$('##scientificnameid').show();
