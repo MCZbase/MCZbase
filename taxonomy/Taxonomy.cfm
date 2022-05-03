@@ -329,8 +329,8 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row mx-0 mt-2 mb-3">
-						<div class="col-12 col-md-5 px-0 pb-2 pt-1 mt-2">
+					<div class="row mx-0 mt-0 mb-3">
+						<div class="col-12 col-md-5 px-0 pb-2 pt-1 mt-1">
 							<label for="taxonid" class="data-entry-label pt-1">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -351,7 +351,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-xl-2 px-0 float-left">
+							<div class="col-6 col-xl-3 px-0 float-left">
 								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -372,7 +372,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-8 pl-0 float-left">
+							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
@@ -416,7 +416,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-7 px-0 mt-2 mb-0 pt-1 pb-2">
+						<div class="col-12 col-md-7 px-0 mt-1 mb-0 pt-1 pb-2">
 							<label for="scientificnameid" class="data-entry-label pt-1">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
