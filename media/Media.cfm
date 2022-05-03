@@ -20,7 +20,9 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfinclude template="/hello/component/functions.cfc" runOnce="true">
 <cfinclude template="/hello/js/hello.js">
-
+<cfset param = "param in page">
+<cfset id_for_counter = "counterElement">
+<cfset id_for_dialog = "textDialogDiv">
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
 </cfif>
