@@ -284,11 +284,11 @@ limitations under the License.
 			<section class="row border rounded my-2 px-1 pt-1 pb-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<div class="row my-1">
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-sm-3 mb-1">
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							<label for="source_authority">Source
+							<label for="source_authority"><span>Edit Taxon Source&nbsp;&nbsp;&nbsp;&nbsp; </span>
 								<cfif isSourceAuthorityCurrent.ct eq 0> (#getTaxa.source_authority#) </cfif>
 							</label>
 							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
@@ -301,14 +301,14 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-sm-3 mb-1">
 							<label for="valid_catalog_term_fg"><span>Allowed for Data Entry</span></label>
 							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-sm-3 mb-1">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select" required>
 								<cfloop query="ctnomenclatural_code">
@@ -317,7 +317,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-sm-3 mb-1">
 							<label for="taxon_status" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
 							<select name="taxon_status" id="taxon_status" class="data-entry-select">
 								<option value=""></option>
@@ -329,9 +329,9 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row mx-0 mx-md-1 mt-2 mb-3">
-						<div class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2">
-							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
+					<div class="row mx-0 mt-2 mb-3">
+						<div class="col-12 col-md-6 px-0 pb-2 pt-1 mt-2">
+							<label for="taxonid" class="data-entry-label pt-1">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
@@ -343,7 +343,7 @@ limitations under the License.
 								<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
-										<cfset searchtext = "Edit" >
+										<cfset searchtext = "&nbsp; Edit GUID &nbsp;" >
 										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
@@ -351,7 +351,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-6 col-xl-2 px-0 float-left">
 								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -369,19 +369,18 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
+							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-8 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
-									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
-									class="data-entry-input">
+									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 								<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 wrapurl py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
@@ -417,8 +416,8 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2">
-							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+						<div class="col-12 col-md-6 px-0 mt-2 mb-0 pt-1 pb-2">
+							<label for="scientificnameid" class="data-entry-label pt-1">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
@@ -430,15 +429,15 @@ limitations under the License.
 								<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
-										<cfset searchtext = "Edit" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
+										<cfset searchtext = "&nbsp; Edit GUID &nbsp;" >
+										<cfset searchclass = 'class="btn btn-xs small btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="btn btn-xs small btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-6 col-xl-2 px-0 float-left">
 								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -456,10 +455,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-auto px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-8 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -468,7 +467,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0 d-block wrapurl small90 line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
@@ -506,19 +505,19 @@ limitations under the License.
 					</div>
 					<div class="form-row"><!--- organize layout so that phylum, class, order, family stack in same column --->
 						<div class="col-12 col-xl-3 col-md-6 px-0 float-left">
-							<label for="kingdom" class="col-12 col-md-3 col-form-label align-left float-left">Kingdom</label>
+							<label for="kingdom" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Kingdom</label>
 							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="kingdom" id="kingdom" value="#encodeForHTML(gettaxa.kingdom)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div id="phylum_row" class="col-12 col-xl-3 col-md-6 px-0 float-left">
-							<label for="phylum" id="phylum_label" class="col-12 col-md-3 col-form-label align-left float-left">Phylum</label>
+							<label for="phylum" id="phylum_label" class="col-12 col-md-3 pb-0 col-form-label align-left float-left">Phylum</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylum" id="phylum" value="#encodeForHTML(gettaxa.phylum)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subphylum" id="subphylum_label" class="col-12 col-md-3 col-form-label align-left float-left">Subphylum</label>
+							<label for="subphylum" id="subphylum_label" class="col-12 pb-0 col-md-3 col-form-label align-left float-left">Subphylum</label>
 							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="subphylum" id="subphylum" value="#encodeForHTML(gettaxa.subphylum)#" class="data-entry-input my-1">
 							</div>
@@ -528,13 +527,13 @@ limitations under the License.
 						<div class="col-12 col-xl-3 px-0 botanical float-left">
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 botanical float-left">
-							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label align-left float-left">Division</label>
+							<label for="division" id="division_label" class="col-12 col-md-3 pb-0 col-form-label align-left float-left">Division</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="division" id="division" value="#encodeForHTML(gettaxa.division)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-xl-3 col-md-6 px-0 botanical float-left">
-							<label for="subdivision" id="subdivsion_label" class="col-sm-3 col-form-label align-left float-left">SubDivision</label>
+							<label for="subdivision" id="subdivsion_label" class="col-sm-3 pb-0 col-form-label align-left float-left">SubDivision</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subdivision" id="subdivision" value="#encodeForHTML(gettaxa.subdivision)#" class="data-entry-input my-1">
 							</div>
@@ -542,25 +541,25 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="superclass" class="col-12 col-md-3 col-form-label align-left float-left">Superclass</label>
+							<label for="superclass" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Superclass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superclass" id="superclass" value="#encodeForHTML(gettaxa.superclass)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="phylclass" class="col-12 col-md-3 col-form-label align-left float-left">Class</label>
+							<label for="phylclass" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Class</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylclass" id="phylclass" value="#encodeForHTML(gettaxa.phylclass)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subclass" class="col-12 col-md-3 col-form-label align-left float-left">SubClass</label>
+							<label for="subclass" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">SubClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subclass" id="subclass" value="#encodeForHTML(gettaxa.subclass)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="infraclass" class="col-12 col-md-3 col-form-label align-left float-left">InfraClass</label>
+							<label for="infraclass" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">InfraClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraclass" id="infraclass" value="#encodeForHTML(gettaxa.infraclass)#" class="data-entry-input my-1">
 							</div>
@@ -568,25 +567,25 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="superorder" class="col-12 col-md-3 col-form-label align-left float-left">Superorder</label>
+							<label for="superorder" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Superorder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superorder" id="superorder" value="#encodeForHTML(gettaxa.superorder)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="phylorder" class="col-12 col-md-3 col-form-label align-left float-left">Order</label>
+							<label for="phylorder" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Order</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylorder" id="phylorder" value="#encodeForHTML(gettaxa.phylorder)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="suborder" class="col-12 col-md-3 col-form-label align-left float-left">Suborder</label>
+							<label for="suborder" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Suborder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="suborder" id="suborder" value="#encodeForHTML(gettaxa.suborder)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="infraorder" class="col-12 col-md-3 col-form-label align-left float-left">Infraorder</label>
+							<label for="infraorder" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Infraorder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraorder" id="infraorder" value="#encodeForHTML(gettaxa.infraorder)#" class="data-entry-input my-1">
 							</div>
@@ -598,14 +597,14 @@ limitations under the License.
 							<div class="col-12 col-md-6 col-xl-3 px-0">
 							</div>
 							<div class="col-12 col-md-6 col-xl-3 px-0">
-								<label for="subsection" class="col-sm-3 col-form-label float-left">Section (zoological)</label>
+								<label for="subsection" class="col-sm-3 col-form-label pb-0 float-left">Section (zoological)</label>
 								<!--- Section would go here --->
 								<div class="col-12 col-md-9 float-left">
 									--
 								</div>
 							</div>
 							<div class="col-12 col-md-6 px-0">
-								<label for="subsection" class="col-12 col-md-3 data-entry-label mt-md-2 float-left">Subsection (zoological)</label>
+								<label for="subsection" class="col-12 col-md-3 data-entry-label pb-0 mt-md-2 float-left">Subsection (zoological)</label>
 								<div class="col-12 col-md-9 float-left">
 									<input type="text" name="subsection" id="subsection" value="#encodeForHTML(gettaxa.subsection)#" class="data-entry-input my-1">
 								</div>
@@ -617,25 +616,25 @@ limitations under the License.
 							
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="superfamily" class="col-12 col-md-3 col-form-label align-left float-left">Superfamily</label>
+							<label for="superfamily" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Superfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superfamily" id="superfamily" value="#encodeForHTML(gettaxa.superfamily)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="family" class="col-12 col-md-3 col-form-label align-left float-left">Family</label>
+							<label for="family" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Family</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="family" id="family" value="#encodeForHTML(gettaxa.family)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subfamily" class="col-md-3 col-form-label align-left float-left">Subfamily</label>
+							<label for="subfamily" class="col-md-3 col-form-label pb-0 align-left float-left">Subfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subfamily" id="subfamily" value="#encodeForHTML(gettaxa.subfamily)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="tribe" class="col-12 col-md-3 col-form-label align-left float-left">Tribe</label>
+							<label for="tribe" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Tribe</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="tribe" id="tribe" value="#encodeForHTML(gettaxa.tribe)#" class="data-entry-input my-1">
 							</div>
@@ -643,7 +642,7 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="genus" class="col-12 col-md-3 col-form-label align-left float-left">Genus
+							<label for="genus" class="col-12 col-md-3 col-form-label pb-0  align-left float-left">Genus
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add&nbsp;&##215;</small>
 								</span>
@@ -656,20 +655,20 @@ limitations under the License.
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
-							<label for="subgenus" class="col-12 col-md-3 col-form-label align-left float-left">Subgenus</label>
+							<label for="subgenus" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Subgenus</label>
 							<div class="col-12 col-md-9 float-left">
 								<span class="float-left d-inline brackets mt-1">( </span><input type="text" name="subgenus" id="subgenus" value="#encodeForHTML(gettaxa.subgenus)#" class="data-entry-input m-1 w-75 float-left"><span class="float-left d-inline brackets mt-1">)</span><small class="text-danger float-left mx-3"> #encodeForHTML(subgenus_message)# </small> 
 							</div>
 						</div>
 			
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="species" class="col-12 col-md-3 col-form-label align-left float-left">Species</label>
+							<label for="species" class="col-12 col-md-3 col-form-label pb-0 align-left float-left">Species</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#encodeForHTML(gettaxa.species)#">
 							</div>
 						</div>		
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subspecies" class="col-12 col-md-3 col-form-label align-left float-left">Subspecies</label>
+							<label for="subspecies" class="col-12 col-md-3 pb-0 col-form-label align-left float-left">Subspecies</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subspecies" id="subspecies" value="#encodeForHTML(gettaxa.subspecies)#" class="data-entry-input my-1">
 							</div>
@@ -678,7 +677,7 @@ limitations under the License.
 
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="infraspecific_rank" class="col-12 col-md-4 col-form-label align-left float-left"><span>Infraspecific Rank</span></label>
+							<label for="infraspecific_rank" class="col-12 col-md-4 pb-0 col-form-label align-left float-left"><span>Infraspecific Rank</span></label>
 							<div class="col-12 col-md-8 float-left">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-1" data-style="btn-primary" show-tick>
 									<option value=""></option>
@@ -692,7 +691,7 @@ limitations under the License.
 						</div>
 					
 						<div class="col-12 col-md-6 col-xl-9 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label align-left float-left">Author</label>
+							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label pb-0 align-left float-left">Author</label>
 							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
 								<input type="text" name="author_text" id="author_text" value="#encodeForHTML(gettaxa.author_text)#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
@@ -841,8 +840,8 @@ limitations under the License.
 					<section class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 							<div class="col-12 px-0">
-								<h2 class="h3 mt-0 mb-1">Related Publications</h4>
-								<div id="taxonPublicationsDiv" class="mx-0 row mt-1 float-left">Loading....</div>
+								<h2 class="h3 mt-0 mb-1 px-1">Related Publications</h4>
+								<div id="taxonPublicationsDiv" class="mx-0 row mt-1">Loading....</div>
 							</div>
 							<div class="col-12 px-0">
 								<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
@@ -922,7 +921,7 @@ limitations under the License.
 
 					<section class="col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
-							<h2 class="h3 mt-0 mb-1">Related Taxa</h2>
+							<h2 class="h3 mt-0 mb-1 px-1">Related Taxa</h2>
 							<div id="taxonRelationsDiv">Loading....</div>
 							<div id="editTaxonRelationDialog"></div>
 							<script>
@@ -931,7 +930,7 @@ limitations under the License.
 							<form id="taxonRelationsForm">
 							<div class="form-row">
 								<div class="col-12 col-md-3 col-xl-2">
-									<label for="new_taxon_relationship" class="data-entry-label">Add Relationship</label>
+									<label for="new_taxon_relationship" class="data-entry-label mt-1">Add Relationship</label>
 									<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship" required>
 										<cfloop query="ctRelation">
 											<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
@@ -939,7 +938,7 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 col-md-4 col-xl-4">
-									<label for="newRelatedName" class="data-entry-label">Related Taxon</label>
+									<label for="newRelatedName" class="data-entry-label mt-1">Related Taxon</label>
 									<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName" required>
 									<input type="hidden" name="newRelatedId" id="newRelatedId">
 									<script>
@@ -949,7 +948,7 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="col-12 col-md-3 col-xl-4">
-									<label for="new_relation_authority" class="data-entry-label">Authority</label>
+									<label for="new_relation_authority" class="data-entry-label mt-1">Authority</label>
 									<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
 								</div>
 								<script>
@@ -978,11 +977,11 @@ limitations under the License.
 										}
 									}
 								</script>
-								<div class="col-12 col-md-2">
-									<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
-										<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
+								<div class="col-12 col-md-2 pt-1">
+									<label for="addTaxonRelationButton" class="data-entry-label mt-1" aria-hidden="true">
+										<output id="addTaxonRelationFeedback" style="display: none;"><img src='/shared/images/indicator.gif'>&nbsp;</output>
 									</label>
-									<input type="button" value="Create" class="btn btn-xs btn-secondary" style="margin-top:.12em;"
+									<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2"
 										onclick=" addTaxonRelationHandler(); "
 										id="addTaxonRelationButton"
 									>
@@ -998,7 +997,7 @@ limitations under the License.
 					</section>
 
 					<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-0 pr-md-1">
-						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+						<div class="border bg-light float-left p-3 w-100 rounded">
 							<script>
 								function reloadCommonNames() {
 									loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv');
@@ -1009,7 +1008,7 @@ limitations under the License.
 							</script>
 							<cfset commonBit = getCommonHtml(taxon_name_id="#getTaxa.taxon_name_id#",target="commonNamesDiv")>
 							<div id="commonNamesDiv">#commonBit#</div>
-							<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
+							<label for="new_common_name" class="data-entry-label float-left mt-4 pb-0">Add New Common Name</label>
 							<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
 							<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" id="newCommonNameButton" >
 							<script>
@@ -1023,8 +1022,8 @@ limitations under the License.
 						</div>
 					</section>
 
-					<section class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0">
-						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+					<section class="mt-2 float-left col-12 col-md-6 pl-md-1 px-0">
+						<div class="border bg-light float-left p-3 w-100 rounded">
 							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select taxon_habitat 
 								from taxon_habitat 
@@ -1032,14 +1031,14 @@ limitations under the License.
 							</cfquery>
 						
 							<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-							<h2 class="h3 mt-0">Habitat</h2>
+							<h2 class="h3 mt-0 px-1">Habitat</h2>
 							<div id="habitatsDiv">Loading....</div>
 							<script>
 								$(document).ready(function(){
 									loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv');
 								});
 							</script>
-							<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
+							<label for="taxon_habitat" class="data-entry-label float-left mt-4 pb-0">Add New Habitat</label>
 							<select name="taxon_habitat" id="new_taxon_habitat"size="1" class="data-entry-select my-1 w-75 float-left">
 								<cfloop query="cttaxon_habitat">
 									<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
@@ -1134,7 +1133,7 @@ limitations under the License.
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getClonedFromTaxon.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							<label for="source_authority">Source
+							<label for="source_authority"><span>Edit Taxon Source&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								<cfif isSourceAuthorityCurrent.ct GT 0> (Clone source: #encodeForHTML(getClonedFromTaxon.source_authority)#) </cfif>
 							</label>
 							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>

@@ -284,6 +284,16 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("f2ce7d55-5b1d-426a-b00e-6d4efe3058ec") --->
+			<cfset dqResponse = dwcSciNameDQ.validationGenusNotfound(genus,wormsAuthority) >
+			<cfset r.label = "dwc:genus is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["f2ce7d55-5b1d-426a-b00e-6d4efe3058ec"] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
 			<cfset dqResponse = dwcSciNameDQ.validationFamilyNotfound(family,wormsAuthority) >
 			<cfset r.label = "dwc:family is known to WoRMS" >
@@ -302,6 +312,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f") --->
+			<cfset dqResponse = dwcSciNameDQ.validationPhylumNotfound(phylum,wormsAuthority) >
+			<cfset r.label = "dwc:phylum is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f"] = r >
+			<cfset r=structNew()>
 
 			<!--- amendment phase --->
 
@@ -348,6 +369,16 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment["401bf207-9a55-4dff-88a5-abcd58ad97fa"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("f2ce7d55-5b1d-426a-b00e-6d4efe3058ec") --->
+			<cfset dqResponse = dwcSciNameDQ.validationGenusNotfound(genus,wormsAuthority) >
+			<cfset r.label = "dwc:genus is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["f2ce7d55-5b1d-426a-b00e-6d4efe3058ec"] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
 			<cfset dqResponse = dwcSciNameDQ.validationFamilyNotfound(family,wormsAuthority) >
 			<cfset r.label = "dwc:family is known to WoRMS" >
@@ -366,6 +397,17 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f") --->
+			<cfset dqResponse = dwcSciNameDQ.validationPhylumNotfound(phylum,wormsAuthority) >
+			<cfset r.label = "dwc:phylum is known to WoRMS" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f"] = r >
+			<cfset r=structNew()>
 
 			<!--- Add results from phases to result to return --->
 

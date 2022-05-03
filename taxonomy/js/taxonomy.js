@@ -349,7 +349,7 @@ function loadHabitats(taxon_name_id,target) {
          $("#" + target).html(result);
       },
       error: function (jqXHR, textStatus, message) {
-			handleFail(jqXHR,textStatus,message,"loading common names for taxon");
+			handleFail(jqXHR,textStatus,message,"loading habitats for taxon");
       },
       dataType: "html"
    });
