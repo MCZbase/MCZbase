@@ -18,7 +18,7 @@ limitations under the License.
 
 -->
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-
+<cfinclude template="/hello/js/hello.js">
 
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
@@ -79,6 +79,35 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfoutput>
+			<section id="content" class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",id_for_counter="#id_for_counter#",id_for_dialog="#id_for_dialog#")>
+				<div id="counterBlock">
+					#counterBlockContent#
+				</div>
+				<div id="#id_for_dialog#"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<!---  invoke the loadHello function to just do a ajax replace of the counterBlock --->
+				<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#','#id_for_dialog#');">Reload counterBlock</button> 
+
+				<!--- invoke the increment counter function with the doReload function as a callback --->
+				<button class="btn btn-primary btn-xs" onClick="incrementCounters(doReload);">Increment Counter and Reload</button> 
+
+				<!--- invoke the increment counter function to replace the html of an element with the id of the counter element (also provided as a parameter to getCounterHtml()) --->
+				<button class="btn btn-primary btn-xs" onClick="incrementCountersUpdate('#id_for_counter#');">Increment Counter</button> 
+			</div>
+		</div>
+		<script>
+			function doReload() { 
+				console.log("doReload() invoked");
+				loadHello('counterBlock','#param#','param in doReload','#id_for_counter#',"#id_for_dialog#");
+			}
+		</script> 
+</section>
 			<div class="container-fluid container-xl">
 				<div class="row">
 					<div class="col-12 mt-3 pb-5">
