@@ -248,7 +248,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
-		<main class="container py-3" id="content">
+		<main class="container-xl px-xl-5 py-3" id="content">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 				<div id="scientificNameAndAuthor" class="d-inline"></div>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -1118,7 +1118,7 @@ limitations under the License.
 		<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getClonedFromTaxon.source_authority#">
 		</cfquery>
-		<main class="container py-3" id="content">
+		<main class="container-xl px-xl-5 py-3" id="content">
 			<h1 class="h2 ml-3">Create New Taxonomy Record
 				<span class="smaller">
 					(through cloning and editing) <i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
