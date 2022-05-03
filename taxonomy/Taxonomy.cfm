@@ -347,7 +347,7 @@ limitations under the License.
 										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="small btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="small btn btn-xs pl-2 pr-5 btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
@@ -372,7 +372,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-md-10 col-xl-auto pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
