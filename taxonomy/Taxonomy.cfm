@@ -380,7 +380,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 wrapurl py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="pl-2 pr-5 wrapurl py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
