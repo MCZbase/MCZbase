@@ -248,7 +248,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
-		<main class="container py-3" id="content">
+		<main class="container-xl px-xl-5 py-3" id="content">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 				<div id="scientificNameAndAuthor" class="d-inline"></div>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -329,8 +329,8 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row mx-0 mt-2 mb-3">
-						<div class="col-12 col-md-6 px-0 pb-2 pt-1 mt-2">
+					<div class="row mx-0 mt-0 mb-3">
+						<div class="col-12 col-md-5 px-0 pb-2 pt-1 mt-1">
 							<label for="taxonid" class="data-entry-label pt-1">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -351,7 +351,7 @@ limitations under the License.
 									</cfif>
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-xl-2 px-0 float-left">
+							<div class="col-6 col-xl-3 px-0 float-left">
 								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -372,7 +372,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-8 pl-0 float-left">
+							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
@@ -416,7 +416,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 px-0 mt-2 mb-0 pt-1 pb-2">
+						<div class="col-12 col-md-7 px-0 mt-1 mb-0 pt-1 pb-2">
 							<label for="scientificnameid" class="data-entry-label pt-1">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -1118,7 +1118,7 @@ limitations under the License.
 		<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getClonedFromTaxon.source_authority#">
 		</cfquery>
-		<main class="container py-3" id="content">
+		<main class="container-xl px-xl-5 py-3" id="content">
 			<h1 class="h2 ml-3">Create New Taxonomy Record
 				<span class="smaller">
 					(through cloning and editing) <i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -1172,7 +1172,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0 mx-md-1 mt-2 mb-3">
-						<div class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2">
+						<div class="col-12 col-md-5 px-0 mb-0 pb-2 pt-1 mt-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -1206,7 +1206,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
+							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-6 pl-0 float-left">
@@ -1244,7 +1244,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 form-row ml-md-1 border bg-light pb-2 pt-1 rounded mt-2">
+						<div class="col-12 col-md-7 mb-0 px-0 pb-2 pt-1 mt-2">
 							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -1278,10 +1278,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-3 px-0 float-left">
+							<div class="col-auto px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-6 pl-0 float-left">
+							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -1318,7 +1318,7 @@ limitations under the License.
 					</div>
 					<div class="form-row"><!--- organize layout so that phylum, class, order, family stack in same column --->
 						<div class="col-12 col-xl-3 col-md-6 px-0 float-left">
-							<label for="kingdom" class="col-12 col-xl-3 col-md-6 align-left float-left col-form-label">Kingdom</label>
+							<label for="kingdom" class="col-12 col-md-3 align-left float-left col-form-label">Kingdom</label>
 							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="kingdom" id="kingdom" value="#encodeForHTML(getClonedFromTaxon.kingdom)#" class="data-entry-input">
 							</div>
