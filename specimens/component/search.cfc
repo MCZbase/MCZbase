@@ -449,10 +449,16 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				ORDER by category, disp_order
 			</cfquery>
 			<cfset sanitizedsortdatafield = "">
+			<cfset sortdatafieldSQL = "">
 			<cfif len(sortdatafield) GT 0>
 				<cfloop query="getFieldMetadata">
 					<cfif compareNoCase(getFieldMetadata.column_name,sortdatafield) EQ 0>
 						<cfset sanitizedsortdatafield = "#getFieldMetadata.column_name#">
+						<cfif len(getFieldMetadata.sql_element) EQ 0 >
+							<cfset sortdatafieldSQL = "#getFieldMetadata.column_name#">
+						<cfelse>
+							<cfset sortdatafieldSQL = "#getFieldMetadata.sql_element#">
+						</cfif>
 					</cfif>
 				</cfloop>
 			</cfif>
@@ -499,7 +505,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 										to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 										flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 								<cfelseif len(sanitizedsortdatafield) GT 0>
-									ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+									ORDER BY #sortdatafieldSQL# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 								<cfelse>
 									ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 								</cfif>
@@ -514,7 +520,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 							to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 							flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 					<cfelseif len(sanitizedsortdatafield) GT 0>
-						ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+						ORDER BY #sortdatafieldSQL# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 					<cfelse>
 						ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 					</cfif>
@@ -833,10 +839,16 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			ORDER by category, disp_order
 		</cfquery>
 		<cfset sanitizedsortdatafield = "">
+		<cfset sortdatafieldSQL = "">
 		<cfif len(sortdatafield) GT 0>
 			<cfloop query="getFieldMetadata">
 				<cfif compareNoCase(getFieldMetadata.column_name,sortdatafield) EQ 0>
 					<cfset sanitizedsortdatafield = "#getFieldMetadata.column_name#">
+					<cfif len(getFieldMetadata.sql_element) EQ 0 >
+						<cfset sortdatafieldSQL = "#getFieldMetadata.column_name#">
+					<cfelse>
+						<cfset sortdatafieldSQL = "#getFieldMetadata.sql_element#">
+					</cfif>
 				</cfif>
 			</cfloop>
 		</cfif>
@@ -868,7 +880,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 								to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 								flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 						<cfelseif len(sanitizedsortdatafield) GT 0>
-							ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+							ORDER BY #sortdatafieldSQL# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 						<cfelse>
 							ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 						</cfif>
@@ -883,7 +895,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 					flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 			<cfelseif len(sanitizedsortdatafield) GT 0>
-				ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+				ORDER BY #sortdatafieldSQL# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 			<cfelse>
 				ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 			</cfif>
@@ -1513,10 +1525,16 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			ORDER by category, disp_order
 		</cfquery>
 		<cfset sanitizedsortdatafield = "">
+		<cfset sortdatafieldSQL = "">
 		<cfif len(sortdatafield) GT 0>
 			<cfloop query="getFieldMetadata">
 				<cfif compareNoCase(getFieldMetadata.column_name,sortdatafield) EQ 0>
 					<cfset sanitizedsortdatafield = "#getFieldMetadata.column_name#">
+					<cfif len(getFieldMetadata.sql_element) EQ 0 >
+						<cfset sortdatafieldSQL = "#getFieldMetadata.column_name#">
+					<cfelse>
+						<cfset sortdatafieldSQL = "#getFieldMetadata.sql_element#">
+					</cfif>
 				</cfif>
 			</cfloop>
 		</cfif>
@@ -1548,7 +1566,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 								to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 								flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 						<cfelseif len(sanitizedsortdatafield) GT 0>
-							ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+							ORDER BY #sortdatafieldSQL# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 						<cfelse>
 							ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 						</cfif>
@@ -1563,7 +1581,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 					to_number(regexp_substr(flatTableName.guid, '\d+')) <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>,
 					flatTableName.guid <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 			<cfelseif len(sanitizedsortdatafield) GT 0>
-				ORDER BY #sanitizedsortdatafield# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
+				ORDER BY #sortdatafieldSQL# <cfif ucase(sortorder) EQ "ASC">asc<cfelse>desc</cfif>
 			<cfelse>
 				ORDER BY flatTableName.collection_cde asc, to_number(regexp_substr(flatTableName.guid, '\d+')) asc, flatTableName.guid asc
 			</cfif>
