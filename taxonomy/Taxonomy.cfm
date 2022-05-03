@@ -372,7 +372,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-md-10 col-xl-auto pl-0 float-left">
+							<div class="col-12 col-md-11 col-xl-6 pl-0 pr-1 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
@@ -380,7 +380,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="pl-2 pr-3 wrapurl py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 wrapurl py-0 d-block small90 line-height-sm mt-1">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
@@ -458,7 +458,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-8 pl-0 float-left">
+							<div class="col-12 col-xl-9 pl-0 pr-1 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -467,7 +467,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="pl-2 pr-3 py-0 d-block wrapurl small90 line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0 d-block wrapurl small90 line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
