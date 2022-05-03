@@ -229,13 +229,13 @@ limitations under the License.
 				taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfif tax_pub.recordcount gt 0>
-			<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 px-4 list-style-disc'>">
+			<cfset result=result & "<div class='col-12 px-0'><ul class='mx-0 col-12 mt-1 mb-3 list-group px-0'>">
 			<cfloop query="tax_pub">
 				<!--- Create a link out of author year. in the publication, ensure that link closes. --->
-				<cfset publication = "<li class='mb-1'><a href='/SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank' class='d-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
+				<cfset publication = "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'><span class='col-12 col-md-11 px-0 float-left'> <a href='/SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank' class='d-inline-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 					<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a>"></cfif>
-						<cfset result=result & "#publication#">
-				<cfset result=result & "<button class='btn-xs btn-warning mx-1' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
+						<cfset result=result & " #publication#">
+							<cfset result=result & "</span><button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
 					<cfset result=result & "</li>">
 				</cfloop>
 			<cfset result=result & "</ul></div>">
@@ -333,11 +333,11 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 			<cfoutput>
 				<cfif relations.recordcount gt 0 OR inverse_relations.recordcount gt 0>
 					<cfif relations.recordcount gt 0>
-						<ul class="mx-0 px-4 mt-1 list-style-disc">
+						<ul class="mx-0 px-0 mb-1 list-group col-12">
 							<cfloop query="relations">
 								<cfset i=i+1>
 								<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
-								<li class="mb-1">
+								<li class="mx-0 pb-1 mb-1 list-group-item border col-12 col-xl-9 pl-2 pr-0">
 									#taxonname# #relations.taxon_relationship#
 									<!--- Create a link out of scientific name --->
 									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
@@ -345,20 +345,20 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 									<cfif len(relations.relation_authority) GT 0>
 										 fide #relations.relation_authority# 
 									</cfif>
-									<button class='btn-xs btn-secondary mx-1' 
-										onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog","#target#");' value='Edit' 
-										title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
-									<button class='btn-xs btn-warning mx-1' 
+									<button class='btn-xs btn-warning mx-1 mt-2 mt-md-0 float-right' 
 										onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
 										value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
+									<button class='btn-xs btn-secondary mx-1 mt-2 mt-md-0 float-right' onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog","#target#");' value='Edit' 
+										title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
+					
 									</li>
 							</cfloop>
 						</ul>
 					<cfelse>
-						<ul class="px-4 list-style-disc"><li>No relationships from this taxon</li></ul>
+						<ul class="px-4 mt-2 list-style-disc"><li>No relationships from this taxon</li></ul>
 					</cfif>
 					<cfif inverse_relations.recordcount gt 0>
-						<ul class="mx-0 px-4 mt-1 list-style-circle">
+						<ul class="mx-0 px-4 mt-2 list-style-circle">
 							<cfloop query="inverse_relations">
 								<cfset i=i+1>
 								<li class="mb-1">
@@ -373,10 +373,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							</cfloop>
 						</ul>
 					<cfelse>
-						<ul class="px-4 list-style-circle"><li>No relationships to this taxon</li></ul>
+						<ul class="px-4 mt-2 list-style-circle"><li>No relationships to this taxon</li></ul>
 					</cfif>
 				<cfelse>
-					<ul class="px-4 list-style-disc"><li>No Taxon Relationships</li></ul>
+					<ul class="px-4 mt-2 list-style-disc"><li>No Taxon Relationships</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
@@ -670,13 +670,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3 mt-0">Common Names</h2>
+				<h2 class="h3 mt-0 px-1">Common Names</h2>
 				<cfset i=1>
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
 						<form name="common#i#" class="row mx-0" action="" onClick=" function(e){e.preventDefault();};">
-							<ul class="mx-0 px-4 col-12 my-1 list-style-disc">
-								<li class="mx-0 mb-1">
+							<ul class="mx-0 px-0 mb-1 list-group col-12">
+								<li class="mx-0 pb-1 list-group-item border col-12 col-xl-9 px-1">
 									<script>
 										function doDeleteCN_#i#(){ 
 											deleteCommonName(#common_name_id#,#taxon_name_id#,'#localtarget#');
@@ -688,19 +688,20 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 											$('##commonEditButton_#i#').toggle();
 										};
 									</script>
-									<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" 
+									<label id="label_common_name_#i#" value="#common_name#" class="w-auto float-left pt-1 px-2" 
 										onClick="toggleCommon#i#()">#encodeForHtml(common_name)#</label>
 									<input id="common_name_#i#" type="text" name="common_name" value="#encodeForHtml(common_name)#" 
-										class="data-entry-input w-50 float-left" style="display: none;">
-									<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
+										class="data-entry-input w-75 float-left" style="display: none;">
+									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 my-0 float-right" 
+										id="commonDeleteButton_#i#">
+									<input type="button" value="Save" class="btn btn-xs btn-secondary ml-1 my-0 float-right" 
 										id="commonSaveButton_#i#"
 										style="display: none;">
-									<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
+									<input type="button" value="Edit" class="btn btn-xs btn-secondary ml-1 my-0 float-right" 
 										onClick="toggleCommon#i#()" 
 										id="commonEditButton_#i#"
 										>
-									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-										id="commonDeleteButton_#i#">
+									
 									<script>
 										$(document).ready(function () {
 											$('##commonDeleteButton_#i#').click(function(evt){
@@ -937,9 +938,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfset i=1>
 				<cfif habitat.recordcount gt 0>
 					<cfloop query="habitat">
-						<ul class="mx-0 px-4 my-2 list-style-disc"><li class="mx-0 mb-1">
-							<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-50 float-left border-white px-2">#taxon_habitat#</label>
-							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
+						<ul class="mx-0 px-0 my-0 list-group">
+							<li class="mx-0 mb-1 list-group-item border col-12 col-xl-9 px-1">
+								<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-75 float-left pt-1 px-2">#taxon_habitat#</label>
+								<button value="Remove" class="btn btn-xs btn-warning my-0 float-right" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
 								id="habitatDeleteButton_#i#">Remove</button>
 							</li>
 						</ul>
