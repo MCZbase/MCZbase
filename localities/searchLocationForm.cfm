@@ -46,33 +46,39 @@
 	select collection,collection_id from collection order by collection
 </cfquery>
 
-<table>
-    <tr><td>
-        <span id="_generic_m_ai">Accent&nbsp;Insensitive?</span><input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1">
-    </td></tr>
-    <tr><td>
-	<div class="locGroup">
-		<span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
-		<table>
-		<tr>
-			<td>
-				<label for="higher_geog">Higher Geog</label>
-				<input type="text" name="higher_geog" id="higher_geog" size="75">
-				<span class="infolink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;">
-									Add = for exact match
-				</span>
-			</td>
-		</tr>
-	</table>
-		<div id="geogDetail" class="noShow">
-		<table>
-			<tr>
-				<td>
-					<label for="continent_ocean">Continent or Ocean</label>
-					<input type="text" name="continent_ocean" id="continent_ocean" size="50">
-				        <span class="infolink" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;">
-									Add = for exact match
-				        </span>
+<section class="row border rounded bg-light mt-2 mb-4 p-2" title="Geography Search Form">
+	<div class="col-12"> 
+		<div class="form-row mb-0">
+			<div class="col-12 col-md-2 mb-1 mb-md-0">
+				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive?</label>
+        		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
+			</div>
+			<div class="col-12 col-md-8 mb-1 mb-md-0">
+				<label for="higher_geog" class="data-entry-input">
+					Higher Geog
+					<span class="small90">
+						(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('higher_geog');e.value='!'+e.value;" >!<span class="sr-only">prefix with = for exact match</span></button>)
+					</span>
+				</label>
+				<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
+			</div>
+			<div class="col-12 col-md-8 mb-1 mb-md-0">
+				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(1);">More Options</span>
+			</div>
+		</div>
+		<div id="geogDetail" class="">
+			<div class="form-row mb-0">
+				<div class="col-12 col-md-3 mb-1 mb-md-0">
+					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
+						<span class="small90">
+							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='!'+e.value;" >!<span class="sr-only">prefix with = for exact match</span></button>)
+						</span>
+					</label>
+					<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input">
+				</div>
+
+<!---  TODO: Rework from here --->
+
 				</td>
 				<td style="padding-left: 1em;">
 					<label for="ocean_region">Ocean Region</label>
