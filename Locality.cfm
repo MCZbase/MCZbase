@@ -1,4 +1,4 @@
-:<cfset jquery11=true>
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cf_customizeIFrame>
 <cfoutput>

@@ -44,6 +44,10 @@
 			<cfabort>
 		</cfif>
 	</cfloop>
+	<cfif find('Fuzz Faster U Fool',cgi.http_user_agent) GT 0 >
+		<cfinclude template="/errors/autoblacklist.cfm">
+		<cfabort>
+	</cfif>
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
 <main class="container" id="content">
 	<div class="row">
