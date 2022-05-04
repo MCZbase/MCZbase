@@ -1945,13 +1945,13 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 						<div class="col-12">
 							<form id="text_form">
 								<input type="hidden" name="helloworld_id" id="helloworld_id" value="#helloworld_id#">
-								<label for="text_control" class="data-entry-label">Hello World Text</label>
-								<input type="text" name="text" id="text_control" class="data-entry-input mb-2" value="#lookupRow.text#" >
+								<label for="media_uri_1" class="data-entry-label">Hello World Text</label>
+								<input type="text" name="text" id="media_uri_1" class="data-entry-input mb-2" value="#lookupRow.text#" >
 								<script>
 									function saveText() {
 										var id = $('##helloworld_id').val();
-										var text = $('##text_control').val();
-										jQuery.getJSON("/hello/component/functions.cfc", { 
+										var text = $('##media_uri_1').val();
+										jQuery.getJSON("/media/component/search.cfc", { 
 											method : "updateText",
 											helloworld_id : id,
 											text: text
