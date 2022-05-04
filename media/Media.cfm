@@ -18,9 +18,6 @@ limitations under the License.
 
 -->
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-	
-<script type="text/javascript" src="/hello/js/hello.js"></script>
-<cfinclude template="/hello/component/functions.cfc" runOnce="true">
 
 
 <cfif NOT isdefined("action")>
