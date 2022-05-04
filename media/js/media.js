@@ -408,7 +408,7 @@ function openUpdateTextDialog(helloworld_id, dialogId) {
 	console.log("openUpdateTextDialog called");
 	console.log(helloworld_id);
 	console.log(dialogId);
-	var title = "Update Hello World Text.";
+	var title = "Update Media URI";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
