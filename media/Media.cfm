@@ -140,11 +140,9 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#media.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
-									<cfset mediaBlock= getMediaBlockHtml(media_id="#media.media_id#",size="300",captionAs="textFull")>
-									<div id="mediaBlock#media.media_id#" class="mx-auto text-center pt-1">
-										#mediaBlock#
-									</div><!---end image block--->
-								</div><!---end col-md-1 col-5 (image block)--->
+									<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
+									<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+								</div>
 								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
