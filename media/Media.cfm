@@ -82,9 +82,7 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 
-			<cfset param = "param in page">
-			<cfset id_for_counter = "counterElement">
-			<cfset id_for_dialog = "textDialogDiv">
+
 	
 	<!---	<section id="content" class="container-fluid">
 			<div class="row">
@@ -116,6 +114,9 @@ limitations under the License.
 			</script> 
 		</section>--->
 		<cfoutput>
+			<cfset param = "param in page">
+			<cfset id_for_counter = "counterElement">
+			<cfset id_for_dialog = "textDialogDiv">
 			<div class="container-fluid container-xl">
 				<div class="row">
 					<div class="col-12 mt-3 pb-5">
