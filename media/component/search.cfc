@@ -1926,33 +1926,34 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
  * @return html to populate a dialog
 --->
 <cffunction name="getTextDialogHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="helloworld_id" type="string" required="yes">
 
 	<cfthread name="textDialogThread">
 		<cftry>
 			<cfquery name="lookupRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupRow_result">
-				select media_id,media_uri from MCZBASE.media
+				select helloworld_id, text, counter
+				from MCZBASE.cf_helloworld
 				where
-					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					helloworld_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#helloworld_id#">
 			</cfquery>
 			<cfif lookupRow.recordcount NEQ 1>
-				<cfthrow message="Error looking up cf_helloworld row with media_id=#encodeForHtml(media_id)# Query:[#lookupRow_result.SQL#]">
+				<cfthrow message="Error looking up cf_helloworld row with helloworld_id=#encodeForHtml(helloworld_id)# Query:[#lookupRow_result.SQL#]">
 			</cfif>
 			<cfoutput query="lookupRow">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
 							<form id="text_form">
-								<input type="hidden" name="media_id" id="media_id" value="#media_id#">
-								<label for="media_id" class="data-entry-label">Media URI</label>
-								<input type="text" name="text" id="media_id" class="data-entry-input mb-2" value="#lookupRow.text#" >
+								<input type="hidden" name="helloworld_id" id="helloworld_id" value="#helloworld_id#">
+								<label for="text_control" class="data-entry-label">Hello World Text</label>
+								<input type="text" name="text" id="text_control" class="data-entry-input mb-2" value="#lookupRow.text#" >
 								<script>
 									function saveText() {
-										var id = $('##media_id').val();
-										var text = $('##media_uri_1').val();
+										var id = $('##helloworld_id').val();
+										var text = $('##text_control').val();
 										jQuery.getJSON("/media/component/search.cfc", { 
 											method : "updateText",
-											media_id : media_id,
+											helloworld_id : id,
 											text: text
 										},
 										function (result) {
