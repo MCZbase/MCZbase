@@ -48,7 +48,7 @@
 				<label for="higher_geog" class="data-entry-input">
 					Higher Geog
 					<span class="small90">
-						(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('higher_geog');e.value='!'+e.value;" >!<span class="sr-only">prefix with = for exact match</span></button>)
+						(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
 					</span>
 				</label>
 				<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
@@ -66,7 +66,7 @@
 				<div class="col-12 col-md-3">
 					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
 						<span class="small90">
-							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='!'+e.value;" >!<span class="sr-only">prefix with = for exact match</span></button>)
+							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
 						</span>
 					</label>
 					<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input">
