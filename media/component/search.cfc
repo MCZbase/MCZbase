@@ -1169,7 +1169,7 @@ imgStyleClass=value
 						</cfif>
 
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-						<cfset hw = 'height="100%" width="100%"'>
+						<cfset hw = 'height="auto" width="100%"'>
 						<cfif isDisplayable>
 							<!--- the resource specified by media_uri should be an image that can be displayed in a browser with img src=media_uri --->
 							<cfif #l_displayAs# EQ "fixedSmallThumb">
