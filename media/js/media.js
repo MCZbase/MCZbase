@@ -447,7 +447,7 @@ function openUpdateTextDialog(helloworld_id, dialogId) {
 		data: {
 			method: 'getTextDialogHtml',
 			returnformat: "plain",
-			helloworld_id: helloworld_id
+			media_id: media_id
 		},
 		success: function(data) {
 			console.log("dialog data returned, populating dialog div");
