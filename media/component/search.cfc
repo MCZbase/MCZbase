@@ -1931,7 +1931,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfthread name="textDialogThread">
 		<cftry>
 			<cfquery name="lookupRow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupRow_result">
-				select media_uri from MCZBASE.media
+				select media_id,media_uri from MCZBASE.media
 				where
 					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
