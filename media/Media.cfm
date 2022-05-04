@@ -55,9 +55,7 @@ limitations under the License.
 
 <!---------------------------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
-	<cfset param = "param in page">
-	<cfset id_for_counter = "counterElement">
-	<cfset id_for_dialog = "textDialogDiv">
+
 	<cfcase value="edit">
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, auto_host,
@@ -84,7 +82,9 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-
+	<cfset param = "param in page">
+	<cfset id_for_counter = "counterElement">
+	<cfset id_for_dialog = "textDialogDiv">
 		<cfoutput>
 			<section id="content" class="container-fluid">
 			<div class="row">
