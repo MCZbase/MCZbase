@@ -338,13 +338,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 								<cfset i=i+1>
 								<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
 								<li class="mx-0 pb-1 mb-1 list-group-item border col-12 col-xl-9 pl-2 pr-0">
-									#taxonname# #relations.taxon_relationship#
+									<span class="col-12 col-xl-10 px-1 d-inline-block">	#taxonname# #relations.taxon_relationship#
 									<!--- Create a link out of scientific name --->
 									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
 									<span class='sm-caps'>#relations.author_text#</span>
 									<cfif len(relations.relation_authority) GT 0>
 										 fide #relations.relation_authority# 
-									</cfif>
+										</cfif></span>
 									<button class='btn-xs btn-warning mx-1 mt-2 mt-md-0 float-right' 
 										onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
 										value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
@@ -362,14 +362,16 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							<cfloop query="inverse_relations">
 								<cfset i=i+1>
 								<li class="mb-1">
-									#taxonname#
-									#inverse_relations.inverse_relation# 
-									<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#inverse_relations.taxon_name_id#' target='_blank'>#inverse_relations.scientific_name#</a></em>
-									<span class='sm-caps'>#inverse_relations.author_text#</span>
-									<cfif len(inverse_relations.relation_authority) GT 0>
-										 fide #inverse_relations.relation_authority# 
-									</cfif>
-									</li>
+									<span class="col-12 col-xl-10 px-1 d-inline-block">
+										#taxonname#
+										#inverse_relations.inverse_relation# 
+										<em><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#inverse_relations.taxon_name_id#' target='_blank'>#inverse_relations.scientific_name#</a></em>
+										<span class='sm-caps'>#inverse_relations.author_text#</span>
+										<cfif len(inverse_relations.relation_authority) GT 0>
+											 fide #inverse_relations.relation_authority# 
+										</cfif>
+									</span>
+								</li>
 							</cfloop>
 						</ul>
 					<cfelse>
