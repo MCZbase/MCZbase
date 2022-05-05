@@ -200,7 +200,7 @@
 		<div id="locDetail" class="noShow">
 			<div class="form-row mb-0">
 				<div class="col-12 col-md-3">
-					<label for="collnOper" class="data-entry-label">Collection</label>
+					<label for="collnOper" class="data-entry-label">Use</label>
 					<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
 						<option value=""></option>
 						<option value="usedOnlyBy">used only by</option>
@@ -209,6 +209,7 @@
 					</select class="data-entry-label">
 				</div>
 				<div class="col-12 col-md-3">
+					<label for="collection_id" class="data-entry-label">Collection</label>
 					<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="ctcollection">
