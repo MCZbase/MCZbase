@@ -726,7 +726,7 @@
 					<cfset r='toggle' & i>
 					#r#(1);
 				</cfloop>
-			}
+			});
 		</script>
 	</cfif>
 </section>
