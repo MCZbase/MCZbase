@@ -59,7 +59,6 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset session.locSrchPrefs=nv>
-				<cfset retval = nv>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
@@ -69,6 +68,7 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 	   </cfthread>
+		<cfset retval = session.locSrchPrefs>
 	</cfif>
 	<cfreturn retval>
 </cffunction>
