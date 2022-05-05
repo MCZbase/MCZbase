@@ -70,7 +70,7 @@ limitations under the License.
 			</cftry>
 	   </cfthread>
 	</cfif>
-	<cfreturn #serializeJSON(retval)#>
+	<cfreturn retval>
 </cffunction>
 
 <!--- function deleteCollEventNumber
