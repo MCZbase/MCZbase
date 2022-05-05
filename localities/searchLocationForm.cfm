@@ -39,12 +39,9 @@
 <cfoutput>
 <section class="row border rounded bg-light mt-2 mb-4 p-2" title="Geography Search Form">
 	<div class="col-12"> 
+		<h2 class="h3">Higher Geography</h2>
 		<div class="form-row mb-0">
-			<div class="col-12 col-md-2">
-				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
-        		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
-			</div>
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-8">
 				<label for="higher_geog" class="data-entry-label">
 					Higher Geog
 					<span class="small90">
@@ -187,6 +184,7 @@
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
 	<div class="col-12"> 
+		<h2 class="h3">Locality</h2>
 		<div class="form-row mb-0">
 			<div class="col-12 col-md-10">
 				<label for="spec_locality" class="data-entry-label">Specific Locality</label>
@@ -314,7 +312,7 @@
 						<cfloop query="ctDepthUnit">
 							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
 						</cfloop>
-					  	</select>
+					</select>
 				</div>
 				<div class="col-12 col-md-2">
 					<label for="MaxDepthOper" class="data-entry-label"></label>
@@ -396,11 +394,11 @@
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-3">
 					<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
 					<input type="text" name="geo_att_value" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-4">
+				<div class="col-12 col-md-3">
 					<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
 					<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
 						<option selected="selected" value="0">No</option>
@@ -412,7 +410,7 @@
 					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(1);">More Options</span>
 				</div>
 			</div>
-			<div id="georefDetail">
+			<div id="georefDetail" class="border rounded px-1">
 				<div class="form-row mb-0">
 					<div class="col-12 col-md-2">
 						<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
@@ -503,6 +501,7 @@
 	<!----------------------------------- Collecting Event ----------------------------------------------------------->
 	<cfif #showEvent# is 1>
 	<div class="col-12"> 
+		<h2 class="h3">Collecting Event<h2>
 		<div class="form-row mb-0">
 			<div class="col-12 col-md-8">
 				<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
@@ -592,6 +591,10 @@
 	<div class="col-12"> 
 		<div class="form-row mb-0">
 			<div class="col-12 col-md-2">
+				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
+        		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
+			</div>
+			<div class="col-12 col-md-2">
 				<input type="submit"
 					value="Search"
 					class="schBtn"
@@ -621,7 +624,7 @@
 		function toggleGeogDetail(onOff) {
 			if (onOff==0) {
 				$("##geogDetail").hide();
-				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('More Options');
+				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('Geography Options');
 			} else {
 				$("##geogDetail").show();
 				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Fewer Options');
@@ -646,7 +649,7 @@
 		function toggleLocDetail(onOff) {
 			if (onOff==0) {
 				$("##locDetail").hide();
-				$("##locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('More Options');
+				$("##locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('Locality Options');
 			} else {
 				$("##locDetail").show();
 				$("##locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Fewer Options');
@@ -671,10 +674,10 @@
 		function toggleGeorefDetail(onOff) {
 			if (onOff==0) {
 				$("##georefDetail").hide();
-				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(1)').html('More Options');
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(1)').html('Show Georeference');
 			} else {
 				$("##georefDetail").show();
-				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(0)').html('Fewer Options');
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(0)').html('Hide Georeference');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
@@ -696,7 +699,7 @@
 		function toggleEventDetail(onOff) {
 			if (onOff==0) {
 				$("##eventDetail").hide();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Options');
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('Event Options');
 			} else {
 				$("##eventDetail").show();
 				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Options');
