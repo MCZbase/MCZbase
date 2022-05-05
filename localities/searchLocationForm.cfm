@@ -44,7 +44,7 @@
 				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
         		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
 			</div>
-			<div class="col-12 col-md-4">
+			<div class="col-12 col-md-6">
 				<label for="higher_geog" class="data-entry-label">
 					Higher Geog
 					<span class="small90">
@@ -58,6 +58,7 @@
 					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
+				<label for="geogDetailCtl" class="data-entry-label"></label>
 				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(1);">More Options</span>
 			</div>
 		</div>
@@ -192,6 +193,7 @@
 				<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
+				<label for="locDetailCtl" class="data-entry-label"></label>
 				<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(1);">More Options</span>
 			</div>
 		</div>
@@ -405,6 +407,7 @@
 					</select>
 				</div>
 				<div class="col-12 col-md-2">
+					<label for="georefDetailCtl" class="data-entry-label"></label>
 					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(1);">More Options</span>
 				</div>
 			</div>
@@ -509,6 +512,7 @@
 				<input type="text" name="collecting_event_id" id="collecting_event_id" >
 			</div>
 			<div class="col-12 col-md-2>
+				<label for="eventDetailCtl" class="data-entry-label"></label>
 				<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(1);">More Options</span>
 			</div>
 		</div>
@@ -635,7 +639,7 @@
 					}
 				).fail(function(jqXHR,textStatus,error){
 					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
-				);
+				});
 			</cfif>
 		}
 		function toggleLocDetail(onOff) {
@@ -660,7 +664,7 @@
 					}
 				).fail(function(jqXHR,textStatus,error){
 					handleFail(jqXHR,textStatus,error,"persisting LocDetail state");
-				);
+				});
 			</cfif>
 		}
 		function toggleGeorefDetail(onOff) {
@@ -685,7 +689,7 @@
 					}
 				).fail(function(jqXHR,textStatus,error){
 					handleFail(jqXHR,textStatus,error,"persisting GeorefDetail state");
-				);
+				});
 			</cfif>
 		}
 		function toggleEventDetail(onOff) {
@@ -710,7 +714,7 @@
 					}
 				).fail(function(jqXHR,textStatus,error){
 					handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
-				);
+				});
 			</cfif>
 		}
 	</script>
