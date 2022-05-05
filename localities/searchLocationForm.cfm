@@ -624,10 +624,10 @@
 		function toggleGeogDetail(onOff) {
 			if (onOff==0) {
 				$("##geogDetail").hide();
-				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('Show More');
+				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('More Fields');
 			} else {
 				$("##geogDetail").show();
-				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Show Fewer');
+				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Fewer Fields');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
@@ -649,10 +649,10 @@
 		function toggleLocDetail(onOff) {
 			if (onOff==0) {
 				$("##locDetail").hide();
-				$("##locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('Show More');
+				$("##locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('More Fields');
 			} else {
 				$("##locDetail").show();
-				$("##locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Show Fewer');
+				$("##locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Fewer Fields');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
@@ -699,10 +699,10 @@
 		function toggleEventDetail(onOff) {
 			if (onOff==0) {
 				$("##eventDetail").hide();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('Show More');
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Fields');
 			} else {
 				$("##eventDetail").show();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Show Fewer');
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
@@ -725,6 +725,7 @@
 	<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
 		<script type="text/javascript" language="javascript">
 			$(document).ready(function() {
+				console.log("#session.locSrchPrefs#");
 				<cfloop list="#session.locSrchPrefs#" index="i">
 					<cfset r='toggle' & i>
 					#r#(1);
