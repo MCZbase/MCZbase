@@ -30,6 +30,7 @@ limitations under the License.
 	<cfargument name="id" type="string" required="yes">
 	<cfargument name="onOff" type="numeric" required="yes">
 
+	<cfset retval = "">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 	   <cfthread name="saveLocSrchThread" >
 			<cftry>
@@ -58,6 +59,7 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset session.locSrchPrefs=nv>
+				<cfset retval = nv>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
@@ -68,7 +70,7 @@ limitations under the License.
 			</cftry>
 	   </cfthread>
 	</cfif>
-	<cfreturn 1>
+	<cfreturn #serializeJSON(retval)#>
 </cffunction>
 
 <!--- function deleteCollEventNumber
