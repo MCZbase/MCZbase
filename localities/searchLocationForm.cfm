@@ -45,7 +45,7 @@
         		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-6">
-				<label for="higher_geog" class="data-entry-input">
+				<label for="higher_geog" class="data-entry-label">
 					Higher Geog
 					<span class="small90">
 						(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
@@ -219,7 +219,7 @@
 					<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-3">
-					<label for="curated_fg" class="data-entry-labe">Vetted</label>
+					<label for="curated_fg" class="data-entry-label">Vetted</label>
 					<select name="curated_fg" id="curated_fg" class="data-entry-select">
 						<option value=""></option>
 						<option value="0">No</option>
@@ -404,89 +404,94 @@
 						<option value="1">Yes</option>
 					</select>
 				</div>
-			</div>
-			<div class="form-row mb-0">
 				<div class="col-12 col-md-2">
-					<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
-					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="findHasGeoRef" class="data-entry-label">Has Georeferences</label>
-					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="findNoAccGeoRef" class="data-entry-label">No Accepted Georeferences</label>
-					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="NoGeorefBecause" class="data-entry-label">NoGeorefBecause</label>
-					<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="isIncomplete" class="data-entry-label">isIncomplete</label>
-					<input type="checkbox" name="isIncomplete" id="isIncomplete" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="nullNoGeorefBecause" class="data-entry-label">NULL NoGeorefBecause</label>
-					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="data-entry-input">
+					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(1);">More Options</span>
 				</div>
 			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-3">
-					<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
-					<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
-						<option value=""></option>
-						<cfloop query="ctVerificationStatus">
-							<option value="#VerificationStatus#">#VerificationStatus#</option>
-						</cfloop>
-					</select>
+			<div id="georefDetail">
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-2">
+						<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
+						<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="findHasGeoRef" class="data-entry-label">Has Georeferences</label>
+						<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="findNoAccGeoRef" class="data-entry-label">No Accepted Georeferences</label>
+						<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="NoGeorefBecause" class="data-entry-label">NoGeorefBecause</label>
+						<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="isIncomplete" class="data-entry-label">isIncomplete</label>
+						<input type="checkbox" name="isIncomplete" id="isIncomplete" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="nullNoGeorefBecause" class="data-entry-label">NULL NoGeorefBecause</label>
+						<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="data-entry-input">
+					</div>
 				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label">Shared Localities Only</label>
-					<input type="checkbox" name="onlyShared" id="onlyShared" class="data-entry-input">
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-3">
+						<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
+						<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctVerificationStatus">
+								<option value="#VerificationStatus#">#VerificationStatus#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label">Shared Localities Only</label>
+						<input type="checkbox" name="onlyShared" id="onlyShared" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
+						<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctGeorefMethod">
+								<option value="#GeorefMethod#">#GeorefMethod#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label">Geolocate Precision</label>
+						<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
+							<option value="" SELECTED></option>
+							<option value="high" >high</option>
+							<option value="medium" >medium</option>
+							<option value="low" >low</option>
+						</select>
+					</div>
 				</div>
-				<div class="col-12 col-md-3">
-					<label for="GeorefMethod" class="data-entry-input" class="data-entry-label">GeorefMethod</label>
-					<select name="GeorefMethod" id="GeorefMethod" size="1" style="width: 400px;" class="data-entry-select">
-						<option value=""></option>
-						<cfloop query="ctGeorefMethod">
-							<option value="#GeorefMethod#">#GeorefMethod#</option>
-						</cfloop>
-					</select>
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-4">
+						<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
+						<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-select">
+					</div>
+					<div class="col-12 col-md-4">
+						<label class="data-entry-label">Geolocate Score</label>
+						<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
+							<option value="=" SELECTED>=</option>
+							<option value="<" ><</option>
+							<option value=">" >></option>
+							<option value="between" >between</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label">Min</label>
+						<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label">Max</label>
+						<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input">
+					</div>
 				</div>
-				<div class="col-12 col-md-3">
-					<label class="data-entry-label">Geolocate Precision</label>
-					<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
-						<option value="" SELECTED></option>
-						<option value="high" >high</option>
-						<option value="medium" >medium</option>
-						<option value="low" >low</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-4">
-					<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
-					<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-select">
-				</div>
-				<div class="col-12 col-md-4">
-					<label class="data-entry-label">Geolocate Score</label>
-					<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
-						<option value="=" SELECTED>=</option>
-						<option value="<" ><</option>
-						<option value=">" >></option>
-						<option value="between" >between</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-2">
-					<label class="data-entry-label">Min</label>
-					<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label class="data-entry-label">Max</label>
-					<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input">
-				</div>
-			</div>
+			</div><!--- end georefDetail --->
 		</div><!--- end locDetail --->
 	</div>
 	</cfif>
@@ -654,7 +659,7 @@
 						console.log(data);
 					}
 				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+					handleFail(jqXHR,textStatus,error,"persisting LocDetail state");
 				);
 			</cfif>
 		}
@@ -679,7 +684,7 @@
 						console.log(data);
 					}
 				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+					handleFail(jqXHR,textStatus,error,"persisting GeorefDetail state");
 				);
 			</cfif>
 		}
@@ -704,7 +709,7 @@
 						console.log(data);
 					}
 				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+					handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
 				);
 			</cfif>
 		}
