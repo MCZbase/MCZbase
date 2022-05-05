@@ -55,8 +55,8 @@
 					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
-				<label for="geogDetailCtl" class="data-entry-label"></label>
-				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(1);">More Options</span>
+				<label for="geogDetailCtl" class="data-entry-label">Geography</label>
+				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(0);">Fewer Fields</span>
 			</div>
 		</div>
 		<div id="geogDetail" class="">
@@ -191,8 +191,8 @@
 				<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
-				<label for="locDetailCtl" class="data-entry-label"></label>
-				<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(1);">More Options</span>
+				<label for="locDetailCtl" class="data-entry-label">Locality</label>
+				<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(0);">Fewer Fields</span>
 			</div>
 		</div>
 		<div id="locDetail" class="noShow">
@@ -406,11 +406,11 @@
 					</select>
 				</div>
 				<div class="col-12 col-md-2">
-					<label for="georefDetailCtl" class="data-entry-label"></label>
-					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(1);">More Options</span>
+					<label for="georefDetailCtl" class="data-entry-label">Georeference</label>
+					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(0);">Hide Fields</span>
 				</div>
 			</div>
-			<div id="georefDetail" class="border rounded px-1">
+			<div id="georefDetail" class="border rounded p-1">
 				<div class="form-row mb-0">
 					<div class="col-12 col-md-2">
 						<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
@@ -512,8 +512,8 @@
 				<input type="text" name="collecting_event_id" id="collecting_event_id" >
 			</div>
 			<div class="col-12 col-md-2>
-				<label for="eventDetailCtl" class="data-entry-label"></label>
-				<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(1);">More Options</span>
+				<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
+				<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(0);">Fewer Fields</span>
 			</div>
 		</div>
 		<div class="form-row mb-0">
@@ -624,10 +624,10 @@
 		function toggleGeogDetail(onOff) {
 			if (onOff==0) {
 				$("##geogDetail").hide();
-				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('Geography Options');
+				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('Show More');
 			} else {
 				$("##geogDetail").show();
-				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Fewer Options');
+				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Show Fewer');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
@@ -649,10 +649,10 @@
 		function toggleLocDetail(onOff) {
 			if (onOff==0) {
 				$("##locDetail").hide();
-				$("##locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('Locality Options');
+				$("##locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('Show More');
 			} else {
 				$("##locDetail").show();
-				$("##locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Fewer Options');
+				$("##locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Show Fewer');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
@@ -674,10 +674,10 @@
 		function toggleGeorefDetail(onOff) {
 			if (onOff==0) {
 				$("##georefDetail").hide();
-				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(1)').html('Show Georeference');
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(1)').html('Show Fields');
 			} else {
 				$("##georefDetail").show();
-				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(0)').html('Hide Georeference');
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(0)').html('Hide Fields');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
@@ -699,10 +699,10 @@
 		function toggleEventDetail(onOff) {
 			if (onOff==0) {
 				$("##eventDetail").hide();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('Event Options');
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('Show More');
 			} else {
 				$("##eventDetail").show();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Options');
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Show Fewer');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
