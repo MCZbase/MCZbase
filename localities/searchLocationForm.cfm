@@ -1,4 +1,3 @@
-<cfoutput>
 <cfif not isdefined("showLocality")>
 	<cfset showLocality=0>
 </cfif>
@@ -37,6 +36,7 @@
 	select collection,collection_id from collection order by collection
 </cfquery>
 
+<cfoutput>
 <section class="row border rounded bg-light mt-2 mb-4 p-2" title="Geography Search Form">
 	<div class="col-12"> 
 		<div class="form-row mb-0">
@@ -187,12 +187,12 @@
 	<cfif #showLocality# IS 1>
 	<div class="col-12"> 
 		<div class="form-row mb-0">
-			<div class="col-12 col-md-10>
+			<div class="col-12 col-md-10">
 				<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 				<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
-				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(1);">More Options</span>
+				<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(1);">More Options</span>
 			</div>
 		</div>
 		<div id="locDetail" class="noShow">
@@ -420,7 +420,7 @@
 				</div>
 				<div class="col-12 col-md-2">
 					<label for="NoGeorefBecause" class="data-entry-label">NoGeorefBecause</label>
-					<input type="text" name="NoGeorefBecause" size="50" id="NoGeorefBecause" class="data-entry-input">
+					<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-2">
 					<label for="isIncomplete" class="data-entry-label">isIncomplete</label>
@@ -467,7 +467,7 @@
 			<div class="form-row mb-0">
 				<div class="col-12 col-md-4">
 					<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
-					<input type="text" name="coordinateDeterminer" size="50" id="coordinateDeterminer" class="data-entry-select">
+					<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-select">
 				</div>
 				<div class="col-12 col-md-4">
 					<label class="data-entry-label">Geolocate Score</label>
@@ -493,125 +493,232 @@
 
 	<!----------------------------------- Collecting Event ----------------------------------------------------------->
 	<cfif #showEvent# is 1>
-	<div class="locGroup">
-		<span id="eventDetailCtl" class="infoLink" onclick="toggleEventDetail(1)";>Show More Options</span>
-	<table cellpadding="0" cellspacign="0">
-		<tr>
-			<td>
-				<label for="verbatim_locality">Verbatim Locality</label>
-				<input type="text" name="verbatim_locality" id="verbatim_locality" size="75">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="begDateOper">Began Date</label>
-				<select name="begDateOper" id="begDateOper" size="1">
+	<div class="col-12"> 
+		<div class="form-row mb-0">
+			<div class="col-12 col-md-8">
+				<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
+				<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input">
+			</div>
+			<div class="col-12 col-md-2>
+				<label for="collecting_event_id">Collecting Event ID</label>
+				<input type="text" name="collecting_event_id" id="collecting_event_id" >
+			</div>
+			<div class="col-12 col-md-2>
+				<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(1);">More Options</span>
+			</div>
+		</div>
+		<div class="form-row mb-0">
+			<div class="col-12 col-md-2">
+				<label for="begDateOper" class="data-entry-label">Began Date(</label>
+				<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select">
 	            	<option value="=">is</option>
 	                <option value="<">before</option>
 	                <option value=">">after</option>
 	            </select>
-				<input type="text" name="began_date" id="began_date">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="endDateOper">Ended Date</label>
-				<select name="endDateOper" id="endDateOper" size="1">
+			</div>
+			<div class="col-12 col-md-2">
+				<input type="text" name="began_date" id="began_date" class="data-entry-input">
+			</div>
+			<div class="col-12 col-md-2">
+				<label for="endDateOper" class="data-entry-label">Ended Date</label>
+				<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select">
 	            	<option value="=">is</option>
 	                <option value="<">before</option>
 	                <option value=">">after</option>
 	            </select>
-				<input type="text" name="ended_date" id="ended_date">
-			</td>
-		</tr>
-	</table>
+			</div>
+			<div class="col-12 col-md-2">
+				<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
+			</div>
+			<div class="col-12 col-md-2">
+				<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
+				<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
+			</div>
+		</div>
 		<div id="eventDetail" class="noShow">
-			<table cellpadding="0" cellspacign="0">
-			<tr>
-				<td style="padding-right: 1em;">
-					<label for="verbatim_date">Verbatim Date</label>
-					<input type="text" name="verbatim_date" id="verbatim_date" size="30">
-				</td>
-                <td>
-                	<label for="verbatimCoordinates">Verbatim Coordinates</label>
+			<div class="form-row mb-0">
+				<div class="col-12 col-md-3">
+               <label for="verbatimCoordinates">Verbatim Coordinates</label>
 					<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" size="30">
-                  </td>
-                	<td style="padding-left: 1em;">
-					<label for="collecting_method">Collecting Method</label>
-					<input type="text" name="collecting_method" id="collecting_method" size="30">
-				</td>
-			</tr>
-			<tr>
-				<td style="padding-right: 1em;">
-					<label for="coll_event_remarks">Collecting Event Remarks</label>
-					<input type="text" name="coll_event_remarks" id="coll_event_remarks" size="30">
-				</td>
-                 <td>
-                	<label for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
-					<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" size="30">
-                  </td>
-                	<td style="padding-left: 1em;">
-					<label for="habitat_desc">Habitat</label>
-					<input type="text" name="habitat_desc" id="habitat_desc" size="30">
-				</td>
-			</tr>
-			<tr>
-				<td style="padding-right: 1em;">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="collecting_method" class="data-entry-label">Collecting Method</label>
+					<input type="text" name="collecting_method" id="collecting_method"  class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+					<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
+					<input type="text" name="coll_event_remarks" id="coll_event_remarks"  class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-3">
+               <label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
+					<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem"  class="data-entry-input">
+				</div>
+			</div>
+			<div class="form-row mb-0">
+				<div class="col-12 col-md-4">
+					<label for="habitat_desc" class="data-entry-label">Habitat</label>
+					<input type="text" name="habitat_desc" id="habitat_desc"  class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-4">
 					<label for="collecting_source">Collecting Source</label>
 					<select name="collecting_source" id="collecting_source" size="1">
-		            	<option value=""></option>
-		                <cfloop query="ctCollectingSource">
-		                	<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
-		                </cfloop>
-		           	</select>
-				</td>
-                	 <td>
-                	<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
+						<option value=""></option>
+						<cfloop query="ctCollectingSource">
+							<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
+						</cfloop>
+		        	</select>
+				</div>
+				<div class="col-12 col-md-4">
+              	<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
 					<input type="text" name="verbatimSRS" id="verbatimSRS" size="30">
-                  </td>
-                	<td style="padding-left: 1em;">
-					<label for="collecting_event_id">Collecting Event ID</label>
-					<input type="text" name="collecting_event_id" id="collecting_event_id" >
-				</td>
-			</tr>
+				</div>
+			</div>
+		</div>
+	</div>
+	</cfif>
 
-		</table>
+	<!---------------   Buttons ------------------------------------------------>
+
+	<div class="col-12"> 
+		<div class="form-row mb-0">
+			<div class="col-12 col-md-2">
+				<input type="submit"
+					value="Search"
+					class="schBtn"
+					onmouseover="this.className='schBtn btnhov'"
+					onmouseout="this.className='schBtn'">
+			</div>
+			<div class="col-12 col-md-2">
+ 	        <input type="reset"
+					value="Clear Form"
+					class="clrBtn"
+					onmouseover="this.className='clrBtn btnhov'"
+					onmouseout="this.className='clrBtn'">
+			</div>
+			<div class="col-12 col-md-2">
+				<cfif showLocality is 1 AND showSpecimenCounts >
+					<label for="include_counts">Include Specimen Counts?</label>
+					<select name="include_counts" id="include_counts">
+						<option selected="selected" value="0">No</option>
+						<option value="1">Yes</option>
+					</select>
+				</cfif>
+			</div>
 		</div>
-		</div>
-		</cfif>
-<table>
-	<tr>
-		<td align="center">
-			<input type="submit"
-				value="Search"
-				class="schBtn"
-				onmouseover="this.className='schBtn btnhov'"
-				onmouseout="this.className='schBtn'">&nbsp;&nbsp;
-         <input type="reset"
-				value="Clear Form"
-				class="clrBtn"
-				onmouseover="this.className='clrBtn btnhov'"
-				onmouseout="this.className='clrBtn'">
-		</td>
-		<td>
-			<cfif showLocality is 1 AND showSpecimenCounts>
-				<label for="include_counts">Include Specimen Counts?</label>
-				<select name="include_counts" id="include_counts">
-					<option selected="selected" value="0">No</option>
-					<option value="1">Yes</option>
-				</select>
+	</div>
+
+	<script type="text/javascript" language="javascript">
+		function toggleGeogDetail(onOff) {
+			if (onOff==0) {
+				$("##geogDetail").hide();
+				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('More Options');
+			} else {
+				$("##geogDetail").show();
+				$("##geogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Fewer Options');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/localities/component/functions.cfc",
+					{
+						method : "saveLocSrchPref",
+						id : 'GeogDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					}, 
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+				);
 			</cfif>
-		</td>
-	</tr>
-</table>
-</td></tr></table>
-<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
-	<cfloop list="#session.locSrchPrefs#" index="i">
-		<cfset r='toggle' & i>
+		}
+		function toggleLocDetail(onOff) {
+			if (onOff==0) {
+				$("##locDetail").hide();
+				$("##locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('More Options');
+			} else {
+				$("##locDetail").show();
+				$("##locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Fewer Options');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/localities/component/functions.cfc",
+					{
+						method : "saveLocSrchPref",
+						id : 'LocDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+				);
+			</cfif>
+		}
+		function toggleGeorefDetail(onOff) {
+			if (onOff==0) {
+				$("##georefDetail").hide();
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(1)').html('More Options');
+			} else {
+				$("##georefDetail").show();
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(0)').html('Fewer Options');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/localities/component/functions.cfc",
+					{
+						method : "saveLocSrchPref",
+						id : 'GeorefDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+				);
+			</cfif>
+		}
+		function toggleEventDetail(onOff) {
+			if (onOff==0) {
+				$("##eventDetail").hide();
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Options');
+			} else {
+				$("##eventDetail").show();
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Options');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/localities/component/functions.cfc",
+					{
+						method : "saveLocSrchPref",
+						id : 'EventDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+				);
+			</cfif>
+		}
+	</script>
+	<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
 		<script type="text/javascript" language="javascript">
-			#r#(1);
+			$(document).ready(function() {
+				<cfloop list="#session.locSrchPrefs#" index="i">
+					<cfset r='toggle' & i>
+					#r#(1);
+				</cfloop>
+			}
 		</script>
-	</cfloop>
-</cfif>
+	</cfif>
+</section>
 
 </cfoutput>
