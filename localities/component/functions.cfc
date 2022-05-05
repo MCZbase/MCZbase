@@ -33,6 +33,7 @@ limitations under the License.
 	<cfset retval = "">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 	   <cfthread name="saveLocSrchThread" >
+			<cftransaction>
 			<cftry>
 				<cfif listFind(id,"GeogDetail,LocDetail,GeorefDetail,EventDetail") EQ 0 >
 					<cfthrow message="unknown location search preference id.">
@@ -59,7 +60,9 @@ limitations under the License.
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset session.locSrchPrefs=nv>
+				<cftransaction action="commit">
 			<cfcatch>
+				<cftransaction action="rollback">
 				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 				<cfset function_called = "#GetFunctionCalledName()#">
@@ -67,6 +70,7 @@ limitations under the License.
 				<cfabort>
 			</cfcatch>
 			</cftry>
+			</cftransaction>
 	   </cfthread>
 		<cfset retval = session.locSrchPrefs>
 	</cfif>
