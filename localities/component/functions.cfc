@@ -37,22 +37,22 @@ limitations under the License.
 				<cfif listFind(id,"GeogDetail,LocDetail,GeorefDetail,EventDetail") EQ 0 >
 					<cfthrow message="unknown location search preference id.">
 				</cfif>
-				<cfquery name="ins" datasource="cf_dbuser">
+				<cfquery name="getcurrentvalues" datasource="cf_dbuser">
 					SELECT LOCSRCHPREFS
 					FROM cf_users
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset cv=valuelist(ins.LOCSRCHPREFS)>
+				<cfset currentList=valuelist(getcurrentvalues.LOCSRCHPREFS)>
 				<cfif onOff is 1>
-					<cfif not listfind(cv,id)>
-						<cfset nv=listappend(cv,id)>
+					<cfif not listfind(currentList,id)>
+						<cfset nv=listappend(currentList,id)>
 					</cfif>
 				<cfelse>
-					<cfif listfind(cv,id)>
-						<cfset nv=listdeleteat(cv,listfind(cv,id))>
+					<cfif listfind(currentList,id)>
+						<cfset nv=listdeleteat(currentList,listfind(currentList,id))>
 					</cfif>
 				</cfif>
-				<cfquery name="ins" datasource="cf_dbuser">
+				<cfquery name="update" datasource="cf_dbuser">
 					update cf_users
 					set LOCSRCHPREFS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nv#">
 					where
