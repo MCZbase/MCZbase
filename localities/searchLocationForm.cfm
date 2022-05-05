@@ -40,11 +40,11 @@
 <section class="row border rounded bg-light mt-2 mb-4 p-2" title="Geography Search Form">
 	<div class="col-12"> 
 		<div class="form-row mb-0">
-			<div class="col-12 mb-1 mb-md-0">
+			<div class="col-12 col-md-2">
 				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
         		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
 			</div>
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-4">
 				<label for="higher_geog" class="data-entry-label">
 					Higher Geog
 					<span class="small90">
