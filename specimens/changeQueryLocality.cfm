@@ -308,7 +308,7 @@
 <cfoutput>
 	<div class="container">
 		<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
-		<cfif orders.recordcount GT 0 and families.recordcount GT 0>
+		<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 			<form name="filterResults">
 				<div class="form-row m-1 border rounded">
 					<input type="hidden" name="result_id" value="#result_id#">
