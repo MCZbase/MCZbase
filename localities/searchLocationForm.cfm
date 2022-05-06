@@ -440,7 +440,7 @@
 				</cfif> 
 				<div class="col-12 col-md-2">
 					<label for="georefDetailCtl" class="data-entry-label">Georeference</label>
-					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(#toggleTo#);">#georefButton#</span>
+					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
 				</div>
 			</div>
 			<div id="georefDetail" class="border rounded p-1" style="#georefDetailStyle#">
