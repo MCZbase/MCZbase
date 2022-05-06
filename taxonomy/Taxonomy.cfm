@@ -281,14 +281,14 @@ limitations under the License.
 					});
 				};
 			</script>
-			<section class="row border rounded my-2 px-1 pt-1 pb-2">
+			<section class="row mx-0 border rounded my-2 px-1 pt-1 pb-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<div class="row my-1">
 						<div class="col-12 col-sm-3 mb-1">
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							<label for="source_authority"><span>Edit Taxon Source&nbsp;&nbsp;&nbsp;&nbsp; </span>
+							<label for="source_authority"><span>Edit Taxon Source&nbsp;</span>
 								<cfif isSourceAuthorityCurrent.ct eq 0> (#getTaxa.source_authority#) </cfif>
 							</label>
 							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
@@ -347,7 +347,7 @@ limitations under the License.
 										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="small btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="small btn btn-xs pl-2 pr-3 btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
@@ -372,7 +372,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-md-11 col-xl-6 pl-0 pr-1 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="data-entry-input">
 								<cfif len(regex) GT 0 >
@@ -458,7 +458,7 @@ limitations under the License.
 							<div class="col-auto px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-8 pl-0 float-left">
+							<div class="col-12 col-xl-8 pl-0 pr-1 float-left">
 								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -834,7 +834,7 @@ limitations under the License.
 				</form>
 			</section>
 
-			<div class="row">
+			<div class="row mx-0">
 				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 
 					<section class="col-12 px-0">
@@ -1133,7 +1133,7 @@ limitations under the License.
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getClonedFromTaxon.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							<label for="source_authority"><span>Edit Taxon Source&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<label for="source_authority"><span>Edit Taxon Source&nbsp;</span>
 								<cfif isSourceAuthorityCurrent.ct GT 0> (Clone source: #encodeForHTML(getClonedFromTaxon.source_authority)#) </cfif>
 							</label>
 							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
@@ -1185,7 +1185,7 @@ limitations under the License.
 								<cfif getClonedFromTaxon.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
 									<cfset searchtext = "Find GUID" >
-									<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+									<cfset searchclass = 'class="btn btn-xs small btn-secondary findGuidButton external"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -1207,13 +1207,13 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-auto px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
-									class="data-entry-input">
-								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
+									class="data-entry-input small">
+								<a id="taxonid_link" href="" target="_blank" class="px-2 small py-0 d-block line-height-sm mt-1"></a> 
 								<script>
 									$(document).ready(function(){ 
 										$('##taxonid').show();
@@ -1257,7 +1257,7 @@ limitations under the License.
 								<cfif getClonedFromTaxon.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
 									<cfset searchtext = "Find GUID" >
-									<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary small findGuidButton external"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -1279,13 +1279,13 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-auto px-0 float-left">
-								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
+								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
-								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="" 
+								<input type="text" name="scientificnameid" class="data-entry-input small" id="scientificnameid" value="" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-								<a id="scientificnameid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
+								<a id="scientificnameid_link" href="" target="_blank" class="px-2 py-0 d-block small line-height-sm mt-1"></a> 
 								<script>
 									$(document).ready(function () { 
 										$('##scientificnameid').show();
@@ -1354,25 +1354,25 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="superclass" class="col-12 col-md-3 col-form-label align-left float-left">Superclass</label>
+							<label for="superclass" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Superclass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superclass" id="superclass" value="#encodeForHTML(getClonedFromTaxon.superclass)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="phylclass" class="col-12 col-md-3 col-form-label align-left float-left">Class</label>
+							<label for="phylclass" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Class</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylclass" id="phylclass" value="#encodeForHTML(getClonedFromTaxon.phylclass)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subclass" class="col-12 col-md-3 col-form-label align-left float-left">SubClass</label>
+							<label for="subclass" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">SubClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subclass" id="subclass" value="#encodeForHTML(getClonedFromTaxon.subclass)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="infraclass" class="col-12 col-md-3 col-form-label align-left  float-left">InfraClass</label>
+							<label for="infraclass" class="col-12 col-md-3 pb-1 col-form-label align-left  float-left">InfraClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraclass" id="infraclass" value="#encodeForHTML(getClonedFromTaxon.infraclass)#" class="data-entry-input my-1">
 							</div>
@@ -1380,25 +1380,25 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="superorder" class="col-12 col-md-3 col-form-label align-left float-left">Superorder</label>
+							<label for="superorder" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Superorder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superorder" id="superorder" value="#encodeForHTML(getClonedFromTaxon.superorder)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="phylorder" class="col-12 col-md-3 col-form-label align-left float-left">Order</label>
+							<label for="phylorder" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Order</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylorder" id="phylorder" value="#encodeForHTML(getClonedFromTaxon.phylorder)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="suborder" class="col-12 col-md-3 col-form-labelalign-left float-left">Suborder</label>
+							<label for="suborder" class="col-12 col-md-3 pb-1 col-form-labelalign-left float-left">Suborder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="suborder" id="suborder" value="#encodeForHTML(getClonedFromTaxon.suborder)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="infraorder" class="col-12 col-md-3  col-form-label align-left float-left">Infraorder</label>
+							<label for="infraorder" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Infraorder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraorder" id="infraorder" value="#encodeForHTML(getClonedFromTaxon.infraorder)#" class="data-entry-input my-1">
 							</div>
@@ -1410,14 +1410,14 @@ limitations under the License.
 							<div class="col-12 col-md-6 col-xl-3 px-0">
 							</div>
 							<div class="col-12 col-md-6 col-xl-3 px-0">
-								<label for="subsection" class="col-sm-3 col-form-label float-left">Section (zoological)</label>
+								<label for="subsection" class="col-sm-3 pb-1 col-form-label float-left">Section (zoological)</label>
 								<!--- Section would go here --->
 								<div class="col-12 col-md-9 float-left">
 									--
 								</div>
 							</div>
 							<div class="col-12 col-md-6 px-0">
-								<label for="subsection" class="col-12 col-md-3 col-form-label float-left">Subsection (zoological)</label>
+								<label for="subsection" class="col-12 col-md-3 pb-1 col-form-label float-left">Subsection (zoological)</label>
 								<div class="col-12 col-md-9 float-left">
 									<input type="text" name="subsection" id="subsection" value="#encodeForHTML(getClonedFromTaxon.subsection)#" class="data-entry-input my-1">
 								</div>
@@ -1429,25 +1429,25 @@ limitations under the License.
 							
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="superfamily" class="col-12 col-md-3 col-form-label align-left float-left">Superfamily</label>
+							<label for="superfamily" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Superfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superfamily" id="superfamily" value="#encodeForHTML(getClonedFromTaxon.superfamily)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="family" class="col-12 col-md-3 col-form-label align-left float-left">Family</label>
+							<label for="family" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Family</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="family" id="family" value="#encodeForHTML(getClonedFromTaxon.family)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subfamily" class="col-md-3  col-form-label align-left float-left">Subfamily</label>
+							<label for="subfamily" class="col-md-3 pb-1 col-form-label align-left float-left">Subfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subfamily" id="subfamily" value="#encodeForHTML(getClonedFromTaxon.subfamily)#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="tribe" class="col-12 col-md-3 col-form-label align-left float-left">Tribe</label>
+							<label for="tribe" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Tribe</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="tribe" id="tribe" value="#encodeForHTML(getClonedFromTaxon.tribe)#" class="data-entry-input my-1">
 							</div>
@@ -1455,7 +1455,7 @@ limitations under the License.
 					</div>
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 pl-md-1 float-left">
-							<label for="genus" class="col-12 col-md-3 col-form-label align-left float-left">Genus
+							<label for="genus" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Genus
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add&nbsp;&##215;</small>
 								</span>
@@ -1468,7 +1468,7 @@ limitations under the License.
 							<cfif len(#getClonedFromTaxon.subgenus#) gt 0 and REFind("^\(.*\)$",#getClonedFromTaxon.subgenus#) gt 0>
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
-							<label for="subgenus" class="col-12 col-md-3 col-form-label align-left float-left">Subgenus</label>
+							<label for="subgenus" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Subgenus</label>
 							<div class="col-12 col-md-9 float-left">
 								<span class="float-left d-inline brackets mt-1">( </span>
 								<input type="text" name="subgenus" id="subgenus" value="#encodeForHTML(getClonedFromTaxon.subgenus)#" class="data-entry-input m-1 w-75 float-left">
@@ -1477,13 +1477,13 @@ limitations under the License.
 						</div>
 			
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="species" class="col-12 col-md-3 col-form-label align-left float-left">Species</label>
+							<label for="species" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Species</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#encodeForHTML(getClonedFromTaxon.species)#">
 							</div>
 						</div>		
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subspecies" class="col-12 col-md-3 col-form-label align-left float-left">Subspecies</label>
+							<label for="subspecies" class="col-12 col-md-3 pb-1 col-form-label align-left float-left">Subspecies</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subspecies" id="subspecies" value="#encodeForHTML(getClonedFromTaxon.subspecies)#" class="data-entry-input my-1">
 							</div>
@@ -1492,7 +1492,7 @@ limitations under the License.
 
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="infraspecific_rank" class="col-12 col-md-4 col-form-label align-left float-left"><span>Infraspecific Rank</span></label>
+							<label for="infraspecific_rank" class="col-12 col-md-4 pb-1 col-form-label align-left float-left"><span>Infraspecific Rank</span></label>
 							<div class="col-12 col-md-8 float-left">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-1" data-style="btn-primary" show-tick>
 									<option value=""></option>
@@ -1506,7 +1506,7 @@ limitations under the License.
 						</div>
 					
 						<div class="col-12 col-md-6 col-xl-9 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label align-left float-left">Author</label>
+							<label for="author_text" class="col-12 col-md-2 col-xl-1 pb-1 col-form-label align-left float-left">Author</label>
 							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#encodeForHTML(getClonedFromTaxon.author_text)#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"

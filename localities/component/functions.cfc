@@ -1,7 +1,7 @@
 <!---
 localities/component/functions.cfc
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2022 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,6 +17,69 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cf_rolecheck>
+
+<!--- Save preferences for open/closed sections of geography/locality/collecting event 
+  search form.
+  @param id the id of the div on the form to show/hide, without a leading # selector, 
+    one of GeogDetail, LocDetail, GeorefDetail, EventDetail.
+  @param onOff new state for the provided id 1 for show, 0 for hide 
+--->
+<cffunction name="saveLocSrchPref" access="remote">
+	<cfargument name="id" type="string" required="yes">
+	<cfargument name="onOff" type="numeric" required="yes">
+
+	<cfset retval = "">
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+	   <cfthread name="saveLocSrchThread" >
+			<cfoutput>
+			<cftransaction>
+			<cftry>
+				<cfif listFind("GeogDetail,LocDetail,GeorefDetail,EventDetail",id) EQ 0 >
+					<cfthrow message="unknown location search preference id.">
+				</cfif>
+				<cfquery name="getcurrentvalues" datasource="cf_dbuser">
+					SELECT LOCSRCHPREFS
+					FROM cf_users
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfset currentList=valuelist(getcurrentvalues.LOCSRCHPREFS)>
+				<cfset nv = currentList>
+				<cfif onOff is 1>
+					<cfif not listfind(currentList,id)>
+						<cfset nv=listappend(currentList,id)>
+					</cfif>
+				<cfelse>
+					<cfif listfind(currentList,id)>
+						<cfset nv=listdeleteat(currentList,listfind(currentList,id))>
+					</cfif>
+				</cfif>
+				<cfquery name="update" datasource="cf_dbuser" result="update_result">
+					update cf_users
+					set LOCSRCHPREFS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nv#">
+					where
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<cfset session.locSrchPrefs=nv>
+				<cftransaction action="commit">
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+				<cfabort>
+			</cfcatch>
+			</cftry>
+			</cftransaction>
+			</cfoutput>
+	   </cfthread>
+		<cfthread action="join" name="saveLocSrchThread" />
+		<cfset retval = session.locSrchPrefs>
+	</cfif>
+	<cfreturn retval>
+</cffunction>
 
 <!--- function deleteCollEventNumber
 Delete an existing collecting event number record.
