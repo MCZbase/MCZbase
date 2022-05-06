@@ -9,7 +9,7 @@
 </cfif>
 <cfset actionWord = "To Be">
 
-<!--- For all actions, obtain data from the list of specimens specified by the result_id --->
+<!--- For all actions, obtain data from the list of cataloged items specified by the result_id --->
 <cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 SELECT distinct
 	 	cataloged_item.collection_object_id as collection_object_id,
@@ -51,7 +51,6 @@
 
 <!--- actions entryPoint, updateLocality, findLocality determine top portion of page --->
 
-
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
 		<cfset title = "Change Locality">
@@ -59,7 +58,7 @@
 		<cfset showEvent=0>
 		<cfoutput>
 			<div class="container-lg">
-				<h1 class="h3">Find new locality for specimens [in #encodeForHtml(result_id)#]</h1>
+				<h1 class="h3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
 				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 					<input type="hidden" name="Action" value="findLocality">
 					<input type="hidden" name="result_id" value="#result_id#">
@@ -153,7 +152,7 @@
 			</cfif>
 			<cfif failed>
 				<div class="container">
-					<h2 class="h2">Changing locality for specimens [in #encodeForHtml(result_id)#]</h2>
+					<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
 					<div><a href="#returnURL#">Back to Manage Locality</a></div>
 				</div>
 			<cfelse>
@@ -289,7 +288,7 @@
 
 <!--------------------------------------------------------------------------------------------------->
 
-<!--- After any action, display the list of specimens to be/having been affected --->
+<!--- After any action, display the list of cataloged items to be/having been affected --->
 
 <cfquery name="orders" dbtype="query">
 	select distinct phylorder from specimenList where phylorder is not null
