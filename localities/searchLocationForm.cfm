@@ -36,10 +36,25 @@
 	select collection,collection_id from collection order by collection
 </cfquery>
 
+<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
+	<cfset searchPrefList = session.locSrchPrefs>
+<cfelse>
+	<cfset searchPrefList = "">
+</cfif>
+
 <cfoutput>
 <section class="row border rounded bg-light mt-2 mb-4 p-2" title="Geography Search Form">
 	<div class="col-12"> 
 		<h2 class="h3">Higher Geography</h2>
+		<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
+			<cfset geogDetailStyle="display:none;">
+			<cfset toggleTo = "1">
+			<cfset geogButton = "More Fields">
+		<cfelse>
+			<cfset geogDetailStyle="">
+			<cfset toggleTo = "0">
+			<cfset geogButton = "Fewer Fields">
+		</cfif> 
 		<div class="form-row mb-0">
 			<div class="col-12 col-md-8">
 				<label for="higher_geog" class="data-entry-label">
@@ -56,10 +71,10 @@
 			</div>
 			<div class="col-12 col-md-2">
 				<label for="geogDetailCtl" class="data-entry-label">Geography</label>
-				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(0);">Fewer Fields</span>
+				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
 			</div>
 		</div>
-		<div id="geogDetail" class="">
+		<div id="geogDetail" class="" style="#geogDetailStyle#">
 			<div class="form-row mb-0">
 				<div class="col-12 col-md-3">
 					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
@@ -185,6 +200,15 @@
 	<cfif #showLocality# IS 1>
 	<div class="col-12"> 
 		<h2 class="h3">Locality</h2>
+		<cfif listFind(searchPrefList,"LocDetail") EQ 0>
+			<cfset locDetailStyle="display:none;">
+			<cfset toggleTo = "1">
+			<cfset locButton = "More Fields">
+		<cfelse>
+			<cfset locDetailStyle="">
+			<cfset toggleTo = "0">
+			<cfset locButton = "Fewer Fields">
+		</cfif> 
 		<div class="form-row mb-0">
 			<div class="col-12 col-md-10">
 				<label for="spec_locality" class="data-entry-label">Specific Locality</label>
@@ -192,10 +216,10 @@
 			</div>
 			<div class="col-12 col-md-2">
 				<label for="locDetailCtl" class="data-entry-label">Locality</label>
-				<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(0);">Fewer Fields</span>
+				<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
 			</div>
 		</div>
-		<div id="locDetail" class="noShow">
+		<div id="locDetail" class="" style="#locDetailStyle#">
 			<div class="form-row mb-0">
 				<div class="col-12 col-md-3">
 					<label for="collnOper" class="data-entry-label">Use</label>
@@ -405,12 +429,21 @@
 						<option value="1">Yes</option>
 					</select>
 				</div>
+				<cfif listFind(searchPrefList,"GeorefDetail") EQ 0>
+					<cfset georefDetailStyle="display:none;">
+					<cfset toggleTo = "1">
+					<cfset georefButton = "Show Fields">
+				<cfelse>
+					<cfset georefDetailStyle="">
+					<cfset toggleTo = "0">
+					<cfset georefButton = "Hide Fields">
+				</cfif> 
 				<div class="col-12 col-md-2">
 					<label for="georefDetailCtl" class="data-entry-label">Georeference</label>
-					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(0);">Hide Fields</span>
+					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="togglegeorefDetail(#toggleTo#);">#georefButton#</span>
 				</div>
 			</div>
-			<div id="georefDetail" class="border rounded p-1">
+			<div id="georefDetail" class="border rounded p-1" style="#georefDetailStyle#">
 				<div class="form-row mb-0">
 					<div class="col-12 col-md-2">
 						<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
@@ -502,18 +535,27 @@
 	<cfif #showEvent# is 1>
 	<div class="col-12"> 
 		<h2 class="h3">Collecting Event<h2>
+		<cfif listFind(searchPrefList,"EventDetail") EQ 0>
+			<cfset eventDetailStyle="display:none;">
+			<cfset toggleTo = "1">
+			<cfset eventButton = "More Fields">
+		<cfelse>
+			<cfset eventDetailStyle="">
+			<cfset toggleTo = "0">
+			<cfset eventButton = "Fewer Fields">
+		</cfif> 
 		<div class="form-row mb-0">
 			<div class="col-12 col-md-8">
 				<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
 				<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input">
 			</div>
-			<div class="col-12 col-md-2>
+			<div class="col-12 col-md-2">
 				<label for="collecting_event_id">Collecting Event ID</label>
 				<input type="text" name="collecting_event_id" id="collecting_event_id" >
 			</div>
-			<div class="col-12 col-md-2>
+			<div class="col-12 col-md-2">
 				<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
-				<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(0);">Fewer Fields</span>
+				<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</span>
 			</div>
 		</div>
 		<div class="form-row mb-0">
@@ -525,7 +567,7 @@
 	                <option value=">">after</option>
 	            </select>
 			</div>
-			<div class="col-12 col-md-2">
+			<div class="col-12 col-md-3">
 				<input type="text" name="began_date" id="began_date" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
@@ -536,7 +578,7 @@
 	                <option value=">">after</option>
 	            </select>
 			</div>
-			<div class="col-12 col-md-2">
+			<div class="col-12 col-md-3">
 				<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
@@ -544,7 +586,7 @@
 				<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
 			</div>
 		</div>
-		<div id="eventDetail" class="noShow">
+		<div id="eventDetail" style="#eventDetailStyle#" >
 			<div class="form-row mb-0">
 				<div class="col-12 col-md-3">
                <label for="verbatimCoordinates">Verbatim Coordinates</label>
@@ -723,16 +765,6 @@
 		}
 	</script>
 	<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
-		<script type="text/javascript" language="javascript">
-			$(document).ready(function() {
-				console.log("#session.locSrchPrefs#");
-				<cfloop list="#session.locSrchPrefs#" index="i">
-					<cfset r='toggle' & i>
-					#r#(1);
-				</cfloop>
-			});
-		</script>
-	</cfif>
 </section>
 
 </cfoutput>
