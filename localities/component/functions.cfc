@@ -33,9 +33,10 @@ limitations under the License.
 	<cfset retval = "">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 	   <cfthread name="saveLocSrchThread" >
+			<cfoutput>
 			<cftransaction>
 			<cftry>
-				<cfif listFind(id,"GeogDetail,LocDetail,GeorefDetail,EventDetail") EQ 0 >
+				<cfif listFind("GeogDetail,LocDetail,GeorefDetail,EventDetail",id) EQ 0 >
 					<cfthrow message="unknown location search preference id.">
 				</cfif>
 				<cfquery name="getcurrentvalues" datasource="cf_dbuser">
@@ -71,6 +72,7 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 			</cftransaction>
+			</cfoutput>
 	   </cfthread>
 		<cfthread action="join" name="saveLocSrchThread" />
 		<cfset retval = session.locSrchPrefs>
