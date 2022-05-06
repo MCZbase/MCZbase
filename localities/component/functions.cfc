@@ -72,6 +72,7 @@ limitations under the License.
 			</cftry>
 			</cftransaction>
 	   </cfthread>
+		<cfthread action="join" name="saveLocSrchThread">
 		<cfset retval = session.locSrchPrefs>
 	</cfif>
 	<cfreturn retval>
