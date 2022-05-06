@@ -181,13 +181,15 @@
 			<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
 		</cfif>
 		<cfset actionWord = "That Have Been">
-		<div class="container">
-			<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
-			<ul>
-				<li><a href="#returnURL#">Back to Manage Locality</a></li>
-				<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
-			</ul>
-		</div>
+		<cfoutput>
+			<div class="container">
+				<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+				<ul>
+					<li><a href="#returnURL#">Back to Manage Locality</a></li>
+					<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
+				</ul>
+			</div>
+		</cfoutput>
 	</cfcase>
 
 	<cfcase value="findLocality">
