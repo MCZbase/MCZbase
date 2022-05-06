@@ -764,7 +764,6 @@
 			</cfif>
 		}
 	</script>
-	<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
 </section>
 
 </cfoutput>
