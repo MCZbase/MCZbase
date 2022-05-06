@@ -7,6 +7,7 @@
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="entryPoint">
 </cfif>
+<cfset actionWord = "To Be">
 
 <!--- For all actions, obtain data from the list of specimens specified by the result_id --->
 <cfquery name="specimenList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -153,6 +154,7 @@
 					<div><a href="#returnURL#">Back to Manage Locality</a></div>
 				</div>
 			<cfelse>
+				<cfset actionWord = "That Have Been">
 				<div class="container">
 					<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
 					<ul>
@@ -259,16 +261,16 @@
 <!--- Display list of specimens to be affected --->
 
 <cfquery name="orders" dbtype="query">
-	select distinct phylorder from specimenList
+	select distinct phylorder from specimenList where phylorder is not null
 </cfquery>
 
 <cfquery name="families" dbtype="query">
-	select distinct family from specimenList
+	select distinct family from specimenList where family is not null
 </cfquery>
 
 <cfoutput>
 	<div class="container">
-		<h2 class="h3">Cataloged Items Being Changed: #specimenList.recordcount#</h2>
+		<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 		<form name="filterResults">
 			<div class="form-row mb-0">
 				<input type="hidden" name="result_id" value="#result_id#">
