@@ -24,7 +24,7 @@
 		locality.maximum_elevation,
 		locality.orig_elev_units,
 		locality.min_depth,
-		locality.max_depth
+		locality.max_depth,
 		locality.depty_units,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
