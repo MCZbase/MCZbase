@@ -229,32 +229,39 @@
 <cfoutput>
 	<div class="container">
 		<div class="row">
-		<h2 class="h3">Specimens Being Changed: #specimenList.recordcount#</h2>
-		<table class="table">
+			<h2 class="h3">Cataloged Items Being Changed: #specimenList.recordcount#</h2>
 			<form name="filterResults">
 				<input type="hidden" name="result_id" value="#result_id#">
 				<input type="hidden" name="action" value="nothing" id="action">
-				<tr>
-					<td width="33%">Order:
-					<select name="filterOrder" style="width:150px" class="chosen-select-deselect">
+				<div class="col-12 col-md-5">
+					<label for="filter_order" class="data-entry-label">Order:</label>
+					<select id="filter_order" name="filterOrder" class="data-entry-select">
 						<option></option>
 						<cfloop query="orders">
 							<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
 						</cfloop>
-					</td>
-					<!--- TODO: Multiselect for families --->
-					<td width="33%"><select data-placeholder="Choose Families..." name="filterFamily" class ="chosen-select" multiple tabindex="4" style="width:500px;">
-						<option value=""></option>
-						<cfloop query="families">
-							<option value="#family#"<cfif isdefined("filterFamily") and listfind(filterFamily,family)>selected="selected"</cfif>>#family#</option>
-						</cfloop>
-					</td>
-					<td align="right">
-						<input type="submit" value="Filter Specimens" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'></input>
-					</td>
-				</tr>
+					</select>
+				</div>
+				<div class="col-12 col-md-5">
+					<label for="filter_families" class="data-entry-label">Order:</label>
+					<div name="filterFamily" id="filter_family" class="w-100"></div>
+					<script>
+						$(document).ready(function () {
+							var familysource = [
+							<cfset comma="">
+							<cfloop query="families">
+								#comma#{name:"#families.family#",value:"#families.family#"}
+								<cfset comma=",">
+							</cfloop>
+							];
+							$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
+						});
+					</script> 
+				</div>
+				<div class="col-12 col-md-2">
+					<input type="submit" class="btn btn-xs btn-secondary" value="Filter Specimens" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'></input>
+				</div>
 			</form>
-		</table>
 		</div>
 	</div>
 </cfoutput>
