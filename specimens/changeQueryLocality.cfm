@@ -56,7 +56,11 @@
 
 <!--------------------------------------------------------------------------------------------------->
 
-<!--- actions entryPoint, updateLocality, findLocality determine top portion of page --->
+<!--- actions entryPoint, findLocality, updateLocality, and updateComplete, determine top portion of page --->
+
+<!--- normal call sequence is entryPoint (list to change with locality search form), 
+  findLocality (run locality search, list localities to pick from), updateLocality (apply change), and 
+  updateComplete (report on sucessfull update) --->
 
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
@@ -163,16 +167,27 @@
 					<div><a href="#returnURL#">Back to Manage Locality</a></div>
 				</div>
 			<cfelse>
-				<cfset actionWord = "That Have Been">
-				<div class="container">
-					<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
-					<ul>
-						<li><a href="#returnURL#">Back to Manage Locality</a></li>
-						<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
-					</ul>
-				</div>
+				<cflocation url="#returnURL#&action=updateComplete">
 			</cfif>
 		</cfoutput>
+	</cfcase>
+
+	<cfcase value="updateComplete">
+		<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
+		<cfif isdefined("filterOrder")>
+			<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+		</cfif>
+		<cfif isdefined("filterFamily")>
+			<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
+		</cfif>
+		<cfset actionWord = "That Have Been">
+		<div class="container">
+			<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+			<ul>
+				<li><a href="#returnURL#">Back to Manage Locality</a></li>
+				<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
+			</ul>
+		</div>
 	</cfcase>
 
 	<cfcase value="findLocality">
