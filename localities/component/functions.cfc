@@ -45,6 +45,7 @@ limitations under the License.
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfset currentList=valuelist(getcurrentvalues.LOCSRCHPREFS)>
+				<cfset nv = currentList>
 				<cfif onOff is 1>
 					<cfif not listfind(currentList,id)>
 						<cfset nv=listappend(currentList,id)>
