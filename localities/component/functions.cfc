@@ -53,7 +53,7 @@ limitations under the License.
 						<cfset nv=listdeleteat(currentList,listfind(currentList,id))>
 					</cfif>
 				</cfif>
-				<cfquery name="update" datasource="cf_dbuser">
+				<cfquery name="update" datasource="cf_dbuser" result="update_result">
 					update cf_users
 					set LOCSRCHPREFS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nv#">
 					where
