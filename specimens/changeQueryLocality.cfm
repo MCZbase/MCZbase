@@ -234,8 +234,8 @@
 				<input type="hidden" name="result_id" value="#result_id#">
 				<input type="hidden" name="action" value="nothing" id="action">
 				<div class="col-12 col-md-5">
-					<label for="filter_order" class="data-entry-label">Filter by Order:</label>
-					<select id="filter_order" name="filterOrder" class="data-entry-select">
+					<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
+					<select id="filterOrder" name="filterOrder" class="data-entry-select">
 						<option></option>
 						<cfloop query="orders">
 							<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
@@ -243,8 +243,8 @@
 					</select>
 				</div>
 				<div class="col-12 col-md-5">
-					<label for="filter_families" class="data-entry-label">Filter by Families:</label>
-					<div name="filterFamily" id="filter_family" class="w-100"></div>
+					<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
+					<div name="filterFamily" id="filterFamily" class="w-100"></div>
 					<script>
 						$(document).ready(function () {
 							var familysource = [
