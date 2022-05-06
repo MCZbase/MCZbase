@@ -73,55 +73,88 @@
 	</cfcase>
 
 	<cfcase value ="updateLocality">
-	<cfoutput>
-	<div class="container">
-		<h2 class="h2">Changed locality for specimens [in #encodeForHtml(result_id)#]</h2>
-	</div>
-	</cfoutput>
-		<cfquery name="collEvents" dbtype="query">
-			select distinct collecting_event_id from specimenList
-		</cfquery>
-		<cfset collEventIdsList = valuelist(collEvents.collecting_event_id)>
-		<cfquery name="collObjects" dbtype="query">
-			select distinct collection_object_id from specimenList
-		</cfquery>
-		<cfset collObjIdsList = valuelist(collObjects.collection_object_id)>
 		<cfoutput>
-		<cftransaction>
-		<cfloop list="#collEventIdsList#" index = "CEID">
-			<cfquery name="checkCollEvent" datasource="uam_god">
-				select collection_object_id from cataloged_item where  collecting_event_id = #CEID# and collection_object_id not in (#collObjIdsList#)
-			</cfquery>
-			<cfif checkCollEvent.RecordCount is 0>
-				<cfquery name="updateCollEvent" datasource="uam_god">
-					update collecting_event set locality_id = #newLocality_Id# where collecting_event_id = #CEID#
-				</cfquery>
-			<cfelse>
-				<cfquery name="getID" datasource = "uam_god">
-					select sq_collecting_event_id.nextval as newID from dual
-				</cfquery>
-				<cfset newCollEventID = getId.newId>
-				<cfquery name="cloneCE" datasource="uam_god">
-					insert into collecting_event(COLLECTING_EVENT_ID,LOCALITY_ID,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS, STARTDAYOFYEAR,ENDDAYOFYEAR)
-					select #newCollEventID#, #newLocality_ID#,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR
-						from collecting_event where collecting_event_id = #CEID#
-				</cfquery>
-				<cfquery name="updateSpecs" datasource="uam_god">
-					update cataloged_item set collecting_event_id = #newCollEventID# where collection_object_id in
-						(#collObjIdsList#)
-						and collecting_event_id = #CEID#
-				</cfquery>
+			<div class="container">
+				<h2 class="h2">Changing locality for specimens [in #encodeForHtml(result_id)#]</h2>
+			</div>
+			<cfset failed=false>
+			<cftransaction>
+				<cftry>
+					<cfquery name="collEvents" dbtype="query">
+						select distinct collecting_event_id from specimenList
+					</cfquery>
+					<cfset collEventIdsList = valuelist(collEvents.collecting_event_id)>
+					<cfquery name="collObjects" dbtype="query">
+						select distinct collection_object_id from specimenList
+					</cfquery>
+					<cfset collObjIdsList = valuelist(collObjects.collection_object_id)>
+					<cfoutput>
+						<cfloop list="#collEventIdsList#" index = "CEID">
+							<!--- Loop through each current collecting event in the result set --->
+							<cfquery name="checkCollEvent" datasource="uam_god">
+								SELECT collection_object_id 
+								FROM cataloged_item
+								WHERE 
+									collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
+									AND collection_object_id not in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
+							</cfquery>
+							<cfif checkCollEvent.RecordCount is 0>
+								<!--- a collecting event to be updated contains only cataloged items in the result set, update directly --->
+								<cfquery name="updateCollEvent" datasource="uam_god">
+									UPDATE collecting_event 
+									SET locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newLocality_Id#">
+									WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
+								</cfquery>
+							<cfelse>
+								<!--- a collecting event to be updated contains cataloged items not in result set, clone, then update and use clone. --->
+								<cfquery name="getID" datasource = "uam_god">
+									SELECT sq_collecting_event_id.nextval as newID 
+									FROM dual
+								</cfquery>
+								<cfset newCollEventID = getId.newId>
+								<!--- Clone then update, so that newLocality_Id can be passed as a cfqueryparam --->
+								<cfquery name="cloneCE" datasource="uam_god">
+									INSERT INTO collecting_event(COLLECTING_EVENT_ID,LOCALITY_ID,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS, STARTDAYOFYEAR,ENDDAYOFYEAR)
+										SELECT  #newCollEventID#, LOCALITY_ID, DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR
+										FROM collecting_event 
+										WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
+								</cfquery>
+								<cfquery name="updateCollEvent" datasource="uam_god">
+									UPDATE collecting_event 
+									SET locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newLocality_Id#">
+									WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newCollEventID#">
+								</cfquery>
+								<cfquery name="updateSpecs" datasource="uam_god" result="updateSpecs_result">
+									UPDATE cataloged_item 
+									SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newCollEventID#">
+									WHERE collection_object_id in	(<cfqyerparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#">)
+										AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
+								</cfquery>
+							</cfif>
+						</cfloop>
+					</cfoutput>
+					<cftransaction action="commit">
+				<cfcatch>
+					<cftransaction action="rollback">
+					<cfset failed=true>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<h3 class="h3">Update failed</h3>
+					<div>Error setting locality for cataloged items in search result: #error_message#</div>
+				</cfcatch>
+				</cftry>
+			</cftransaction>
+			<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#result_id#">
+			<cfif isdefined("filterOrder")>
+				<cfset returnURL = returnURL & "&fiterOrder=#filterOrder#">
 			</cfif>
-		</cfloop>
-		</cftransaction>
-		<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#result_id#">
-		<cfif isdefined("filterOrder")>
-			<cfset returnURL = returnURL & "&fiterOrder=#filterOrder#">
-		</cfif>
-		<cfif isdefined("filterFamily")>
-			<cfset returnURL = returnURL & "&filterFamily=#filterFamily#">
-		</cfif>
-		<cflocation url=#returnURL#>
+			<cfif isdefined("filterFamily")>
+				<cfset returnURL = returnURL & "&filterFamily=#filterFamily#">
+			</cfif>
+			<cfif failed>
+				<div><a href="#returnURL#">Back to Manage Locality</a></div>
+			<cfelse>
+				<cflocation url=#returnURL#>
+			</cfif>
 		</cfoutput>
 	</cfcase>
 
@@ -168,6 +201,7 @@
 			orig_elev_units
 		</cfquery>
 		<div class="container">
+			<h2 class="h2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 			<div class="row">
 			<table class="table">
 				<thead class="thead-light">
