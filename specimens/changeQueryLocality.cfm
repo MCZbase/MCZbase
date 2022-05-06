@@ -245,7 +245,7 @@
 								</cfif>
 							</cfif>
 							<cfif len(minimum_elevation) GT 0>
-								<cfif minimum_elevation EQ max_elevation>
+								<cfif minimum_elevation EQ maximum_elevation>
 									<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
 								<cfelse>
 									<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
@@ -380,7 +380,7 @@
 						</cfif>
 					</cfif>
 					<cfif len(minimum_elevation) GT 0>
-						<cfif minimum_elevation EQ max_elevation>
+						<cfif minimum_elevation EQ maximum_elevation>
 							<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
 						<cfelse>
 							<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
