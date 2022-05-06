@@ -74,9 +74,6 @@
 
 	<cfcase value ="updateLocality">
 		<cfoutput>
-			<div class="container">
-				<h2 class="h2">Changing locality for specimens [in #encodeForHtml(result_id)#]</h2>
-			</div>
 			<cfset failed=false>
 			<cftransaction>
 				<cftry>
@@ -143,17 +140,26 @@
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#result_id#">
+			<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
 			<cfif isdefined("filterOrder")>
-				<cfset returnURL = returnURL & "&fiterOrder=#filterOrder#">
+				<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
 			</cfif>
 			<cfif isdefined("filterFamily")>
-				<cfset returnURL = returnURL & "&filterFamily=#filterFamily#">
+				<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
 			</cfif>
 			<cfif failed>
+				<div class="container">
+					<h2 class="h2">Changing locality for specimens [in #encodeForHtml(result_id)#]</h2>
+				</div>
 				<div><a href="#returnURL#">Back to Manage Locality</a></div>
 			<cfelse>
-				<cflocation url=#returnURL#>
+				<div class="container">
+					<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+				</div>
+				<ul>
+					<li><a href="#returnURL#">Back to Manage Locality</a></li>
+					<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
+				</ul>
 			</cfif>
 		</cfoutput>
 	</cfcase>
