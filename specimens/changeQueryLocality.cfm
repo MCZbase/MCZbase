@@ -229,8 +229,8 @@
 <cfoutput>
 	<div class="container">
 		<h2 class="h3">Cataloged Items Being Changed: #specimenList.recordcount#</h2>
-		<div class="form-row mb-0">
-			<form name="filterResults">
+		<form name="filterResults">
+			<div class="form-row mb-0">
 				<input type="hidden" name="result_id" value="#result_id#">
 				<input type="hidden" name="action" value="nothing" id="action">
 				<div class="col-12 col-md-5">
@@ -261,8 +261,8 @@
 				<div class="col-12 col-md-2">
 					<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'></input>
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
 </cfoutput>
 <div class="container">
