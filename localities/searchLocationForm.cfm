@@ -225,7 +225,7 @@
 		</div>
 		<div id="locDetail" class="" style="#locDetailStyle#">
 			<div class="form-row mb-0">
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-4">
 					<label for="collnOper" class="data-entry-label">Use</label>
 					<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
 						<option value=""></option>
@@ -234,7 +234,7 @@
 						<option value="notUsedBy">not used by</option>
 					</select class="data-entry-label">
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-4">
 					<label for="collection_id" class="data-entry-label">Collection</label>
 					<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
 						<option value=""></option>
@@ -243,11 +243,7 @@
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-3">
-					<label for="locality_id" class="data-entry-label">Locality ID</label>
-					<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-4">
 					<label for="curated_fg" class="data-entry-label">Vetted</label>
 					<select name="curated_fg" id="curated_fg" class="data-entry-select">
 						<option value=""></option>
