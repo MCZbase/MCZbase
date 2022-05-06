@@ -19,6 +19,13 @@
 		flat.scientific_name,
 		locality.locality_id,
 		locality.spec_locality,
+		concatGeologyAttributeDetail(locality.locality_id) geolAtts,
+		locality.minimum_elevation,
+		locality.maximum_elevation,
+		locality.orig_elev_units,
+		locality.min_depth,
+		locality.max_depth
+		locality.depty_units,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
@@ -264,22 +271,22 @@
 											<input type="hidden" name="filterFamily" value="#filterFamily#">
 										</cfif>
 										<input type="submit"
-												value="Change ALL to this Locality"
-												class="btn btn-warning btn-xs"
-												onmouseover="this.className='savBtn btnhov'"
-												onmouseout="this.className='savBtn'">
-									</form>
-								</td>
-								<td>#spec_locality#</td>
-								<td>#higher_geog#</td>
-								<td>#depth_elevation#</td>
-								<td>#georeference#</td>
-								<td>#geolAtts#</td>
-							</tr>
-							<cfset i=#i#+1>
-						</cfloop>
-					</tbody>
-				</table>
+								value="Change ALL to this Locality"
+								class="btn btn-warning btn-xs"
+								onmouseover="this.className='savBtn btnhov'"
+								onmouseout="this.className='savBtn'">
+					</form>
+				</td>
+				<td>#spec_locality#</td>
+				<td>#higher_geog#</td>
+				<td>#depth_elevation#</td>
+				<td>#georeference#</td>
+				<td>#geolAtts#</td>
+			</tr>
+			<cfset i=#i#+1>
+		</cfloop>
+	</tbody>
+</table>
 			</div>
 		</div>
 		</cfoutput>
@@ -301,86 +308,107 @@
 <cfoutput>
 	<div class="container">
 		<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
-		<form name="filterResults">
-			<div class="form-row mb-0">
-				<input type="hidden" name="result_id" value="#result_id#">
-				<input type="hidden" name="action" value="entryPoint" id="action">
-				<div class="col-12 col-md-5">
-					<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
-					<select id="filterOrder" name="filterOrder" class="data-entry-select">
-						<option></option>
-						<cfloop query="orders">
-							<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
-						</cfloop>
-					</select>
-				</div>
-				<div class="col-12 col-md-5">
-					<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
-					<div name="filterFamily" id="filterFamily" class="w-100"></div>
-					<script>
-						$(document).ready(function () {
-							var familysource = [
-							<cfset comma="">
-							<cfloop query="families">
-								#comma#{name:"#families.family#",value:"#families.family#"}
-								<cfset comma=",">
+		<cfif orders.recordcount GT 0 and families.recordcount GT 0>
+			<form name="filterResults">
+				<div class="form-row m-1 border rounded">
+					<input type="hidden" name="result_id" value="#result_id#">
+					<input type="hidden" name="action" value="entryPoint" id="action">
+					<div class="col-12 col-md-5">
+						<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
+						<select id="filterOrder" name="filterOrder" class="data-entry-select">
+							<option></option>
+							<cfloop query="orders">
+								<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
 							</cfloop>
-							];
-							$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
-						});
-					</script> 
+						</select>
+					</div>
+					<div class="col-12 col-md-5">
+						<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
+						<div name="filterFamily" id="filterFamily" class="w-100"></div>
+						<script>
+							$(document).ready(function () {
+								var familysource = [
+								<cfset comma="">
+								<cfloop query="families">
+									#comma#{name:"#families.family#",value:"#families.family#"}
+									<cfset comma=",">
+								</cfloop>
+								];
+								$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
+							});
+						</script> 
+					</div>
+					<div class="col-12 col-md-2">
+						<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
+					</div>
 				</div>
-				<div class="col-12 col-md-2">
-					<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
-				</div>
-			</div>
-		</form>
+			</form>
+		</cfif>
 	</div>
 </cfoutput>
 <div class="container">
 	<div class="row">
-	<table class="table">
-		<thead class="thead-light">
-			<tr>
-				<th>Catalog Number</th>
-				<cfif len(#session.CustomOtherIdentifier#) GT 0>
-					<th>
-						<cfoutput>
-						#session.CustomOtherIdentifier#
-						</cfoutput>
-					</th>
-				</cfif>
-				<th>Order</th>
-				<th>Family</th>
-				<th>Accepted Scientific Name</th>
-				<th>Locality ID</th>
-				<th>Spec Locality</th>
-				<th>higher_geog</th>
-			</tr>
-		</thead>
-		<tbody>
-		<cfoutput query="specimenList" group="collection_object_id">
-			<tr>
-				<td>
-				<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
-				#collection#&nbsp;#cat_num#
-				</a>
-				</td>
-			<cfif len(#session.CustomOtherIdentifier#) GT 0>
-				<td>
-					#CustomID#&nbsp;
-				</td>
-			</cfif>
-				<td>#phylorder#</td>
-				<td>#family#</td>
-				<td><i>#Scientific_Name#</i></td>
-				<td>#locality_id#</td>
-				<td>#spec_locality#</td>
-				<td>#higher_geog#</td>
-			</tr>
+		<table class="table">
+			<thead class="thead-light">
+				<tr>
+					<th>Catalog Number</th>
+					<cfif len(#session.CustomOtherIdentifier#) GT 0>
+						<th>
+							<cfoutput>
+							#session.CustomOtherIdentifier#
+							</cfoutput>
+						</th>
+					</cfif>
+					<th>Order</th>
+					<th>Family</th>
+					<th>Accepted Scientific Name</th>
+					<th>Locality ID</th>
+					<th>Spec Locality</th>
+					<th>higher_geog</th>
+					<th>Depth/Elevation</th>
+					<th>Geology</th>
+				</tr>
+			</thead>
+			<tbody>
+				<cfoutput query="specimenList" group="collection_object_id">
+					<cfset depth_elevation = "">
+					<cfif len(min_depth) GT 0>
+						<cfif min_depth EQ max_depth>
+							<cfset depth_elevation = "Depth: #min_depth# #depth_units#">
+						<cfelse>
+							<cfset depth_elevation = "Depth: #min_depth#-#max_depth# #depth_units#">
+						</cfif>
+					</cfif>
+					<cfif len(minimum_elevation) GT 0>
+						<cfif minimum_elevation EQ max_elevation>
+							<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
+						<cfelse>
+							<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
+						</cfif>
+					</cfif>
+					<tr>
+						<td>
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+						#collection#&nbsp;#cat_num#
+						</a>
+						</td>
+					<cfif len(#session.CustomOtherIdentifier#) GT 0>
+						<td>
+							#CustomID#&nbsp;
+						</td>
+					</cfif>
+						<td>#phylorder#</td>
+						<td>#family#</td>
+						<td><i>#Scientific_Name#</i></td>
+						<td>#locality_id#</td>
+						<td>#spec_locality#</td>
+						<td>#higher_geog#</td>
+						<td>#depth_elevation#</td>
+						<td>#geolAtts#</td>
+					</tr>
+				</cfoutput>
 			</tbody>
-		</cfoutput>
-	</table>
+		</table>
 	</div>
 </div>
 
