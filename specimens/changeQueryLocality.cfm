@@ -150,16 +150,16 @@
 			<cfif failed>
 				<div class="container">
 					<h2 class="h2">Changing locality for specimens [in #encodeForHtml(result_id)#]</h2>
+					<div><a href="#returnURL#">Back to Manage Locality</a></div>
 				</div>
-				<div><a href="#returnURL#">Back to Manage Locality</a></div>
 			<cfelse>
 				<div class="container">
 					<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+					<ul>
+						<li><a href="#returnURL#">Back to Manage Locality</a></li>
+						<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
+					</ul>
 				</div>
-				<ul>
-					<li><a href="#returnURL#">Back to Manage Locality</a></li>
-					<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
-				</ul>
 			</cfif>
 		</cfoutput>
 	</cfcase>
