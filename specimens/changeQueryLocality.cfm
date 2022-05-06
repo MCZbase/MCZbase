@@ -49,6 +49,9 @@
 
 <!--------------------------------------------------------------------------------------------------->
 
+<!--- actions entryPoint, updateLocality, findLocality determine top portion of page --->
+
+
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
 		<cfset title = "Change Locality">
@@ -170,7 +173,7 @@
 	<cfoutput>
 	<cf_findLocality>
 		<cfquery name="localityResults" dbtype="query">
-		select
+		SELECT
 			locality_id,
 			geog_auth_rec_id,
 			spec_locality,
@@ -188,8 +191,8 @@
 			minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
-		from localityResults
-		group by
+		FROM localityResults
+		GROUP BY
 			locality_id,
 			geog_auth_rec_id,
 			spec_locality,
@@ -211,54 +214,82 @@
 		<div class="container">
 			<h2 class="h2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 			<div class="row">
-			<table class="table">
-				<thead class="thead-light">
-					<tr>
-						<th>Geog ID</th>
-						<th>&nbsp;</th>
-						<th>Locality ID</th>
-						<th>Spec Locality</th>
-						<th>Geog</th>
-					</tr>
-				</thead>
-				<tbody>
-					<cfset i = 1>
-					<cfloop query="localityResults">
-				<tr>
-					<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
-					<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
-					<td>
-					<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
-						<input type="hidden" name="result_id" value="#result_id#">
-						<input type="hidden" name="newlocality_id" value="#locality_id#">
-						<input type="hidden" name="action" value="updateLocality">
-						<cfif isdefined("filterOrder")>
-							<input type="hidden" name="filterOrder" value="#filterOrder#">
-						</cfif>
-						<cfif isdefined("filterFamily")>
-							<input type="hidden" name="filterFamily" value="#filterFamily#">
-						</cfif>
-						<input type="submit"
-								value="Change ALL listed specimens to this Locality"
-								class="savBtn"
-								onmouseover="this.className='savBtn btnhov'"
-								onmouseout="this.className='savBtn'">
-					</form>
-					</td>
-					<td>#spec_locality#</td>
-					<td>#higher_geog#</td>
-				</tr>
-			<cfset i=#i#+1>
-			</cfloop>
-				</cfoutput>
-				</tbody>
-			</table>
+				<table class="table">
+					<thead class="thead-light">
+						<tr>
+							<th>Geog ID</th>
+							<th>&nbsp;</th>
+							<th>Locality ID</th>
+							<th>Spec Locality</th>
+							<th>Geog</th>
+							<th>Depth/Elevation</th>
+							<th>Georeference</th>
+							<th>Geology</th>
+						</tr>
+					</thead>
+					<tbody>
+						<cfset i = 1>
+						<cfloop query="localityResults">
+							<cfset depth_elevation = "">
+							<cfif len(min_depth) GT 0>
+								<cfif min_depth EQ max_depth>
+									<cfset depth_elevation = "Depth: #min_depth# #depth_units#">
+								<cfelse>
+									<cfset depth_elevation = "Depth: #min_depth#-#max_depth# #depth_units#">
+								</cfif>
+							</cfif>
+							<cfif len(min_elevation) GT 0>
+								<cfif min_elevation EQ max_elevation>
+									<cfset depth_elevation = "Depth: #min_elevation# #depth_units#">
+								<cfelse>
+									<cfset depth_elevation = "Depth: #min_elevation#-#max_elevation# #orig_elev_units#">
+								</cfif>
+							</cfif>
+							<cfif len(NoGeorefBecause) GT 0>
+								<cfset georeference = NoGeorefBecause>
+							<cfelse>
+								<cfset georeference="#LatitudeString# #LongitudeString#">
+							</cfif>
+							<tr>
+								<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
+								<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
+								<td>
+									<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
+										<input type="hidden" name="result_id" value="#result_id#">
+										<input type="hidden" name="newlocality_id" value="#locality_id#">
+										<input type="hidden" name="action" value="updateLocality">
+										<cfif isdefined("filterOrder")>
+											<input type="hidden" name="filterOrder" value="#filterOrder#">
+										</cfif>
+										<cfif isdefined("filterFamily")>
+											<input type="hidden" name="filterFamily" value="#filterFamily#">
+										</cfif>
+										<input type="submit"
+												value="Change ALL to this Locality"
+												class="btn btn-warning btn-xs"
+												onmouseover="this.className='savBtn btnhov'"
+												onmouseout="this.className='savBtn'">
+									</form>
+								</td>
+								<td>#spec_locality#</td>
+								<td>#higher_geog#</td>
+								<td>#depth_elevation#</td>
+								<td>#georeference#</td>
+								<td>#geolAtts#</td>
+							</tr>
+							<cfset i=#i#+1>
+						</cfloop>
+					</tbody>
+				</table>
 			</div>
 		</div>
+		</cfoutput>
 	</cfcase>
 </cfswitch>
 
-<!--- Display list of specimens to be affected --->
+<!--------------------------------------------------------------------------------------------------->
+
+<!--- After any action, display the list of specimens to be/having been affected --->
 
 <cfquery name="orders" dbtype="query">
 	select distinct phylorder from specimenList where phylorder is not null
@@ -274,7 +305,7 @@
 		<form name="filterResults">
 			<div class="form-row mb-0">
 				<input type="hidden" name="result_id" value="#result_id#">
-				<input type="hidden" name="action" value="nothing" id="action">
+				<input type="hidden" name="action" value="entryPoint" id="action">
 				<div class="col-12 col-md-5">
 					<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
 					<select id="filterOrder" name="filterOrder" class="data-entry-select">
@@ -301,7 +332,7 @@
 					</script> 
 				</div>
 				<div class="col-12 col-md-2">
-					<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="nothing";document.forms["filterResults"].submit();'></input>
+					<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
 				</div>
 			</div>
 		</form>
