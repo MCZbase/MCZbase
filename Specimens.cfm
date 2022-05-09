@@ -1530,15 +1530,15 @@ limitations under the License.
 		// media cell renderers, use _mediaCellRenderer in cf_spec_res_cols_r.cellsrenderer 
 		var fixed_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm??execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
 		};
 		var keyword_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm??execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
 		};
 		var builder_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm??execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
 		};
 	
 		// cell renderer to link out to specimen details page by guid, when value is guid.
