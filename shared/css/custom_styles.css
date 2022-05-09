@@ -490,6 +490,37 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
+
+/************************
+BELOW: Cell styles for specimen search results grids
+used by cellclassname functions in the results grids
+************************/
+.primaryTypeCell { 
+	background-color: #ffe1e1\9;
+}
+.secondaryTypeCell { 
+	background-color: #e8f1ff\9;
+} 
+.primaryTypeCell.jqx-grid-cell-pinned { 
+	background-color: #eedbdb\9;
+}
+.secondaryTypeCell.jqx-grid-cell-pinned { 
+	background-color: #e1edff\9;
+}
+/** base classes above have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
+.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+	background-color: #ffe1e1;
+}
+.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+	background-color: #e8f1ff;
+} 
+.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+	background-color: #eedbdb;
+}
+.jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
+	background-color: #e1edff;
+}
+
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 

@@ -2776,7 +2776,10 @@
 	        <cfthread name="#threadname#" >
 		   <cfloop list="#idList#" index="cid">
 			<cfquery name="ts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select  type_status || decode(count(*),1,'','(' || count(*) || ')') type_status from citation where collection_object_id=#cid# group by type_status
+				SELECT type_status || decode(count(*),1,'','(' || count(*) || ')') type_status
+				FROM citation
+				WHERE collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cid#">
+				GROUP BY type_status
 			</cfquery>
 			<cfif ts.recordcount gt 0>
 				<cfset tl="">

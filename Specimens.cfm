@@ -1517,15 +1517,15 @@ limitations under the License.
 		// as fixed_, keyword_, builder_ cell renderers depending on the grid in which the cellsrenderer value is being applied. 
 		var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a>'+typeStatus+'</span>';
 		};
 		var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a>'+typeStatus+'</span>';
 		};
 		var builder_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a>'+typeStatus+'</span>';
 		};
 	
 		// cell renderer to link out to specimen details page by guid, when value is guid.
@@ -1547,6 +1547,39 @@ limitations under the License.
             displayValue = "Yes";
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
+		};
+		
+		// cellclass function 
+		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
+		// function is needed for each grid.  Unlike the cell renderer, the same function is used for all columns.
+		//
+		// Set the row color based on type status
+		var keywordcellclass = function (row, columnfield, value) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+			if (toptypestatuskind=='Primary') { 
+				return "primaryTypeCell";
+			} else if (toptypestatuskind=='Secondary') { 
+				return "secondaryTypeCell";
+			}
+		};
+		var fixedcellclass = function (row, columnfield, value) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+			if (toptypestatuskind=='Primary') { 
+				return "primaryTypeCell";
+			} else if (toptypestatuskind=='Secondary') { 
+				return "secondaryTypeCell";
+			}
+		};
+		var buildercellclass = function (row, columnfield, value) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+			if (toptypestatuskind=='Primary') { 
+				return "primaryTypeCell";
+			} else if (toptypestatuskind=='Secondary') { 
+				return "secondaryTypeCell";
+			}
 		};
 	
 		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
@@ -1675,9 +1708,9 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
 						#lastrow#
@@ -1851,9 +1884,9 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#,hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, cellclassname: keywordcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: keywordcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
 						#lastrow#
@@ -2025,9 +2058,9 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, cellclassname: buildercellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: buildercellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
 						#lastrow#
