@@ -1517,20 +1517,37 @@ limitations under the License.
 		// as fixed_, keyword_, builder_ cell renderers depending on the grid in which the cellsrenderer value is being applied. 
 		var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a>'+typeStatus+'</span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
 		var keyword_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a>'+typeStatus+'</span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
 		};
 		var builder_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a>'+typeStatus+'</span>';
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
+		};
+		// media cell renderers, use _mediaCellRenderer in cf_spec_res_cols_r.cellsrenderer 
+		var fixed_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
+		};
+		var keyword_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
+		};
+		var builder_mediaCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value='+ rowData['GUID'] +'&media_relationship_id=' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['MEDIA'] +'</a></span>';
 		};
 	
 		// cell renderer to link out to specimen details page by guid, when value is guid.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
+		};
+		// cell renderer to link out to taxon page by scientific name, when value is scientific name.
+		var linkTaxonCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/' + value + '" aria-label="specimen details">'+value+'</a></span>';
 		};
 		// cell renderer to display yes or blank for a 1/0 flag field.
 		var yesBlankFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
