@@ -1554,7 +1554,7 @@ limitations under the License.
 		// function is needed for each grid.  Unlike the cell renderer, the same function is used for all columns.
 		//
 		// Set the row color based on type status
-		var keywordcellclass = new function (row, columnfield, value) {
+		var keywordcellclass = function (row, columnfield, value) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
 			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
@@ -1571,7 +1571,7 @@ limitations under the License.
 				}
 			}
 		};
-		var fixedcellclass = new function (row, columnfield, value) {
+		var fixedcellclass = function (row, columnfield, value) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
 			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
@@ -1588,7 +1588,7 @@ limitations under the License.
 				}
 			}
 		};
-		var buildercellclass = new function (row, columnfield, value) {
+		var buildercellclass = function (row, columnfield, value) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
 			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
