@@ -500,10 +500,10 @@ used by cellclassname functions in the results grids
 .secondaryTypeCell { 
 	background-color: #e1edff\9;
 } 
-.primaryTypePinnedCell { 
+.primaryTypeCell.jqx-grid-cell-pinned { 
 	background-color: #cbb9b9\9;
 }
-.secondaryTypePinnedCell { 
+.secondaryTypeCell.jqx-grid-cell-pinned { 
 	background-color: #b9c3cb\9;
 }
 /** base classes above have transparency to tint with hover/selected, :not classes below give solid color when not hover/selected **/
@@ -513,10 +513,10 @@ used by cellclassname functions in the results grids
 .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
 	background-color: #e1edff;
 } 
-.primaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
+.jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
 	background-color: #cbb9b9;
 }
-.secondaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
+.jqx-grid-cell-pinned..secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
 	background-color: #b9c3cb;
 }
 
