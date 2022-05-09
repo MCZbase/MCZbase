@@ -1555,7 +1555,7 @@ limitations under the License.
 		//
 		// Set the row color based on type status
 		var keywordcellclass = new function (row, columnfield, value) {
-			var rowData = jQuery("##kewywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
 			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
 				if (toptypestatuskind.equals('Primary')) { 
