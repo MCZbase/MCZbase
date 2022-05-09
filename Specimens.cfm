@@ -1555,7 +1555,7 @@ limitations under the License.
 		//
 		// Set the row color based on type status
 		var keywordcellclass = new function (row, columnfield, value) {
-			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var rowData = jQuery("##kewywordsearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
 			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
 				if (toptypestatuskind.equals('Primary')) { 
@@ -1572,7 +1572,7 @@ limitations under the License.
 			}
 		};
 		var fixedcellclass = new function (row, columnfield, value) {
-			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
 			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
 				if (toptypestatuskind.equals('Primary')) { 
