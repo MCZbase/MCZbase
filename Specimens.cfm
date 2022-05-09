@@ -1548,6 +1548,63 @@ limitations under the License.
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+displayValue+'</span>';
 		};
+		
+		// cellclass function 
+		// NOTE: Since there are three grids, and the cellclass api does not pass a reference to the grid, a separate
+		// function is needed for each grid.  Unlike the cell renderer, the same function is used for all columns.
+		//
+		// Set the row color based on type status
+		var keywordcellclass = new function (row, columnfield, value) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
+				if (toptypestatuskind.equals('Primary') { 
+					return "primaryTypePinnedCell";
+				} else if (toptypestatuskind.equals('Secondary') { 
+					return "secondaryTypePinnedCell";
+				}
+			} else { 
+				if (toptypestatuskind.equals('Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind.equals('Secondary') { 
+					return "secondaryTypeCell";
+				}
+			}
+		};
+		var fixedcellclass = new function (row, columnfield, value) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
+				if (toptypestatuskind.equals('Primary') { 
+					return "primaryTypePinnedCell";
+				} else if (toptypestatuskind.equals('Secondary') { 
+					return "secondaryTypePinnedCell";
+				}
+			} else { 
+				if (toptypestatuskind.equals('Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind.equals('Secondary') { 
+					return "secondaryTypeCell";
+				}
+			}
+		};
+		var buildercellclass = new function (row, columnfield, value) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
+				if (toptypestatuskind.equals('Primary') { 
+					return "primaryTypePinnedCell";
+				} else if (toptypestatuskind.equals('Secondary') { 
+					return "secondaryTypePinnedCell";
+				}
+			} else { 
+				if (toptypestatuskind.equals('Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind.equals('Secondary') { 
+					return "secondaryTypeCell";
+				}
+			}
+		};
 	
 		// bindingcomplete is fired on each page load of the grid, we need to distinguish the first page load from subsequent loads.
 		var fixedSearchLoaded = 0;
@@ -1675,9 +1732,9 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: fixedcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
 						#lastrow#
@@ -1851,9 +1908,9 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#,hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, cellclassname: keywordcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: keywordcellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
 						#lastrow#
@@ -2025,9 +2082,9 @@ limitations under the License.
 							</cfif>
 							<cfif ucase(column_name) EQ lastcolumn>
 								<!--- last column, no trailing comma --->
-								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
+								<cfset lastrow = "{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width:#width#, cellclassname: buildercellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) }">
 							<cfelse> 
-								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
+								{text: '#label#', datafield: '#ucase(column_name)#',#filtertype##cellrenderer# width: #width#, cellclassname: buildercellclass, hidable:#hideable#, hidden: getColHidProp('#ucase(column_name)#', #hidden#) },
 							</cfif>
 						</cfloop>
 						#lastrow#

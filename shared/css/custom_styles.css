@@ -489,6 +489,36 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
+
+/************************
+BELOW: Cell styles for specimen search results grids
+used by cellclassname functions in the results grids
+************************/
+.primaryTypeCell { 
+	background-color: #ffe1e1;
+}
+.secondaryTypeCell { 
+	background-color: #e1edff;
+} 
+.primaryTypePinnedCell { 
+	background-color: #cbb9b9;
+}
+.secondaryTypePinnedCell { 
+	background-color: #b9c3cb;
+}
+.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { { 
+	background-color: #ffe1e1;
+}
+.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { { 
+	background-color: #e1edff;
+} 
+.primaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .primaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { { 
+	background-color: #cbb9b9;
+}
+.secondaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .secondaryTypePinnedCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { { 
+	background-color: #b9c3cb;
+}
+
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
