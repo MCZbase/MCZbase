@@ -1557,52 +1557,28 @@ limitations under the License.
 		var keywordcellclass = function (row, columnfield, value) {
 			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
-				if (toptypestatuskind=='Primary') { 
-					return "primaryTypePinnedCell";
-				} else if (toptypestatuskind=='Secondary') { 
-					return "secondaryTypePinnedCell";
-				}
-			} else { 
-				if (toptypestatuskind=='Primary') { 
-					return "primaryTypeCell";
-				} else if (toptypestatuskind=='Secondary') { 
-					return "secondaryTypeCell";
-				}
+			if (toptypestatuskind=='Primary') { 
+				return "primaryTypeCell";
+			} else if (toptypestatuskind=='Secondary') { 
+				return "secondaryTypeCell";
 			}
 		};
 		var fixedcellclass = function (row, columnfield, value) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
-				if (toptypestatuskind=='Primary') { 
-					return "primaryTypePinnedCell";
-				} else if (toptypestatuskind=='Secondary') { 
-					return "secondaryTypePinnedCell";
-				}
-			} else { 
-				if (toptypestatuskind=='Primary') { 
-					return "primaryTypeCell";
-				} else if (toptypestatuskind=='Secondary') { 
-					return "secondaryTypeCell";
-				}
+			if (toptypestatuskind=='Primary') { 
+				return "primaryTypeCell";
+			} else if (toptypestatuskind=='Secondary') { 
+				return "secondaryTypeCell";
 			}
 		};
 		var buildercellclass = function (row, columnfield, value) {
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (jQuery("##buildersearchResultsGrid").jqxGrid('iscolumnpinned',columnfield)) { 
-				if (toptypestatuskind=='Primary') { 
-					return "primaryTypePinnedCell";
-				} else if (toptypestatuskind=='Secondary') { 
-					return "secondaryTypePinnedCell";
-				}
-			} else { 
-				if (toptypestatuskind=='Primary') { 
-					return "primaryTypeCell";
-				} else if (toptypestatuskind=='Secondary') { 
-					return "secondaryTypeCell";
-				}
+			if (toptypestatuskind=='Primary') { 
+				return "primaryTypeCell";
+			} else if (toptypestatuskind=='Secondary') { 
+				return "secondaryTypeCell";
 			}
 		};
 	
