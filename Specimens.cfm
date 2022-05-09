@@ -1545,6 +1545,10 @@ limitations under the License.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a></span>';
 		};
+		// cell renderer to link out to taxon page by scientific name, when value is scientific name.
+		var linkTaxonCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/' + value + '" aria-label="specimen details">'+value+'</a></span>';
+		};
 		// cell renderer to display yes or blank for a 1/0 flag field.
 		var yesBlankFlagRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var displayValue = "";
