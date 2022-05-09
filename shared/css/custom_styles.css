@@ -501,7 +501,7 @@ used by cellclassname functions in the results grids
 	background-color: #e8f1ff\9;
 } 
 .primaryTypeCell.jqx-grid-cell-pinned { 
-	background-color: #cbb9b9\9;
+	background-color: #eedbdb\9;
 }
 .secondaryTypeCell.jqx-grid-cell-pinned { 
 	background-color: #e1edff\9;
@@ -514,7 +514,7 @@ used by cellclassname functions in the results grids
 	background-color: #e8f1ff;
 } 
 .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.primaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) {  
-	background-color: #cbb9b9;
+	background-color: #eedbdb;
 }
 .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected), .jqx-widget .jqx-grid-cell-pinned.secondaryTypeCell:not(.jqx-grid-cell-hover):not(.jqx-grid-cell-selected) { 
 	background-color: #e1edff;
