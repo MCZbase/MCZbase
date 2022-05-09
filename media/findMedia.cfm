@@ -48,6 +48,8 @@ limitations under the License.
 		AND media_relationship not like 'document%'
 		AND media_relationship not like '%permit'
 	</cfif>
+	union
+	select 'ANY cataloged_item' media_relationship from dual
 </cfquery>
 <!--- Note, jqxcombobox doesn't properly handle options that vary only in trailing whitespace, so using trim() here --->
 <cfquery name="distinctExtensions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
