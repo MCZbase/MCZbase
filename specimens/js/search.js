@@ -43,7 +43,7 @@ function createSpecimenRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,r
 				content = content + "<li><strong>" + text + ":</strong> <a href='/name/"+scientific_name+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				content = content + "<li><strong>" + text + ":</strong> <a href='/Specimens.cfm?action=fixedSearch&scientific_name="+scientific_name+"' target='_blank'> Search for specimens identified as " + datarecord[datafield] +  "</a></li>";
 			} else if (datafield=="MEDIA") { 
-				content = content + "<li><strong>" + text + ":</strong> <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value="+ guid +"&media_relationship_id=" + collection_object)id + "' aria-label='related media' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+				content = content + "<li><strong>" + text + ":</strong> <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value="+ guid +"&media_relationship_id=" + collection_object_id + "' aria-label='related media' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 			} else if (datafield=="GUID") { 
 				content = content + "<li><strong>" + text + ":</strong> <a href='/guid/"+guid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 			} else if (datafield=="CAT_NUM_INGEGER" || datafield=="CAT_NUM_PREFIX" || datafield="CAT_NUM_SUFFIX") {
