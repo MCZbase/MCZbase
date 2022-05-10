@@ -1,4 +1,4 @@
-/** Scripts specific to the specimen search page. **/
+/** Functions used to support specimen search only on the specimen search page.  **/
 
 
 /** createSpecimenRowDetailsDialog 
