@@ -1511,10 +1511,13 @@ limitations under the License.
 			}
 		};
 	
-		// cell renderer to link out to specimen details page by specimen id
+		// *** Cell renderers that look up data from additional columns *********** 
+
 		// NOTE: Since there are three grids, and the cellsrenderer api does not pass a reference to the grid, a separate
 		// cell renderer must be added for each grid,  cf_spec_res_cols_r.cellsrenderer values starting with _ are interpreted
 		// as fixed_, keyword_, builder_ cell renderers depending on the grid in which the cellsrenderer value is being applied. 
+		
+		// cell renderer to link out to specimen details page by specimen id
 		var fixed_linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/specimens/Specimen.cfm/' + rowData['COLLECTION_OBJECT_ID'] + '" aria-label="specimen details">'+ rowData['GUID'] +'</a></span>';
@@ -1553,6 +1556,36 @@ limitations under the License.
 			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/name/'+ rowData['SCIENTIFIC_NAME'] +'" aria-label="taxon details">'+ value +'</a></span>';
 		};
+		// guid with marker for specimen images 
+		var fixed_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+			var mediaMarker = "";
+			var media = rowData['MEDIA'];
+			if (media.includes("shows cataloged_item")) { 
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value="+ rowData['GUID'] +"&media_relationship_id=" + rowData['COLLECTION_OBJECT_ID'] + "' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a>'+mediaMarker+'</span>';
+		};
+		var keyword_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+			var mediaMarker = "";
+			var media = rowData['MEDIA'];
+			if (media.includes("shows cataloged_item")) { 
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value="+ rowData['GUID'] +"&media_relationship_id=" + rowData['COLLECTION_OBJECT_ID'] + "' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a>'+mediaMarker+'</span>';
+		};
+		var builder_GuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+			var mediaMarker = "";
+			var media = rowData['MEDIA'];
+			if (media.includes("shows cataloged_item")) { 
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&media_relationship_value="+ rowData['GUID'] +"&media_relationship_id=" + rowData['COLLECTION_OBJECT_ID'] + "' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+			}
+			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a>'+mediaMarker+'</span>';
+		};
+
+		// *** Cell renderers that display data from only the single rendered column *********** 
 	
 		// cell renderer to link out to specimen details page by guid, when value is guid.
 		var linkGuidCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
