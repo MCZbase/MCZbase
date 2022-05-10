@@ -106,7 +106,6 @@ limitations under the License.
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script> 
 	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 	<script type="text/javascript" src="/users/js/internal.js"></script>
@@ -116,7 +115,7 @@ limitations under the License.
 <!--- TODO: Replace with jqx multiselect instead of using additional library --->
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
-	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
+
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
@@ -149,6 +148,9 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm" OR CGI.script_name is "/Specimens.cfm">
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
+</cfif>
+<cfif CGI.script_name CONTAINS "/specimens/">
+	<script type="text/javascript" src="/specimens/js/specimens.js"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/agents/">
 	<script type="text/javascript" src="/agents/js/agents.js"></script>
