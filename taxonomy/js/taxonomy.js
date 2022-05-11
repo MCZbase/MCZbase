@@ -379,7 +379,7 @@ function lookupName(taxon_name_id,target) {
 				for (key in item) { 
 					result_table = "<td>" +  item[key] + "</td>";
 				}
-			});
+			}
 			$("#" + target).html(result_table);
 		}
 	).fail(function(jqXHR,textStatus,error){
