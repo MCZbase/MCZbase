@@ -228,7 +228,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset wormsAuthority = wormsService.init(false)>
 				<cfset returnName = wormsAuthority.validate(lookupName)>
 				<cfset r=structNew()>
-				<cfif isDefined(returnName)>
+				<cfif isDefined("returnName")>
 					<cfset r.matchDescription = returnName.getMatchDescription()>
 					<cfset r.scientificName = returnName.getScientificName()>
 					<cfset r.authorship = returnName.getAuthorship()>
@@ -241,7 +241,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset gbifAuthority = gbifService.init()>
 				<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfset r=structNew()>
-				<cfif isDefined(returnName)>
+				<cfif isDefined("returnName")>
 					<cfset r.matchDescription = returnName.getMatchDescription()>
 					<cfset r.scientificName = returnName.getScientificName()>
 					<cfset r.authorship = returnName.getAuthorship()>
@@ -254,7 +254,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset gbifAuthority = gbifService.init(gbifService.KEY_PALEIOBIOLOGY_DATABASE)>
 				<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfset r=structNew()>
-				<cfif isDefined(returnName)>
+				<cfif isDefined("returnName")>
 					<cfset r.matchDescription = returnName.getMatchDescription()>
 					<cfset r.scientificName = returnName.getScientificName()>
 					<cfset r.authorship = returnName.getAuthorship()>
