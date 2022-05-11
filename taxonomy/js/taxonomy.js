@@ -374,18 +374,22 @@ function lookupName(taxon_name_id,target) {
 			console.log(result);
 			var result_table = "<table>";
 			var headerDone = false;
+			result_table = result_table + "<tr>"
+			result_table = result_table + "<th><strong>Authority</strong></td>";
 			for (authority in result) {
 				if (! headerDone) { 
-					result_table = result_table + "<tr>"
-					result_table = result_table + "<th><strong>Authority</strong></td>";
 					var assertions = result[authority];
+					var keycount = 0;
 					for (key in result[authority]) { 
+						keycount++;
 						result_table = result_table + "<th><strong>" +  key + "</strong></th>";
 					}
-					result_table = result_table + "</tr>"
-					headerDone = true;
+					if (keycount > 0) {
+						headerDone = true;
+					}
 				}
 			}
+			result_table = result_table + "</tr>"
 			for (authority in result) {
 				result_table = result_table + "<tr>"
 				result_table = result_table + "<td><strong>" + authority + "</strong></td>";
