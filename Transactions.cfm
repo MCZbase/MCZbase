@@ -878,7 +878,7 @@ limitations under the License.
 										jQuery("##part_name").autocomplete({
 											source: function (request, response) { 
 												$.ajax({
-													url: "/specimens/component/functions.cfc",
+													url: "/specimens/component/search.cfc",
 													data: { term: request.term, method: 'getPartNameAutocompleteMeta' },
 													dataType: 'json',
 													success : function (data) { response(data); },
@@ -1297,7 +1297,7 @@ limitations under the License.
 										jQuery("##accn_part_name").autocomplete({
 											source: function (request, response) { 
 												$.ajax({
-													url: "/specimens/component/functions.cfc",
+													url: "/specimens/component/search.cfc",
 													data: { term: request.term, method: 'getPartNameAutocompleteMeta' },
 													dataType: 'json',
 													success : function (data) { response(data); },
@@ -1772,7 +1772,7 @@ limitations under the License.
 										jQuery("##deacc_part_name").autocomplete({
 											source: function (request, response) { 
 												$.ajax({
-													url: "/specimens/component/functions.cfc",
+													url: "/specimens/component/search.cfc",
 													data: { term: request.term, method: 'getPartNameAutocompleteMeta' },
 													dataType: 'json',
 													success : function (data) { response(data); },
