@@ -223,6 +223,15 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfoutput>
 					#matchDescription# #guid#
 				</cfoutput>	
+
+				<cfset gbifAuthority = gbifService.init()>
+				<cfset returnName = gbifAuthority.validate(lookupName)>
+				<cfset matchDescription = returnName.getMatchDescription()>
+				<cfset guid = returnName.getGuid()>
+	
+				<cfoutput>
+					#matchDescription# #guid#
+				</cfoutput>	
 			</cfloop>
 		</cfif>
 </cffunction>
