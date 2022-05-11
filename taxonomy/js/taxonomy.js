@@ -383,14 +383,20 @@ function lookupName(taxon_name_id,target) {
 						result_table = result_table + "<th><strong>" +  key + "</strong></th>";
 					}
 					result_table = result_table + "</tr>"
+					headerDone = true;
 				}
 			}
 			for (authority in result) {
 				result_table = result_table + "<tr>"
 				result_table = result_table + "<td><strong>" + authority + "</strong></td>";
 				var assertions = result[authority];
+				var keycount = 0;
 				for (key in result[authority]) { 
+					keycount++;
 					result_table = result_table + "<td>" +  assertions[key] + "</td>";
+				}
+				if (keycount==0) { 
+					result_table = result_table + "<td>No Matches</td>";
 				}
 				result_table = result_table + "</tr>"
 			}
