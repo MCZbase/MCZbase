@@ -234,7 +234,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.authorship = returnName.getAuthorship()>
 					<cfset r.guid = returnName.getGuid()>
 					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					</cfif>
+				</cfif>
 				<cfset result["WoRMS"] = r>
 
 				<!--- lookup in GBIF Backbone --->
@@ -247,7 +247,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.authorship = returnName.getAuthorship()>
 					<cfset r.guid = returnName.getGuid()>
 					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					</cfif>
+				</cfif>
 				<cfset result["GBIF Backbone"] = r>
 
 				<!--- lookup in GBIF copy of paleobiology db --->
@@ -260,7 +260,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.authorship = returnName.getAuthorship()>
 					<cfset r.guid = returnName.getGuid()>
 					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					</cfif>
+				</cfif>
 				<cfset result["Paleobiology DB in GBIF"] = r>
 			</cfloop>
 		</cfif>

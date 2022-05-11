@@ -835,7 +835,7 @@ limitations under the License.
 			</section>
 
 			<div class="row mx-0">
-				<div class="col-12 row mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+				<div class="col-12 row mt-2 mb-2 border rounded px-2 pb-2 bg-grayish">
 					<h2 class="h3 mt-0 mb-1 px-1">Matches on this name in other scientific name data sets:</h4>
 					<section class="col-12 col-md-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
@@ -851,7 +851,7 @@ limitations under the License.
 			</div>
 
 			<div class="row mx-0">
-				<div class="col-12 row mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+				<div class="col-12 row mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 
 					<section class="col-12 col-md-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
