@@ -185,6 +185,36 @@ libraries found in github.com/filteredpush/ repositories.
     <cfreturn serializeJSON(result) >
 </cffunction>
 
+<cffunction name="lookupName" access="remote">
+	<cfargument name="taxon_name_id" type="string" required="yes">
+
+		<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT scientific_name as item_label, 
+				'' as basisofrecord,
+				kingdom, phylum, phylclass, phylorder, family, genus,
+				scientific_name, author_text,
+				taxonid,
+				scientificnameid
+			FROM taxonomy
+			WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		</cfquery>
+
+		<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
+		<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
+		<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
+		<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
+		<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
+
+		<cfset wormsAuthority = wormsService.init("WORMS")>
+		<cfset comparator = icznComparator.init(.75,.5)>
+		<cfset lookupName = nameUsage.init("WoRMS",comparator,queryrow.scientific_name, queryrow.author_text)>
+
+		<cfset returnName = wormsAuthority.validate(lookupName)>
+	
+		<cfoutput>
+			<cfdump var="#returnName#">
+		</cfoutput>	
+</cffunction>
 
 <!-------------------------------------------->
 <!--- obtain QC report concerning Taxon Name terms on a record from flat or from taxonomy 
