@@ -190,11 +190,11 @@ libraries found in github.com/filteredpush/ repositories.
 
 		<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT scientific_name as item_label, 
-				'' as basisofrecord,
 				kingdom, phylum, phylclass, phylorder, family, genus,
 				scientific_name, author_text,
 				taxonid,
-				scientificnameid
+				scientificnameid,
+				taxon_name_id
 			FROM taxonomy
 			WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
@@ -210,7 +210,11 @@ libraries found in github.com/filteredpush/ repositories.
 
 				<cfset wormsAuthority = wormsService.init(false)>
 				<cfset comparator = icznComparator.init(.75,.5)>
-				<cfset lookupName = nameUsage.init("WoRMS",comparator,queryrow.scientific_name, queryrow.author_text)>
+				<cfset lookupName = nameUsage.init()>
+				<cfset lookupName.setInputDbPK(queryrow.taxon_name_id)>
+				<cfset lookupName.setScientificName(queryrow.scientific_name)>
+				<cfset lookupName.setAuthorship(queryrow.author_text)>
+				<cfset lookupName.setAuthorComparator(comparator)>
 
 				<cfset returnName = wormsAuthority.validate(lookupName)>
 				<cfset matchDescription = returnName.getMatchDescription()>
