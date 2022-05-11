@@ -175,16 +175,104 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset result.target_id=target_id>
 			<cfset result.error="record not found">
 		</cfif>
-    <cfcatch>
-			<cfset result.status="fail">
-			<cfset result.target_id=target_id>
-			<cfset line = cfcatch.tagcontext[1].line>
-			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
-    </cfcatch>
+   <cfcatch>
+		<cfset result.status="fail">
+		<cfset result.target_id=target_id>
+		<cfset line = cfcatch.tagcontext[1].line>
+		<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+   </cfcatch>
 	</cftry>
-    <cfreturn serializeJSON(result) >
+   <cfreturn serializeJSON(result) >
 </cffunction>
 
+<cffunction name="lookupName" access="remote">
+	<cfargument name="taxon_name_id" type="string" required="yes">
+
+	<cfset result=structNew()> <!--- overall result to return --->
+
+	<cftry>
+		<cfquery name="queryrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT scientific_name as item_label, 
+				kingdom, phylum, phylclass, phylorder, family, genus,
+				scientific_name, author_text,
+				taxonid,
+				scientificnameid,
+				taxon_name_id
+			FROM taxonomy
+			WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		</cfquery>
+	
+		<cfif queryrow.recordcount EQ 1>
+			<cfloop query="queryrow">
+
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
+				<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
+				<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
+
+				<cfset comparator = icznComparator.init(.75,.5)>
+				<cfset lookupName = nameUsage.init()>
+				<cfset lookupName.setInputDbPK(val(queryrow.taxon_name_id))>
+				<cfset lookupName.setScientificName(queryrow.scientific_name)>
+				<cfset lookupName.setAuthorship(queryrow.author_text)>
+				<cfset lookupName.setAuthorComparator(comparator)>
+				<cfif len(queryrow.family) GT 0>
+					<cfset lookupName.setFamily(queryrow.family)>
+				</cfif>
+				<cfif len(queryrow.kingdom) GT 0>
+					<cfset lookupName.setFamily(queryrow.kingdom)>
+				</cfif>
+				
+				<!--- lookup in WoRMS --->
+				<cfset wormsAuthority = wormsService.init(false)>
+				<cfset returnName = wormsAuthority.validate(lookupName)>
+				<cfset r=structNew()>
+				<cfif isDefined("returnName")>
+					<cfset r.matchDescription = returnName.getMatchDescription()>
+					<cfset r.scientificName = returnName.getScientificName()>
+					<cfset r.authorship = returnName.getAuthorship()>
+					<cfset r.guid = returnName.getGuid()>
+					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					</cfif>
+				<cfset result["WoRMS"] = r>
+
+				<!--- lookup in GBIF Backbone --->
+				<cfset gbifAuthority = gbifService.init()>
+				<cfset returnName = gbifAuthority.validate(lookupName)>
+				<cfset r=structNew()>
+				<cfif isDefined("returnName")>
+					<cfset r.matchDescription = returnName.getMatchDescription()>
+					<cfset r.scientificName = returnName.getScientificName()>
+					<cfset r.authorship = returnName.getAuthorship()>
+					<cfset r.guid = returnName.getGuid()>
+					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					</cfif>
+				<cfset result["GBIF Backbone"] = r>
+
+				<!--- lookup in GBIF copy of paleobiology db --->
+				<cfset gbifAuthority = gbifService.init(gbifService.KEY_PALEIOBIOLOGY_DATABASE)>
+				<cfset returnName = gbifAuthority.validate(lookupName)>
+				<cfset r=structNew()>
+				<cfif isDefined("returnName")>
+					<cfset r.matchDescription = returnName.getMatchDescription()>
+					<cfset r.scientificName = returnName.getScientificName()>
+					<cfset r.authorship = returnName.getAuthorship()>
+					<cfset r.guid = returnName.getGuid()>
+					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					</cfif>
+				<cfset result["Paleobiology DB in GBIF"] = r>
+			</cfloop>
+		</cfif>
+   <cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+   </cfcatch>
+	</cftry>
+   <cfreturn serializeJSON(result) >
+</cffunction>
 
 <!-------------------------------------------->
 <!--- obtain QC report concerning Taxon Name terms on a record from flat or from taxonomy 

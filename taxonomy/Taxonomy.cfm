@@ -835,9 +835,9 @@ limitations under the License.
 			</section>
 
 			<div class="row mx-0">
-				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+				<div class="col-12 row mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 
-					<section class="col-12 px-0">
+					<section class="col-12 col-md-8 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 							<div class="col-12 px-0">
 								<h2 class="h3 mt-0 mb-1 px-1">Related Publications</h4>
@@ -916,6 +916,17 @@ limitations under the License.
 									}
 								});
 							}
+						</script>
+					</section>
+
+					<section class="col-12 col-md-4 px-0">
+						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
+								<div id="taxonLookupDiv" class="mx-0 row mt-1">Loading....</div>
+						</div>
+						<script>
+							$(document).ready(function(){
+								lookupName(#taxon_name_id#,"taxonLookupDiv");
+							});
 						</script>
 					</section>
 

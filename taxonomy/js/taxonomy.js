@@ -354,3 +354,36 @@ function loadHabitats(taxon_name_id,target) {
       dataType: "html"
    });
 }
+
+/** given a taxon_name_id lookup the scientific name in authorities
+ * and present the results in a specified target div
+ *
+ * @param taxon_name_id the pk of the taxonomy table for which to 
+ *  lookup the scientific name in authoritative sources.
+ * @param target the id of the target div to contain the lookup results without
+ *   a leading # selector. 
+ */
+function lookupName(taxon_name_id,target) {
+	jQuery.getJSON("/dataquality/component/functions.cfc",
+		{
+			method : "lookupName",
+			taxon_name_id : taxon_name_id,
+			returnformat : "json"
+		},
+		function (result) {
+			console.log(result);
+			var result_table = $('table');
+			$.each(result, function(index, item){
+				var row = $('<tr>', {id: item.id});
+				var cell = $('<td>', {html: item.data});
+				row.append(cell);
+				result_table.append(row);
+			});
+			$("#" + target).html(result_table);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		$("#" + target).html("Error looking up name in authorities.");
+		handleFail(jqXHR,textStatus,error,"looking up name in services");
+	});
+};
+
