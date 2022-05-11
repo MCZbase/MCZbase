@@ -210,9 +210,11 @@ libraries found in github.com/filteredpush/ repositories.
 		<cfset lookupName = nameUsage.init("WoRMS",comparator,queryrow.scientific_name, queryrow.author_text)>
 
 		<cfset returnName = wormsAuthority.validate(lookupName)>
+		<cfset matchDescription = returnName.getMatchDescription()>
+		<cfset guid = returnName.getGuid()>
 	
 		<cfoutput>
-			<cfdump var="#returnName#">
+			#matchDescription# #guid#
 		</cfoutput>	
 </cffunction>
 
