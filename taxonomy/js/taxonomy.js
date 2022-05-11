@@ -372,13 +372,39 @@ function lookupName(taxon_name_id,target) {
 		},
 		function (result) {
 			console.log(result);
-			var result_table = $('table');
-			$.each(result, function(index, item){
-				var row = $('<tr>', {id: item.id});
-				var cell = $('<td>', {html: item.data});
-				row.append(cell);
-				result_table.append(row);
-			});
+			var result_table = "<table>";
+			var headerDone = false;
+			result_table = result_table + "<tr>"
+			result_table = result_table + "<th><strong>Authority</strong></td>";
+			for (authority in result) {
+				if (! headerDone) { 
+					var assertions = result[authority];
+					var keycount = 0;
+					for (key in result[authority]) { 
+						keycount++;
+						result_table = result_table + "<th><strong>" +  key + "</strong></th>";
+					}
+					if (keycount > 0) {
+						headerDone = true;
+					}
+				}
+			}
+			result_table = result_table + "</tr>"
+			for (authority in result) {
+				result_table = result_table + "<tr>"
+				result_table = result_table + "<td><strong>" + authority + "</strong></td>";
+				var assertions = result[authority];
+				var keycount = 0;
+				for (key in result[authority]) { 
+					keycount++;
+					result_table = result_table + "<td>" +  assertions[key] + "</td>";
+				}
+				if (keycount==0) { 
+					result_table = result_table + "<td>No Matches</td>";
+				}
+				result_table = result_table + "</tr>"
+			}
+			result_table = result_table + "</table>"
 			$("#" + target).html(result_table);
 		}
 	).fail(function(jqXHR,textStatus,error){
