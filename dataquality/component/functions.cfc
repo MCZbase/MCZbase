@@ -211,7 +211,7 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset wormsAuthority = wormsService.init(false)>
 				<cfset comparator = icznComparator.init(.75,.5)>
 				<cfset lookupName = nameUsage.init()>
-				<cfset lookupName.setInputDbPK(queryrow.taxon_name_id)>
+				<cfset lookupName.setInputDbPK(val(queryrow.taxon_name_id))>
 				<cfset lookupName.setScientificName(queryrow.scientific_name)>
 				<cfset lookupName.setAuthorship(queryrow.author_text)>
 				<cfset lookupName.setAuthorComparator(comparator)>
