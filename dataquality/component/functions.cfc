@@ -205,7 +205,7 @@ libraries found in github.com/filteredpush/ repositories.
 		<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
 		<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
 
-		<cfset wormsAuthority = wormsService.init("WORMS")>
+		<cfset wormsAuthority = wormsService.init(false)>
 		<cfset comparator = icznComparator.init(.75,.5)>
 		<cfset lookupName = nameUsage.init("WoRMS",comparator,queryrow.scientific_name, queryrow.author_text)>
 
