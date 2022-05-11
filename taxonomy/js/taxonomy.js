@@ -374,9 +374,13 @@ function lookupName(taxon_name_id,target) {
 			console.log(result);
 			var result_table = $('table');
 			$.each(result, function(index, item){
-				var row = $('<tr>', {id: item.id});
-				var cell = $('<td>', {html: item.data});
+				var row = $('<tr>');
+				var cell = $('<td>', {html: index});
 				row.append(cell);
+				for (key in item) { 
+					cell = $('<td>', {html: item[key]});
+					row.append(cell);
+				}
 				result_table.append(row);
 			});
 			$("#" + target).html(result_table);
