@@ -375,7 +375,7 @@ function lookupName(taxon_name_id,target) {
 			var result_table = "<table>";
 			for (authority in result) {
 				result_table = result_table + "<tr>"
-				result_table = result_table + "<td><strong>" + index + "</strong></td>";
+				result_table = result_table + "<td><strong>" + authority + "</strong></td>";
 				for (key in result[authority]) { 
 					result_table = "<td>" +  item[key] + "</td>";
 				}
