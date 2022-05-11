@@ -372,16 +372,13 @@ function lookupName(taxon_name_id,target) {
 		},
 		function (result) {
 			console.log(result);
-			var result_table = $('table');
-			$.each(result, function(index, item){
-				var row = $('<tr>');
-				var cell = $('<td>', {html: index});
-				row.append(cell);
+			var result_table = "<table>";
+			for (index in result) {
+				result_table = result_table + "<tr>"
+				result_table = result_table + "<td><strong>" + index + "</strong></td>";
 				for (key in item) { 
-					cell = $('<td>', {html: item[key]});
-					row.append(cell);
+					result_table = "<td>" +  item[key] + "</td>";
 				}
-				result_table.append(row);
 			});
 			$("#" + target).html(result_table);
 		}
