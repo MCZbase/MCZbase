@@ -1412,7 +1412,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("deaccession_number") AND len(deaccession_number) GT 0>
-			<cfset field = '"field": "deaccession_number"'>
+			<cfset field = '"field": "deacc_number"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#deaccession_number#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
