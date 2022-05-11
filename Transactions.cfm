@@ -879,7 +879,7 @@ limitations under the License.
 											source: function (request, response) { 
 												$.ajax({
 													url: "/specimens/component/functions.cfc",
-													data: { term: request.term, method: 'getPartName' },
+													data: { term: request.term, method: 'getPartNameAutocompleteMeta' },
 													dataType: 'json',
 													success : function (data) { response(data); },
 													error : function (jqXHR, textStatus, error) {
@@ -1298,7 +1298,7 @@ limitations under the License.
 											source: function (request, response) { 
 												$.ajax({
 													url: "/specimens/component/functions.cfc",
-													data: { term: request.term, method: 'getPartName' },
+													data: { term: request.term, method: 'getPartNameAutocompleteMeta' },
 													dataType: 'json',
 													success : function (data) { response(data); },
 													error : function (jqXHR, textStatus, error) {
@@ -1773,7 +1773,7 @@ limitations under the License.
 											source: function (request, response) { 
 												$.ajax({
 													url: "/specimens/component/functions.cfc",
-													data: { term: request.term, method: 'getPartName' },
+													data: { term: request.term, method: 'getPartNameAutocompleteMeta' },
 													dataType: 'json',
 													success : function (data) { response(data); },
 													error : function (jqXHR, textStatus, error) {
