@@ -211,7 +211,6 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
 				<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
 
-				<cfset wormsAuthority = wormsService.init(false)>
 				<cfset comparator = icznComparator.init(.75,.5)>
 				<cfset lookupName = nameUsage.init()>
 				<cfset lookupName.setInputDbPK(val(queryrow.taxon_name_id))>
@@ -226,37 +225,42 @@ libraries found in github.com/filteredpush/ repositories.
 				</cfif>
 				
 				<!--- lookup in WoRMS --->
+				<cfset wormsAuthority = wormsService.init(false)>
 				<cfset returnName = wormsAuthority.validate(lookupName)>
-
 				<cfset r=structNew()>
-				<cfset r.matchDescription = returnName.getMatchDescription()>
-				<cfset r.scientificName = returnName.getScientificName()>
-				<cfset r.authorship = returnName.getAuthorship()>
-				<cfset r.guid = returnName.getGuid()>
-				<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+				<cfif isDefined(returnName)>
+					<cfset r.matchDescription = returnName.getMatchDescription()>
+					<cfset r.scientificName = returnName.getScientificName()>
+					<cfset r.authorship = returnName.getAuthorship()>
+					<cfset r.guid = returnName.getGuid()>
+					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					</cfif>
 				<cfset result["WoRMS"] = r>
 
 				<!--- lookup in GBIF Backbone --->
 				<cfset gbifAuthority = gbifService.init()>
 				<cfset returnName = gbifAuthority.validate(lookupName)>
-	
 				<cfset r=structNew()>
-				<cfset r.matchDescription = returnName.getMatchDescription()>
-				<cfset r.scientificName = returnName.getScientificName()>
-				<cfset r.authorship = returnName.getAuthorship()>
-				<cfset r.guid = returnName.getGuid()>
-				<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+				<cfif isDefined(returnName)>
+					<cfset r.matchDescription = returnName.getMatchDescription()>
+					<cfset r.scientificName = returnName.getScientificName()>
+					<cfset r.authorship = returnName.getAuthorship()>
+					<cfset r.guid = returnName.getGuid()>
+					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					</cfif>
 				<cfset result["GBIF Backbone"] = r>
 
 				<!--- lookup in GBIF copy of paleobiology db --->
 				<cfset gbifAuthority = gbifService.init(gbifService.KEY_PALEIOBIOLOGY_DATABASE)>
 				<cfset returnName = gbifAuthority.validate(lookupName)>
 				<cfset r=structNew()>
-				<cfset r.matchDescription = returnName.getMatchDescription()>
-				<cfset r.scientificName = returnName.getScientificName()>
-				<cfset r.authorship = returnName.getAuthorship()>
-				<cfset r.guid = returnName.getGuid()>
-				<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+				<cfif isDefined(returnName)>
+					<cfset r.matchDescription = returnName.getMatchDescription()>
+					<cfset r.scientificName = returnName.getScientificName()>
+					<cfset r.authorship = returnName.getAuthorship()>
+					<cfset r.guid = returnName.getGuid()>
+					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					</cfif>
 				<cfset result["Paleobiology DB in GBIF"] = r>
 			</cfloop>
 		</cfif>
