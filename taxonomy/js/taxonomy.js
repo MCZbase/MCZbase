@@ -373,6 +373,18 @@ function lookupName(taxon_name_id,target) {
 		function (result) {
 			console.log(result);
 			var result_table = "<table>";
+			var headerDone = false;
+			for (authority in result) {
+				if (! headerDone) { 
+					result_table = result_table + "<tr>"
+					result_table = result_table + "<th><strong>Authority</strong></td>";
+					var assertions = result[authority];
+					for (key in result[authority]) { 
+						result_table = result_table + "<th><strong>" +  key + "</strong></th>";
+					}
+					result_table = result_table + "</tr>"
+				}
+			}
 			for (authority in result) {
 				result_table = result_table + "<tr>"
 				result_table = result_table + "<td><strong>" + authority + "</strong></td>";
@@ -380,7 +392,9 @@ function lookupName(taxon_name_id,target) {
 				for (key in result[authority]) { 
 					result_table = result_table + "<td>" +  assertions[key] + "</td>";
 				}
+				result_table = result_table + "</tr>"
 			}
+			result_table = result_table + "</table>"
 			$("#" + target).html(result_table);
 		}
 	).fail(function(jqXHR,textStatus,error){
