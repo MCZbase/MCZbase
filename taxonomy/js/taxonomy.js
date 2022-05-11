@@ -371,10 +371,18 @@ function lookupName(taxon_name_id,target) {
 			returnformat : "json"
 		},
 		function (result) {
-         $("#" + target).html(result);
+			console.log(result);
+			var result_table = $('table');
+			$.each(result, function(index, item){
+				var row = $('<tr>', {id: item.id});
+				var cell = $('<td>', {html: item.data});
+				row.append(cell);
+				result_table.append(row);
+			});
+			$("#" + target).html(result_table);
 		}
 	).fail(function(jqXHR,textStatus,error){
-      $("#" + target).html("Error looking up name in authorities.");
+		$("#" + target).html("Error looking up name in authorities.");
 		handleFail(jqXHR,textStatus,error,"looking up name in services");
 	});
 };
