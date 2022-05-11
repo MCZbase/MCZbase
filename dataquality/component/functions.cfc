@@ -198,24 +198,29 @@ libraries found in github.com/filteredpush/ repositories.
 			FROM taxonomy
 			WHERE taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
-
-		<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
-		<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
-		<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
-		<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
-		<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
-
-		<cfset wormsAuthority = wormsService.init(false)>
-		<cfset comparator = icznComparator.init(.75,.5)>
-		<cfset lookupName = nameUsage.init("WoRMS",comparator,queryrow.scientific_name, queryrow.author_text)>
-
-		<cfset returnName = wormsAuthority.validate(lookupName)>
-		<cfset matchDescription = returnName.getMatchDescription()>
-		<cfset guid = returnName.getGuid()>
 	
-		<cfoutput>
-			#matchDescription# #guid#
-		</cfoutput>	
+		<cfif queryrow.recordcount EQ 1>
+			<cfloop query="queryrow">
+
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.Validator" name="validator">
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.WoRMSService" name="wormsService">
+				<cfobject type="Java" class="org.filteredpush.qc.sciname.services.GBIFService" name="gbifService">
+				<cfobject type="Java" class="edu.harvard.mcz.nametools.NameUsage" name="nameUsage">
+				<cfobject type="Java" class="edu.harvard.mcz.nametools.ICZNAuthorNameComparator" name="icznComparator">
+
+				<cfset wormsAuthority = wormsService.init(false)>
+				<cfset comparator = icznComparator.init(.75,.5)>
+				<cfset lookupName = nameUsage.init("WoRMS",comparator,queryrow.scientific_name, queryrow.author_text)>
+
+				<cfset returnName = wormsAuthority.validate(lookupName)>
+				<cfset matchDescription = returnName.getMatchDescription()>
+				<cfset guid = returnName.getGuid()>
+	
+				<cfoutput>
+					#matchDescription# #guid#
+				</cfoutput>	
+			</cfloop>
+		</cfif>
 </cffunction>
 
 <!-------------------------------------------->
