@@ -160,7 +160,7 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 				owner = 'MCZBASE'
 		</cfquery>
 		<cfif getCTField.recordcount NEQ 1>
-			<cfthrow message="Error, unsupported code table for this autocomplete, CT{codetable} must have PK {codetable}.">
+			<cfthrow message="Error, unsupported code table for this autocomplete, CT{codetable} must have PK field {codetable}. [#getCTField.recordcount#]">
 		</cfif>
 		<cfloop query="getCTField">
    	   <cfset rows = 0>
