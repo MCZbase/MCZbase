@@ -1,3 +1,4 @@
+<cfinclude template="includes/_header.cfm">
 <cfif not isdefined("showLocality")>
 	<cfset showLocality=0>
 </cfif>
@@ -43,10 +44,12 @@
 </cfif>
 
 <cfoutput>
-<section class="row border rounded bg-light mt-2 mb-4 p-2" title="Geography Search Form">
-	<div class="col-12"> 
-		<h2 class="h3">Higher Geography</h2>
-		<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
+<section class="container-fluid mt-2 mb-3" title="Geography Search Form">
+	<div class="row mx-0 mb-3"> 
+		<div class="search-box">
+			<div class="search-box-header">
+			<h1 class="h3 text-white">Higher Geography</h1>
+			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 			<cfset geogDetailStyle="display:none;">
 			<cfset toggleTo = "1">
 			<cfset geogButton = "More Fields">
@@ -55,7 +58,7 @@
 			<cfset toggleTo = "0">
 			<cfset geogButton = "Fewer Fields">
 		</cfif> 
-		<div class="form-row mb-0">
+			<div class="form-row mb-0">
 			<div class="col-12 col-md-8">
 				<label for="higher_geog" class="data-entry-label">
 					Higher Geog
@@ -74,7 +77,7 @@
 				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
 			</div>
 		</div>
-		<div id="geogDetail" class="" style="#geogDetailStyle#">
+			<div id="geogDetail" class="" style="#geogDetailStyle#">
 			<div class="form-row mb-0">
 				<div class="col-12 col-md-3">
 					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
@@ -192,6 +195,8 @@
 						});
 					</script>
 				</div>
+			</div>
+		</div>
 			</div>
 		</div>
 	</div> 
