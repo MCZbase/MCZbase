@@ -1303,20 +1303,21 @@ limitations under the License.
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
 			<!---	<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
+				<output>
 				<script language="javascript" type="text/javascript">
 					jQuery(document).ready(function() {
 						$("select[id^='geology_attribute_']").each(function(e){
 							populateGeology(this.id);
 						});
 						$.each($("input[id^='determined_date']"), function() {
-							$("#" + this.id).datepicker({dateFormat: "yy-mm-dd"});
+							$("##" + this.id).datepicker({dateFormat: "yy-mm-dd"});
 						});
 						$.each($("input[id^='geo_att_determined_date']"), function() {
-							$("#" + this.id).datepicker({dateFormat: "yy-mm-dd",showOn:"both",buttonImage:"images/cal_icon.png",buttonImageOnly: true});
+							$("##" + this.id).datepicker({dateFormat: "yy-mm-dd",showOn:"both",buttonImage:"images/cal_icon.png",buttonImageOnly: true});
 						});
 						$("input[id='wktFile'").change(function(){
-							console.log($("#ERROR_POLYGON1").val().length);
-							if ($("#ERROR_POLYGON1").val().length > 1)
+							console.log($("##ERROR_POLYGON1").val().length);
+							if ($("##ERROR_POLYGON1").val().length > 1)
 								{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');}
 								else {r=true;}
 							if (r==true){
@@ -1355,10 +1356,10 @@ limitations under the License.
 
 						function geolocate() {
 							var guri="#Application.protocol#://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
-							guri+="&state=" + $("#state_prov").val();
-							guri+="&country="+$("#country").val();
-							guri+="&county="+$("#county").val().replace(" County", "");
-							guri+="&locality="+$("#spec_locality").val();
+							guri+="&state=" + $("##state_prov").val();
+							guri+="&country="+$("##country").val();
+							guri+="&county="+$("##county").val().replace(" County", "");
+							guri+="&locality="+$("##spec_locality").val();
 							var bgDiv = document.createElement('div');
 							bgDiv.id = 'bgDiv';
 							bgDiv.className = 'bgDiv';
@@ -1372,18 +1373,18 @@ limitations under the License.
 							cDiv.className = 'fancybox-close';
 							cDiv.id='cDiv';
 							cDiv.setAttribute('onclick','closeGeoLocate("clicked closed")');
-							$("#popDiv").append(cDiv);
+							$("##popDiv").append(cDiv);
 							var hDiv=document.createElement('div');
 							hDiv.className = 'fancybox-help';
 							hDiv.id='hDiv';
 							hDiv.innerHTML='<a href="https://arctosdb.wordpress.com/how-to/create/data-entry/geolocate/" target="blank">[ help ]</a>';
-							$("#popDiv").append(hDiv);
-							$("#popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
+							$("##popDiv").append(hDiv);
+							$("##popDiv").append('<img src="/images/loadingAnimation.gif" class="centeredImage">');
 							var theFrame = document.createElement('iFrame');
 							theFrame.id='theFrame';
 							theFrame.className = 'editFrame';
 							theFrame.src=guri;
-							$("#popDiv").append(theFrame);
+							$("##popDiv").append(theFrame);
 							}
 							function getGeolocate(evt) {
 								if (evt.origin.includes("://mczbase") && evt.data == "") {
@@ -1429,27 +1430,27 @@ limitations under the License.
 					</script>
 					<script language="javascript" type="text/javascript">
 						function closeGeoLocate(msg) {
-							$('#bgDiv').remove();
-							$('#bgDiv', window.parent.document).remove();
-							$('#popDiv').remove();
-							$('#popDiv', window.parent.document).remove();
-							$('#cDiv').remove();
-							$('#cDiv', window.parent.document).remove();
-							$('#theFrame').remove();
-							$('#theFrame', window.parent.document).remove();
+							$('##bgDiv').remove();
+							$('##bgDiv', window.parent.document).remove();
+							$('##popDiv').remove();
+							$('##popDiv', window.parent.document).remove();
+							$('##cDiv').remove();
+							$('##cDiv', window.parent.document).remove();
+							$('##theFrame').remove();
+							$('##theFrame', window.parent.document).remove();
 							}
 
 						function populateGeology(id) {
 							if (id=='geology_attribute') {
 								// new geol attribute
 								var idNum='';
-								var thisValue=$("#geology_attribute").val();
-								var dataValue=$("#geo_att_value").val();
+								var thisValue=$("##geology_attribute").val();
+								var dataValue=$("##geo_att_value").val();
 								var theSelect="geo_att_value";
 							} else {
 								var idNum=id.replace('geology_attribute_','');
-								var thisValue=$("#geology_attribute_" + idNum).val();;
-								var dataValue=$("#geo_att_value_" + idNum).val();
+								var thisValue=$("##geology_attribute_" + idNum).val();;
+								var dataValue=$("##geo_att_value_" + idNum).val();
 								var theSelect="geo_att_value_";
 							}
 							jQuery.getJSON("/component/functions.cfc",
@@ -1538,7 +1539,7 @@ limitations under the License.
 								var ptsArray=[];
 								var lat=coords.split(',')[0];
 								var lng=coords.split(',')[1];
-								var errorm=$("#error_" + locid).val();
+								var errorm=$("##error_" + locid).val();
 								var mapOptions = {
 									zoom: 1,
 									center: new google.maps.LatLng(lat, lng),
@@ -1559,10 +1560,10 @@ limitations under the License.
 								bounds.extend(center);
 								if (parseInt(errorm)>0){
 									var circleoptn = {
-										strokeColor: '#FF0000',
+										strokeColor: '##FF0000',
 										strokeOpacity: 0.8,
 										strokeWeight: 2,
-										fillColor: '#FF0000',
+										fillColor: '##FF0000',
 										fillOpacity: 0.15,
 										map: map,
 										center: center,
@@ -1598,17 +1599,17 @@ limitations under the License.
 										}
 										var poly = new google.maps.Polygon({
 											paths: ptsArray,
-											strokeColor: '#1E90FF',
+											strokeColor: '##1E90FF',
 											strokeOpacity: 0.8,
 											strokeWeight: 2,
-											fillColor: '#1E90FF',
+											fillColor: '##1E90FF',
 											fillOpacity: 0.35
 										});
 										poly.setMap(map);
 										polygonArray.push(poly);
 										// END this block build WKT
 										} else {
-											$("#mapdiv_" + locid).addClass('noWKT');
+											$("##mapdiv_" + locid).addClass('noWKT');
 										}
 										if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 										   var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
@@ -1619,9 +1620,9 @@ limitations under the License.
 										map.fitBounds(bounds);
 										for(var a=0; a<polygonArray.length; a++){
 											if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-												$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+												$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
 											} else {
-												$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+												$("##mapdiv_" + locid).addClass('niceGeoSPatData');
 											}
 										}
 									});
@@ -1629,7 +1630,7 @@ limitations under the License.
 							});
 						}
 				</script>
-
+				</output>
 
 				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 					<div class="error"> Improper call. Aborting..... </div>
