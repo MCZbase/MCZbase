@@ -79,7 +79,7 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-	<cfset param = "param in page">
+	<cfset param = "<div class='text-success'>Some text #media_label#</div>">
 	<cfset id_for_counter = "counterElement">
 	<cfset id_for_dialog = "textDialogDiv">
 		<cfoutput>
