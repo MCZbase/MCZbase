@@ -1322,7 +1322,8 @@ limitations under the License.
 						  };
 						</script>
 					</cfoutput>
-						<script language="javascript" type="text/javascript">
+					<cfoutput>
+<!---						<script language="javascript" type="text/javascript">
 								function closeGeoLocate(msg) {
 										$('#bgDiv').remove();
 										$('#bgDiv', window.parent.document).remove();
@@ -1375,9 +1376,9 @@ limitations under the License.
 											$("select#" + theSelect + idNum).html(s);
 										}
 									);
-								}
-
-								function showLLFormat(orig_units,recID) {
+								}--->
+						<script>
+							function showLLFormat(orig_units,recID) {
 									//alert(orig_units);
 									//alert(recID);
 									if (recID.length == 0) {
@@ -1423,7 +1424,6 @@ limitations under the License.
 										}
 									}
 								}
-
 							function mapsYo(){
 								$("input[id^='coordinates_']").each(function(e){
 									var locid=this.id.split('_')[1];
