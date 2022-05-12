@@ -57,7 +57,7 @@
 				<cfset toggleTo = "0">
 				<cfset geogButton = "Fewer Fields">
 			</cfif> 
-			<div class="form-row mx-0 mb-0">
+			<div class="form-row mx-0 px-2 mb-0">
 			<div class="col-12 col-md-8 my-3">
 				<label for="higher_geog" class="data-entry-label">
 					Higher Geog
@@ -67,12 +67,12 @@
 				</label>
 				<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 			</div>
-			<div class="col-12 col-md-2">
+			<div class="col-12 col-md-2 my-3">
 					<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 			</div>
 			<div class="col-12 col-md-2">
-				<label for="geogDetailCtl" class="data-entry-label">Geography</label>
+				<label for="geogDetailCtl" class="data-entry-label text-transparent">Geography</label>
 				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
 			</div>
 		</div>
