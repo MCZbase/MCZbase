@@ -1324,17 +1324,7 @@ limitations under the License.
 					</cfoutput>
 					<cfoutput>
 						<script language="javascript" type="text/javascript">
-								function closeGeoLocate(msg) {
-										$('##bgDiv').remove();
-										$('##bgDiv', window.parent.document).remove();
-										$('##popDiv').remove();
-										$('##popDiv', window.parent.document).remove();
-										$('##cDiv').remove();
-										$('##cDiv', window.parent.document).remove();
-										$('##theFrame').remove();
-										$('##theFrame', window.parent.document).remove();
-								}
-
+								
 								function populateGeology(id) {
 									if (id=='geology_attribute') {
 										// new geol attribute
@@ -1377,7 +1367,7 @@ limitations under the License.
 										}
 									);
 								}
-						<script>
+					
 							function showLLFormat(orig_units,recID) {
 									//alert(orig_units);
 									//alert(recID);
