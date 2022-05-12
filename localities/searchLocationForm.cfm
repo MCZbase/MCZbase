@@ -46,7 +46,8 @@
 	<div class="row mx-0 mb-3"> 
 		<div class="search-box">
 			<div class="search-box-header">
-			<h1 class="h3 text-white">Higher Geography</h1>
+				<h1 class="h3 text-white">Higher Geography</h1>
+			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 			<cfset geogDetailStyle="display:none;">
 			<cfset toggleTo = "1">
