@@ -77,8 +77,8 @@
 				</div>
 			</div>
 			<div id="geogDetail" class="" style="#geogDetailStyle#">
-			<div class="form-row mx-0 px-4 mb-0">
-				<div class="col-12 col-md-3 px-4 my-3">
+			<div class="form-row mx-0 px-4 my-3">
+				<div class="col-12 col-md-3 my-2">
 					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
 						<span class="small90">
 							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
