@@ -52,17 +52,15 @@
 		<cfinclude template="/errors/autoblacklist.cfm">
 		<cfabort>
 	</cfif>
-	<cfthread>
-		<!--- log bad requests not otherwise handled --->
-		<cfif isdefined("CGI.HTTP_X_Forwarded_For") and len(CGI.HTTP_X_Forwarded_For) gt 0>
-			<cfset ipaddress=CGI.HTTP_X_Forwarded_For>
-		<cfelseif  isdefined("CGI.Remote_Addr") and len(CGI.Remote_Addr) gt 0>
-			<cfset ipaddress=CGI.Remote_Addr>
-		<cfelse>
-			<cfset ipaddress='unknown'>
-		</cfif>
-		<cflog text="[#cgi.redirect_url#] by: [#ipaddress#] user agent: [#cgi.http_user_agent#]" file="bad_requests" application="no">
-	</cfthread>
+	<!--- log bad requests not otherwise handled --->
+	<cfif isdefined("CGI.HTTP_X_Forwarded_For") and len(CGI.HTTP_X_Forwarded_For) gt 0>
+		<cfset ipaddress=CGI.HTTP_X_Forwarded_For>
+	<cfelseif  isdefined("CGI.Remote_Addr") and len(CGI.Remote_Addr) gt 0>
+		<cfset ipaddress=CGI.Remote_Addr>
+	<cfelse>
+		<cfset ipaddress='unknown'>
+	</cfif>
+	<cflog text="[#cgi.request_method#][#cgi.redirect_url#][#cgi.script_name#][#cgi.query_string#] by: [#ipaddress#] user agent: [#cgi.http_user_agent#]" file="bad_requests" application="no">
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
 <main class="container" id="content">
 	<div class="row">
