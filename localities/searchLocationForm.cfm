@@ -57,28 +57,28 @@
 				<cfset toggleTo = "0">
 				<cfset geogButton = "Fewer Fields">
 			</cfif> 
-			<div class="form-row mx-0 px-2 mb-0">
-			<div class="col-12 col-md-8 my-3">
-				<label for="higher_geog" class="data-entry-label">
-					Higher Geog
-					<span class="small90">
-						(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
-					</span>
-				</label>
-				<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
+			<div class="form-row mx-0 px-4 mb-0">
+				<div class="col-12 col-md-8 my-3">
+					<label for="higher_geog" class="data-entry-label">
+						Higher Geog
+						<span class="small90">
+							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
+						</span>
+					</label>
+					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-2 my-3">
+						<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
+						<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-2 my-3">
+					<label for="geogDetailCtl" class="data-entry-label" style="color: transparent">Geography</label>
+					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
+				</div>
 			</div>
-			<div class="col-12 col-md-2 my-3">
-					<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
-					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
-			</div>
-			<div class="col-12 col-md-2 my-3">
-				<label for="geogDetailCtl" class="data-entry-label" style="color: transparent">Geography</label>
-				<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
-			</div>
-		</div>
 			<div id="geogDetail" class="" style="#geogDetailStyle#">
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-3">
+			<div class="form-row mx-0 px-4 mb-0">
+				<div class="col-12 col-md-3 px-4 my-3">
 					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
 						<span class="small90">
 							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
