@@ -4111,31 +4111,7 @@ limitations under the License.
 						<input type="hidden" name="action" value="saveChange">
 						<input type="hidden" name="nothing" id="nothing">
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-						<cfoutput>
-						<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-						</cfoutput>
-						<cfoutput>
-								<script>
-										function useGL(glat,glon,gerr,gpoly){
-												if (gpoly=='')
-													{var gpoly_wkt='';}
-												else
-													{var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';}
-												$("##MAX_ERROR_DISTANCE").val(gerr);
-												$("##MAX_ERROR_UNITS").val('m');
-												$("##DATUM").val('WGS84');
-												$("##georeference_source").val('GeoLocate');
-												$("##georeference_protocol").val('GeoLocate');
-												$("##georefMethod").val('GEOLocate');
-												$("##LAT_LONG_REF_SOURCE").val('GEOLocate');
-												$("##dec_lat").val(glat);
-												$("##dec_long").val(glon);
-												$("##errorPoly").val(gpoly_wkt);
-												closeGeoLocate();
-										}
-								</script>
-						</cfoutput>
-						<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
+						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 						</div>
 						<div class="col-6 px-0 float-left">
 							<p class="font-italic text-danger pt-3">Note: Making changes to data in this form will make a new locality record for this specimen record. It will split from the shared locality.</p>
