@@ -376,19 +376,12 @@ function lookupName(taxon_name_id,target) {
 			var headerDone = false;
 			result_table = result_table + "<thead class='thead-light'><tr>"
 			result_table = result_table + "<th><strong>Authority</strong></td>";
-			for (authority in result) {
-				if (! headerDone) { 
-					var assertions = result[authority];
-					var keycount = 0;
-					for (key in result[authority]) { 
-						keycount++;
-						result_table = result_table + "<th><strong>" +  key + "</strong></th>";
-					}
-					if (keycount > 0) {
-						headerDone = true;
-					}
-				}
-			}
+			result_table = result_table + "<th><strong>Match</strong></th>";
+			result_table = result_table + "<th><strong>Scientific Name</strong></th>";
+			result_table = result_table + "<th><strong>Authorship</strong></th>";
+			result_table = result_table + "<th><strong>GUID</strong></th>";
+			result_table = result_table + "<th><strong>Author Similarity</strong></th>";
+			result_table = result_table + "<th><strong>Habitat</strong></th>";
 			result_table = result_table + "</tr></thead><tbody>"
 			for (authority in result) {
 				result_table = result_table + "<tr>"
@@ -397,10 +390,21 @@ function lookupName(taxon_name_id,target) {
 				var keycount = 0;
 				for (key in result[authority]) { 
 					keycount++;
-					result_table = result_table + "<td>" +  assertions[key] + "</td>";
 				}
 				if (keycount==0) { 
 					result_table = result_table + "<td>No Matches</td>";
+					result_table = result_table + "<td></td>";
+					result_table = result_table + "<td></td>";
+					result_table = result_table + "<td></td>";
+					result_table = result_table + "<td></td>";
+					result_table = result_table + "<td></td>";
+				} else { 
+					result_table = result_table + "<td>" +  assertions["matchDescription"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["scientificName"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["authorship"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["guid"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["authorStringDistance"] + "</td>";
+					result_table = result_table + "<td>" +  assertions["habitatFlags"] + "</td>";
 				}
 				result_table = result_table + "</tr>"
 			}
