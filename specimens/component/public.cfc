@@ -1373,7 +1373,7 @@ limitations under the License.
 												}
 												s+='>' + r.DATA.ATTRIBUTE_VALUE[i] + '</option>';
 											}
-											$("select#" + theSelect + idNum).html(s);
+											$("select##" + theSelect + idNum).html(s);
 										}
 									);
 								}
