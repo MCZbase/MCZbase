@@ -1433,7 +1433,7 @@ limitations under the License.
 									var ptsArray=[];
 									var lat=coords.split(',')[0];
 									var lng=coords.split(',')[1];
-									var errorm=$("#error_" + locid).val();
+									var errorm=$("##error_" + locid).val();
 									var mapOptions = {
 										zoom: 1,
 										center: new google.maps.LatLng(lat, lng),
@@ -1514,9 +1514,9 @@ limitations under the License.
 											map.fitBounds(bounds);
 											for(var a=0; a<polygonArray.length; a++){
 												if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-													$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+													$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
 												} else {
-													$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+													$("##mapdiv_" + locid).addClass('niceGeoSPatData');
 												}
 											}
 										});
