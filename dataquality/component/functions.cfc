@@ -234,6 +234,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.authorship = returnName.getAuthorship()>
 					<cfset r.guid = returnName.getGuid()>
 					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.habitatFlags = "">
 				</cfif>
 				<cfset result["WoRMS"] = r>
 
@@ -247,6 +248,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.authorship = returnName.getAuthorship()>
 					<cfset r.guid = returnName.getGuid()>
 					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.habitatFlags = "">
 				</cfif>
 				<cfset result["GBIF Backbone"] = r>
 
@@ -260,6 +262,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.authorship = returnName.getAuthorship()>
 					<cfset r.guid = returnName.getGuid()>
 					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
+					<cfset r.habitatFlags = "">
 				</cfif>
 				<cfset result["Paleobiology DB in GBIF"] = r>
 			</cfloop>
