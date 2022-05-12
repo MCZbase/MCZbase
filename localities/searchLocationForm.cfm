@@ -49,16 +49,16 @@
 				<h1 class="h3 text-white">Higher Geography</h1>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
-			<cfset geogDetailStyle="display:none;">
-			<cfset toggleTo = "1">
-			<cfset geogButton = "More Fields">
-		<cfelse>
-			<cfset geogDetailStyle="">
-			<cfset toggleTo = "0">
-			<cfset geogButton = "Fewer Fields">
-		</cfif> 
-			<div class="form-row mb-0">
-			<div class="col-12 col-md-8">
+				<cfset geogDetailStyle="display:none;">
+				<cfset toggleTo = "1">
+				<cfset geogButton = "More Fields">
+			<cfelse>
+				<cfset geogDetailStyle="">
+				<cfset toggleTo = "0">
+				<cfset geogButton = "Fewer Fields">
+			</cfif> 
+			<div class="form-row mx-0 mb-0">
+			<div class="col-12 col-md-8 my-3">
 				<label for="higher_geog" class="data-entry-label">
 					Higher Geog
 					<span class="small90">
