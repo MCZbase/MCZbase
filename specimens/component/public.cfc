@@ -1323,29 +1323,29 @@ limitations under the License.
 						</script>
 					</cfoutput>
 					<cfoutput>
-<!---						<script language="javascript" type="text/javascript">
+						<script language="javascript" type="text/javascript">
 								function closeGeoLocate(msg) {
-										$('#bgDiv').remove();
-										$('#bgDiv', window.parent.document).remove();
-										$('#popDiv').remove();
-										$('#popDiv', window.parent.document).remove();
-										$('#cDiv').remove();
-										$('#cDiv', window.parent.document).remove();
-										$('#theFrame').remove();
-										$('#theFrame', window.parent.document).remove();
+										$('##bgDiv').remove();
+										$('##bgDiv', window.parent.document).remove();
+										$('##popDiv').remove();
+										$('##popDiv', window.parent.document).remove();
+										$('##cDiv').remove();
+										$('##cDiv', window.parent.document).remove();
+										$('##theFrame').remove();
+										$('##theFrame', window.parent.document).remove();
 								}
 
 								function populateGeology(id) {
 									if (id=='geology_attribute') {
 										// new geol attribute
 										var idNum='';
-										var thisValue=$("#geology_attribute").val();
-										var dataValue=$("#geo_att_value").val();
+										var thisValue=$("##geology_attribute").val();
+										var dataValue=$("##geo_att_value").val();
 										var theSelect="geo_att_value";
 									} else {
 										var idNum=id.replace('geology_attribute_','');
-										var thisValue=$("#geology_attribute_" + idNum).val();;
-										var dataValue=$("#geo_att_value_" + idNum).val();
+										var thisValue=$("##geology_attribute_" + idNum).val();;
+										var dataValue=$("##geo_att_value_" + idNum).val();
 										var theSelect="geo_att_value_";
 									}
 									jQuery.getJSON("/component/functions.cfc",
@@ -1376,7 +1376,7 @@ limitations under the License.
 											$("select#" + theSelect + idNum).html(s);
 										}
 									);
-								}--->
+								}
 						<script>
 							function showLLFormat(orig_units,recID) {
 									//alert(orig_units);
@@ -1454,10 +1454,10 @@ limitations under the License.
 									bounds.extend(center);
 									if (parseInt(errorm)>0){
 										var circleoptn = {
-											strokeColor: '#FF0000',
+											strokeColor: '##FF0000',
 											strokeOpacity: 0.8,
 											strokeWeight: 2,
-											fillColor: '#FF0000',
+											fillColor: '##FF0000',
 											fillOpacity: 0.15,
 											map: map,
 											center: center,
@@ -1493,17 +1493,17 @@ limitations under the License.
 											}
 											var poly = new google.maps.Polygon({
 												paths: ptsArray,
-												strokeColor: '#1E90FF',
+												strokeColor: '##1E90FF',
 												strokeOpacity: 0.8,
 												strokeWeight: 2,
-												fillColor: '#1E90FF',
+												fillColor: '##1E90FF',
 												fillOpacity: 0.35
 											});
 											poly.setMap(map);
 											polygonArray.push(poly);
 											// END this block build WKT
 											} else {
-												$("#mapdiv_" + locid).addClass('noWKT');
+												$("##mapdiv_" + locid).addClass('noWKT');
 											}
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 											   var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
