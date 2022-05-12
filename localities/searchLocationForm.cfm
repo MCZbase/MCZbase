@@ -1,4 +1,3 @@
-<cfinclude template="/includes/_header.cfm">
 <cfif not isdefined("showLocality")>
 	<cfset showLocality=0>
 </cfif>
