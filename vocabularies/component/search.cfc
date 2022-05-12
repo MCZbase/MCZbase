@@ -152,11 +152,12 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 			SELECT
 				table_name, column_name
 			FROM
-				sys.user_tab_columns
+				sys.all_tab_columns
 			WHERE
 				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="CT#ucase(codetable)#"> and
 				column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(codetable)#"> and
-				data_type = 'VARCHAR2'
+				data_type = 'VARCHAR2' and
+				owner = 'MCZBASE'
 		</cfquery>
 		<cfif getCTField.recordcount NEQ 1>
 			<cfthrow message="Error, unsupported code table for this autocomplete, CT{codetable} must have PK {codetable}.">
