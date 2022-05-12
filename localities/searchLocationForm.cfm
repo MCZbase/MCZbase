@@ -58,7 +58,7 @@
 				<cfset geogButton = "Fewer Fields">
 			</cfif> 
 			<div class="form-row mx-0 mb-3">
-				<div class="col-12 col-md-8 px-2 my-3">
+				<div class="col-12 col-md-8 px-4 my-3">
 					<label for="higher_geog" class="data-entry-label">
 						Higher Geog
 						<span class="small90">
@@ -157,7 +157,7 @@
 					</script>
 				</div>
 			</div>
-			<div class="form-row mb-0">
+			<div class="form-row mb-3">
 				<div class="col-12 col-md-3 my-1">
 					<label for="country" class="data-entry-label">Country</label>
 					<input type="text" name="country" id="country" class="data-entry-input">
