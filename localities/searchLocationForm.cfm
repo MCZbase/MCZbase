@@ -76,8 +76,8 @@
 					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
 				</div>
 			</div>
-			<div id="geogDetail" class="col-12 px-3" style="#geogDetailStyle#">
-			<div class="form-row mx-0">
+		<div id="geogDetail" class="col-12 px-3" style="#geogDetailStyle#">
+			<div class="form-row">
 				<div class="col-12 col-md-3 my-1">
 					<label for="continent_ocean" class="data-entry-label">Continent or Ocean
 						<span class="small90">
@@ -120,7 +120,7 @@
 				</div>
 			</div>
 			<div class="form-row mb-0">
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="island" class="data-entry-label">Island</label>
 					<input type="text" name="island" id="island" class="data-entry-input">
 					<script>
@@ -129,7 +129,7 @@
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="island_group" class="data-entry-label">Island Group</label>
 					<input type="text" name="island_group" id="island_group" class="data-entry-input">
 					<script>
@@ -138,7 +138,7 @@
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="feature" class="data-entry-label">Land Feature</label>
 					<input type="text" name="feature" id="feature" class="data-entry-input">
 					<script>
@@ -147,7 +147,7 @@
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="water_feature" class="data-entry-label">Water Feature</label>
 					<input type="text" name="water_feature" id="water_feature" class="data-entry-input">
 					<script>
@@ -158,7 +158,7 @@
 				</div>
 			</div>
 			<div class="form-row mb-0">
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="country" class="data-entry-label">Country</label>
 					<input type="text" name="country" id="country" class="data-entry-input">
 					<script>
@@ -167,7 +167,7 @@
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="state_prov" class="data-entry-label">State or Province</label>
 					<input type="text" name="state_prov" id="state_prov" class="data-entry-input">
 					<script>
@@ -176,7 +176,7 @@
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="county" class="data-entry-label">County</label>
 					<input type="text" name="county" id="county" class="data-entry-input">
 					<script>
@@ -185,7 +185,7 @@
 						});
 					</script>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-3 my-1">
 					<label for="quad" class="data-entry-label">Quad</label>
 					<input type="text" name="quad" id="quad" class="data-entry-input">
 					<script>
