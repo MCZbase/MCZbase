@@ -1308,6 +1308,122 @@ limitations under the License.
 					</cfoutput>
 					<cfoutput>
 						<script>
+						  var openFile = function(event) {
+							var input = event.target;
+
+							var reader = new FileReader();
+							reader.onload = function(){
+							  var text = reader.result;
+							  var node = document.getElementById('output');
+							  node.innerText = text;
+							  console.log(reader.result.substring(0, 200));
+							};
+							reader.readAsText(input.files[0]);
+						  };
+						</script>
+					</cfoutput>
+						<script language="javascript" type="text/javascript">
+								function closeGeoLocate(msg) {
+										$('#bgDiv').remove();
+										$('#bgDiv', window.parent.document).remove();
+										$('#popDiv').remove();
+										$('#popDiv', window.parent.document).remove();
+										$('#cDiv').remove();
+										$('#cDiv', window.parent.document).remove();
+										$('#theFrame').remove();
+										$('#theFrame', window.parent.document).remove();
+								}
+
+								function populateGeology(id) {
+									if (id=='geology_attribute') {
+										// new geol attribute
+										var idNum='';
+										var thisValue=$("#geology_attribute").val();
+										var dataValue=$("#geo_att_value").val();
+										var theSelect="geo_att_value";
+									} else {
+										var idNum=id.replace('geology_attribute_','');
+										var thisValue=$("#geology_attribute_" + idNum).val();;
+										var dataValue=$("#geo_att_value_" + idNum).val();
+										var theSelect="geo_att_value_";
+									}
+									jQuery.getJSON("/component/functions.cfc",
+										{
+											method : "getGeologyValues",
+											attribute : thisValue,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (r) {
+											var s='';
+											var exists = false;
+											if (dataValue !==null){
+											for (i=0; i<r.ROWCOUNT; ++i) {
+												if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue){exists=true;}
+												}
+
+											if (exists==false){s='<option value="' + dataValue + '" selected="selected" style="color:red">' + dataValue + '</option>';}
+
+												}
+											for (i=0; i<r.ROWCOUNT; ++i) {
+												s+='<option value="' + r.DATA.ATTRIBUTE_VALUE[i] + '"';
+												if (r.DATA.ATTRIBUTE_VALUE[i]==dataValue) {
+													s+=' selected="selected"';
+												}
+												s+='>' + r.DATA.ATTRIBUTE_VALUE[i] + '</option>';
+											}
+											$("select#" + theSelect + idNum).html(s);
+										}
+									);
+								}
+
+								function showLLFormat(orig_units,recID) {
+									//alert(orig_units);
+									//alert(recID);
+									if (recID.length == 0) {
+										//alert('new');
+										var addNewLL = document.getElementById('addNewLL');
+										addNewLL.style.display='none';
+										var llMeta = document.getElementById('llMeta');
+										llMeta.style.display='';
+
+									}
+									var dd = 'dd' + recID;
+									//alert('dd='+dd+':');
+									var dd = document.getElementById(dd);
+									var utm = 'utm' + recID;
+									var utm = document.getElementById(utm);
+									var dms = 'dms' + recID;
+									var dms = document.getElementById(dms);
+									var ddm = 'ddm' + recID;
+									var ddm = document.getElementById(ddm);
+									dd.style.display='none';
+									utm.style.display='none';
+									ddm.style.display='none';
+									dms.style.display='none';
+									//alert('everything off');
+									if (orig_units.length > 0) {
+										//alert('got something');
+										if (orig_units == 'decimal degrees') {
+											dd.style.display='';
+										}
+										else if (orig_units == 'UTM') {
+											//alert(utm.style.display);
+											utm.style.display='';
+											//alert(utm.style.display);
+										}
+										else if (orig_units == 'degrees dec. minutes') {
+											ddm.style.display='';
+										}
+										else if (orig_units == 'deg. min. sec.') {
+											dms.style.display='';
+										}
+										else {
+											alert('I have no idea what to do with ' + orig_units);
+										}
+									}
+								}
+
 							function mapsYo(){
 								$("input[id^='coordinates_']").each(function(e){
 									var locid=this.id.split('_')[1];
