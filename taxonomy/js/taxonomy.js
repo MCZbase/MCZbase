@@ -372,9 +372,9 @@ function lookupName(taxon_name_id,target) {
 		},
 		function (result) {
 			console.log(result);
-			var result_table = "<table>";
+			var result_table = "<table class='table table-responsive table-striped d-lg-table'>";
 			var headerDone = false;
-			result_table = result_table + "<tr>"
+			result_table = result_table + "<thead class='thead-light'><tr>"
 			result_table = result_table + "<th><strong>Authority</strong></td>";
 			for (authority in result) {
 				if (! headerDone) { 
@@ -389,7 +389,7 @@ function lookupName(taxon_name_id,target) {
 					}
 				}
 			}
-			result_table = result_table + "</tr>"
+			result_table = result_table + "</tr></thead><tbody>"
 			for (authority in result) {
 				result_table = result_table + "<tr>"
 				result_table = result_table + "<td><strong>" + authority + "</strong></td>";
@@ -404,7 +404,7 @@ function lookupName(taxon_name_id,target) {
 				}
 				result_table = result_table + "</tr>"
 			}
-			result_table = result_table + "</table>"
+			result_table = result_table + "</tbody></table>"
 			$("#" + target).html(result_table);
 		}
 	).fail(function(jqXHR,textStatus,error){
