@@ -653,21 +653,13 @@
 					<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
 					<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-3">
 					<input type="submit"
 						value="Search"
-						class="schBtn"
-						onmouseover="this.className='schBtn btnhov'"
-						onmouseout="this.className='schBtn'">
-				</div>
-				<div class="col-12 col-md-2">
+						class="btn btn-xs btn-primary">
 					<input type="reset"
 						value="Clear Form"
-						class="clrBtn"
-						onmouseover="this.className='clrBtn btnhov'"
-						onmouseout="this.className='clrBtn'">
-				</div>
-				<div class="col-12 col-md-2">
+						class="btn btn-xs btn-warning">
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">
