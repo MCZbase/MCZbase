@@ -46,23 +46,23 @@ Function getSpecLocalityAutocomplete.  Search for spec_locality by name with a s
 			GROUP BY
 				locality.spec_locality
 		</cfquery>
-	<cfset rows = search_result.recordcount>
-		<cfset i = 1>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset row["id"] = "#search.spec_locality#">
-			<cfset row["value"] = "#search.spec_locality#" >
-			<cfset row["meta"] = "#search.ct# spec." >
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-		<cfset function_called = "#GetFunctionCalledName()#">
-		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-		<cfabort>
-	</cfcatch>
+		<cfset rows = search_result.recordcount>
+			<cfset i = 1>
+			<cfloop query="search">
+				<cfset row = StructNew()>
+				<cfset row["id"] = "#search.spec_locality#">
+				<cfset row["value"] = "#search.spec_locality#" >
+				<cfset row["meta"] = "#search.ct# spec." >
+				<cfset data[i]  = row>
+				<cfset i = i + 1>
+			</cfloop>
+			<cfreturn #serializeJSON(data)#>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>

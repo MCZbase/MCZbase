@@ -449,8 +449,8 @@
 						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
 					</div>
 				</div>
-				<div id="georefDetail" class="border m-2 rounded p-1" style="#georefDetailStyle#">
-					<div class="form-row px-3 my-2">
+				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
+					<div class="form-row px-2 my-2">
 						<div class="col-12 col-md-2">
 							<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
 							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="data-entry-input">
