@@ -326,43 +326,47 @@
 
 <cfoutput>
 	<div class="container-fluid">
-		<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
-		<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
-			<form name="filterResults">
-				<div class="form-row m-1 border rounded">
-					<input type="hidden" name="result_id" value="#result_id#">
-					<input type="hidden" name="action" value="entryPoint" id="action">
-					<div class="col-12 col-md-5">
-						<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
-						<select id="filterOrder" name="filterOrder" class="data-entry-select">
-							<option></option>
-							<cfloop query="orders">
-								<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-5">
-						<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
-						<div name="filterFamily" id="filterFamily" class="w-100"></div>
-						<script>
-							$(document).ready(function () {
-								var familysource = [
-								<cfset comma="">
-								<cfloop query="families">
-									#comma#{name:"#families.family#",value:"#families.family#"}
-									<cfset comma=",">
-								</cfloop>
-								];
-								$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
-							});
-						</script> 
-					</div>
-					<div class="col-12 col-md-2">
-						<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
-					</div>
-				</div>
-			</form>
-		</cfif>
+		<div class="row">
+			<div class="col-12">
+				<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
+					<form name="filterResults">
+						<div class="form-row mx-0 border rounded">
+							<input type="hidden" name="result_id" value="#result_id#">
+							<input type="hidden" name="action" value="entryPoint" id="action">
+							<div class="col-12 col-md-5">
+								<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
+								<select id="filterOrder" name="filterOrder" class="data-entry-select">
+									<option></option>
+									<cfloop query="orders">
+										<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-5">
+								<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
+								<div name="filterFamily" id="filterFamily" class="w-100"></div>
+								<script>
+									$(document).ready(function () {
+										var familysource = [
+										<cfset comma="">
+										<cfloop query="families">
+											#comma#{name:"#families.family#",value:"#families.family#"}
+											<cfset comma=",">
+										</cfloop>
+										];
+										$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
+									});
+								</script> 
+							</div>
+							<div class="col-12 col-md-2">
+								<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
+							</div>
+						</div>
+					</form>
+				</cfif>
+			</div>
+		</div>
 	</div>
 </cfoutput>
 <div class="container-fluid">
