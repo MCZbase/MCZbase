@@ -647,33 +647,35 @@
 	<!---------------   Buttons ------------------------------------------------>
 
 	<div class="col-12"> 
-		<div class="form-row mb-0">
-			<div class="col-12 col-md-2">
-				<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
-        		<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
-			</div>
-			<div class="col-12 col-md-2">
-				<input type="submit"
-					value="Search"
-					class="schBtn"
-					onmouseover="this.className='schBtn btnhov'"
-					onmouseout="this.className='schBtn'">
-			</div>
-			<div class="col-12 col-md-2">
- 	        <input type="reset"
-					value="Clear Form"
-					class="clrBtn"
-					onmouseover="this.className='clrBtn btnhov'"
-					onmouseout="this.className='clrBtn'">
-			</div>
-			<div class="col-12 col-md-2">
-				<cfif showLocality is 1 AND showSpecimenCounts >
-					<label for="include_counts">Include Specimen Counts?</label>
-					<select name="include_counts" id="include_counts">
-						<option selected="selected" value="0">No</option>
-						<option value="1">Yes</option>
-					</select>
-				</cfif>
+		<div class="container-lg mt-0 mb-3">
+			<div class="row mx-0 mb-3"> 
+				<div class="col-12 col-md-2">
+					<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
+					<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-2">
+					<input type="submit"
+						value="Search"
+						class="schBtn"
+						onmouseover="this.className='schBtn btnhov'"
+						onmouseout="this.className='schBtn'">
+				</div>
+				<div class="col-12 col-md-2">
+					<input type="reset"
+						value="Clear Form"
+						class="clrBtn"
+						onmouseover="this.className='clrBtn btnhov'"
+						onmouseout="this.className='clrBtn'">
+				</div>
+				<div class="col-12 col-md-2">
+					<cfif showLocality is 1 AND showSpecimenCounts >
+						<label for="include_counts">Include Specimen Counts?</label>
+						<select name="include_counts" id="include_counts">
+							<option selected="selected" value="0">No</option>
+							<option value="1">Yes</option>
+						</select>
+					</cfif>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -781,5 +783,4 @@
 		}
 	</script>
 </section>
-
 </cfoutput>
