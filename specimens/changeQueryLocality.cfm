@@ -345,10 +345,10 @@
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
 						<div class="col-7 px-0 mx-auto">
-							<div class="form-row mx-0 mb-2">
+							<div class="form-row mx-0 mb-0">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="action" value="entryPoint" id="action">
-								<div class="col-12 col-md-5 my-2">
+								<div class="col-12 col-md-5 my-0">
 									<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
 									<select id="filterOrder" name="filterOrder" class="data-entry-select">
 										<option></option>
@@ -357,7 +357,7 @@
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-5 my-2">
+								<div class="col-12 col-md-5 my-0">
 									<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
 									<div name="filterFamily" id="filterFamily" class="w-100"></div>
 									<script>
@@ -373,14 +373,14 @@
 										});
 									</script> 
 								</div>
-								<div class="col-12 col-md-2 my-2">
+								<div class="col-12 col-md-2 my-0">
 									<label for="filter records" class="data-entry-label" style="color: transparent">Filter</label>
 									<input type="submit" class="btn btn-xs btn-primary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
 								</div>
 							</div>
 						</div>
 					</form>
-					<h2 class="h3 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				</cfif>
 			</div>
 		</div>
