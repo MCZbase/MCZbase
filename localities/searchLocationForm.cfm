@@ -46,7 +46,7 @@
 	<div class="row mx-0 mb-0"> 
 		<div class="search-box mt-0">
 			<div class="search-box-header">
-				<h2 class="h3 text-white my-1">Higher Geography</h2>
+				<h2 class="h3 text-white mt-0 mb-1">Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -204,9 +204,9 @@
 	<cfif #showLocality# IS 1>
 	<div class="container-lg mt-0 mb-3">
 		<div class="row mx-0 mb-1"> 
-			<div class="search-box mt-2">
+			<div class="search-box mt-3">
 				<div class="search-box-header">
-					<h2 class="h3 text-white my-1">Locality</h2>
+					<h2 class="h3 text-white mb-1 mt-0">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
