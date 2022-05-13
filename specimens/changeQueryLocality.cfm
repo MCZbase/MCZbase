@@ -165,8 +165,12 @@
 			</cfif>
 			<cfif failed>
 				<div class="container-fluid">
-					<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
-					<div><a href="#returnURL#">Back to Manage Locality</a></div>
+					<div class="row">
+						<div class="col-12 mt-3">
+							<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
+							<div><a href="#returnURL#">Back to Manage Locality</a></div>
+						</div>
+					</div>
 				</div>
 			<cfelse>
 				<cflocation url="#returnURL#&action=updateComplete">
@@ -185,11 +189,13 @@
 		<cfset actionWord = "That Have Been">
 		<cfoutput>
 			<div class="container-fluid">
-				<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
-				<ul>
-					<li><a href="#returnURL#">Back to Manage Locality</a></li>
-					<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
-				</ul>
+				<div class="row">
+					<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+					<ul>
+						<li><a href="#returnURL#">Back to Manage Locality</a></li>
+						<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
+					</ul>
+				</div>
 			</div>
 		</cfoutput>
 	</cfcase>
@@ -371,8 +377,8 @@
 	</div>
 </cfoutput>
 <div class="container-fluid">
-	<div class="col-12">
-		<div class="row mx-0">
+	<div class="row mx-0">
+		<div class="col-12">
 			<table class="table">
 				<thead class="thead-light">
 					<tr>
