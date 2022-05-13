@@ -217,13 +217,13 @@
 					<cfset toggleTo = "0">
 					<cfset locButton = "Fewer Fields">
 				</cfif> 
-				<div class="form-row px-3 my-2">
+				<div class="form-row px-3 my-3">
 					<div class="col-12 col-md-8">
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-2">
-						<label for="locality_id" class="data-entry-label">Locality_ID</label>
+						<label for="locality_id" class="data-entry-label">Locality ID</label>
 						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-2">
@@ -320,10 +320,10 @@
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Depth<br> riginal Units</label>
+						<label class="data-entry-label">Depth<br> Original Units</label>
 					</div>
 					<div class="col-12 col-md-2">
-						<label for="minDepthOper" class="data-entry-label"></label>
+						<label for="minDepthOper" class="data-entry-label" style="color: transparent">Operator</label>
 						<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
 							<option value="<>">is not</option>
