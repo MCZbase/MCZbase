@@ -331,11 +331,11 @@
 				<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
-						<div class="form-row my-2 px-3 border rounded">
+						<div class="form-row px-3 my-2 border rounded">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<input type="hidden" name="action" value="entryPoint" id="action">
 							<div class="col-12 col-md-5 my-2">
-								<label for="filterOrder" class="data-entry-label mt-2">Filter by Order:</label>
+								<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
 								<select id="filterOrder" name="filterOrder" class="data-entry-select">
 									<option></option>
 									<cfloop query="orders">
