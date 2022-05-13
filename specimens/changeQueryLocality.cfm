@@ -335,11 +335,11 @@
 <cfoutput>
 	<div class="container-fluid">
 		<div class="row mx-0">
-			<div class="col-12 px-3 mt-3">
+			<div class="col-12 mt-3">
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
-						<div class="col-7 mx-auto">
-							<div class="form-row mb-2">
+						<div class="col-7 px-0 mx-auto">
+							<div class="form-row mx-0 mb-2">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="action" value="entryPoint" id="action">
 								<div class="col-12 col-md-5 my-2">
@@ -374,7 +374,7 @@
 							</div>
 						</div>
 					</form>
-					<h2 class="h3 mb-1 px-2">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+					<h2 class="h3 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				</cfif>
 			</div>
 		</div>
