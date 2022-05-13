@@ -325,17 +325,17 @@
 </cfquery>
 
 <cfoutput>
-	<div class="container-fluid">
+	<div class="container-lg">
 		<div class="row">
 			<div class="col-12">
 				<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
-						<div class="form-row mx-0 border rounded">
+						<div class="form-row my-2 px-3 border rounded">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<input type="hidden" name="action" value="entryPoint" id="action">
 							<div class="col-12 col-md-5">
-								<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
+								<label for="filterOrder" class="data-entry-label mt-2">Filter by Order:</label>
 								<select id="filterOrder" name="filterOrder" class="data-entry-select">
 									<option></option>
 									<cfloop query="orders">
