@@ -209,82 +209,81 @@
 					<h2 class="h3 text-white">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
-				<cfset locDetailStyle="display:none;">
-				<cfset toggleTo = "1">
-				<cfset locButton = "More Fields">
-			<cfelse>
-				<cfset locDetailStyle="">
-				<cfset toggleTo = "0">
-				<cfset locButton = "Fewer Fields">
-			</cfif> 
-				<div class="form-row px-3 my-2">
-				<div class="col-12 col-md-8">
-					<label for="spec_locality" class="data-entry-label">Specific Locality</label>
-					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="locality_id" class="data-entry-label">Locality_ID</label>
-					<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="locDetailCtl" class="data-entry-label">Locality</label>
-					<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
-				</div>
-			</div>
-				<div id="locDetail" class="" style="#locDetailStyle#">
-				<div class="form-row px-3 my-2">
-					<div class="col-12 col-md-4">
-						<label for="collnOper" class="data-entry-label">Use</label>
-						<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
-							<option value=""></option>
-							<option value="usedOnlyBy">used only by</option>
-							<option value="usedBy">used by</option>
-							<option value="notUsedBy">not used by</option>
-						</select>
-					</div>
-					<div class="col-12 col-md-4">
-						<label for="collection_id" class="data-entry-label">Collection</label>
-						<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
-							<option value=""></option>
-							<cfloop query="ctcollection">
-								<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-4">
-						<label for="curated_fg" class="data-entry-label">Vetted</label>
-						<select name="curated_fg" id="curated_fg" class="data-entry-select">
-							<option value=""></option>
-							<option value="0">No</option>
-							<option value="1">Yes *</option>
-						</select>
-					</div>
-				</div>
+					<cfset locDetailStyle="display:none;">
+					<cfset toggleTo = "1">
+					<cfset locButton = "More Fields">
+				<cfelse>
+					<cfset locDetailStyle="">
+					<cfset toggleTo = "0">
+					<cfset locButton = "Fewer Fields">
+				</cfif> 
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-8">
-						<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
-						<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
+						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
+						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-4">
-						<label for="sovereign_nation" class="data-entry-label">Sovereign Nation</label>
-						<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
-							<option value=""></option>
-							<cfloop query="ctsovereign_nation">
-								<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
-							</cfloop>
-							<cfloop query="ctsovereign_nation" startRow="1">
-								<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
-							</cfloop>
-						</select>
+					<div class="col-12 col-md-2">
+						<label for="locality_id" class="data-entry-label">Locality_ID</label>
+						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="locDetailCtl" class="data-entry-label" style="color: transparent">Locality</label>
+						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
 					</div>
 				</div>
+				<div id="locDetail" class="" style="#locDetailStyle#">
+					<div class="form-row px-3 my-2">
+						<div class="col-12 col-md-4">
+							<label for="collnOper" class="data-entry-label">Use</label>
+							<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
+								<option value=""></option>
+								<option value="usedOnlyBy">used only by</option>
+								<option value="usedBy">used by</option>
+								<option value="notUsedBy">not used by</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="collection_id" class="data-entry-label">Collection</label>
+							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="ctcollection">
+									<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="curated_fg" class="data-entry-label">Vetted</label>
+							<select name="curated_fg" id="curated_fg" class="data-entry-select">
+								<option value=""></option>
+								<option value="0">No</option>
+								<option value="1">Yes *</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row px-3 my-2">
+						<div class="col-12 col-md-8">
+							<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
+							<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="sovereign_nation" class="data-entry-label">Sovereign Nation</label>
+							<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="ctsovereign_nation">
+									<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
+								</cfloop>
+								<cfloop query="ctsovereign_nation" startRow="1">
+									<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
+								</cfloop>
+							</select>
+						</div>
+					</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Elevation</label>
-						<label class="data-entry-label">Original Units</label>
+						<label class="data-entry-label">Elevation<br>Original Units</label>
 					</div>
 					<div class="col-12 col-md-2">
-						<label for="MinElevOper" class="data-entry-label">(</label>
+						<label for="MinElevOper" class="data-entry-label" style="color: transparent">(operator)</label>
 						<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
 							<option value="<>">is not</option>
@@ -306,7 +305,7 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
-						<label for="MaxElevOper" class="data-entry-label">Elevation</label>
+						<label for="MaxElevOper" class="data-entry-label" style="color:transparent">Elevation</label>
 						<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
 							<option value="<>">is not</option>
@@ -321,8 +320,7 @@
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Depth</label>
-						<label class="data-entry-label">Original Units</label>
+						<label class="data-entry-label">Depth<br> riginal Units</label>
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="minDepthOper" class="data-entry-label"></label>
@@ -347,7 +345,7 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
-						<label for="MaxDepthOper" class="data-entry-label"></label>
+						<label for="MaxDepthOper" class="data-entry-label" style="color:transparent">operator</label>
 						<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
 							<option value="<>">is not</option>
@@ -362,7 +360,7 @@
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-3">
-						<label for="MinElevOperM" class="data-entry-label">Minimum Elevation In Meters</label>
+						<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
 						<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select">
 							<option value="=">is</option>
 							<option value="<>">is not</option>
@@ -388,7 +386,7 @@
 						<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input">
 					</div>
 				</div>
-				<div class="form-row mb-0">
+				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-3">
 						<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
 						<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select">
@@ -404,7 +402,7 @@
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
-						<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-label">
+						<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select">
 							<option value="=">is</option>
 							<option value="<>">is not</option>
 							<option value=">">more than</option>
