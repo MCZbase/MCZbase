@@ -371,68 +371,70 @@
 	</div>
 </cfoutput>
 <div class="container-fluid">
-	<div class="row">
-		<table class="table">
-			<thead class="thead-light">
-				<tr>
-					<th>Catalog Number</th>
-					<cfif len(#session.CustomOtherIdentifier#) GT 0>
-						<th>
-							<cfoutput>
-							#session.CustomOtherIdentifier#
-							</cfoutput>
-						</th>
-					</cfif>
-					<th>Order</th>
-					<th>Family</th>
-					<th>Accepted Scientific Name</th>
-					<th>Locality ID</th>
-					<th>Spec Locality</th>
-					<th>higher_geog</th>
-					<th>Depth/Elevation</th>
-					<th>Geology</th>
-				</tr>
-			</thead>
-			<tbody>
-				<cfoutput query="specimenList" group="collection_object_id">
-					<cfset depth_elevation = "">
-					<cfif len(min_depth) GT 0>
-						<cfif min_depth EQ max_depth>
-							<cfset depth_elevation = "Depth: #min_depth# #depth_units#">
-						<cfelse>
-							<cfset depth_elevation = "Depth: #min_depth#-#max_depth# #depth_units#">
-						</cfif>
-					</cfif>
-					<cfif len(minimum_elevation) GT 0>
-						<cfif minimum_elevation EQ maximum_elevation>
-							<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
-						<cfelse>
-							<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
-						</cfif>
-					</cfif>
+	<div class="col-12">
+		<div class="row mx-0">
+			<table class="table">
+				<thead class="thead-light">
 					<tr>
-						<td>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
-						#collection#&nbsp;#cat_num#
-						</a>
-						</td>
-					<cfif len(#session.CustomOtherIdentifier#) GT 0>
-						<td>
-							#CustomID#&nbsp;
-						</td>
-					</cfif>
-						<td>#phylorder#</td>
-						<td>#family#</td>
-						<td><i>#Scientific_Name#</i></td>
-						<td>#locality_id#</td>
-						<td>#spec_locality#</td>
-						<td>#higher_geog#</td>
-						<td>#depth_elevation#</td>
-						<td>#geolAtts#</td>
+						<th>Catalog Number</th>
+						<cfif len(#session.CustomOtherIdentifier#) GT 0>
+							<th>
+								<cfoutput>
+								#session.CustomOtherIdentifier#
+								</cfoutput>
+							</th>
+						</cfif>
+						<th>Order</th>
+						<th>Family</th>
+						<th>Accepted Scientific Name</th>
+						<th>Locality ID</th>
+						<th>Spec Locality</th>
+						<th>higher_geog</th>
+						<th>Depth/Elevation</th>
+						<th>Geology</th>
 					</tr>
-				</cfoutput>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<cfoutput query="specimenList" group="collection_object_id">
+						<cfset depth_elevation = "">
+						<cfif len(min_depth) GT 0>
+							<cfif min_depth EQ max_depth>
+								<cfset depth_elevation = "Depth: #min_depth# #depth_units#">
+							<cfelse>
+								<cfset depth_elevation = "Depth: #min_depth#-#max_depth# #depth_units#">
+							</cfif>
+						</cfif>
+						<cfif len(minimum_elevation) GT 0>
+							<cfif minimum_elevation EQ maximum_elevation>
+								<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
+							<cfelse>
+								<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
+							</cfif>
+						</cfif>
+						<tr>
+							<td>
+							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+							#collection#&nbsp;#cat_num#
+							</a>
+							</td>
+						<cfif len(#session.CustomOtherIdentifier#) GT 0>
+							<td>
+								#CustomID#&nbsp;
+							</td>
+						</cfif>
+							<td>#phylorder#</td>
+							<td>#family#</td>
+							<td><i>#Scientific_Name#</i></td>
+							<td>#locality_id#</td>
+							<td>#spec_locality#</td>
+							<td>#higher_geog#</td>
+							<td>#depth_elevation#</td>
+							<td>#geolAtts#</td>
+						</tr>
+					</cfoutput>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
