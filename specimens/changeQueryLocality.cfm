@@ -328,10 +328,10 @@
 	<div class="container-lg">
 		<div class="row mx-0">
 			<div class="col-12">
-				<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+				<h2 class="h3 px-3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
-						<div class="form-row px-3 my-2 border rounded">
+						<div class="form-row mx-1 px-3 my-2 border rounded">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<input type="hidden" name="action" value="entryPoint" id="action">
 							<div class="col-12 col-md-5 my-2">
