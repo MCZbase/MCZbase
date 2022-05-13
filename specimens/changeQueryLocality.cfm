@@ -68,9 +68,10 @@
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
-			<div class="container-lg">
-				<h1 class="h3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
-				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
+			<div class="container-fluid">
+				<div class="col-12">
+					<h1 class="h3 mt-3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 					<input type="hidden" name="Action" value="findLocality">
 					<input type="hidden" name="result_id" value="#result_id#">
 					<cfif isdefined("filterOrder")>
@@ -82,6 +83,7 @@
 					<cfset showSpecimenCounts = false>
 					<cfinclude template="/localities/searchLocationForm.cfm">
 				</form>
+				</div>
 			</div>
 		</cfoutput>
 	</cfcase>
