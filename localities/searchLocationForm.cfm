@@ -42,11 +42,11 @@
 </cfif>
 
 <cfoutput>
-<section class="col-12 px-0 mt-2 mb-0" title="Geography Search Form">
-	<div class="row mx-0 mb-2"> 
+<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
+	<div class="row mx-0 mb-0"> 
 		<div class="search-box">
 			<div class="search-box-header">
-				<h2 class="h3 text-white">Higher Geography</h2>
+				<h2 class="h3 text-white my-1">Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -203,10 +203,10 @@
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
 	<div class="container-lg mt-0 mb-3">
-		<div class="row mx-0 mb-3"> 
+		<div class="row mx-0 mb-1"> 
 			<div class="search-box">
 				<div class="search-box-header">
-					<h2 class="h3 text-white">Locality</h2>
+					<h2 class="h3 text-white my-1">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
