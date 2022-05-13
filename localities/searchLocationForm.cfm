@@ -280,7 +280,7 @@
 					</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Elevation<br>Original Units</label>
+						<label class="data-entry-label">Elevation <span class="small">(Original Units)</span></label>
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="MinElevOper" class="data-entry-label" style="color: transparent">(operator)</label>
@@ -320,7 +320,7 @@
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Depth<br> Original Units</label>
+						<label class="data-entry-label">Depth <span class="small">(Original Units)</span></label>
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="minDepthOper" class="data-entry-label" style="color: transparent">Operator</label>
@@ -512,7 +512,7 @@
 					<div class="form-row px-2 my-2">
 						<div class="col-12 col-md-4">
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
-							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-select">
+							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-4">
 							<label class="data-entry-label">Geolocate Score</label>
