@@ -42,11 +42,11 @@
 </cfif>
 
 <cfoutput>
-<section class="mt-2 mb-3" title="Geography Search Form">
+<section class="col-12 px-0 mt-2 mb-3" title="Geography Search Form">
 	<div class="row mx-0 mb-3"> 
 		<div class="search-box">
 			<div class="search-box-header">
-				<h1 class="h3 text-white">Higher Geography</h1>
+				<h2 class="h3 text-white">Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -202,336 +202,342 @@
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
-	<div class="col-12"> 
-		<h2 class="h3">Locality</h2>
-		<cfif listFind(searchPrefList,"LocDetail") EQ 0>
-			<cfset locDetailStyle="display:none;">
-			<cfset toggleTo = "1">
-			<cfset locButton = "More Fields">
-		<cfelse>
-			<cfset locDetailStyle="">
-			<cfset toggleTo = "0">
-			<cfset locButton = "Fewer Fields">
-		</cfif> 
-		<div class="form-row mb-0">
-			<div class="col-12 col-md-8">
-				<label for="spec_locality" class="data-entry-label">Specific Locality</label>
-				<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
+	<div class="col-12 px-0 mt-2 mb-3">
+		<div class="row mx-0 mb-3"> 
+			<div class="search-box">
+				<div class="search-box-header">
+					<h2 class="h3 text-white">Higher Geography</h2>
+				</div>
+				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
+				<cfset locDetailStyle="display:none;">
+				<cfset toggleTo = "1">
+				<cfset locButton = "More Fields">
+			<cfelse>
+				<cfset locDetailStyle="">
+				<cfset toggleTo = "0">
+				<cfset locButton = "Fewer Fields">
+			</cfif> 
+				<div class="form-row mb-0">
+				<div class="col-12 col-md-8">
+					<label for="spec_locality" class="data-entry-label">Specific Locality</label>
+					<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-2">
+					<label for="locality_id" class="data-entry-label">Locality_ID</label>
+					<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
+				</div>
+				<div class="col-12 col-md-2">
+					<label for="locDetailCtl" class="data-entry-label">Locality</label>
+					<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
+				</div>
 			</div>
-			<div class="col-12 col-md-2">
-				<label for="locality_id" class="data-entry-label">Locality_ID</label>
-				<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
-			</div>
-			<div class="col-12 col-md-2">
-				<label for="locDetailCtl" class="data-entry-label">Locality</label>
-				<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
+				<div id="locDetail" class="" style="#locDetailStyle#">
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-4">
+						<label for="collnOper" class="data-entry-label">Use</label>
+						<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
+							<option value=""></option>
+							<option value="usedOnlyBy">used only by</option>
+							<option value="usedBy">used by</option>
+							<option value="notUsedBy">not used by</option>
+						</select class="data-entry-label">
+					</div>
+					<div class="col-12 col-md-4">
+						<label for="collection_id" class="data-entry-label">Collection</label>
+						<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctcollection">
+								<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-4">
+						<label for="curated_fg" class="data-entry-label">Vetted</label>
+						<select name="curated_fg" id="curated_fg" class="data-entry-select">
+							<option value=""></option>
+							<option value="0">No</option>
+							<option value="1">Yes *</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-8">
+						<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
+						<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-4">
+						<label for="sovereign_nation" class="data-entry-label">Sovereign Nation</label>
+						<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctsovereign_nation">
+								<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
+							</cfloop>
+							<cfloop query="ctsovereign_nation" startRow="1">
+								<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
+							</cfloop>
+						</select>
+					</div>
+				</div>
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label">Elevation</label>
+						<label class="data-entry-label">Original Units</label>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="MinElevOper" class="data-entry-label">(</label>
+						<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="minimum_elevation" class="data-entry-label">Minimum Elevation</label>
+						<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="orig_elev_units" class="data-entry-label">Elevation Units</label>
+						<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctElevUnit">
+								<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="MaxElevOper" class="data-entry-label">Elevation</label>
+						<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="maximum_elevation" class="data-entry-label">Maximum Elevation</label>
+						<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input">
+					</div>
+				</div>
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-2">
+						<label class="data-entry-label">Depth</label>
+						<label class="data-entry-label">Original Units</label>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="minDepthOper" class="data-entry-label"></label>
+						<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="min_depth" class="data-entry-label">Minimum Depth</label>
+						<input type="text" name="min_depth" id="min_depth" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="depth_units" class="data-entry-label">Depth Units</label>
+						<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctDepthUnit">
+								<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="MaxDepthOper" class="data-entry-label"></label>
+						<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="max_depth" class="data-entry-label">Maximum Depth</label>
+						<input type="text" name="max_depth" id="max_depth" class="data-entry-input">
+					</div>
+				</div>
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-3">
+						<label for="MinElevOperM" class="data-entry-label">Minimum Elevation In Meters</label>
+						<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="minimum_elevation_m" class="data-entry-label">Minimum</label>
+						<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
+						<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="maximum_elevation_m" class="data-entry-label">Maximum</label>
+						<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input">
+					</div>
+				</div>
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-3">
+						<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
+						<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="min_depth_m" class="data-entry-label">Maximum</label>
+						<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
+						<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-label">
+							<option value="=">is</option>
+							<option value="<>">is not</option>
+							<option value=">">more than</option>
+							<option value="<">less than</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="max_depth_m" class="data-entry-label">Maximum</label>
+						<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input">
+					</div>
+				</div>
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-4">
+						<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
+						<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
+							<option value=""></option>
+							<cfloop query="ctgeology_attribute">
+								<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
+						<input type="text" name="geo_att_value" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
+						<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
+							<option selected="selected" value="0">No</option>
+							<option value="1">Yes</option>
+						</select>
+					</div>
+					<cfif listFind(searchPrefList,"GeorefDetail") EQ 0>
+						<cfset georefDetailStyle="display:none;">
+						<cfset toggleTo = "1">
+						<cfset georefButton = "Show Fields">
+					<cfelse>
+						<cfset georefDetailStyle="">
+						<cfset toggleTo = "0">
+						<cfset georefButton = "Hide Fields">
+					</cfif> 
+					<div class="col-12 col-md-2">
+						<label for="georefDetailCtl" class="data-entry-label">Georeference</label>
+						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
+					</div>
+				</div>
+				<div id="georefDetail" class="border rounded p-1" style="#georefDetailStyle#">
+					<div class="form-row mb-0">
+						<div class="col-12 col-md-2">
+							<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
+							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="findHasGeoRef" class="data-entry-label">Has Georeferences</label>
+							<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="findNoAccGeoRef" class="data-entry-label">No Accepted Georeferences</label>
+							<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="NoGeorefBecause" class="data-entry-label">NoGeorefBecause</label>
+							<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="isIncomplete" class="data-entry-label">isIncomplete</label>
+							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="nullNoGeorefBecause" class="data-entry-label">NULL NoGeorefBecause</label>
+							<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="data-entry-input">
+						</div>
+					</div>
+					<div class="form-row mb-0">
+						<div class="col-12 col-md-3">
+							<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
+							<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="ctVerificationStatus">
+									<option value="#VerificationStatus#">#VerificationStatus#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-3">
+							<label class="data-entry-label">Shared Localities Only</label>
+							<input type="checkbox" name="onlyShared" id="onlyShared" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
+							<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="ctGeorefMethod">
+									<option value="#GeorefMethod#">#GeorefMethod#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-3">
+							<label class="data-entry-label">Geolocate Precision</label>
+							<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
+								<option value="" SELECTED></option>
+								<option value="high" >high</option>
+								<option value="medium" >medium</option>
+								<option value="low" >low</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row mb-0">
+						<div class="col-12 col-md-4">
+							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
+							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-select">
+						</div>
+						<div class="col-12 col-md-4">
+							<label class="data-entry-label">Geolocate Score</label>
+							<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
+								<option value="=" SELECTED>=</option>
+								<option value="<" ><</option>
+								<option value=">" >></option>
+								<option value="between" >between</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-2">
+							<label class="data-entry-label">Min</label>
+							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-2">
+							<label class="data-entry-label">Max</label>
+							<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input">
+						</div>
+					</div>
+				</div><!--- end georefDetail --->
+			</div><!--- end locDetail --->
 			</div>
 		</div>
-		<div id="locDetail" class="" style="#locDetailStyle#">
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-4">
-					<label for="collnOper" class="data-entry-label">Use</label>
-					<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
-						<option value=""></option>
-						<option value="usedOnlyBy">used only by</option>
-						<option value="usedBy">used by</option>
-						<option value="notUsedBy">not used by</option>
-					</select class="data-entry-label">
-				</div>
-				<div class="col-12 col-md-4">
-					<label for="collection_id" class="data-entry-label">Collection</label>
-					<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
-						<option value=""></option>
-						<cfloop query="ctcollection">
-							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
-						</cfloop>
-					</select>
-				</div>
-				<div class="col-12 col-md-4">
-					<label for="curated_fg" class="data-entry-label">Vetted</label>
-					<select name="curated_fg" id="curated_fg" class="data-entry-select">
-						<option value=""></option>
-						<option value="0">No</option>
-						<option value="1">Yes *</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-8">
-					<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-4">
-					<label for="sovereign_nation" class="data-entry-label">Sovereign Nation</label>
-					<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
-						<option value=""></option>
-						<cfloop query="ctsovereign_nation">
-							<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
-						</cfloop>
-						<cfloop query="ctsovereign_nation" startRow="1">
-							<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
-						</cfloop>
-					</select>
-				</div>
-			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-2">
-					<label class="data-entry-label">Elevation</label>
-					<label class="data-entry-label">Original Units</label>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="MinElevOper" class="data-entry-label">(</label>
-					<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="minimum_elevation" class="data-entry-label">Minimum Elevation</label>
-					<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="orig_elev_units" class="data-entry-label">Elevation Units</label>
-					<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
-						<option value=""></option>
-						<cfloop query="ctElevUnit">
-							<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
-						</cfloop>
-					</select>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="MaxElevOper" class="data-entry-label">Elevation</label>
-					<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="maximum_elevation" class="data-entry-label">Maximum Elevation</label>
-					<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input">
-				</div>
-			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-2">
-					<label class="data-entry-label">Depth</label>
-					<label class="data-entry-label">Original Units</label>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="minDepthOper" class="data-entry-label"></label>
-					<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="min_depth" class="data-entry-label">Minimum Depth</label>
-					<input type="text" name="min_depth" id="min_depth" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="depth_units" class="data-entry-label">Depth Units</label>
-					<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
-						<option value=""></option>
-						<cfloop query="ctDepthUnit">
-							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
-						</cfloop>
-					</select>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="MaxDepthOper" class="data-entry-label"></label>
-					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-2">
-					<label for="max_depth" class="data-entry-label">Maximum Depth</label>
-					<input type="text" name="max_depth" id="max_depth" class="data-entry-input">
-				</div>
-			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-3">
-					<label for="MinElevOperM" class="data-entry-label">Minimum Elevation In Meters</label>
-					<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="minimum_elevation_m" class="data-entry-label">Minimum</label>
-					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
-					<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="data-entry-select">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="maximum_elevation_m" class="data-entry-label">Maximum</label>
-					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input">
-				</div>
-			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-3">
-					<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
-					<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="min_depth_m" class="data-entry-label">Maximum</label>
-					<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
-					<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-label">
-						<option value="=">is</option>
-						<option value="<>">is not</option>
-						<option value=">">more than</option>
-						<option value="<">less than</option>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="max_depth_m" class="data-entry-label">Maximum</label>
-					<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input">
-				</div>
-			</div>
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-4">
-					<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
-					<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
-						<option value=""></option>
-						<cfloop query="ctgeology_attribute">
-							<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
-						</cfloop>
-					</select>
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
-					<input type="text" name="geo_att_value" class="data-entry-input">
-				</div>
-				<div class="col-12 col-md-3">
-					<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
-					<select name="geology_attribute_hier" id="geology_attribute_hier" class="data-entry-select">
-						<option selected="selected" value="0">No</option>
-						<option value="1">Yes</option>
-					</select>
-				</div>
-				<cfif listFind(searchPrefList,"GeorefDetail") EQ 0>
-					<cfset georefDetailStyle="display:none;">
-					<cfset toggleTo = "1">
-					<cfset georefButton = "Show Fields">
-				<cfelse>
-					<cfset georefDetailStyle="">
-					<cfset toggleTo = "0">
-					<cfset georefButton = "Hide Fields">
-				</cfif> 
-				<div class="col-12 col-md-2">
-					<label for="georefDetailCtl" class="data-entry-label">Georeference</label>
-					<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
-				</div>
-			</div>
-			<div id="georefDetail" class="border rounded p-1" style="#georefDetailStyle#">
-				<div class="form-row mb-0">
-					<div class="col-12 col-md-2">
-						<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
-						<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="findHasGeoRef" class="data-entry-label">Has Georeferences</label>
-						<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="findNoAccGeoRef" class="data-entry-label">No Accepted Georeferences</label>
-						<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="NoGeorefBecause" class="data-entry-label">NoGeorefBecause</label>
-						<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="isIncomplete" class="data-entry-label">isIncomplete</label>
-						<input type="checkbox" name="isIncomplete" id="isIncomplete" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-2">
-						<label for="nullNoGeorefBecause" class="data-entry-label">NULL NoGeorefBecause</label>
-						<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="data-entry-input">
-					</div>
-				</div>
-				<div class="form-row mb-0">
-					<div class="col-12 col-md-3">
-						<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
-						<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
-							<option value=""></option>
-							<cfloop query="ctVerificationStatus">
-								<option value="#VerificationStatus#">#VerificationStatus#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label">Shared Localities Only</label>
-						<input type="checkbox" name="onlyShared" id="onlyShared" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-3">
-						<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
-						<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
-							<option value=""></option>
-							<cfloop query="ctGeorefMethod">
-								<option value="#GeorefMethod#">#GeorefMethod#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label">Geolocate Precision</label>
-						<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
-							<option value="" SELECTED></option>
-							<option value="high" >high</option>
-							<option value="medium" >medium</option>
-							<option value="low" >low</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-row mb-0">
-					<div class="col-12 col-md-4">
-						<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
-						<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-select">
-					</div>
-					<div class="col-12 col-md-4">
-						<label class="data-entry-label">Geolocate Score</label>
-						<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
-							<option value="=" SELECTED>=</option>
-							<option value="<" ><</option>
-							<option value=">" >></option>
-							<option value="between" >between</option>
-						</select>
-					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Min</label>
-						<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input">
-					</div>
-					<div class="col-12 col-md-2">
-						<label class="data-entry-label">Max</label>
-						<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input">
-					</div>
-				</div>
-			</div><!--- end georefDetail --->
-		</div><!--- end locDetail --->
 	</div>
 	</cfif>
 
