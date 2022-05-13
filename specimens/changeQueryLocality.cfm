@@ -68,7 +68,7 @@
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
-			<div class="container-fluid">
+			<div class="container-lg">
 				<div class="col-12">
 					<h1 class="h3 mt-3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
 					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
@@ -236,7 +236,7 @@
 			maximum_elevation,
 			orig_elev_units
 		</cfquery>
-		<div class="container-fluid">
+		<div class="container-lg">
 			<h2 class="h2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 			<div class="row">
 				<table class="table">
@@ -325,7 +325,7 @@
 </cfquery>
 
 <cfoutput>
-	<div class="container">
+	<div class="container-fluid">
 		<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 		<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 			<form name="filterResults">
@@ -365,7 +365,7 @@
 		</cfif>
 	</div>
 </cfoutput>
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<table class="table">
 			<thead class="thead-light">
