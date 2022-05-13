@@ -335,11 +335,11 @@
 <cfoutput>
 	<div class="container-lg">
 		<div class="row mx-0">
-			<div class="col-12 px-0 mt-3">
-				<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+			<div class="col-12 px-3 mt-3">
+				<h2 class="h3 px-3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
-						<div class="form-row mx-1 px-3 my-2 search-box">
+						<div class="form-row px-3 my-2">
 							<input type="hidden" name="result_id" value="#result_id#">
 							<input type="hidden" name="action" value="entryPoint" id="action">
 							<div class="col-12 col-md-5 my-2">
