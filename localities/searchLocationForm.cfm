@@ -240,7 +240,7 @@
 							<option value="usedOnlyBy">used only by</option>
 							<option value="usedBy">used by</option>
 							<option value="notUsedBy">not used by</option>
-						</select class="data-entry-label">
+						</select>
 					</div>
 					<div class="col-12 col-md-4">
 						<label for="collection_id" class="data-entry-label">Collection</label>
