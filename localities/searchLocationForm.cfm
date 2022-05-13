@@ -452,8 +452,9 @@
 				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
 					<div class="form-row px-2 my-2">
 						<div class="col-12 col-md-2">
-							<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
-							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="data-entry-input">
+							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input">
+							<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
+							
 						</div>
 						<div class="col-12 col-md-2">
 							
@@ -471,8 +472,8 @@
 							<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
-							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-label mt3px small95">
-							<label for="isIncomplete" class="form-check-input">Is Incomplete</label>
+							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input">
+							<label for="isIncomplete" class="form-check-label mt3px small95">Is Incomplete</label>
 						</div>
 						<div class="col-12 col-md-2">
 							<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input">
@@ -491,8 +492,9 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label class="form-check-label mt3px small95">Shared Localities Only</label>
-							<input type="checkbox" name="onlyShared" id="onlyShared" class="data-entry-input">
+							
+							<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
+							<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
