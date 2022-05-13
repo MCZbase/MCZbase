@@ -456,8 +456,11 @@
 							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="findHasGeoRef" class="data-entry-label">Has Georeferences</label>
-							<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="data-entry-input">
+							
+							<div class="form-check">
+								<input class="form-check-input" name="findHasGeoRef" id="findHasGeoRef" value="1" type="checkbox">
+								<label class="form-check-label mt3px small95" for="findHasGeoRef">Has Georeferences</label>
+							</div>
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="findNoAccGeoRef" class="data-entry-label">No Accepted Georeferences</label>
@@ -662,7 +665,7 @@
 						class="btn btn-xs btn-primary px-2">
 					<input type="reset"
 						value="Clear Form"
-						class="btn btn-xs btn-warning">
+						class="btn btn-xs btn-warning ml-2">
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">
