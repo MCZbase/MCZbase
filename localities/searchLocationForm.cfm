@@ -659,10 +659,10 @@
 				<div class="col-12 col-md-3">
 					<input type="submit"
 						value="Search"
-						class="btn btn-xs btn-primary">
+						class="btn btn-xs btn-primary px-2">
 					<input type="reset"
 						value="Clear Form"
-						class="btn btn-xs btn-warning ml-2">
+						class="btn btn-xs btn-warning">
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">
