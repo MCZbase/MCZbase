@@ -57,8 +57,8 @@
 				<cfset toggleTo = "0">
 				<cfset geogButton = "Fewer Fields">
 			</cfif> 
-			<div class="form-row mx-0 mb-0">
-				<div class="col-12 col-md-8 my-3">
+			<div class="form-row mb-0">
+				<div class="col-12 col-md-8 px-4 my-3">
 					<label for="higher_geog" class="data-entry-label">
 						Higher Geog
 						<span class="small90">
@@ -67,11 +67,11 @@
 					</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 my-3">
+				<div class="col-12 col-md-2 px-4 my-3">
 						<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 						<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 my-3">
+				<div class="col-12 col-md-2 px-4 my-3">
 					<label for="geogDetailCtl" class="data-entry-label" style="color: transparent">Geography</label>
 					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
 				</div>
@@ -217,16 +217,16 @@
 					<cfset toggleTo = "0">
 					<cfset locButton = "Fewer Fields">
 				</cfif> 
-				<div class="form-row mx-0 mb-0">
-					<div class="col-12 col-md-8 my-3">
+				<div class="form-row mb-0">
+					<div class="col-12 col-md-8 px-4 my-3">
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 my-3">
+					<div class="col-12 col-md-2 px-4 my-3">
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
 						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 my-3">
+					<div class="col-12 col-md-2 px-4 my-3">
 						<label for="locDetailCtl" class="data-entry-label" style="color: transparent">Locality</label>
 						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
 					</div>
