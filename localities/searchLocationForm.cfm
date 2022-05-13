@@ -46,7 +46,7 @@
 	<div class="row mx-0 mb-0"> 
 		<div class="search-box mt-0">
 			<div class="search-box-header">
-				<h2 class="h3 text-white mt-0 mb-1">Higher Geography</h2>
+				<h2 class="h4 text-white mt-0 mb-1">Search Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -206,7 +206,7 @@
 		<div class="row mx-0 mb-1"> 
 			<div class="search-box mt-3">
 				<div class="search-box-header">
-					<h2 class="h3 text-white mb-1 mt-0">Locality</h2>
+					<h2 class="h4 text-white mb-1 mt-0">Search Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
@@ -662,7 +662,7 @@
 						class="btn btn-xs btn-primary">
 					<input type="reset"
 						value="Clear Form"
-						class="btn btn-xs btn-warning">
+						class="btn btn-xs btn-warning ml-2">
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">
