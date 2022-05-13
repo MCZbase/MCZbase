@@ -650,9 +650,12 @@
 		<div class="container-lg mt-0 mb-3">
 			<div class="row mx-0 mb-3"> 
 				<div class="col-12 col-md-2">
-					<label for="accentInsenstive" class="data-entry-label">Accent Insensitive Search?</label>
-					<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1" class="data-entry-input">
+					<div class="form-check">
+					  <input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" type="checkbox"/>
+					  <label class="form-check-label" for="accentInsenstive">Accent Insensitive Search?</label>
+					</div>
 				</div>
+
 				<div class="col-12 col-md-3">
 					<input type="submit"
 						value="Search"
