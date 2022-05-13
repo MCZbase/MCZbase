@@ -190,11 +190,11 @@
 		<cfoutput>
 			<div class="container-lg">
 				<div class="row mx-0">
-					<div class="col-12">
+					<div class="col-12 mt-3">
 						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
 						<ul class="col-12 list-group">
-							<li class="list-group-item d-flex justify-content-between align-items-center"><a href="#returnURL#">Back to Manage Locality  <span class="badge badge-primary badge-pill">1</span></a></li>
-							<li class="list-group-item d-flex justify-content-between align-items-center"><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results <span class="badge badge-primary badge-pill">1</span></a></li>
+							<li class="list-group-item d-flex justify-content-between align-items-center"><a class="btn btn-xs btn-primary" href="#returnURL#"><i class="fa-solid fa-left"></i> Back to Manage Locality  <span class="badge badge-primary badge-pill">123</span></a></li>
+							<li class="list-group-item d-flex justify-content-between align-items-center"><a class="btn btn-xs btn-secondary" href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#"><i class="fa-solid fa-left"></i> Back to Manage Results <span class="badge badge-primary badge-pill">345</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -336,7 +336,7 @@
 	<div class="container-lg">
 		<div class="row mx-0">
 			<div class="col-12 px-3 mt-3">
-				<h2 class="h3 mb-0">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+				<h2 class="h3 mb-1">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
 						<div class="form-row mb-2">
