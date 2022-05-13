@@ -192,9 +192,9 @@
 				<div class="row mx-0">
 					<div class="col-12">
 						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
-						<ul class="col-12">
-							<li><a href="#returnURL#">Back to Manage Locality</a></li>
-							<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
+						<ul class="col-12 list-group">
+							<li class="list-group-item list-group-item-action list-group-item-danger"><a href="#returnURL#">Back to Manage Locality</a></li>
+							<li class="list-group-item list-group-item-action list-group-item-primary"><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
 						</ul>
 					</div>
 				</div>
@@ -335,8 +335,8 @@
 <cfoutput>
 	<div class="container-lg">
 		<div class="row mx-0">
-			<div class="col-12">
-				<h2 class="h3 px-3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+			<div class="col-12 px-0 mt-3">
+				<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
 						<div class="form-row mx-1 px-3 my-2 search-box">
