@@ -1210,7 +1210,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("accn_status") and len(accn_status) gt 0>
 					<cfif left(accn_status,1) is "!">
-						AND accn_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
+						AND accn_status != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
 					<cfelse>
 						AND accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
 					</cfif>
