@@ -245,9 +245,9 @@
 			orig_elev_units
 	</cfquery>
 	<div class="container-fluid">
-		<div class="col-12 mt-3">
-			<h2 class="h2 px-2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
-			<div class="row mx-0">
+		<div class="row mx-0">
+			<div class="col-12 mt-3">
+				<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 				<table class="table">
 					<thead class="thead-light">
 						<tr>
