@@ -336,7 +336,7 @@
 	<div class="container-lg">
 		<div class="row mx-0">
 			<div class="col-12 px-3 mt-3">
-				<h2 class="h3 mb-1">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+				
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
 						<div class="form-row mb-2">
@@ -373,6 +373,7 @@
 							</div>
 						</div>
 					</form>
+					<h2 class="h3 mb-1">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
 				</cfif>
 			</div>
 		</div>

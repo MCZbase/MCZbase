@@ -451,7 +451,7 @@
 				</div>
 				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
 					<div class="form-row px-2 my-2">
-						<div class="col-12 col-md-2 px-4 pt-3">
+						<div class="col-12 col-md-2 px-5 pt-3">
 							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input">
 							<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
 							
@@ -476,7 +476,7 @@
 						</div>
 						<div class="col-12 col-md-2 px-4 pt-3">
 							<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input">
-							<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL NoGeorefBecause</label>
+							<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL No Georef. Because</label>
 							
 						</div>
 					</div>
@@ -663,7 +663,7 @@
 				<div class="col-12 col-md-3">
 					<input type="submit"
 						value="Search"
-						class="btn btn-xs btn-primary px-2">
+						class="btn btn-xs btn-primary px-5">
 					<input type="reset"
 						value="Clear Form"
 						class="btn btn-xs btn-warning ml-2">
