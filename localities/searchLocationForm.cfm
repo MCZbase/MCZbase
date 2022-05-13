@@ -43,7 +43,7 @@
 
 <cfoutput>
 <section class="col-12 px-0 mt-2 mb-3" title="Geography Search Form">
-	<div class="row mx-0 mb-3"> 
+	<div class="row mx-0 mb-2"> 
 		<div class="search-box">
 			<div class="search-box-header">
 				<h2 class="h3 text-white">Higher Geography</h2>
@@ -202,7 +202,7 @@
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
-	<div class="col-12 px-0 mt-2 mb-3">
+	<div class="container-lg mt-0 mb-3">
 		<div class="row mx-0 mb-3"> 
 			<div class="search-box">
 				<div class="search-box-header">
