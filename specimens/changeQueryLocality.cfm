@@ -164,7 +164,7 @@
 				<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
 			</cfif>
 			<cfif failed>
-				<div class="container">
+				<div class="container-fluid">
 					<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
 					<div><a href="#returnURL#">Back to Manage Locality</a></div>
 				</div>
@@ -184,7 +184,7 @@
 		</cfif>
 		<cfset actionWord = "That Have Been">
 		<cfoutput>
-			<div class="container">
+			<div class="container-fluid">
 				<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
 				<ul>
 					<li><a href="#returnURL#">Back to Manage Locality</a></li>
@@ -236,7 +236,7 @@
 			maximum_elevation,
 			orig_elev_units
 		</cfquery>
-		<div class="container">
+		<div class="container-fluid">
 			<h2 class="h2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 			<div class="row">
 				<table class="table">
