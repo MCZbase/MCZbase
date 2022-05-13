@@ -67,7 +67,7 @@
 					</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 px-4 my-3">
+				<div class="col-12 col-md-2 px-0 my-3">
 						<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 						<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 				</div>
@@ -222,7 +222,7 @@
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 px-4 my-3">
+					<div class="col-12 col-md-2 px-0 my-3">
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
 						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
 					</div>
