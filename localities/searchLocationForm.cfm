@@ -414,7 +414,7 @@
 						<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input">
 					</div>
 				</div>
-				<div class="form-row px-3 my-2">
+				<div class="form-row px-3 mt-2 mb-3">
 					<div class="col-12 col-md-4">
 						<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
 						<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
@@ -445,7 +445,7 @@
 						<cfset georefButton = "Hide Fields">
 					</cfif> 
 					<div class="col-12 col-md-2">
-						<label for="georefDetailCtl" class="data-entry-label">Georeference</label>
+						<label for="georefDetailCtl" class="data-entry-label" style="color: transparent">Georeference</label>
 						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
 					</div>
 				</div>
