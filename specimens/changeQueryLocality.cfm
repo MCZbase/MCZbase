@@ -373,7 +373,7 @@
 							</div>
 						</div>
 					</form>
-					<h2 class="h3 mb-1">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+					
 				</cfif>
 			</div>
 		</div>
@@ -382,6 +382,9 @@
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12">
+			<output>
+				<h2 class="h3 mb-1">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+			</output>
 			<table class="table">
 				<thead class="thead-light">
 					<tr>
