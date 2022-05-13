@@ -192,13 +192,13 @@
 				<div class="row mx-0">
 					<div class="col-12 mt-3">
 						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
-						<ul class="col-12 list-group">
+						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
-								<a href="#returnURL#" class="btn btn-xs btn-primary">Back to Manage Locality  <!---<span class="badge badge-primary badge-pill">1</span>--->
+								<a href="#returnURL#">Back to Manage Locality  <!---<span class="badge badge-primary badge-pill">1</span>--->
 								</a>
 							</li>
 							<li class="list-group-item d-flex justify-content-between align-items-center">
-								<a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#" class="btn btn-xs btn-secondary">Back to Manage Results <!---<span class="badge badge-primary badge-pill">1</span>--->
+								<a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results <!---<span class="badge badge-primary badge-pill">1</span>--->
 								</a>
 							</li>
 						</ul>
