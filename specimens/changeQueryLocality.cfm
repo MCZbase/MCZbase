@@ -237,9 +237,9 @@
 			orig_elev_units
 	</cfquery>
 	<div class="container-fluid">
-		<div class="col-12">
-			<h2 class="h2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
-			<div class="row">
+		<div class="col-12 mt-3">
+			<h2 class="h2 px-2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
+			<div class="row mx-0">
 				<table class="table">
 					<thead class="thead-light">
 						<tr>
@@ -292,9 +292,7 @@
 										</cfif>
 										<input type="submit"
 								value="Change ALL to this Locality"
-								class="btn btn-warning btn-xs"
-								onmouseover="this.className='savBtn btnhov'"
-								onmouseout="this.className='savBtn'">
+								class="btn btn-warning btn-xs">
 					</form>
 				</td>
 				<td>#spec_locality#</td>
