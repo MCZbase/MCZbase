@@ -70,7 +70,7 @@
 		<cfoutput>
 			<div class="container-lg">
 				<div class="col-12">
-					<h1 class="h3 mt-3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+					<h1 class="h3 mt-3 px-3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
 					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 					<input type="hidden" name="Action" value="findLocality">
 					<input type="hidden" name="result_id" value="#result_id#">
@@ -197,7 +197,7 @@
 	<cfcase value="findLocality">
 	<cfoutput>
 	<cf_findLocality>
-		<cfquery name="localityResults" dbtype="query">
+	<cfquery name="localityResults" dbtype="query">
 		SELECT
 			locality_id,
 			geog_auth_rec_id,
@@ -235,8 +235,9 @@
 			minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
-		</cfquery>
-		<div class="container-lg">
+	</cfquery>
+	<div class="container-fluid">
+		<div class="col-12">
 			<h2 class="h2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 			<div class="row">
 				<table class="table">
@@ -248,7 +249,7 @@
 							<th>Spec Locality</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
-							<th>Georeference</th>
+							<th style="width: 11%;">Georeference</th>
 							<th>Geology</th>
 						</tr>
 					</thead>
@@ -308,6 +309,7 @@
 </table>
 			</div>
 		</div>
+	</div>
 		</cfoutput>
 	</cfcase>
 </cfswitch>
