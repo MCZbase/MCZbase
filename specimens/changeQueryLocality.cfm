@@ -189,12 +189,14 @@
 		<cfset actionWord = "That Have Been">
 		<cfoutput>
 			<div class="container-fluid">
-				<div class="row">
-					<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
-					<ul>
-						<li><a href="#returnURL#">Back to Manage Locality</a></li>
-						<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
-					</ul>
+				<div class="row mx-0">
+					<div class="col-12">
+						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+						<ul class="col-12">
+							<li><a href="#returnURL#">Back to Manage Locality</a></li>
+							<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</cfoutput>
