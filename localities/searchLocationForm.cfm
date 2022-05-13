@@ -463,20 +463,21 @@
 							</div>
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="findNoAccGeoRef" class="data-entry-label">No Accepted Georeferences</label>
-							<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="data-entry-input">
+							<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input">
+							<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="NoGeorefBecause" class="data-entry-label">No Georef. Because</label>
 							<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="isIncomplete" class="data-entry-label">Is Incomplete</label>
-							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="data-entry-input">
+							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-label mt3px small95">
+							<label for="isIncomplete" class="form-check-input">Is Incomplete</label>
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="nullNoGeorefBecause" class="data-entry-label">NULL NoGeorefBecause</label>
-							<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="data-entry-input">
+							<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input">
+							<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL NoGeorefBecause</label>
+							
 						</div>
 					</div>
 					<div class="form-row px-3 my-2">
@@ -490,7 +491,7 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label class="data-entry-label">Shared Localities Only</label>
+							<label class="form-check-label mt3px small95">Shared Localities Only</label>
 							<input type="checkbox" name="onlyShared" id="onlyShared" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
