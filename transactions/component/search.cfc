@@ -499,7 +499,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("loan_status") AND len(#loan_status#) gt 0>
 					<cfif loan_status eq "not closed">
-						AND loan.loan_status <> 'closed'
+						AND loan.loan_status != 'closed'
 					<cfelse>
 						 AND loan.loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_status#'>
 					</cfif>
@@ -1266,7 +1266,7 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
 					<cfif left(accn_type,1) is "!">
-						AND accn_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
+						AND accn_type != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
 					<cfelse>
 						AND accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
 					</cfif>
@@ -1378,7 +1378,7 @@ limitations under the License.
 						AND estimated_count > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
 						AND estimated_count IS NOT NULL
 					<cfelseif left(estimated_count,1) is "!">
-						AND (estimated_count <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+						AND (estimated_count != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
 							OR estimated_count IS NULL)
 					<cfelseif left(estimated_count,1) is "=">
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
@@ -1661,7 +1661,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("deacc_status") and len(deacc_status) gt 0>
 					<cfif left(deacc_status,1) is "!">
-						AND deacc_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_status,len(deacc_status)-1))#"> 
+						AND deacc_status != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_status,len(deacc_status)-1))#"> 
 					<cfelse>
 						AND deacc_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_status#">
 					</cfif>
@@ -1712,7 +1712,7 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("deacc_type") and len(#deacc_type#) gt 0>
 					<cfif left(deacc_type,1) is "!">
-						AND deacc_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_type,len(deacc_type)-1))#"> 
+						AND deacc_type != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_type,len(deacc_type)-1))#"> 
 					<cfelse>
 						AND deacc_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">
 					</cfif>
@@ -1834,7 +1834,7 @@ limitations under the License.
 						AND estimated_count > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
 						AND estimated_count IS NOT NULL
 					<cfelseif left(estimated_count,1) is "!">
-						AND (estimated_count <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+						AND (estimated_count != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
 							OR estimated_count IS NULL)
 					<cfelseif left(estimated_count,1) is "=">
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
@@ -2124,7 +2124,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("borrow_status") and len(borrow_status) gt 0>
 					<cfif left(borrow_status,1) is "!">
-						AND upper(borrow_status) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(borrow_status,len(borrow_status)-1))#"> 
+						AND upper(borrow_status) != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(borrow_status,len(borrow_status)-1))#"> 
 					<cfelse>
 						AND borrow_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#borrow_status#">
 					</cfif>
@@ -2218,7 +2218,7 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("lenders_loan_type") and len(#lenders_loan_type#) gt 0>
 					<cfif left(lenders_loan_type,1) is "!">
-						AND lenders_loan_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(lenders_loan_type,len(lenders_loan_type)-1))#"> 
+						AND lenders_loan_type != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(lenders_loan_type,len(lenders_loan_type)-1))#"> 
 					<cfelse>
 						AND lenders_loan_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_type#">
 					</cfif>
