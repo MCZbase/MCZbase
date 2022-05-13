@@ -361,7 +361,7 @@
 							</div>
 							<div class="col-12 col-md-2 my-2">
 								<label for="filter records" class="data-entry-label" style="color: transparent">Filter</label>
-								<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
+								<input type="submit" class="btn btn-xs btn-primary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
 							</div>
 						</div>
 					</form>
