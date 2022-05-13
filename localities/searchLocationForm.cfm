@@ -449,7 +449,7 @@
 						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
 					</div>
 				</div>
-				<div id="georefDetail" class="border rounded p-1" style="#georefDetailStyle#">
+				<div id="georefDetail" class="border m-2 rounded p-1" style="#georefDetailStyle#">
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-2">
 							<label for="findNoGeoRef" class="data-entry-label">No Georeferences</label>
@@ -464,11 +464,11 @@
 							<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="NoGeorefBecause" class="data-entry-label">NoGeorefBecause</label>
+							<label for="NoGeorefBecause" class="data-entry-label">No Georef. Because</label>
 							<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
-							<label for="isIncomplete" class="data-entry-label">isIncomplete</label>
+							<label for="isIncomplete" class="data-entry-label">Is Incomplete</label>
 							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-2">
@@ -509,7 +509,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-row px-2 my-2">
+					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-4">
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
 							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input">
