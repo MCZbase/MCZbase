@@ -652,7 +652,7 @@
 				<div class="col-12 col-md-2">
 					<div class="form-check">
 					  <input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" type="checkbox"/>
-					  <label class="form-check-label" for="accentInsenstive">Accent Insensitive Search?</label>
+					  <label class="form-check-label small" for="accentInsenstive">Accent Insensitive?</label>
 					</div>
 				</div>
 
