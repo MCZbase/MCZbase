@@ -218,7 +218,7 @@
 					<cfset locButton = "Fewer Fields">
 				</cfif> 
 				<div class="form-row mx-0 mb-0">
-					<div class="col-12 col-md-8 px-3 px-md-0 my-md-3 mt-2 mb-0">
+					<div class="col-12 col-md-8 px-3 my-md-3 mt-2 mb-0">
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 					</div>
@@ -226,7 +226,7 @@
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
 						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 px-3 px-md-0 my-md-3 mt-2 mb-0">
+					<div class="col-12 col-md-2 px-3 my-md-3 mt-2 mb-0">
 						<label for="locDetailCtl" class="data-entry-label" style="color: transparent">Locality</label>
 						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
 					</div>
