@@ -49,7 +49,7 @@
 	<div class="row mx-0 mb-0"> 
 		<div class="col-12 px-0 mt-0">
 			<div class="jqx-widget-header border-bottom px-4 py-1">
-				<h2 class="h4 text-dark mt-1 mb-1">Higher Geography</h2>
+				<h2 class="h4 text-dark mb-0">Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -207,7 +207,7 @@
 		<div class="row mb-1"> 
 			<div class="col-12 mt-3">
 				<div class="jqx-widget-header border-bottom border-top px-4 py-1">
-					<h2 class="h4 text-dark mt-1 mb-1">Locality</h2>
+					<h2 class="h4 text-dark mb-0">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
