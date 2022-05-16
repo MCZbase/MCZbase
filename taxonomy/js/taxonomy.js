@@ -399,10 +399,17 @@ function lookupName(taxon_name_id,target) {
 					result_table = result_table + "<td></td>";
 					result_table = result_table + "<td></td>";
 				} else { 
+					var guid = assertions["guid"];
+					if (guid && guid.startsWith("urn:lsid:marinespecies.org:taxname:")) { 
+						guid = "<a href='https://marinespecies.org/aphia.php?p=taxdetails&id=" + guid.replace("urn:lsid:marinespecies.org:taxname:","") +  "'>" + guid + "</a>";
+					} else if (guid && guid.startsWith("http://api.gbif.org/v1/species/5186454")) { 
+						guid = guid.replace("http://api.gbif.org/v1/species/","https://www.gbif.org/species/");
+						guid = "<a href='"+guid+"'>"+ guid + "</a>";
+					}
 					result_table = result_table + "<td>" +  assertions["matchDescription"] + "</td>";
 					result_table = result_table + "<td>" +  assertions["scientificName"] + "</td>";
 					result_table = result_table + "<td>" +  assertions["authorship"] + "</td>";
-					result_table = result_table + "<td>" +  assertions["guid"] + "</td>";
+					result_table = result_table + "<td>" +  guid + "</td>";
 					result_table = result_table + "<td>" +  assertions["authorStringDistance"] + "</td>";
 					result_table = result_table + "<td>" +  assertions["habitatFlags"] + "</td>";
 				}
