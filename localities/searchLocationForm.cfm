@@ -42,6 +42,7 @@
 </cfif>
 
 <cfoutput>
+<<<<<<< HEAD
 <div class="container-lg mt-0 mb-3">
 	<div class="search-box mt-0">
 		<div class="search-box-header bg-secondary">
@@ -49,6 +50,16 @@
 		</div>
 		<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
 		<div class="row mx-0 mb-0"> 
+=======
+<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
+
+	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
+	<div class="row mx-0 mb-0"> 
+		<div class="search-box mt-0">
+			<div class="search-box-header">
+				<h2 class="h4 text-white mt-1 mb-1">Higher Geography</h2>
+			</div>
+>>>>>>> origin/test
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
 				<cfset toggleTo = "1">
@@ -74,7 +85,7 @@
 				</div>
 				<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline" style="color: transparent">Geography</label>
-					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
+					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 				</div>
 			</div>
 			<div id="geogDetail" class="col-12 px-3" style="#geogDetailStyle#">
@@ -197,6 +208,11 @@
 					</div>
 				</div>
 			</div>
+<<<<<<< HEAD
+=======
+		</div>
+	</div>
+>>>>>>> origin/test
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
@@ -225,7 +241,7 @@
 					</div>
 					<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 						<label for="locDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Locality</label>
-						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
+						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 					</div>
 				</div>
 				<div id="locDetail" class="" style="#locDetailStyle#">
@@ -443,7 +459,7 @@
 					</cfif> 
 					<div class="col-12 col-md-2">
 						<label for="georefDetailCtl" class="data-entry-label" style="color: transparent">Georeference</label>
-						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
+						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
 					</div>
 				</div>
 				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
@@ -570,7 +586,7 @@
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
-							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</span>
+							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 						</div>
 					</div>
 					<div class="form-row px-3 my-2">

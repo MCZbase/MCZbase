@@ -69,20 +69,22 @@
 		<cfset showEvent=0>
 		<cfoutput>
 			<div class="container-lg">
-				<div class="col-12">
-					<h1 class="h3 mt-3 px-3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+				<div class="col-12 search-box">
+					<div class="search-box-header">
+						<h1 class="h3 mt-3 px-3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+					</div>
 					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
-					<input type="hidden" name="Action" value="findLocality">
-					<input type="hidden" name="result_id" value="#result_id#">
-					<cfif isdefined("filterOrder")>
-						<input type="hidden" name="filterOrder" value="#filterOrder#">
-					</cfif>
-					<cfif isdefined("filterFamily")>
-						<input type="hidden" name="filterFamily" value="#filterFamily#">
-					</cfif>
-					<cfset showSpecimenCounts = false>
-					<cfinclude template="/localities/searchLocationForm.cfm">
-				</form>
+						<input type="hidden" name="Action" value="findLocality">
+						<input type="hidden" name="result_id" value="#result_id#">
+						<cfif isdefined("filterOrder")>
+							<input type="hidden" name="filterOrder" value="#filterOrder#">
+						</cfif>
+						<cfif isdefined("filterFamily")>
+							<input type="hidden" name="filterFamily" value="#filterFamily#">
+						</cfif>
+						<cfset showSpecimenCounts = false>
+						<cfinclude template="/localities/searchLocationForm.cfm">
+					</form>
 				</div>
 			</div>
 		</cfoutput>
