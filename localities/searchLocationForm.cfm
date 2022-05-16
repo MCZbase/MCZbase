@@ -57,8 +57,8 @@
 				<cfset toggleTo = "0">
 				<cfset geogButton = "Fewer Fields">
 			</cfif> 
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-8 px-md-4 px-2 my-md-3 mt-2 mb-0">
+			<div class="form-row mx-0 mb-0">
+				<div class="col-12 col-md-8 px-3 my-md-3 mt-2 mb-0">
 					<label for="higher_geog" class="data-entry-label">
 						Higher Geog
 						<span class="small90">
