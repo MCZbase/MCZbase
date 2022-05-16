@@ -653,19 +653,17 @@
 	<div class="col-12"> 
 		<div class="container-lg mt-0 mb-3">
 			<div class="row mx-0 mb-3"> 
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 px-0">
 					<div class="form-check">
 					  <input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" type="checkbox"/>
 					  <label class="form-check-label mt3px small" for="accentInsenstive">Accent Insensitive?</label>
 					</div>
 				</div>
 
-				<div class="col-12 col-md-3">
-					<input type="submit"
-						value="Search"
-						class="btn btn-xs btn-primary px-5">
-					<input type="reset"
-						value="Clear Form"
+				<div class="col-12 col-md-6 px-0 pt-3 pt-md-0">
+					<input type="submit" value="Search"
+						class="btn btn-xs btn-primary px-2 float-left px-xl-3">
+					<input type="reset" value="Clear Form"
 						class="btn btn-xs btn-warning ml-2">
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
