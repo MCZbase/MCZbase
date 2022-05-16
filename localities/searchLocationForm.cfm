@@ -547,10 +547,10 @@
 			
 	<!----------------------------------- Collecting Event ----------------------------------------------------------->
 	<cfif #showEvent# is 1>
-		<div class="row mx-0 mb-3"> 
-			<div class="search-box">
-				<div class="search-box-header">
-					<h2 class="h3 text-white">Collecting Event</h2>
+		<div class="row mx-0 mb-0"> 
+			<div class="col-12 px-0 mt-0">
+				<div class="jqx-widget-header border-bottom px-4 py-1">
+					<h2 class="h4 text-dark mb-0">Higher Geography</h2>
 				</div>
 				<cfif listFind(searchPrefList,"EventDetail") EQ 0>
 					<cfset eventDetailStyle="display:none;">
