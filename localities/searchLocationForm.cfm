@@ -43,6 +43,8 @@
 
 <cfoutput>
 <section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
+
+	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 	<div class="row mx-0 mb-0"> 
 		<div class="search-box mt-0">
 			<div class="search-box-header">
@@ -73,7 +75,7 @@
 				</div>
 				<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline" style="color: transparent">Geography</label>
-					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
+					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 				</div>
 			</div>
 			<div id="geogDetail" class="col-12 px-3" style="#geogDetailStyle#">
@@ -198,7 +200,6 @@
 			</div>
 		</div>
 	</div>
-</div> 
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
