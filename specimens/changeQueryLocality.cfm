@@ -168,7 +168,7 @@
 					<div class="row">
 						<div class="col-12 mt-3">
 							<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
-							<div><a href="#returnURL#" class="btn btn-xs btn-primary">Back to Manage Locality</a></div>
+							<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality</a></div>
 						</div>
 					</div>
 				</div>
@@ -188,7 +188,7 @@
 		</cfif>
 		<cfset actionWord = "That Have Been">
 		<cfoutput>
-			<div class="container-lg">
+			<div class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 mt-3">
 						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
