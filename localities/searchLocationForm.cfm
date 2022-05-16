@@ -42,16 +42,7 @@
 </cfif>
 
 <cfoutput>
-<<<<<<< HEAD
-<div class="container-lg mt-0 mb-3">
-	<div class="search-box mt-0">
-		<div class="search-box-header bg-secondary">
-			<h1 class="h4 text-white mt-1 mb-1">Higher Geography</h1>
-		</div>
-		<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
-		<div class="row mx-0 mb-0"> 
-=======
-<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
+<section class="col-12 px-0 mt-1 mb-0" title="Geography Search Form">
 
 	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 	<div class="row mx-0 mb-0"> 
@@ -59,7 +50,6 @@
 			<div class="search-box-header">
 				<h2 class="h4 text-white mt-1 mb-1">Higher Geography</h2>
 			</div>
->>>>>>> origin/test
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
 				<cfset toggleTo = "1">
@@ -208,11 +198,8 @@
 					</div>
 				</div>
 			</div>
-<<<<<<< HEAD
-=======
 		</div>
 	</div>
->>>>>>> origin/test
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
