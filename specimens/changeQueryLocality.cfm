@@ -190,7 +190,7 @@
 		<cfoutput>
 			<div class="container-fluid">
 				<div class="row mx-0">
-					<div class="col-12 mt-3">
+					<div class="col-12 px-4 mt-3">
 						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
