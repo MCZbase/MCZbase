@@ -63,7 +63,7 @@
 			<br />Note: If any records have related media, you must remove those relationships prior to deleting those records.
 			<br />
 			If you are really sure about this, push the button.
-			<br />Otherwise, <a href="/SpecimenSearch.cfm">go somewhere safe</a>
+			<br />Otherwise, <a href="/Specimens.cfm">go somewhere safe</a>
 		</p>
 		<input type="button" value="Delete All These Records" onclick="document.location='deleteSpecByEncumbrance.cfm?action=goAway&encumbrance_id=#encumbrance_id#'" />
 	</cfoutput>

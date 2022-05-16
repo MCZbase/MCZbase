@@ -16,8 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<!--- **** Beging temporary block, to prevent Specimens.cfm from displaying on production before we are ready * --->
-<!--- Delete this temporary block when Specimens.cfm is ready for production --->
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
@@ -25,16 +23,6 @@ limitations under the License.
 	<cfset gitBranch = "unknown">
 </cfcatch>
 </cftry>
-<cfif findNoCase('redesign',gitBranch) EQ 0>
-	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-		<!--- logged in users now able to see redesigned specimen search on production --->
-	<cfelse>
-		<cfscript>
-			getPageContext().forward("/SpecimenSearch.cfm");
-		</cfscript>
-	</cfif>
-</cfif>
-<!--- **** End temporary block ******************************************************************************** --->
 
 <cfif not isdefined("action")>
 	<!--- set the default tab based on user preferences --->
