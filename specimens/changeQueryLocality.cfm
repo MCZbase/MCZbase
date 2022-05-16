@@ -389,7 +389,7 @@
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12">
-			<table class="table table-responsive">
+			<table class="table table-responsive-sm">
 				<thead class="thead-light">
 					<tr>
 						<th>Catalog Number</th>
