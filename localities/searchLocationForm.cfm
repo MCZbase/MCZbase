@@ -46,7 +46,7 @@
 	<div class="row mx-0 mb-0"> 
 		<div class="search-box mt-0">
 			<div class="search-box-header">
-				<h2 class="h4 text-white mt-1 mb-1">Search Higher Geography</h2>
+				<h2 class="h4 text-white mt-1 mb-1">Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -68,8 +68,8 @@
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
-						<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
-						<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
+					<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
+					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline" style="color: transparent">Geography</label>
@@ -206,7 +206,7 @@
 		<div class="row mx-0 mb-1"> 
 			<div class="search-box mt-3">
 				<div class="search-box-header">
-					<h2 class="h4 text-white my-1">Search Locality</h2>
+					<h2 class="h4 text-white my-1">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
