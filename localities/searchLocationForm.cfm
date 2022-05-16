@@ -483,7 +483,7 @@
 							
 						</div>
 					</div>
-					<div class="form-row px-0 px-3 my-2">
+					<div class="form-row mx-0 px-3 my-2">
 						<div class="col-12 col-md-3 px-0 mb-2">
 							<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
 							<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
@@ -516,8 +516,8 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-row mx-0 px-3 my-1">
-						<div class="col-12 col-md-4">
+					<div class="form-row mx-0 px-3 my-2">
+						<div class="col-12 col-md-4 pl-0 my-1">
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
 							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input">
 						</div>
