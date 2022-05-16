@@ -47,7 +47,7 @@
 	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 	<div class="row mx-0 mb-0"> 
 		<div class="col-12 px-0 mt-0">
-			<div class="search-box-header border-bottom bg-light">
+			<div class="jqx-widget-header border-bottom px-4 py-1">
 				<h2 class="h4 text-dark mt-1 mb-1">Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
