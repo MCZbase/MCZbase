@@ -492,11 +492,11 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 px-4 py-3">
+						<div class="col-12 col-md-3 px-4 px-md-5 py-3">
 							<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
 							<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
 						</div>
-						<div class="col-12 col-md-3 px-0 my-2">
+						<div class="col-12 col-md-3 my-1">
 							<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
 							<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
 								<option value=""></option>
@@ -505,7 +505,7 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 px-0 my-2">
+						<div class="col-12 col-md-3 my-1">
 							<label class="data-entry-label">Geolocate Precision</label>
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
 								<option value="" SELECTED></option>
@@ -515,12 +515,12 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-row mx-0 px-3 my-2">
+					<div class="form-row mx-0 px-3 my-1">
 						<div class="col-12 col-md-4">
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
 							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 my-1">
 							<label class="data-entry-label">Geolocate Score</label>
 							<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
 								<option value="=" SELECTED>=</option>
@@ -529,11 +529,11 @@
 								<option value="between" >between</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 my-1">
 							<label class="data-entry-label">Min</label>
 							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 my-1">
 							<label class="data-entry-label">Max</label>
 							<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input">
 						</div>
