@@ -229,7 +229,7 @@
 					</div>
 					<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 						<label for="locDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Locality</label>
-						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
+						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 					</div>
 				</div>
 				<div id="locDetail" class="" style="#locDetailStyle#">
@@ -447,7 +447,7 @@
 					</cfif> 
 					<div class="col-12 col-md-2">
 						<label for="georefDetailCtl" class="data-entry-label" style="color: transparent">Georeference</label>
-						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
+						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
 					</div>
 				</div>
 				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
@@ -575,7 +575,7 @@
 						</div>
 						<div class="col-12 col-md-2">
 							<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
-							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</span>
+							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 						</div>
 					</div>
 					<div class="form-row px-3 my-2">
