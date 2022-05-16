@@ -42,12 +42,13 @@
 </cfif>
 
 <cfoutput>
-<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
-	<div class="row mx-0 mb-0"> 
-		<div class="search-box mt-0">
-			<div class="search-box-header">
-				<h2 class="h4 text-white mt-1 mb-1">Higher Geography</h2>
-			</div>
+<div class="container-lg mt-0 mb-3">
+	<div class="search-box mt-0">
+		<div class="search-box-header bg-secondary">
+			<h1 class="h4 text-white mt-1 mb-1">Higher Geography</h1>
+		</div>
+		<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
+		<div class="row mx-0 mb-0"> 
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
 				<cfset toggleTo = "1">
@@ -196,17 +197,13 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-</div> 
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
-	<div class="container-lg mt-0 mb-3">
 		<div class="row mx-0 mb-1"> 
 			<div class="search-box mt-3">
-				<div class="search-box-header">
-					<h2 class="h4 text-white my-1">Locality</h2>
+				<div class="search-box-header bg-light border">
+					<h2 class="h4 my-1">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
@@ -542,9 +539,8 @@
 			</div><!--- end locDetail --->
 			</div>
 		</div>
-	</div>
 	</cfif>
-
+			
 	<!----------------------------------- Collecting Event ----------------------------------------------------------->
 	<cfif #showEvent# is 1>
 	<div class="col-12"> 
@@ -781,5 +777,9 @@
 			</cfif>
 		}
 	</script>
-</section>
+							
+				</div>
+		</section>
+	</div>
+</div>
 </cfoutput>
