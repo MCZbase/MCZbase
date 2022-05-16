@@ -46,7 +46,7 @@
 
 	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 	<div class="row mx-0 mb-0"> 
-		<div class="search-box mt-0">
+		<div class="col-12 mt-0">
 			<div class="search-box-header">
 				<h2 class="h4 text-white mt-1 mb-1">Higher Geography</h2>
 			</div>
@@ -204,8 +204,8 @@
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
 		<div class="row mx-0 mb-1"> 
-			<div class="search-box mt-3">
-				<div class="search-box-header bg-light border">
+			<div class="col-12 mt-3">
+				<div class="search-box-header">
 					<h2 class="h4 my-1">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
