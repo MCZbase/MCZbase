@@ -203,7 +203,6 @@
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
-	<div class="container-lg mt-0 mb-3">
 		<div class="row mx-0 mb-1"> 
 			<div class="col-12 mt-3">
 				<div class="search-box-header">
@@ -543,112 +542,107 @@
 			</div><!--- end locDetail --->
 			</div>
 		</div>
-	</div>
 	</cfif>
 
 	<!----------------------------------- Collecting Event ----------------------------------------------------------->
 	<cfif #showEvent# is 1>
-	<div class="col-12"> 
-		<div class="container-lg mt-0 mb-3">
-			<div class="row mx-0 mb-3"> 
-				<div class="search-box">
-					<div class="search-box-header">
-						<h2 class="h3 text-white">Collecting Event</h2>
+		<div class="row mx-0 mb-3"> 
+			<div class="search-box">
+				<div class="search-box-header">
+					<h2 class="h3 text-white">Collecting Event</h2>
+				</div>
+				<cfif listFind(searchPrefList,"EventDetail") EQ 0>
+					<cfset eventDetailStyle="display:none;">
+					<cfset toggleTo = "1">
+					<cfset eventButton = "More Fields">
+				<cfelse>
+					<cfset eventDetailStyle="">
+					<cfset toggleTo = "0">
+					<cfset eventButton = "Fewer Fields">
+				</cfif> 
+				<div class="form-row px-3 my-2">
+					<div class="col-12 col-md-8">
+						<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
+						<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input">
 					</div>
-					<cfif listFind(searchPrefList,"EventDetail") EQ 0>
-						<cfset eventDetailStyle="display:none;">
-						<cfset toggleTo = "1">
-						<cfset eventButton = "More Fields">
-					<cfelse>
-						<cfset eventDetailStyle="">
-						<cfset toggleTo = "0">
-						<cfset eventButton = "Fewer Fields">
-					</cfif> 
-					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-8">
-							<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
-							<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="collecting_event_id">Collecting Event ID</label>
-							<input type="text" name="collecting_event_id" id="collecting_event_id" >
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
-							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
-						</div>
+					<div class="col-12 col-md-2">
+						<label for="collecting_event_id">Collecting Event ID</label>
+						<input type="text" name="collecting_event_id" id="collecting_event_id" >
 					</div>
+					<div class="col-12 col-md-2">
+						<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
+						<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
+					</div>
+				</div>
+				<div class="form-row px-3 my-2">
+					<div class="col-12 col-md-2">
+						<label for="begDateOper" class="data-entry-label">Began Date(</label>
+						<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<">before</option>
+							<option value=">">after</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<input type="text" name="began_date" id="began_date" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="endDateOper" class="data-entry-label">Ended Date</label>
+						<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select">
+							<option value="=">is</option>
+							<option value="<">before</option>
+							<option value=">">after</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-2">
+						<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
+						<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
+					</div>
+				</div>
+				<div id="eventDetail" style="#eventDetailStyle#" >
 					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-2">
-							<label for="begDateOper" class="data-entry-label">Began Date(</label>
-							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select">
-								<option value="=">is</option>
-								<option value="<">before</option>
-								<option value=">">after</option>
-							</select>
+						<div class="col-12 col-md-3">
+					   <label for="verbatimCoordinates">Verbatim Coordinates</label>
+							<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" size="30">
 						</div>
 						<div class="col-12 col-md-3">
-							<input type="text" name="began_date" id="began_date" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="endDateOper" class="data-entry-label">Ended Date</label>
-							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select">
-								<option value="=">is</option>
-								<option value="<">before</option>
-								<option value=">">after</option>
-							</select>
+							<label for="collecting_method" class="data-entry-label">Collecting Method</label>
+							<input type="text" name="collecting_method" id="collecting_method"  class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
-							<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
+							<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
+							<input type="text" name="coll_event_remarks" id="coll_event_remarks"  class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-2">
-							<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
-							<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
+						<div class="col-12 col-md-3">
+					   <label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
+							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem"  class="data-entry-input">
 						</div>
 					</div>
-					<div id="eventDetail" style="#eventDetailStyle#" >
-						<div class="form-row px-3 my-2">
-							<div class="col-12 col-md-3">
-						   <label for="verbatimCoordinates">Verbatim Coordinates</label>
-								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" size="30">
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="collecting_method" class="data-entry-label">Collecting Method</label>
-								<input type="text" name="collecting_method" id="collecting_method"  class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
-								<input type="text" name="coll_event_remarks" id="coll_event_remarks"  class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3">
-						   <label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
-								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem"  class="data-entry-input">
-							</div>
+					<div class="form-row px-3 my-2">
+						<div class="col-12 col-md-4">
+							<label for="habitat_desc" class="data-entry-label">Habitat</label>
+							<input type="text" name="habitat_desc" id="habitat_desc"  class="data-entry-input">
 						</div>
-						<div class="form-row px-3 my-2">
-							<div class="col-12 col-md-4">
-								<label for="habitat_desc" class="data-entry-label">Habitat</label>
-								<input type="text" name="habitat_desc" id="habitat_desc"  class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-4">
-								<label for="collecting_source">Collecting Source</label>
-								<select name="collecting_source" id="collecting_source" size="1">
-									<option value=""></option>
-									<cfloop query="ctCollectingSource">
-										<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4">
-							<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
-								<input type="text" name="verbatimSRS" id="verbatimSRS" size="30">
-							</div>
+						<div class="col-12 col-md-4">
+							<label for="collecting_source">Collecting Source</label>
+							<select name="collecting_source" id="collecting_source" size="1">
+								<option value=""></option>
+								<cfloop query="ctCollectingSource">
+									<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-4">
+						<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
+							<input type="text" name="verbatimSRS" id="verbatimSRS" size="30">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</cfif>
 
 	<!---------------   Buttons ------------------------------------------------>
