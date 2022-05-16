@@ -206,8 +206,8 @@
 	<cfif #showLocality# IS 1>
 		<div class="row mx-0 mb-1"> 
 			<div class="col-12 mt-3">
-				<div class="search-box-header">
-					<h2 class="text-white h4 my-1">Locality</h2>
+				<div class="jqx-widget-header border-bottom border-top px-4 py-1">
+					<h2 class="h4 text-dark mt-1 mb-1">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
