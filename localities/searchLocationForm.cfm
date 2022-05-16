@@ -42,7 +42,8 @@
 </cfif>
 
 <cfoutput>
-<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
+<div class="row">
+<section class="col-12 px-0 mt-0 mb-0" title="Geography, Locality, Collecting Event Search Form">
 
 	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 	<div class="row mx-0 mb-0"> 
@@ -777,8 +778,6 @@
 		}
 	</script>
 							
-				</div>
-		</section>
-	</div>
+</section>
 </div>
 </cfoutput>
