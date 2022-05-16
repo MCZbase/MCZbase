@@ -75,7 +75,7 @@
 					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 				</div>
 				<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
-					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline" style="color: transparent">Geography</label>
+					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
 					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 				</div>
 			</div>
