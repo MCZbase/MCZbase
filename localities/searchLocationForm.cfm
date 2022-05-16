@@ -468,22 +468,22 @@
 						</div>
 					</div>
 					<div class="form-row mx-0 px-3 my-2">
-						<div class="col-12 col-md-6 px-0 py-2">
+						<div class="col-12 col-md-6 px-0 pt-2 pb-0 pb-md-2">
 							<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
 							<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
 						</div>
-						<div class="col-6 col-md-3 px-4 pt-3 float-left">
+						<div class="col-6 col-md-3 px-4 px-md-5 pt-4 float-left">
 							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input">
 							<label for="isIncomplete" class="form-check-label mt3px small95">Is Incomplete</label>
 						</div>
-						<div class="col-6 col-md-3 px-4 py-3 float-left">
+						<div class="col-6 col-md-3 px-4 pb-3 pt-4 float-left">
 							<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input">
-							<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL No Georef. Because</label>
+							<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
 							
 						</div>
 					</div>
-					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-3">
+					<div class="form-row px-0 px-3 my-2">
+						<div class="col-12 col-md-3 px-0 mb-2">
 							<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
 							<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
 								<option value=""></option>
@@ -496,7 +496,7 @@
 							<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
 							<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 px-0 my-2">
 							<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
 							<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
 								<option value=""></option>
@@ -505,7 +505,7 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 px-0 my-2">
 							<label class="data-entry-label">Geolocate Precision</label>
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
 								<option value="" SELECTED></option>
@@ -515,7 +515,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-row px-3 my-2">
+					<div class="form-row mx-0 px-3 my-2">
 						<div class="col-12 col-md-4">
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
 							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input">
