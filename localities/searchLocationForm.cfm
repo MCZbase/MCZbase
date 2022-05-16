@@ -451,23 +451,23 @@
 				</div>
 				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
 					<div class="form-row px-3 my-2">
-						<div class="col-6 col-md-3 px-4 pt-3 float-left">
+						<div class="col-6 col-md-3 px-4 pt-2 float-left">
 							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input">
 							<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
 							
 						</div>
-						<div class="col-6 col-md-3 px-4 float-left pt-3">
+						<div class="col-6 col-md-3 px-4 float-left pt-2">
 							<div class="form-check">
 								<input class="form-check-input" name="findHasGeoRef" id="findHasGeoRef" value="1" type="checkbox">
 								<label class="form-check-label mt3px small95" for="findHasGeoRef">Has Georeferences</label>
 							</div>
 						</div>
-						<div class="col-8 col-md-3 px-4 pt-3 float-left">
+						<div class="col-8 col-md-6 px-4 pt-2 float-left">
 							<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input">
 							<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 						</div>
-						<div class="col-12 col-md-6 px-2 pt-3">
-							<label for="NoGeorefBecause" class="data-entry-label">No Georef. Because</label>
+						<div class="col-12 col-md-6 px-2 py-2">
+							<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
 							<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
 						</div>
 						<div class="col-6 col-md-3 px-4 pt-3 float-left">
