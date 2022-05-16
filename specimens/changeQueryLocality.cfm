@@ -305,24 +305,38 @@
 											<input type="hidden" name="filterFamily" value="#filterFamily#">
 										</cfif>
 										<input type="submit"
-								value="Change ALL to this Locality"
-								class="btn btn-warning btn-xs">
-					</form>
-				</td>
-				<td>#spec_locality#</td>
-				<td>#higher_geog#</td>
-				<td>#depth_elevation#</td>
-				<td>#georeference#</td>
-				<td>#geolAtts#</td>
-			</tr>
-			<cfset i=#i#+1>
-		</cfloop>
-	</tbody>
-</table>
+											value="Change ALL to this Locality"
+											class="btn btn-warning btn-xs">
+									</form>
+								</td>
+								<td>#spec_locality#</td>
+								<td>#higher_geog#</td>
+								<td>#depth_elevation#</td>
+								<td>#georeference#</td>
+								<td>#geolAtts#</td>
+							</tr>
+							<cfset i=#i#+1>
+						</cfloop>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-		</cfoutput>
+	<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
+	<cfif isdefined("filterOrder")>
+		<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
+	</cfif>
+	<cfif isdefined("filterFamily")>
+		<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
+	</cfif>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 mt-3">
+				<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Search Again</a></div>
+			</div>
+		</div>
+	</div>
+	</cfoutput>
 	</cfcase>
 </cfswitch>
 
