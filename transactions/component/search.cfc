@@ -1210,7 +1210,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("accn_status") and len(accn_status) gt 0>
 					<cfif left(accn_status,1) is "!">
-						AND accn_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
+						AND upper(accn_status) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
 					<cfelse>
 						AND accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
 					</cfif>
@@ -1266,7 +1266,7 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
 					<cfif left(accn_type,1) is "!">
-						AND accn_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
+						AND upper(accn_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
 					<cfelse>
 						AND accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
 					</cfif>
@@ -1661,7 +1661,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("deacc_status") and len(deacc_status) gt 0>
 					<cfif left(deacc_status,1) is "!">
-						AND deacc_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_status,len(deacc_status)-1))#"> 
+						AND upper(deacc_status) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_status,len(deacc_status)-1))#"> 
 					<cfelse>
 						AND deacc_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_status#">
 					</cfif>
@@ -1712,7 +1712,7 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("deacc_type") and len(#deacc_type#) gt 0>
 					<cfif left(deacc_type,1) is "!">
-						AND deacc_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_type,len(deacc_type)-1))#"> 
+						AND upper(deacc_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_type,len(deacc_type)-1))#"> 
 					<cfelse>
 						AND deacc_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">
 					</cfif>
@@ -2218,7 +2218,7 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("lenders_loan_type") and len(#lenders_loan_type#) gt 0>
 					<cfif left(lenders_loan_type,1) is "!">
-						AND lenders_loan_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(lenders_loan_type,len(lenders_loan_type)-1))#"> 
+						AND upper(lenders_loan_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(lenders_loan_type,len(lenders_loan_type)-1))#"> 
 					<cfelse>
 						AND lenders_loan_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_loan_type#">
 					</cfif>

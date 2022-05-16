@@ -152,14 +152,19 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 			SELECT
 				table_name, column_name
 			FROM
-				sys.user_tab_columns
+				sys.all_tab_columns
 			WHERE
 				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="CT#ucase(codetable)#"> and
 				column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(codetable)#"> and
-				data_type = 'VARCHAR2'
+				data_type = 'VARCHAR2' and
+				owner = 'MCZBASE'
 		</cfquery>
 		<cfif getCTField.recordcount NEQ 1>
-			<cfthrow message="Error, unsupported code table for this autocomplete, CT{codetable} must have PK {codetable}.">
+			<cfif len(codetable) EQ 0>
+				<cfthrow message="Error, cf_spec_search_cols.ui_function is incorrectly configured, no value for codetable passed to lookup CT{codetable}.{codetable}.  Configuration should be in the form makeCTFieldSearchAutocomplete(searchText:,COLLECTING_SOURCE)">
+			<cfelse>
+				<cfthrow message="Error, unsupported code table for this autocomplete, CT{codetable} must have PK field {codetable}. [#getCTField.recordcount#]">
+			</cfif>
 		</cfif>
 		<cfloop query="getCTField">
    	   <cfset rows = 0>

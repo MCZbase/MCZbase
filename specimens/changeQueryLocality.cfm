@@ -69,8 +69,9 @@
 		<cfset showEvent=0>
 		<cfoutput>
 			<div class="container-lg">
-				<h1 class="h3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
-				<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
+				<div class="col-12">
+					<h1 class="h3 mt-3 px-3">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
 					<input type="hidden" name="Action" value="findLocality">
 					<input type="hidden" name="result_id" value="#result_id#">
 					<cfif isdefined("filterOrder")>
@@ -82,6 +83,7 @@
 					<cfset showSpecimenCounts = false>
 					<cfinclude template="/localities/searchLocationForm.cfm">
 				</form>
+				</div>
 			</div>
 		</cfoutput>
 	</cfcase>
@@ -162,9 +164,13 @@
 				<cfset returnURL = returnURL & "&filterFamily=#encodeForURL(filterFamily)#">
 			</cfif>
 			<cfif failed>
-				<div class="container">
-					<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
-					<div><a href="#returnURL#">Back to Manage Locality</a></div>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12 mt-3">
+							<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
+							<div><a href="#returnURL#" class="btn btn-xs btn-primary">Back to Manage Locality</a></div>
+						</div>
+					</div>
 				</div>
 			<cfelse>
 				<cflocation url="#returnURL#&action=updateComplete">
@@ -182,12 +188,22 @@
 		</cfif>
 		<cfset actionWord = "That Have Been">
 		<cfoutput>
-			<div class="container">
-				<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
-				<ul>
-					<li><a href="#returnURL#">Back to Manage Locality</a></li>
-					<li><a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#">Back to Manage Results</a></li>
-				</ul>
+			<div class="container-lg">
+				<div class="row mx-0">
+					<div class="col-12 mt-3">
+						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+						<ul class="col-12 list-group list-group-horizontal">
+							<li class="list-group-item d-flex justify-content-between align-items-center">
+								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality  <!---<span class="badge badge-primary badge-pill">1</span>--->
+								</a>
+							</li>
+							<li class="list-group-item d-flex justify-content-between align-items-center">
+								<a href="/specimens/manageSpecimens.cfm?result_id=#encodeForURL(result_id)#"><i class="fa fa-arrow-left"></i> Back to Manage Results <!---<span class="badge badge-primary badge-pill">1</span>--->
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</cfoutput>
 	</cfcase>
@@ -195,7 +211,7 @@
 	<cfcase value="findLocality">
 	<cfoutput>
 	<cf_findLocality>
-		<cfquery name="localityResults" dbtype="query">
+	<cfquery name="localityResults" dbtype="query">
 		SELECT
 			locality_id,
 			geog_auth_rec_id,
@@ -233,10 +249,11 @@
 			minimum_elevation,
 			maximum_elevation,
 			orig_elev_units
-		</cfquery>
-		<div class="container">
-			<h2 class="h2">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
-			<div class="row">
+	</cfquery>
+	<div class="container-fluid">
+		<div class="row mx-1">
+			<div class="col-12 px-4 mt-3">
+				<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 				<table class="table">
 					<thead class="thead-light">
 						<tr>
@@ -246,7 +263,7 @@
 							<th>Spec Locality</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
-							<th>Georeference</th>
+							<th style="width: 11%;">Georeference</th>
 							<th>Geology</th>
 						</tr>
 					</thead>
@@ -289,9 +306,7 @@
 										</cfif>
 										<input type="submit"
 								value="Change ALL to this Locality"
-								class="btn btn-warning btn-xs"
-								onmouseover="this.className='savBtn btnhov'"
-								onmouseout="this.className='savBtn'">
+								class="btn btn-warning btn-xs">
 					</form>
 				</td>
 				<td>#spec_locality#</td>
@@ -306,6 +321,7 @@
 </table>
 			</div>
 		</div>
+	</div>
 		</cfoutput>
 	</cfcase>
 </cfswitch>
@@ -323,109 +339,118 @@
 </cfquery>
 
 <cfoutput>
-	<div class="container">
-		<h2 class="h3">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
-		<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
-			<form name="filterResults">
-				<div class="form-row m-1 border rounded">
-					<input type="hidden" name="result_id" value="#result_id#">
-					<input type="hidden" name="action" value="entryPoint" id="action">
-					<div class="col-12 col-md-5">
-						<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
-						<select id="filterOrder" name="filterOrder" class="data-entry-select">
-							<option></option>
-							<cfloop query="orders">
-								<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-5">
-						<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
-						<div name="filterFamily" id="filterFamily" class="w-100"></div>
-						<script>
-							$(document).ready(function () {
-								var familysource = [
-								<cfset comma="">
-								<cfloop query="families">
-									#comma#{name:"#families.family#",value:"#families.family#"}
-									<cfset comma=",">
-								</cfloop>
-								];
-								$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
-							});
-						</script> 
-					</div>
-					<div class="col-12 col-md-2">
-						<input type="submit" class="btn btn-xs btn-secondary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
-					</div>
-				</div>
-			</form>
-		</cfif>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12 mt-3">
+				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
+					<form name="filterResults">
+						<div class="col-7 px-0 mx-auto">
+							<div class="form-row mx-0 mb-0">
+								<input type="hidden" name="result_id" value="#result_id#">
+								<input type="hidden" name="action" value="entryPoint" id="action">
+								<div class="col-12 col-md-5 my-0">
+									<label for="filterOrder" class="data-entry-label">Filter by Order:</label>
+									<select id="filterOrder" name="filterOrder" class="data-entry-select">
+										<option></option>
+										<cfloop query="orders">
+											<option <cfif isdefined("filterOrder") and #phylorder# EQ #filterOrder#>selected</cfif>>#orders.phylorder#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-5 my-0">
+									<label for="filterFamily" class="data-entry-label">Filter by Families:</label>
+									<div name="filterFamily" id="filterFamily" class="w-100"></div>
+									<script>
+										$(document).ready(function () {
+											var familysource = [
+											<cfset comma="">
+											<cfloop query="families">
+												#comma#{name:"#families.family#",value:"#families.family#"}
+												<cfset comma=",">
+											</cfloop>
+											];
+											$("##filterFamily").jqxComboBox({ source: familysource, displayMember:"name", valueMember:"value", multiSelect: true, height: '23px', width: '100%' });
+										});
+									</script> 
+								</div>
+								<div class="col-12 col-md-2 my-0">
+									<label for="filter records" class="data-entry-label" style="color: transparent">Filter</label>
+									<input type="submit" class="btn btn-xs btn-primary" value="Filter Records" onClick='document.getElementById("action").value="entryPoint";document.forms["filterResults"].submit();'></input>
+								</div>
+							</div>
+						</div>
+					</form>
+					<h2 class="h3 pt-0 mt-0 mb-1 px-4">Cataloged Items #actionWord# Changed: #specimenList.recordcount#</h2>
+				</cfif>
+			</div>
+		</div>
 	</div>
 </cfoutput>
-<div class="container">
-	<div class="row">
-		<table class="table">
-			<thead class="thead-light">
-				<tr>
-					<th>Catalog Number</th>
-					<cfif len(#session.CustomOtherIdentifier#) GT 0>
-						<th>
-							<cfoutput>
-							#session.CustomOtherIdentifier#
-							</cfoutput>
-						</th>
-					</cfif>
-					<th>Order</th>
-					<th>Family</th>
-					<th>Accepted Scientific Name</th>
-					<th>Locality ID</th>
-					<th>Spec Locality</th>
-					<th>higher_geog</th>
-					<th>Depth/Elevation</th>
-					<th>Geology</th>
-				</tr>
-			</thead>
-			<tbody>
-				<cfoutput query="specimenList" group="collection_object_id">
-					<cfset depth_elevation = "">
-					<cfif len(min_depth) GT 0>
-						<cfif min_depth EQ max_depth>
-							<cfset depth_elevation = "Depth: #min_depth# #depth_units#">
-						<cfelse>
-							<cfset depth_elevation = "Depth: #min_depth#-#max_depth# #depth_units#">
-						</cfif>
-					</cfif>
-					<cfif len(minimum_elevation) GT 0>
-						<cfif minimum_elevation EQ maximum_elevation>
-							<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
-						<cfelse>
-							<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
-						</cfif>
-					</cfif>
+<div class="container-fluid">
+	<div class="row mx-0">
+		<div class="col-12">
+			<table class="table">
+				<thead class="thead-light">
 					<tr>
-						<td>
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
-						#collection#&nbsp;#cat_num#
-						</a>
-						</td>
-					<cfif len(#session.CustomOtherIdentifier#) GT 0>
-						<td>
-							#CustomID#&nbsp;
-						</td>
-					</cfif>
-						<td>#phylorder#</td>
-						<td>#family#</td>
-						<td><i>#Scientific_Name#</i></td>
-						<td>#locality_id#</td>
-						<td>#spec_locality#</td>
-						<td>#higher_geog#</td>
-						<td>#depth_elevation#</td>
-						<td>#geolAtts#</td>
+						<th>Catalog Number</th>
+						<cfif len(#session.CustomOtherIdentifier#) GT 0>
+							<th>
+								<cfoutput>
+								#session.CustomOtherIdentifier#
+								</cfoutput>
+							</th>
+						</cfif>
+						<th>Order</th>
+						<th>Family</th>
+						<th>Accepted Scientific Name</th>
+						<th>Locality ID</th>
+						<th>Spec Locality</th>
+						<th>higher_geog</th>
+						<th>Depth/Elevation</th>
+						<th>Geology</th>
 					</tr>
-				</cfoutput>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<cfoutput query="specimenList" group="collection_object_id">
+						<cfset depth_elevation = "">
+						<cfif len(min_depth) GT 0>
+							<cfif min_depth EQ max_depth>
+								<cfset depth_elevation = "Depth: #min_depth# #depth_units#">
+							<cfelse>
+								<cfset depth_elevation = "Depth: #min_depth#-#max_depth# #depth_units#">
+							</cfif>
+						</cfif>
+						<cfif len(minimum_elevation) GT 0>
+							<cfif minimum_elevation EQ maximum_elevation>
+								<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
+							<cfelse>
+								<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
+							</cfif>
+						</cfif>
+						<tr>
+							<td>
+							<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+							#collection#&nbsp;#cat_num#
+							</a>
+							</td>
+						<cfif len(#session.CustomOtherIdentifier#) GT 0>
+							<td>
+								#CustomID#&nbsp;
+							</td>
+						</cfif>
+							<td>#phylorder#</td>
+							<td>#family#</td>
+							<td><i>#Scientific_Name#</i></td>
+							<td>#locality_id#</td>
+							<td>#spec_locality#</td>
+							<td>#higher_geog#</td>
+							<td>#depth_elevation#</td>
+							<td>#geolAtts#</td>
+						</tr>
+					</cfoutput>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
