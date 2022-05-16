@@ -67,11 +67,11 @@
 					</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 px-0 my-md-3 mt-2 mb-0">
+				<div class="col-12 col-md-2 px-3 px-md-0 my-md-3 mt-2 mb-0">
 						<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 						<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 px-4 my-md-3 mt-2 mb-0">
+				<div class="col-12 col-md-2 px-3 my-md-3 mt-2 mb-0">
 					<label for="geogDetailCtl" class="data-entry-label" style="color: transparent">Geography</label>
 					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
 				</div>
@@ -206,7 +206,7 @@
 		<div class="row mx-0 mb-1"> 
 			<div class="search-box mt-3">
 				<div class="search-box-header">
-					<h2 class="h4 text-white mb-1 mt-0">Search Locality</h2>
+					<h2 class="h4 text-white my-1">Search Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
@@ -217,16 +217,16 @@
 					<cfset toggleTo = "0">
 					<cfset locButton = "Fewer Fields">
 				</cfif> 
-				<div class="form-row mb-0">
-					<div class="col-12 col-md-8 px-4 my-3">
+				<div class="form-row mx-0 mb-0">
+					<div class="col-12 col-md-8 px-3 px-md-0 my-md-3 mt-2 mb-0">
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 px-0 my-3">
+					<div class="col-12 col-md-2 px-3 px-md-0 my-md-3 mt-2 mb-0">
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
 						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 px-4 my-3">
+					<div class="col-12 col-md-2 px-3 px-md-0 my-md-3 mt-2 mb-0">
 						<label for="locDetailCtl" class="data-entry-label" style="color: transparent">Locality</label>
 						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
 					</div>
