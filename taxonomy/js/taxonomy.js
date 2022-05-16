@@ -401,10 +401,10 @@ function lookupName(taxon_name_id,target) {
 				} else { 
 					var guid = assertions["guid"];
 					if (guid && guid.startsWith("urn:lsid:marinespecies.org:taxname:")) { 
-						guid = "<a href='https://marinespecies.org/aphia.php?p=taxdetails&id=" + guid.replace("urn:lsid:marinespecies.org:taxname:","") +  "'>" + guid + "</a>";
-					} else if (guid && guid.startsWith("http://api.gbif.org/v1/species/5186454")) { 
+						guid = "<a href='https://marinespecies.org/aphia.php?p=taxdetails&id=" + guid.replace("urn:lsid:marinespecies.org:taxname:","") +  "' target='_blank'>" + guid + "</a>";
+					} else if (guid && guid.startsWith("http://api.gbif.org/v1/species/")) { 
 						guid = guid.replace("http://api.gbif.org/v1/species/","https://www.gbif.org/species/");
-						guid = "<a href='"+guid+"'>"+ guid + "</a>";
+						guid = "<a href='"+guid+"' target='_blank'>"+ guid + "</a>";
 					}
 					result_table = result_table + "<td>" +  assertions["matchDescription"] + "</td>";
 					result_table = result_table + "<td>" +  assertions["scientificName"] + "</td>";
