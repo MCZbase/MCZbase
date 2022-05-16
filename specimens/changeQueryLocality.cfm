@@ -254,7 +254,7 @@
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
 				<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
-				<table class="table">
+				<table class="table table-responsive-sm">
 					<thead class="thead-light">
 						<tr>
 							<th>Geog ID</th>
@@ -389,7 +389,7 @@
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12">
-			<table class="table">
+			<table class="table table-responsive">
 				<thead class="thead-light">
 					<tr>
 						<th>Catalog Number</th>

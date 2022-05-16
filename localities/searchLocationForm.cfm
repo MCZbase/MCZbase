@@ -46,7 +46,7 @@
 	<div class="row mx-0 mb-0"> 
 		<div class="search-box mt-0">
 			<div class="search-box-header">
-				<h2 class="h4 text-white mt-0 mb-1">Search Higher Geography</h2>
+				<h2 class="h4 text-white mt-1 mb-1">Search Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -58,7 +58,7 @@
 				<cfset geogButton = "Fewer Fields">
 			</cfif> 
 			<div class="form-row mb-0">
-				<div class="col-12 col-md-8 px-4 my-3">
+				<div class="col-12 col-md-8 px-md-4 px-2 my-md-3 mt-2 mb-0">
 					<label for="higher_geog" class="data-entry-label">
 						Higher Geog
 						<span class="small90">
@@ -67,11 +67,11 @@
 					</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 px-0 my-3">
+				<div class="col-12 col-md-2 px-0 my-md-3 mt-2 mb-0">
 						<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 						<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 px-4 my-3">
+				<div class="col-12 col-md-2 px-4 my-md-3 mt-2 mb-0">
 					<label for="geogDetailCtl" class="data-entry-label" style="color: transparent">Geography</label>
 					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
 				</div>
