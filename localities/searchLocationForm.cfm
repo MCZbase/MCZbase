@@ -206,7 +206,7 @@
 		<div class="row mx-0 mb-1"> 
 			<div class="col-12 mt-3">
 				<div class="search-box-header">
-					<h2 class="h4 my-1">Locality</h2>
+					<h2 class="text-white h4 my-1">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
