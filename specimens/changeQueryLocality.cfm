@@ -68,9 +68,9 @@
 		<cfset showLocality=1>
 		<cfset showEvent=0>
 		<cfoutput>
-			<div class="container">
-				<div class="search-box border-secondary">
-					<div class="search-box-header bg-secondary">
+			<div class="container-lg">
+				<div class="search-box">
+					<div class="search-box-header">
 						<h1 class="h3 text-white my-1">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
 					</div>
 					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
