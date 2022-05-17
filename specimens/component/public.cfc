@@ -1302,7 +1302,152 @@ limitations under the License.
 		<cfoutput>
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
-				<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
+				<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
+				<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+	<cfset session.sdmapclass='tinymap'>
+</cfif>
+<cfoutput>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
+
+
+	<script>
+		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
+		jQuery(document).ready(function() {
+			/*$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: "50%"
+			});
+			$( ".mapdialog" ).click(function() {
+				$( "#dialog" ).dialog( "open" );
+			});*/
+			mapsYo();
+		});
+		/*function saveSDMap(){
+			$("div[id^='mapdiv_']").each(function(e){
+				$(this).removeClass().addClass($("#sdetmapsize").val());
+			});
+			jQuery.getJSON("/component/functions.cfc",
+				{
+					method : "changeUserPreference",
+					pref : "sdmapclass",
+					val : $("#sdetmapsize").val(),
+					returnformat : "json",
+					queryformat : 'column'
+				}
+			);
+			$('#dialog').dialog('close');
+			mapsYo();
+		}*/
+		function mapsYo(){
+			$("input[id^='coordinates_']").each(function(e){
+				var locid=this.id.split('_')[1];
+				var coords=this.value;
+				var bounds = new google.maps.LatLngBounds();
+				var polygonArray = [];
+				var ptsArray=[];
+				var lat=coords.split(',')[0];
+				var lng=coords.split(',')[1];
+				var errorm=$("#error_" + locid).val();
+				var mapOptions = {
+					zoom: 1,
+				    center: new google.maps.LatLng(lat, lng),
+				    mapTypeId: google.maps.MapTypeId.ROADMAP,
+				    panControl: false,
+				    scaleControl: false,
+					fullscreenControl: false,
+					zoomControl: false
+				};
+				var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+
+				var center=new google.maps.LatLng(lat,lng);
+				var marker = new google.maps.Marker({
+					position: center,
+					map: map,
+					zIndex: 10
+				});
+				bounds.extend(center);
+				if (parseInt(errorm)>0){
+					var circleoptn = {
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.15,
+						map: map,
+						center: center,
+						radius: parseInt(errorm),
+						zIndex:-99
+					};
+					crcl = new google.maps.Circle(circleoptn);
+					bounds.union(crcl.getBounds());
+				}
+				// WKT can be big and slow, so async fetch
+				$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
+  					  if (wkt.length>0){
+						var regex = /\(([^()]+)\)/g;
+						var Rings = [];
+						var results;
+						while( results = regex.exec(wkt) ) {
+						    Rings.push( results[1] );
+						}
+						for(var i=0;i<Rings.length;i++){
+							// for every polygon in the WKT, create an array
+							var lary=[];
+							var da=Rings[i].split(",");
+							for(var j=0;j<da.length;j++){
+								// push the coordinate pairs to the array as LatLngs
+								var xy = da[j].trim().split(" ");
+								var pt=new google.maps.LatLng(xy[1],xy[0]);
+								lary.push(pt);
+								//console.log(lary);
+								bounds.extend(pt);
+							}
+							// now push the single-polygon array to the array of arrays (of polygons)
+							ptsArray.push(lary);
+						}
+						var poly = new google.maps.Polygon({
+						    paths: ptsArray,
+						    strokeColor: '#1E90FF',
+						    strokeOpacity: 0.8,
+						    strokeWeight: 2,
+						    fillColor: '#1E90FF',
+						    fillOpacity: 0.35
+						});
+						poly.setMap(map);
+						polygonArray.push(poly);
+						// END this block build WKT
+  					  	} else {
+  					  		$("#mapdiv_" + locid).addClass('noWKT');
+  					  	}
+  					  	if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+					       bounds.extend(extendPoint1);
+					       bounds.extend(extendPoint2);
+					    }
+						map.fitBounds(bounds);
+			        	for(var a=0; a<polygonArray.length; a++){
+			        		if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+			        			$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+				        	} else {
+				    			$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+			        		}
+			        	}
+					});
+					map.fitBounds(bounds);
+			});
+		}
+	</script>
+
+		<cfif len(dec_lat) gt 0 and len(dec_long) gt 0>
+			<cfset coordinates="#dec_lat#,#dec_long#">
+			<input type="hidden" id="coordinates_#locality_id#" value="#coordinates#">
+			<input type="hidden" id="error_#locality_id#" value="#COORDINATEUNCERTAINTYINMETERS#">
+			<div id="mapdiv_#locality_id#" class="tinymap"></div>
+			<!---span class="infoLink mapdialog">map key/tools</div--->
+		</cfif>
+ 
 			
 				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 					<div class="error"> Improper call. Aborting..... </div>
