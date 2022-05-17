@@ -582,11 +582,12 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
 											</cfif>
-											<cfif targetMenu EQ "production">
+											<!---[Bug 5212] Moved to Bulkloaders.cfm link found under Data Entry menu--->
+											<!---<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a> 
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Bulk Edit Container</a> 
-											</cfif>
+											</cfif>--->
 										</div>
 									</cfif>
 									</cfif>
