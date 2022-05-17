@@ -550,7 +550,7 @@
 		<div class="row mx-0 mb-0"> 
 			<div class="col-12 px-0 mt-0">
 				<div class="jqx-widget-header border-bottom px-4 py-1">
-					<h2 class="h4 text-dark mb-0">Higher Geography</h2>
+					<h2 class="h4 text-dark mb-0">Collecting Event</h2>
 				</div>
 				<cfif listFind(searchPrefList,"EventDetail") EQ 0>
 					<cfset eventDetailStyle="display:none;">
@@ -567,11 +567,11 @@
 						<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input">
 					</div>
 					<div class="col-12 col-md-2">
-						<label for="collecting_event_id">Collecting Event ID</label>
-						<input type="text" name="collecting_event_id" id="collecting_event_id" >
+						<label for="collecting_event_id" class="data-entry-label">Collecting Event ID</label>
+						<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" >
 					</div>
 					<div class="col-12 col-md-2">
-						<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
+						<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
 						<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 					</div>
 				</div>
@@ -606,30 +606,30 @@
 				<div id="eventDetail" style="#eventDetailStyle#" >
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-3">
-					   <label for="verbatimCoordinates">Verbatim Coordinates</label>
-							<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" size="30">
+							<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates</label>
+							<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="collecting_method" class="data-entry-label">Collecting Method</label>
-							<input type="text" name="collecting_method" id="collecting_method"  class="data-entry-input">
+							<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
-							<input type="text" name="coll_event_remarks" id="coll_event_remarks"  class="data-entry-input">
+							<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
-					   <label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
-							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem"  class="data-entry-input">
+							<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
+							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-4">
 							<label for="habitat_desc" class="data-entry-label">Habitat</label>
-							<input type="text" name="habitat_desc" id="habitat_desc"  class="data-entry-input">
+							<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="collecting_source">Collecting Source</label>
-							<select name="collecting_source" id="collecting_source" size="1">
+							<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+							<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctCollectingSource">
 									<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
@@ -637,8 +637,8 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
-						<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
-							<input type="text" name="verbatimSRS" id="verbatimSRS" size="30">
+							<label for="verbatimSRS" class="data-entry-input">Verbatim SRS (e.g., datum)</label>
+							<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
 						</div>
 					</div>
 				</div>
