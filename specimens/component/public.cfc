@@ -1428,7 +1428,7 @@ limitations under the License.
 				enteredPerson.agent_name EnteredBy,
 				editedPerson.agent_name EditedBy,
 				accn_number accession,
-				mczbase.filtered_flat.coordinateuncertaintyinmeters
+				mczbase.filtered_flat.coordinateuncertaintyinmeters,
 				concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 				concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 				case when
