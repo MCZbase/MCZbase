@@ -176,7 +176,7 @@
 
 	<cfcase value="findCollectingEvent">
 	<cfoutput>
-	<cf_findCollectingEvent>
+	<cf_findLocality>
 	<cfquery name="localityResults" dbtype="query">
 		SELECT
 			collecting_event_id,
