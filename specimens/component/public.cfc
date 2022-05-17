@@ -1607,10 +1607,10 @@ limitations under the License.
 						});
 					}
 				</script>
-				<cfif len(dec_lat) gt 0 and len(dec_long) gt 0>
-					<cfset coordinates="#dec_lat#,#dec_long#">
-					<input type="hidden" id="coordinates_#locality_id#" value="#coordinates#">
-					<input type="hidden" id="error_#locality_id#" value="#COORDINATEUNCERTAINTYINMETERS#">
+				<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
+					<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
+					<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
+					<input type="hidden" id="error_#locality_id#" value="#getLoc.COORDINATEUNCERTAINTYINMETERS#">
 					<div id="mapdiv_#locality_id#" class="tinymap"></div>
 					<!---span class="infoLink mapdialog">map key/tools</div--->
 				</cfif>
