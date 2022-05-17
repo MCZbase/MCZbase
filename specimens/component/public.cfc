@@ -1495,13 +1495,13 @@ limitations under the License.
 		<cftry>
 			<div class="col-5 pl-0 pr-3 mb-2 float-right">
 				<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
-				<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+<!---				<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 					<cfset session.sdmapclass='tinymap'>
 				</cfif>
 
 				<cfoutput>
 					<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-				</cfoutput>
+				</cfoutput>--->
 				<script>
 					jQuery(document).ready(function() {
 
