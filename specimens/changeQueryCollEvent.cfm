@@ -99,6 +99,14 @@
 			<cfset failed=false>
 			<cftransaction>
 				<cftry>
+					<cfquery name="checkCollEvent" datasource="uam_god">
+						SELECT count(*) ct
+						FROM collecting_event
+						WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
+					</cfquery>
+					<cfif checkCollEvent.ct NEQ 1>
+						<cfthrow message="Target collecting event id to change to [#encodeForHtml(newcollecting_event_id)#] not found.">
+					</cfif>
 					<cfquery name="collObjects" dbtype="query">
 						select distinct collection_object_id from specimenList
 					</cfquery>
@@ -107,7 +115,7 @@
 						<cfloop list="#collEventIdsList#" index = "CEID">
 							<cfquery name="updateCollEvent" datasource="uam_god">
 								UPDATE cataloged_item 
-								SET collecting_event_id = #collecting_event_id#
+								SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
 								WHERE collection_object_id = in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
 							</cfquery>
 						</cfloop>
@@ -196,7 +204,13 @@
 			depth_units,
 			minimum_elevation,
 			maximum_elevation,
-			orig_elev_units
+			orig_elev_units,
+			began_date,
+			ended_date,
+			verbatim_date,
+			verbatim_locality,
+			collecting_source,
+			collecting_method
 		FROM localityResults
 		GROUP BY
 			collecting_event_id,
@@ -216,7 +230,13 @@
 			depth_units,
 			minimum_elevation,
 			maximum_elevation,
-			orig_elev_units
+			orig_elev_units,
+			began_date,
+			ended_date,
+			verbatim_date,
+			verbatim_locality,
+			collecting_source,
+			collecting_method
 	</cfquery>
 	<div class="container-fluid">
 		<div class="row mx-1">
@@ -226,8 +246,10 @@
 					<thead class="thead-light">
 						<tr>
 							<th>Geog ID</th>
-							<th>&nbsp;</th>
 							<th>Locality ID</th>
+							<th>&nbsp;</th>
+							<th>CollEvent ID</th>
+							<th>Date Collected</th>
 							<th>Spec Locality</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
@@ -264,7 +286,7 @@
 								<td>
 									<form name="coll#i#" method="post" action="/specimens/changeQueryCollEvent.cfm">
 										<input type="hidden" name="result_id" value="#result_id#">
-										<input type="hidden" name="newlocality_id" value="#locality_id#">
+										<input type="hidden" name="newcollecting_event_id" value="#collecting_event_id#">
 										<input type="hidden" name="action" value="updateCollectingEvent">
 										<cfif isdefined("filterOrder")>
 											<input type="hidden" name="filterOrder" value="#filterOrder#">
@@ -277,7 +299,9 @@
 											class="btn btn-warning btn-xs">
 									</form>
 								</td>
-								<td>#spec_locality#</td>
+								<td>#collecting_event_id#</td>
+								<td>#began_date#-#ended_date# #verbatimdate#</td>
+								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
 								<td>#georeference#</td>
