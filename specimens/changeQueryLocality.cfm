@@ -360,7 +360,7 @@
 			<div class="col-12 mt-3">
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
-						<div class="col-7 px-0 mx-auto">
+						<div class="col-7 mb-2 px-0 mx-auto">
 							<div class="form-row mx-0 mb-0">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="action" value="entryPoint" id="action">
