@@ -1428,7 +1428,6 @@ limitations under the License.
 				enteredPerson.agent_name EnteredBy,
 				editedPerson.agent_name EditedBy,
 				accn_number accession,
-				mczbase.filtered_flat.coordinateuncertaintyinmeters,
 				concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 				concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 				case when
@@ -1473,7 +1472,6 @@ limitations under the License.
 				preferred_agent_name editedPerson,
 				accn,
 				trans,
-				mczbase.filtered_flat,
 				specimen_part
 			WHERE
 				cataloged_item.collection_id = collection.collection_id AND
@@ -1489,7 +1487,6 @@ limitations under the License.
 				coll_object.entered_person_id = enteredPerson.agent_id AND
 				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 				cataloged_item.accn_id =  accn.transaction_id  AND
-				cataloged_item.collection_object_id = mczbase.filtered_flat.collection_object_ID AND
 				accn.transaction_id = trans.transaction_id(+) AND
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -1613,7 +1610,7 @@ limitations under the License.
 				<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
 					<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
 					<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
-					<input type="hidden" id="error_#getLoc.locality_id#" value="#getLoc.COORDINATEUNCERTAINTYINMETERS#">
+					<input type="hidden" id="error_#getLoc.locality_id#" value="#getLoc.max_error_distance#">
 					<div id="mapdiv_#getLoc.locality_id#" class="tinymap"></div>
 					<!---span class="infoLink mapdialog">map key/tools</div--->
 				</cfif>
