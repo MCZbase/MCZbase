@@ -941,6 +941,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="coll_object_entered_date" type="string" required="no">
 	<cfargument name="last_edit_date" type="string" required="no">
 	<cfargument name="media_type" type="string" required="no">
+	<cfargument name="biol_indiv_relationship" type="string" required="no">
 	<cfargument name="other_id_type" type="string" required="no">
 	<cfargument name="part_name" type="string" required="no">
 	<cfargument name="preserve_method" type="string" required="no">
@@ -1232,6 +1233,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset field = '"field": "collecting_method"'>
 		<cfset searchText = reformatDateSearchTerm(searchText="#collecting_method#") >
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("biol_indiv_relationship") AND len(biol_indiv_relationship) GT 0>
+		<cfset field = '"field": "biol_indiv_relationship"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#biol_indiv_relationship#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
