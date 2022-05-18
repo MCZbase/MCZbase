@@ -671,6 +671,18 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("media_type")><cfset media_type=""></cfif>
+													<label for="media_type" class="data-entry-label">Media Type
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL');" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
+													</label>
+													<input type="text" id="media_type" name="media_type" class="data-entry-input" value="#encodeForHtml(media_type)#" >
+													<script>
+														jQuery(document).ready(function() {
+															makePreserveMethodAutocompleteMeta('preserve_method');
+														});
+													</script>
+												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="form-row mb-2">

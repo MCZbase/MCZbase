@@ -940,6 +940,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="cat_num" type="string" required="no">
 	<cfargument name="coll_object_entered_date" type="string" required="no">
 	<cfargument name="last_edit_date" type="string" required="no">
+	<cfargument name="media_type" type="string" required="no">
 	<cfargument name="other_id_type" type="string" required="no">
 	<cfargument name="part_name" type="string" required="no">
 	<cfargument name="preserve_method" type="string" required="no">
@@ -1030,6 +1031,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("cat_num") AND len(cat_num) GT 0>
 		<cfset clause = ScriptPrefixedNumberListToJSON(cat_num, "CAT_NUM_INTEGER", "CAT_NUM_PREFIX", true, nest, "and")>
 		<cfset search_json = "#search_json##separator##clause#">
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("media_type") AND len(media_type) GT 0>
+		<cfset field = '"field": "media_type"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#media_type#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
