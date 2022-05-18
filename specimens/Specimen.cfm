@@ -146,45 +146,7 @@ limitations under the License.
 		<cfinclude template="/errors/404.cfm">
 		<cfabort>
 	</cfif>
-	<cfset detSelect = "
-	SELECT DISTINCT
-		#session.flatTableName#.collection,
-		#session.flatTableName#.collection_id,
-		web_link,
-		web_link_text,
-		#session.flatTableName#.cat_num,
-		#session.flatTableName#.collection_object_id as collection_object_id,
-		#session.flatTableName#.scientific_name,
-		#session.flatTableName#.collecting_event_id,
-		#session.flatTableName#.locality_id,
-		#session.flatTableName#.higher_geog,
-		#session.flatTableName#.spec_locality,
-		#session.flatTableName#.verbatim_date,
-		#session.flatTableName#.BEGAN_DATE,
-		#session.flatTableName#.ended_date,
-		#session.flatTableName#.cited_as,
-		#session.flatTableName#.typestatuswords,
-		MCZBASE.concattypestatus_plain_s(#session.flatTableName#.collection_object_id,1,1,0) as typestatusplain,
-		#session.flatTableName#.toptypestatuskind,
-		concatparts_ct(#session.flatTableName#.collection_object_id) as partString,
-		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
-		#session.flatTableName#.dec_lat,
-		#session.flatTableName#.dec_long,
-		#session.flatTableName#.COORDINATEUNCERTAINTYINMETERS">
-<cfif len(#session.CustomOtherIdentifier#) gt 0>
-	<cfset detSelect = "#detSelect#
-	,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as	CustomID">
-</cfif>
-<cfset detSelect = "#detSelect#
-	FROM
-		#session.flatTableName#,
-		collection
-	where
-		#session.flatTableName#.collection_id = collection.collection_id AND
-		#session.flatTableName#.collection_object_id = #collection_object_id#
-	ORDER BY
-		cat_num">
-<cfset checkSql(detSelect)>
+
 	<cfset title="#detail.collection# #detail.cat_num#: #detail.scientific_name#">
 	<cfset metaDesc="#detail.collection# #detail.cat_num# (#guid#); #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
 </cfoutput> 
