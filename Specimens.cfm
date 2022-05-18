@@ -354,7 +354,7 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
-													<label for="publication_id" class="data-entry-label">Citation</label>
+													<label for="publication_id" class="data-entry-label">Cited In</label>
 													<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 													<cfif not isdefined("citation")><cfset citation=""></cfif>
 													<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#encodeForHtml(publication_id)#" >
@@ -672,6 +672,16 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
+													<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
+													<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship</label>
+													<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input" value="#encodeForHtml(biol_indiv_relationship)#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 													<label for="media_type" class="data-entry-label">Media Type
 														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL');" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
@@ -679,7 +689,7 @@ limitations under the License.
 													<input type="text" id="media_type" name="media_type" class="data-entry-input" value="#encodeForHtml(media_type)#" >
 													<script>
 														jQuery(document).ready(function() {
-															makePreserveMethodAutocompleteMeta('preserve_method');
+															makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
 														});
 													</script>
 												</div>

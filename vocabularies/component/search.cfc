@@ -198,4 +198,56 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+
+<!---
+Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.biol_indiv_relationship values, 
+ returning json suitable for jquery-ui autocomplete with a _renderItem overriden to display more detail on the 
+  picklist, and minimal details for the selected value.
+
+@param term information to search for.
+@return a json structure containing id and value, with biol_indiv_relationship in id and value, with counts in meta.
+--->
+<cffunction name="getBiolIndivRelationshipAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				count(f.collection_object_id) ct,
+				ctbiol_relations.biol_indiv_relationship
+			FROM
+				#session.flatTableName# f
+				left join biol_indiv_relations on f.collection_object_id = biol_indiv_relations.collection_object_id
+				left join biol_relations on biol_indiv_relations.biol_indiv_relationship = ctbiol_relations.biol_indiv_relationship
+			WHERE
+				f.collection_object_id IS NOT NULL
+				AND ctbiol_relations.biol_indiv_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+			GROUP BY
+				ctbiol_relations.biol_indiv_relationship
+			ORDER BY
+				ctbiol_relations.biol_indiv_relationship
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.biol_indiv_relationship#">
+			<cfset row["value"] = "#search.biol_indiv_relationship#" >
+			<cfset row["meta"] = "#search.biol_indiv_relationship# (#search.ct#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
