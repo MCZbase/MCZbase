@@ -1491,147 +1491,275 @@ limitations under the License.
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
+		<script>
+		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
+		jQuery(document).ready(function() {
+			/*$( "#dialog" ).dialog({
+				autoOpen: false,
+				width: "50%"
+			});
+			$( ".mapdialog" ).click(function() {
+				$( "#dialog" ).dialog( "open" );
+			});*/
+			mapsYo();
+		});
+		/*function saveSDMap(){
+			$("div[id^='mapdiv_']").each(function(e){
+				$(this).removeClass().addClass($("#sdetmapsize").val());
+			});
+			jQuery.getJSON("/component/functions.cfc",
+				{
+					method : "changeUserPreference",
+					pref : "sdmapclass",
+					val : $("#sdetmapsize").val(),
+					returnformat : "json",
+					queryformat : 'column'
+				}
+			);
+			$('#dialog').dialog('close');
+			mapsYo();
+		}*/
+			function mapsYo(){
+				$("input[id^='coordinates_']").each(function(e){
+					var locid=this.id.split('_')[1];
+					var coords=this.value;
+					var bounds = new google.maps.LatLngBounds();
+					var polygonArray = [];
+					var ptsArray=[];
+					var lat=coords.split(',')[0];
+					var lng=coords.split(',')[1];
+					var errorm=$("#error_" + locid).val();
+					var mapOptions = {
+						zoom: 1,
+						center: new google.maps.LatLng(lat, lng),
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
+						panControl: false,
+						scaleControl: false,
+						fullscreenControl: false,
+						zoomControl: false
+					};
+					var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+
+					var center=new google.maps.LatLng(lat,lng);
+					var marker = new google.maps.Marker({
+						position: center,
+						map: map,
+						zIndex: 10
+					});
+					bounds.extend(center);
+					if (parseInt(errorm)>0){
+						var circleoptn = {
+							strokeColor: '#FF0000',
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+							fillColor: '#FF0000',
+							fillOpacity: 0.15,
+							map: map,
+							center: center,
+							radius: parseInt(errorm),
+							zIndex:-99
+						};
+						crcl = new google.maps.Circle(circleoptn);
+						bounds.union(crcl.getBounds());
+					}
+					// WKT can be big and slow, so async fetch
+					$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
+						  if (wkt.length>0){
+							var regex = /\(([^()]+)\)/g;
+							var Rings = [];
+							var results;
+							while( results = regex.exec(wkt) ) {
+								Rings.push( results[1] );
+							}
+							for(var i=0;i<Rings.length;i++){
+								// for every polygon in the WKT, create an array
+								var lary=[];
+								var da=Rings[i].split(",");
+								for(var j=0;j<da.length;j++){
+									// push the coordinate pairs to the array as LatLngs
+									var xy = da[j].trim().split(" ");
+									var pt=new google.maps.LatLng(xy[1],xy[0]);
+									lary.push(pt);
+									//console.log(lary);
+									bounds.extend(pt);
+								}
+								// now push the single-polygon array to the array of arrays (of polygons)
+								ptsArray.push(lary);
+							}
+							var poly = new google.maps.Polygon({
+								paths: ptsArray,
+								strokeColor: '#1E90FF',
+								strokeOpacity: 0.8,
+								strokeWeight: 2,
+								fillColor: '#1E90FF',
+								fillOpacity: 0.35
+							});
+							poly.setMap(map);
+							polygonArray.push(poly);
+							// END this block build WKT
+							} else {
+								$("#mapdiv_" + locid).addClass('noWKT');
+							}
+							if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+							   var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+							   var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+							   bounds.extend(extendPoint1);
+							   bounds.extend(extendPoint2);
+							}
+							map.fitBounds(bounds);
+							for(var a=0; a<polygonArray.length; a++){
+								if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+									$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+								} else {
+									$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+								}
+							}
+						});
+						map.fitBounds(bounds);
+				});
+			}
+		</script>
+		<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+			<cfset session.sdmapclass='tinymap'>
+		</cfif>
 		<cfoutput>
-		<cftry>
-			<div class="col-5 pl-0 pr-3 mb-2 float-right">
-				<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
-				<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
-					<cfset session.sdmapclass='tinymap'>
-				</cfif>
+			<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+		</cfoutput>
+		<cfoutput>
+			<cftry>
+				<div class="col-5 pl-0 pr-3 mb-2 float-right">
+					<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
 
-				<cfoutput>
-					<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-				</cfoutput>
 
-				<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
-					<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
-					<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
-					<input type="hidden" id="error_#getLoc.locality_id#" value="#getLoc.max_error_distance#">
-					<div id="mapdiv_#getLoc.locality_id#" class="tinymap"></div>
-					<!---span class="infoLink mapdialog">map key/tools</div--->
-				</cfif>
-				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-					<div class="error"> Improper call. Aborting..... </div>
-					<cfabort>
-				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<cfset oneOfUs = 1>
-				<cfelse>
-					<cfset oneOfUs = 0>
-				</cfif>
-				<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-				</cfif>--->
-			
-			</div>
-			<div class="col-7 px-0 float-left">
-				<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
-					<cfif len(getLoc.continent_ocean) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.continent_ocean#</li>
+					<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
+						<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
+						<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
+						<input type="hidden" id="error_#getLoc.locality_id#" value="#getLoc.max_error_distance#">
+						<div id="mapdiv_#getLoc.locality_id#" class="tinymap"></div>
+						<!---span class="infoLink mapdialog">map key/tools</div--->
 					</cfif>
-					<cfif len(getLoc.sea) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.sea#</li>
+					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+						<div class="error"> Improper call. Aborting..... </div>
+						<cfabort>
 					</cfif>
-					<cfif len(getLoc.country) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.country#</li>
-					</cfif>
-					<cfif len(getLoc.state_prov) gt 0>
-						<li class="list-group-item col-5 px-0"><em>State:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.state_prov#</li>
-					</cfif>
-					<cfif len(getLoc.feature) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.feature#</li>
-					</cfif>
-					<cfif len(getLoc.county) gt 0>
-						<li class="list-group-item col-5 px-0"><em>County:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.county#</li>
-					</cfif>
-
-					<cfif len(getLoc.island_group) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.island_group#</li>
-					</cfif>
-					<cfif len(getLoc.island) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.island#</li>
-					</cfif>
-					<cfif len(getLoc.quad) gt 0>
-						<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-						<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
-					</cfif>
-				</ul>
-			</div>
-			<div class="col-12 float-left px-0">
-				<ul class="sd list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
-					<cfif len(getLoc.spec_locality) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
-					</cfif>
-					<cfif len(getLoc.verbatim_locality) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
-						<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
-					</cfif>
-					<cfif len(getLoc.collecting_source) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
-					</cfif>
-					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
-					</cfif>
-					<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.began_date# - #getLoc.ended_date#</li>
-					</cfif>
-					<cfif len(getLoc.verbatim_date) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
-					</cfif>
-					<cfif len(getLoc.verbatimcoordinates) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
-					</cfif>
-					<cfif len(getLoc.collecting_method) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
-					</cfif>
-					<cfif len(getLoc.coll_event_remarks) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
-					</cfif>
-					<cfif len(getLoc.habitat_desc) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
-					</cfif>
-					<cfif len(getLoc.habitat) gt 0>
-						<li class="list-group-item col-5 px-0"><h5 class="my-0">Microhabitat:</h5></li>
-						<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
-					</cfif>
-				</ul>
-			</div>
-				<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<cfset oneOfUs = 1>
 					<cfelse>
-						<cfset queryError = ''>
+						<cfset oneOfUs = 0>
 					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
+					</cfif>--->
+
+				</div>
+				<div class="col-7 px-0 float-left">
+					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
+						<cfif len(getLoc.continent_ocean) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.continent_ocean#</li>
+						</cfif>
+						<cfif len(getLoc.sea) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.sea#</li>
+						</cfif>
+						<cfif len(getLoc.country) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Country:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.country#</li>
+						</cfif>
+						<cfif len(getLoc.state_prov) gt 0>
+							<li class="list-group-item col-5 px-0"><em>State:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.state_prov#</li>
+						</cfif>
+						<cfif len(getLoc.feature) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.feature#</li>
+						</cfif>
+						<cfif len(getLoc.county) gt 0>
+							<li class="list-group-item col-5 px-0"><em>County:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.county#</li>
+						</cfif>
+
+						<cfif len(getLoc.island_group) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.island_group#</li>
+						</cfif>
+						<cfif len(getLoc.island) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.island#</li>
+						</cfif>
+						<cfif len(getLoc.quad) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
+							<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
+						</cfif>
+					</ul>
+				</div>
+				<div class="col-12 float-left px-0">
+					<ul class="sd list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
+						<cfif len(getLoc.spec_locality) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
+							<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
+						</cfif>
+						<cfif len(getLoc.verbatim_locality) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
+							<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
+						</cfif>
+						<cfif len(getLoc.collecting_source) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
+						</cfif>
+						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
+						</cfif>
+						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date - Ended Date:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.began_date# - #getLoc.ended_date#</li>
+						</cfif>
+						<cfif len(getLoc.verbatim_date) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
+						</cfif>
+						<cfif len(getLoc.verbatimcoordinates) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
+						</cfif>
+						<cfif len(getLoc.collecting_method) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
+						</cfif>
+						<cfif len(getLoc.coll_event_remarks) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
+						</cfif>
+						<cfif len(getLoc.habitat_desc) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
+						</cfif>
+						<cfif len(getLoc.habitat) gt 0>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Microhabitat:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
+						</cfif>
+					</ul>
+				</div>
+					<cfcatch>
+						<cfif isDefined("cfcatch.queryError") >
+							<cfset queryError=cfcatch.queryError>
+						<cfelse>
+							<cfset queryError = ''>
+						</cfif>
+						<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+						<cfcontent reset="yes">
+						<cfheader statusCode="500" statusText="#message#">
+						<div class="container">
+							<div class="row">
+								<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+									<p>#message#</p>
+									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+								</div>
 							</div>
 						</div>
-					</div>
-				</cfcatch>
+					</cfcatch>
 			</cftry>
 		</cfoutput> 
 	</cfthread>
