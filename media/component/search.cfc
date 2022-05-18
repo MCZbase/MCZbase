@@ -1124,7 +1124,6 @@ imgStyleClass=value
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="grey">
 	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">
-
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
@@ -1175,7 +1174,6 @@ imgStyleClass=value
 						<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 							<cfset isDisplayable = true>
 						</cfif>
-
 						<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
 						<cfset hw = 'height="auto" width="100%"'>
 						<cfif isDisplayable>
@@ -1510,8 +1508,6 @@ imgStyleClass=value
 	<cfreturn getMediaRelationsHtmlThread.output>
 </cffunction>
 	
-				
-				
 <cffunction name="updateMediaRelationship" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="media_relationship" type="string" required="yes">
@@ -1577,7 +1573,6 @@ imgStyleClass=value
 	<cfreturn #serializeJSON(data)#>
 </cffunction>	
 			
-		
 <cffunction name="getLabelsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
@@ -1700,8 +1695,6 @@ imgStyleClass=value
 	<cfthread action="join" name="getLabelsThread" />
 	<cfreturn getLabelsThread.output>
 </cffunction>
-
-
 
 <!--- 
 getCounterHtml returns a block of html displaying information from the cf_helloworld table.
