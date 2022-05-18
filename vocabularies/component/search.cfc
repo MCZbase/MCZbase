@@ -219,7 +219,7 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 			FROM
 				#session.flatTableName# f
 				left join biol_indiv_relations on f.collection_object_id = biol_indiv_relations.collection_object_id
-				left join biol_relations on biol_indiv_relations.biol_indiv_relationship = ctbiol_relations.biol_indiv_relationship
+				left join ctbiol_relations on biol_indiv_relations.biol_indiv_relationship = ctbiol_relations.biol_indiv_relationship
 			WHERE
 				f.collection_object_id IS NOT NULL
 				AND ctbiol_relations.biol_indiv_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
