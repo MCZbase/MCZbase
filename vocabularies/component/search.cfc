@@ -205,7 +205,8 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
   picklist, and minimal details for the selected value.
 
 @param term information to search for.
-@return a json structure containing id and value, with biol_indiv_relationship in id and value, with counts in meta.
+@return a json structure containing id and value, with biol_indiv_relationship in id and value, with relationship,
+  relationship type, and counts in meta.
 --->
 <cffunction name="getBiolIndivRelationshipAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -215,7 +216,8 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				count(f.collection_object_id) ct,
-				ctbiol_relations.biol_indiv_relationship
+				ctbiol_relations.biol_indiv_relationship,
+				ctbiol_relations.rel_type
 			FROM
 				#session.flatTableName# f
 				left join biol_indiv_relations on f.collection_object_id = biol_indiv_relations.collection_object_id
@@ -224,9 +226,9 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 				f.collection_object_id IS NOT NULL
 				AND ctbiol_relations.biol_indiv_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 			GROUP BY
-				ctbiol_relations.biol_indiv_relationship
+				ctbiol_relations.biol_indiv_relationship, ctbiol_relations.rel_type
 			ORDER BY
-				ctbiol_relations.biol_indiv_relationship
+				ctbiol_relations.biol_indiv_relationship, ctbiol_relations.rel_type
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -234,7 +236,7 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.biol_indiv_relationship#">
 			<cfset row["value"] = "#search.biol_indiv_relationship#" >
-			<cfset row["meta"] = "#search.biol_indiv_relationship# (#search.ct#)" >
+			<cfset row["meta"] = "#search.biol_indiv_relationship#: #search.rel_type# (#search.ct#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
