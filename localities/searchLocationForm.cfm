@@ -612,16 +612,16 @@
 							<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="collecting_method" class="data-entry-label">Collecting Method</label>
-							<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
-							<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-3">
 							<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
 							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (datum)</label>
+							<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="collecting_method" class="data-entry-label">Collecting Method</label>
+							<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row px-3 my-2">
@@ -639,8 +639,8 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="verbatimSRS" class="data-entry-input">Verbatim SRS (e.g., datum)</label>
-							<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
+							<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
+							<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 						</div>
 					</div>
 				</div>
