@@ -215,7 +215,7 @@ Function getBiolIndivRelationshipAutocompleteMeta.  Search for ctbiol_relations.
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				count(f.collection_object_id) ct,
+				count(distinct f.collection_object_id) ct,
 				ctbiol_relations.biol_indiv_relationship,
 				ctbiol_relations.rel_type
 			FROM
