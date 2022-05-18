@@ -971,6 +971,9 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="date_began_date" type="string" required="no">
 	<cfargument name="date_ended_date" type="string" required="no">
+	<cfargument name="date_collected" type="string" required="no">
+	<cfargument name="collecting_source" type="string" required="no">
+	<cfargument name="collecting_method" type="string" required="no">
 	<cfargument name="loan_number" type="string" required="no">
 	<cfargument name="accession_number" type="string" required="no">
 	<cfargument name="deaccession_number" type="string" required="no">
@@ -1179,6 +1182,20 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 	</cfif>
+	<cfif isDefined("date_collected") AND len(date_collected) GT 0>
+		<cfset field = '"field": "date_began_date"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#date_collected#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+		<cfset field = '"field": "date_ended_date"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#date_collected#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
 	<cfif isDefined("date_began_date") AND len(date_began_date) GT 0>
 		<cfset field = '"field": "date_began_date"'>
 		<cfset searchText = reformatDateSearchTerm(searchText="#date_began_date#") >
@@ -1190,6 +1207,22 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("date_ended_date") AND len(date_ended_date) GT 0>
 		<cfset field = '"field": "date_ended_date"'>
 		<cfset searchText = reformatDateSearchTerm(searchText="#date_ended_date#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("collecting_source") AND len(collecting_source) GT 0>
+		<cfset field = '"field": "collecting_source"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#collecting_source#") >
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
+	<cfif isDefined("collecting_method") AND len(collecting_method) GT 0>
+		<cfset field = '"field": "collecting_method"'>
+		<cfset searchText = reformatDateSearchTerm(searchText="#collecting_method#") >
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>

@@ -612,6 +612,46 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
+													<cfif not isdefined("collecting_source")>
+														<cfset collecting_source="">
+													</cfif>
+													<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+													<input type="text" name="collecting_source" class="data-entry-input" id="collecting_source" value="#collecting_source#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("date_collected")>
+														<cfset date_collected="">
+													</cfif>
+													<label for="date_collected" class="data-entry-label">Date Collected</label>
+													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_collected#" >
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
+													<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
+													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("date_began_date")>
+														<cfset date_began_date="">
+													</cfif>
+													<label for="date_began_date" class="data-entry-label">Date Begin</label>
+													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_began_date#" >
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("date_ended_date")>
+														<cfset date_ended_date="">
+													</cfif>
+													<label for="date_ended_date" class="data-entry-label">Date End</label>
+													<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_ended_date#" >
+												</div>
+											</div>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 													<label for="part_name" class="data-entry-label">Part Name</label>
 													<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#" >
@@ -630,25 +670,6 @@ limitations under the License.
 															makePreserveMethodAutocompleteMeta('preserve_method');
 														});
 													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("date_began_date")>
-														<cfset date_began_date="">
-													</cfif>
-													<label for="date_began_date" class="data-entry-label">Collecting Date Begin</label>
-													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_began_date#" >
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("date_ended_date")>
-														<cfset date_ended_date="">
-													</cfif>
-													<label for="date_ended_date" class="data-entry-label">Collecting Date End</label>
-													<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_ended_date#" >
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-													<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
-													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
