@@ -1629,7 +1629,7 @@ limitations under the License.
 						<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
 						<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
 						<input type="hidden" id="error_#getLoc.locality_id#" value="1196">
-						<div id="mapdiv_#getLoc.locality_id#" class="tinymap"></div>
+						<div id="mapdiv_#getLoc.locality_id#" class="tinymap" style="width:100px;height:100px;"></div>
 						<!---span class="infoLink mapdialog">map key/tools</div--->
 					</cfif>
 					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
