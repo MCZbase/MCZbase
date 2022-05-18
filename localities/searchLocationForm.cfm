@@ -577,19 +577,19 @@
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-1">
-						<span class="data-entry-label">&nbsp</span>
+						<label for="began_date" class="data-entry-label">Began Date</label>
 						<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select" aria-label="operator for began date">
 							<option value="=">is</option>
 							<option value="<">before</option>
 							<option value=">">after</option>
 						</select>
 					</div>
-					<div class="col-12 col-md-3">
-						<label for="began_date" class="data-entry-label">Began Date</label>
+					<div class="col-12 col-md-3 pr-1">
+						<span class="data-entry-label">&nbsp</span>
 						<input type="text" name="began_date" id="began_date" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2">
-						<span class="data-entry-label">&nbsp</span>
+					<div class="col-12 col-md-1">
+						<label for="ended_date" class="data-entry-label">End Date</label>
 						<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select" aria-label="operator for end date">
 							<option value="=">is</option>
 							<option value="<">before</option>
@@ -597,10 +597,10 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="ended_date" class="data-entry-label">End Date</label>
+						<span class="data-entry-label">&nbsp</span>
 						<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2">
+					<div class="col-12 col-md-4">
 						<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
 						<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
 					</div>
