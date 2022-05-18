@@ -628,7 +628,7 @@ limitations under the License.
 														<cfset date_collected="">
 													</cfif>
 													<label for="date_collected" class="data-entry-label">Date Collected</label>
-													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_collected#" >
+													<input type="text" name="date_collected" class="data-entry-input" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_collected#" >
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
@@ -639,14 +639,14 @@ limitations under the License.
 													<cfif not isdefined("date_began_date")>
 														<cfset date_began_date="">
 													</cfif>
-													<label for="date_began_date" class="data-entry-label">Date Begin</label>
+													<label for="date_began_date" class="data-entry-label">Date Began</label>
 													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_began_date#" >
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("date_ended_date")>
 														<cfset date_ended_date="">
 													</cfif>
-													<label for="date_ended_date" class="data-entry-label">Date End</label>
+													<label for="date_ended_date" class="data-entry-label">Date Ended</label>
 													<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_ended_date#" >
 												</div>
 											</div>
