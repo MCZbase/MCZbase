@@ -66,7 +66,7 @@ limitations under the License.
 								<cfif findNoCase('master',Session.gitBranch) EQ 0>
 									<!--- not working yet, don't link to on production --->
 									<li class="nav-item mb-1">
-										<a href="/specimens/changeQueryCollEvent.cfm?result_id#encodeForURL(result_id)#" class="nav-link btn btn-xs btn-secondary" target="_blank">Collecting Events</a>
+										<a href="/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#" class="nav-link btn btn-xs btn-secondary" target="_blank">Collecting Events</a>
 									</li>
 								<cfelse>
 									<li class="nav-item mb-1">
