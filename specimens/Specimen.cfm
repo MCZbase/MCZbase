@@ -89,16 +89,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<!--- (2) Display the page header ---> 
-<!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset pageTitle = "MCZbase Specimen Details #guid#">
-<cfinclude template="/shared/_header.cfm">
-<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
-	<cfset session.sdmapclass='tinymap'>
-</cfif>
-<cfoutput>
-	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>
+
 <cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 	<cfthrow message="Not for production use yet.">
 </cfif>
@@ -128,7 +119,8 @@ limitations under the License.
 		concatparts_ct(flattable.collection_object_id) as partString,
 		concatEncumbrances(flattable.collection_object_id) as encumbrance_action,
 		flattable.dec_lat,
-		flattable.dec_long
+		flattable.dec_long,
+		flattable.COORDINATEUNCERTAINTYINMETERS
 <!---	<cfif len(#session.CustomOtherIdentifier#) gt 0>
 		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
 		</cfif>--->
@@ -140,6 +132,16 @@ limitations under the License.
 	ORDER BY
 		cat_num
 </cfquery>
+			<!--- (2) Display the page header ---> 
+<!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
+<cfset pageTitle = "MCZbase Specimen Details #guid#">
+<cfinclude template="/shared/_header.cfm">
+<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+	<cfset session.sdmapclass='tinymap'>
+</cfif>
+<cfoutput>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
 <cfoutput>
 	<cfif detail.recordcount lt 1>
 		<!--- It shouldn't be possible to reach here, the logic above should catch this condition. --->
