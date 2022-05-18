@@ -93,6 +93,12 @@ limitations under the License.
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset pageTitle = "MCZbase Specimen Details #guid#">
 <cfinclude template="/shared/_header.cfm">
+<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+	<cfset session.sdmapclass='tinymap'>
+</cfif>
+<cfoutput>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
 <cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 	<cfthrow message="Not for production use yet.">
 </cfif>
