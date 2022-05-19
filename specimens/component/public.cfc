@@ -486,14 +486,18 @@ limitations under the License.
 								<cfset alt=desc.label_value>
 							</cfif>
 							<div class="col-3 col-sm-2 col-md-2 col-xl-2 px-0 mx-2 my-1 float-left d-inline">
-								<cfset mt = #mime_type#>
+								<cfset mediaBlock= getMediaBlockHtml(media_id="#citationPub.media_id#",size="350",captionAs="textCaption")>
+									<div id="mediaBlock#citationPub.media_id#">
+										#mediaBlock#
+									</div>
+							<!---	<cfset mt = #mime_type#>
 								<cfset muri = #media_uri#>
 								<a href="#media_uri#" target="_blank">
 									<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
 								</a>
 								<span class="d-block smaller text-center pt-1" style="line-height:.8rem;">
 									<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> 
-								</span>
+								</span>--->
 							</div>
 						</cfloop>
 					</cfif>
