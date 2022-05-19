@@ -1121,7 +1121,7 @@ imgStyleClass=value
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="grey">
-	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:130px">
+	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:120px">
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
