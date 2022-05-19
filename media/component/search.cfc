@@ -1639,25 +1639,6 @@ imgStyleClass=value
 								<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
 							</div>
-							<!---onclick="edit_revert()"---> 
-						<script type="text/javascript">
-//								$(document).ready(function edit_revert() {
-//										$("##label__#i#").prop("disabled", true);
-//										$("##label_value__#i#").prop("disabled", true);
-//										$(".edit-toggle__#i#").click(function() {
-//											if (this.value=="Edit") {
-//												this.value = "Revert";
-//												$("##label__#i#").prop("disabled", false);
-//												$("##label_value__#i#").prop("disabled", false);
-//											}
-//											else {
-//												this.value = "Edit";
-//												$("##label__#i#").prop("disabled", true);
-//												$("##label_value__#i#").prop("disabled", true);
-//											}
-//										});
-//									});
-						</script>
 							<cfset i=i+1>
 						</cfloop>
 						<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
@@ -1759,7 +1740,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 					<ul><li>#encodeForHtml(variables.other_parameter)#</li></ul>
 					<!--- id_for_dialog allows the calling code to specify the div for the dialog, 
 							and thus the potential reuse of this function in different contexts and the 
-                     elimination of a hardcoded value for the id of this div in more than one place.
+							elimination of a hardcoded value for the id of this div in more than one place.
 					 --->
 					 <ul><li><button onClick=" openUpdateTextDialog('#getCounter.helloworld_id#','#variables.id_for_dialog#');" class="btn btn-xs btn-primary">Edit</button></li></ul>
 				<cfelse>
