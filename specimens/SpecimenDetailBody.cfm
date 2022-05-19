@@ -279,72 +279,53 @@ limitations under the License.
 											<li>None</li>
 										</ul>
 									</cfif>
-										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
-							FROM
-								media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
-							WHERE
-								mr.media_id = ml.media_id and
-								mr.media_id = m.media_id and
-								ml.media_label = 'description' and
-								MEDIA_RELATIONSHIP like '% publication' and
-								RELATED_PRIMARY_KEY = c.publication_id and
-								c.publication_id = fp.publication_id and
-								fp.format_style='short' and
-								c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
-								MCZBASE.is_media_encumbered(m.media_id) < 1
-							ORDER by substr(formatted_publication, -4)
-						</cfquery>
-					<cfif publicationMedia.recordcount gt 0>
-						<cfloop query="publicationMedia">
-							<cfset puri=getMediaPreview(preview_uri,mime_type)>
-							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select
-										media_label,
-										label_value
-								from
-										media_labels
-								where
-										media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select
-										media_label,
-										label_value
-								from
-										media_labels
-								where
-										media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-							<cfquery name="desc" dbtype="query">
-								select 
-									label_value 
-								from 
-									labels 
-								where 
-									media_label='description'
-							</cfquery>
-							<cfset alt="Media Preview Image">
-							<cfif desc.recordcount is 1>
-								<cfset alt=desc.label_value>
-							</cfif>
-							<div class="col-3 col-sm-2 col-md-2 col-xl-2 px-0 mx-2 my-1 float-left d-inline">
-								<cfset mediaBlock= getMediaBlockHtml(media_id="#publicationMedia.media_id#",size="350",captionAs="textCaption")>
-									<div id="mediaBlock#publicationMedia.media_id#">
-										#mediaBlock#
-									</div>
-							<!---	<cfset mt = #mime_type#>
-								<cfset muri = #media_uri#>
-								<a href="#media_uri#" target="_blank">
-									<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
-								</a>
-								<span class="d-block smaller text-center pt-1" style="line-height:.8rem;">
-									<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> 
-								</span>--->
-							</div>
-						</cfloop>
-					</cfif>
+									<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT
+											mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+										FROM
+											media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+										WHERE
+											mr.media_id = ml.media_id and
+											mr.media_id = m.media_id and
+											ml.media_label = 'description' and
+											MEDIA_RELATIONSHIP like '% publication' and
+											RELATED_PRIMARY_KEY = c.publication_id and
+											c.publication_id = fp.publication_id and
+											fp.format_style='short' and
+											c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+											MCZBASE.is_media_encumbered(m.media_id) < 1
+										ORDER by substr(formatted_publication, -4)
+									</cfquery>
+									<cfif publicationMedia.recordcount gt 0>
+										<cfloop query="publicationMedia">
+											<cfset puri=getMediaPreview(preview_uri,mime_type)>
+											<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select media_label, label_value 
+												from media_labels
+												where media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select media_label, label_value
+												from media_labels
+												where media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+											<cfquery name="desc" dbtype="query">
+												select label_value 
+												from labels 
+												where media_label='description'
+											</cfquery>
+											<cfset alt="Media Preview Image">
+											<cfif desc.recordcount is 1>
+												<cfset alt=desc.label_value>
+											</cfif>
+											<div class="col-3 col-sm-2 col-md-2 col-xl-2 px-0 mx-2 my-1 float-left d-inline">
+												<cfset mediaBlock= getMediaBlockHtml(media_id="#publicationMedia.media_id#",size="350",captionAs="textCaption")>
+												<div id="mediaBlock#publicationMedia.media_id#">
+													#mediaBlock#
+												</div>
+											</div>
+										</cfloop>
+									</cfif>
 								</div>
 							</div>
 						</div>

@@ -403,7 +403,7 @@ limitations under the License.
 						order by
 							substr(formatted_publication, - 4)
 					</cfquery>
-					<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---					<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 							FROM
@@ -419,7 +419,7 @@ limitations under the License.
 								c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 								MCZBASE.is_media_encumbered(m.media_id) < 1
 							ORDER by substr(formatted_publication, -4)
-						</cfquery>
+						</cfquery>--->
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
 						<div class="d-block py-1 px-2 w-100 float-left">
@@ -452,7 +452,7 @@ limitations under the License.
 						</div>
 						<cfset i = i + 1>
 					</cfloop>
-					<cfif publicationMedia.recordcount gt 0>
+<!---					<cfif publicationMedia.recordcount gt 0>
 						<cfloop query="publicationMedia">
 							<cfset puri=getMediaPreview(preview_uri,mime_type)>
 							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -485,9 +485,22 @@ limitations under the License.
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
 							</cfif>
-							
+							<div class="col-3 col-sm-2 col-md-2 col-xl-2 px-0 mx-2 my-1 float-left d-inline">
+								<cfset mediaBlock= getMediaBlockHtml(media_id="#publicationMedia.media_id#",size="350",captionAs="textCaption")>
+									<div id="mediaBlock#publicationMedia.media_id#">
+										#mediaBlock#
+									</div>
+								<cfset mt = #mime_type#>
+								<cfset muri = #media_uri#>
+								<a href="#media_uri#" target="_blank">
+									<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto w-100">
+								</a>
+								<span class="d-block smaller text-center pt-1" style="line-height:.8rem;">
+									<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a> 
+								</span>
+							</div>
 						</cfloop>
-					</cfif>
+					</cfif>--->
 					<cfcatch>
 						<cfif isDefined("cfcatch.queryError") >
 							<cfset queryError=cfcatch.queryError>
