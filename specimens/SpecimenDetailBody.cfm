@@ -98,9 +98,9 @@ limitations under the License.
 	select count(*) as ct from rparts
 </cfquery>
 <cfoutput>
-	<div class="container-lg d-none d-lg-block mb-1 my-lg-1">
-		<div class="row">
-			<cfif #oneOfUs# eq 1>
+	<cfif #oneOfUs# eq 1>
+		<div class="container-lg d-none d-lg-block mb-1 my-lg-1">
+			<div class="row">
 				<ul class="list-group list-inline list-group-horizontal-md mt-0 pt-0 pb-1 mx-auto">
 					<li class="list-group-item px-0 mx-1">
 						<div id="mediaDialog"></div>
@@ -155,9 +155,9 @@ limitations under the License.
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditMetadataDialog(#collection_object_id#,'metadataDialog','#guid#',reloadMetadata)">Meta&nbsp;Data</button>
 					</li>
 				</ul>
-			</cfif>
+			</div>
 		</div>
-	</div>
+	</cfif>
 	<div class="container-fluid mt-3 mt-lg-0">
 		<div class="row mx-0">
 			<!----------------------------- one left column for media ---------------------------------->
