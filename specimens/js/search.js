@@ -67,7 +67,3 @@ function createSpecimenRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,r
 	var maxZIndex = getMaxZIndex();
 	$("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
 };
-<<<<<<< HEAD
->>>>>>> test
-=======
->>>>>>> test
