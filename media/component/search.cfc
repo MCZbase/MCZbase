@@ -175,19 +175,17 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif len(unlinked) EQ 0>
-					<cfif (isdefined("related_cataloged_item") AND len(related_cataloged_item) GT 0)
-						OR (isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0)
-					>
-					   left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
+					<cfif (isdefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) OR (isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0)>
+					left join media_relations media_relations_ci on media.media_id=media_relations_ci.media_id
 					</cfif>
 					<cfif isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
-					   left join underscore_relation on media_relations.related_primary_key = underscore_relation.collection_object_id
+					left join underscore_relation on media_relations.related_primary_key = underscore_relation.collection_object_id
 					</cfif>
 					<cfif isdefined("media_relationship_type") AND len(media_relationship_type) GT 0 AND isdefined("media_relationship_id") AND len(media_relationship_id) GT 0 >
-					   left join media_relations media_relations_rt on media.media_id=media_relations_rt.media_id
+					left join media_relations media_relations_rt on media.media_id=media_relations_rt.media_id
 					</cfif>
 					<cfif isdefined("media_relationship_type_1") AND len(media_relationship_type_1) GT 0 AND isdefined("media_relationship_id_1") AND len(media_relationship_id_1) GT 0 >
-					   left join media_relations media_relations_rt_1 on media.media_id=media_relations_rt_1.media_id
+					left join media_relations media_relations_rt_1 on media.media_id=media_relations_rt_1.media_id
 					</cfif>
 				</cfif>
 			WHERE
@@ -235,7 +233,7 @@ limitations under the License.
 					AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfif>
 				<cfif isdefined("has_roi") and len(has_roi) gt 0>
-					-- tags are not, as would be expected text, but regions of interest on images, implementation appears incomplete.
+					<!--- tags are not, as would be expected text, but regions of interest on images, implementation appears incomplete.--->
 					AND media.media_id in (select media_id from tag)
 				</cfif>
 				<cfif isdefined("keywords") and len(keywords) gt 0>
@@ -254,7 +252,7 @@ limitations under the License.
 					)
 				</cfif>
 				<cfif isdefined("description") and len(description) gt 0>
-					-- TODO: look at UTL_MATCH.JARO_WINKLER matching
+					<!---- TODO: look at UTL_MATCH.JARO_WINKLER matching---->
 					<cfif description IS "NULL">
 						AND media.media_id not in ( select media_id from media_labels where media_label = 'description' )
 					<cfelseif description IS "NOT NULL">

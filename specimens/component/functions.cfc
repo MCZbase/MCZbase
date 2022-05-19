@@ -96,76 +96,76 @@ limitations under the License.
 														</cfquery>
 													<cfset i = 1>
 													<cfloop query="images">
-													<div id="Media_#i#">
-														<cfif len(images.media_uri) gt 0>
-															<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT distinct
-																	media.media_id,
-																	media.auto_host,
-																	media.auto_path,
-																	media.auto_filename,
-																	media.media_uri,
-																	media.preview_uri as preview_uri,
-																	media.mime_type as mime_type,
-																	media.media_type,
-																	mczbase.get_media_descriptor(media.media_id) as media_descriptor
-																FROM 
-																	media,
-																	media_relations
-																WHERE 
-																	media_relations.media_id = media.media_id
-																AND
-																	media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-															</cfquery>
-															<div class="col-6 float-left p-2">
-																<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-																	<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
-																	<div id="mediaBlock#images.media_id#">
-																		#mediaBlock#
+														<div id="Media_#i#">
+															<cfif len(images.media_uri) gt 0>
+																<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																	SELECT distinct
+																		media.media_id,
+																		media.auto_host,
+																		media.auto_path,
+																		media.auto_filename,
+																		media.media_uri,
+																		media.preview_uri as preview_uri,
+																		media.mime_type as mime_type,
+																		media.media_type,
+																		mczbase.get_media_descriptor(media.media_id) as media_descriptor
+																	FROM 
+																		media,
+																		media_relations
+																	WHERE 
+																		media_relations.media_id = media.media_id
+																	AND
+																		media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+																</cfquery>
+																<div class="col-6 float-left p-2">
+																	<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
+																		<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumb")>
+																		<div id="mediaBlock#images.media_id#">
+																			#mediaBlock#
+																		</div>
 																	</div>
 																</div>
-															</div>
-															<script>
-																function editMediaSubmit(){
-																	$('##deleteMediaResultDiv').html('Deleting....');
-																	$('##deleteMediaResultDiv').addClass('text-warning');
-																	$('##deleteMediaResultDiv').removeClass('text-success');
-																	$('##deleteMediaResultDiv').removeClass('text-danger');
-																	$.ajax({
-																		url : "/specimens/component/functions.cfc",
-																		type : "post",
-																		dataType : "json",
-																		data: $("##editMediaForm").serialize(),
-																		success: function (result) {
-																			if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
-																				$('##deleteMediaResultDiv').html('Deleted');
-																				$('##deleteMediaResultDiv').addClass('text-success');
-																				$('##deleteMediaResultDiv').removeClass('text-warning');
-																				$('##deleteMediaResultDiv').removeClass('text-danger');
-																			} else {
-																				// we shouldn't be able to reach this block, backing error should return an http 500 status
+																<script>
+																	function editMediaSubmit(){
+																		$('##deleteMediaResultDiv').html('Deleting....');
+																		$('##deleteMediaResultDiv').addClass('text-warning');
+																		$('##deleteMediaResultDiv').removeClass('text-success');
+																		$('##deleteMediaResultDiv').removeClass('text-danger');
+																		$.ajax({
+																			url : "/specimens/component/functions.cfc",
+																			type : "post",
+																			dataType : "json",
+																			data: $("##editMediaForm").serialize(),
+																			success: function (result) {
+																				if (typeof result.DATA !== 'undefined' && typeof result.DATA.STATUS !== 'undefined' && result.DATA.STATUS[0]=='1') { 
+																					$('##deleteMediaResultDiv').html('Deleted');
+																					$('##deleteMediaResultDiv').addClass('text-success');
+																					$('##deleteMediaResultDiv').removeClass('text-warning');
+																					$('##deleteMediaResultDiv').removeClass('text-danger');
+																				} else {
+																					// we shouldn't be able to reach this block, backing error should return an http 500 status
+																					$('##deleteMediaResultDiv').html('Error');
+																					$('##deleteMediaResultDiv').addClass('text-danger');
+																					$('##deleteMediaResultDiv').removeClass('text-warning');
+																					$('##deleteMediaResultDiv').removeClass('text-success');
+																					messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
+																				}
+																			},
+																			error: function(jqXHR,textStatus,error){
 																				$('##deleteMediaResultDiv').html('Error');
 																				$('##deleteMediaResultDiv').addClass('text-danger');
 																				$('##deleteMediaResultDiv').removeClass('text-warning');
 																				$('##deleteMediaResultDiv').removeClass('text-success');
-																				messageDialog('Error updating images: '+result.DATA.MESSAGE[0], 'Error saving images.');
+																				handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
 																			}
-																		},
-																		error: function(jqXHR,textStatus,error){
-																			$('##deleteMediaResultDiv').html('Error');
-																			$('##deleteMediaResultDiv').addClass('text-danger');
-																			$('##deleteMediaResultDiv').removeClass('text-warning');
-																			$('##deleteMediaResultDiv').removeClass('text-success');
-																			handleFail(jqXHR,textStatus,error,"deleting relationship between image and cataloged item");
-																		}
-																	});
-																};
-															</script> 
-														<cfelse>
-																None
-														</cfif>
+																		});
+																	};
+																</script> 
+															<cfelse>
+																	None
+															</cfif>
+														</div>
 														<cfset i= i+1>
-													</div>
 													</cfloop>
 													</div>
 												</div>
