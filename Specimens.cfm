@@ -16,8 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<!--- **** Beging temporary block, to prevent Specimens.cfm from displaying on production before we are ready * --->
-<!--- Delete this temporary block when Specimens.cfm is ready for production --->
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
@@ -25,16 +23,6 @@ limitations under the License.
 	<cfset gitBranch = "unknown">
 </cfcatch>
 </cftry>
-<cfif findNoCase('redesign',gitBranch) EQ 0>
-	<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-		<!--- logged in users now able to see redesigned specimen search on production --->
-	<cfelse>
-		<cfscript>
-			getPageContext().forward("/SpecimenSearch.cfm");
-		</cfscript>
-	</cfif>
-</cfif>
-<!--- **** End temporary block ******************************************************************************** --->
 
 <cfif not isdefined("action")>
 	<!--- set the default tab based on user preferences --->
@@ -243,7 +231,7 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 													<label for="catalogNum" class="data-entry-label">Catalog Number</label>
-													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#cat_num#">
+													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 												</div>
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
@@ -275,7 +263,7 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
-													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#other_id_number#">
+													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 												</div>
 											</div>
 											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -311,7 +299,7 @@ limitations under the License.
 													<div class="col-12 col-md-3">
 														<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 														<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
-														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#other_id_number_1#">
+														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
 													</div>
 													<div class="col-12 col-md-6">
 														<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
@@ -323,12 +311,12 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
 													<label for="taxa" class="data-entry-label">Any Taxonomic Element</label>
-													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#full_taxon_name#">
+													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(full_taxon_name)#">
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="phylum" class="data-entry-label">Phylum</label>
 													<cfif not isdefined("phylum")><cfset phylum=""></cfif>
-													<input id="phylum" name="phylum" class="data-entry-input" value="#phylum#" >
+													<input id="phylum" name="phylum" class="data-entry-input" value="#encodeForHtml(phylum)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('phylum','phylum');
@@ -338,7 +326,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="phylclass" class="data-entry-label">Class</label>
 													<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
-													<input id="phylclass" name="phylclass" class="data-entry-input" value="#phylclass#" >
+													<input id="phylclass" name="phylclass" class="data-entry-input" value="#encodeForHtml(phylclass)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('phylclass','class');
@@ -348,7 +336,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="phylorder" class="data-entry-label">Order</label>
 													<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
-													<input id="phylorder" name="phylorder" class="data-entry-input" value="#phylorder#" >
+													<input id="phylorder" name="phylorder" class="data-entry-input" value="#encodeForHtml(phylorder)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('phylorder','order');
@@ -358,7 +346,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="family" class="data-entry-label">Family</label>
 													<cfif not isdefined("family")><cfset family=""></cfif>
-													<input type="text" id="family" name="family" class="data-entry-input" value="#family#" >
+													<input type="text" id="family" name="family" class="data-entry-input" value="#encodeForHtml(family)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('family','family');
@@ -366,11 +354,11 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
-													<label for="publication_id" class="data-entry-label">Citation</label>
+													<label for="publication_id" class="data-entry-label">Cited In</label>
 													<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 													<cfif not isdefined("citation")><cfset citation=""></cfif>
-													<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#publication_id#" >
-													<input type="text" id="citation" name="citation" class="data-entry-input" value="#citation#" >
+													<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#encodeForHtml(publication_id)#" >
+													<input type="text" id="citation" name="citation" class="data-entry-input" value="#encodeForHtml(citation)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makePublicationPicker('citation','publication_id');
@@ -382,7 +370,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="type_status" class="data-entry-label">Type Status/Citation</label>
 													<cfif not isdefined("type_status")><cfset type_status=""></cfif>
-													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#type_status#">
+													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeTypeStatusSearchAutocomplete('type_status');
@@ -392,7 +380,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="genus" class="data-entry-label">Genus</label>
 													<cfif not isdefined("genus")><cfset genus=""></cfif>
-													<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#">
+													<input type="text" class="data-entry-input" id="genus" name="genus" value="#encodeForHtml(genus)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('genus','genus');
@@ -415,8 +403,8 @@ limitations under the License.
 															<cfset scientific_name = "=#lookupTaxon.sciname#">
 														</cfif>
 													</cfif>
-													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" value="#scientific_name#" >
-													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#taxon_name_id#" >
+													<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input" value="#encodeForHtml(scientific_name)#" >
+													<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#encodeForHtml(taxon_name_id)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
@@ -426,7 +414,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="author_text" class="data-entry-label">Authorship</label>
 													<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-													<input id="author_text" name="author_text" class="data-entry-input" value="#author_text#" >
+													<input id="author_text" name="author_text" class="data-entry-input" value="#encodeForHtml(author_text)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeTaxonSearchAutocomplete('author_text','author_text');
@@ -449,8 +437,8 @@ limitations under the License.
 															<cfset determiner = "=#lookupDeterminer.agent_name#">
 														</cfif>
 													</cfif>
-													<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#determiner_id#" >
-													<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#determiner#" >
+													<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#encodeForHtml(determiner_id)#" >
+													<input type="text" id="determiner" name="determiner" class="data-entry-input" value="#encodeForHtml(determiner)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
@@ -474,12 +462,12 @@ limitations under the License.
 												<div class="col-12 col-md-4">
 													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 													<label for="higher_geog" class="data-entry-label">Higher Geography</label>
-													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#higher_geog#">
+													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 													<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
-													<input type="text" class="data-entry-input" name="continent_ocean" id="continent_ocean" value="#continent_ocean#">
+													<input type="text" class="data-entry-input" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('continent_ocean','continent_ocean');
@@ -489,7 +477,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 													<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
-													<input type="text" class="data-entry-input" id="ocean_region" name="ocean_region" value="#ocean_region#">
+													<input type="text" class="data-entry-input" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('ocean_region','ocean_region');
@@ -499,7 +487,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 													<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
-													<input type="text" class="data-entry-input" id="ocean_subregion" name="ocean_subregion" value="#ocean_subregion#">
+													<input type="text" class="data-entry-input" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
@@ -509,7 +497,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="sea" class="data-entry-label">Sea</label>
 													<cfif not isdefined("sea")><cfset sea=""></cfif>
-													<input type="text" class="data-entry-input" id="sea" name="sea" value="#sea#">
+													<input type="text" class="data-entry-input" id="sea" name="sea" value="#encodeForHtml(sea)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('sea','sea');
@@ -521,7 +509,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="country" class="data-entry-label">Country</label>
 													<cfif not isdefined("country")><cfset country=""></cfif>
-													<input type="text" class="data-entry-input" id="country" name="country" value="#country#">
+													<input type="text" class="data-entry-input" id="country" name="country" value="#encodeForHtml(country)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeCountrySearchAutocomplete('country');
@@ -531,7 +519,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="state_prov" class="data-entry-label">State/Province</label>
 													<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
-													<input type="text" class="data-entry-input" id="state_prov" name="state_prov" aria-label="state or province" value="#state_prov#">
+													<input type="text" class="data-entry-input" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('state_prov','state_prov');
@@ -541,7 +529,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="county" class="data-entry-label">County/Shire/Parish</label>
 													<cfif not isdefined("county")><cfset county=""></cfif>
-													<input type="text" class="data-entry-input" id="county" name="county" aria-label="county shire or parish" value="#county#">
+													<input type="text" class="data-entry-input" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('county','county');
@@ -551,7 +539,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="island_group" class="data-entry-label">Island Group</label>
 													<cfif not isdefined("island_group")><cfset island_group=""></cfif>
-													<input type="text" class="data-entry-input" id="island_group" name="island_group" value="#island_group#">
+													<input type="text" class="data-entry-input" id="island_group" name="island_group" value="#encodeForHtml(island_group)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('island_group','island_group');
@@ -561,7 +549,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="island" class="data-entry-label">Island</label>
 													<cfif not isdefined("island")><cfset island=""></cfif>
-													<input type="text" class="data-entry-input" id="island" name="island" value="#island#">
+													<input type="text" class="data-entry-input" id="island" name="island" value="#encodeForHtml(island)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeGeogSearchAutocomplete('island','island');
@@ -571,7 +559,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 													<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
-													<input type="text" class="data-entry-input" id="spec_locality" name="spec_locality" value="#spec_locality#">
+													<input type="text" class="data-entry-input" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeSpecLocalitySearchAutocomplete('spec_locality',);
@@ -615,8 +603,8 @@ limitations under the License.
 															</cfloop>
 														</cfif>
 													</cfif>
-													<input type="text" id="collector" name="collector" class="data-entry-input" value="#collector#">
-													<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#collector_agent_id#">
+													<input type="text" id="collector" name="collector" class="data-entry-input" value="#encodeForHtml(collector)#">
+													<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
 													<script>
 														jQuery(document).ready(function() {
 															makeConstrainedAgentPicker('collector','collector_agent_id','collector');
@@ -624,9 +612,49 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
+													<cfif not isdefined("collecting_source")>
+														<cfset collecting_source="">
+													</cfif>
+													<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+													<input type="text" name="collecting_source" class="data-entry-input" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
+														});
+													</script>
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("date_collected")>
+														<cfset date_collected="">
+													</cfif>
+													<label for="date_collected" class="data-entry-label">Date Collected</label>
+													<input type="text" name="date_collected" class="data-entry-input" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
+													<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
+													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("date_began_date")>
+														<cfset date_began_date="">
+													</cfif>
+													<label for="date_began_date" class="data-entry-label">Date Began</label>
+													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+												</div>
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("date_ended_date")>
+														<cfset date_ended_date="">
+													</cfif>
+													<label for="date_ended_date" class="data-entry-label">Date Ended</label>
+													<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+												</div>
+											</div>
+											<div class="form-row mb-2">
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 													<label for="part_name" class="data-entry-label">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#part_name#" >
+													<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#encodeForHtml(part_name)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makePartNameAutocompleteMeta('part_name');
@@ -636,7 +664,7 @@ limitations under the License.
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
-													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#preserve_method#" >
+													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#encodeForHtml(preserve_method)#" >
 													<script>
 														jQuery(document).ready(function() {
 															makePreserveMethodAutocompleteMeta('preserve_method');
@@ -644,23 +672,26 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
-													<cfif not isdefined("date_began_date")>
-														<cfset date_began_date="">
-													</cfif>
-													<label for="date_began_date" class="data-entry-label">Collecting Date Begin</label>
-													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_began_date#" >
+													<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
+													<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship</label>
+													<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input" value="#encodeForHtml(biol_indiv_relationship)#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+														});
+													</script>
 												</div>
 												<div class="col-12 col-md-2">
-													<cfif not isdefined("date_ended_date")>
-														<cfset date_ended_date="">
-													</cfif>
-													<label for="date_ended_date" class="data-entry-label">Collecting Date End</label>
-													<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#date_ended_date#" >
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-													<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
-													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#verbatim_date#">
+													<cfif not isdefined("media_type")><cfset media_type=""></cfif>
+													<label for="media_type" class="data-entry-label">Media Type
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL');" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
+													</label>
+													<input type="text" id="media_type" name="media_type" class="data-entry-input" value="#encodeForHtml(media_type)#" >
+													<script>
+														jQuery(document).ready(function() {
+															makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
+														});
+													</script>
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
@@ -682,7 +713,7 @@ limitations under the License.
 															</cfif>
 														</cfif>
 														<label for="loan_number" class="data-entry-label">Loan Number</label>
-														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#loan_number#" >
+														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 													</div>
 													<div class="col-12 col-md-2">
 														<cfif not isdefined("accn_number")>
@@ -701,14 +732,14 @@ limitations under the License.
 															</cfif>
 														</cfif>
 														<label for="accn_number" class="data-entry-label">Accession Number</label>
-														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#accn_number#" >
+														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 													</div>
 													<div class="col-12 col-md-2">
 														<cfif not isdefined("deaccession_number")>
 															<cfset deaccession_number="">
 														</cfif>
 														<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
-														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#deaccession_number#" >
+														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 													</div>
 													<!--- TODO: Move from manage transactions section --->
 													<div class="col-12 col-md-2">
@@ -716,14 +747,14 @@ limitations under the License.
 															<cfset coll_object_entered_date="">
 														</cfif>
 														<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
-														<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#coll_object_entered_date#" >
+														<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 													</div>
 													<div class="col-12 col-md-2">
 														<cfif not isdefined("last_edit_date")>
 															<cfset last_edit_date="">
 														</cfif>
 														<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
-														<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#last_edit_date#" >
+														<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
 													<div class="col-12 col-md-2">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -873,7 +904,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-sm-7 col-md-7 col-xl-6 pl-md-0">
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
-													<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#searchText#">
+													<input id="searchText" type="text" class="data-entry-input py-1" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
 												<div class="col-12 col-xl-2">
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -1146,8 +1177,8 @@ limitations under the License.
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
 														<label for="searchText1" class="data-entry-label">Search For</label>
-														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#searchText1#" required>
-														<input type="hidden" name="searchId1" id="searchId1" value="#searchId1#">
+														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
+														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
@@ -1226,8 +1257,8 @@ limitations under the License.
 																<div class="col-12 col-md-5">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
-																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#sval#">
-																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#sival#" >
+																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
+																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
@@ -2442,7 +2473,9 @@ limitations under the License.
 			$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
-			$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
+				$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+			</cfif>
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 				console.log(#session.specimens_pin_guid#);
 				setPinColumnState(gridId,'GUID',true);

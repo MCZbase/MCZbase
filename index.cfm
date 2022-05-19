@@ -5,13 +5,7 @@
 	<cfset gitBranch = "unknown">
 </cfcatch>
 </cftry>
-<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-	<cfscript>
-		getPageContext().forward("/Specimens.cfm");
-	</cfscript>
-<cfelse>
-	<cfscript>
-		getPageContext().forward("/SpecimenSearch.cfm");
-	</cfscript>
-</cfif>
+<cfscript>
+	getPageContext().forward("/Specimens.cfm");
+</cfscript>
 <cfabort>

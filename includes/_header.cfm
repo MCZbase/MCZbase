@@ -108,12 +108,8 @@
 					<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
-								<cfset oldMarker = "">
-								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
-									<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens</a>
-									<cfset oldMarker = "(old)">
-								</cfif>
-								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens #oldMarker#</a>
+								<a class="dropdown-item" target="_top" href="/Specimens.cfm">Specimens</a>
+								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens (old)</a>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" target="_top" href="/media/findMedia.cfm">Media</a>
 								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media (old)</a>
@@ -286,7 +282,8 @@
 										<a class="dropdown-item"  href="/part2container.cfm" target="_top">Put Parts in Containers</a>
 										<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
 										<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
-										<a class="dropdown-item"  href="/tools/BulkloadContEditParent.cfm" target="_top">Bulk Edit Container</a>
+										<!---[Bug 5212] Moved to Bulkloaders.cfm link found under Data Entry menu--->
+										<!---<a class="dropdown-item"  href="/tools/BulkloadContEditParent.cfm" target="_top">Bulk Edit Container</a>--->
 									</div>
 								</cfif>
 							</li>

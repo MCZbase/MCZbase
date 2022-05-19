@@ -1,5 +1,4 @@
-<!---<cflocation url="SpecimenSearch.cfm" addtoken="false">--->
 <cfscript>
-	getPageContext().forward("/SpecimenSearch.cfm");
+	getPageContext().forward("/Specimens.cfm");
 </cfscript>
 <cfabort>

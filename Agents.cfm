@@ -152,7 +152,7 @@ limitations under the License.
 												NULL, NOT NULL)
 											</span>
 										</label>
-										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#anyName#" aria-labelledby="anyName_label" >
+										<input type="text" id="anyName" name="anyName" class="data-entry-input" value="#encodeForHtml(anyName)#" aria-labelledby="anyName_label" >
 									</div>
 									<!--- onblur, if field is emptied, clear the agent_id. --->
 									<script>
@@ -164,7 +164,7 @@ limitations under the License.
 									</script>
 									<div class="col-12 col-md-4">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Specific Agent</label>
-										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#specificagent#" aria-labelledby="specificagent_label"
+										<input type="text" id="specificagent" name="specificagent" class="data-entry-input" value="#encodeForHtml(specificagent)#" aria-labelledby="specificagent_label"
 											onblur=" specificagentBlurHandler();"
 											>
 										<script>
@@ -175,7 +175,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-1">
 										<label for="specificagent" class="data-entry-label" id="specificagent_label">Agent ID</label>
-										<input type="text" id="agent_id" name="agent_id" value="#agent_id#" class="data-entry-input">
+										<input type="text" id="agent_id" name="agent_id" value="#encodeForHtml(agent_id)#" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-2">
 										<label for="agent_type" class="data-entry-label" id="agent_type_label">Agent Type</label>
@@ -220,7 +220,7 @@ limitations under the License.
 												NULL, NOT NULL)
 											</span>
 										</label>
-										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#first_name#" aria-labelledby="first_name_label" >
+										<input type="text" id="first_name" name="first_name" class="data-entry-input" value="#encodeForHtml(first_name)#" aria-labelledby="first_name_label" >
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="middle_name" class="data-entry-label" id="middle_name_label">Middle Name 
@@ -231,7 +231,7 @@ limitations under the License.
 												NULL, NOT NULL)
 											</span>
 										</label>
-										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#middle_name#" aria-labelledby="middle_name_label" >
+										<input type="text" id="middle_name" name="middle_name" class="data-entry-input" value="#encodeForHtml(middle_name)#" aria-labelledby="middle_name_label" >
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="last_name" class="data-entry-label" id="last_name_label">Last Name 
@@ -242,7 +242,7 @@ limitations under the License.
 												NULL, NOT NULL)
 											</span>
 										</label>
-										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#last_name#" aria-labelledby="last_name_label" >
+										<input type="text" id="last_name" name="last_name" class="data-entry-input" value="#encodeForHtml(last_name)#" aria-labelledby="last_name_label" >
 									</div>
 									<div class="col-12 col-md-1">
 										<label for="suffix" class="data-entry-label" id="suffix_label">Suffix</label>
@@ -267,19 +267,19 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-3">
 											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
-											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#agent_remarks#" aria-labelledby="agent_remarks_label" >
+											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
-											<input type="text" id="address" name="address" class="data-entry-input" value="#address#" aria-labelledby="address_label" >
+											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="email" class="data-entry-label" id="email_label">Email</label>
-											<input type="text" id="email" name="email" class="data-entry-input" value="#email#" aria-labelledby="email_label" >
+											<input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
 										</div>
 										<div class="col-12 col-md-2">
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
-											<input type="text" id="phone" name="phone" class="data-entry-input" value="#phone#" aria-labelledby="phone_label" >
+											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
 										</div>
 										<cfif listcontainsnocase(session.roles,"manage_transactions")>
 											<cfset vcollmd = "col-md-1">
@@ -322,29 +322,29 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="birth_date">#dateWord# Of Birth</label>
-												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#birth_date#" aria-label="start of range for #dateWord# of birth">
+												<input name="birth_date" id="birth_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(birth_date)#" aria-label="start of range for #dateWord# of birth">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_birth_date">end of search range for date of birth</label>		
-												<input type="text" name="to_birth_date" id="to_birth_date" value="#to_birth_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+												<input type="text" name="to_birth_date" id="to_birth_date" value="#encodeForHtml(to_birth_date)#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
 											</div>
 										</div>
 									</cfif>
 									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="death_date">#dateWord# Of Death</label>
-											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#death_date#" aria-label="start of range for #dateWord# of death">
+											<input name="death_date" id="death_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start #dateplaceholder#" value="#encodeForHtml(death_date)#" aria-label="start of range for #dateWord# of death">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_death_date">end of search range for #dateWord# of death</label>		
-											<input type="text" name="to_death_date" id="to_death_date" value="#to_death_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
+											<input type="text" name="to_death_date" id="to_death_date" value="#encodeForHtml(to_death_date)#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end #dateplaceholder#" title="end of date range">
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 											<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="collected_date">Dates Collected</label>
-											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#collected_date#" aria-label="start of range for dates collected">
+											<input name="collected_date" id="collected_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(collected_date)#" aria-label="start of range for dates collected">
 											<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 											<label class="data-entry-label sr-only" for="to_collected_date">end of search range for dates collected</label>
-											<input type="text" name="to_collected_date" id="to_collected_date" value="#to_collected_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_collected_date" id="to_collected_date" value="#encodeForHtml(to_collected_date)#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 								</div>

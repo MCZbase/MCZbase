@@ -1021,6 +1021,34 @@ function makePartNameAutocompleteMeta(valueControl ) {
 	};
 };
 
+/** Make a text control into an autocomplete specimen relationship picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeBiolIndivRelationshipAutocompleteMeta(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/vocabularies/component/search.cfc",
+				data: { term: request.term, method: 'getBiolIndivRelationshipAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up relationships for a biol_indiv_relations picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
 /** Make a text control into an autocomplete preserve method picker.
  *
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).

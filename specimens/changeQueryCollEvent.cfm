@@ -1,8 +1,8 @@
-<cfset pageTitle = "Change Localities for Search Result">
+<cfset pageTitle = "Change Collecting Events for Search Result">
 <cfinclude template="/shared/_header.cfm">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
-	<cfthrow message = "No result_id provided for result set on which to change localities.">
+	<cfthrow message = "No result_id provided for result set on which to change collecting events.">
 </cfif>
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="entryPoint">
@@ -26,6 +26,10 @@
 		locality.min_depth,
 		locality.max_depth,
 		locality.depth_units,
+		collecting_event.verbatim_date,
+		collecting_event.verbatim_locality,
+		collecting_event.verbatimdepth,
+		collecting_event.verbatimelevation,
 		geog_auth_rec.higher_geog,
 		collection.institution_acronym,
 		collection.collection,
@@ -51,30 +55,30 @@
 		phylorder, family
 </cfquery>
 <cfif specimenList.recordcount EQ 0>
-	<cfthrow message = "No records found on which to change localities with record_id #encodeForHtml(result_id)# in user_search_table.  Did someone else send you a link to this result set?">
+	<cfthrow message = "No records found on which to change collecting events with record_id #encodeForHtml(result_id)# in user_search_table.  Did someone else send you a link to this result set?">
 </cfif>
 
 <!--------------------------------------------------------------------------------------------------->
 
-<!--- actions entryPoint, findLocality, updateLocality, and updateComplete, determine top portion of page --->
+<!--- actions entryPoint, findCollectingEvent, updateCollectingEvent, and updateComplete, determine top portion of page --->
 
 <!--- normal call sequence is entryPoint (list to change with locality search form), 
-  findLocality (run locality search, list localities to pick from), updateLocality (apply change), and 
+  findCollectingEvent (run locality search, list localities to pick from), updateCollectingEvent (apply change), and 
   updateComplete (report on sucessfull update) --->
 
 <cfswitch expression="#action#">
 	<cfcase value="entryPoint">
-		<cfset title = "Change Locality">
+		<cfset title = "Change Collecting Event">
 		<cfset showLocality=1>
-		<cfset showEvent=0>
+		<cfset showEvent=1>
 		<cfoutput>
 			<div class="container-lg">
 				<div class="search-box">
 					<div class="search-box-header">
-						<h1 class="h3 text-white my-1">Find new locality for cataloged items [in #encodeForHtml(result_id)#]</h1>
+						<h1 class="h3 text-white my-1">Find new collecting event for cataloged items [in #encodeForHtml(result_id)#]</h1>
 					</div>
-					<form name="getLoc" method="post" action="/specimens/changeQueryLocality.cfm">
-						<input type="hidden" name="Action" value="findLocality">
+					<form name="getLoc" method="post" action="/specimens/changeQueryCollEvent.cfm">
+						<input type="hidden" name="Action" value="findCollectingEvent">
 						<input type="hidden" name="result_id" value="#result_id#">
 						<cfif isdefined("filterOrder")>
 							<input type="hidden" name="filterOrder" value="#filterOrder#">
@@ -90,62 +94,30 @@
 		</cfoutput>
 	</cfcase>
 
-	<cfcase value ="updateLocality">
+	<cfcase value ="updateCollectingEvent">
 		<cfoutput>
 			<cfset failed=false>
 			<cftransaction>
 				<cftry>
-					<cfquery name="collEvents" dbtype="query">
-						select distinct collecting_event_id from specimenList
+					<cfquery name="checkCollEvent" datasource="uam_god">
+						SELECT count(*) ct
+						FROM collecting_event
+						WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
 					</cfquery>
-					<cfset collEventIdsList = valuelist(collEvents.collecting_event_id)>
+					<cfif checkCollEvent.ct NEQ 1>
+						<cfthrow message="Target collecting event id to change to [#encodeForHtml(newcollecting_event_id)#] not found.">
+					</cfif>
 					<cfquery name="collObjects" dbtype="query">
 						select distinct collection_object_id from specimenList
 					</cfquery>
 					<cfset collObjIdsList = valuelist(collObjects.collection_object_id)>
 					<cfoutput>
 						<cfloop list="#collEventIdsList#" index = "CEID">
-							<!--- Loop through each current collecting event in the result set --->
-							<cfquery name="checkCollEvent" datasource="uam_god">
-								SELECT collection_object_id 
-								FROM cataloged_item
-								WHERE 
-									collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
-									AND collection_object_id not in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
+							<cfquery name="updateCollEvent" datasource="uam_god">
+								UPDATE cataloged_item 
+								SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
+								WHERE collection_object_id = in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
 							</cfquery>
-							<cfif checkCollEvent.RecordCount is 0>
-								<!--- a collecting event to be updated contains only cataloged items in the result set, update directly --->
-								<cfquery name="updateCollEvent" datasource="uam_god">
-									UPDATE collecting_event 
-									SET locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newLocality_Id#">
-									WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
-								</cfquery>
-							<cfelse>
-								<!--- a collecting event to be updated contains cataloged items not in result set, clone, then update and use clone. --->
-								<cfquery name="getID" datasource = "uam_god">
-									SELECT sq_collecting_event_id.nextval as newID 
-									FROM dual
-								</cfquery>
-								<cfset newCollEventID = getId.newId>
-								<!--- Clone then update, so that newLocality_Id can be passed as a cfqueryparam --->
-								<cfquery name="cloneCE" datasource="uam_god">
-									INSERT INTO collecting_event(COLLECTING_EVENT_ID,LOCALITY_ID,DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS, STARTDAYOFYEAR,ENDDAYOFYEAR)
-										SELECT  #newCollEventID#, LOCALITY_ID, DATE_BEGAN_DATE,DATE_ENDED_DATE,VERBATIM_DATE,VERBATIM_LOCALITY,COLL_EVENT_REMARKS,VALID_DISTRIBUTION_FG,COLLECTING_SOURCE,COLLECTING_METHOD,HABITAT_DESC,DATE_DETERMINED_BY_AGENT_ID,FISH_FIELD_NUMBER,BEGAN_DATE,ENDED_DATE,COLLECTING_TIME,VERBATIMCOORDINATES,VERBATIMLATITUDE,VERBATIMLONGITUDE,VERBATIMCOORDINATESYSTEM,VERBATIMSRS,STARTDAYOFYEAR,ENDDAYOFYEAR
-										FROM collecting_event 
-										WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
-								</cfquery>
-								<cfquery name="updateCollEvent" datasource="uam_god">
-									UPDATE collecting_event 
-									SET locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newLocality_Id#">
-									WHERE collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newCollEventID#">
-								</cfquery>
-								<cfquery name="updateSpecs" datasource="uam_god" result="updateSpecs_result">
-									UPDATE cataloged_item 
-									SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newCollEventID#">
-									WHERE collection_object_id in	(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#">)
-										AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
-								</cfquery>
-							</cfif>
 						</cfloop>
 					</cfoutput>
 					<cftransaction action="commit">
@@ -154,11 +126,11 @@
 					<cfset failed=true>
 					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 					<h3 class="h3">Update failed</h3>
-					<div>Error setting locality for cataloged items in search result: #error_message#</div>
+					<div>Error setting collecting event for cataloged items in search result: #error_message#</div>
 				</cfcatch>
 				</cftry>
 			</cftransaction>
-			<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
+			<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 			<cfif isdefined("filterOrder")>
 				<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
 			</cfif>
@@ -169,7 +141,7 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12 mt-3">
-							<h2 class="h2">Changing locality for cataloged items [in #encodeForHtml(result_id)#]</h2>
+							<h2 class="h2">Changing collecting event for cataloged items [in #encodeForHtml(result_id)#]</h2>
 							<div><a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality</a></div>
 						</div>
 					</div>
@@ -181,7 +153,7 @@
 	</cfcase>
 
 	<cfcase value="updateComplete">
-		<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
+		<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 		<cfif isdefined("filterOrder")>
 			<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
 		</cfif>
@@ -193,7 +165,7 @@
 			<div class="container-fluid">
 				<div class="row mx-0">
 					<div class="col-12 px-4 mt-3">
-						<h2 class="h2">Changed locality for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
+						<h2 class="h2">Changed collecting event for all #specimenList.recordcount# cataloged items [in #encodeForHtml(result_id)#]</h2>
 						<ul class="col-12 list-group list-group-horizontal">
 							<li class="list-group-item d-flex justify-content-between align-items-center">
 								<a href="#returnURL#"><i class="fa fa-arrow-left"></i> Back to Manage Locality  <!---<span class="badge badge-primary badge-pill">1</span>--->
@@ -210,11 +182,12 @@
 		</cfoutput>
 	</cfcase>
 
-	<cfcase value="findLocality">
+	<cfcase value="findCollectingEvent">
 	<cfoutput>
 	<cf_findLocality>
 	<cfquery name="localityResults" dbtype="query">
 		SELECT
+			collecting_event_id,
 			locality_id,
 			geog_auth_rec_id,
 			spec_locality,
@@ -231,9 +204,16 @@
 			depth_units,
 			minimum_elevation,
 			maximum_elevation,
-			orig_elev_units
+			orig_elev_units,
+			began_date,
+			ended_date,
+			verbatim_date,
+			verbatim_locality,
+			collecting_source,
+			collecting_method
 		FROM localityResults
 		GROUP BY
+			collecting_event_id,
 			locality_id,
 			geog_auth_rec_id,
 			spec_locality,
@@ -250,18 +230,26 @@
 			depth_units,
 			minimum_elevation,
 			maximum_elevation,
-			orig_elev_units
+			orig_elev_units,
+			began_date,
+			ended_date,
+			verbatim_date,
+			verbatim_locality,
+			collecting_source,
+			collecting_method
 	</cfquery>
 	<div class="container-fluid">
 		<div class="row mx-1">
 			<div class="col-12 px-4 mt-3">
-				<h2 class="h2 px-3">Change locality for all cataloged items [in #encodeForHtml(result_id)#]</h2>
+				<h2 class="h2 px-3">Change collecting event for all cataloged items [in #encodeForHtml(result_id)#]</h2>
 				<table class="table table-responsive-lg">
 					<thead class="thead-light">
 						<tr>
 							<th>Geog ID</th>
-							<th>&nbsp;</th>
 							<th>Locality ID</th>
+							<th>&nbsp;</th>
+							<th>CollEvent ID</th>
+							<th>Date Collected</th>
 							<th>Spec Locality</th>
 							<th>Geog</th>
 							<th>Depth/Elevation</th>
@@ -296,10 +284,10 @@
 								<td> <a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a></td>
 								<td><a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a></td>
 								<td>
-									<form name="coll#i#" method="post" action="/specimens/changeQueryLocality.cfm">
+									<form name="coll#i#" method="post" action="/specimens/changeQueryCollEvent.cfm">
 										<input type="hidden" name="result_id" value="#result_id#">
-										<input type="hidden" name="newlocality_id" value="#locality_id#">
-										<input type="hidden" name="action" value="updateLocality">
+										<input type="hidden" name="newcollecting_event_id" value="#collecting_event_id#">
+										<input type="hidden" name="action" value="updateCollectingEvent">
 										<cfif isdefined("filterOrder")>
 											<input type="hidden" name="filterOrder" value="#filterOrder#">
 										</cfif>
@@ -307,11 +295,13 @@
 											<input type="hidden" name="filterFamily" value="#filterFamily#">
 										</cfif>
 										<input type="submit"
-											value="Change ALL to this Locality"
+											value="Change ALL to this Collecting Event"
 											class="btn btn-warning btn-xs">
 									</form>
 								</td>
-								<td>#spec_locality#</td>
+								<td>#collecting_event_id#</td>
+								<td>#began_date#-#ended_date# #verbatimdate#</td>
+								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
 								<td>#georeference#</td>
@@ -324,7 +314,7 @@
 			</div>
 		</div>
 	</div>
-	<cfset returnURL = "/specimens/changeQueryLocality.cfm?result_id=#encodeForURL(result_id)#">
+	<cfset returnURL = "/specimens/changeQueryCollEvent.cfm?result_id=#encodeForURL(result_id)#">
 	<cfif isdefined("filterOrder")>
 		<cfset returnURL = returnURL & "&fiterOrder=#encodeForURL(filterOrder)#">
 	</cfif>
@@ -360,7 +350,7 @@
 			<div class="col-12 mt-3">
 				<cfif orders.recordcount GT 1 AND families.recordcount GT 1>
 					<form name="filterResults">
-						<div class="col-7 mb-2 px-0 mx-auto">
+						<div class="col-7 px-0 mx-auto">
 							<div class="form-row mx-0 mb-0">
 								<input type="hidden" name="result_id" value="#result_id#">
 								<input type="hidden" name="action" value="entryPoint" id="action">
@@ -421,6 +411,8 @@
 						<th>Accepted Scientific Name</th>
 						<th>Locality ID</th>
 						<th>Spec Locality</th>
+						<th>Verbatim Locality</th>
+						<th>Date Collected</th>
 						<th>higher_geog</th>
 						<th>Depth/Elevation</th>
 						<th>Geology</th>
@@ -436,12 +428,18 @@
 								<cfset depth_elevation = "Depth: #min_depth#-#max_depth# #depth_units#">
 							</cfif>
 						</cfif>
+						<cfif len(verbatimdepth) GT 0>
+							<cfset depth_elevation = "#depth_elevation# #verbatim_depth# ">
+						</cfif>
 						<cfif len(minimum_elevation) GT 0>
 							<cfif minimum_elevation EQ maximum_elevation>
-								<cfset depth_elevation = "Depth: #minimum_elevation# #orig_elev_units#">
+								<cfset depth_elevation = "#depth_elevation#Elev: #minimum_elevation# #orig_elev_units#">
 							<cfelse>
-								<cfset depth_elevation = "Depth: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
+								<cfset depth_elevation = "#depth_elevation#Elev: #minimum_elevation#-#maximum_elevation# #orig_elev_units#">
 							</cfif>
+						</cfif>
+						<cfif len(verbatimelevation) GT 0>
+							<cfset depth_elevation = "#depth_elevation# #verbatim_elevation#">
 						</cfif>
 						<tr>
 							<td>
@@ -459,6 +457,8 @@
 							<td><i>#Scientific_Name#</i></td>
 							<td>#locality_id#</td>
 							<td>#spec_locality#</td>
+							<td>#verbatim_locality#</td>
+							<td>#verbatim_date#</td>
 							<td>#higher_geog#</td>
 							<td>#depth_elevation#</td>
 							<td>#geolAtts#</td>
