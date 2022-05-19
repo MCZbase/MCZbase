@@ -331,7 +331,6 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
-				<cfif len(#blockotherid#) gt 0> 
 					<div class="accordion" id="accordionOtherID">
 						<div class="card mb-2 bg-light">
 							<div id="otherIDsDialog"></div>
@@ -378,7 +377,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</cfif>
 					<!------------------------------------ parts new ---------------------------------->
 					<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
