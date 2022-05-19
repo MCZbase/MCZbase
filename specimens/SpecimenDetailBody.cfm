@@ -184,7 +184,7 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<div id="mediaPane" <cfif #mediaCount.ct# gt 5>style="height:815px;"</cfif>class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							<div id="mediaPane" <cfif #mediaCount.ct# gt 5>style="height:720px;"</cfif>class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfloop query="images">
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">

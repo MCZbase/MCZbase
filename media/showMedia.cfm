@@ -28,7 +28,7 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<main class="container-fluid" id="content">
+	<main class="container" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
 			<cfloop query="media">
