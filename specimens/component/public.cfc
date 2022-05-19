@@ -458,7 +458,8 @@ limitations under the License.
 							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 										media_label,
-										label_value
+										label_value,
+										media_id
 								from
 										media_labels
 								where
