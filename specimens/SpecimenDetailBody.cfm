@@ -355,7 +355,7 @@ limitations under the License.
 									</h3>
 								<cfelse>
 									<h3 class="h4 my-0">
-										<button type="button" aria-controls="OtherIDsPane" aria-expanded="true" data-toggle="collapse" data-target="##OtherIDsPane">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="OtherIDsPane" aria-expanded="true" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other IDs
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
