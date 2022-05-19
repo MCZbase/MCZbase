@@ -368,7 +368,7 @@ limitations under the License.
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 								<div class="card-body py-1 mb-1 float-left" id="otherIDsCardBody">
-										<cfif len(#blockotherid#) gt 60> #blockotherid# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+										<cfif len(#blockotherid#) gt 60> #blockotherid# <cfelse><ul class="pl-0 mb-0"><li class="small">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
@@ -442,7 +442,7 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
-									<cfif len(#blockattributes#) gt 50>#blockattributes#<cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+									<cfif len(#blockattributes#) gt 50>#blockattributes#<cfelse><ul class="pl-0 mb-0"><li class="small">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
@@ -485,7 +485,7 @@ limitations under the License.
 							</div>
 							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-										<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+										<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 mb-0"><li class="small">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
@@ -530,7 +530,7 @@ limitations under the License.
 							</div>
 							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 								<div class="card-body px-0 py-1 mb-1 float-left" id="localityCardBody">
-									<cfif len(#blocklocality#) gt 60> #blocklocality# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+									<cfif len(#blocklocality#) gt 60> #blocklocality# <cfelse><ul class="pl-0 mb-0"><li class="small">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
@@ -573,7 +573,7 @@ limitations under the License.
 							</div>
 							<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
 								<div class="card-body py-1 mb-1 float-left" id="collectorsCardBody">
-									<cfif len(#blockcollectors#) gt 60> #blockcollectors# <cfelse><ul class="pl-0 mb-0"><li>None</li></ul></cfif>
+									<cfif len(#blockcollectors#) gt 60> #blockcollectors# <cfelse><ul class="pl-0 mb-0"><li class="small">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
