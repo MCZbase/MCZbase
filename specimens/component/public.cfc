@@ -458,8 +458,7 @@ limitations under the License.
 							<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
 										media_label,
-										label_value,
-										media_id
+										label_value
 								from
 										media_labels
 								where
@@ -487,8 +486,8 @@ limitations under the License.
 								<cfset alt=desc.label_value>
 							</cfif>
 							<div class="col-3 col-sm-2 col-md-2 col-xl-2 px-0 mx-2 my-1 float-left d-inline">
-								<cfset mediaBlock= getMediaBlockHtml(media_id="#citationPub.media_id#",size="350",captionAs="textCaption")>
-									<div id="mediaBlock#citationPub.media_id#">
+								<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textCaption")>
+									<div id="mediaBlock#images.media_id#">
 										#mediaBlock#
 									</div>
 							<!---	<cfset mt = #mime_type#>
