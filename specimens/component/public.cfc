@@ -486,8 +486,8 @@ limitations under the License.
 								<cfset alt=desc.label_value>
 							</cfif>
 							<div class="col-3 col-sm-2 col-md-2 col-xl-2 px-0 mx-2 my-1 float-left d-inline">
-								<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textCaption")>
-									<div id="mediaBlock#images.media_id#">
+								<cfset mediaBlock= getMediaBlockHtml(media_id="#publicationMedia.media_id#",size="350",captionAs="textCaption")>
+									<div id="mediaBlock#publicationMedia.media_id#">
 										#mediaBlock#
 									</div>
 							<!---	<cfset mt = #mime_type#>
