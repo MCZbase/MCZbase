@@ -208,7 +208,7 @@ limitations under the License.
 					<cfelse>
 						<!---Start of former Identifications--->
 						<cfif getTaxa.recordcount GT 0 AND NOT formerHeadShown>
-							<div class="h4 pl-4 mt-1 mb-0 text-success">Former Identifications</div>
+							<div class="h4 pl-4 mt-2 mb-0 text-success">Former Identifications</div>
 							<cfset formerHeadShown = false>
 						</cfif>
 						<!---Add Title for former identifications--->
@@ -242,7 +242,7 @@ limitations under the License.
 							</cfif>
 							<cfloop query="getTaxa">
 							<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-							<p class="small text-muted mb-0"> #full_taxon_name#</p>
+							<p class="small90 text-muted mb-0"> #full_taxon_name#</p>
 							<!--- full taxon name for former id--->
 							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -257,7 +257,7 @@ limitations under the License.
 										common_name order by common_name
 							</cfquery>
 							<cfif len(cName.common_name) gt 0>
-								<div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")#</div>
+								<div class="small90 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")#</div>
 								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 							</cfif>
 							<!---  common name for former id--->
@@ -265,15 +265,15 @@ limitations under the License.
 							<cfif len(formatted_publication) gt 0>
 							 sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
 							</cfif>
-							<span class="small">Determination: #agent_name#
-							<cfif len(made_date) gt 0>
-							on #dateformat(made_date,"yyyy-mm-dd")#
-							</cfif>
-							<span class="d-block">Nature of ID: #nature_of_id#</span>
-							<cfif len(identification_remarks) gt 0>
-							<span class="d-block">Remarks: #identification_remarks#</span>
-							</cfif>
-				
+							<span class="small90">Determination: #agent_name#
+								<cfif len(made_date) gt 0>
+								on #dateformat(made_date,"yyyy-mm-dd")#
+								</cfif>
+								<span class="d-block">Nature of ID: #nature_of_id#</span>
+								<cfif len(identification_remarks) gt 0>
+								<span class="d-block">Remarks: #identification_remarks#</span>
+								</cfif>
+							</span>
 							</li>
 						</ul>
 					</cfif>
