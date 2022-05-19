@@ -99,9 +99,9 @@ limitations under the License.
 </cfquery>
 <cfoutput>
 	<cfif #oneOfUs# eq 1>
-		<div class="container-lg d-none d-lg-block my-0">
-			<div class="row">
-				<ul class="list-group list-inline list-group-horizontal-md mt-1 pt-0 pb-1 mx-auto">
+		<div class="container-lg d-none d-lg-block">
+			<div class="row mt-2">
+				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<li class="list-group-item px-0 mx-1">
 						<div id="mediaDialog"></div>
 						<script>
@@ -159,7 +159,7 @@ limitations under the License.
 		</div>
 	</cfif>
 	<div class="container-fluid ">
-		<div class="row mx-0 my-1">
+		<div class="row mx-0 mt-2">
 			<!----------------------------- one left column for media ---------------------------------->
 			<cfif mediaCount.ct gt 0>
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
