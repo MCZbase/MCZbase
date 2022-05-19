@@ -1121,7 +1121,7 @@ imgStyleClass=value
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="grey">
-	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:auto">
+	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:150px">
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 	<cfset l_media_id= #arguments.media_id#>
 	<cfset l_displayAs = #arguments.displayAs#>
@@ -1208,7 +1208,7 @@ imgStyleClass=value
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
 									<cfelse>
-										<cfset hw = 'width="95" height="100"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
+										<cfset hw = 'width="95" height="auto"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
 									</cfif>
 								</cfif>
 							<cfelse>
