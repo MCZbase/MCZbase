@@ -177,14 +177,14 @@ limitations under the License.
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
-										<span class="text-success font-weight-light">(#mediaCount.ct#)</span>
+										<span class="text-success font-weight-light">(#mediaCount.ct#)</span> <span class="smaller">double-click to see all</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 									</cfif>
 								</h3>
 							</div>
-							<div id="mediaPane" class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							<div id="mediaPane" <cfif #mediaCount.ct# gt 5>style="height:600px;"</cfif>class="collapse show" aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfloop query="images">
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
