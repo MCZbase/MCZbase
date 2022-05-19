@@ -331,6 +331,7 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
+				<cfif len(#blockotherid#) gt 0> 
 					<div class="accordion" id="accordionOtherID">
 						<div class="card mb-2 bg-light">
 							<div id="otherIDsDialog"></div>
@@ -353,7 +354,7 @@ limitations under the License.
 											</a>
 										</cfif>
 									</h3>
-								<!---<cfelse>
+								<cfelse>
 									<h3 class="h4 my-0">
 										<button type="button" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other IDs
@@ -363,7 +364,7 @@ limitations under the License.
 												Add
 											</a>
 										</cfif>
-									</h3>--->
+									</h3>
 								</cfif>
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
