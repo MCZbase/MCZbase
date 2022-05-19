@@ -189,7 +189,7 @@ limitations under the License.
 									<cfloop query="images">
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textShort")>
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textFull")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
 											</div>
