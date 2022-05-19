@@ -276,7 +276,7 @@ limitations under the License.
 										#blockcit#
 									<cfelse>
 										<ul class="pl-0 mb-0">
-											<li>None</li>
+											<li class="small">None</li>
 										</ul>
 									</cfif>
 									<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
