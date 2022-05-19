@@ -338,9 +338,9 @@ limitations under the License.
 						display_value
 				</cfquery>
 				<cfif len(oid.other_id_type) gt 0>
-					<ul class="list-group">
+					<ul class="list-group pt-1">
 						<cfloop query="oid">
-							<li class="list-group-item">#other_id_type#:
+							<li class="list-group-item pt-0">#other_id_type#:
 							<cfif len(link) gt 0>
 								<a class="external" href="#link#" target="_blank">#display_value#</a>
 							<cfelse>
