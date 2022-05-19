@@ -1813,16 +1813,16 @@ limitations under the License.
 				ORDER BY
 					coll_order
 			</cfquery>
-			<ul class="list-unstyled list-group form-row p-1 mb-0">
+			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 				<cfif colls.recordcount gt 0>
 					<cfif colls.recordcount eq 1>
-						<li class="list-group-item"><h5 class="my-0">Collector:&nbsp;</h5>
+						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collector:&nbsp;</h5>
 							<cfloop query="colls">
 								#colls.collectors#
 							</cfloop>
 						</li>
 					<cfelse>
-						<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
+						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collectors:&nbsp;</h5>
 							<cfloop query="colls">
 								#colls.collectors#<span class="sd">,</span>
 							</cfloop>
@@ -1831,15 +1831,15 @@ limitations under the License.
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
-						<li class="list-group-item">
-							<h5 class="my-0">Preparator:&nbsp;</h5>
+						<li class="list-group-item pt-0">
+							<h5 class="my-0 d-inline">Preparator:&nbsp;</h5>
 							<cfloop query="preps">
 								#preps.preparators#
 							</cfloop>
 						</li>
 					<cfelse>
-						<li class="list-group-item">
-							<h5 class="my-0">Preparators:&nbsp;</h5>
+						<li class="list-group-item pt-0">
+							<h5 class="my-0 d-inline">Preparators:&nbsp;</h5>
 							<cfloop query="preps">
 								#preps.preparators#<span class="sd">,</span>
 							</cfloop>
