@@ -1129,7 +1129,7 @@ limitations under the License.
 							{ name: 'SPEC_PREP', type: 'string' },
 							{ name: 'TYPE_STATUS', type: 'string' },
 							{ name: 'COUNTRY_OF_ORIGIN', type: 'string' },
-							{ name: 'object_remarks', type: 'string' }
+							{ name: 'OBJECT_REMARKS', type: 'string' }
 							],
 						updaterow: function (rowid, rowdata, commit) {
 							var data = "method=updateBorrowItem";

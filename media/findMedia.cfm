@@ -197,13 +197,13 @@ limitations under the License.
 									<div class="col-12 col-md-5">
 										<div class="form-group mb-2">
 											<label for="media_uri" class="data-entry-label mb-0" id="media_uri_label">Media URI</label>
-											<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#media_uri#" aria-labelledby="media_uri_label" >
+											<input type="text" id="media_uri" name="media_uri" class="data-entry-input" value="#encodeForHtml(media_uri)#" aria-labelledby="media_uri_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="media_id" class="data-entry-label mb-0" id="mediaid_label">Media ID</label>
-											<input type="text" id="media_id" name="media_id" value="#media_id#" class="data-entry-input">
+											<input type="text" id="media_id" name="media_id" value="#encodeForHtml(media_id)#" class="data-entry-input">
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
@@ -270,7 +270,7 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="hostname" class="data-entry-label mb-0" id="hostname_label">Host<span></span></label>
-											<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#hostname#" aria-labelledby="hostname_label" >
+											<input type="text" id="hostname" name="hostname" class="data-entry-input" value="#encodeForHtml(hostname)#" aria-labelledby="hostname_label" >
 										</div>
 										<script>
 											$(document).ready(function() {
@@ -281,7 +281,7 @@ limitations under the License.
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="path" class="data-entry-label mb-0" id="path_label">Path<span></span></label>
-											<input type="text" id="path" name="path" class="data-entry-input" value="#path#" aria-labelledby="path_label" >
+											<input type="text" id="path" name="path" class="data-entry-input" value="#encodeForHtml(path)#" aria-labelledby="path_label" >
 										</div>
 										<script>
 											$(document).ready(function() {
@@ -292,7 +292,7 @@ limitations under the License.
 									<div class="col-12 col-md-2 col-xl-3">
 										<div class="form-group mb-2">
 											<label for="filename" class="data-entry-label mb-0" id="filename_label">Filename<span></span></label>
-											<input type="text" id="filename" name="filename" class="data-entry-input" value="#filename#" aria-labelledby="filename_label" >
+											<input type="text" id="filename" name="filename" class="data-entry-input" value="#encodeForHtml(filename)#" aria-labelledby="filename_label" >
 										</div>
 										<script>
 											$(document).ready(function() {
@@ -349,7 +349,7 @@ limitations under the License.
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#original_filename#" aria-labelledby="original_filename_label" >
+											<input type="text" id="original_filename" name="original_filename" class="data-entry-input" value="#encodeForHtml(original_filename)#" aria-labelledby="original_filename_label" >
 										</div>
 									</div>
 								</div>
@@ -364,19 +364,19 @@ limitations under the License.
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="description" class="data-entry-label mb-0 " id="description_label">Description <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
+											<input type="text" id="description" name="description" class="data-entry-input" value="#encodeForHtml(description)#" aria-labelledby="description_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-3">
 										<div class="form-group mb-2">
 											<label for="keywords" class="data-entry-label mb-0" id="keywords_label">Keywords <span class="small">(|,*,"",-)</span></label>
-											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#keywords#" aria-labelledby="keywords_label" >
+											<input type="text" id="keywords" name="keywords" class="data-entry-input" value="#encodeForHtml(keywords)#" aria-labelledby="keywords_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-#keycols#">
 										<div class="form-group mb-2">
 											<label for="subject" class="data-entry-label mb-0" id="subject_label">Subject <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="subject" name="subject" class="data-entry-input" value="#subject#" aria-labelledby="subject_label" >
+											<input type="text" id="subject" name="subject" class="data-entry-input" value="#encodeForHtml(subject)#" aria-labelledby="subject_label" >
 											<script>
 												$(document).ready(function() {
 													makeMediaLabelAutocomplete("subject","subject");
@@ -392,7 +392,7 @@ limitations under the License.
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#aspect#" aria-labelledby="aspect_label" >
+											<input type="text" id="aspect" name="aspect" class="data-entry-input" value="#encodeForHtml(aspect)#" aria-labelledby="aspect_label" >
 											<script>
 												$(document).ready(function() {
 													makeAspectAutocomplete("aspect");
@@ -425,7 +425,7 @@ limitations under the License.
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="height" name="height" class="data-entry-input" value="#height#" aria-labelledby="height_label" >
+											<input type="text" id="height" name="height" class="data-entry-input" value="#encodeForHtml(height)#" aria-labelledby="height_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
@@ -437,7 +437,7 @@ limitations under the License.
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="width" name="width" class="data-entry-input" value="#width#" aria-labelledby="width_label" >
+											<input type="text" id="width" name="width" class="data-entry-input" value="#encodeForHtml(width)#" aria-labelledby="width_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
@@ -448,7 +448,7 @@ limitations under the License.
 													NULL, NOT NULL)
 												</span>
 											</label>
-											<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#light_source#" aria-labelledby="light_source_label" >
+											<input type="text" id="light_source" name="light_source" class="data-entry-input" value="#encodeForHtml(light_source)#" aria-labelledby="light_source_label" >
 											<script>
 												$(document).ready(function() {
 													makeMediaLabelAutocomplete("light_source","light source");
@@ -459,7 +459,7 @@ limitations under the License.
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="preview_uri" class="data-entry-label mb-0" id="preview_uri_label">Preview URI</label>
-											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#preview_uri#" aria-labelledby="preview_uri_label" >
+											<input type="text" id="preview_uri" name="preview_uri" class="data-entry-input" value="#encodeForHtml(preview_uri)#" aria-labelledby="preview_uri_label" >
 										</div>
 									</div>
 									<cfset remcolm="8">
@@ -470,14 +470,14 @@ limitations under the License.
 										<div class="col-12 col-md-4 col-xl-2">
 											<div class="form-group mb-2">
 												<label for="internal_remarks" class="data-entry-label mb-0" id="internal_remarks_label">Internal Remarks <span class="small">(NULL, NOT NULL)</span></label>
-												<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#internal_remarks#" aria-labelledby="internal_remarks_label" >
+												<input type="text" id="internal_remarks" name="internal_remarks" class="data-entry-input" value="#encodeForHtml(internal_remarks)#" aria-labelledby="internal_remarks_label" >
 											</div>
 										</div>
 									</cfif>
 									<div class="col-12 col-md-#remcolm# col-xl-#remcolx#">
 										<div class="form-group mb-2">
 											<label for="remarks" class="data-entry-label" id="remarks_label">Remarks <span class="small">(NULL, NOT NULL)</span></label>
-											<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#remarks#" aria-labelledby="remarks_label" >
+											<input type="text" id="remarks" name="remarks" class="data-entry-input" value="#encodeForHtml(remarks)#" aria-labelledby="remarks_label" >
 										</div>
 									</div>
 								</div>
@@ -491,8 +491,8 @@ limitations under the License.
 												<div class="input-group-prepend">
 													<span class="input-group-text smaller bg-lightgreen" id="created_by_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
-												<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#created_by_agent_name#">
-												<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#created_by_agent_id#">
+												<input type="text" name="created_by_agent_name" id="created_by_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="created_by_agent_name_label" value="#encodeForHtml(created_by_agent_name)#">
+												<input type="hidden" name="created_by_agent_id" id="created_by_agent_id" value="#encodeForHtml(created_by_agent_id)#">
 											</div>
 										</div>
 									</div>
@@ -513,13 +513,13 @@ limitations under the License.
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date Start #asdate#</label>
-											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#made_date#" aria-label="start of range for transaction date">
+											<input name="made_date" id="made_date" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(made_date)#" aria-label="start of range for transaction date">
 										</div>
 									</div>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
-											<input type="text" name="to_made_date" id="to_made_date" value="#to_made_date#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
@@ -532,7 +532,7 @@ limitations under the License.
 														NULL, NOT NULL)
 													</span>
 												</label>
-												<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#text_made_date#" aria-labelledby="text_made_date_label" >
+												<input type="text" id="text_made_date" name="text_made_date" class="data-entry-input" value="#encodeForHtml(text_made_date)#" aria-labelledby="text_made_date_label" >
 												<script>
 													$(document).ready(function() {
 														makeMediaLabelAutocomplete("text_made_date","made date");
@@ -561,7 +561,7 @@ limitations under the License.
 													<option value="#media_label#" #selected#>#media_label#</option>
 												</cfloop>
 											</select>
-											<input type="text" id="media_label_value" name="media_label_value" class="data-entry-input col-6" value="#media_label_value#">
+											<input type="text" id="media_label_value" name="media_label_value" class="data-entry-input col-6" value="#encodeForHtml(media_label_value)#">
 											<script>
 												$(document).ready(function() {
 													makeAnyMediaLabelAutocomplete("media_label_value","media_label_type");
@@ -580,7 +580,7 @@ limitations under the License.
 														NULL, NOT NULL)
 													</span>
 												</label>
-												<input type="text" id="owner" name="owner" class="data-entry-input" value="#owner#" aria-labelledby="owner_label" >
+												<input type="text" id="owner" name="owner" class="data-entry-input" value="#encodeForHtml(owner)#" aria-labelledby="owner_label" >
 												<script>
 													$(document).ready(function() {
 														makeMediaLabelAutocomplete("owner","owner");
@@ -596,7 +596,7 @@ limitations under the License.
 														NULL, NOT NULL)
 													</span>
 												</label>
-												<input type="text" id="credit" name="credit" class="data-entry-input" value="#credit#" aria-labelledby="credit_label" >
+												<input type="text" id="credit" name="credit" class="data-entry-input" value="#encodeForHtml(credit)#" aria-labelledby="credit_label" >
 												<script>
 													$(document).ready(function() {
 														makeMediaLabelAutocomplete("credit","credit");
@@ -612,7 +612,7 @@ limitations under the License.
 														NULL, NOT NULL)
 													</span>
 												</label>
-												<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#md5hash#" aria-labelledby="md5hash_label" >
+												<input type="text" id="md5hash" name="md5hash" class="data-entry-input" value="#encodeForHtml(md5hash)#" aria-labelledby="md5hash_label" >
 											</div>
 										</div>
 										<div class="col-12 col-md-4 col-xl-2">
@@ -653,7 +653,7 @@ limitations under the License.
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-lg-5 col-xl-4">
 									<div class="form-group mb-2">
-										<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
+										<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
 										<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
 											<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
 												select distinct guid 
@@ -680,7 +680,7 @@ limitations under the License.
 											</span>
 										</label>
 										<input type="text" name="related_cataloged_item" 
-											class="data-entry-input" value="#related_cataloged_item#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
+											class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
 											onchange="$('##collection_object_id').val('');">
 									</div>
 								</div>
@@ -704,8 +704,8 @@ limitations under the License.
 												<option value="#media_relationship#" #selected#>#media_relationship#</option>
 											</cfloop>
 										</select>
-										<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#media_relationship_value#">
-										<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#media_relationship_id#">
+										<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value)#">
+										<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
 										<script>
 											$(document).ready(function() {
 												$('##media_relationship_type').change(function() {
@@ -735,8 +735,8 @@ limitations under the License.
 												<option value="#media_relationship#" #selected#>#media_relationship#</option>
 											</cfloop>
 										</select>
-										<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="data-entry-input col-6" value="#media_relationship_value_1#">
-										<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#media_relationship_id_1#">
+										<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value_1)#">
+										<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
 										<script>
 											$(document).ready(function() {
 												$('##media_relationship_type_1').change(function() {

@@ -111,7 +111,8 @@
 	<cfif colls.recordcount is 0>
 		<cfabort>
 	</cfif>
-	<cfset formList="SpecimenSearch.cfm">
+	<cfset formList="Specimens.cfm">
+	<cfset formList=listAppend(formList,"specimens/browseSpecimens.cfm")>
 	<cfset formList=listAppend(formList,"SpecimenUsage.cfm")>
 	<cfset formList=listAppend(formList,"Taxa.cfm")>
 	<cfset formList=listAppend(formList,"MediaSearch.cfm")>

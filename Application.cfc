@@ -367,30 +367,6 @@ limitations under the License.
 			<cfscript>getPageContext().forward("/errors/forbidden.cfm");</cfscript>
 			<cfabort />
 		</cfif>
-		<cfif cgi.HTTP_HOST is "arctos-test.arctos.database.museum" and
-			#GetTemplatePath()# does not contain "/errors/dev_login.cfm" and
-			#GetTemplatePath()# does not contain "/login.cfm" and
-			#GetTemplatePath()# does not contain "/ChangePassword.cfm" and
-			#GetTemplatePath()# does not contain "/contact.cfm" and
-			len(session.username) is 0>
-			<cflocation url="/errors/dev_login.cfm">
-		<cfelseif cgi.HTTP_HOST is "mvzarctos.berkeley.edu">
-			<cfset rurl="http://arctos.database.museum" />
-			<cfif isdefined("cgi.redirect_url") and len(cgi.redirect_url) gt 0>
-				<cfset rurl=rurl & cgi.redirect_url />
-			<cfelseif isdefined("cgi.script_name") and len(cgi.script_name) gt 0>
-				<cfif cgi.script_name is "/SpecimenSearch.cfm">
-					<cfset rurl=rurl & "/mvz_all" />
-				<cfelse>
-					<cfset rurl=rurl & cgi.script_name />
-				</cfif>
-			</cfif>
-			<cfif len(cgi.query_string) gt 0>
-				<cfset rurl=rurl & "?" & cgi.query_string />
-			</cfif>
-			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfoutput><cfheader name="Location" value="#rurl#"></cfoutput>
-		</cfif>
 		<cfreturn true />
 	</cffunction>
 

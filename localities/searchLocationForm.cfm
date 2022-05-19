@@ -42,11 +42,14 @@
 </cfif>
 
 <cfoutput>
-<section class="col-12 px-0 mt-0 mb-0" title="Geography Search Form">
+<div class="row mx-0">
+<section class="col-12 px-0 mt-0 mb-0" title="Geography, Locality, Collecting Event Search Form">
+
+	<!--------------------------------------- Higher Geography ----------------------------------------------------------->
 	<div class="row mx-0 mb-0"> 
-		<div class="search-box mt-0">
-			<div class="search-box-header">
-				<h2 class="h4 text-white mt-0 mb-1">Search Higher Geography</h2>
+		<div class="col-12 px-0 mt-0">
+			<div class="jqx-widget-header border-bottom px-4 py-1">
+				<h2 class="h4 text-dark mb-0">Higher Geography</h2>
 			</div>
 			<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 				<cfset geogDetailStyle="display:none;">
@@ -57,8 +60,8 @@
 				<cfset toggleTo = "0">
 				<cfset geogButton = "Fewer Fields">
 			</cfif> 
-			<div class="form-row mb-0">
-				<div class="col-12 col-md-8 px-4 my-3">
+			<div class="form-row mx-0 mb-0">
+				<div class="col-12 col-md-8 px-3 mt-md-3 mb-md-3 mt-2 mb-0">
 					<label for="higher_geog" class="data-entry-label">
 						Higher Geog
 						<span class="small90">
@@ -67,13 +70,13 @@
 					</label>
 					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 px-0 my-3">
-						<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
-						<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
+				<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
+					<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
+					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
 				</div>
-				<div class="col-12 col-md-2 px-4 my-3">
-					<label for="geogDetailCtl" class="data-entry-label" style="color: transparent">Geography</label>
-					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</span>
+				<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
+					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
+					<button type="button" id="geogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#geogButton#</button>
 				</div>
 			</div>
 			<div id="geogDetail" class="col-12 px-3" style="#geogDetailStyle#">
@@ -198,15 +201,13 @@
 			</div>
 		</div>
 	</div>
-</div> 
 
 	<!--------------------------------------- Locality ----------------------------------------------------------->
 	<cfif #showLocality# IS 1>
-	<div class="container-lg mt-0 mb-3">
-		<div class="row mx-0 mb-1"> 
-			<div class="search-box mt-3">
-				<div class="search-box-header">
-					<h2 class="h4 text-white mb-1 mt-0">Search Locality</h2>
+		<div class="row mb-1"> 
+			<div class="col-12 mt-0">
+				<div class="jqx-widget-header border-bottom border-top px-4 py-1">
+					<h2 class="h4 text-dark mb-0">Locality</h2>
 				</div>
 				<cfif listFind(searchPrefList,"LocDetail") EQ 0>
 					<cfset locDetailStyle="display:none;">
@@ -217,18 +218,18 @@
 					<cfset toggleTo = "0">
 					<cfset locButton = "Fewer Fields">
 				</cfif> 
-				<div class="form-row mb-0">
-					<div class="col-12 col-md-8 px-4 my-3">
+				<div class="form-row mx-0 mb-0">
+					<div class="col-12 col-md-8 px-3 mt-md-3 mb-md-3 mt-2 mb-3">
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 px-0 my-3">
+					<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
 						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-2 px-4 my-3">
-						<label for="locDetailCtl" class="data-entry-label" style="color: transparent">Locality</label>
-						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</span>
+					<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
+						<label for="locDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Locality</label>
+						<button type="button" id="locDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleLocDetail(#toggleTo#);">#locButton#</button>
 					</div>
 				</div>
 				<div id="locDetail" class="" style="#locDetailStyle#">
@@ -446,42 +447,44 @@
 					</cfif> 
 					<div class="col-12 col-md-2">
 						<label for="georefDetailCtl" class="data-entry-label" style="color: transparent">Georeference</label>
-						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</span>
+						<button type="button" id="georefDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeorefDetail(#toggleTo#);">#georefButton#</button>
 					</div>
 				</div>
 				<div id="georefDetail" class="border my-2 mx-3 rounded p-1" style="#georefDetailStyle#">
-					<div class="form-row px-2 my-2">
-						<div class="col-12 col-md-2 px-5 pt-3">
+					<div class="form-row mx-0 px-3 my-2">
+						<div class="col-6 col-md-3 px-4 pt-2 float-left">
 							<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-check-input">
 							<label for="findNoGeoRef" class="form-check-label mt3px small95">No Georeferences</label>
 							
 						</div>
-						<div class="col-12 col-md-2 px-4 pt-3">
+						<div class="col-6 col-md-3 px-4 float-left pt-2">
 							<div class="form-check">
 								<input class="form-check-input" name="findHasGeoRef" id="findHasGeoRef" value="1" type="checkbox">
 								<label class="form-check-label mt3px small95" for="findHasGeoRef">Has Georeferences</label>
 							</div>
 						</div>
-						<div class="col-12 col-md-2 px-4 pt-3">
+						<div class="col-8 col-md-6 px-4 pt-2 float-left">
 							<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-check-input">
 							<label for="findNoAccGeoRef" class="form-check-label mt3px small95">No Accepted Georeferences</label>
 						</div>
-						<div class="col-12 col-md-2">
-							<label for="NoGeorefBecause" class="data-entry-label">No Georef. Because</label>
+					</div>
+					<div class="form-row mx-0 px-3 my-2">
+						<div class="col-12 col-md-6 px-0 pt-2 pb-0 pb-md-2">
+							<label for="NoGeorefBecause" class="data-entry-label">No Georeferece Because</label>
 							<input type="text" name="NoGeorefBecause" id="NoGeorefBecause" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-2 px-4 pt-3">
+						<div class="col-6 col-md-3 px-4 px-md-5 pt-4 float-left">
 							<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-check-input">
 							<label for="isIncomplete" class="form-check-label mt3px small95">Is Incomplete</label>
 						</div>
-						<div class="col-12 col-md-2 px-4 pt-3">
+						<div class="col-6 col-md-3 px-4 pb-3 pt-4 float-left">
 							<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-check-input">
-							<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL No Georef. Because</label>
+							<label for="nullNoGeorefBecause" class="form-check-label mt3px small95">NULL, No Georef. Because</label>
 							
 						</div>
 					</div>
-					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-3">
+					<div class="form-row mx-0 px-3 my-2">
+						<div class="col-12 col-md-3 px-0 mb-2">
 							<label for="VerificationStatus" class="data-entry-label">VerificationStatus</label>
 							<select name="VerificationStatus" id="VerificationStatus" size="1" class="data-entry-select">
 								<option value=""></option>
@@ -490,11 +493,11 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3 px-4 pt-3">
+						<div class="col-12 col-md-3 px-4 px-md-5 py-3">
 							<input type="checkbox" name="onlyShared" id="onlyShared" class="form-check-input">
 							<label for="onlyShared" class="form-check-label mt3px small95">Shared Localities Only</label>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 my-1">
 							<label for="GeorefMethod" class="data-entry-label">GeorefMethod</label>
 							<select name="GeorefMethod" id="GeorefMethod" size="1" class="data-entry-select">
 								<option value=""></option>
@@ -503,7 +506,7 @@
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-3 my-1">
 							<label class="data-entry-label">Geolocate Precision</label>
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="data-entry-select">
 								<option value="" SELECTED></option>
@@ -513,12 +516,12 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-4">
+					<div class="form-row mx-0 px-3 my-2">
+						<div class="col-12 col-md-4 pl-0 my-1">
 							<label for="coordinateDeterminer" class="data-entry-label">Coordinate Determiner</label>
 							<input type="text" name="coordinateDeterminer" id="coordinateDeterminer" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 my-1">
 							<label class="data-entry-label">Geolocate Score</label>
 							<select name="gs_comparator" id="gs_comparator" size="1" class="data-entry-select">
 								<option value="=" SELECTED>=</option>
@@ -527,11 +530,11 @@
 								<option value="between" >between</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 my-1">
 							<label class="data-entry-label">Min</label>
 							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-2 my-1">
 							<label class="data-entry-label">Max</label>
 							<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="data-entry-input">
 						</div>
@@ -540,112 +543,109 @@
 			</div><!--- end locDetail --->
 			</div>
 		</div>
-	</div>
 	</cfif>
-
+			
 	<!----------------------------------- Collecting Event ----------------------------------------------------------->
 	<cfif #showEvent# is 1>
-	<div class="col-12"> 
-		<div class="container-lg mt-0 mb-3">
-			<div class="row mx-0 mb-3"> 
-				<div class="search-box">
-					<div class="search-box-header">
-						<h2 class="h3 text-white">Collecting Event</h2>
+		<div class="row mx-0 mb-0"> 
+			<div class="col-12 px-0 mt-0">
+				<div class="jqx-widget-header border-bottom px-4 py-1">
+					<h2 class="h4 text-dark mb-0">Collecting Event</h2>
+				</div>
+				<cfif listFind(searchPrefList,"EventDetail") EQ 0>
+					<cfset eventDetailStyle="display:none;">
+					<cfset toggleTo = "1">
+					<cfset eventButton = "More Fields">
+				<cfelse>
+					<cfset eventDetailStyle="">
+					<cfset toggleTo = "0">
+					<cfset eventButton = "Fewer Fields">
+				</cfif> 
+				<div class="form-row px-3 my-2">
+					<div class="col-12 col-md-8">
+						<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
+						<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input">
 					</div>
-					<cfif listFind(searchPrefList,"EventDetail") EQ 0>
-						<cfset eventDetailStyle="display:none;">
-						<cfset toggleTo = "1">
-						<cfset eventButton = "More Fields">
-					<cfelse>
-						<cfset eventDetailStyle="">
-						<cfset toggleTo = "0">
-						<cfset eventButton = "Fewer Fields">
-					</cfif> 
-					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-8">
-							<label for="verbatim_locality" class="data-entry-label">Verbatim Locality</label>
-							<input type="text" name="verbatim_locality" id="verbatim_locality" size="75" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="collecting_event_id">Collecting Event ID</label>
-							<input type="text" name="collecting_event_id" id="collecting_event_id" >
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="eventDetailCtl" class="data-entry-label">Collecting Event</label>
-							<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</span>
-						</div>
+					<div class="col-12 col-md-2">
+						<label for="collecting_event_id" class="data-entry-label">Collecting Event ID</label>
+						<input type="text" name="collecting_event_id" id="collecting_event_id" class="data-entry-input" >
 					</div>
+					<div class="col-12 col-md-2">
+						<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
+						<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
+					</div>
+				</div>
+				<div class="form-row px-3 my-2">
+					<div class="col-12 col-md-1">
+						<label for="began_date" class="data-entry-label">Began Date</label>
+						<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select" aria-label="operator for began date">
+							<option value="=">is</option>
+							<option value="<">before</option>
+							<option value=">">after</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3 pr-1">
+						<span class="data-entry-label">&nbsp</span>
+						<input type="text" name="began_date" id="began_date" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-1">
+						<label for="ended_date" class="data-entry-label">End Date</label>
+						<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select" aria-label="operator for end date">
+							<option value="=">is</option>
+							<option value="<">before</option>
+							<option value=">">after</option>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<span class="data-entry-label">&nbsp</span>
+						<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-4">
+						<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
+						<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
+					</div>
+				</div>
+				<div id="eventDetail" style="#eventDetailStyle#" >
 					<div class="form-row px-3 my-2">
-						<div class="col-12 col-md-2">
-							<label for="begDateOper" class="data-entry-label">Began Date(</label>
-							<select name="begDateOper" id="begDateOper" size="1" class="data-entry-select">
-								<option value="=">is</option>
-								<option value="<">before</option>
-								<option value=">">after</option>
-							</select>
+						<div class="col-12 col-md-3">
+							<label for="verbatimCoordinates" class="data-entry-label">Verbatim Coordinates</label>
+							<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
-							<input type="text" name="began_date" id="began_date" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-2">
-							<label for="endDateOper" class="data-entry-label">Ended Date</label>
-							<select name="endDateOper" id="endDateOper" size="1" class="data-entry-select">
-								<option value="=">is</option>
-								<option value="<">before</option>
-								<option value=">">after</option>
-							</select>
+							<label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
+							<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-3">
-							<input type="text" name="ended_date" id="ended_date" class="data-entry-input">
+							<label for="verbatimSRS" class="data-entry-label">Verbatim SRS (datum)</label>
+							<input type="text" name="verbatimSRS" id="verbatimSRS" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-2">
-							<label for="verbatim_date" class="data-entry-label">Verbatim Date</label>
-							<input type="text" name="verbatim_date" id="verbatim_date" class="data-entry-input">
+						<div class="col-12 col-md-3">
+							<label for="collecting_method" class="data-entry-label">Collecting Method</label>
+							<input type="text" name="collecting_method" id="collecting_method" class="data-entry-input">
 						</div>
 					</div>
-					<div id="eventDetail" style="#eventDetailStyle#" >
-						<div class="form-row px-3 my-2">
-							<div class="col-12 col-md-3">
-						   <label for="verbatimCoordinates">Verbatim Coordinates</label>
-								<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" size="30">
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="collecting_method" class="data-entry-label">Collecting Method</label>
-								<input type="text" name="collecting_method" id="collecting_method"  class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
-								<input type="text" name="coll_event_remarks" id="coll_event_remarks"  class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-3">
-						   <label for="verbatimCoordinateSystem" class="data-entry-label">Verbatim Coordinate System</label>
-								<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem"  class="data-entry-input">
-							</div>
+					<div class="form-row px-3 my-2">
+						<div class="col-12 col-md-4">
+							<label for="habitat_desc" class="data-entry-label">Habitat</label>
+							<input type="text" name="habitat_desc" id="habitat_desc" class="data-entry-input">
 						</div>
-						<div class="form-row px-3 my-2">
-							<div class="col-12 col-md-4">
-								<label for="habitat_desc" class="data-entry-label">Habitat</label>
-								<input type="text" name="habitat_desc" id="habitat_desc"  class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-4">
-								<label for="collecting_source">Collecting Source</label>
-								<select name="collecting_source" id="collecting_source" size="1">
-									<option value=""></option>
-									<cfloop query="ctCollectingSource">
-										<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-4">
-							<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
-								<input type="text" name="verbatimSRS" id="verbatimSRS" size="30">
-							</div>
+						<div class="col-12 col-md-4">
+							<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+							<select name="collecting_source" id="collecting_source" size="1" class="data-entry-select">
+								<option value=""></option>
+								<cfloop query="ctCollectingSource">
+									<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="coll_event_remarks" class="data-entry-label">Collecting Event Remarks</label>
+							<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="data-entry-input">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</cfif>
 
 	<!---------------   Buttons ------------------------------------------------>
@@ -653,19 +653,17 @@
 	<div class="col-12"> 
 		<div class="container-lg mt-0 mb-3">
 			<div class="row mx-0 mb-3"> 
-				<div class="col-12 col-md-2">
+				<div class="col-12 col-md-2 px-0">
 					<div class="form-check">
 					  <input class="form-check-input" name="accentInsensitive" id="accentInsensitive" value="1" type="checkbox"/>
 					  <label class="form-check-label mt3px small" for="accentInsenstive">Accent Insensitive?</label>
 					</div>
 				</div>
 
-				<div class="col-12 col-md-3">
-					<input type="submit"
-						value="Search"
-						class="btn btn-xs btn-primary px-5">
-					<input type="reset"
-						value="Clear Form"
+				<div class="col-12 col-md-6 px-0 pt-3 pt-md-0">
+					<input type="submit" value="Search"
+						class="btn btn-xs btn-primary px-2 float-left px-xl-3">
+					<input type="reset" value="Clear Form"
 						class="btn btn-xs btn-warning ml-2">
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
@@ -781,5 +779,7 @@
 			</cfif>
 		}
 	</script>
+							
 </section>
+</div>
 </cfoutput>

@@ -293,12 +293,8 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 							<li> 	
-								<cfset oldMarker = "">
-								<cfif targetMenu EQ "redesign" OR (isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") ) >
-									<a class="dropdown-item " href="/Specimens.cfm">Specimens</a>
-									<cfset oldMarker = "(old)">
-								</cfif>
-								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens #oldMarker#</a> <!--- old --->
+								<a class="dropdown-item " href="/Specimens.cfm">Specimens</a>
+								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens (old)</a>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" href="/media/findMedia.cfm">Media</a>
 								<a class="dropdown-item" href="/MediaSearch.cfm">Media (old)</a><!--- old --->
@@ -598,11 +594,12 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
 											</cfif>
-											<cfif targetMenu EQ "production">
+											<!---[Bug 5212] Moved to Bulkloaders.cfm link found under Data Entry menu--->
+											<!---<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a> 
 											<cfelse>
 												<a class="dropdown-item stillNeedToDo" href="">Bulk Edit Container</a> 
-											</cfif>
+											</cfif>--->
 										</div>
 									</cfif>
 									</cfif>
