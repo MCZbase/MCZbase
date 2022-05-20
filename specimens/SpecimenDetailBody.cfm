@@ -70,12 +70,14 @@ limitations under the License.
 </cfif>
 <cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
-	select count(*) as ct 
-	from 
-		media_relations
-	where 
-		media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#" >
-	and media_relations.media_relationship != 'ledger entry for cataloged_item'
+	SELECT
+		media.media_id
+	FROM
+		media
+		left join media_relations on media_relations.media_id = media.media_id
+	WHERE
+		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+	and media.media_type != 'text'
 </cfquery>
 <cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
