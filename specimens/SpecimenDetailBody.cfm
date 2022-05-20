@@ -622,7 +622,7 @@ limitations under the License.
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
 											<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
 											<div id="ledgerBlock#ledger.media_id#">
-												#ledgerBlock#
+												<cfif len(#ledgerBlock#) gt 6> #ledgerBlock# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
 											</div>
 										</div>
 									</cfloop>
