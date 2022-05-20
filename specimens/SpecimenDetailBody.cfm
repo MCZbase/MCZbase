@@ -611,7 +611,7 @@ limitations under the License.
 							</script>
 							<div class="card-header" id="headingLedger">
 								<h3 class="h4 my-0 text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" aria-controls="ledgerPane">
+									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" aria-controls="ledgerPane">
 										Ledger and Collecting Notes
 									</button>
 								</h3>
