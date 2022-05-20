@@ -1051,7 +1051,7 @@ limitations under the License.
 			)
 		</cfquery>
 		<cfquery name="relnsLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select GUID from flat where collection_object_id = <cfqueryparam value="#relns.related_coll_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				select GUID from flat where collection_object_id = #relns.related_coll_object_id#"
 		</cfquery>
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<ul class="list-group list-group-flush float-left">
