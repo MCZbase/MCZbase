@@ -75,7 +75,7 @@ limitations under the License.
 		media_relations
 	where 
 		media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#" >
-	and media_relations.media_relationship <> 'ledger entry for cataloged_item'
+	and media_relations.media_relationship != 'ledger entry for cataloged_item'
 </cfquery>
 <cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
