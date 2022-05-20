@@ -1174,10 +1174,10 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<cfset searchcol="col-md-5">
 													<cfelse>
-														<cfset searchcol="col-md-1">
+														<cfset searchcol="col-md-6">
 													</cfif>
 													<div class="col-12 #searchcol#">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
@@ -1188,7 +1188,7 @@ limitations under the License.
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
 													</div>
-													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
 														<div class="col-12 col-md-1">
 															<label class="data-entry-label" for="debug">Debug</label>
 															<select title="debug" name="debug" id="dbug" class="data-entry-select">
