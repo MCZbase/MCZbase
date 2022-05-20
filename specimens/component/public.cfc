@@ -742,18 +742,18 @@ limitations under the License.
 							<td colspan="5">
 								<cfloop query="patt">
 									<div class="small pl-3" style="line-height: .9rem;">
-										#attribute_type#=<strong>#attribute_value#</strong> &nbsp;
+										#attribute_type#=<span class="text-other">#attribute_value#</span> &nbsp;
 									<cfif len(attribute_units) gt 0>
 										#attribute_units# &nbsp;
 									</cfif>
 									<cfif len(determined_date) gt 0>
-										determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#</strong> &nbsp;
+										determined date=<span class="text-other">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 									</cfif>
 									<cfif len(agent_name) gt 0>
-										determined by=<strong>#agent_name#</strong> &nbsp;
+										determined by=<span class="text-other">#agent_name#</span> &nbsp;
 									</cfif>
 									<cfif len(attribute_remark) gt 0>
-										remark=<strong>#attribute_remark#</strong> &nbsp;
+										remark=<span class="text-other">#attribute_remark#</span> &nbsp;
 									</cfif>
 									</div>
 								</cfloop>
