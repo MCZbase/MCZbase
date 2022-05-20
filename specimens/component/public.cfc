@@ -1061,11 +1061,11 @@ limitations under the License.
 							</cfif>
 						</li>
 					</cfloop>
-					<cfif len(relns.biol_indiv_relationship) gt 0>
-<!---						<li class="pb-1 list-group-item">
+<!---					<cfif len(relns.biol_indiv_relationship) gt 0>
+						<li class="pb-1 list-group-item">
 						<a href="/Specimens.cfm?execute=true&action=fixedSearch&/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_blank">(Specimens List)</a>
-						</li>--->
-					</cfif>
+						</li>
+					</cfif>--->
 				</ul>
 			</cfif>
 			<cfcatch>
@@ -1231,7 +1231,7 @@ limitations under the License.
 						media.media_id=media_relations.media_id and
 						media.media_id=media_labels.media_id (+) and
 						media_relations.media_relationship like '% accn' and
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						media_relations.related_primary_key = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MCZBASE.is_media_encumbered(media.media_id) < 1
 				</cfquery>
 					<ul class="list-group list-group-flush pl-0 pt-1">
