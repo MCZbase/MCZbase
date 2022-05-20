@@ -58,6 +58,7 @@ limitations under the License.
 									media_relations.media_id = media.media_id
 								AND
 									media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+								and (media.media_type = 'image' OR media.media_type = 'audio' OR media.media_type = '3D model' OR media.media_type = 'video')
 							</cfquery>
 								<div class="col-6 py-1 float-left px-1">
 									<div  class="border rounded py-2 px-1">
