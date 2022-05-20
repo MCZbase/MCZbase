@@ -628,7 +628,7 @@ limitations under the License.
 											</div>
 										</cfloop>
 									<cfelse>
-										<ul class="pl-1 mb-1"><li class="small90">None</li></ul>
+										<ul class="pl-1 mb-0"><li class="small90">None</li></ul>
 									</cfif>
 								</div>
 							</div>
