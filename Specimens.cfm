@@ -615,7 +615,9 @@ limitations under the License.
 													<cfif not isdefined("collecting_source")>
 														<cfset collecting_source="">
 													</cfif>
-													<label for="collecting_source" class="data-entry-label">Collecting Source</label>
+													<label for="collecting_source" class="data-entry-label">Collecting Source
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%');" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
 													<input type="text" name="collecting_source" class="data-entry-input" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 													<script>
 														jQuery(document).ready(function() {
@@ -663,7 +665,9 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
-													<label for="preserve_method" class="data-entry-label">Preserve Method</label>
+													<label for="preserve_method" class="data-entry-label">Preserve Method
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%');" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
 													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#encodeForHtml(preserve_method)#" >
 													<script>
 														jQuery(document).ready(function() {
@@ -673,7 +677,9 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-2">
 													<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-													<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship</label>
+													<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%');" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
 													<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input" value="#encodeForHtml(biol_indiv_relationship)#" >
 													<script>
 														jQuery(document).ready(function() {
@@ -685,6 +691,7 @@ limitations under the License.
 													<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 													<label for="media_type" class="data-entry-label">Media Type
 														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL');" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%');" > (&##8595;) <span class="sr-only">open pick list</span></a>
 													</label>
 													<input type="text" id="media_type" name="media_type" class="data-entry-input" value="#encodeForHtml(media_type)#" >
 													<script>
