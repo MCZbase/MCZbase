@@ -600,7 +600,7 @@ limitations under the License.
 								
 								
 					<!-----------------------------Ledger--------------------------------> 
-					<div class="accordion" id="accordionledger">
+					<div class="accordion" id="accordionLedger">
 						<div class="card mb-2 bg-light">
 							<div id="ledgerDialog"></div>
 							<script>
@@ -610,18 +610,16 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingLedger">
-								<h3 class="h4 my-0 text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" aria-controls="ledgerPane">
+								<h3 class="h4 my-0">
+									<button type="button" aria-controls="ledgerPane" class="headerLnk text-left h-100 w-100" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" >
 										Ledger and Collecting Notes
 									</button>
 								</h3>
 							</div>
-						<!---	<cfif #mediaCount.ct# gt 5>style="height:720px;"</cfif>--->
 							<div id="ledgerPane" class="collapse show" aria-labelledby="headingLedger" data-parent="##accordionLedger">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="ledgerCardBody">
 									<cfloop query="ledger">
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
-											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 											<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
 											<div id="ledgerBlock#ledger.media_id#">
 												#ledgerBlock#
