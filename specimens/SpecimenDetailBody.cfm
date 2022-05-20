@@ -77,6 +77,16 @@ limitations under the License.
 		media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#" >
 	and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 </cfquery>
+<cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		media.media_id
+	FROM
+		media
+		left join media_relations on media_relations.media_id = media.media_id
+	WHERE
+		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+	and media.media_type = 'text'
+</cfquery>
 <cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		media.media_id
@@ -195,6 +205,40 @@ limitations under the License.
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textCaption")>
 											<div id="mediaBlock#images.media_id#">
 												#mediaBlock#
+											</div>
+										</div>
+									</cfloop>
+								</div>
+							</div>
+						</div>
+					</div>
+						
+					<!-----------------------------Ledger--------------------------------> 
+					<div class="accordion" id="accordionledger">
+						<div class="card mb-2 bg-light">
+							<div id="ledgerDialog"></div>
+							<script>
+								function reloadLedger() { 
+									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
+									loadLedger(#collection_object_id#,'ledgerCardBody');
+								}
+							</script>
+							<div class="card-header" id="headingLedger">
+								<h3 class="h4 my-0 text-dark">
+									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" aria-controls="ledgerPane">
+										Ledger &amp; Collecting Notes
+									</button>
+								</h3>
+							</div>
+						<!---	<cfif #mediaCount.ct# gt 5>style="height:720px;"</cfif>--->
+							<div id="ledgerPane" class="collapse show" aria-labelledby="headingLedger" data-parent="##accordionLedger">
+								<div class="card-body w-100 px-1 pt-2 float-left" id="ledgerCardBody">
+									<cfloop query="ledger">
+										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
+											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+											<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
+											<div id="ledgerBlock#ledger.media_id#">
+												#ledgerBlock#
 											</div>
 										</div>
 									</cfloop>

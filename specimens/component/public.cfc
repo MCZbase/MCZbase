@@ -98,6 +98,85 @@ limitations under the License.
 		<cfthread action="join" name="getMediaThread" />
 	<cfreturn getMediaThread.output>
 </cffunction>
+							
+<cffunction name="getLedgerHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfthread name="getLedgerThread">
+			<cfoutput>
+				<cftry>
+				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						media.media_id,
+						media.media_uri,
+						media.preview_uri,
+						media.mime_type
+					FROM
+						media
+						left join media_relations on media_relations.media_id = media.media_id
+					WHERE
+						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+					<cfif len(images.media_id)gt 0>
+						<cfloop query="images">
+							<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT distinct
+									media.media_id,
+									media.auto_host,
+									media.auto_path,
+									media.auto_filename,
+									media.media_uri,
+									media.preview_uri as preview_uri,
+									media.mime_type as mime_type,
+									media.media_type,
+									mczbase.get_media_descriptor(media.media_id) as media_descriptor
+								FROM 
+									media,
+									media_relations
+								WHERE 
+									media_relations.media_id = media.media_id
+								AND
+									media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
+								and media.media_type = 'text'
+							</cfquery>
+								<div class="col-6 py-1 float-left px-1">
+									<div  class="border rounded py-2 px-1">
+										<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumbSm")>
+											<div id="mediaBlock#images.media_id#">
+												#mediaBlock#
+											</div>
+										</div>
+									</div>
+								</div>
+						</cfloop>
+					</cfif>
+				<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+					<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+						<div class="container">
+							<div class="row">
+								<div class="alert alert-danger" role="alert">
+									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+									<h2>Internal Server Error.</h2>
+									<p>#message#</p>
+									<p><a href="/info/bugs.cfm">"Feedback/Report Errors"</a></p>
+								</div>
+							</div>
+						</div>
+				</cfcatch>
+			</cftry>
+			</cfoutput>
+		</cfthread>
+		<cfthread action="join" name="getLedgerThread" />
+	<cfreturn getLedgerThread.output>
+</cffunction>
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
