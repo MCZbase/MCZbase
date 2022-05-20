@@ -1014,10 +1014,11 @@ limitations under the License.
 		<cftry>
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
-				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
+				distinct biol_indiv_relationship, related_coll_cde, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 			SELECT
 				 rel.biol_indiv_relationship as biol_indiv_relationship,
 				 collection as related_collection,
+				collection_cde as related_coll_cde,
 				 rel.related_coll_object_id as related_coll_object_id,
 				 rcat.cat_num as related_cat_num,
 				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
@@ -1035,6 +1036,7 @@ limitations under the License.
 			SELECT
 				 ctrel.inverse_relation as biol_indiv_relationship,
 				 collection as related_collection,
+				collection_cde as related_coll_cde,
 				 irel.collection_object_id as related_coll_object_id,
 				 rcat.cat_num as related_cat_num,
 				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
@@ -1055,7 +1057,7 @@ limitations under the License.
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="relns">
 						<li class="list-group-item py-0"> #biol_indiv_relationship# 
-							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_collection#&cat_num=#relns.related_cat_num#" target="_blank"> #related_collection# #related_cat_num# </a>
+							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#" target="_blank"> #related_collection# #related_cat_num# </a>
 							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 								(Remark: #biol_indiv_relation_remarks#)
 							</cfif>
