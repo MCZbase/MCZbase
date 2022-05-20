@@ -1054,9 +1054,6 @@ limitations under the License.
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<ul class="list-group list-group-flush float-left">
 					<cfloop query="relns">
-						<cfquery name="relnsLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select GUID from mczbase.flat where collection_object_id = #relns.related_coll_object_id#"
-						</cfquery>
 						<li class="list-group-item py-0"> #biol_indiv_relationship# 
 							<!---<a href="/#relnsLink.GUID#" target="_top"> #related_collection# #related_cat_num# </a>--->
 							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
