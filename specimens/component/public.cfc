@@ -1056,7 +1056,8 @@ limitations under the License.
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<ul class="list-group list-group-flush float-left">
 					<cfloop query="relns">
-						<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/#relnsLink.GUID#" target="_top"> #related_collection# #related_cat_num# </a>
+						<li class="list-group-item py-0"> #biol_indiv_relationship# 
+							<!---<a href="/#relnsLink.GUID#" target="_top"> #related_collection# #related_cat_num# </a>--->
 							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 								(Remark: #biol_indiv_relation_remarks#)
 							</cfif>
@@ -1064,7 +1065,7 @@ limitations under the License.
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
 						<li class="pb-1 list-group-item">
-							<a href="/#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+						<!---	<a href="/#relns.related_coll_object_id)#" target="_top">(Specimens List)</a>--->
 						</li>
 					</cfif>
 				</ul>
