@@ -609,6 +609,9 @@ BELOW: SPECIMEN DETAIL STYLES
 	padding-left: .5rem;
 	list-style: none;
 }
+.mediaCardBody {
+	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 li.pid {
 	padding-left: 0;
 }
