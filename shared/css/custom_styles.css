@@ -609,7 +609,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	padding-left: .5rem;
 	list-style: none;
 }
-#mediaCardBody {
+.media_widget {
 	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 li.pid {
