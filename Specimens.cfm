@@ -1605,7 +1605,7 @@ limitations under the License.
 			var mediaMarker = "";
 			var media = rowData['MEDIA'];
 			if (media.includes("shows cataloged_item")) { 
-				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&related_cataloged_item="+ rowData['GUID'] +"' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a>'+mediaMarker+'</span>';
 		};
@@ -1614,7 +1614,7 @@ limitations under the License.
 			var mediaMarker = "";
 			var media = rowData['MEDIA'];
 			if (media.includes("shows cataloged_item")) { 
-				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&related_cataloged_item="+ rowData['GUID'] +"' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a>'+mediaMarker+'</span>';
 		};
@@ -1623,7 +1623,7 @@ limitations under the License.
 			var mediaMarker = "";
 			var media = rowData['MEDIA'];
 			if (media.includes("shows cataloged_item")) { 
-				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&media_relationship_type=ANY%20cataloged_item&related_cataloged_item="+ rowData['GUID'] +"' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
+				mediaMarker = " <a href='/media/findMedia.cfm?execute=true&method=getMedia&related_cataloged_item="+ rowData['GUID'] +"' aria-label='related media' target='_blank'><img src='/shared/images/Image-x-generic.png' height='20' width='20'></a>"
 			}
 			return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/guid/' + value + '" aria-label="specimen details">'+value+'</a>'+mediaMarker+'</span>';
 		};
