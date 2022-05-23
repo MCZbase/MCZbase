@@ -127,7 +127,7 @@ limitations under the License.
 			<cfset unlinked = "true">
 		</cfif>
 	</cfif>
-	<cfif isdefined("media_relationship_id") AND isdefined("media_relationship_type") and isdefined("media_relationship_value"))>
+	<cfif isdefined("media_relationship_id") AND isdefined("media_relationship_type") and isdefined("media_relationship_value")>
 		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
 		<cfif media_relationship_id EQ "undefined" AND media_relationship_type = "ANY cataloged_item">
 			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
@@ -142,7 +142,7 @@ limitations under the License.
 			</cfloop>
 		</cfif>
 	</cfif>
-	<cfif isdefined("media_relationship_id_1") AND isdefined("media_relationship_type_1") and isdefined("media_relationship_value_1"))>
+	<cfif isdefined("media_relationship_id_1") AND isdefined("media_relationship_type_1") and isdefined("media_relationship_value_1")>
 		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
 		<cfif media_relationship_id_1 EQ "undefined" AND media_relationship_type_1 = "ANY cataloged_item">
 			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
