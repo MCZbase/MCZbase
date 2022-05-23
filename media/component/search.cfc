@@ -127,6 +127,36 @@ limitations under the License.
 			<cfset unlinked = "true">
 		</cfif>
 	</cfif>
+	<cfif isdefined("media_relationship_id") AND isdefined("media_relationship_type") and isdefined("media_relationship_value")>
+		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
+		<cfif media_relationship_id EQ "undefined" AND media_relationship_type EQ "ANY cataloged_item">
+			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+				SELECT distinct collection_object_id 
+				FROM 	
+					<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif>
+				WHERE  
+					guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_value#">
+			</cfquery>
+			<cfloop query="lookup_collobject_id">
+				<cfset media_relationship_id = lookup_collobject_id.collection_object_id>
+			</cfloop>
+		</cfif>
+	</cfif>
+	<cfif isdefined("media_relationship_id_1") AND isdefined("media_relationship_type_1") and isdefined("media_relationship_value_1")>
+		<!--- support search from media cell renderer on specimen search for non-logged in users ---> 
+		<cfif media_relationship_id_1 EQ "undefined" AND media_relationship_type_1 EQ "ANY cataloged_item">
+			<cfquery name="lookup_collobject_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+				SELECT distinct collection_object_id 
+				FROM 	
+					<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif>
+				WHERE  
+					guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship_value_1#">
+			</cfquery>
+			<cfloop query="lookup_collobject_id">
+				<cfset media_relationship_id_1 = lookup_collobject_id.collection_object_id>
+			</cfloop>
+		</cfif>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
