@@ -12,7 +12,7 @@
 	.st6{opacity:0.74;fill:#BCBEC0;stroke:#BCBEC0;stroke-miterlimit:10;}
 	.st7{fill:#8AC1BF;}
 	.st8{font-family:'ArialNarrow';}
-	.st9{font-size:24px;}
+	.st9{font-size:57px;}
 </style>
 <rect x="0.41" y="1.39" class="st0" width="500" height="500"/>
 <rect x="61.89" y="91.6" class="st1" width="375.94" height="289.18"/>
@@ -62,5 +62,5 @@
 	253.41,132.78 252.07,131.48 253.92,131.21 "/>
 <polygon class="st4" points="152.09,177.25 152.92,178.92 154.77,179.19 153.43,180.5 153.74,182.34 152.09,181.47 150.44,182.34 
 	150.75,180.5 149.41,179.19 151.26,178.92 "/>
-<text transform="matrix(1 0 0 1 177.4706 415.2761)" class="st7 st8 st9">No media to show</text>
+<text transform="matrix(1 0 0 1 62.8931 431.4135)" class="st7 st8 st9">No media to show</text>
 </svg>
