@@ -72,19 +72,12 @@ limitations under the License.
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
 	SELECT
 		count(*) as ct 
-		case when
-			#oneOfUs# != 1 and
-					media.mask_media_fg = 1
-				then 'Masked'
-		else
-			media.ct
-		end ct
 	FROM
 		media
 		left join media_relations on media_relations.media_id = media.media_id
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	and media.media_type != 'text'
+	and media.media_type != 'text' and media.mask_media_fg != 1
 	
 </cfquery>
 <cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
