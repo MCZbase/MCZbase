@@ -88,8 +88,8 @@ limitations under the License.
 		left join media_relations on media_relations.media_id = media.media_id
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	and media.media_type = 'text'
-	and media_relations.media_relationship like '%ledger%'
+	AND media.media_type = 'text'
+	AND media_relations.media_relationship like '%ledger%'
 </cfquery>
 <cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -99,7 +99,10 @@ limitations under the License.
 		left join media_relations on media_relations.media_id = media.media_id
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	and (media.media_type = 'image' OR media.media_type = 'audio' OR media.media_type = '3D model' OR media.media_type = 'video' OR media.media_type='spectrometer data')
+	AND 
+		media.mask_media_fg != 1 
+	AND 
+		(media.media_type = 'image' OR media.media_type = 'audio' OR media.media_type = '3D model' OR media.media_type = 'video' OR media.media_type='spectrometer data') 
 </cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
