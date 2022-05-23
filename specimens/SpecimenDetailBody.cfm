@@ -78,7 +78,7 @@ limitations under the License.
 				then 'Masked'
 		else
 			media.ct
-		end ct,
+		end ct
 	FROM
 		media
 		left join media_relations on media_relations.media_id = media.media_id
