@@ -1708,7 +1708,7 @@ limitations under the License.
 		</script>
 		<cfoutput>
 			<cftry>
-				<div class="col-5 pl-0 pr-3 mb-2 float-right">
+				<div class="col-12 col-md-5 pl-md-0 mb-2 float-right">
 					<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
 
 
