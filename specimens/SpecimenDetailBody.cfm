@@ -72,6 +72,13 @@ limitations under the License.
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
 	SELECT
 		count(*) as ct 
+		case when
+			#oneOfUs# != 1 and
+					media.mask_media_fg = 1
+				then 'Masked'
+		else
+			media.ct
+		end ct,
 	FROM
 		media
 		left join media_relations on media_relations.media_id = media.media_id
