@@ -1237,7 +1237,7 @@ imgStyleClass=value
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
-										<cfelseif displayImage eq "%nrs%">
+										<cfif #l_displayAs# eq "%nrs%">
 											<cfset hw = 'width="95" height="auto"'>
 										</cfif>
 									<cfelse>
