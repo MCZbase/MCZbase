@@ -102,8 +102,6 @@ limitations under the License.
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	AND 
 		media.mask_media_fg != 1 
-	AND 
-		(media.media_type = 'image' OR media.media_type = 'audio' OR media.media_type = '3D model' OR media.media_type = 'video' OR media.media_type='spectrometer data') 
 </cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
