@@ -203,9 +203,10 @@ And media_type <> 'text'
 							
 							<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 5>style="height:720px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
+									<span class="smaller"><cfif #mediaCount.ct# gt 5><a href="##"> double-click to see all</a></cfif></span>
 									<cfloop query="images">
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
-											<span class="smaller"><cfif #mediaCount.ct# gt 5><a href="##"> double-click to see all</a></cfif></span>
+											
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textCaption")>
 											<div id="mediaBlock#images.media_id#">
