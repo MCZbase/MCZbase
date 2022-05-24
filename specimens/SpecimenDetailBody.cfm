@@ -201,7 +201,7 @@ And media_type <> 'text'
 								</h3>
 							</div>
 							
-							<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 5>style="height:720px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 5>style="height:575px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfif #mediaCount.ct# gt 5>
 										<p class="smaller w-100 text-center"> double-click header to see all #mediaCount.ct#</p>
