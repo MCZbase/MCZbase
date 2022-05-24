@@ -274,7 +274,7 @@
 		<cfquery name="checkUser" datasource="uam_god">
 			SELECT count(*) as ct
 			FROM cf_users 
-				left_join dba_users on upper(cf_users.username)=upper(dba_users.username)
+				LEFT JOIN dba_users on upper(cf_users.username)=upper(dba_users.username)
 			WHERE upper(cf_users.username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 				and (dba_users.username is null or 
                 (
