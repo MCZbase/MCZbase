@@ -1220,7 +1220,7 @@ imgStyleClass=value
 									<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#">
 								<cfelse>
 									<cfset displayImage = media_uri>
-									<cfset hw = 'height="120px" width="100%""'
+									<cfset hw = 'height="120px" width="100%"'>
 								</cfif>
 							</cfif>
 						<cfelse>
