@@ -193,7 +193,7 @@ And media_type <> 'text'
 								<h3 class="h4 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
-										<span class="text-success">(#mediaCount.ct#)</span> <span class="smaller"><cfif #mediaCount.ct# gt 5><a href="##"> see all</a></cfif></span>
+										<span class="text-success">(#mediaCount.ct#)</span>
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_media")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
@@ -201,10 +201,11 @@ And media_type <> 'text'
 								</h3>
 							</div>
 							
-							<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 7>style="height:720px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+							<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 5>style="height:720px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 									<cfloop query="images">
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
+											<span class="smaller"><cfif #mediaCount.ct# gt 5><a href="##"> double-click to see all</a></cfif></span>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textCaption")>
 											<div id="mediaBlock#images.media_id#">
