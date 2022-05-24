@@ -91,6 +91,7 @@ limitations under the License.
 	AND media.media_type = 'text'
 	AND media_relations.media_relationship like '%ledger%'
 	and media.mask_media_fg !=1
+	and (media.mask_media_fg = 0 OR media.mask_media_fg is null)
 </cfquery>
 <cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
