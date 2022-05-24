@@ -104,7 +104,7 @@ limitations under the License.
 		<cfthread name="getLedgerThread">
 			<cfoutput>
 				<cftry>
-				<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="images1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						media.media_id,
 						media.media_uri,
@@ -118,8 +118,8 @@ limitations under the License.
 				</cfquery>
 				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 					<cfif len(images.media_id)gt 0>
-						<cfloop query="images">
-							<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfloop query="images1">
+							<cfquery name="getImages1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct
 									media.media_id,
 									media.auto_host,
@@ -142,8 +142,8 @@ limitations under the License.
 								<div class="col-6 py-1 float-left px-1">
 									<div  class="border rounded py-2 px-1">
 										<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumbSm")>
-											<div id="mediaBlock#images.media_id#">
+											<cfset mediaBlock= getMediaBlockHtml(media_id="#images1.media_id#",displayAs="thumbSm")>
+											<div id="mediaBlock#images1.media_id#">
 												#mediaBlock#
 											</div>
 										</div>
