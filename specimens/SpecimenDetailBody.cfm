@@ -102,7 +102,7 @@ limitations under the License.
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	AND 
 		media.mask_media_fg != 1 
-	AND meda.media_type != 'text'
+	AND media.media_type != 'text'
 </cfquery>
 	<cfquery name="images1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
