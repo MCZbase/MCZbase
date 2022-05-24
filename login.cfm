@@ -20,7 +20,7 @@
 		select username from dba_users where upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 	</cfquery>
 	<cfif len(dbausr.username) gt 0>
-		<cfset err="That username is not available.">
+		<cfset err="That username is already in use.">
 	</cfif>
 	<cfif len(username) is 0>
 		<cfset err="Your user name must be at least one character long.">
