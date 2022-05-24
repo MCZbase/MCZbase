@@ -203,7 +203,7 @@ And media_type <> 'text'
 							
 							<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 5>style="height:720px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
-									<p class="smaller w-100 text-center"><cfif #mediaCount.ct# gt 5><a href="##"> double-click header to see all</a></cfif></p>
+									<p class="smaller w-100 text-center"><cfif #mediaCount.ct# gt 5> double-click header to see all</cfif></p>
 									<cfloop query="images">
 										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
 											
