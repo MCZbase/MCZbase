@@ -572,6 +572,7 @@ limitations under the License.
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
 																	<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
+																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
@@ -655,6 +656,7 @@ limitations under the License.
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
 																	<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
+																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="collecting_detail_a" class="d-block pt-2" target="_blank" href="/media/#collecting_media_id#">Media Details</a>
 																	<a id="collecting_media_a" href="#collecting_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="collecting_media_img" src="/media/rescaleImage.cfm?media_id=#collecting_media_id##sizeType#" class="mx-auto" alt="#collecting_alt#" height="100%" width="100%">
@@ -983,7 +985,7 @@ limitations under the License.
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# Collectors</a> </li>
+																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# </a> </li>
 																</cfloop>
 																</ul>
 															</div>
