@@ -156,13 +156,13 @@ limitations under the License.
 	<cfset typeName = typestatuswords>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
-		<cfset twotypes = '#replace(typestatusplain,"|"," <br> ","all")#'>
+		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center ml-xl-1"> #twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
-		<cfset twotypes= '#replace(typestatusplain,"|"," <br> ","all")#'>
+		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center ml-xl-1"> #twotypes# </span>'>
 	<cfelse>
-		<cfset twotypes= '#replace(typestatusplain,"|"," <br> ","all")#'>
+		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 pb-1 px-2 text-center ml-xl-1"> </span>'>
 	</cfif>
 	<div class="container-fluid" id="content">
