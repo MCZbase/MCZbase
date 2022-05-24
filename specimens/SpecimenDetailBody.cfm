@@ -108,8 +108,6 @@ And media_type <> 'text'
 		specimen_part
 	where
 		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#"> 
-	or 
-		specimen_part.derived_from_cat_item is null
 </cfquery>
 <cfset ctPart.ct=''>
 <cfquery name="ctPart" dbtype="query">
