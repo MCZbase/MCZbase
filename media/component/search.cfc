@@ -1238,7 +1238,7 @@ imgStyleClass=value
 									<cfif #l_displayAs# eq "thumb">
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset l_styles = "max-width:150px;max-height:100px;">
-									<cfelseif mediauri like '%nrs%'>
+									<cfelseif mediauri = "%nrs%">
 										<cfset hw = 'width="95" height="auto"'>
 									<cfelse>
 										<cfset hw = 'width="95" height="120px"'><!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
