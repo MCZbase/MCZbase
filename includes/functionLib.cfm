@@ -273,10 +273,15 @@
 	<cfif isdefined("username") and len(username) gt 0 and isdefined("pwd") and len(pwd) gt 0>
 		<cfquery name="checkUser" datasource="uam_god">
 			SELECT count(*) as ct
-			FROM dba_users
-			WHERE upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
-				and default_tablespace = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_tablespace#">
-				and ( profile = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_profile#"> or user_id < 100 )
+			FROM cf_users 
+				LEFT JOIN dba_users on upper(cf_users.username)=upper(dba_users.username)
+			WHERE upper(cf_users.username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
+				and (dba_users.username is null or 
+                (
+				        dba_users.default_tablespace = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_tablespace#">
+						  and ( dba_users.profile = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#Application.allowed_profile#"> or dba_users.user_id < 100 )
+					 )
+            )
 		</cfquery>
 		<cfif checkUser.ct NEQ 1>
 			<cfset session.username = "">
