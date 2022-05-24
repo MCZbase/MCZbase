@@ -98,7 +98,7 @@ limitations under the License.
 		left join media_relations on media_relations.media_id = media.media_id
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-
+And media_type <> 'text'
 
 </cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
