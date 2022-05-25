@@ -880,8 +880,8 @@ limitations under the License.
 					<cfif len(attributeDeterminer) gt 0> determiner: 
 						<cfset determination = "#attributeDeterminer#">
 
-						<cfif len(determined_date) gt 0> on: 
-							<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+						<cfif len(determined_date) gt 0>  
+							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
 						<cfif len(determination_method) gt 0>
 							<cfset determination = '#determination#, #determination_method#'>
