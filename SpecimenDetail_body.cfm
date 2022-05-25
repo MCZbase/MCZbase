@@ -673,7 +673,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					<cfif one.verbatim_locality is not one.spec_locality>
 						<cfif len(one.verbatim_locality) gt 0>
 							<tr class="detailData">
-								<td id="SDCellLeft" class="innerDetailLabel">Verbatim Locality:</td>
+								<td id="SDCellLeft" class="innerDetailLabel">Verbatim Locality: </td>
 								<td id="SDCellRight">#one.verbatim_locality#
 									<cfif collEventMedia.recordcount gt 0>
 										<a class="infoLink" target="_blank"	href="/MediaSearch.cfm?action=search&media_id=#valuelist(collEventMedia.media_id)#">Media</a>
@@ -772,7 +772,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 							</cfif>
 							<cfif len(one.verbatimcoordinates) gt 0>
 								<tr class="detailData">
-									<td id="SDCellLeft" class="innerDetailLabel">Verbatim Coordinates:</td>
+									<td id="SDCellLeft" class="innerDetailLabel">Verbatim Coordinates: </td>
 									<td id="SDCellRight">#one.verbatimcoordinates#</td>
 								</tr>
 							</cfif>
@@ -805,7 +805,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 							 locality_id=#one.locality_id#
 						</cfquery>
 						<cfloop query="geology">
-							 <td id="SDCellLeft" class="innerDetailLabel">#GEOLOGY_ATTRIBUTE#:</td>
+							 <td id="SDCellLeft" class="innerDetailLabel">#GEOLOGY_ATTRIBUTE#: </td>
 							 <td id="SDCellRight">
 								 #GEO_ATT_VALUE#
 							</td>
@@ -841,13 +841,13 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<cfset thisDate = "#one.verbatim_date# (#one.began_date# - #one.ended_date#)">
 					</cfif>
 					<tr class="detailData">
-						<td id="SDCellLeft" class="innerDetailLabel">Collecting Date:</td>
-						<td id="SDCellRight">#thisDate#</td>
+						<td id="SDCellLeft" class="innerDetailLabel">Collecting Date: </td>
+						<td id="SDCellRight"> #thisDate#</td>
 					</tr>
 					<cfif len(one.startDayOfYear) gt 0>
 					<tr class="detailData">
-						<td id="SDCellLeft" class="innerDetailLabel">Day of Year (start-end):</td>
-						<td id="SDCellRight">#startDayOfYear#<cfif len(one.endDayOfYear) gt 0>-#endDayOfYear#</cfif></td>
+						<td id="SDCellLeft" class="innerDetailLabel">Day of Year (start-end): </td>
+						<td id="SDCellRight"> #startDayOfYear#<cfif len(one.endDayOfYear) gt 0>-#endDayOfYear#</cfif></td>
 					</tr>
 					</cfif>
 					<cfif len(one.collecting_time) gt 0>
