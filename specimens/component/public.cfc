@@ -628,11 +628,11 @@ limitations under the License.
 						<th><span>Condition</span></th>
 						<th><span>Disposition</span></th>
 						<th><span>##</span></th>
-						<th>
-							<cfif oneOfus is "1">
+						<cfif oneOfus is "1">
+							<th>
 								<span>Container</span>
-							</cfif>
-						</th>
+							</th>
+						</cfif>
 					</tr>
 				</thead>
 				<tbody>
@@ -643,7 +643,9 @@ limitations under the License.
 						<td>#part_condition#</td>
 						<td>#part_disposition#</td>
 						<td>#lot_count#</td>
-						<td>#label#</td>
+						<cfif oneOfus is "1">
+							<td>#label#</td>
+						</cfif>
 					</tr>
 					<cfif len(part_remarks) gt 0>
 						<tr class="small90 border-bottom-0">
