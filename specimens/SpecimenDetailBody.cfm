@@ -409,7 +409,7 @@ And media_type <> 'text'
 							<div class="card-header" id="headingParts">
 								<h3 class="h4 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts <span class="text-success">(#ctPart.ct#)</span><span class="smaller"><cfif #ctPart.ct# gt 5><a href="##"> &nbsp;see all</a></cfif></span>
+										Parts <span class="text-success">(#ctPart.ct#)</span>
 									</button>
 									
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -421,6 +421,7 @@ And media_type <> 'text'
 							</div>
 							<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 								<div class="card-body py-1 w-100 mb-1 float-left" id="partsCardBody">
+									<span class="smaller"><cfif #ctPart.ct# gt 5>double-click to see all #ctPart.ct#</cfif></span>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
 								</div>
