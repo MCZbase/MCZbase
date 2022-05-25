@@ -1710,7 +1710,7 @@ limitations under the License.
 					</ul>
 				</div>
 				<div class="col-12 float-left px-0">
-					<ul class="sd list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
+					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
 						<cfif len(getLoc.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
 							<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
@@ -1758,11 +1758,9 @@ limitations under the License.
 						</cfif>
 						<cfif len(getLoc.dec_lat) gt 0>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude, Longitude:</h5></li>
-							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long#</li>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates Noted:</h5></li>
-							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units#</li>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Datum:</h5></li>
-							<li class="list-group-item col-7 px-0">#getLoc.datum#</li>
+							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long# (error: #max_error_distance# #max_error_units#)</li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
 						</cfif>
 						<cfif localityMedia.recordcount gt 0>
 							<cfset mediaBlock= getMediaBlockHtml(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
