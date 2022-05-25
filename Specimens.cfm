@@ -69,7 +69,7 @@ limitations under the License.
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
-	<cfelse>
+<cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
 
@@ -2486,7 +2486,9 @@ limitations under the License.
 			$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
-				$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+				<cfif oneOfUs EQ 1>
+					$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+				</cfif>
 			</cfif>
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 				console.log(#session.specimens_pin_guid#);
@@ -2496,21 +2498,6 @@ limitations under the License.
 
 	</script>
 	
-	<script>
-	//// script for DatePicker
-	//$(function() {
-	//	$("##began_date").datepicker({
-	//		dateFormat: "yy-mm-dd",
-	//		changeMonth: true,
-	//		changeYear: true
-	//	}).val()
-	//	$("##ended_date").datepicker({
-	//		dateFormat: "yy-mm-dd",
-	//		changeMonth: true,
-	//		changeYear: true
-	//	}).val()
-	//});
-	</script>
 	<!---  script>
 	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
 	TODO: Fix the indentation and nestinng, this looks like one function, but isn't.

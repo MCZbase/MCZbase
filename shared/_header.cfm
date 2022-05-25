@@ -801,12 +801,12 @@ limitations under the License.
 							</a>
 							<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
 								<li>
+									<cfif targetMenu EQ "production">
+										<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
+									<cfelse>
+										<a href="/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
+									</cfif>
 									<cfif session.roles contains "coldfusion_user">
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
-										<cfelse>
-											<a href="/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
-										</cfif>
 										<cfif targetMenu EQ "redesign">
 											<a href="" class="dropdown-item">Settings</a>
 										</cfif>
@@ -848,6 +848,7 @@ limitations under the License.
 						</cfif>
 						<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 							<input type="hidden" name="action" value="signIn">
+							<input type="hidden" name="mode" value="">
 							<input type="hidden" name="gotopage" value="#gtp#">
 							<div class="login-form" id="header_login_form_div">
 								<label for="username" class="sr-only"> Username:</label>
@@ -857,7 +858,7 @@ limitations under the License.
 								<label for="login" class="mr-1 sr-only"> Password:</label>
 								<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 								<label for="create_account" class="mr-1 sr-only"> Password:</label>
-								<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+								<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();" aria-label="click to create new account">
 							</div>
 						</form>
 					</cfif>

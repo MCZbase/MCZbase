@@ -310,34 +310,6 @@ function getCtDoc(a, b) {
     ctDocWin = windowOpener(c, "ctDocWin", "width=700,height=400, resizable,scrollbars")
 }
 
-function orapwCheck(a, b) {
-    var c = /^[A-Za-z0-9!$%&_?(\-)<>=/:;*\.]$/;
-    var d = 6;
-    var e = "Password is acceptable";
-    if (a.indexOf(b) > -1) {
-        e = "Password may not contain your username."
-    }
-    if (a.length < d || a.length > 30) {
-        e = "Password must be between " + d + " and 30 characters."
-    }
-    if (!a.match(/[a-zA-Z]/)) {
-        e = "Password must contain at least one letter."
-    }
-    if (!a.match(/\d+/)) {
-        e = "Password must contain at least one number."
-    }
-    if (!a.match(/[!,$,%,&,*,?,_,-,(,),<,>,=,/,:,;,.]/)) {
-        e = "Password must contain at least one of: !,$,%,&,*,?,_,-,(,),<,>,=,/,:,;."
-    }
-    for (var f = 0; f < a.length; f++) {
-        if (!a.charAt(f)
-            .match(c)) {
-            e = "Password may contain only A-Z, a-z, 0-9, and !$%&()`*+,-/:;<=>?_."
-        }
-    }
-    return e
-}
-
 function get_cookie(a) {
     var b = document.cookie.match("(^|;) ?" + a + "=([^;]*)(;|$)");
     if (b) return unescape(b[2]);
