@@ -878,7 +878,7 @@ limitations under the License.
 				<cfloop query="sex">
 				<li class="list-group-item"> sex: #attribute_value#,
 					<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "#attributeDeterminer#">
+						<cfset determination = "Determiner: #attributeDeterminer#">
 
 						<cfif len(determined_date) gt 0>  
 							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
