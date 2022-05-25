@@ -1751,9 +1751,9 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
 						</cfif>
 						<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Dec lat:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#</li>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Dec long:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Longitude:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.dec_long#</li>
 						</cfif>
 					</ul>
