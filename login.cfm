@@ -112,36 +112,35 @@ limitations under the License.
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="newUser">
-		<cftransaction>
-			<!--- Check that conditions for new account are met --->
-			<cfset err="">
-			<cfquery name="uUser" datasource="cf_dbuser">
-				select * from cf_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-			</cfquery>
-			<cfif len(password) is 0>
-				<cfset err="Your password must be at least one character long.">
-			</cfif>
-			<cfquery name="dbausr" datasource="uam_god">
-				select username from dba_users where upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
-			</cfquery>
-			<cfif len(dbausr.username) gt 0>
-				<cfset err="That username is already in use.">
-			</cfif>
-			<cfif len(username) is 0>
-				<cfset err="Your user name must be at least one character long.">
-			</cfif>
-			<cfif uUser.recordcount gt 0>
-				<cfset err="That username is already in use.">
-			</cfif>
-			<cfif len(err) gt 0>
-				<!--- Don't create the new account --->
-				<cftransaction action="rollback">
-				<cflocation url="login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">
-			</cfif>
-			<!--- Create the new account --->
-			<cfoutput>
+		<!--- Check that conditions for new account are met --->
+		<cfset err="">
+		<cfquery name="uUser" datasource="cf_dbuser">
+			select * from cf_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+		</cfquery>
+		<cfif len(password) is 0>
+			<cfset err="Your password must be at least one character long.">
+		</cfif>
+		<cfquery name="dbausr" datasource="uam_god">
+			select username from dba_users where upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
+		</cfquery>
+		<cfif len(dbausr.username) gt 0>
+			<cfset err="That username is already in use.">
+		</cfif>
+		<cfif len(username) is 0>
+			<cfset err="Your user name must be at least one character long.">
+		</cfif>
+		<cfif uUser.recordcount gt 0>
+			<cfset err="That username is already in use.">
+		</cfif>
+		<cfif len(err) gt 0>
+			<!--- Don't create the new account --->
+			<cflocation url="login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">
+		</cfif>
+		<!--- Create the new account --->
+		<cfoutput>
+			<cftransaction>
 				<cftry>
-					<cfquery name="nextUserID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="nextUserID" datasource="cf_dbuser">
 						select max(user_id) + 1 as nextid from cf_users
 					</cfquery>
 					<cfquery name="newUser" datasource="cf_dbuser">
@@ -174,8 +173,8 @@ limitations under the License.
 						</div>
 					</section>
 				</main>
-			</cfoutput>
-		</cftransaction>
+			</cftransaction>
+		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="signIn">
