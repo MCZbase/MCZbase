@@ -63,6 +63,8 @@ limitations under the License.
 				<section class="row border rounded my-2 p-2">
 					<cfif mode EQ "register"> 
 						<cfset headingText = "Create an Account">
+					<cfelseif mode EQ "authenticate"> 
+						<cfset headingText = "Log In">
 					<cfelse>
 						<cfset headingText = "Log In (or Create an Account)">
 					</cfif>
@@ -112,9 +114,11 @@ limitations under the License.
 									or
 								</div>
 							</cfif>
-							<div class="col-12 col-md-1">
-								<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
-							</div>
+							<cfif mode NEQ "authenticate"> 
+								<div class="col-12 col-md-1">
+									<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
+								</div>
+							</cfif>
 						</div>
 						<cfif mode EQ "register"> 
 							<div class="form-row my-2">
@@ -204,7 +208,7 @@ limitations under the License.
 					<section class="row border rounded my-2 p-2">
 						<h1 class="h2 w-100">Successfully created user #encodeForHtml(username)#.</h1>
 						<div class="mt-2">
-							<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/myArctos.cfm" addtoken="false">Login to MCZbase</a>
+							<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/myArctos.cfm&mode=authenticate" addtoken="false">Login to MCZbase</a>
 						</div>
 					</section>
 				</main>
