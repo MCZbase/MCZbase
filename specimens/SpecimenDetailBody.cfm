@@ -341,7 +341,7 @@ And media_type <> 'text'
 											<cfif desc.recordcount is 1>
 												<cfset alt=desc.label_value>
 											</cfif>
-											<div class="col-5 col-sm-2 col-md-4 col-xl-3 px-0 mx-2 my-1 float-left d-inline">
+											<div class="col-5 col-sm-2 col-md-4 col-xl-3 px-0 mx-2 my-0 float-left d-inline">
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#publicationMedia.media_id#",size="350",captionAs="textCaption")>
 												<div id="mediaBlock#publicationMedia.media_id#">
 													#mediaBlock#
