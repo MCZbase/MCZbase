@@ -452,6 +452,7 @@
 				</cfif>
 				<form name="logIn" method="post" action="/login.cfm">
 					<input type="hidden" name="action" value="signIn">
+					<input type="hidden" name="mode" value="">
 					<input type="hidden" name="gotopage" value="#gtp#">
 					<ul>
 						<li><span>Username:</span></li>
@@ -463,7 +464,7 @@
 						<li><input type="password" name="password" title="Password" size="14" class="loginTxt"></li>
 						<li>
 							<input type="submit" value="Log In" class="smallBtn"> <span>or</span>
-							<input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='newUser';submit();">
+							<input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='newUser';logIn.mode.value='register';submit();">
 						</li>
 					</ul>
 				</form>
