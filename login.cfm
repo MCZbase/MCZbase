@@ -38,7 +38,7 @@ limitations under the License.
 		<script>
 			function validateAndRegister() {
 				var uname = $("#username").val();
-				var pword = $("#password#").val();
+				var pword = $("#password").val();
 				if (uname.length == 0 || pword.length == 0) {
 					messageDialog("Enter a username and a password in this form to create an account.","Username and password are required.");
 					return false;
