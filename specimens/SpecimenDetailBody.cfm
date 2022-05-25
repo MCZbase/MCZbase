@@ -207,7 +207,7 @@ And media_type <> 'text'
 										<p class="smaller w-100 text-center"> double-click header to see all #mediaCount.ct#</p>
 									</cfif>
 									<cfloop query="images">
-										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
+										<div class="col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left">
 											
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textCaption")>
@@ -621,10 +621,10 @@ And media_type <> 'text'
 								</h3>
 							</div>
 							<div id="ledgerPane" class="collapse show" aria-labelledby="headingLedger" data-parent="##accordionLedger">
-								<div class="card-body w-100 px-1 pt-1 pb-1 float-left" id="ledgerCardBody">
+								<div class="card-body w-100 px-1 pt-2 pb-1 float-left" id="ledgerCardBody">
 									<cfif len(#ledger.media_id#) gt 0 and #ledger.mask_media_fg# neq 1> 
 										<cfloop query="ledger">
-											<div class="col-12 px-1 col-md-6 mb-1 px-md-1 py-1 float-left">
+											<div class="col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left">
 												<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
 												<div id="ledgerBlock#ledger.media_id#">
 													#ledgerBlock# 
