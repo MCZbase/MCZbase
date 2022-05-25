@@ -190,7 +190,11 @@
 				</span>
 			</cfif>
 		</li>
-      <li><a href="/users/Searches.cfm">Manage your Saved Searches</a> <br><span style="font-size:13px;"> (click Save Search from Specimen Results to save a search)</span></li>
+		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
+      	<li>
+				<a href="/users/Searches.cfm">Manage your Saved Searches</a> <br><span style="font-size:13px;"> (click Save Search from Specimen Results to save a search)</span>
+			</li>
+		</cfif>
 	</ul>
 	<cfif isInv.allow is 1>
 		<div class="userData" style="background-color:##FF0000; border:2px solid black; width:75%;">
