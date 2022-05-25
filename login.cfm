@@ -178,7 +178,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 				<main class="container py-3" id="content" >
-					<section class="row border rounded my-2">
+					<section class="row border rounded my-2 p-2">
 						<h1 class="h2 w-100">Successfully created user #encodeForHtml(username)#.</h1>
 						<div class="mt-2">
 							<a href="/login.cfm?username=#encodeForURL(username)#" addtoken="false">Login to MCZbase</a>
