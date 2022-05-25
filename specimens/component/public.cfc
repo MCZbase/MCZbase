@@ -1712,54 +1712,54 @@ limitations under the License.
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
 						<cfif len(getLoc.spec_locality) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality: </h5></li>
 							<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
 						</cfif>
 						<cfif len(getLoc.verbatim_locality) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality: </h5></li>
 							<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
 						</cfif>
 						<cfif len(getLoc.collecting_source) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
 						</cfif>
 						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
 						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">On Date: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
 						</cfif>
 						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date / Ended Date:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date / Ended Date: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.began_date# / #getLoc.ended_date#</li>
 						</cfif>
 						<cfif len(getLoc.verbatim_date) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
 						</cfif>
 						<cfif len(getLoc.verbatimcoordinates) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
 						</cfif>
 						<cfif len(getLoc.collecting_method) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
 						</cfif>
 						<cfif len(getLoc.coll_event_remarks) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
 						</cfif>
 						<cfif len(getLoc.habitat_desc) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
 						</cfif>
 						<cfif len(getLoc.habitat) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Microhabitat:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Microhabitat: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
 						</cfif>
 						<cfif len(getLoc.dec_lat) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude, Longitude:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude, Longitude: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long# (error: #getLoc.max_error_distance##getLoc.max_error_units#)</li>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Coordinates Originally Recorded as:</h5></li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Coordinates Originally Recorded as: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
 						</cfif>
 <!---						<cfif localityMedia.recordcount gt 0>
