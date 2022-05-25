@@ -233,7 +233,7 @@ limitations under the License.
 											polygonArray.push(poly);
 											// END this block build WKT
 											} else {
-												$("#mapdiv_" + locid).addClass('noWKT');
+												$("##mapdiv_" + locid).addClass('noWKT');
 											}
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
