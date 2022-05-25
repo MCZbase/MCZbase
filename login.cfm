@@ -110,6 +110,8 @@ limitations under the License.
 								<div class="col-12 col-md-1">
 									<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="signIn.action.value='signIn';submit();" tabindex="3">
 								</div>
+							</cfif>
+							<cfif mode EQ "">
 								<div class="col-12 col-md-1">
 									or
 								</div>
