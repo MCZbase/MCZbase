@@ -27,6 +27,7 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<!------------------------------------------------------------>
 	<cfcase value="signOut">
+		<cfinclude template="/includes/functionLib.cfm" runOnce="true">
 		<cfset initSession()>
 		<cflocation url="login.cfm" addtoken="false">
 	</cfcase>
@@ -187,6 +188,7 @@ limitations under the License.
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="signIn">
+		<cfinclude template="/includes/functionLib.cfm" runOnce="true">
 		<cfoutput>
 			<cfset initSession('#username#','#password#')>
 			<cfif len(session.username) is 0>
