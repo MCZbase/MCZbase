@@ -36,6 +36,7 @@ limitations under the License.
 		<cfif NOT isDefined("mode") or len(mode) EQ 0>
 			<cfset mode="">
 		</cfif>
+		<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 		<script>
 			function validateAndRegister() {
 				var uname = $("#formUsername").val();
@@ -43,8 +44,13 @@ limitations under the License.
 				if (uname.length == 0 || pword.length == 0) {
 					messageDialog("Enter a username and a password in this form to create an account.","Username and password are required.");
 				} else {
-					$("#formAction").val("newUser");
-					$("#loginform").submit();
+					var checkResult = orapwCheck(pword,uname);
+					if (checkResult =='Password is acceptable'){
+						$("#formAction").val("newUser");
+						$("#loginform").submit();
+					} else {
+						messageDialog(checkResult,"Password does not meet complexity requirements.");
+					}
 				}
 			}
 		</script>
@@ -110,6 +116,23 @@ limitations under the License.
 								<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
 							</div>
 						</div>
+						<cfif mode EQ "register"> 
+							<div class="form-row my-2">
+								<h2 class="h3 w-100">Password rules:</h2>
+								<ul>
+								<li>At least eight characters</li>
+								<li>May not contain your username</li>
+								<li>Must contain at least:
+									<ul>
+										<li>One letter</li>
+										<li>One number</li>
+										<li>One special character .!$%&*?_-()<>=/:;</li>
+									</ul>
+								</li>
+								<li>May only contain characters A-Z, a-z, 0-9, and .!$%&_?(\-)<>=/:;*</li>
+								</ul>
+							</div>
+						</cfif>
 					</form>
 					<div class="col-12">
 						<a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,

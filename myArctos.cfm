@@ -4,6 +4,7 @@
 <cfif len(session.username) is 0>
 	<cflocation url="/login.cfm" addtoken="false">
 </cfif>
+<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 <script>
 	function pwc(p,u){
 		var r=orapwCheck(p,u);
