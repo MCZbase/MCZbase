@@ -801,12 +801,12 @@ limitations under the License.
 							</a>
 							<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
 								<li>
+									<cfif targetMenu EQ "production">
+										<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
+									<cfelse>
+										<a href="/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
+									</cfif>
 									<cfif session.roles contains "coldfusion_user">
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
-										<cfelse>
-											<a href="/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
-										</cfif>
 										<cfif targetMenu EQ "redesign">
 											<a href="" class="dropdown-item">Settings</a>
 										</cfif>
