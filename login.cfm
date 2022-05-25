@@ -69,6 +69,7 @@ limitations under the License.
 					<form class="col-12" name="loginform" id="loginform" method="post" action="/login.cfm">
 						<input name="action" id="formAction" value="signIn" type="hidden">
 						<input name="gotopage" value="#gotopage#" type="hidden">
+						<input name="mode" value="#mode#" type="hidden">
 						<div class="form-row">
 							<div class="col-12 col-md-4">
 								<label for="formUsername" class="data-entry-label">Username</label>
@@ -83,13 +84,14 @@ limitations under the License.
 									<cfif not isdefined("err") or len(err) is 0>
 										<cfset err="Your username or password was not recognized. Please try again.">
 									</cfif>
-									<span style="background-color:##FF0000; font-size:smaller; font-style:italic; margin:.5em;padding:.5em;">
-										#err#
-									</span>
+									<h2 class="data-entry-label">Error</h2>
+									<div class="data-entry-input bg-danger text-white">#err#</div>
 									<script>
 										$(document).ready(function() { 
 											$('##username').css('backgroundColor','red');
 											$('##password').val('').css('backgroundColor','red').select().focus();
+											$('##formUsername').css('backgroundColor','red');
+											$('##formPassword').val('').css('backgroundColor','red').select().focus();
 										});
 									</script>
 								</cfif>
@@ -172,14 +174,15 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfset err="User Creation Failed. #cfcatch.message#">
-					<cflocation url="login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">
+					<cflocation url="login.cfm?username=#encodeForURL(username)#&badPW=true&err=#encodeForURL(err)#&mode=#encodeForURL(mode)#" addtoken="false">
 				</cfcatch>
 				</cftry>
 				<main class="container py-3" id="content" >
 					<section class="row border rounded my-2">
 						<h1 class="h2">Successfully created user #encodeForHtml(username)#.</h1>
-						<div>
-							<a href="/login.cfm?username=#username#" addtoken="false">Login to MCZbase</a>
+						<br>
+						<div class="mt-2">
+							<a href="/login.cfm?username=#encodeForURL(username)#" addtoken="false">Login to MCZbase</a>
 						</div>
 					</section>
 				</main>
