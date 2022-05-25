@@ -421,7 +421,9 @@ And media_type <> 'text'
 							</div>
 							<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 								<div class="card-body py-1 w-100 mb-1 float-left" id="partsCardBody">
-									<span class="smaller text-center w-100"><cfif #ctPart.ct# gt 5>double-click part header to see all #ctPart.ct#</cfif></span>
+									<p class="smaller py-0 mb-0 text-center w-100">
+										<cfif #ctPart.ct# gt 5>double-click part header to see all #ctPart.ct#</cfif>
+									</p>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
 								</div>
