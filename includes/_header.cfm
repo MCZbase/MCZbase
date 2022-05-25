@@ -464,7 +464,7 @@
 						<li><input type="password" name="password" title="Password" size="14" class="loginTxt"></li>
 						<li>
 							<input type="submit" value="Log In" class="smallBtn"> <span>or</span>
-							<input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='newUser';logIn.mode.value='register';submit();">
+							<input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();">
 						</li>
 					</ul>
 				</form>

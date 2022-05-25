@@ -858,7 +858,7 @@ limitations under the License.
 								<label for="login" class="mr-1 sr-only"> Password:</label>
 								<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 								<label for="create_account" class="mr-1 sr-only"> Password:</label>
-								<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';logIn.mode.value='register';submit();" aria-label="click to create new account">
+								<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();" aria-label="click to create new account">
 							</div>
 						</form>
 					</cfif>
