@@ -1423,6 +1423,7 @@ limitations under the License.
 				accepted_lat_long.determined_date latLongDeterminedDate,
 				accepted_lat_long.lat_long_ref_source,
 				accepted_lat_long.lat_long_remarks,
+				accepted_lat_long.orig_lat_long_units
 				accepted_lat_long.datum,
 				latLongAgnt.agent_name latLongDeterminer,
 				geog_auth_rec.geog_auth_rec_id,
@@ -1758,8 +1759,8 @@ limitations under the License.
 						<cfif len(getLoc.dec_lat) gt 0>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude, Longitude:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long#</li>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates Recorded:</h5></li>
-							<li class="list-group-item col-7 px-0">#one.orig_lat_long_units#</li>
+							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates Noted:</h5></li>
+							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units#</li>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Datum:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.datum#</li>
 						</cfif>
