@@ -204,7 +204,7 @@ limitations under the License.
 					<section class="row border rounded my-2 p-2">
 						<h1 class="h2 w-100">Successfully created user #encodeForHtml(username)#.</h1>
 						<div class="mt-2">
-							<a href="/login.cfm?username=#encodeForURL(username)#" addtoken="false">Login to MCZbase</a>
+							<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/myArctos.cfm" addtoken="false">Login to MCZbase</a>
 						</div>
 					</section>
 				</main>
@@ -217,9 +217,9 @@ limitations under the License.
 		<cfoutput>
 			<cfset initSession('#username#','#password#')>
 			<cfif len(session.username) is 0>
-				<cfset u="login.cfm?badPW=true&username=#username#">
+				<cfset u="login.cfm?badPW=true&username=#encodeForUrl(username)#">
 				<cfif isdefined("gotopage")>
-					<cfset u=u & '&gotopage=#gotopage#'>
+					<cfset u=u & '&gotopage=#encodeForUrl(gotopage)#'>
 				</cfif>
 				<cflocation url="#u#" addtoken="false">
 			</cfif>
@@ -241,19 +241,11 @@ limitations under the License.
 					<cfset nogo="login.cfm,errors/">
 					<cfloop list="#nogo#" index="n">
 						<cfif gotopage contains n>
-							<cfif session.roles contains "coldfusion_user">
-								<cfset gotopage = "/Specimens.cfm">
-							<cfelse>
-								<cfset gotopage = "/SpecimenSearch.cfm">
-							</cfif>
+							<cfset gotopage = "/Specimens.cfm">
 						</cfif>
 					</cfloop>
 				<cfelse>
-					<cfif session.roles contains "coldfusion_user">
-						<cfset gotopage = "/Specimens.cfm">
-					<cfelse>
-						<cfset gotopage = "/SpecimenSearch.cfm">
-					</cfif>
+					<cfset gotopage = "/Specimens.cfm">
 				</cfif>
 			</cfif>
 			<cfif session.roles contains "coldfusion_user">
