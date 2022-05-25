@@ -18,7 +18,8 @@ limitations under the License.
 --->
 <cfset pageTitle = "Login">
 <cfinclude template = "/shared/_header.cfm">
-<cfif isdefined("session.username") and len(#session.username#) gt 0 and #action# neq "signOut">
+<cfif isdefined("session.username") and len(#session.username#) gt 0 and (NOT isDefined("action") OR #action# neq "signOut")>
+	<!--- user is logged in already, redirect to user profile page --->
 	<cflocation url="myArctos.cfm" addtoken="false">
 </cfif>
 <cfif NOT isDefined("action") or len(action) EQ 0>
