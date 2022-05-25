@@ -1758,7 +1758,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(getLoc.dec_lat) gt 0>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude, Longitude:</h5></li>
-							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long# (error: #max_error_distance# #max_error_units#)</li>
+							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long# (error: #getLoc.max_error_distance# #getLoc.max_error_units#)</li>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
 						</cfif>
