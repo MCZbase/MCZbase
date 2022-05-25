@@ -36,15 +36,15 @@ limitations under the License.
 			<cfset mode="">
 		</cfif>
 		<script>
-			function isInfo() {
-				var uname = document.signIn.username.value;
-				var pword = document.signIn.password.value;
+			function validateAndRegister() {
+				var uname = $("#username").val();
+				var pword = $("#password#").val();
 				if (uname.length == 0 || pword.length == 0) {
-					alert('Enter a username and a password in this form to create an account.');
+					messageDialog("Enter a username and a password in this form to create an account.","Username and password are required.");
 					return false;
 				} else {
-					document.signIn.action.value='newUser';
-					document.signIn.submit();
+					$("#action").val("newUser");
+					$("#loginform").submit();
 				}
 			}
 		</script>
@@ -67,7 +67,7 @@ limitations under the License.
 						password here and click Create Account.</p>
 					</div>
 					<form class="col-12" name="loginform" id="loginform" method="post" action="signIn">
-						<input name="action" value="signIn" type="hidden">
+						<input name="action" id="action" value="signIn" type="hidden">
 						<input name="gotopage" value="#gotopage#" type="hidden">
 						<div class="form-row">
 							<div class="col-12 col-md-4">
@@ -105,7 +105,7 @@ limitations under the License.
 								</div>
 							</cfif>
 							<div class="col-12 col-md-1">
-								<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="isInfo();" tabindex="4">
+								<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
 							</div>
 						</div>
 					</form>
