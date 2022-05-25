@@ -37,12 +37,12 @@ limitations under the License.
 		</cfif>
 		<script>
 			function validateAndRegister() {
-				var uname = $("#username").val();
-				var pword = $("#password").val();
+				var uname = $("#formUsername").val();
+				var pword = $("#formPassword").val();
 				if (uname.length == 0 || pword.length == 0) {
 					messageDialog("Enter a username and a password in this form to create an account.","Username and password are required.");
 				} else {
-					$("#action").val("newUser");
+					$("#formAction").val("newUser");
 					$("#loginform").submit();
 				}
 			}
@@ -66,16 +66,16 @@ limitations under the License.
 						password here and click Create Account.</p>
 					</div>
 					<form class="col-12" name="loginform" id="loginform" method="post" action="signIn">
-						<input name="action" id="action" value="signIn" type="hidden">
+						<input name="action" id="formAction" value="signIn" type="hidden">
 						<input name="gotopage" value="#gotopage#" type="hidden">
 						<div class="form-row">
 							<div class="col-12 col-md-4">
-								<label for="username" class="data-entry-label">Username</label>
-								<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="username" required>
+								<label for="formUsername" class="data-entry-label">Username</label>
+								<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="formUsername" required>
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="password" class="data-entry-label">Password</label>
-								<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="password" required>
+								<label for="formPassword" class="data-entry-label">Password</label>
+								<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPpassword" required>
 							</div>
 							<div class="col-12 col-md-4">
 								<cfif isdefined("badPW") and badPW is true>
