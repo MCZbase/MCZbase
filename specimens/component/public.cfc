@@ -876,26 +876,26 @@ limitations under the License.
 			</cfquery>
 			<ul class="list-group">
 				<cfloop query="sex">
-				<li class="list-group-item"> sex: #attribute_value#,
-					<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "Determiner: #attributeDeterminer#">
+					<li class="list-group-item"> sex: #attribute_value#,
+						<cfif len(attributeDeterminer) gt 0>
+							<cfset determination = "determiner: #attributeDeterminer#">
 
-						<cfif len(determined_date) gt 0>  
-							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
+							<cfif len(determined_date) gt 0>  
+								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
+							</cfif>
+							<cfif len(determination_method) gt 0>
+								<cfset determination = '#determination#, #determination_method#'>
+							</cfif>
+							#determination#
 						</cfif>
-						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, #determination_method#'>
+						<cfif len(attribute_remark) gt 0>
+							, Remark: #attribute_remark#
 						</cfif>
-						#determination#
-					</cfif>
-					<cfif len(attribute_remark) gt 0>
-						, Remark: #attribute_remark#
-					</cfif>
-				</li>
-			</cfloop>
-			<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-			</cfquery>
+					</li>
+				</cfloop>
+				<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+				</cfquery>
 				<cfif #code.collection_cde# is "Mamm">
 					<cfquery name="total_length" dbtype="query">
 						select * from attribute where attribute_type = 'total length'
@@ -937,7 +937,7 @@ limitations under the License.
 						</tr>
 					</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-							<cfset determination = "#attributeDeterminer#">
+							<cfset determination = "determiner: #attributeDeterminer#">
 							<cfif len(determined_date) gt 0>
 								<cfset determination = '#determination#, on #dateformat(determined_date,"yyyy-mm-dd")#'>
 							</cfif>
@@ -965,7 +965,7 @@ limitations under the License.
 						#attribute_units#
 						</cfif>
 						<cfif len(attributeDeterminer) gt 0>
-						<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
+						<cfset determination = "determiner: #attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
 							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
