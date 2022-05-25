@@ -646,8 +646,10 @@ limitations under the License.
 						<td>#label#</td>
 					</tr>
 					<cfif len(part_remarks) gt 0>
-						<tr class="small">
-							<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+						<tr class="small border-bottom-0">
+							<td colspan="5" class="border-bottom-0 mb-0 pb-0">
+								<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+							</td>
 						</tr>
 					</cfif>
 					<cfquery name="patt" dbtype="query">
@@ -672,8 +674,8 @@ limitations under the License.
 							agent_name
 					</cfquery>
 					<cfif patt.recordcount gt 0>
-						<tr>
-							<td colspan="5">
+						<tr class="border-top-0">
+							<td colspan="5" class="border-top-0 mt-0 pt-0">
 								<cfloop query="patt">
 									<div class="small pl-3" style="line-height: .9rem;">
 										#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
