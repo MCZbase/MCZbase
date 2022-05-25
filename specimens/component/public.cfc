@@ -1423,7 +1423,7 @@ limitations under the License.
 				accepted_lat_long.determined_date latLongDeterminedDate,
 				accepted_lat_long.lat_long_ref_source,
 				accepted_lat_long.lat_long_remarks,
-				accepted_lat_long.orig_lat_long_units
+				accepted_lat_long.orig_lat_long_units,
 				accepted_lat_long.datum,
 				latLongAgnt.agent_name latLongDeterminer,
 				geog_auth_rec.geog_auth_rec_id,
