@@ -65,7 +65,7 @@ limitations under the License.
 						this database. To create an account and log in, simply supply a username and
 						password here and click Create Account.</p>
 					</div>
-					<form class="col-12" name="loginform" id="loginform" method="post" action="signIn">
+					<form class="col-12" name="loginform" id="loginform" method="post" action="/login.cfm">
 						<input name="action" id="formAction" value="signIn" type="hidden">
 						<input name="gotopage" value="#gotopage#" type="hidden">
 						<div class="form-row">
