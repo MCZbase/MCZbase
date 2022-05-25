@@ -1508,6 +1508,15 @@ limitations under the License.
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
+		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select
+				media_id
+			from
+				media_relations
+			where
+				RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getLoc.locality_id#"> and
+				MEDIA_RELATIONSHIP like '% locality'
+		</cfquery>
 		<script>
 		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 		jQuery(document).ready(function() {
@@ -1685,7 +1694,6 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><em>County:</em></li>
 							<li class="list-group-item col-7 px-0">#getLoc.county#</li>
 						</cfif>
-
 						<cfif len(getLoc.island_group) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
 							<li class="list-group-item col-7 px-0">#getLoc.island_group#</li>
@@ -1752,6 +1760,12 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long#</li>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates Recorded:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinatesystem#</li>
+						</cfif>
+						<cfif localityMedia.recordcount gt 0>
+							<cfset mediaBlock= getMediaBlockHtml(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
+							<div id="mediaBlock#localityMedia.media_id#">
+								#mediaBlock#
+							</div>
 						</cfif>
 					</ul>
 				</div>
