@@ -75,7 +75,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="formPassword" class="data-entry-label">Password</label>
-								<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPpassword" required>
+								<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPassword" required>
 							</div>
 							<div class="col-12 col-md-4">
 								<cfif isdefined("badPW") and badPW is true>
