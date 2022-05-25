@@ -2498,21 +2498,6 @@ limitations under the License.
 
 	</script>
 	
-	<script>
-	//// script for DatePicker
-	//$(function() {
-	//	$("##began_date").datepicker({
-	//		dateFormat: "yy-mm-dd",
-	//		changeMonth: true,
-	//		changeYear: true
-	//	}).val()
-	//	$("##ended_date").datepicker({
-	//		dateFormat: "yy-mm-dd",
-	//		changeMonth: true,
-	//		changeYear: true
-	//	}).val()
-	//});
-	</script>
 	<!---  script>
 	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
 	TODO: Fix the indentation and nestinng, this looks like one function, but isn't.
