@@ -1762,12 +1762,12 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates Recorded as:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
 						</cfif>
-<!---						<cfif localityMedia.recordcount gt 0>
-							<cfset mediaBlock= getMediaBlockHtml(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
-							<div id="mediaBlock#localityMedia.media_id#">
-								#mediaBlock#
+						<cfif localityMedia.recordcount gt 0>
+							<cfset locBlock= getMediaBlockHtml(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
+							<div id="locBlock#localityMedia.media_id#">
+								#locBlock#
 							</div>
-						</cfif>--->
+						</cfif>
 					</ul>
 				</div>
 					<cfcatch>
