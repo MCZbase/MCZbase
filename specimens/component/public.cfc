@@ -677,7 +677,7 @@ limitations under the License.
 					</cfquery>
 					<cfif patt.recordcount gt 0>
 						<tr class="border-top-0">
-							<td colspan="5" class="border-top-0 mt-0 pb-2 pt-0">
+							<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 								<cfloop query="patt">
 									<div class="small90 pl-3" style="line-height: .9rem;">
 										#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
@@ -1525,31 +1525,8 @@ limitations under the License.
 		<script>
 		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 		jQuery(document).ready(function() {
-			/*$( "#dialog" ).dialog({
-				autoOpen: false,
-				width: "50%"
-			});
-			$( ".mapdialog" ).click(function() {
-				$( "#dialog" ).dialog( "open" );
-			});*/
 			mapsYo();
 		});
-		/*function saveSDMap(){
-			$("div[id^='mapdiv_']").each(function(e){
-				$(this).removeClass().addClass($("#sdetmapsize").val());
-			});
-			jQuery.getJSON("/component/functions.cfc",
-				{
-					method : "changeUserPreference",
-					pref : "sdmapclass",
-					val : $("#sdetmapsize").val(),
-					returnformat : "json",
-					queryformat : 'column'
-				}
-			);
-			$('#dialog').dialog('close');
-			mapsYo();
-		}*/
 			function mapsYo(){
 				$("input[id^='coordinates_']").each(function(e){
 					var locid=this.id.split('_')[1];
@@ -1670,8 +1647,7 @@ limitations under the License.
 					<cfelse>
 						<cfset oneOfUs = 0>
 					</cfif>
-					<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-					</cfif>--->
+					<!---<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm"></cfif>--->
 				</div>
 				<div class="col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">

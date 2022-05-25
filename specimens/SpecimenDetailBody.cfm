@@ -604,8 +604,6 @@ And media_type <> 'text'
 							</div>
 						</div>
 					</div>
-								
-								
 					<!-----------------------------Ledger--------------------------------> 
 					<div class="accordion" id="accordionLedger">
 						<div class="card mb-2 bg-light">
@@ -641,7 +639,6 @@ And media_type <> 'text'
 							</div>
 						</div>
 					</div>
-						
 						
 					<!------------------------------ tranactions  --------------------------------->
 					<div class="accordion" id="accordionTransactions">
