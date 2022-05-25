@@ -646,7 +646,7 @@ limitations under the License.
 						<td>#label#</td>
 					</tr>
 					<cfif len(part_remarks) gt 0>
-						<tr class="small border-bottom-0">
+						<tr class="small90 border-bottom-0">
 							<td colspan="5" class="border-bottom-0 mb-0 pb-0">
 								<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 							</td>
@@ -677,7 +677,7 @@ limitations under the License.
 						<tr class="border-top-0">
 							<td colspan="5" class="border-top-0 mt-0 pt-0">
 								<cfloop query="patt">
-									<div class="small pl-3" style="line-height: .9rem;">
+									<div class="small90 pl-3" style="line-height: .9rem;">
 										#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
 									<cfif len(attribute_units) gt 0>
 										#attribute_units# &nbsp;
