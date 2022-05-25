@@ -29,7 +29,7 @@ limitations under the License.
 	<cfcase value="signOut">
 		<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 		<cfset initSession()>
-		<cflocation url="login.cfm" addtoken="false">
+		<cflocation url="/Specimens.cfm" addtoken="false">
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="loginForm">
