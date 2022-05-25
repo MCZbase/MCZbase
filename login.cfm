@@ -64,7 +64,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="col-12 col-md-4">
 								<label for="username" class="data-entry-label">Username</label>
-								<input name="username" class="data-entry-input" type="text" tabindex="1" value="#username#" id="username">
+								<input name="username" class="data-entry-input" type="text" tabindex="1" value="#encodeForHtml(username)#" id="username">
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="password" class="data-entry-label">Password</label>
@@ -245,7 +245,7 @@ limitations under the License.
 						Your password expires in #pwage# days
 						<br>You may <a href="/ChangePassword.cfm">change it now</a>
 					</div>
-					<a href="#gotopage#">Continue to #gotopage#</a>
+					<a href="#gotopage#">Continue to #encodeForHtml(gotopage)#</a>
 				<cfelse>
 					<cflocation url="#gotopage#" addtoken="no">
 				</cfif>
