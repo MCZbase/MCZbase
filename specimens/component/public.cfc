@@ -1640,8 +1640,6 @@ limitations under the License.
 			<cftry>
 				<div class="col-12 col-md-5 pl-md-0 mb-2 float-right">
 					<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
-
-
 					<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
 						<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
 						<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
@@ -1660,7 +1658,6 @@ limitations under the License.
 					</cfif>
 					<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
 					</cfif>--->
-
 				</div>
 				<div class="col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
@@ -1754,7 +1751,7 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude, Longitude:</h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long#</li>
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Original Coordinates Recorded:</h5></li>
-							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units#</li>
+							<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinatesystem#</li>
 						</cfif>
 					</ul>
 				</div>
