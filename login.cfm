@@ -32,6 +32,9 @@ limitations under the License.
 	</cfcase>
 	<!------------------------------------------------------------>
 	<cfcase value="loginForm">
+		<cfif NOT isDefined("mode") or len(mode) EQ 0>
+			<cfset mode="">
+		</cfif>
 		<script>
 			function isInfo() {
 				var uname = document.signIn.username.value;
@@ -51,8 +54,13 @@ limitations under the License.
 				<cfset gotopage=''>
 			</cfif>
 			<main class="container py-3" id="content" >
-				<section class="row border rounded my-2">
-					<h1 class="h2">Log In or Create an Account</h1>
+				<section class="row border rounded my-2 p-2">
+					<cfif mode EQ "register"> 
+						<cfset headingText = "Create an Account">
+					<cfelse>
+						<cfset headingText = "Log In (or Create an Account)">
+					</cfif>
+					<h1 class="h2">#headingText#</h1>
 					<div class="col-12">
 						<p>Logging in enables you to download data, turn on, turn off, or otherwise customize many features of
 						this database. To create an account and log in, simply supply a username and
@@ -87,13 +95,15 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
-						<div class="form-row">
-							<div class="col-12 col-md-2">
-								<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="signIn.action.value='signIn';submit();" tabindex="3">
-							</div>
-							<div class="col-12 col-md-1">
-								or
-							</div>
+						<div class="form-row my-1">
+							<cfif mode NEQ "register"> 
+								<div class="col-12 col-md-1">
+									<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="signIn.action.value='signIn';submit();" tabindex="3">
+								</div>
+								<div class="col-12 col-md-1">
+									or
+								</div>
+							</cfif>
 							<div class="col-12 col-md-1">
 								<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="isInfo();" tabindex="4">
 							</div>
