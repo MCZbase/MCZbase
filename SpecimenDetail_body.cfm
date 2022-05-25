@@ -682,9 +682,6 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 							</tr>
 						</cfif>
 					</cfif>
-
-
-
 					<cfif len(one.locality_remarks) gt 0>
 						<tr class="detailData">
 							<td id="SDCellLeft" class="innerDetailLabel">Locality Remarks:</td>

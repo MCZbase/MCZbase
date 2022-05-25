@@ -273,12 +273,12 @@ limitations under the License.
 								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 							</cfloop>
 							<div class="form-row mx-0">
-									<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
+								<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
 									<cfif len(made_date) gt 0>
-									<span class="h5">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
+										<span class="h5">on</span> #dateformat(made_date,"yyyy-mm-dd")#
 									</cfif>
 								</div>
-								</div>
+							</div>
 							<div class="small mr-2"><span class="h5">Nature of ID:</span> #nature_of_id# </div>
 							<cfif len(identification_remarks) gt 0>
 									<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
