@@ -41,7 +41,6 @@ limitations under the License.
 				var pword = $("#password").val();
 				if (uname.length == 0 || pword.length == 0) {
 					messageDialog("Enter a username and a password in this form to create an account.","Username and password are required.");
-					return false;
 				} else {
 					$("#action").val("newUser");
 					$("#loginform").submit();
@@ -72,11 +71,11 @@ limitations under the License.
 						<div class="form-row">
 							<div class="col-12 col-md-4">
 								<label for="username" class="data-entry-label">Username</label>
-								<input name="username" class="data-entry-input" type="text" tabindex="1" value="#encodeForHtml(username)#" id="username">
+								<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="username" required>
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="password" class="data-entry-label">Password</label>
-								<input name="password" class="data-entry-input" type="password" tabindex="2" value="" id="password">
+								<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="password" required>
 							</div>
 							<div class="col-12 col-md-4">
 								<cfif isdefined("badPW") and badPW is true>
