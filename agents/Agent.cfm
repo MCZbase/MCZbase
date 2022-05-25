@@ -163,7 +163,7 @@ limitations under the License.
 									var ptsArray=[];
 									var lat=coords.split(',')[0];
 									var lng=coords.split(',')[1];
-									var errorm=$("#error_" + locid).val();
+									var errorm=$("##error_" + locid).val();
 									var mapOptions = {
 										zoom: 1,
 										center: new google.maps.LatLng(lat, lng),
@@ -184,10 +184,10 @@ limitations under the License.
 									bounds.extend(center);
 									if (parseInt(errorm)>0){
 										var circleoptn = {
-											strokeColor: '#FF0000',
+											strokeColor: '##FF0000',
 											strokeOpacity: 0.8,
 											strokeWeight: 2,
-											fillColor: '#FF0000',
+											fillColor: '##FF0000',
 											fillOpacity: 0.15,
 											map: map,
 											center: center,
@@ -223,10 +223,10 @@ limitations under the License.
 											}
 											var poly = new google.maps.Polygon({
 												paths: ptsArray,
-												strokeColor: '#1E90FF',
+												strokeColor: '##1E90FF',
 												strokeOpacity: 0.8,
 												strokeWeight: 2,
-												fillColor: '#1E90FF',
+												fillColor: '##1E90FF',
 												fillOpacity: 0.35
 											});
 											poly.setMap(map);
@@ -244,9 +244,9 @@ limitations under the License.
 											map.fitBounds(bounds);
 											for(var a=0; a<polygonArray.length; a++){
 												if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-													$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+													$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
 												} else {
-													$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+													$("##mapdiv_" + locid).addClass('niceGeoSPatData');
 												}
 											}
 										});
