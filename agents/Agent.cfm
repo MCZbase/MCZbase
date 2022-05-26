@@ -822,9 +822,42 @@ limitations under the License.
 									identification.made_date,
 									identification.nature_of_id,
 									collecting_event.collecting_event_id,
+									case when
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+										and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+									then
+											replace(began_date,substr(began_date,1,4),'8888')
+									else
+										collecting_event.began_date
+									end began_date,
+									case when
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+										and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+									then
+											replace(ended_date,substr(ended_date,1,4),'8888')
+									else
+										collecting_event.ended_date
+									end ended_date,
+									case when
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+										and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+									then
+											'Masked'
+									else
+										collecting_event.verbatim_date
+									end verbatim_date,
 									collecting_event.startDayOfYear,
 									collecting_event.endDayOfYear,
 									collecting_event.habitat_desc,
+									case when
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+										and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+										and collecting_event.coll_event_remarks is not null
+									then 
+										'Masked'
+									else
+										collecting_event.coll_event_remarks
+									end COLL_EVENT_REMARKS,
 									locality.locality_id,
 									locality.minimum_elevation,
 									locality.maximum_elevation,
@@ -864,6 +897,9 @@ limitations under the License.
 									coll_object_remark.habitat,
 									enteredPerson.agent_name EnteredBy,
 									editedPerson.agent_name EditedBy,
+									accn_number accession,
+									concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
+									concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 									collecting_time,
 									fish_field_number,
 									min_depth,
@@ -871,7 +907,8 @@ limitations under the License.
 									depth_units,
 									collecting_method,
 									collecting_source,
-									specimen_part.derived_from_cat_item
+									specimen_part.derived_from_cat_item,
+									decode(trans.transaction_id, null, 0, 1) vpdaccn
 								FROM
 									cataloged_item,
 									collection,
@@ -885,12 +922,13 @@ limitations under the License.
 									coll_object_remark,
 									preferred_agent_name enteredPerson,
 									preferred_agent_name editedPerson,
+									accn,
+									trans,
 									specimen_part,
 									collector
 								WHERE
 									cataloged_item.collection_id = collection.collection_id AND
 									collector.collection_object_id = cataloged_item.collection_object_id AND
-									collector.agent_id = agent.agent_id
 									cataloged_item.collection_object_id = identification.collection_object_id AND
 									identification.accepted_id_fg = 1 AND
 									cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
@@ -905,7 +943,7 @@ limitations under the License.
 									cataloged_item.accn_id =  accn.transaction_id  AND
 									accn.transaction_id = trans.transaction_id(+) AND
 									cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND 
-									collector.agent_id = 3359
+									collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							</cfquery>	
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
