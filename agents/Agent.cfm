@@ -834,13 +834,12 @@ limitations under the License.
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
 														zoom: 1,
-														mapTypeControl: true,
-														mapTypeControlOptions: {
-															//style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-															mapTypeIds: ["satellite", "terrain"],
-															zoomControl:true,
-														},
-														mapTypeId: 'satellite'
+														mapTypeControl: false
+														//mapTypeControlOptions: {
+//															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+//															mapTypeIds: ["satellite", "terrain"],
+//															zoomControl:true,
+//														},
 													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
