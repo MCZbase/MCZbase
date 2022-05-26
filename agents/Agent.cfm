@@ -840,7 +840,7 @@ limitations under the License.
 															zoomControl:true,
 															zoomControlOptions: {
 																style:google.maps.ZoomControlStyle.SMALL
-															},
+															}
 														},
 														mapTypeId: 'roadmap'
 													});
