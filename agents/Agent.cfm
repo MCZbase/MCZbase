@@ -834,9 +834,9 @@ limitations under the License.
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
 														zoomControl:true,
-														zoomControlOptions: {
-															style:google.maps.ZoomControlStyle.SMALL
-														}
+zoomControlOptions: {
+    style:google.maps.ZoomControlStyle.SMALL
+},
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
