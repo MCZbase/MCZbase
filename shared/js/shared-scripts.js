@@ -1680,3 +1680,50 @@ $(document).ready(function() {
 
 });
  /*Scroll to top when arrow up clicked END*/
+
+// open the download agreement dialog
+function openDownloadAgreeDialog(dialogid, result_id, filename) { 
+	var title = "Download Agreement";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+		 	"Close Dialog": function() { 
+			 	$("#"+dialogid+"_div").html("");
+				$("#"+dialogid).dialog('close'); 
+				$("#"+dialogid).dialog('destroy'); 
+			}
+		},
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/specimens/component/search.cfc",
+		type: "post",
+		data: { 
+			method: "getNewPermitForTransHtml",
+			returnformat: "plain",
+			result_id : result_id,
+			filename : filename
+		},
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading download result dialog");
+		}
+	});
+}
