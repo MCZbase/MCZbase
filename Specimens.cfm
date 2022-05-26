@@ -194,6 +194,62 @@ limitations under the License.
 						<div class="tab-content">
 							<!---Fixed Search tab panel--->
 							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+								<div class="col-9 float-right px-0"> 
+									<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+													Search Help
+									</button>
+									<div class="collapse collapseStyle" id="collapseFixed">
+										<div class="card card-body pl-4 py-3 pr-3">
+											<h2 class="headerSm">Basic Search Help</h2>
+											<p>
+												This help applies to the basic specimen search and some other search forms in MCZbase.
+												Many fields are autocompletes, values can be selected off of the picklist, or a partial match can be entered in the field.
+												Most fields will accept search operators, described below, which alter the behaviour of the search.
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> 
+													(see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Basic_Specimen_Search" target="_blank">Basic Specimen Search</a>
+												</cfif>.
+											</p>
+											<h2 class="headerSm">Special operators that are entered in the field by themselves with no other value</h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">NULL</span></dt>
+												<dd>Find records where this field is empty.</dd>
+												<dt><span class="text-info font-weight-bold">NOT NULL</span></dt>
+												<dd>Find records where this field contains some non-empty value.</dd>
+											</dl>
+											<h2 class="headerSm">Operators entered as the first character in a field, followed by a search term (e.g. =Murex). </h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">=</span></dt>
+												<dd>Perform a (case insensitive, in most cases) exact match search. Fields which take this operator append a wild card to the beginning and end of the search term unless this operator is used.</dd>
+												<dt><span class="text-info font-weight-bold">!</span></dt>
+												<dd>Perform a (case insensitive, in most cases) exact match <strong>not</strong> search. Will find records where the value in the field does not match the specified search term. </dd>
+												<dt><span class="text-info font-weight-bold">~</span></dt>
+												<dd>Find nearby strings. Finds matches where the value in the field is a small number of character substitutions away from the provided search term. Makes the comparison using the jaro winkler string distance, with a threshold set, depending on the search, on 0.80 or 0.90.</dd> 
+												<dt><span class="text-info font-weight-bold">$</span> </dt>
+												<dd> Find sound alike strings. Finds matches where the value in the field sounds like the provided search term. Makes the comparison using the soundex algorithm.</dd>
+											</dl>
+											<h2 class="headerSm">Wild cards that may be accepted where a search can take a = operator, but that operator is not used.</h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">%</span></dt>
+												<dd>Match any number of characters. (added at the beginning and end of strings for all fields that can take an = operator where that operator is not used).</dd>
+												<dt><span class="text-info font-weight-bold">_</span></dt> 
+												<dd>Match exactly one character.</dd>
+											</dl>
+											<h2 class="headerSm">Guidance for specific fields</h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">Catalog Number</span></dt>
+												<dd>Catalog number accepts single numbers (e.g. 1100), ranges of numbers (e.g. 100-110), comma separated lists of number (or search, e.g. 100,110), or ranges of numbers with prefixes (put the prefix only at the beginning of the range, e.g. R-200-210).  Wildcards are not added to catalog number searches (so =1 and 1 return the same result)</dd>
+												<dt><span class="text-info font-weight-bold">Other Number</span></dt> 
+												<dd>Other number accepts single numbers, ranges of numbers, comma separated lists of numbers, and ranges of numbers, but for most cases with prefixes, search for just a single prefixed number with an exact match search (e.g. =BT-782)</dd>
+												<dt><span class="text-info font-weight-bold">Taxonomy and Higher Geography Fields</span> </dt>
+												<dd>Search for a substring (e.g. murex), an exact match (e.g. =Murex), or a comma separated list (e.g. Vulpes,Urocyon).</dd>
+												<dt><span class="text-info font-weight-bold">Dates</span></dt>
+												<dd>Collecting Events are stored in two date fields (date began and date ended), plus a verbatim field.  Date Collected searches on both the began date and end date for collecting events.  A range search on Date Collected (e.g. 1980/1985) will find all cataloged items where both the date began and date ended fall within the specified range.  Usually you will want to search on Date Collected.  The began date and ended date fields can be searched separately for special cases, in particular cases where the collecting date range is poorly constrained.  Search on Began Date 1700-01-01 Ended Date 1800-01-01/1899-12-31 to find all material where the began date is not known, but the end date has been constrained to sometime in the 1800s (contrast with Date Collected 1800-01-01/1899-12-31 which finds material where both the start and end dates are in the 1800s).</dd>
+												<dt><span class="text-info font-weight-bold">Media Type</span></dt>
+												<dd>Click on (Any) to paste NOT NULL into the field, this will find records where there are any related media.</dd>
+											</dl>
+										</div>
+									</div>
+								</div>
 								<section role="search" class="container-fluid">
 									<form id="fixedSearchForm">
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
@@ -835,45 +891,50 @@ limitations under the License.
 	
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
-									<div class="col-9 float-right px-0"> 
-										<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
+								<div class="col-9 float-right px-0"> 
+									<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
 													Search Help
-										</button>
-										<div class="collapse collapseStyle" id="collapseKeyword">
-											<div class="card card-body pl-4 py-3 pr-3">
-												<h2 class="headerSm">Keyword Search Help</h2>
-												<p>This help applies only the keyword search, behavior and operators for other searches are different<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> (see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a></cfif>.</p>
-												<dl class="mb-0"> 
-													<dt><span class="text-info font-weight-bold">&nbsp;</span></dt>
-													<dd>When words are separated by spaces they form a phrase and it is this phrase which is searched for, not the individual words.  For example <em>Panama Bay</em> searches for those two words found adjacent to each other (ignoring punctuation and capitalization). Use operators such as <em>Panama &amp; Bay</em> or <em>NEAR((Panama,Bay),3)</em>, described below, to find a broader scope of records. </dd>
-												</dl>
-												<h2 class="headerSm">Keyword Search Operators</h2>
-												<dl class="mb-0"> 
-													<dt><span class="text-info font-weight-bold">&amp;</span></dt>
-													<dd>The "and" operator, matches records where the search terms on both sides of the &amp; are present somewhere in the record.</dd>
-													<dt><span class="text-info font-weight-bold">|</span></dt>
-													<dd>The "or" operator, matches words where at least one of the search terms is present somewhere in the record.</dd>
-													<dt><span class="text-info font-weight-bold">!</span></dt>
-													<dd>The exclamation mark finds records that contain the first term but not the second (e.g., Panama ! Canal). Results returned would include "Panama" but not "Canal".</dd>
-													<dt><span class="text-info font-weight-bold">NEAR((term,term2),distance) &nbsp;&nbsp;</span></dt>
-													<dd>The NEAR((term,term2),distance) finds words that are nearby each other (e.g. NEAR((Panama,Bay),3) finds records where Panama and Bay are within three words of each other). Example of results: "San Miguel Id Bay of Panama" and "Bay of Panama, Dan Miguel Id".</dd>
-													<dt><span class="text-info font-weight-bold">=</span></dt>
-													<dd>The word equivalence operator, either word is interchangeable in the phrase (e.g., Taboga Island=Id). The results would return rows with "Taboga Island" or "Taboga Id".</dd>
-													<dt><span class="text-info font-weight-bold">FUZZY(term) &nbsp;&nbsp;</span> </dt>
-													<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga)).</dd>
-													<dt><span class="text-info font-weight-bold">$</span></dt>
-													<dd>The soundex symbol "$" finds words that sound like the specified term, unlike fuzzy matching, soundex tends to find words that are similar in the first few letters and vary at the end (e.g., $Rongelap finds records that contain words which sound like Rongelap. Soundex can be good for finding alternate endings on specific epithets of taxa).</dd>
-													<dt><span class="text-info font-weight-bold">##</span></dt> 
-													<dd>The stem operator finds words with the same linguistic stem as the search term, e.g. ##forest finds words with the same stem as forest such as forested or forests.</dd>
-													<dt><span class="text-info font-weight-bold">( )</span></dt>
-													<dd>Parentheses can be used to group terms for complex operations (e.g. Basiliscus &amp; (FUZZY(Honduras) | (Panama ! Canal)) will return results with a fuzzy match to Honduras, or Panama but not Canal).</dd>
-													<dt><span class="text-info font-weight-bold">%</span></dt> 
-													<dd>The percent wildcard, matches any number of characters, e.g. %bridge matches Cambridge, bridge, and Stockbridge.</dd>
-													<dt><span class="text-info font-weight-bold">_</span> </dt><dd> The underscore wildcard, matches exactly one character and allows for any character to takes its place.</dd>
-												</dl>
-											</div>
+									</button>
+									<div class="collapse collapseStyle" id="collapseKeyword">
+										<div class="card card-body pl-4 py-3 pr-3">
+											<h2 class="headerSm">Keyword Search Help</h2>
+											<p>
+												This help applies only the keyword search, behavior and operators for other searches are different
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> 
+													(see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Keyword_Search" target="_blank">Keyword Search</a>
+												</cfif>.
+											</p>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">&nbsp;</span></dt>
+												<dd>When words are separated by spaces they form a phrase and it is this phrase which is searched for, not the individual words.  For example <em>Panama Bay</em> searches for those two words found adjacent to each other (ignoring punctuation and capitalization). Use operators such as <em>Panama &amp; Bay</em> or <em>NEAR((Panama,Bay),3)</em>, described below, to find a broader scope of records. </dd>
+											</dl>
+											<h2 class="headerSm">Keyword Search Operators</h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">&amp;</span></dt>
+												<dd>The "and" operator, matches records where the search terms on both sides of the &amp; are present somewhere in the record.</dd>
+												<dt><span class="text-info font-weight-bold">|</span></dt>
+												<dd>The "or" operator, matches words where at least one of the search terms is present somewhere in the record.</dd>
+												<dt><span class="text-info font-weight-bold">!</span></dt>
+												<dd>The exclamation mark finds records that contain the first term but not the second (e.g., Panama ! Canal). Results returned would include "Panama" but not "Canal".</dd>
+												<dt><span class="text-info font-weight-bold">NEAR((term,term2),distance) &nbsp;&nbsp;</span></dt>
+												<dd>The NEAR((term,term2),distance) finds words that are nearby each other (e.g. NEAR((Panama,Bay),3) finds records where Panama and Bay are within three words of each other). Example of results: "San Miguel Id Bay of Panama" and "Bay of Panama, Dan Miguel Id".</dd>
+												<dt><span class="text-info font-weight-bold">=</span></dt>
+												<dd>The word equivalence operator, either word is interchangeable in the phrase (e.g., Taboga Island=Id). The results would return rows with "Taboga Island" or "Taboga Id".</dd>
+												<dt><span class="text-info font-weight-bold">FUZZY(term) &nbsp;&nbsp;</span> </dt>
+												<dd>This finds words that are a fuzzy match to the specified term, fuzzy matching can include variations (e.g. misspellings, typos) anywhere in the term (e.g., FUZZY(Taboga)).</dd>
+												<dt><span class="text-info font-weight-bold">$</span></dt>
+												<dd>The soundex symbol "$" finds words that sound like the specified term, unlike fuzzy matching, soundex tends to find words that are similar in the first few letters and vary at the end (e.g., $Rongelap finds records that contain words which sound like Rongelap. Soundex can be good for finding alternate endings on specific epithets of taxa).</dd>
+												<dt><span class="text-info font-weight-bold">##</span></dt> 
+												<dd>The stem operator finds words with the same linguistic stem as the search term, e.g. ##forest finds words with the same stem as forest such as forested or forests.</dd>
+												<dt><span class="text-info font-weight-bold">( )</span></dt>
+												<dd>Parentheses can be used to group terms for complex operations (e.g. Basiliscus &amp; (FUZZY(Honduras) | (Panama ! Canal)) will return results with a fuzzy match to Honduras, or Panama but not Canal).</dd>
+												<dt><span class="text-info font-weight-bold">%</span></dt> 
+												<dd>The percent wildcard, matches any number of characters, e.g. %bridge matches Cambridge, bridge, and Stockbridge.</dd>
+												<dt><span class="text-info font-weight-bold">_</span> </dt><dd> The underscore wildcard, matches exactly one character and allows for any character to takes its place.</dd>
+											</dl>
 										</div>
 									</div>
+								</div>
 								<section role="search" class="container-fluid">
 								
 									<form name= "keywordSearchForm" id="keywordSearchForm">
