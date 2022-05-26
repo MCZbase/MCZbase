@@ -959,93 +959,103 @@ limitations under the License.
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">	
-									<script>
-										/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
-										jQuery(document).ready(function() {
-											getPoints();
-										});
-										let map, heatmap;
-												function initMap() {
-														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-													map = new google.maps.Map(document.getElementById('map'), {
-														center: Cambridge,
-														zoom: 2,
-														mapTypeControl: true,
-														mapTypeControlOptions: {
-															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-															mapTypeIds: ["satellite", "terrain"],
-															zoomControl:false,
-														},
-														mapTypeId: 'satellite'
-													});
-													heatmap = new google.maps.visualization.HeatmapLayer({
-														data: getPoints(),
-															map: map,
-													});
-														document
-															.getElementById("change-gradient")
-															.addEventListener("click", changeGradient);
-												}
-												function toggleHeatmap(){
-													heatmap.setMap(heatmap.getMap() ? null : map);
-												}
-												function changeGradient() {
-													const gradient = [
-														"rgba(0, 255, 255, 0)",
-														"rgba(0, 255, 255, 1)",
-														"rgba(0, 191, 255, 1)",
-														"rgba(0, 127, 255, 1)",
-														"rgba(0, 63, 255, 1)",
-														"rgba(0, 0, 255, 1)",
-														"rgba(0, 0, 223, 1)",
-														"rgba(0, 0, 191, 1)",
-														"rgba(0, 0, 159, 1)",
-														"rgba(0, 0, 127, 1)",
-														"rgba(63, 0, 91, 1)",
-														"rgba(127, 0, 63, 1)",
-														"rgba(191, 0, 31, 1)",
-														"rgba(255, 0, 0, 1)",
-													];
-													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-												}
-												function getPoints(){
-													return [
-													<cfloop query="points">
-														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-													</cfloop>
-													]
-												}
-												var bounds = new google.maps.LatLngBounds();
-												var mapOptions = {
-														zoom: 1,
-														center: new google.maps.LatLng(lat, lng),
-														mapTypeId: google.maps.MapTypeId.ROADMAP,
-														panControl: false,
-														scaleControl: false,
-														fullscreenControl: false,
-														zoomControl: false
-													};
-												var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
-												var center=new google.maps.LatLng(lat,lng);
-												for (i = 0; i < LatLngs.length; i++) {
-													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-													marker = new google.maps.Marker({
-														position: position,
-														map: map
-													});
-													bounds.extend(position)
-												}
-											//	map.fitBounds(bounds);
-										//function mapsYo(){
-												//$("input[id^='coordinates_']").each(function(e){
-													var locid=this.id.split('_')[1];
-													var coords=this.value;
-													//var bounds = new google.maps.LatLngBounds();
-													var polygonArray = [];
-													var ptsArray=[];
-													var lat=coords.split(',')[0];
-													var lng=coords.split(',')[1];
-													var errorm=$("##error_" + locid).val();
+									<div class="heatmap">
+										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async>
+										</script>
+										<script>
+											let map, heatmap;
+											function initMap() {
+													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+												map = new google.maps.Map(document.getElementById('map'), {
+													center: Cambridge,
+													zoom: 2,
+													mapTypeControl: true,
+													mapTypeControlOptions: {
+														style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+														mapTypeIds: ["satellite", "terrain"],
+														zoomControl:false,
+													},
+													mapTypeId: 'satellite'
+												});
+												heatmap = new google.maps.visualization.HeatmapLayer({
+													data: getPoints(),
+														map: map,
+												});
+													document
+														.getElementById("change-gradient")
+														.addEventListener("click", changeGradient);
+											}
+											function toggleHeatmap(){
+												heatmap.setMap(heatmap.getMap() ? null : map);
+											}
+											function changeGradient() {
+												const gradient = [
+													"rgba(0, 255, 255, 0)",
+													"rgba(0, 255, 255, 1)",
+													"rgba(0, 191, 255, 1)",
+													"rgba(0, 127, 255, 1)",
+													"rgba(0, 63, 255, 1)",
+													"rgba(0, 0, 255, 1)",
+													"rgba(0, 0, 223, 1)",
+													"rgba(0, 0, 191, 1)",
+													"rgba(0, 0, 159, 1)",
+													"rgba(0, 0, 127, 1)",
+													"rgba(63, 0, 91, 1)",
+													"rgba(127, 0, 63, 1)",
+													"rgba(191, 0, 31, 1)",
+													"rgba(255, 0, 0, 1)",
+												];
+												heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+											}
+											function getPoints(){
+												return [
+												<cfloop query="points">
+													new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+												</cfloop>
+												]
+											}
+											var bounds = new google.maps.LatLngBounds();
+											var mapOptions = {
+												zoom: 1,
+												center: new google.maps.LatLng(lat, lng),
+												mapTypeId: google.maps.MapTypeId.ROADMAP,
+												panControl: false,
+												scaleControl: false,
+												fullscreenControl: false,
+												zoomControl: false
+											};
+											for (i = 0; i < LatLngs.length; i++) {
+												position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+												marker = new google.maps.Marker({
+													position: position,
+													map: map
+												});
+												bounds.extend(position)
+											}
+											map.fitBounds(bounds);
+										</script>
+										<div class="p-1 mx-1">
+											<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
+											<div id="floating-panel" class="w-100 mx-auto">
+												<span class="text-left d-block float-left">Collecting Events</span>
+												<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Color</button>
+											</div>
+										</div>
+								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
+<!---//										/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
+//										jQuery(document).ready(function() {
+//											mapsYo();
+//										});
+//											function mapsYo(){
+//												$("input[id^='coordinates_']").each(function(e){
+//													var locid=this.id.split('_')[1];
+//													var coords=this.value;
+//													var bounds = new google.maps.LatLngBounds();
+//													var polygonArray = [];
+//													var ptsArray=[];
+//													var lat=coords.split(',')[0];
+//													var lng=coords.split(',')[1];
+//													var errorm=$("##error_" + locid).val();
 //													var mapOptions = {
 //														zoom: 1,
 //														center: new google.maps.LatLng(lat, lng),
@@ -1055,94 +1065,94 @@ limitations under the License.
 //														fullscreenControl: false,
 //														zoomControl: false
 //													};
-													//var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
-
-													//var center=new google.maps.LatLng(lat,lng);
-													var marker = new google.maps.Marker({
-														position: center,
-														map: map,
-														zIndex: 10
-													});
-													bounds.extend(center);
-													if (parseInt(errorm)>0){
-														var circleoptn = {
-															strokeColor: '##FF0000',
-															strokeOpacity: 0.8,
-															strokeWeight: 2,
-															fillColor: '##FF0000',
-															fillOpacity: 0.15,
-															map: map,
-															center: center,
-															radius: parseInt(errorm),
-															zIndex:-99
-														};
-														crcl = new google.maps.Circle(circleoptn);
-														bounds.union(crcl.getBounds());
-													}
-													// WKT can be big and slow, so async fetch
-													$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
-														  if (wkt.length>0){
-															var regex = /\(([^()]+)\)/g;
-															var Rings = [];
-															var results;
-															while( results = regex.exec(wkt) ) {
-																Rings.push( results[1] );
-															}
-															for(var i=0;i<Rings.length;i++){
-																// for every polygon in the WKT, create an array
-																var lary=[];
-																var da=Rings[i].split(",");
-																for(var j=0;j<da.length;j++){
-																	// push the coordinate pairs to the array as LatLngs
-																	var xy = da[j].trim().split(" ");
-																	var pt=new google.maps.LatLng(xy[1],xy[0]);
-																	lary.push(pt);
-																	//console.log(lary);
-																	bounds.extend(pt);
-																}
-																// now push the single-polygon array to the array of arrays (of polygons)
-																ptsArray.push(lary);
-															}
-															var poly = new google.maps.Polygon({
-																paths: ptsArray,
-																strokeColor: '##1E90FF',
-																strokeOpacity: 0.8,
-																strokeWeight: 2,
-																fillColor: '##1E90FF',
-																fillOpacity: 0.35
-															});
-															poly.setMap(map);
-															polygonArray.push(poly);
-															// END this block build WKT
-															} else {
-																$("##mapdiv_" + locid).addClass('noWKT');
-															}
-															if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-															   var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-															   var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-															   bounds.extend(extendPoint1);
-															   bounds.extend(extendPoint2);
-															}
-															map.fitBounds(bounds);
-															for(var a=0; a<polygonArray.length; a++){
-																if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-																	$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
-																} else {
-																	$("##mapdiv_" + locid).addClass('niceGeoSPatData');
-																}
-															}
-														});
-														map.fitBounds(bounds);
-												});
-											//}
-										</script>
+//													var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+//
+//													var center=new google.maps.LatLng(lat,lng);
+//													var marker = new google.maps.Marker({
+//														position: center,
+//														map: map,
+//														zIndex: 10
+//													});
+//													bounds.extend(center);
+//													if (parseInt(errorm)>0){
+//														var circleoptn = {
+//															strokeColor: '##FF0000',
+//															strokeOpacity: 0.8,
+//															strokeWeight: 2,
+//															fillColor: '##FF0000',
+//															fillOpacity: 0.15,
+//															map: map,
+//															center: center,
+//															radius: parseInt(errorm),
+//															zIndex:-99
+//														};
+//														crcl = new google.maps.Circle(circleoptn);
+//														bounds.union(crcl.getBounds());
+//													}
+//													// WKT can be big and slow, so async fetch
+//													$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
+//														  if (wkt.length>0){
+//															var regex = /\(([^()]+)\)/g;
+//															var Rings = [];
+//															var results;
+//															while( results = regex.exec(wkt) ) {
+//																Rings.push( results[1] );
+//															}
+//															for(var i=0;i<Rings.length;i++){
+//																// for every polygon in the WKT, create an array
+//																var lary=[];
+//																var da=Rings[i].split(",");
+//																for(var j=0;j<da.length;j++){
+//																	// push the coordinate pairs to the array as LatLngs
+//																	var xy = da[j].trim().split(" ");
+//																	var pt=new google.maps.LatLng(xy[1],xy[0]);
+//																	lary.push(pt);
+//																	//console.log(lary);
+//																	bounds.extend(pt);
+//																}
+//																// now push the single-polygon array to the array of arrays (of polygons)
+//																ptsArray.push(lary);
+//															}
+//															var poly = new google.maps.Polygon({
+//																paths: ptsArray,
+//																strokeColor: '##1E90FF',
+//																strokeOpacity: 0.8,
+//																strokeWeight: 2,
+//																fillColor: '##1E90FF',
+//																fillOpacity: 0.35
+//															});
+//															poly.setMap(map);
+//															polygonArray.push(poly);
+//															// END this block build WKT
+//															} else {
+//																$("##mapdiv_" + locid).addClass('noWKT');
+//															}
+//															if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+//															   var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+//															   var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+//															   bounds.extend(extendPoint1);
+//															   bounds.extend(extendPoint2);
+//															}
+//															map.fitBounds(bounds);
+//															for(var a=0; a<polygonArray.length; a++){
+//																if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+//																	$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
+//																} else {
+//																	$("##mapdiv_" + locid).addClass('niceGeoSPatData');
+//																}
+//															}
+//														});
+//														map.fitBounds(bounds);
+//												});
+//											}--->
+					
 							
-									<cfif len(points2.dec_lat) gt 0 and len(points2.dec_long) gt 0>
+<!---									<cfif len(points2.dec_lat) gt 0 and len(points2.dec_long) gt 0>
 										<cfset coordinates="#points2.dec_lat#,#points2.dec_long#">
 										<input type="hidden" id="coordinates_#points2.locality_id#" value="#coordinates#">
 										<input type="hidden" id="error_#points2.locality_id#" value="1196">
 										<div id="mapdiv_#points2.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
-									</cfif>
+									</cfif>--->
 								</section>
 							</cfif>	
 							<!--- Collector of families --->
@@ -1647,6 +1657,7 @@ limitations under the License.
 								</section>
 							</cfif>
 						</div>
+								</div>
 						<div class="d-block mb-0 mb-xl-5 float-left h-auto col-12 col-md-5 col-xl-5 px-0 px-md-1">
 							<!--- loan item reconciliation --->
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
