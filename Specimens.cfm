@@ -373,7 +373,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="phylum" class="data-entry-label">Phylum
-														<button tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##phylum').autocomplete('search','%');" > (&##8595;) <span class="sr-only">open pick list</span></button>
+														<button tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></button>
 													</label>
 													<cfif not isdefined("phylum")><cfset phylum=""></cfif>
 													<input id="phylum" name="phylum" class="data-entry-input" value="#encodeForHtml(phylum)#" >
