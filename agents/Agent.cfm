@@ -818,7 +818,14 @@ limitations under the License.
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">		
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-										<div class="heatmap">
+									<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
+										<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
+										<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
+										<input type="hidden" id="error_#getLoc.locality_id#" value="1196">
+										<div id="mapdiv_#getLoc.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+										<!---span class="infoLink mapdialog">map key/tools</div--->
+									</cfif>
+									<!---	<div class="heatmap">
 											<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 											<script>
 												let map, heatmap;
@@ -893,9 +900,9 @@ limitations under the License.
 													<span class="text-left d-block float-left">Collecting Events</span>
 													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Color</button>
 												</div>
-											</div>
+											</div>--->
 								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
-								</div>
+								<!--</div>--->
 							</section>
 							</cfif>	
 							<!--- Collector of families --->
