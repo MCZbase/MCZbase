@@ -833,12 +833,12 @@ limitations under the License.
 														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														zoom: 1,
-														mapTypeControl: false,
+														zoom: 2,
+														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 															mapTypeIds: ["satellite", "terrain"],
-															zoomControl:true,
+															zoomControl:false,
 														},
 														mapTypeId: 'roadmap'
 													});
@@ -846,7 +846,6 @@ limitations under the License.
 														data: getPoints(),
 															map: map,
 													});
-													bounds.extend(center);
 														document
 															.getElementById("change-gradient")
 															.addEventListener("click", changeGradient);
