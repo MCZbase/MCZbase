@@ -833,20 +833,18 @@ limitations under the License.
 														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														zoomControl:true,
-zoomControlOptions: {
-    style:google.maps.ZoomControlStyle.SMALL
-},
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 															mapTypeIds: ["satellite", "terrain"],
-															zoomControl:false,
+															zoomControl:true,
+															zoomControlOptions: {
+																style:google.maps.ZoomControlStyle.SMALL
+															},
 														},
 														mapTypeId: 'roadmap'
 													});
-												
-												heatmap = new google.maps.visualization.HeatmapLayer({
+													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
 															map: map,
 													});
