@@ -138,6 +138,8 @@ limitations under the License.
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
 					<h1 class="h3 smallcaps pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+					<!--- populated with download dialog for external users --->
+					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
@@ -2549,6 +2551,8 @@ limitations under the License.
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 				<cfif oneOfUs EQ 1>
 					$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+				<cfelse>
+					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadAgreeDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " >Export to CSV</button>`);
 				</cfif>
 			</cfif>
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 

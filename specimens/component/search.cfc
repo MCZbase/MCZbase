@@ -2355,4 +2355,258 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfheader name="Content-Type" value="text/csv">
 <cfoutput>#retval#</cfoutput>
 </cffunction>
+
+
+<cffunction name="getDownloadDialogHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="filename" type="string" required="yes">
+	<cfthread name="getDownloadDialogThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getUserData" datasource="cf_dbuser">
+					SELECT 
+						cf_users.user_id,
+						first_name,
+						middle_name,
+						last_name,
+						affiliation,
+						email
+					FROM 
+						cf_user_data left join cf_users on cf_user_data.user_id = cf_users.user_id 
+					WHERE
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
+				<h3>Download Agreement</h3>
+				<form name="downloadForm" id="downloadForm">
+					<input type="hidden" name="user_id" value="#getUserData.user_id#">
+					<input type="hidden" name="result_id" value="#result_id#">
+					<div class="form-row">
+						<div class="col-12 p-1">
+							You must fill out this form before you may download data. Fields with a <input type="text" size="6" class="reqdClr" value="yellow" disabled aria-label="yellow"> background color are required.
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-4">
+							<label for="first_name" class="data-entry-label">First Name</label>
+							<input type="text" name="first_name" id="first_name" value="#getUserData.first_name#" class="data-entry-input reqdClr" required>
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="middle_name" class="data-entry-label">Middle Name</label>
+							<input type="text" name="middle_name" id="middle_name" value="#getUserData.middle_name#" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="last_name" class="data-entry-label">Last Name</label>
+							<input type="text" name="last_name" id="last_name" value="#getUserData.last_name#" class="data-entry-input reqdClr" required>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-8">
+							<label for="affiliation" class="data-entry-label">Affiliation</label>
+							<input type="text" name="affiliation" id="affiliation" value="#getUserData.affiliation#" class="data-entry-input reqdClr" required>
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="download_purpose" class="data-entry-label">Purpose of Download</td>
+							<cfquery name="ctPurpose" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select * from ctdownload_purpose
+							</cfquery>
+							<select name="download_purpose" id="download_purpose" size="1" class="reqdClr data-entry-select" required>
+								<cfloop query="ctPurpose">
+									<option value="#ctPurpose.download_purpose#">#ctPurpose.download_purpose#</option>
+								</cfloop>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<a rel="license" id="cc_by_nc" href="http://creativecommons.org/licenses/by-nc/4.0/legalcode" title="Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License"><img src="/shared/images/cc-by-nc.svg" height="31" width="88"></a>
+							<p property="dc:license">
+								The publisher and rights holder of this work is The Museum of Comparative Zoology, Harvard University.
+								Copyright © #year(now())# President and Fellows of Harvard College, Some Rights Reserved. This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc/4.0/legalcode">Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License</a>.
+							</p>
+						</div>
+						<div class="col-12">
+							These data are intended for use in education and research and may not be used for commercial purposes
+							without prior written consent from the Museum. Those wishing to include these data in analyses or reports must acknowledge 
+							the provenance of the original data and notify the appropriate curator prior to publication. These are secondary data, and
+							their accuracy is not guaranteed. Citation of the data is no substitute for examination of specimens. The Museum and its staff 
+		 					are not responsible for loss or damages due to use of these data.  The entire MCZbase dataset can be cited with the doi:10.15468/p5rupv
+							researchers are encouraged to search for relevant <a href="https://www.gbif.org/occurrence/search?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">MCZ data in GBIF</a> and cite the DOI GBIF provides for a search result. 
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-8">
+							<label for="email" class="data-entry-label">Email</td>
+							<input type="text" name="email" id="email" value="#getUserData.email#" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="agree">I agree.</label>
+							<input type="checkbox" name="agree" id="agree" value="yes" onclick="handleAgreeClick();" >
+							<script>
+								function handleAgreeClick() {
+									var valid = false;
+									if ($("##first_name").val()!="" && $("##last_name").val()!="" && $("##affiliation").val()!="" ) { 
+										valid = true;
+									}			
+									if(valid && $("##agree").prop('checked')==true) {
+										$("##specimencsvdownloadbutton").removeClass("disabled");
+									} else { 
+										$("##specimencsvdownloadbutton").addClass("disabled");
+									}
+								}
+								function handleDownloadClick() {
+									jQuery.ajax({
+										dataType: "json",
+										url: "/specimens/component/search.cfc",
+										data: { 
+											method : "logExternalDownload",
+											result_id :  "#result_id#",
+											first_name :  $("##first_name").val(),
+											middle_name : $("##middle_name").val(),
+											last_name : $("##last_name").val(),
+											affiliation : $("##affiliation").val(),
+											download_purpose : $("##download_purpose").val(),
+											email : $("##email").val(),
+											agree : $("##agree").val()
+										},
+										error: function (jqXHR, status, message) {
+											console.log("Error logging download [#result_id#]: " + status + " " + jqXHR.responseText);
+										},
+										success: function (result) {
+											console.log("Logged download of #result_id# ");
+										}
+									});
+									return true;
+								}
+							</script>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" onclick="handleDownloadClick();" >Download as CSV</a>
+						</div>
+					</div>
+				</form>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">"Feedback/Report Errors"</a></p>
+							</div>
+						</div>
+					</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getDownloadDialogThread" />
+	<cfreturn getDownloadDialogThread.output>
+</cffunction>
+
+<cffunction name="logExternalDownload" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="first_name" type="string" required="yes">
+	<cfargument name="last_name" type="string" required="yes">
+	<cfargument name="affiliation" type="string" required="yes">
+	<cfargument name="middle_name" type="string" required="no">
+	<cfargument name="email" type="string" required="no">
+	<cfargument name="download_purpose" type="string" required="no">
+	<cfargument name="agree" type="string" required="no">
+	<cfthread name="logDownloadThread">
+		<cftry>
+			<cfquery name="getUserID" datasource="cf_dbuser">
+				SELECT cf_users.user_id
+				FROM cf_users
+				WHERE
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset user_id = getUserID.user_id>
+			<cfquery name="isUser" datasource="cf_dbuser">
+				select * from cf_user_data where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+			</cfquery>
+			<cfif #isUser.recordcount# is 1>
+				<!---- already have a user_data entry ---->
+				<cfquery name="upUser" datasource="cf_dbuser">
+					UPDATE cf_user_data SET
+						first_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+						last_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+						affiliation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
+						<cfif len(#middle_name#) gt 0>
+							,middle_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
+						</cfif>
+						<cfif len(#email#) gt 0>
+							,email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						</cfif>
+					WHERE
+						user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
+				</cfquery>
+			<cfelse>
+				<!---- registered, but haven't created a profile entry yet. ---->
+				<cfquery name="newUser" datasource="cf_dbuser">
+					INSERT INTO cf_user_data (
+						user_id,
+						first_name,
+						last_name,
+						affiliation
+						<cfif len(#middle_name#) gt 0>
+							,middle_name
+						</cfif>
+						<cfif len(#email#) gt 0>
+							,email
+						</cfif>
+						)
+					VALUES (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#first_name#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#last_name#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#affiliation#">
+						<cfif len(#middle_name#) gt 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#middle_name#">
+						</cfif>
+						<cfif len(#email#) gt 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+						</cfif>
+						)
+				</cfquery>
+			</cfif>
+			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT count(*) ct
+				FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+					join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
+				WHERE
+					user_search_table.result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			</cfquery>
+			<cfquery name="dl" datasource="cf_dbuser">
+				INSERT INTO cf_download (
+					user_id,
+					download_purpose,
+					download_date,
+					num_records,
+					agree_to_terms
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#download_purpose#">,
+					sysdate,
+					nvl(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getData.ct#">,0),
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agree#">
+				)
+			</cfquery>
+		<cfcatch>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfset retval="">
+	<cfreturn retval >
+</cffunction>
+
 </cfcomponent>
