@@ -837,10 +837,6 @@ limitations under the License.
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 															mapTypeIds: ["satellite", "terrain"],
-															zoomControl:true,
-															zoomControlOptions: {
-																style:google.maps.ZoomControlStyle.SMALL
-															}
 														},
 														mapTypeId: 'roadmap'
 													});
