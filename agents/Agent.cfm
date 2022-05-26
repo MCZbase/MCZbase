@@ -813,7 +813,7 @@ limitations under the License.
 									accepted_lat_long.lat_long_ref_source,
 									accepted_lat_long.lat_long_remarks,
 									accepted_lat_long.orig_lat_long_units,
-									accepted_lat_long.datum,
+									accepted_lat_long.datum
 								FROM locality
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 										on flat.locality_id = locality.locality_id
