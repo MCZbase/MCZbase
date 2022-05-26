@@ -1014,7 +1014,7 @@ limitations under the License.
 												</cfloop>
 												]
 											}
-											var bounds = new google.maps.LatLngBounds();
+											//var bounds = new google.maps.LatLngBounds();
 											var mapOptions = {
 												zoom: 1,
 												center: new google.maps.LatLng(lat, lng),
