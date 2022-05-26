@@ -834,17 +834,39 @@ limitations under the License.
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
 														zoom: 1,
-														mapTypeControl: false
-														//mapTypeControlOptions: {
-//															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-//															mapTypeIds: ["satellite", "terrain"],
-//															zoomControl:true,
-//														},
+														mapTypeControl: false,
+														mapTypeControlOptions: {
+															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+															mapTypeIds: ["satellite", "terrain"],
+															zoomControl:true,
+														},
+														mapTypeId: 'satellite'
 													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
 															map: map,
 													});
+													bounds.extend(center);
+													if (parseInt(errorm)>0){
+														var circleoptn = {
+															strokeColor: '##FF0000',
+															strokeOpacity: 0.8,
+															strokeWeight: 2,
+															fillColor: '##FF0000',
+															fillOpacity: 0.15,
+															map: map,
+															center: center,
+															radius: parseInt(errorm),
+															zIndex:-99
+														};
+													var locid=this.id.split('_')[1];
+									
+									var lat=coords.split(',')[0];
+									var lng=coords.split(',')[1];
+									var errorm=$("##error_" + locid).val();
+														crcl = new google.maps.Circle(circleoptn);
+														bounds.union(crcl.getBounds());
+													}
 														document
 															.getElementById("change-gradient")
 															.addEventListener("click", changeGradient);
