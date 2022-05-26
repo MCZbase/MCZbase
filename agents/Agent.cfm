@@ -1050,8 +1050,9 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
-<!---//										/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
+							</section>
+							</cfif>
+<!---
 //										jQuery(document).ready(function() {
 //											mapsYo();
 //										});
@@ -1162,7 +1163,7 @@ limitations under the License.
 										<input type="hidden" id="error_#points2.locality_id#" value="1196">
 										<div id="mapdiv_#points2.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 									</cfif>--->
-								</section>
+							
 						<!---	</cfif>	--->
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
