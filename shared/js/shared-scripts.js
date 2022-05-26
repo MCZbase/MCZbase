@@ -1688,6 +1688,7 @@ function openDownloadAgreeDialog(dialogid, result_id, filename) {
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
+	h = Math.floor(h *.9);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,

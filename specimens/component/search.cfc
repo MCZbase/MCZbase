@@ -2396,7 +2396,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="last_name" class="data-entry-label">Last Name</label>
-							<input type="text" name="last_name" value="#getUserData.last_name#" class="data-entry-input reqdClr" required>
+							<input type="text" name="last_name" id="last_name" value="#getUserData.last_name#" class="data-entry-input reqdClr" required>
 						</div>
 					</div>
 					<div class="form-row">
