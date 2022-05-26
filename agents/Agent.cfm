@@ -830,10 +830,19 @@ limitations under the License.
 											<script>
 												let map, heatmap;
 												function initMap() {
-														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													var mapOptions = {
+														zoom: 1,
+														center: new google.maps.LatLng(mylat, mylng),
+														mapTypeId: google.maps.MapTypeId.ROADMAP,
+														panControl: false,
+														scaleControl: false,
+														fullscreenControl: false,
+														zoomControl: false
+													};
 													map = new google.maps.Map(document.getElementById('map'), {
-														center: Cambridge,
-														zoom: 2,
+														//center: Cambridge,
+														//zoom: 2,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
