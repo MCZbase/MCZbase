@@ -905,7 +905,7 @@ limitations under the License.
 									cataloged_item.accn_id =  accn.transaction_id  AND
 									accn.transaction_id = trans.transaction_id(+) AND
 									cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND 
-									collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									collector.agent_id = 3359
 							</cfquery>	
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
