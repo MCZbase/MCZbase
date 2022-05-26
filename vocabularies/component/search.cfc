@@ -157,6 +157,9 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 	<cfelseif codetable EQ "GEOLOGY_ATTRIBUTES">
 		<cfset fieldname = "GEOLOGY_ATTRIBUTE">
 		<cfset codetable = "CT#codetable#">
+	<cfelseif codetable EQ "SPECPART_ATTRIBUTE_TYPE">
+		<cfset fieldname = "ATTRIBUTE_TYPE">
+		<cfset codetable = "CT#codetable#">
 	<cfelse>
 		<cfset codetable = "CT#codetable#">
 	</cfif>
