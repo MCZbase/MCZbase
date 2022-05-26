@@ -2361,21 +2361,21 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfargument name="result_id" type="string" required="yes">
 	<cfargument name="filename" type="string" required="yes">
 	<cfthread name="getDownloadDialogThread">
-		<cftry>
-			<cfquery name="getUserData" datasource="cf_dbuser">
-				SELECT 
-					cf_users.user_id,
-					first_name,
-					middle_name,
-					last_name,
-					affiliation,
-					email
-				FROM 
-					cf_user_data left join cf_users on cf_user_data.user_id = cf_users.user_id 
-				WHERE
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfoutput>
+		<cfoutput>
+			<cftry>
+				<cfquery name="getUserData" datasource="cf_dbuser">
+					SELECT 
+						cf_users.user_id,
+						first_name,
+						middle_name,
+						last_name,
+						affiliation,
+						email
+					FROM 
+						cf_user_data left join cf_users on cf_user_data.user_id = cf_users.user_id 
+					WHERE
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				</cfquery>
 				<h3>Download Agreement</h3>
 				<form name="downloadForm" id="downloadForm">
 					<input type="hidden" name="user_id" value="#getUserData.user_id#">
