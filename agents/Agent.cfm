@@ -827,7 +827,7 @@ limitations under the License.
 										on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 							</cfquery>	
-							</cfouput>
+							</cfoutput>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">	
@@ -937,14 +937,14 @@ limitations under the License.
 												});
 											}
 										</script>
-								<output>
+								<cfoutput>
 									<cfif len(points2.dec_lat) gt 0 and len(points2.dec_long) gt 0>
 										<cfset coordinates="#points2.dec_lat#,#points2.dec_long#">
 										<input type="hidden" id="coordinates_#points2.locality_id#" value="#coordinates#">
 										<input type="hidden" id="error_#points2.locality_id#" value="1196">
 										<div id="mapdiv_#points2.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 									</cfif>
-								</output>
+								</cfoutput>
 							</section>
 							</cfif>	
 							<!--- Collector of families --->
