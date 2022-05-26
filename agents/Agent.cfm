@@ -810,7 +810,18 @@ limitations under the License.
 								</div>
 							</section>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
-								SELECT
+								
+								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
+								FROM locality
+									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									on flat.locality_id = locality.locality_id
+									left join lat_long on lat_long.locality_id = flat.locality_id
+									left join collector on collector.collection_object_id = flat.collection_object_id
+									left join agent
+									on agent.agent_id = collector.agent_id
+								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								
+								<!---SELECT
 									cataloged_item.collection_object_id as collection_object_id,
 									cataloged_item.cat_num,
 									collection.collection_cde,
@@ -943,7 +954,7 @@ limitations under the License.
 									cataloged_item.accn_id =  accn.transaction_id  AND
 									accn.transaction_id = trans.transaction_id(+) AND
 									cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND 
-									collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
+									collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">--->
 							</cfquery>	
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
@@ -951,19 +962,61 @@ limitations under the License.
 									<script>
 										/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 										jQuery(document).ready(function() {
-											mapsYo();
+											getPoints();
 										});
-											function mapsYo(){
-												$("input[id^='coordinates_']").each(function(e){
-													var locid=this.id.split('_')[1];
-													var coords=this.value;
-													var bounds = new google.maps.LatLngBounds();
-													var polygonArray = [];
-													var ptsArray=[];
-													var lat=coords.split(',')[0];
-													var lng=coords.split(',')[1];
-													var errorm=$("##error_" + locid).val();
-													var mapOptions = {
+										let map, heatmap;
+												function initMap() {
+														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													map = new google.maps.Map(document.getElementById('map'), {
+														center: Cambridge,
+														zoom: 2,
+														mapTypeControl: true,
+														mapTypeControlOptions: {
+															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+															mapTypeIds: ["satellite", "terrain"],
+															zoomControl:false,
+														},
+														mapTypeId: 'satellite'
+													});
+													heatmap = new google.maps.visualization.HeatmapLayer({
+														data: getPoints(),
+															map: map,
+													});
+														document
+															.getElementById("change-gradient")
+															.addEventListener("click", changeGradient);
+												}
+												function toggleHeatmap(){
+													heatmap.setMap(heatmap.getMap() ? null : map);
+												}
+												function changeGradient() {
+													const gradient = [
+														"rgba(0, 255, 255, 0)",
+														"rgba(0, 255, 255, 1)",
+														"rgba(0, 191, 255, 1)",
+														"rgba(0, 127, 255, 1)",
+														"rgba(0, 63, 255, 1)",
+														"rgba(0, 0, 255, 1)",
+														"rgba(0, 0, 223, 1)",
+														"rgba(0, 0, 191, 1)",
+														"rgba(0, 0, 159, 1)",
+														"rgba(0, 0, 127, 1)",
+														"rgba(63, 0, 91, 1)",
+														"rgba(127, 0, 63, 1)",
+														"rgba(191, 0, 31, 1)",
+														"rgba(255, 0, 0, 1)",
+													];
+													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+												}
+												function getPoints(){
+													return [
+													<cfloop query="points">
+														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+													</cfloop>
+													]
+												}
+												var bounds = new google.maps.LatLngBounds();
+												var mapOptions = {
 														zoom: 1,
 														center: new google.maps.LatLng(lat, lng),
 														mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -972,9 +1025,39 @@ limitations under the License.
 														fullscreenControl: false,
 														zoomControl: false
 													};
-													var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+												var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+												var center=new google.maps.LatLng(lat,lng);
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+													bounds.extend(position)
+												}
+											//	map.fitBounds(bounds);
+										//function mapsYo(){
+												//$("input[id^='coordinates_']").each(function(e){
+													var locid=this.id.split('_')[1];
+													var coords=this.value;
+													//var bounds = new google.maps.LatLngBounds();
+													var polygonArray = [];
+													var ptsArray=[];
+													var lat=coords.split(',')[0];
+													var lng=coords.split(',')[1];
+													var errorm=$("##error_" + locid).val();
+//													var mapOptions = {
+//														zoom: 1,
+//														center: new google.maps.LatLng(lat, lng),
+//														mapTypeId: google.maps.MapTypeId.ROADMAP,
+//														panControl: false,
+//														scaleControl: false,
+//														fullscreenControl: false,
+//														zoomControl: false
+//													};
+													//var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
-													var center=new google.maps.LatLng(lat,lng);
+													//var center=new google.maps.LatLng(lat,lng);
 													var marker = new google.maps.Marker({
 														position: center,
 														map: map,
@@ -1051,7 +1134,7 @@ limitations under the License.
 														});
 														map.fitBounds(bounds);
 												});
-											}
+											//}
 										</script>
 							
 									<cfif len(points2.dec_lat) gt 0 and len(points2.dec_long) gt 0>
