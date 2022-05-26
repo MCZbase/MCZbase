@@ -1714,7 +1714,7 @@ function openDownloadAgreeDialog(dialogid, result_id, filename) {
 		url: "/specimens/component/search.cfc",
 		type: "post",
 		data: { 
-			method: "getNewPermitForTransHtml",
+			method: "getDownloadDialogHTML",
 			returnformat: "plain",
 			result_id : result_id,
 			filename : filename
