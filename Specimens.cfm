@@ -428,7 +428,9 @@ limitations under the License.
 											</div>
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-2">
-													<label for="type_status" class="data-entry-label">Type Status/Citation</label>
+													<label for="type_status" class="data-entry-label">Type Status/Citation
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
 													<cfif not isdefined("type_status")><cfset type_status=""></cfif>
 													<input type="text" class="data-entry-input" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 													<script>
