@@ -818,7 +818,7 @@ limitations under the License.
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 										on flat.locality_id = locality.locality_id
 									left join accepted_lat_long 
-										on lat_long.locality_id = flat.locality_id
+										on accepted_lat_long.locality_id = flat.locality_id
 									left join collector 
 										on collector.collection_object_id = flat.collection_object_id
 									left join agent
