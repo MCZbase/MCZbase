@@ -1024,6 +1024,13 @@ limitations under the License.
 												fullscreenControl: false,
 												zoomControl: false
 											};
+											var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+											var center=new google.maps.LatLng(lat,lng);
+											var marker = new google.maps.Marker({
+												position: center,
+												map: map,
+												zIndex: 10
+											});
 											for (i = 0; i < LatLngs.length; i++) {
 												position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
 												marker = new google.maps.Marker({
