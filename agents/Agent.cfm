@@ -836,7 +836,7 @@ limitations under the License.
 														zoom: 1,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
-															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+															//style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 															mapTypeIds: ["satellite", "terrain"],
 															zoomControl:true,
 														},
