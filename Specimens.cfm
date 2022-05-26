@@ -557,7 +557,9 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="col-12 col-md-2">
-													<label for="sea" class="data-entry-label">Sea</label>
+													<label for="sea" class="data-entry-label">Sea
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+													</label>
 													<cfif not isdefined("sea")><cfset sea=""></cfif>
 													<input type="text" class="data-entry-input" id="sea" name="sea" value="#encodeForHtml(sea)#">
 													<script>
