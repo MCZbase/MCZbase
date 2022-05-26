@@ -150,10 +150,10 @@ limitations under the License.
 								ORDER BY agent_relationship
 						</cfquery>
 						<script>
-						/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
-						jQuery(document).ready(function() {
-							mapsYo();
-						});
+							/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
+							jQuery(document).ready(function() {
+								mapsYo();
+							});
 							function mapsYo(){
 								$("input[id^='coordinates_']").each(function(e){
 									var locid=this.id.split('_')[1];
@@ -803,35 +803,32 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
-						<cfouput>
-							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
-								SELECT 
-									accepted_lat_long.dec_lat,
-									accepted_lat_long.dec_long,
-									accepted_lat_long.max_error_distance,
-									accepted_lat_long.max_error_units,
-									accepted_lat_long.determined_date latLongDeterminedDate,
-									accepted_lat_long.lat_long_ref_source,
-									accepted_lat_long.lat_long_remarks,
-									accepted_lat_long.orig_lat_long_units,
-									accepted_lat_long.datum,
-									accepted_lat_long.locality_id
-								FROM locality
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-										on flat.locality_id = locality.locality_id
-									left join accepted_lat_long 
-										on accepted_lat_long.locality_id = flat.locality_id
-									left join collector 
-										on collector.collection_object_id = flat.collection_object_id
-									left join agent
-										on agent.agent_id = collector.agent_id
-								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-							</cfquery>	
-							</cfoutput>
+								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
+									SELECT 
+										accepted_lat_long.dec_lat,
+										accepted_lat_long.dec_long,
+										accepted_lat_long.max_error_distance,
+										accepted_lat_long.max_error_units,
+										accepted_lat_long.determined_date latLongDeterminedDate,
+										accepted_lat_long.lat_long_ref_source,
+										accepted_lat_long.lat_long_remarks,
+										accepted_lat_long.orig_lat_long_units,
+										accepted_lat_long.datum,
+										accepted_lat_long.locality_id
+									FROM locality
+										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+											on flat.locality_id = locality.locality_id
+										left join accepted_lat_long 
+											on accepted_lat_long.locality_id = flat.locality_id
+										left join collector 
+											on collector.collection_object_id = flat.collection_object_id
+										left join agent
+											on agent.agent_id = collector.agent_id
+									WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								</cfquery>	
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">	
-							
 									<script>
 										/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 										jQuery(document).ready(function() {
@@ -937,15 +934,14 @@ limitations under the License.
 												});
 											}
 										</script>
-								<cfoutput>
+							
 									<cfif len(points2.dec_lat) gt 0 and len(points2.dec_long) gt 0>
 										<cfset coordinates="#points2.dec_lat#,#points2.dec_long#">
 										<input type="hidden" id="coordinates_#points2.locality_id#" value="#coordinates#">
 										<input type="hidden" id="error_#points2.locality_id#" value="1196">
 										<div id="mapdiv_#points2.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 									</cfif>
-								</cfoutput>
-							</section>
+								</section>
 							</cfif>	
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
