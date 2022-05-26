@@ -822,87 +822,13 @@ limitations under the License.
 									identification.made_date,
 									identification.nature_of_id,
 									collecting_event.collecting_event_id,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-									then
-											replace(began_date,substr(began_date,1,4),'8888')
-									else
-										collecting_event.began_date
-									end began_date,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-									then
-											replace(ended_date,substr(ended_date,1,4),'8888')
-									else
-										collecting_event.ended_date
-									end ended_date,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-									then
-											'Masked'
-									else
-										collecting_event.verbatim_date
-									end verbatim_date,
 									collecting_event.startDayOfYear,
 									collecting_event.endDayOfYear,
 									collecting_event.habitat_desc,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-										and collecting_event.coll_event_remarks is not null
-									then 
-										'Masked'
-									else
-										collecting_event.coll_event_remarks
-									end COLL_EVENT_REMARKS,
 									locality.locality_id,
 									locality.minimum_elevation,
 									locality.maximum_elevation,
 									locality.orig_elev_units,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-										and locality.spec_locality is not null
-									then 
-										'Masked'
-									else
-										locality.spec_locality
-									end spec_locality,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-										and accepted_lat_long.orig_lat_long_units is not null
-									then 
-										'Masked'
-									else
-										decode(accepted_lat_long.orig_lat_long_units,
-											'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
-											'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-												to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-												decode(accepted_lat_long.lat_sec, null,  '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
-											'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-												to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
-										)
-									end VerbatimLatitude,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-										and accepted_lat_long.orig_lat_long_units is not null
-									then 
-										'Masked'
-									else
-										decode(accepted_lat_long.orig_lat_long_units,
-											'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
-											'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-												to_char(accepted_lat_long.long_min) || '&acute; ' ||
-												decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
-											'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-												to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
-										)
-									end VerbatimLongitude,
 									locality.sovereign_nation,
 									collecting_event.verbatimcoordinates,
 									collecting_event.verbatimlatitude verblat,
@@ -938,27 +864,6 @@ limitations under the License.
 									coll_object_remark.habitat,
 									enteredPerson.agent_name EnteredBy,
 									editedPerson.agent_name EditedBy,
-									accn_number accession,
-									concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-									concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-										and locality.locality_remarks is not null
-									then 
-										'Masked'
-									else
-											locality.locality_remarks
-									end locality_remarks,
-									case when
-										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-										and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-										and verbatim_locality is not null
-									then 
-										'Masked'
-									else
-										verbatim_locality
-									end verbatim_locality,
 									collecting_time,
 									fish_field_number,
 									min_depth,
@@ -966,8 +871,7 @@ limitations under the License.
 									depth_units,
 									collecting_method,
 									collecting_source,
-									specimen_part.derived_from_cat_item,
-									decode(trans.transaction_id, null, 0, 1) vpdaccn
+									specimen_part.derived_from_cat_item
 								FROM
 									cataloged_item,
 									collection,
@@ -981,8 +885,6 @@ limitations under the License.
 									coll_object_remark,
 									preferred_agent_name enteredPerson,
 									preferred_agent_name editedPerson,
-									accn,
-									trans,
 									specimen_part,
 									collector
 								WHERE
