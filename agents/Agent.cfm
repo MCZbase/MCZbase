@@ -1048,6 +1048,8 @@ limitations under the License.
 												<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Color</button>
 											</div>
 										</div>
+									</div>
+								</div>
 								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
 <!---//										/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 //										jQuery(document).ready(function() {
@@ -1161,7 +1163,7 @@ limitations under the License.
 										<div id="mapdiv_#points2.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 									</cfif>--->
 								</section>
-							</cfif>	
+						<!---	</cfif>	--->
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
