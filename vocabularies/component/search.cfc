@@ -146,6 +146,12 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 	<!--- perform wildcard search anywhere in target field --->
 	<cfset name = "%#term#%"> 
 
+	<!--- handle special cases where controled vocabulary field is not the same as the table name --->
+	<cfset fieldname = codetable>
+	<cfif codetable EQ "COLL_OTHER_ID_TYPE">
+		<cfset fieldname = "OTHER_ID_TYPE">
+	</cfif>
+
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="getCTField" datasource="uam_god">
@@ -155,7 +161,7 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 				sys.all_tab_columns
 			WHERE
 				table_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="CT#ucase(codetable)#"> and
-				column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(codetable)#"> and
+				column_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(fieldname)#"> and
 				data_type = 'VARCHAR2' and
 				owner = 'MCZBASE'
 		</cfquery>
