@@ -833,6 +833,10 @@ limitations under the License.
 														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
+														zoomControl:true,
+														zoomControlOptions: {
+															style:google.maps.ZoomControlStyle.SMALL
+														}
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
@@ -841,39 +845,6 @@ limitations under the License.
 														},
 														mapTypeId: 'roadmap'
 													});
-												
-													var defaultMap = Map;
-													// ui.Map objects can be constructed. Here, a new map is declared.
-													var newMap = ui.Map({
-													  center: {lat: 0, lon: 0, zoom: 1},
-													  style: {position: 'bottom-right', width: '400px'}
-													});
-													// Add the newMap to the defaultMap.
-													defaultMap.add(newMap);
-													// You can set the viewport of a ui.Map to be centered on an object.
-													// Here, the defaultMap is centered on a point with a selected zoom level.
-													var geom = ee.Geometry.Point(#points2.mylat#, #points2.mylng#);
-													defaultMap.centerObject(geom, 18);
-													defaultMap.addLayer(geom, {color: 'orange'}, 'Googleplex');
-													// Map extent can be fetched using the ui.Map.getBounds method.
-													print('defaultMap bounds as a list',
-														  defaultMap.getBounds());
-													print('defaultMap bounds as a dictionary',
-														  ee.Dictionary.fromLists(['w', 's', 'e', 'n'], defaultMap.getBounds()));
-													print('defaultMap bounds as GeoJSON',
-														  defaultMap.getBounds({asGeoJSON: true}));
-
-													// Map center point can be fetched using the ui.Map.getCenter method.
-													print('defaultMap center as a Point geometry', defaultMap.getCenter());
-
-													// Map zoom level can be fetched using the ui.Map.getZoom method.
-													print('defaultMap zoom level', defaultMap.getZoom());
-
-													// Map scale can be fetched using the ui.Map.getScale method.
-													print('defaultMap approximate pixel scale', defaultMap.getScale());
-													
-												
-												
 												
 												heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
