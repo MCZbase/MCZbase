@@ -840,7 +840,7 @@ limitations under the License.
 															mapTypeIds: ["satellite", "terrain"],
 															zoomControl:true,
 														},
-														mapTypeId: 'satellite'
+														mapTypeId: 'roadmap'
 													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
@@ -911,38 +911,38 @@ limitations under the License.
 													bounds.extend(position)
 												}
 												$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
-										  if (wkt.length>0){
-											var regex = /\(([^()]+)\)/g;
-											var Rings = [];
-											var results;
-											while( results = regex.exec(wkt) ) {
-												Rings.push( results[1] );
-											}
-											for(var i=0;i<Rings.length;i++){
-												// for every polygon in the WKT, create an array
-												var lary=[];
-												var da=Rings[i].split(",");
-												for(var j=0;j<da.length;j++){
-													// push the coordinate pairs to the array as LatLngs
-													var xy = da[j].trim().split(" ");
-													var pt=new google.maps.LatLng(xy[1],xy[0]);
-													lary.push(pt);
-													//console.log(lary);
-													bounds.extend(pt);
+											if (wkt.length>0){
+												var regex = /\(([^()]+)\)/g;
+												var Rings = [];
+												var results;
+												while( results = regex.exec(wkt) ) {
+													Rings.push( results[1] );
 												}
-												// now push the single-polygon array to the array of arrays (of polygons)
-												ptsArray.push(lary);
-											}
-											var poly = new google.maps.Polygon({
-												paths: ptsArray,
-												strokeColor: '##1E90FF',
-												strokeOpacity: 0.8,
-												strokeWeight: 2,
-												fillColor: '##1E90FF',
-												fillOpacity: 0.35
-											});
-											poly.setMap(map);
-											polygonArray.push(poly);
+												for(var i=0;i<Rings.length;i++){
+													// for every polygon in the WKT, create an array
+													var lary=[];
+													var da=Rings[i].split(",");
+													for(var j=0;j<da.length;j++){
+														// push the coordinate pairs to the array as LatLngs
+														var xy = da[j].trim().split(" ");
+														var pt=new google.maps.LatLng(xy[1],xy[0]);
+														lary.push(pt);
+														//console.log(lary);
+														bounds.extend(pt);
+													}
+													// now push the single-polygon array to the array of arrays (of polygons)
+													ptsArray.push(lary);
+												}
+												var poly = new google.maps.Polygon({
+													paths: ptsArray,
+													strokeColor: '##1E90FF',
+													strokeOpacity: 0.8,
+													strokeWeight: 2,
+													fillColor: '##1E90FF',
+													fillOpacity: 0.35
+												});
+												poly.setMap(map);
+												polygonArray.push(poly);
 											// END this block build WKT
 											} else {
 												$("##mapdiv_" + locid).addClass('noWKT');
