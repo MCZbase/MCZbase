@@ -809,7 +809,7 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
-								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
+							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 								SELECT
 									cataloged_item.collection_object_id as collection_object_id,
 									cataloged_item.cat_num,
@@ -1003,7 +1003,7 @@ limitations under the License.
 									cataloged_item.accn_id =  accn.transaction_id  AND
 									accn.transaction_id = trans.transaction_id(+) AND
 									cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND 
-									collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+									collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAgent.agent_id#">
 							</cfquery>	
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
