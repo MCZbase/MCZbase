@@ -803,7 +803,7 @@ limitations under the License.
 									</div><!--- end collectorCardBodyWrap --->
 								</div>
 							</section>
-							<output>
+						
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 								SELECT 
 									accepted_lat_long.dec_lat,
@@ -830,7 +830,7 @@ limitations under the License.
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">	
-								</output>	
+							
 									<script>
 										/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 										jQuery(document).ready(function() {
