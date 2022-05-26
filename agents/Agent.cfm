@@ -971,8 +971,10 @@ limitations under the License.
 								FROM
 									cataloged_item,
 									collection,
+									collector,
 									collecting_event,
 									locality,
+									agent,
 									accepted_lat_long,
 									preferred_agent_name latLongAgnt,
 									geog_auth_rec,
@@ -984,6 +986,7 @@ limitations under the License.
 									trans,
 									specimen_part
 								WHERE
+									agent.agent_id = collector.agent_id AND
 									cataloged_item.collection_id = collection.collection_id AND
 									cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 									collecting_event.locality_id = locality.locality_id  AND
