@@ -372,7 +372,9 @@ limitations under the License.
 													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(full_taxon_name)#">
 												</div>
 												<div class="col-12 col-md-2">
-													<label for="phylum" class="data-entry-label">Phylum</label>
+													<label for="phylum" class="data-entry-label">Phylum
+														<button tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##phylum').autocomplete('search','%');" > (&##8595;) <span class="sr-only">open pick list</span></button>
+													</label>
 													<cfif not isdefined("phylum")><cfset phylum=""></cfif>
 													<input id="phylum" name="phylum" class="data-entry-input" value="#encodeForHtml(phylum)#" >
 													<script>
