@@ -2463,7 +2463,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 											first_name :  $("##first_name").val(),
 											middle_name : $("##middle_name").val(),
 											last_name : $("##last_name").val(),
-											affiliation : $("##affilitation").val(),
+											affiliation : $("##affiliation").val(),
 											download_purpose : $("##download_purpose").val(),
 											email : $("##email").val(),
 											agree : $("##agree").val()
