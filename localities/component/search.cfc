@@ -94,6 +94,8 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 				upper(geog_auth_rec.country) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY
 				geog_auth_rec.country
+			ORDER BY
+				geog_auth_rec.country
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -173,6 +175,23 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfswitch>
 				like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 			GROUP BY 
+				<cfswitch expression="#rank#">
+					<cfcase value="continent_ocean">continent_ocean</cfcase>
+					<cfcase value="ocean_region">ocean_region</cfcase>
+					<cfcase value="ocean_subregion">ocean_subregion</cfcase>
+					<cfcase value="country">country</cfcase>
+					<cfcase value="state_prov">state_prov</cfcase>
+					<cfcase value="county">county</cfcase>
+					<cfcase value="quad">quad</cfcase>
+					<cfcase value="feature">feature</cfcase>
+					<cfcase value="water_feature">water_feature</cfcase>
+					<cfcase value="island_group">island_group</cfcase>
+					<cfcase value="island">island</cfcase>
+					<cfcase value="sea">sea</cfcase>
+					<cfcase value="highergeographyid">highergeographyid</cfcase>
+					<cfcase value="source_authority">source_authority</cfcase>
+				</cfswitch>
+			ORDER BY
 				<cfswitch expression="#rank#">
 					<cfcase value="continent_ocean">continent_ocean</cfcase>
 					<cfcase value="ocean_region">ocean_region</cfcase>
