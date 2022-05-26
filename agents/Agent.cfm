@@ -821,6 +821,87 @@ limitations under the License.
 									on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 							</cfquery>
+							<cfif points.recordcount gt 0>
+							<section class="accordion" id="collectorSection1">
+								<div class="card mb-2 py-1 bg-light">		
+									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+										<div class="heatmap">
+											<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+											<script>
+												let map, heatmap;
+												function initMap() {
+														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													map = new google.maps.Map(document.getElementById('map'), {
+														center: Cambridge,
+														zoom: 2,
+														mapTypeControl: true,
+														mapTypeControlOptions: {
+															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+															mapTypeIds: ["satellite", "terrain"],
+															zoomControl:false,
+														},
+														mapTypeId: 'satellite'
+													});
+													heatmap = new google.maps.visualization.HeatmapLayer({
+														data: getPoints(),
+															map: map,
+													});
+														document
+															.getElementById("change-gradient")
+															.addEventListener("click", changeGradient);
+												}
+												function toggleHeatmap(){
+													heatmap.setMap(heatmap.getMap() ? null : map);
+												}
+												function changeGradient() {
+													const gradient = [
+														"rgba(0, 255, 255, 0)",
+														"rgba(0, 255, 255, 1)",
+														"rgba(0, 191, 255, 1)",
+														"rgba(0, 127, 255, 1)",
+														"rgba(0, 63, 255, 1)",
+														"rgba(0, 0, 255, 1)",
+														"rgba(0, 0, 223, 1)",
+														"rgba(0, 0, 191, 1)",
+														"rgba(0, 0, 159, 1)",
+														"rgba(0, 0, 127, 1)",
+														"rgba(63, 0, 91, 1)",
+														"rgba(127, 0, 63, 1)",
+														"rgba(191, 0, 31, 1)",
+														"rgba(255, 0, 0, 1)",
+													];
+													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+												}
+												function getPoints(){
+													return [
+													<cfloop query="points">
+														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+													</cfloop>
+													]
+												}
+												var bounds = new google.maps.LatLngBounds();
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+													bounds.extend(position)
+												}
+												map.fitBounds(bounds);
+											</script>
+											<div class="p-1 mx-1">
+												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
+												<div id="floating-panel" class="w-100 mx-auto">
+													<span class="text-left d-block float-left">Collecting Events</span>
+													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Color</button>
+												</div>
+											</div>
+								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
+								</div>
+							</section>
+							</cfif>		
+							
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
