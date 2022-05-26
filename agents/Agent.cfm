@@ -833,7 +833,7 @@ limitations under the License.
 														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														zoom: 2,
+														zoom: 1,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
