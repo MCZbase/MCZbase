@@ -272,9 +272,6 @@ limitations under the License.
 									},
 									beforeprocessing: function (data) {
 										source.totalrecords = #specimens.recordcount#;
-										//if (data != null && data.length > 0) {
-										//	source.totalrecords = data[0].recordcount;
-										//}
 									},
 									sort: function () {
 										$("##specimenjqxgrid").jqxGrid('updatebounddata','sort');
@@ -353,7 +350,6 @@ limitations under the License.
 
 						<cfif specimenImagesForCarousel.recordcount GT 0 OR agentImagesForCarousel.recordcount GT 0 OR points.recordcount GT 0 OR collectingImagesForCarousel.recordcount GT 0>
 							<div class="col-12 col-md-6 float-left px-0 mt-4 mb-3">	
-
 								<!--- specimen images --->
 								<cfif specimenImagesForCarousel.recordcount gt 0>
 									<div class="hidden" id="max_img_count">#specimenImagesForCarousel.recordcount#</div>
@@ -421,8 +417,7 @@ limitations under the License.
 											});
 										</script>
 									</section><!--- end specimen images ---> 	
-								</cfif>	
-
+								</cfif>
 								<!---  occurrence map --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
 									select median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng 
@@ -544,7 +539,7 @@ limitations under the License.
 										<!--- figure out widths of sub blocks, adapt to number of blocks --->
 										<cfswitch expression="#otherImageTypes#">
 											<cfcase value="1">
-												<cfset colClass = "col-xl-12 mx-auto float-none">
+												<cfset colClass = "col-xl-6 mx-auto float-none">
 											</cfcase>
 											<cfcase value="2">
 												<cfset colClass = "col-md-12 col-lg-6 mx-auto float-left">
@@ -587,7 +582,7 @@ limitations under the License.
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
-																	<!---The href is determined by shared-scripts.js goImageByNumber function though a placeholder is here--->
+																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
 																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="agent_detail_a" class="d-block pt-2" target="_blank" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" target="_blank" class="d-block my-1 w-100" title="click to open full image">
