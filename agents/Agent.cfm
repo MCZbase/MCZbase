@@ -736,6 +736,7 @@ limitations under the License.
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
 															mapTypeIds: ["satellite", "terrain"],
 															zoomControl:false,
+															controlSize: 20,
 														},
 														mapTypeId: 'terrain'
 													});
