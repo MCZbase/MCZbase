@@ -737,8 +737,8 @@ limitations under the License.
 															zoomControl:false,
 															controlSize: 20,
 														},
+														mapTypeId: 'roadmap',
 														controlSize: 20,
-														mapTypeId: 'roadmap'
 													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
