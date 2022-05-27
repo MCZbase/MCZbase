@@ -373,7 +373,7 @@ limitations under the License.
 														<p id="specimen_media_desc" class="mt-2 bg-light small caption-lg">#specimen_alt#</p>
 													</div>
 												</div>
-												<div class="custom-nav text-center small mb-1 bg-white pt-0 pb-1">
+												<div class="custom-nav text-center small mb-0 bg-white pt-0 pb-1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="previous_specimen_image" >&lt;&nbsp;prev </button>
 													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next&nbsp;&gt;</button>
