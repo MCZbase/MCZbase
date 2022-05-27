@@ -733,8 +733,7 @@ limitations under the License.
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-															mapTypeIds: ["roadmap","satellite"],
-															zoomControl:false,
+															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
 														},
 														mapTypeId: 'roadmap',
@@ -777,15 +776,23 @@ limitations under the License.
 													</cfloop>
 													]
 												}
+												var markers = [getPoints];//some array
 												var bounds = new google.maps.LatLngBounds();
-												for (i = 0; i < LatLngs.length; i++) {
-													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-													marker = new google.maps.Marker({
-														position: position,
-														map: map
-													});
-													bounds.extend(position)
+												for (var i = 0; i < markers.length; i++) {
+												 bounds.extend(markers[i]);
 												}
+
+//												map.fitBounds(bounds);
+//												
+//												var bounds = new google.maps.LatLngBounds();
+//												for (i = 0; i < LatLngs.length; i++) {
+//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+//													marker = new google.maps.Marker({
+//														position: position,
+//														map: map
+//													});
+//													bounds.extend(position)
+//												}
 												map.fitBounds(bounds);
 											</script>
 											<div class="p-1 mx-1">
