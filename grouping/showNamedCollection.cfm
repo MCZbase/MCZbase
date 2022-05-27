@@ -592,11 +592,12 @@ limitations under the License.
 																	<p id="agent_media_desc" class="mt-2 small bg-light caption-sm">#agent_alt#</p>
 																</div>
 															</div>
-															<div class="custom-nav text-center small bg-white mb-1 pt-0 pb-1">
+															<div class="custom-nav text-center small bg-white mb-0 pt-0 pb-1">
 																<button id="previous_agent_image" type="button" class="border-0 btn-outline-primary rounded">&lt;&nbsp;prev </button>
 																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
+															<div class="w-100 text-center smaller">of #specimenImagesForCarousel.recordcount#</div>
 														</div>
 													</div>
 													<script>
@@ -676,11 +677,12 @@ limitations under the License.
 																	<p id="collecting_media_desc" class="mt-2 small bg-light caption-sm">#collecting_alt#</p>
 																</div>
 															</div>
-															<div class="custom-nav small text-center bg-white mb-1 pt-0 pb-1">
+															<div class="custom-nav small text-center bg-white mb-0 pt-0 pb-1">
 																<button id="previous_collecting_image" type="button" class="border-0 btn-outline-primary rounded"><&nbsp;prev </button>
 																<input id="collecting_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
+															<div class="w-100 text-center smaller">of #specimenImagesForCarousel.recordcount#</div>
 														</div>
 													</div>
 													<script>
