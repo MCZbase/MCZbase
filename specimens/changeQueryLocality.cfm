@@ -161,7 +161,7 @@ limitations under the License.
 								<cfquery name="updateSpecs" datasource="uam_god" result="updateSpecs_result">
 									UPDATE cataloged_item 
 									SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newCollEventID#">
-									WHERE collection_object_id in	(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#">)
+									WHERE collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
 										AND collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CEID#">
 								</cfquery>
 							</cfif>
