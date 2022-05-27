@@ -730,7 +730,6 @@ limitations under the License.
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
 														zoom: 2,
-														controlSize: 20,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
@@ -738,6 +737,7 @@ limitations under the License.
 															zoomControl:false,
 															controlSize: 20,
 														},
+														controlSize: 20,
 														mapTypeId: 'terrain'
 													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
