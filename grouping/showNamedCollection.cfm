@@ -506,7 +506,7 @@ limitations under the License.
 												</cfloop>
 												]
 											}												
-												var bounds = new google.maps.LatLngBounds();
+												const bounds = new Google.maps.LatLngBounds();
 												for (i = 0; i < LatLngs.length; i++) {
 													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
 													marker = new google.maps.Marker({
