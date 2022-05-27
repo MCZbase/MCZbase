@@ -450,6 +450,7 @@ limitations under the License.
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 30,
 														},
+														
 														scaleControl: true,
 														streetViewControl: true,
 														streetViewControlOptions: {
@@ -458,6 +459,8 @@ limitations under the License.
 														mapTypeId: 'roadmap',
 														controlSize: 30,
 													});
+									
+}
 												heatmap = new google.maps.visualization.HeatmapLayer({
 													data: getPoints(),
 														map: map,
@@ -519,6 +522,18 @@ limitations under the License.
 													});
 													bounds.extend(position)
 												}
+												function radiusToZoom( bounds ){
+													var w = myMapInstance.getSize().width;
+													var d = r * 2;
+													var zooms = [,21282,16355,10064,5540,2909,1485,752,378,190,95,48,24,12,6,3,1.48,0.74,0.37,0.19];
+													var z = 20, m;
+													while( zooms[--z] ){
+														m = zooms[z] * w;
+														if( d < m ){
+															break;
+														}
+													}
+													return z;
 												map.fitBounds(bounds);
 											//end InitMap
 										</script>
