@@ -525,6 +525,7 @@ limitations under the License.
 													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
 													marker = new google.maps.Marker({
 														position: position,
+														zoomControl: 3,
 														map: map
 													});
 													bounds.extend(position)
