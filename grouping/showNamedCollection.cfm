@@ -427,9 +427,9 @@ limitations under the License.
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
 								<cfif points.recordcount gt 0>
-									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+								<!---	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>--->
 									<section class="heatmap mt-2 float-left w-100">
-										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+									<!---	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>--->
 										<script>
 											let map, heatmap;
 											function initMap() {
