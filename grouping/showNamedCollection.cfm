@@ -41,11 +41,11 @@ limitations under the License.
 </cfif>
 <cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>--->
+</cfoutput>
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
-</cfif>
+</cfif>--->
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 	SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
 		case 
@@ -427,9 +427,9 @@ limitations under the License.
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
 								<cfif points.recordcount gt 0>
-								<!---	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>--->
+									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<section class="heatmap mt-2 float-left w-100">
-									<!---	<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>--->
+										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 										<script>
 											let map, heatmap;
 											function initMap() {
@@ -442,7 +442,7 @@ limitations under the License.
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
-														//	position: google.maps.ControlPosition.CENTER_TOP,
+															position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 30,
 														},
@@ -506,7 +506,7 @@ limitations under the License.
 												</cfloop>
 												]
 											}												
-												bounds = new Google.maps.LatLngBounds();
+												var bounds = new google.maps.LatLngBounds();
 												for (i = 0; i < LatLngs.length; i++) {
 													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
 													marker = new google.maps.Marker({
@@ -571,7 +571,7 @@ limitations under the License.
 															AND media.media_type = 'image'
 															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 															AND media.auto_host = 'mczbase.mcz.harvard.edu'
-													</cfquery>
+													</cfquery>													
 													<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
 														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
 														<cfset agent_media_id = agentImagesForCarousel.media_id>
