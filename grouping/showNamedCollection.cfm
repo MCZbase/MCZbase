@@ -515,7 +515,7 @@ limitations under the License.
 //													});
 //													bounds.extend(position)
 //												}
-												map.fitBounds(bounds);
+											//	map.fitBounds(bounds);
 											//end InitMap
 										</script>
 										
