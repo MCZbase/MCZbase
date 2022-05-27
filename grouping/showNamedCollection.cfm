@@ -207,7 +207,7 @@ limitations under the License.
 			join underscore_relation u on u.collection_object_id = flat.collection_object_id
 			where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			and flat.guid IS NOT NULL
-			and lat_long.dec_lat is not null
+			and flat.dec_lat is not null
 			and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
 
@@ -428,7 +428,7 @@ limitations under the License.
 									join underscore_relation u on u.collection_object_id = flat.collection_object_id
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
-								<cfif points.recordcount gt 0>
+								<cfif points2.recordcount gt 0>
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<section class="heatmap mt-2 float-left w-100">
 										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
