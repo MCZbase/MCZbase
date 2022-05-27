@@ -428,7 +428,7 @@ limitations under the License.
 
 								<!---  occurrence map --->
 								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
-									SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
+<!---									SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng 
 									FROM locality
 										left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 										on flat.locality_id = locality.locality_id
@@ -438,7 +438,11 @@ limitations under the License.
 										on underscore_relation.collection_object_id = flat.collection_object_id
 										left join underscore_collection
 										on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
-									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">--->
+									select median(f.dec_lat) as mylat, median(f.dec_long) as mylng 
+									from flat f
+									join underscore_relation u on u.collection_object_id = f.collection_object_id
+									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
 								<cfif points.recordcount gt 0>
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
