@@ -450,15 +450,11 @@ limitations under the License.
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
-															//position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
 														},
 														scaleControl: true,
 														streetViewControl: true,
-														//streetViewControlOptions: {
-															//position: google.maps.ControlPosition.CENTER_TOP,
-														//},
 														mapTypeId: 'roadmap',
 														controlSize: 20,
 													});
@@ -594,7 +590,7 @@ limitations under the License.
 														<cfset agent_alt = agentImagesForCarousel.alt>
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
-														<div class="carousel_background border rounded float-left w-100 p-2">
+														<div class="carousel_background border rounded float-left w-50 p-2">
 															<h3 class="h4 mx-2 text-center">#agentCt.recordcount# Agent Images </h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
