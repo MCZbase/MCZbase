@@ -39,9 +39,9 @@ limitations under the License.
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
-<!---<cfoutput>
+<cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>--->
+</cfoutput>
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
@@ -429,7 +429,7 @@ limitations under the License.
 								<cfif points.recordcount gt 0>
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<section class="heatmap mt-2 float-left w-100">
-										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+										<!---<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>--->
 										<script>
 											let map, heatmap;
 											function initMap() {
