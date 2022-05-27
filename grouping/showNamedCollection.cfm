@@ -450,7 +450,6 @@ limitations under the License.
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 30,
 														},
-														
 														scaleControl: true,
 														streetViewControl: true,
 														streetViewControlOptions: {
@@ -459,8 +458,6 @@ limitations under the License.
 														mapTypeId: 'roadmap',
 														controlSize: 30,
 													});
-									
-}
 												heatmap = new google.maps.visualization.HeatmapLayer({
 													data: getPoints(),
 														map: map,
@@ -522,7 +519,6 @@ limitations under the License.
 													});
 													bounds.extend(position)
 												}
-
 												map.fitBounds(bounds);
 											//end InitMap
 										</script>
