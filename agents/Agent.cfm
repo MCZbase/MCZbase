@@ -731,10 +731,11 @@ limitations under the License.
 														center: Cambridge,
 														zoom:1,
 														minZoom: 1,
-														maxZoom: 15,
+														maxZoom: 19,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
+															position: google.maps.ControlPosition.LEFT_BOTTOM,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
 														},
