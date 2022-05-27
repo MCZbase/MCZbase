@@ -436,14 +436,14 @@ limitations under the License.
 								<cfif points.recordcount gt 0>
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 									<section class="heatmap mt-2 float-left w-100">
-										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+										<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&scale=4&libraries=visualization" async></script>
 										<script>
 											let map, heatmap;
 											function initMap() {
 												var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														const zoom = 3;
+														zoom = 3,
 														minZoom: 2,
 														maxZoom: 19,
 														mapTypeControl: true,
@@ -518,7 +518,6 @@ limitations under the License.
 													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
 													marker = new google.maps.Marker({
 														position: position,
-														scale: 2,
 														map: map
 													});
 													bounds.extend(position)
