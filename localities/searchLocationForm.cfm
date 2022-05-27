@@ -439,11 +439,11 @@
 					<cfif listFind(searchPrefList,"GeorefDetail") EQ 0>
 						<cfset georefDetailStyle="display:none;">
 						<cfset toggleTo = "1">
-						<cfset georefButton = "Show Fields">
+						<cfset georefButton = "Show Georef Fields">
 					<cfelse>
 						<cfset georefDetailStyle="">
 						<cfset toggleTo = "0">
-						<cfset georefButton = "Hide Fields">
+						<cfset georefButton = "Hide Georef Fields">
 					</cfif> 
 					<div class="col-12 col-md-2">
 						<label for="georefDetailCtl" class="data-entry-label" style="color: transparent">Georeference</label>
