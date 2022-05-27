@@ -726,28 +726,28 @@ limitations under the License.
 											<script>
 												let map, heatmap;
 												function initMap() {
-														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														//zoom: 1,
-														var mapOptions = {
-															zoom: 1,
-															center: new google.maps.LatLng(lat, lng),
-															mapTypeId: google.maps.MapTypeId.ROADMAP,
-															panControl: false,
-															scaleControl: false,
-															fullscreenControl: false,
-															zoomControl: false
-														};
-
-														//mapTypeControl: true,
-														//mapTypeControlOptions: {
-														//	style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-														//	mapTypeIds: ["satellite", "terrain"],
-														//	zoomControl:false,
-														//},
-														//mapTypeId: 'roadmap'
+														zoom: 2,
+														mapTypeControl: true,
+														mapTypeControlOptions: {
+															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+															mapTypeIds: ["satellite", "terrain"],
+															zoomControl:false,
+														},
+														mapTypeId: 'roadmap'
 													});
+													var bounds = new google.maps.LatLngBounds();
+														for (i = 0; i < LatLngs.length; i++) {
+															position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+															marker = new google.maps.Marker({
+																position: position,
+																map: map
+															});
+															bounds.extend(position)
+														}
+														map.fitBounds(bounds);
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
 															map: map,
@@ -778,6 +778,8 @@ limitations under the License.
 													];
 													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 												}
+												
+												
 												function getPoints(){
 													return [
 													<cfloop query="points">
@@ -785,16 +787,7 @@ limitations under the License.
 													</cfloop>
 													]
 												}
-												var bounds = new google.maps.LatLngBounds();
-												for (i = 0; i < LatLngs.length; i++) {
-													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-													marker = new google.maps.Marker({
-														position: position,
-														map: map
-													});
-													bounds.extend(position)
-												}
-												map.fitBounds(bounds);
+											</script>
 											</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
