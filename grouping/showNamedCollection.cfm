@@ -522,7 +522,7 @@ limitations under the License.
 													});
 													bounds.extend(position)
 												}
-												function radiusToZoom( bounds ){
+												function radiusToZoom(LatLngs.length){
 													var w = myMapInstance.getSize().width;
 													var d = r * 2;
 													var zooms = [,21282,16355,10064,5540,2909,1485,752,378,190,95,48,24,12,6,3,1.48,0.74,0.37,0.19];
