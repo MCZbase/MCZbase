@@ -742,7 +742,7 @@ limitations under the License.
 														scaleControl: true,
 														streetViewControl: true,
 														streetViewControlOptions: {
-														  position: google.maps.ControlPosition.LEFT_TOP,
+														  position: google.maps.ControlPosition.CENTER_TOP,
 														},
 														mapTypeId: 'roadmap',
 														controlSize: 20,
