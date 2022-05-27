@@ -36,16 +36,16 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
-<!---<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
-<cfoutput>
+<!---<cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>
+</cfoutput>--->
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
-</cfif>--->
+</cfif>
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 	SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
 		case 
@@ -571,7 +571,7 @@ limitations under the License.
 															AND media.media_type = 'image'
 															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 															AND media.auto_host = 'mczbase.mcz.harvard.edu'
-													</cfquery>													
+													</cfquery>
 													<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
 														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
 														<cfset agent_media_id = agentImagesForCarousel.media_id>
