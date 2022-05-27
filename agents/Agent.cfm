@@ -735,15 +735,15 @@ limitations under the License.
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
-															position: google.maps.ControlPosition.CENTER_TOP,
+															//position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
 														},
 														scaleControl: true,
 														streetViewControl: true,
-														streetViewControlOptions: {
-														  position: google.maps.ControlPosition.CENTER_TOP,
-														},
+														//streetViewControlOptions: {
+															//position: google.maps.ControlPosition.CENTER_TOP,
+														//},
 														mapTypeId: 'roadmap',
 														controlSize: 20,
 													});
