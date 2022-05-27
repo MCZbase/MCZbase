@@ -1202,6 +1202,39 @@ function makeCTFieldSearchAutocomplete(fieldId,codetable) {
 	};
 };
 
+
+/** makeCTOtherIDTypeAutocomplete make an input control into a picker for 
+ *  CTCOLL_OTHER_ID_TYPE (where the matched field is OTHER_ID_TYPE)
+ *  Prefixes the selected value with an = for exact match search, and is
+ *  intended as a picker for the code table controlled search field.
+ * @param fieldId the id for the input without a leading # selector.
+**/
+function makeCTOtherIDTypeAutocomplete(fieldId) { 
+	jQuery("#"+fieldId).autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "/vocabularies/component/search.cfc",
+				data: { 
+					term: request.term, 
+					codetable: 'COLL_OTHER_ID_TYPE', 
+					method: 'getCTAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a CTCOLL_OTHER_ID_TYPE search autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+fieldId).val("=" + result.item.value);
+		},
+		minLength: 1
+	}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+		return $("<li>").append( "<span>" + item.value + "</span>").appendTo( ul );
+	};
+};
+
 /** makeSpecLocalitySearchAutocomplete make an input control into a picker for a spec_locality field.
  *  Prefixes the selected value with an = for exact match search, and is
  *  intended as a picker for spec_locality search fields.

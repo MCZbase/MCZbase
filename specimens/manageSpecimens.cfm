@@ -113,8 +113,9 @@ limitations under the License.
 
 	Agents - Implmemented (as Collectors/Preparators)
 
-	<option value="/bulkCollEvent.cfm"> works only with collection_object_id 
-	Collecting Events
+	Localities - Implemented
+
+	Collecting Events - Implemented
 
 	<option value="/Encumbrances.cfm"> works only with collection_object_id 
 	Encumbrances
