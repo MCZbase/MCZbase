@@ -32,12 +32,12 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template = "/media/component/search.cfc">
 <cfinclude template="/agents/component/functions.cfc" runOnce="true">
-<!---<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
 <cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>--->
+</cfoutput>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
@@ -743,7 +743,7 @@ limitations under the License.
 														streetViewControl: true,
 														streetViewControlOptions: {
 															//position: google.maps.ControlPosition.CENTER_TOP,
-														//},
+														},
 														mapTypeId: 'roadmap',
 														controlSize: 20,
 													});
