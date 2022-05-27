@@ -444,21 +444,21 @@ limitations under the License.
 												var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														zoom:1,
+														zoom:3,
 														minZoom: 1,
 														maxZoom: 19,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
-															//position: google.maps.ControlPosition.CENTER_TOP,
+															position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
 														},
 														scaleControl: true,
 														streetViewControl: true,
-														//streetViewControlOptions: {
-															//position: google.maps.ControlPosition.CENTER_TOP,
-														//},
+														streetViewControlOptions: {
+															position: google.maps.ControlPosition.CENTER_TOP,
+														},
 														mapTypeId: 'roadmap',
 														controlSize: 20,
 													});
