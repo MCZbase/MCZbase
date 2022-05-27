@@ -736,7 +736,7 @@ limitations under the License.
 															mapTypeIds: ["satellite", "terrain"],
 															zoomControl:false,
 														},
-														mapTypeId: 'satellite'
+														mapTypeId: 'roadmap'
 													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
