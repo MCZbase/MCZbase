@@ -207,6 +207,8 @@ limitations under the License.
 			join underscore_relation u on u.collection_object_id = flat.collection_object_id
 			where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			and flat.guid IS NOT NULL
+			and flat.dec_lat is not null
+			and flat.dec_long is not null
 		</cfquery>
 
 		<main class="py-3" id="content">
