@@ -300,7 +300,7 @@
 									</form>
 								</td>
 								<td>#collecting_event_id#</td>
-								<td>#began_date#-#ended_date# #verbatimdate#</td>
+								<td>#began_date#-#ended_date# #verbatim_date#</td>
 								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
