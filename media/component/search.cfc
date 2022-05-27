@@ -72,7 +72,7 @@ limitations under the License.
 		<cfset unlinked = "">
 	</cfif>
 	<cfif isdefined("media_id") AND len(trim(media_id)) GT 0 AND NOT isnumeric(#media_id#)>
-		<cfhrow message = "Media ID must be an integer.  Provided value [#encodeForHtml(media_id)#] is not numeric.">
+		<cfthrow message = "Media ID must be an integer.  Provided value [#encodeForHtml(media_id)#] is not numeric.">
 	</cfif>
 	<cfif (isdefined("related_cataloged_item") AND len(#related_cataloged_item#) gt 0) AND related_cataloged_item NEQ 'NOT NULL' >
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
