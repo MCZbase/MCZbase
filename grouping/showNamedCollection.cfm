@@ -378,6 +378,7 @@ limitations under the License.
 													<input type="number" id="specimen_image_number" class="custom-input border data-entry-input d-inline border-light" value="1">
 													<button type="button" class="border-0 btn-outline-primary rounded" id="next_specimen_image"> next&nbsp;&gt;</button>
 												</div>
+												<div class="w-100 text-center smaller">of #specimenImagesForCarousel.recordcount#</div>
 											</div>
 										</div>
 										<script>
