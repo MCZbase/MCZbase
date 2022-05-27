@@ -477,15 +477,31 @@ limitations under the License.
 											}
 											function toggleHeatmap(){
 												heatmap.setMap(heatmap.getMap() ? null : map);
+												const gradient = [
+													"rgba(0, 255, 255, 0)",
+													"rgba(0, 255, 255, 1)",
+													"rgba(0, 191, 255, 1)",
+													"rgba(0, 127, 255, 1)",
+													"rgba(0, 63, 255, 1)",
+													"rgba(0, 0, 255, 1)",
+													"rgba(0, 0, 223, 1)",
+													"rgba(0, 0, 191, 1)",
+													"rgba(0, 0, 159, 1)",
+													"rgba(0, 0, 127, 1)",
+													"rgba(63, 0, 91, 1)",
+													"rgba(127, 0, 63, 1)",
+													"rgba(191, 0, 31, 1)",
+													"rgba(255, 0, 0, 1)",
+												];
 											}
 											function changeGradient() {
 												const gradient = [
-													"rgba(51,204,255, 0)",
-													"rgba(51, 153, 153, 1)",
-													"rgba(51, 102, 153, 1)",
-													"rgba(102, 102, 51, 1)",
-													"rgba(153, 153, 51, 1)",
-													"rgba(255, 204, 0, 1)",
+													"rgba(0, 255, 255, 0)",
+													"rgba(0, 255, 255, 1)",
+													"rgba(0, 191, 255, 1)",
+													"rgba(0, 127, 255, 1)",
+													"rgba(0, 63, 255, 1)",
+													"rgba(0, 0, 255, 1)",
 													"rgba(0, 0, 223, 1)",
 													"rgba(0, 0, 191, 1)",
 													"rgba(0, 0, 159, 1)",
