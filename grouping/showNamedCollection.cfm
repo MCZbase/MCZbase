@@ -458,7 +458,7 @@ limitations under the License.
 															style: google.maps.MapTypeControlStyle.SMALL,
 															position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
-															controlSize: 20,
+															controlSize: 30,
 														},
 														scaleControl: true,
 														streetViewControl: true,
@@ -466,7 +466,7 @@ limitations under the License.
 															position: google.maps.ControlPosition.CENTER_TOP,
 														},
 														mapTypeId: 'roadmap',
-														controlSize: 20,
+														controlSize: 30,
 													});
 												heatmap = new google.maps.visualization.HeatmapLayer({
 													data: getPoints(),
