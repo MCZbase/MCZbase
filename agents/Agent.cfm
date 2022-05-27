@@ -734,10 +734,10 @@ limitations under the License.
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-															mapTypeIds: ["roadmap","satellite", "terrain"],
+															mapTypeIds: ["satellite", "terrain"],
 															zoomControl:false,
 														},
-														mapTypeId: 'roadmap'
+														mapTypeId: 'terrain'
 													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
