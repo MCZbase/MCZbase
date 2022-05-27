@@ -440,7 +440,7 @@ limitations under the License.
 										on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 									WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">--->
 									select median(f.dec_lat) as mylat, median(f.dec_long) as mylng 
-									from flat f
+									from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat f
 									join underscore_relation u on u.collection_object_id = f.collection_object_id
 									where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 								</cfquery>							
