@@ -202,13 +202,18 @@ limitations under the License.
 		</script>
 
 		<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-			select distinct flat.locality_id, flat.dec_lat as Latitude, flat.dec_long as Longitude
-			from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-			join underscore_relation u on u.collection_object_id = flat.collection_object_id
-			where u.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-			and flat.guid IS NOT NULL
-			and flat.dec_lat is not null
-			and flat.dec_long is not null
+			SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
+			FROM locality
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+					on flat.locality_id = locality.locality_id
+				left join lat_long on lat_long.locality_id = flat.locality_id
+				left join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
+				left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+			WHERE 
+				underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				and flat.guid IS NOT NULL
+				and lat_long.dec_lat is not null
+				and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
 
 		<main class="py-3" id="content">
@@ -438,7 +443,7 @@ limitations under the License.
 												var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														const zoom = 3;
+														zoom:2,
 														minZoom: 2,
 														maxZoom: 19,
 														mapTypeControl: true,
