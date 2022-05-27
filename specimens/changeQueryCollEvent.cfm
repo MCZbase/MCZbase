@@ -1,5 +1,24 @@
+<!--- specimens/changeQueryCollEvent.cfm manage specimens by collecting event
+
+Copyright 2008-2017 Contributors to Arctos
+Copyright 2008-2022 President and Fellows of Harvard College
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+--->
 <cfset pageTitle = "Change Collecting Events for Search Result">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <cfif not isDefined("result_id") OR len(result_id) EQ 0>
 	<cfthrow message = "No result_id provided for result set on which to change collecting events.">
@@ -112,13 +131,11 @@
 					</cfquery>
 					<cfset collObjIdsList = valuelist(collObjects.collection_object_id)>
 					<cfoutput>
-						<cfloop list="#collEventIdsList#" index = "CEID">
-							<cfquery name="updateCollEvent" datasource="uam_god">
-								UPDATE cataloged_item 
-								SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
-								WHERE collection_object_id = in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
-							</cfquery>
-						</cfloop>
+						<cfquery name="updateCollEvent" datasource="uam_god">
+							UPDATE cataloged_item 
+							SET collecting_event_id = <cfqueryparam cfsqltype="CF_SQL-DECIMAL" value="#newcollecting_event_id#">
+							WHERE collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collObjIdsList#" list="yes">)
+						</cfquery>
 					</cfoutput>
 					<cftransaction action="commit">
 				<cfcatch>
@@ -300,7 +317,7 @@
 									</form>
 								</td>
 								<td>#collecting_event_id#</td>
-								<td>#began_date#-#ended_date# #verbatimdate#</td>
+								<td>#began_date#-#ended_date# #verbatim_date#</td>
 								<td>#spec_locality# [#verbatim_locality#]</td>
 								<td>#higher_geog#</td>
 								<td>#depth_elevation#</td>
