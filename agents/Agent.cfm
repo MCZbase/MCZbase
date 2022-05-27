@@ -732,6 +732,9 @@ limitations under the License.
 														zoom:1,
 														minZoom: 1,
 														maxZoom: 19,
+														var bottomRight = new GControlPosition(G_ANCHOR_BOTTOM_RIGHT, new GSize(10,10));
+														var mapControl = new GMapTypeControl();
+														map.addControl(mapControl, bottomRight);
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
