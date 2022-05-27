@@ -738,9 +738,6 @@ limitations under the License.
 															position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
-															var bottomRight = new GControlPosition(G_ANCHOR_BOTTOM_RIGHT, new GSize(10,10));
-															var mapControl = new GMapTypeControl();
-															map.addControl(mapControl, bottomRight);
 														},
 														scaleControl: true,
 														streetViewControl: true,
