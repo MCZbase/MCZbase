@@ -597,7 +597,7 @@ limitations under the License.
 																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
-															<div class="w-100 text-center smaller">of #specimenImagesForCarousel.recordcount#</div>
+															<div class="w-100 text-center smaller">of #agentCt.recordcount#</div>
 														</div>
 													</div>
 													<script>
@@ -682,7 +682,7 @@ limitations under the License.
 																<input id="collecting_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
-															<div class="w-100 text-center smaller">of #specimenImagesForCarousel.recordcount#</div>
+															<div class="w-100 text-center smaller">of #collectingCt.recordcount#</div>
 														</div>
 													</div>
 													<script>
