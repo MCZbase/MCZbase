@@ -38,8 +38,8 @@ limitations under the License.
 <cfinclude template="/shared/_header.cfm">
 <!---<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
-</cfif>--->
-<!---<cfoutput>
+</cfif>
+<cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
 </cfoutput>--->
 <cfset otherImageTypes = 0>
@@ -624,7 +624,7 @@ limitations under the License.
 																goNextAgent()
 															}, false)
 															$("##agent_media_img").scrollTop(function (event) {
-																//event.preventDefault();
+																event.preventDefault();
 																var ya = event.scrollTop;
 																if (ya > $nextAgent) { 
 																	currentAgentImage = 0;
