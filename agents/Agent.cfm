@@ -727,7 +727,7 @@ limitations under the License.
 											let map, heatmap;
 												function initMap() {
 														var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-													map = new google.maps.Map(document.getElementById('map'), {
+													map = new google.maps.Map(document.getElementById('map')as HTMLElement, {
 														center: Cambridge,
 														zoom:1,
 														mapTypeControl: true,
