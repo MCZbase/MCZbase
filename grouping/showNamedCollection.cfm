@@ -36,7 +36,7 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
-<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+<!---<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
 </cfif>
 <cfoutput>
@@ -45,7 +45,7 @@ limitations under the License.
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
-</cfif>
+</cfif>--->
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 	SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
 		case 
