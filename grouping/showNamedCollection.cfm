@@ -442,16 +442,26 @@ limitations under the License.
 											let map, heatmap;
 											function initMap() {
 												var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-												map = new google.maps.Map(document.getElementById('map'), {
-													center: Cambridge,
-													zoom: 2,
-													mapTypeControl: true,
-													mapTypeControlOptions: {
-														style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-														mapTypeIds: ["satellite", "terrain"],
-													},
-													mapTypeId: 'satellite'
-												});
+													map = new google.maps.Map(document.getElementById('map'), {
+														center: Cambridge,
+														zoom:1,
+														minZoom: 1,
+														maxZoom: 19,
+														mapTypeControl: true,
+														mapTypeControlOptions: {
+															style: google.maps.MapTypeControlStyle.SMALL,
+															//position: google.maps.ControlPosition.CENTER_TOP,
+															mapTypeIds: ["roadmap","satellite","terrain"],
+															controlSize: 20,
+														},
+														scaleControl: true,
+														streetViewControl: true,
+														//streetViewControlOptions: {
+															//position: google.maps.ControlPosition.CENTER_TOP,
+														//},
+														mapTypeId: 'roadmap',
+														controlSize: 20,
+													});
 												heatmap = new google.maps.visualization.HeatmapLayer({
 													data: getPoints(),
 														map: map,
@@ -504,6 +514,24 @@ limitations under the License.
 												</cfloop>
 												]
 											}
+											var markers = [getPoints];//some array
+												var bounds = new google.maps.LatLngBounds();
+												for (var i = 0; i < markers.length; i++) {
+												 bounds.extend(markers[i]);
+												}
+
+//												map.fitBounds(bounds);
+//												
+//												var bounds = new google.maps.LatLngBounds();
+//												for (i = 0; i < LatLngs.length; i++) {
+//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+//													marker = new google.maps.Marker({
+//														position: position,
+//														map: map
+//													});
+//													bounds.extend(position)
+//												}
+												map.fitBounds(bounds);
 											//end InitMap
 										</script>
 										
