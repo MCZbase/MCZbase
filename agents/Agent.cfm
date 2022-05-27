@@ -733,8 +733,8 @@ limitations under the License.
 														controlSize = 20
 														mapTypeControl: true,
 														mapTypeControlOptions: {
-															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU.small,
-															mapTypeIds: ["roadmap","satellite", "terrain"],
+															style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+															mapTypeIds: ["satellite", "terrain"],
 															zoomControl:false,
 														},
 														mapTypeId: 'roadmap'
