@@ -731,10 +731,10 @@
 		function toggleGeorefDetail(onOff) {
 			if (onOff==0) {
 				$("##georefDetail").hide();
-				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(1)').html('Show Fields');
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(1)').html('Show Georef Fields');
 			} else {
 				$("##georefDetail").show();
-				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(0)').html('Hide Fields');
+				$("##georefDetailCtl").attr('onCLick','toggleGeorefDetail(0)').html('Hide Georef Fields');
 			}
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				jQuery.getJSON("/localities/component/functions.cfc",
