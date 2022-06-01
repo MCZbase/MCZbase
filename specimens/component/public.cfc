@@ -1044,14 +1044,16 @@ limitations under the License.
 					coll_object_remark
 				WHERE
 					coll_object_remark.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-		</cfquery>
-	
+			</cfquery>
 			<cfif len(remarks.coll_object_remarks) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="remarks">
 						<li class="list-group-item py-0"> #coll_object_remark.coll_object_remarks# </li>
 					</cfloop>
-					<cfelse> no remarks</cfif>
+				</ul>
+			<cfelse> 
+				no remarks
+			</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
