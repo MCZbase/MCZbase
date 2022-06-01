@@ -722,7 +722,7 @@ limitations under the License.
 								<div class="card mb-2 py-1 bg-light">		
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 										<div class="heatmap">
-											<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 											<script>
 											let map, heatmap;
 												function initMap() {
@@ -784,23 +784,23 @@ limitations under the License.
 													</cfloop>
 													]
 												}
-												var markers = [getPoints];//some array
-												var bounds = new google.maps.LatLngBounds();
-												for (var i = 0; i < markers.length; i++) {
-												 bounds.extend(markers[i]);
-												}
-
-//												map.fitBounds(bounds);
-//												
+//												var markers = [getPoints];//some array
 //												var bounds = new google.maps.LatLngBounds();
-//												for (i = 0; i < LatLngs.length; i++) {
-//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-//													marker = new google.maps.Marker({
-//														position: position,
-//														map: map
-//													});
-//													bounds.extend(position)
+//												for (var i = 0; i < markers.length; i++) {
+//												 bounds.extend(markers[i]);
 //												}
+//
+////												map.fitBounds(bounds);
+//												
+												var bounds = new google.maps.LatLngBounds();
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+													bounds.extend(position)
+												}
 												map.fitBounds(bounds);
 											</script>
 											<div class="p-1 mx-1">
