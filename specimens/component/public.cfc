@@ -1057,7 +1057,7 @@ limitations under the License.
 							<cfif len(remarks1.habitat) gt 0 >Habitat: #habitat# </cfif>
 							<cfif len(remarks1.disposition_remarks) gt 0 >Disposition remarks: #disposition_remarks#</cfif>
 							<cfif len(remarks1.associated_species) gt 0 >Associated Species: #associated_species#</cfif>
-							<ul class="list-group list-group-flush pt-1 float-left">
+							<ul class="list-group list-group-flush pt-0 float-left">
 								<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item py-0">Entered By: #EnteredBy#</li></cfif>
 								<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item py-0">Last Edited By: #EditedBy#</li></cfif>
 							</ul>
