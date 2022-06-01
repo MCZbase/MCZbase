@@ -532,7 +532,7 @@ And media_type <> 'text'
 								<cfif len(#blockremarks#) gt 50> 
 									<h3 class="h4 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
-											Catalog Item Remarks
+											Catalog Item Metadata and Remarks
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
