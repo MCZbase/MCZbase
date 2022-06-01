@@ -1053,24 +1053,21 @@ limitations under the License.
 					<cfloop query="remarks1">
 						<cfif len(remarks1.coll_object_remarks) gt 0 >
 						<ul class="list-group list-group-flush p-0 float-left">
-							<li class="list-group-item px-0 pt-0 pb-1">Overall Remarks: #remarks1.coll_object_remarks# </li>
+							<li class="list-group-item py-1">Overall Remarks: #remarks1.coll_object_remarks# </li>
 						</ul>
 						</cfif>
 						<ul class="list-group list-group-flush p-0 float-left">
-				<!---			<cfif len(remarks1.habitat) gt 0 >
-								<li class="list-group-item px-0 pt-0 pb-1">Microhabitat: #habitat# </li>
-							</cfif>--->
 							<cfif len(remarks1.disposition_remarks) gt 0 >
-								<li class="list-group-item px-0 pt-0 pb-1">Disposition Remarks: #disposition_remarks#</li>
+								<li class="list-group-item py-1">Disposition Remarks: #disposition_remarks#</li>
 							</cfif>
 							<cfif len(remarks1.associated_species) gt 0 >
-								<li class="list-group-item px-0 pt-0 pb-1">Associated Species: #associated_species#</li>
+								<li class="list-group-item py-1">Associated Species: #associated_species#</li>
 							</cfif>
 						</ul>
 						<cfif len(remarks1.EnteredBy) gt 0 >
 						<ul class="list-group list-group-flush p-0 float-left">
-							<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item px-0 pt-0 pb-1">Record Entered By: #EnteredBy#</li></cfif>
-							<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item px-0 pt-0 pb-1">Last Edited By: #EditedBy#</li></cfif>
+							<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item py-1">Record Entered By: #EnteredBy#</li></cfif>
+							<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item py-1">Last Edited By: #EditedBy#</li></cfif>
 						</ul>
 						<cfelse> 
 							No overall remarks
