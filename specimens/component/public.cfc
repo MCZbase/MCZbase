@@ -1057,9 +1057,9 @@ limitations under the License.
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 	
-			<cfif len(remarks.biol_indiv_relationship) gt 0 >
+			<cfif len(remarks.collection_object_id) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
-					<cfloop query="relns">
+					<cfloop query="remarks">
 						<li class="list-group-item py-0"> #coll_object_remark.coll_object_remarks# 
 						 #related_collection# #related_cat_num# 
 						</li>
