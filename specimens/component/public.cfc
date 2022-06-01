@@ -1045,7 +1045,7 @@ limitations under the License.
 					coll_object_remark
 					left join coll_object on coll_object.collection_object_id = coll_object_remark.collection_object_id
 					left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
-					left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id (+)
+					left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
 				WHERE
 					coll_object_remark.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
