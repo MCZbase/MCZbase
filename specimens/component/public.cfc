@@ -1053,7 +1053,7 @@ limitations under the License.
 					coll_object_remark
 				WHERE
 					cataloged_item.collection_object_id = coll_object.collection_object_id AND
-					coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
+					coll_object.collection_object_id = coll_object_remark.collection_object_id AND
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 	
