@@ -1060,15 +1060,8 @@ limitations under the License.
 			<cfif len(remarks.collection_object_id) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="remarks">
-						<li class="list-group-item py-0"> #coll_object_remark.coll_object_remarks# 
-						 #related_collection# #related_cat_num# 
-						</li>
+						<li class="list-group-item py-0"> #coll_object_remark.coll_object_remarks# </li>
 					</cfloop>
-<!---					<cfif len(relns.biol_indiv_relationship) gt 0>
-						<li class="pb-1 list-group-item">
-						<a href="/Specimens.cfm?execute=true&action=fixedSearch&/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_blank">(Specimens List)</a>
-						</li>
-					</cfif>--->
 				</ul>
 			</cfif>
 			<cfcatch>
