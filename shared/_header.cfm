@@ -21,14 +21,14 @@ limitations under the License.
 <html lang="en">
 <head>
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script>
+<!---<script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
-</script>
+</script>--->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <cfoutput>
@@ -610,10 +610,10 @@ limitations under the License.
 					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_transactions") or listcontainsnocase(session.roles,"manage_permits") or listcontainsnocase(session.roles,"admin_transactions") or listcontainsnocase(session.roles,"admin_permits") )>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-	              			<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>							
+										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
 										<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
 										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
