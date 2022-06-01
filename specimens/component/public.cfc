@@ -1039,7 +1039,7 @@ limitations under the License.
 		<cftry>
 			<cfquery name="remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					coll_object_remarks
+					collection_object_id
 				FROM
 					coll_object_remark
 				WHERE
@@ -1048,7 +1048,7 @@ limitations under the License.
 			<cfif len(remarks.coll_object_remarks) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="remarks">
-						<li class="list-group-item py-0"> #coll_object_remark.coll_object_remarks# </li>
+						<li class="list-group-item py-0"> #collection_object_id# #coll_object_remark.coll_object_remarks# </li>
 					</cfloop>
 				</ul>
 			<cfelse> 
