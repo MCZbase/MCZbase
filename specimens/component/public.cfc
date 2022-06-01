@@ -1049,24 +1049,29 @@ limitations under the License.
 				WHERE
 					coll_object_remark.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfif len(remarks1.EnteredBy) gt 0 >
-				<ul class="list-group list-group-flush pt-1 float-left">
+			
 					<cfloop query="remarks1">
-						<cfif len(remarks1.coll_object_remarks) gt 0 ><li class="list-group-item py-0">Overall remarks: #remarks1.coll_object_remarks# </li></cfif>
-						<li class="list-group-item py-0">
-							<cfif len(remarks1.habitat) gt 0 >Habitat: #habitat# </cfif>
-							<cfif len(remarks1.disposition_remarks) gt 0 >Disposition remarks: #disposition_remarks#</cfif>
-							<cfif len(remarks1.associated_species) gt 0 >Associated Species: #associated_species#</cfif>
-							<ul class="list-group list-group-flush p-0 float-left">
-								<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item p-0">Entered By: #EnteredBy#</li></cfif>
-								<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item p-0">Last Edited By: #EditedBy#</li></cfif>
-							</ul>
-						</li>
+						<cfif len(remarks1.coll_object_remarks) gt 0 >
+						<ul class="list-group list-group-flush p-0 float-left">
+							<li class="list-group-item py-0">Overall remarks: #remarks1.coll_object_remarks# </li>
+						</ul>
+						</cfif>
+						<ul class="list-group list-group-flush p-0 float-left">
+							<cfif len(remarks1.habitat) gt 0 ><li class="list-group-item p-0">Habitat: #habitat# </cfif>
+							<cfif len(remarks1.disposition_remarks) gt 0 ><li class="list-group-item p-0">Disposition remarks: #disposition_remarks#</cfif>
+							<cfif len(remarks1.associated_species) gt 0 ><li class="list-group-item p-0">Associated Species: #associated_species#</cfif>
+						</ul>
+						<cfif len(remarks1.EnteredBy) gt 0 >
+						<ul class="list-group list-group-flush p-0 float-left">
+							<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item p-0">Entered By: #EnteredBy#</li></cfif>
+							<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item p-0">Last Edited By: #EditedBy#</li></cfif>
+						</ul>
+						<cfelse> 
+							No overall remarks
+						</cfif>
 					</cfloop>
 				</ul>
-			<cfelse> 
-				No overall remarks
-			</cfif>
+	
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
