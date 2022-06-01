@@ -1208,13 +1208,13 @@ limitations under the License.
 							FROM 
 								loan_item,
 								project,
-								project_trans
-							<!---,specimen_part --->
+								project_trans,
+								specimen_part 
 							WHERE 
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
 								loan_item.transaction_id=project_trans.transaction_id AND
-								project_trans.project_id=project.project_id
-							<!--- AND specimen_part.collection_object_id = loan_item.collection_object_id --->
+								project_trans.project_id=project.project_id AND
+								specimen_part.collection_object_id = loan_item.collection_object_id 
 							GROUP BY 
 								project_name, project.project_id
 						</cfquery>
@@ -1234,8 +1234,7 @@ limitations under the License.
 								specimen_part left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
 								left join loan on loan_item.transaction_id = loan.transaction_id
 							WHERE
-								loan_number is not null 
-							AND
+								loan_number is not null AND
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
