@@ -1032,6 +1032,76 @@ limitations under the License.
 	<cfreturn getRelationsThread.output>
 </cffunction>
 
+<cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getRemarksThread">
+	<cfoutput>
+		<cftry>
+			<cfquery name="remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					cataloged_item.collection_object_id as collection_object_id,
+					coll_object.coll_object_entered_date,
+					coll_object.last_edit_date,
+					coll_object.flags,
+					coll_object_remark.coll_object_remarks,
+					coll_object_remark.disposition_remarks,
+					coll_object_remark.associated_species,
+					coll_object_remark.habitat
+				FROM
+					cataloged_item,
+					coll_object,
+					coll_object_remark
+				WHERE
+					cataloged_item.collection_object_id = coll_object.collection_object_id AND
+					coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
+					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+	
+			<cfif len(relns.biol_indiv_relationship) gt 0 >
+				<ul class="list-group list-group-flush pt-1 float-left">
+					<cfloop query="relns">
+						<li class="list-group-item py-0"> #biol_indiv_relationship# 
+							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#" target="_blank"> #related_collection# #related_cat_num# </a>
+							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+								(Remark: #biol_indiv_relation_remarks#)
+							</cfif>
+						</li>
+					</cfloop>
+<!---					<cfif len(relns.biol_indiv_relationship) gt 0>
+						<li class="pb-1 list-group-item">
+						<a href="/Specimens.cfm?execute=true&action=fixedSearch&/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_blank">(Specimens List)</a>
+						</li>
+					</cfif>--->
+				</ul>
+			</cfif>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+							<div class="row">
+								<div class="alert alert-danger" role="alert">
+									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+									<h2>Internal Server Error.</h2>
+									<p>#message#</p>
+									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+								</div>
+							</div>
+						</div>
+			</cfcatch>
+		</cftry>
+	</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getRemarksThread"/>
+	<cfreturn getRemarksThread.output>
+</cffunction>
+						
+
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getTransactionsThread">
