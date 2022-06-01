@@ -1042,7 +1042,7 @@ limitations under the License.
 				<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
-			<cfquery name ="partcheck">
+			<cfquery name ="partcheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select PART_NAME from specimen_part where DERIVED_FROM_CAT_ITEM = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
