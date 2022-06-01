@@ -1049,7 +1049,7 @@ limitations under the License.
 				WHERE
 					coll_object_remark.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfif len(remarks1.collection_object_id) gt 0 >
+			<cfif len(remarks1.EnteredBy) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="remarks1">
 						<li class="list-group-item py-0">Overall remarks: #remarks1.coll_object_remarks# </li>
@@ -1057,7 +1057,8 @@ limitations under the License.
 							<cfif len(remarks1.habitat) gt 0 >#habitat# </cfif>
 							<cfif len(remarks1.disposition_remarks) gt 0 > #disposition_remarks#</cfif>
 							<cfif len(remarks1.associated_species) gt 0 > #associated_species#</cfif>
-							<cfif len(remarks1.associated_species) gt 0 > #associated_species#</cfif>
+							<cfif len(remarks1.EnteredBy) gt 0 > #EnteredBy#</cfif>
+							<cfif len(remarks1.EditedBy) gt 0 > #EditedBy#</cfif>
 						</li>
 					</cfloop>
 				</ul>
