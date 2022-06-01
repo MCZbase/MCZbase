@@ -71,7 +71,22 @@ function loadLedger(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
-
+function loadRemarks(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getRemarksHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"load ledger");
+		},
+		dataType: "html"
+	});
+};
 /** TODO: Document this function **/ 
 function removeMedia(media_id,form) {
 	jQuery.ajax({
