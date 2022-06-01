@@ -1039,7 +1039,7 @@ limitations under the License.
 		<cftry>
 			<cfquery name="remarks1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					collection_object_id,coll_object_remarks, habitat, associated_species, disposition_remarks, enteredPerson.agent_name EnteredBy,
+					coll_object_remark.collection_object_id,coll_object_remark.coll_object_remarks, coll_object_remark.habitat, coll_object_remark.associated_species, coll_object_remark.disposition_remarks, enteredPerson.agent_name EnteredBy,
 					editedPerson.agent_name EditedBy
 				FROM
 					coll_object_remark
