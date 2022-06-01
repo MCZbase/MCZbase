@@ -1052,7 +1052,7 @@ limitations under the License.
 			
 					<cfloop query="remarks1">
 						<cfif len(remarks1.coll_object_remarks) gt 0 >
-						<ul class="list-group list-group-flush py-0 float-left">
+						<ul class="list-group list-group-flush p-0 float-left">
 							<li class="list-group-item pb-1">Overall remarks: #remarks1.coll_object_remarks# </li>
 						</ul>
 						</cfif>
