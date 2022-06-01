@@ -554,7 +554,7 @@ And media_type <> 'text'
 								</cfif>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<div class="card-body py-1 mb-1 float-left" id="remarksCardBody">
+								<div class="card-body py-1 my-1 float-left" id="remarksCardBody">
 									<cfif len(#blockremarks#) gt 0>#blockremarks#<cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
 								</div>
 							</div>
