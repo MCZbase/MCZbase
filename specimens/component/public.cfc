@@ -1069,7 +1069,7 @@ limitations under the License.
 						</ul>
 						<cfif len(remarks1.EnteredBy) gt 0 >
 						<ul class="list-group list-group-flush p-0 float-left">
-							<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item px-0 pt-0 pb-1">Entered By: #EnteredBy#</li></cfif>
+							<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item px-0 pt-0 pb-1">Record Entered By: #EnteredBy#</li></cfif>
 							<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item px-0 pt-0 pb-1">Last Edited By: #EditedBy#</li></cfif>
 						</ul>
 						<cfelse> 
