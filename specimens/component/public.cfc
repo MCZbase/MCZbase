@@ -1042,6 +1042,9 @@ limitations under the License.
 				<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
+			<cfquery name ="partcheck">
+				select PART_NAME from specimen_part where DERIVED_FROM_CAT_ITEM = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			</cfquery>
 			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					cataloged_item.collection_object_id as collection_object_id,
@@ -1116,7 +1119,7 @@ limitations under the License.
 					depth_units,
 					collecting_method,
 					collecting_source,
-					specimen_part.derived_from_cat_item,
+					<!---specimen_part.derived_from_cat_item,--->
 					decode(trans.transaction_id, null, 0, 1) vpdaccn
 				FROM
 					cataloged_item,
@@ -1132,8 +1135,8 @@ limitations under the License.
 					preferred_agent_name enteredPerson,
 					preferred_agent_name editedPerson,
 					accn,
-					trans,
-					specimen_part
+					trans
+				<!---,	specimen_part--->
 				WHERE
 					cataloged_item.collection_id = collection.collection_id AND
 					cataloged_item.collection_object_id = identification.collection_object_id AND
@@ -1149,7 +1152,7 @@ limitations under the License.
 					coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 					cataloged_item.accn_id =  accn.transaction_id  AND
 					accn.transaction_id = trans.transaction_id(+) AND
-					cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+					<!---cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND--->
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
@@ -1192,6 +1195,7 @@ limitations under the License.
 							</cfif>
 						</li>
 						<!--------------------  Project / Usage ------------------------------------>	
+						
 						<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
 								project_name, project.project_id project_id 
@@ -1261,7 +1265,8 @@ limitations under the License.
 							</cfloop>
 							<cfloop query="isLoan">
 								<li class="list-group-item pt-0"><h5 class="mb-0 d-inline-block">Used By Project:</h5> 
-									<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
+									<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> 
+								</li>
 							</cfloop>
 							<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 								<li class="list-group-item pt-0">
