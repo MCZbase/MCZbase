@@ -1039,24 +1039,14 @@ limitations under the License.
 		<cftry>
 			<cfquery name="remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					coll_object.coll_object_entered_date,
-					coll_object.last_edit_date,
-					coll_object.flags,
-					coll_object_remark.coll_object_remarks,
-					coll_object_remark.disposition_remarks,
-					coll_object_remark.associated_species,
-					coll_object_remark.habitat
+					coll_object_remark.coll_object_remarks
 				FROM
-					cataloged_item,
-					coll_object,
 					coll_object_remark
 				WHERE
-					cataloged_item.collection_object_id = coll_object.collection_object_id AND
-					coll_object.collection_object_id = coll_object_remark.collection_object_id AND
-					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					coll_object_remark.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 	
-			<cfif len(remarks.last_edit_date) gt 0 >
+			<cfif len(remarks.coll_object_remarks) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="remarks">
 						<li class="list-group-item py-0"> #coll_object_remark.coll_object_remarks# </li>
