@@ -1053,15 +1053,15 @@ limitations under the License.
 					<cfloop query="remarks1">
 						<cfif len(remarks1.coll_object_remarks) gt 0 >
 						<ul class="list-group list-group-flush p-0 float-left">
-							<li class="list-group-item px-0 pt-0 pb-1">Overall remarks: #remarks1.coll_object_remarks# </li>
+							<li class="list-group-item px-0 pt-0 pb-1">Overall Remarks: #remarks1.coll_object_remarks# </li>
 						</ul>
 						</cfif>
 						<ul class="list-group list-group-flush p-0 float-left">
-							<cfif len(remarks1.habitat) gt 0 >
+				<!---			<cfif len(remarks1.habitat) gt 0 >
 								<li class="list-group-item px-0 pt-0 pb-1">Microhabitat: #habitat# </li>
-							</cfif>
+							</cfif>--->
 							<cfif len(remarks1.disposition_remarks) gt 0 >
-								<li class="list-group-item px-0 pt-0 pb-1">Disposition remarks: #disposition_remarks#</li>
+								<li class="list-group-item px-0 pt-0 pb-1">Disposition Remarks: #disposition_remarks#</li>
 							</cfif>
 							<cfif len(remarks1.associated_species) gt 0 >
 								<li class="list-group-item px-0 pt-0 pb-1">Associated Species: #associated_species#</li>
@@ -1104,7 +1104,6 @@ limitations under the License.
 	<cfthread action="join" name="getRemarksThread"/>
 	<cfreturn getRemarksThread.output>
 </cffunction>
-						
 
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
