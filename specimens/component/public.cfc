@@ -1037,18 +1037,18 @@ limitations under the License.
 	<cfthread name="getRemarksThread">
 	<cfoutput>
 		<cftry>
-			<cfquery name="remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="remarks1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					collection_object_id
+					coll_object_remarks
 				FROM
 					coll_object_remark
 				WHERE
 					coll_object_remark.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfif len(remarks.coll_object_remarks) gt 0 >
+			<cfif len(remarks1.coll_object_remarks) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
-					<cfloop query="remarks">
-						<li class="list-group-item py-0"> #collection_object_id# #coll_object_remark.coll_object_remarks# </li>
+					<cfloop query="remarks1">
+						<li class="list-group-item py-0"> #collection_object_id# #remarks1.coll_object_remarks# </li>
 					</cfloop>
 				</ul>
 			<cfelse> 
