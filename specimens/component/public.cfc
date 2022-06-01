@@ -1039,17 +1039,26 @@ limitations under the License.
 		<cftry>
 			<cfquery name="remarks1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					coll_object_remarks, habitat, associated_species, disposition_remarks
+					coll_object_remarks, habitat, associated_species, disposition_remarks, enteredPerson.agent_name EnteredBy,
+					editedPerson.agent_name EditedBy
 				FROM
 					coll_object_remark
+					left join coll_object on coll_object.collection_object_id = coll_object_remark.collection_object_id
+					left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
+					left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id (+)
 				WHERE
 					coll_object_remark.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfif len(remarks1.coll_object_remarks) gt 0 >
+			<cfif len(remarks1.collection_object_id) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="remarks1">
 						<li class="list-group-item py-0">Overall remarks: #remarks1.coll_object_remarks# </li>
-						<li class="list-group-item py-0">#habitat#, #disposition_remarks#, #associated_species#</li>
+						<li class="list-group-item py-0">
+							<cfif len(remarks1.habitat) gt 0 >#habitat# </cfif>
+							<cfif len(remarks1.disposition_remarks) gt 0 > #disposition_remarks#</cfif>
+							<cfif len(remarks1.associated_species) gt 0 > #associated_species#</cfif>
+							<cfif len(remarks1.associated_species) gt 0 > #associated_species#</cfif>
+						</li>
 					</cfloop>
 				</ul>
 			<cfelse> 
