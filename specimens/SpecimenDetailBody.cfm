@@ -516,6 +516,50 @@ And media_type <> 'text'
 							</div>
 						</div>
 					</div>
+								
+						<!------------ coll object remarks ----------------------------------------->
+					<div class="accordion" id="accordionRemarks">
+						<div class="card mb-2 bg-light">
+							<div id="remarksDialog"></div>
+							<script>
+								function reloadRemarks() { 
+								// invoke specimen/component/public.cfc function getRemarksHTML via ajax and repopulate the Other ID block.
+									loadRemarks(#collection_object_id#,'remarksCardBody');
+								}
+							</script>
+							<cfset blockremarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingRemarks">
+								<cfif len(#blockremarks#) gt 50> 
+									<h3 class="h4 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
+											Attributes
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
+												Edit
+											</a>
+										</cfif>
+									</h3>
+								<cfelse>
+									<h3 class="h4 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
+											Remarks
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
+												Add
+											</a>
+										</cfif>
+									</h3>
+								</cfif>
+							</div>
+							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
+								<div class="card-body py-1 mb-1 float-left" id="remarksCardBody">
+									<cfif len(#blockremarks#) gt 50>#blockremarks#<cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<!---  start of column three  --->
 				<div class="col-12 col-md-6 px-1 float-left"> 
