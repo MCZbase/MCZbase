@@ -1052,13 +1052,15 @@ limitations under the License.
 			<cfif len(remarks1.EnteredBy) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="remarks1">
-						<li class="list-group-item py-0">Overall remarks: #remarks1.coll_object_remarks# </li>
+						<cfif len(remarks1.coll_object_remarks) gt 0 ><li class="list-group-item py-0">Overall remarks: #remarks1.coll_object_remarks# </li></cfif>
 						<li class="list-group-item py-0">
 							<cfif len(remarks1.habitat) gt 0 >#habitat# </cfif>
 							<cfif len(remarks1.disposition_remarks) gt 0 > #disposition_remarks#</cfif>
 							<cfif len(remarks1.associated_species) gt 0 > #associated_species#</cfif>
-							<cfif len(remarks1.EnteredBy) gt 0 > #EnteredBy#</cfif>
-							<cfif len(remarks1.EditedBy) gt 0 > #EditedBy#</cfif>
+							<ul class="list-group list-group-flush pt-1 float-left">
+								<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item py-0">#EnteredBy#</li></cfif>
+								<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item py-0">#EditedBy#</li></cfif>
+							</ul>
 						</li>
 					</cfloop>
 				</ul>
