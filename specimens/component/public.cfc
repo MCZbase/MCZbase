@@ -1269,7 +1269,7 @@ limitations under the License.
 								<li class="list-group-item pt-0">
 									<h5 class="mb-0 d-inline-block">Loan History:</h5>
 									<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions") and partcheck.partname is not null>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<cfloop query="loanList">
 											<ul class="d-block">
 												<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
