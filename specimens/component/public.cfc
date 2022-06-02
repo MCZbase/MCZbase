@@ -1951,7 +1951,7 @@ limitations under the License.
 				<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
-				<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
@@ -1965,39 +1965,30 @@ limitations under the License.
 						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 						concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 					FROM
-						cataloged_item,
-						collection,
-						identification,
-						collecting_event,
-						coll_object,
-						coll_object_remark,
-						specimen_part,
-						preferred_agent_name enteredPerson,
-						preferred_agent_name editedPerson
+						cataloged_item
+						left join collection on cataloged_item.collection_id = collection.collection_id
+						left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+						left join collecting_event cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+						left join coll_object_remark coll_object.collection_object_id = coll_object_remark.collection_object_id
+						left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
+						left join preferred_agent_name editedPerson on on coll_object.last_edit_date = editedPerson.agent_id
 					WHERE
-						cataloged_item.collection_id = collection.collection_id AND
-						cataloged_item.collection_object_id = identification.collection_object_id AND
-						cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-						cataloged_item.collection_object_id = coll_object.collection_object_id AND
-						coll_object.collection_object_id = coll_object_remark.collection_object_id AND
-						coll_object.entered_person_id = enteredPerson.agent_id AND
-						coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-						cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 					<ul class="list-group pl-0 pt-1">
-						<cfif len(#one.coll_object_remarks#) gt 0>
-							<li class="list-group-item pt-0">Remarks: #one.coll_object_remarks# </li>
+						<cfif len(#meta.coll_object_remarks#) gt 0>
+							<li class="list-group-item pt-0">Remarks: #meta.coll_object_remarks# </li>
 						</cfif>
-						<li class="list-group-item"> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
-						<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
-							<li class="list-group-item pt-0"> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
+						<li class="list-group-item"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
+						<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
+							<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
 						</cfif>
-						<cfif len(#one.flags#) is not 0>
+						<cfif len(#meta.flags#) is not 0>
 							<li class="list-group-item"> Missing (flags): #one.flags# </li>
 						</cfif>
-						<cfif len(#one.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0"> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
+						<cfif len(#meta.encumbranceDetail#) is not 0>
+							<li class="list-group-item pt-0"> Encumbrances: #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
 					</ul>
 			<cfcatch>
