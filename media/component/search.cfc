@@ -1350,7 +1350,7 @@ imgStyleClass=value
 												<cfset showTitleText = "#left(showTitleText,250)#..." >
 											</cfif>
 										</cfif>
-										<p class="text-center col-12 my-0 p-0 smaller">#showTitleText# </p> 
+										<p class="text-center col-12 my-0 py-0 px-2 smaller">#showTitleText# </p> 
 										<cfif len(#license_uri#) gt 0>
 											<cfif #l_captionAs# EQ "TextFull">
 											<p class="text-center col-12 p-0 my-0 smaller">
