@@ -1114,6 +1114,7 @@ limitations under the License.
 					collection.collection,
 					accn.transaction_id Accession,
 					accn.accn_number,
+					identification.accepted_id_fg,
 					concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 					concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 					decode(trans.transaction_id, null, 0, 1) vpdaccn
