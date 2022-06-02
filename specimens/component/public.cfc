@@ -1919,8 +1919,6 @@ limitations under the License.
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
 						collection.collection_cde,
-						coll_object.coll_object_entered_date,
-						coll_object.last_edit_date,
 						coll_object.flags,
 						coll_object_remark.habitat, 
 						coll_object_remark.associated_species, 
@@ -1937,8 +1935,9 @@ limitations under the License.
 						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
 						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+						left join coll_object on coll_object.collection_object_id = coll_object_remark.collection_object_id
 						left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
-						left join preferred_agent_name editedPerson on coll_object.last_edit_date = editedPerson.agent_id
+						left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
