@@ -1304,7 +1304,7 @@ imgStyleClass=value
 										</cfif>
 										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
 										<cfif NOT isDisplayable>
-											#media_type# (#mime_type#)
+											<cfif listcontainsnocase(session.roles,"manage_publications")> #media_type# (#mime_type#)</cfif>
 											(<a class="" target="_blank" href="#media_uri#">media file</a>)
 										<cfelse>
 											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
@@ -1320,7 +1320,7 @@ imgStyleClass=value
 										</cfif>
 										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
 										<cfif NOT isDisplayable>
-											#media_type# (#mime_type#)
+											<cfif listcontainsnocase(session.roles,"manage_publications")>#media_type# (#mime_type#)</cfif>
 											(<a class="" target="_blank" href="#media_uri#">media file</a>)
 										<cfelse>
 											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
