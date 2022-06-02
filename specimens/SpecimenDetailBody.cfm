@@ -518,16 +518,16 @@ And media_type <> 'text'
 					</div>
 								
 						<!------------ coll object remarks ----------------------------------------->
-					<div class="accordion" id="accordionRemarks">
+					<div class="accordion" id="accordionMeta">
 						<div class="card mb-2 bg-light">
-							<div id="remarksDialog"></div>
+							<div id="metaDialog"></div>
 							<script>
-								function reloadRemarks() { 
+								function reloadMeta() { 
 								// invoke specimen/component/public.cfc function getRemarksHTML via ajax and repopulate the Other ID block.
-									loadRemarks(#collection_object_id#,'remarksCardBody');
+									loadMeta(#collection_object_id#,'metaCardBody');
 								}
 							</script>
-							<cfset blockremarks = getMetaHTML(collection_object_id = "#collection_object_id#")>
+							<cfset blockmeta = getMetaHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingMeta">
 								<cfif len(#blockmeta#) gt 50> 
 									<h3 class="h4 my-0">
