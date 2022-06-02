@@ -1934,9 +1934,9 @@ limitations under the License.
 						cataloged_item
 						left join collection on cataloged_item.collection_id = collection.collection_id
 						left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-						left join collecting_event cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-						left join coll_object_remark coll_object.collection_object_id = coll_object_remark.collection_object_id
+						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
 						left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
 						left join preferred_agent_name editedPerson on on coll_object.last_edit_date = editedPerson.agent_id
 					WHERE
