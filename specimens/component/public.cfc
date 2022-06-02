@@ -1957,10 +1957,10 @@ limitations under the License.
 						</cfif>
 					</ul>
 					<ul class="list-group list-group-flush p-0">
-						<cfif len(remarks1.disposition_remarks) gt 0 >
+						<cfif len(meta.disposition_remarks) gt 0 >
 							<li class="list-group-item py-1">Disposition Remarks: #disposition_remarks#</li>
 						</cfif>
-						<cfif len(remarks1.associated_species) gt 0 >
+						<cfif len(meta.associated_species) gt 0 >
 							<li class="list-group-item py-1">Associated Species: #associated_species#</li>
 						</cfif>
 					</ul>
