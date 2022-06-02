@@ -1025,15 +1025,23 @@ limitations under the License.
 	<cfreturn getRelationsThread.output>
 </cffunction>
 
-<cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getRemarksThread">
 	<cfoutput>
 		<cftry>
 			<cfquery name="remarks1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					coll_object_remark.collection_object_id,coll_object_remark.coll_object_remarks, coll_object_remark.habitat, coll_object_remark.associated_species, coll_object_remark.disposition_remarks, enteredPerson.agent_name EnteredBy,
-					editedPerson.agent_name EditedBy
+					coll_object_remark.collection_object_id,
+					coll_object_remark.coll_object_remarks, 
+					coll_object_remark.habitat, 
+					coll_object_remark.associated_species, 
+					coll_object_remark.disposition_remarks, 
+					enteredPerson.agent_name EnteredBy,
+					editedPerson.agent_name EditedBy,
+					coll_object.coll_object_entered_date,
+					coll_object.last_edit_date,
+					coll_object.flags,
 				FROM
 					coll_object_remark
 					left join coll_object on coll_object.collection_object_id = coll_object_remark.collection_object_id
@@ -1057,13 +1065,11 @@ limitations under the License.
 								<li class="list-group-item py-1">Associated Species: #associated_species#</li>
 							</cfif>
 						</ul>
-						<cfif len(remarks1.EnteredBy) gt 0 >
+						<cfif listcontainsnocase(session.roles,"manage_publications")>
 						<ul class="list-group list-group-flush p-0">
 							<cfif len(remarks1.EnteredBy) gt 0 ><li class="list-group-item py-1">Record Entered By: #EnteredBy#</li></cfif>
 							<cfif len(remarks1.EditedBy) gt 0 ><li class="list-group-item py-1">Last Edited By: #EditedBy#</li></cfif>
 						</ul>
-						<cfelse> 
-							No overall remarks
 						</cfif>
 					</cfloop>
 				</ul>
@@ -1093,7 +1099,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getRemarksThread"/>
 	<cfreturn getRemarksThread.output>
-</cffunction>
+</cffunction>--->
 
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -1894,7 +1900,7 @@ limitations under the License.
 	<cfreturn getCollectorsThread.output>
 </cffunction>		
 							
-<cffunction name="getMetadataHTML" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMetaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getMetadataThread">
 	<cfoutput>
@@ -1916,6 +1922,9 @@ limitations under the License.
 						coll_object.coll_object_entered_date,
 						coll_object.last_edit_date,
 						coll_object.flags,
+						coll_object_remark.habitat, 
+						coll_object_remark.associated_species, 
+						coll_object_remark.disposition_remarks, 
 						coll_object_remark.coll_object_remarks,
 						enteredPerson.agent_name EnteredBy,
 						editedPerson.agent_name EditedBy,
@@ -1946,6 +1955,14 @@ limitations under the License.
 						</cfif>
 						<cfif len(#meta.encumbranceDetail#) is not 0>
 							<li class="list-group-item pt-0"> Encumbrances: #replace(meta.encumbranceDetail,";","<br>","all")# </li>
+						</cfif>
+					</ul>
+					<ul class="list-group list-group-flush p-0">
+						<cfif len(remarks1.disposition_remarks) gt 0 >
+							<li class="list-group-item py-1">Disposition Remarks: #disposition_remarks#</li>
+						</cfif>
+						<cfif len(remarks1.associated_species) gt 0 >
+							<li class="list-group-item py-1">Associated Species: #associated_species#</li>
 						</cfif>
 					</ul>
 			<cfcatch>

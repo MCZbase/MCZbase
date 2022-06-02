@@ -71,11 +71,11 @@ function loadLedger(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
-function loadRemarks(collection_object_id,targetDivId) { 
+function loadMeta(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
-			method : "getRemarksHTML",
+			method : "getMetaHTML",
 			collection_object_id: collection_object_id
 		},
 		success: function (result) {

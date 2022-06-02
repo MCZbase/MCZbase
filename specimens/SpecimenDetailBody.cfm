@@ -343,7 +343,7 @@ And media_type <> 'text'
 											</cfif>
 											<div class="col-5 col-sm-2 col-md-4 col-xl-3 px-0 mx-2 my-0 float-left d-inline">
 												<cfset mediaBlock= getMediaBlockHtml(media_id="#publicationMedia.media_id#",size="350",captionAs="textCaption")>
-												<div id="mediaBlock#publicationMedia.media_id#">
+												<div id="mediaBlock#publicationMedia.media_id#" class="px-2">
 													#mediaBlock#
 												</div>
 											</div>
@@ -527,26 +527,26 @@ And media_type <> 'text'
 									loadRemarks(#collection_object_id#,'remarksCardBody');
 								}
 							</script>
-							<cfset blockremarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="headingRemarks">
-								<cfif len(#blockremarks#) gt 50> 
+							<cfset blockremarks = getMetaHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingMeta">
+								<cfif len(#blockmeta#) gt 50> 
 									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
 											Catalog Record Remarks and Metadata
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
 												Edit
 											</a>
 										</cfif>
 									</h3>
 								<cfelse>
 									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
-											Remarks
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
+											Catalog Record Remarks and Metadata
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'remarksDialog','#guid#',reloadRemarks)">
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
 												Add
 											</a>
 										</cfif>
