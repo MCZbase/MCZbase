@@ -214,11 +214,10 @@ limitations under the License.
 							author_text,
 							full_taxon_name 
 						FROM 
-							identification_taxonomy,
-							taxonomy
+							identification_taxonomy
+							left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
 						WHERE 
-							identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id 
-							AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<cfif accepted_id_fg is 1>
 						<ul class="list-group border-green mb-2 mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
@@ -468,12 +467,10 @@ limitations under the License.
 							formatted_publication.publication_id,
 							cited_taxa.taxon_status as cited_name_status
 						from
-							citation,
-							taxonomy cited_taxa,
-							formatted_publication
+							citation
+							left join taxonomy cited_taxa on citation.cited_taxon_name_id = cited_taxa.taxon_name_id
+							left join formatted_publication on citation.publication_id = formatted_publication.publication_id
 						where
-							citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
-							citation.publication_id = formatted_publication.publication_id AND
 							format_style='short' and
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						order by
@@ -492,7 +489,7 @@ limitations under the License.
 								#occurs_page_number#,
 								</cfif>
 							</cfif>
-							<span class="font-weight-lessbold">#type_status#</span> of 
+							<span class="font-weight-lessbold">#cited_name_status#</span> of 
 								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame">
 									<i>#replace(cited_name," ","&nbsp;","all")#</i>
 								</a>
@@ -944,45 +941,46 @@ limitations under the License.
 		<cftry>
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
-				distinct biol_indiv_relationship, related_coll_cde, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-			SELECT
-				 rel.biol_indiv_relationship as biol_indiv_relationship,
-				 collection as related_collection,
-				rel.collection.collection_cde as related_coll_cde,
-				 rel.related_coll_object_id as related_coll_object_id,
-				 rcat.cat_num as related_cat_num,
-				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				 biol_indiv_relations rel
-				 left join cataloged_item rcat
-					 on rel.related_coll_object_id = rcat.collection_object_id
-				 left join collection
+				distinct biol_indiv_relationship, related_coll_cde, related_collection, 
+				related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM 
+				(
+				SELECT
+					 rel.biol_indiv_relationship as biol_indiv_relationship,
+					 collection as related_collection,
+					rel.collection.collection_cde as related_coll_cde,
+					 rel.related_coll_object_id as related_coll_object_id,
+					 rcat.cat_num as related_cat_num,
+					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+				FROM
+					 biol_indiv_relations rel
+					 left join cataloged_item rcat
+						 on rel.related_coll_object_id = rcat.collection_object_id
+					 left join collection
+						 on collection.collection_id = rcat.collection_id
+					 left join ctbiol_relations ctrel
+					  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+					  and ctrel.rel_type <> 'functional'
+				UNION
+				SELECT
+					 ctrel.inverse_relation as biol_indiv_relationship,
+					 collection as related_collection,
+					ctrel.collection.collection_cde as related_coll_cde,
+					 irel.collection_object_id as related_coll_object_id,
+					 rcat.cat_num as related_cat_num,
+					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+				FROM
+					 biol_indiv_relations irel
+					 left join ctbiol_relations ctrel
+					  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					 left join cataloged_item rcat
+					  on irel.collection_object_id = rcat.collection_object_id
+					 left join collection
 					 on collection.collection_id = rcat.collection_id
-				 left join ctbiol_relations ctrel
-				  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-				  and ctrel.rel_type <> 'functional'
-			UNION
-			SELECT
-				 ctrel.inverse_relation as biol_indiv_relationship,
-				 collection as related_collection,
-				ctrel.collection.collection_cde as related_coll_cde,
-				 irel.collection_object_id as related_coll_object_id,
-				 rcat.cat_num as related_cat_num,
-				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-			FROM
-				 biol_indiv_relations irel
-				 left join ctbiol_relations ctrel
-				  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				 left join cataloged_item rcat
-				  on irel.collection_object_id = rcat.collection_object_id
-				 left join collection
-				 on collection.collection_id = rcat.collection_id
-			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				 and ctrel.rel_type <> 'functional'
-			)
+				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					 and ctrel.rel_type <> 'functional'
+				)
 		</cfquery>
-	
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="relns">
@@ -993,7 +991,7 @@ limitations under the License.
 							</cfif>
 						</li>
 					</cfloop>
-<!---					<cfif len(relns.biol_indiv_relationship) gt 0>
+					<!---<cfif len(relns.biol_indiv_relationship) gt 0>
 						<li class="pb-1 list-group-item">
 						<a href="/Specimens.cfm?execute=true&action=fixedSearch&/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_blank">(Specimens List)</a>
 						</li>
@@ -1107,114 +1105,30 @@ limitations under the License.
 				<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
-			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="getTran" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					cataloged_item.collection_object_id as collection_object_id,
 					cataloged_item.cat_num,
 					collection.collection_cde,
 					cataloged_item.accn_id,
 					collection.collection,
-					identification.scientific_name,
-					identification.identification_remarks,
-					identification.identification_id,
-					identification.made_date,
-					identification.nature_of_id,
-					collecting_event.collecting_event_id,
-					collecting_event.began_date,
-					collecting_event.ended_date,
-					collecting_event.verbatim_date,
-					collecting_event.startDayOfYear,
-					collecting_event.endDayOfYear,
-					collecting_event.habitat_desc,
-					collecting_event.coll_event_remarks,
-					locality.locality_id,
-					locality.minimum_elevation,
-					locality.maximum_elevation,
-					locality.orig_elev_units,
-					locality.spec_locality,
-					verbatimLatitude,
-					verbatimLongitude,
-					locality.sovereign_nation,
-					collecting_event.verbatimcoordinates,
-					collecting_event.verbatimlatitude verblat,
-					collecting_event.verbatimlongitude verblong,
-					collecting_event.verbatimcoordinatesystem,
-					collecting_event.verbatimSRS,
-					accepted_lat_long.dec_lat,
-					accepted_lat_long.dec_long,
-					accepted_lat_long.max_error_distance,
-					accepted_lat_long.max_error_units,
-					accepted_lat_long.determined_date latLongDeterminedDate,
-					accepted_lat_long.lat_long_ref_source,
-					accepted_lat_long.lat_long_remarks,
-					accepted_lat_long.datum,
-					latLongAgnt.agent_name latLongDeterminer,
-					geog_auth_rec.geog_auth_rec_id,
-					geog_auth_rec.continent_ocean,
-					geog_auth_rec.country,
-					geog_auth_rec.state_prov,
-					geog_auth_rec.quad,
-					geog_auth_rec.county,
-					geog_auth_rec.island,
-					geog_auth_rec.island_group,
-					geog_auth_rec.sea,
-					geog_auth_rec.feature,
-					coll_object.coll_object_entered_date,
-					coll_object.last_edit_date,
-					coll_object.flags,
-					coll_object_remark.coll_object_remarks,
-					coll_object_remark.disposition_remarks,
-					coll_object_remark.associated_species,
-					coll_object_remark.habitat,
-					enteredPerson.agent_name EnteredBy,
-					editedPerson.agent_name EditedBy,
 					accn.transaction_id Accession,
 					accn.accn_number,
 					concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 					concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-					locality.locality_remarks,
-					collecting_event.verbatim_locality,
-					collecting_time,
-					fish_field_number,
-					min_depth,
-					max_depth,
-					depth_units,
-					collecting_method,
-					collecting_source,
-					<!---specimen_part.derived_from_cat_item,--->
 					decode(trans.transaction_id, null, 0, 1) vpdaccn
 				FROM
-					cataloged_item,
-					collection,
-					identification,
-					collecting_event,
-					locality,
-					accepted_lat_long,
-					preferred_agent_name latLongAgnt,
-					geog_auth_rec,
-					coll_object,
-					coll_object_remark,
-					preferred_agent_name enteredPerson,
-					preferred_agent_name editedPerson,
-					accn,
-					trans
-				<!---,	specimen_part--->
+					cataloged_item
+					left join collection on cataloged_item.collection_id = collection.collection_id 
+					left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+					left join coll_object on coll_object.collection_object_id = cataloged_item.collection_object_id,
+					left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id (+)
+					left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
+					left join preferred_agent_name editedPerson on coll_object.entered_person_id = enteredPerson.agent_id
+					left join accn on cataloged_item.accn_id =  accn.transaction_id
+					left join trans on accn.transaction_id = trans.transaction_id(+)
 				WHERE
-					cataloged_item.collection_id = collection.collection_id AND
-					cataloged_item.collection_object_id = identification.collection_object_id AND
 					identification.accepted_id_fg = 1 AND
-					cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-					collecting_event.locality_id = locality.locality_id  AND
-					locality.locality_id = accepted_lat_long.locality_id (+) AND
-					accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
-					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-					cataloged_item.collection_object_id = coll_object.collection_object_id AND
-					coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-					coll_object.entered_person_id = enteredPerson.agent_id AND
-					coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-					cataloged_item.accn_id =  accn.transaction_id  AND
-					accn.transaction_id = trans.transaction_id(+) AND
-					<!---cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND--->
 					cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
@@ -1233,13 +1147,13 @@ limitations under the License.
 						media.media_id=media_relations.media_id and
 						media.media_id=media_labels.media_id (+) and
 						media_relations.media_relationship like '% accn' and
-						media_relations.related_primary_key = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						media_relations.related_primary_key = <cfqueryparam value="#getTran.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MCZBASE.is_media_encumbered(media.media_id) < 1
 				</cfquery>
 					<ul class="list-group list-group-flush pl-0 pt-1">
 						<li class="list-group-item pt-0"><h5 class="mb-0 d-inline-block">Accession:</h5>
 							<cfif oneOfUs is 1>
-								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.Accn_number#</a>
+								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getTran.accn_id#" target="_blank">#getTran.accn_number#</a>
 								<cfelse>
 								#one.accn_number#
 							</cfif>
@@ -1290,7 +1204,7 @@ limitations under the License.
 								loan_item,specimen_part 
 							WHERE 
 								loan_item.collection_object_id=specimen_part.collection_object_id AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#getTran.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1300,7 +1214,7 @@ limitations under the License.
 								left join loan on loan_item.transaction_id = loan.transaction_id
 							WHERE
 								loan_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#getTran.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1308,7 +1222,7 @@ limitations under the License.
 							FROM
 								specimen_part left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 							WHERE
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#getTran.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1318,7 +1232,7 @@ limitations under the License.
 								left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 							where
 								deacc_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#getTran.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 							<cfloop query="isProj">
