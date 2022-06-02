@@ -27,10 +27,7 @@ limitations under the License.
 			<cftry>
 			<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					media.media_id,
-					media.media_uri,
-					media.preview_uri,
-					media.mime_type
+					media.media_id
 				FROM
 					media
 					left join media_relations on media_relations.media_id = media.media_id
@@ -52,11 +49,9 @@ limitations under the License.
 								media.media_type,
 								mczbase.get_media_descriptor(media.media_id) as media_descriptor
 							FROM 
-								media,
-								media_relations
-							WHERE 
-								media_relations.media_id = media.media_id
-							AND
+								media
+								left join media_relations on media_relations.media_id = media.media_id
+							WHERE
 								media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 							and (media.media_type = 'image' OR media.media_type = 'audio' OR media.media_type = '3D model' OR media.media_type = 'video')
 						</cfquery>
@@ -119,7 +114,7 @@ limitations under the License.
 				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 				<cfif len(images.media_id)gt 0>
 					<cfloop query="images1">
-						<cfquery name="getImages1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---						<cfquery name="getImages1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct
 								media.media_id,
 								media.auto_host,
@@ -138,7 +133,7 @@ limitations under the License.
 							AND
 								media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 							and media.media_type = 'text'
-						</cfquery>
+						</cfquery>--->
 						<div class="col-6 py-1 float-left px-1">
 							<div class="border rounded py-2 px-1">
 								<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
