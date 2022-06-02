@@ -1156,7 +1156,7 @@ limitations under the License.
 							<cfif oneOfUs is 1>
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getTran.accn_id#" target="_blank">#getTran.accn_number#</a>
 								<cfelse>
-								#one.accn_number#
+								#getTran.accn_number#
 							</cfif>
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">
