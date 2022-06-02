@@ -1945,9 +1945,9 @@ limitations under the License.
 						<cfif len(#meta.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0">Remarks: #meta.coll_object_remarks# </li>
 						</cfif>
-						<li class="list-group-item"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
+						<li class="list-group-item"> Entered By: #meta.EnteredBy# <!---on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")#---> </li>
 						<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
-							<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
+							<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# <!---on #dateformat(meta.last_edit_date,"yyyy-mm-dd")#---> </li>
 						</cfif>
 						<cfif len(#meta.flags#) is not 0>
 							<li class="list-group-item"> Missing (flags): #one.flags# </li>
