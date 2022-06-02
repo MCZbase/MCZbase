@@ -1938,7 +1938,7 @@ limitations under the License.
 						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
 						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
 						left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
-						left join preferred_agent_name editedPerson on on coll_object.last_edit_date = editedPerson.agent_id
+						left join preferred_agent_name editedPerson on coll_object.last_edit_date = editedPerson.agent_id
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
