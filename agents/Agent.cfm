@@ -814,11 +814,12 @@ let infoWindow;
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 	var bounds = new google.maps.LatLngBounds(#points2.maxlat#, #points2.minlong#);
-		//bounds.extend(position)
+	bounds.extend(bounds)
 	}
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: bounds,
+    zoom: 5,
     center: centerpoint,
+	//bounds: bounds,
 	controlSize: 20,
     mapTypeId: "hybrid",
   });
