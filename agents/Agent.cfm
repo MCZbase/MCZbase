@@ -729,7 +729,7 @@ limitations under the License.
 													var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: centerpoint,
-														zoom: 1,
+														zoom: 3,
 														minZoom: 1,
 														maxZoom: 19,
 														mapTypeControl: true,
