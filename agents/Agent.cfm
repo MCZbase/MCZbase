@@ -727,7 +727,7 @@ limitations under the License.
 											let map, heatmap;
 											function initMap() {
 													//var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-													var myLatlng = new google.maps.LatLng(180 * Math.random(#points.Latitude#) - 90, 360 * Math.random(#points.Longitude#) - 180);
+													var myLatlng = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													var map = new google.maps.Map(
 													document.getElementById("map"),{
 														zoom: 1,
