@@ -813,7 +813,7 @@ let infoWindow;
 
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-//	var bounds = new google.maps.LatLngBounds([#points2.maxlat#, #points2.minlong#]);
+	var bounds = new google.maps.LatLngBounds([#points2.maxlat#, #points2.minlong#]);
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
     center: centerpoint,
@@ -863,8 +863,8 @@ function initMap() {
 		]
 	}
 
-function showMaxZoom(e) {
-  maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
+function showMaxZoom(bounds) {
+  maxZoomService.getMaxZoomAtLatLng(bounds, (result) => {
     if (result.status !== "OK") {
       infoWindow.setContent("Error in MaxZoomService");
     } else {
