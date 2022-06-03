@@ -730,18 +730,15 @@ limitations under the License.
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: centerpoint,
 														zoom: 1,
-														//minZoom: 1,
-														//maxZoom: 19,
+														minZoom: 1,
+														maxZoom: 19,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
 															//position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
-														
 													},
-														var zoom = map.getBoundsZoomLevel(bounds);
-														map.setCenter(center, zoom);
 														scaleControl: true,
 														streetViewControl: true,
 														streetViewControlOptions: {
@@ -795,7 +792,7 @@ limitations under the License.
 												bounds.extend(extendPoint1);
 												bounds.extend(extendPoint2);
 												}
-												var center = new LatLng(bounds.extend(extendPoint1), bounds.extend(extendPoint2));
+												//var center = new LatLng(bounds.extend(extendPoint1), bounds.extend(extendPoint2));
 //												var bounds = new google.maps.LatLngBounds();
 //												for (i = 0; i < LatLngs.length; i++) {
 //													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
@@ -806,8 +803,9 @@ limitations under the License.
 //													bounds.extend(position)
 //												}
 												
-												
-												map.fitBounds(bounds);
+												var zoom = map.getBoundsZoomLevel(bounds);
+												map.setCenter(center, zoom);
+												//map.fitBounds(bounds);
 												
 											</script>
 											<div class="p-1 mx-1">
