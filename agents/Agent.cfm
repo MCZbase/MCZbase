@@ -804,10 +804,31 @@ limitations under the License.
 //													bounds.extend(position)
 //												}
 												
-												var zoom = map.getBoundsZoomLevel(bounds);
-												map.setCenter(center, zoom);
-												map.fitBounds(bounds);
+											//	var zoom = map.getBoundsZoomLevel(bounds);
+//												map.setCenter(center, zoom);
+//												map.fitBounds(bounds);
 												
+												
+												function getZoomByBounds( map, bounds ){
+  var MAX_ZOOM = map.mapTypes.get( map.getMapTypeId() ).maxZoom || 21 ;
+  var MIN_ZOOM = map.mapTypes.get( map.getMapTypeId() ).minZoom || 0 ;
+
+  var ne= map.getProjection().fromLatLngToPoint( bounds.getNorthEast() );
+  var sw= map.getProjection().fromLatLngToPoint( bounds.getSouthWest() ); 
+
+  var worldCoordWidth = Math.abs(ne.x-sw.x);
+  var worldCoordHeight = Math.abs(ne.y-sw.y);
+
+  //Fit padding in pixels 
+  var FIT_PAD = 40;
+
+  for( var zoom = MAX_ZOOM; zoom >= MIN_ZOOM; --zoom ){ 
+      if( worldCoordWidth*(1<<zoom)+2*FIT_PAD < $(map.getDiv()).width() && 
+          worldCoordHeight*(1<<zoom)+2*FIT_PAD < $(map.getDiv()).height() )
+          return zoom;
+  }
+  return 0;
+}
 											</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
