@@ -812,7 +812,16 @@ let maxZoomService;
 let infoWindow;
 
 function initMap() {
-	var centerpoint = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
+	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+	var bounds = new google.maps.LatLngBounds();
+	for (i = 0; i < LatLngs.length; i++) {
+		position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+		marker = new google.maps.Marker({
+			position: position,
+			map: map
+		});
+		bounds.extend(position)
+	}
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 11,
     center: centerpoint,
