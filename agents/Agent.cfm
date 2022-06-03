@@ -725,6 +725,7 @@ limitations under the License.
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 											<script>
 											let map, heatmap;
+											let maxZoomService: google.maps.MaxZoomService;
 												function initMap() {
 													var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
@@ -747,6 +748,9 @@ limitations under the License.
 														mapTypeId: 'roadmap',
 														controlSize: 20,
 													});
+													
+													maxZoomService = new google.maps.MaxZoomService();
+													map.addListener("click", showMaxZoom);
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
 															map: map,
@@ -786,21 +790,38 @@ limitations under the License.
 													]
 												}
 												
-												if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-												}
-//												var bounds = new google.maps.LatLngBounds();
-//												for (i = 0; i < LatLngs.length; i++) {
-//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-//													marker = new google.maps.Marker({
-//														position: position,
-//														map: map
-//													});
-//													bounds.extend(position)
+						//						if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+//												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+//												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+//												bounds.extend(extendPoint1);
+//												bounds.extend(extendPoint2);
 //												}
+												var bounds = new google.maps.LatLngBounds();
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+													bounds.extend(position)
+												}
+												function showMaxZoom(e: google.maps.MapMouseEvent) {
+													maxZoomService.getMaxZoomAtLatLng(
+													e.latLng,
+													(result: google.maps.MaxZoomResult) => {
+														if (result.status !== "OK") {
+															infoWindow.setContent("Error in MaxZoomService");
+														} else {
+															infoWindow.setContent(
+															  "The maximum zoom at this location is: " + result.zoom
+															);
+														}
+
+														infoWindow.setPosition(e.latLng);
+														infoWindow.open(map);
+														}
+													);
+												}
 												map.fitBounds(bounds);
 											</script>
 											<div class="p-1 mx-1">
