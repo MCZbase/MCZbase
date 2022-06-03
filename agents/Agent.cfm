@@ -812,7 +812,7 @@ let maxZoomService;
 let infoWindow;
 
 function initMap() {
-	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylong#);
+	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylong#,#points2.minlat#, #points2.maxlat#);
 	
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
@@ -862,13 +862,7 @@ function initMap() {
 		</cfloop>
 		]
 	}
-												
-//var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-//var extendPoint2 = new google.maps.LatLng(bounds.getSouthWest().lat() - 0.05, bounds.getSouthWest().lng() - 0.05);
-//bounds.extend(extendPoint1);
-//bounds.extend(extendPoint2);
-//map.fitBounds(bounds);
-												
+
 function showMaxZoom(e) {
   maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
     if (result.status !== "OK") {
