@@ -862,9 +862,13 @@ function initMap() {
 		</cfloop>
 		]
 	}
-var bounds = new google.maps.LatLngBounds(#points2.minlat#, #points2.minlong#,#points2.maxlat#, #points2.maxlong#);
-var zoom = map.getBoundsZoomLevel(bounds);
-map.setCenter(center, zoom);
+												
+var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(#points2.maxlat#) + 0.05, bounds.getNorthEast().lng(#points2.maxlong#) + 0.05);
+var extendPoint2 = new google.maps.LatLng(bounds.getSouthWest().lat(#points2.minlat#) - 0.05, bounds.getSouthWest().lng(#points2.minlong#) - 0.05);
+bounds.extend(extendPoint1);
+bounds.extend(extendPoint2);
+map.fitBounds(bounds);
+												
 function showMaxZoom(e) {
   maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
     if (result.status !== "OK") {
