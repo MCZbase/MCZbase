@@ -824,13 +824,13 @@ limitations under the License.
 
 
 <ul id="mapMarkers">
-<cfoutput query="points">
+<cfloop query="points">
     <li class="mapMarker" data-latitude="#points2.dec_lat#" data-longitude="#points2.dec_long#">
         <div class="info-window">
        
         </div>
     </li>
-</cfoutput>
+</cfloop>
 </ul>
 <div id="map1"></div>
 
