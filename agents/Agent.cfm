@@ -738,7 +738,7 @@ limitations under the License.
 															//position: google.maps.ControlPosition.CENTER_TOP,
 													//		mapTypeIds: ["roadmap","satellite","terrain"],
 													//		controlSize: 20,
-														},
+//														},
 														//scaleControl: true,
 													//	streetViewControl: true,
 														//streetViewControlOptions: {
