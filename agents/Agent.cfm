@@ -863,11 +863,11 @@ function initMap() {
 		]
 	}
 												
-var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-var extendPoint2 = new google.maps.LatLng(bounds.getSouthWest().lat() - 0.05, bounds.getSouthWest().lng() - 0.05);
-bounds.extend(extendPoint1);
-bounds.extend(extendPoint2);
-map.fitBounds(bounds);
+//var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+//var extendPoint2 = new google.maps.LatLng(bounds.getSouthWest().lat() - 0.05, bounds.getSouthWest().lng() - 0.05);
+//bounds.extend(extendPoint1);
+//bounds.extend(extendPoint2);
+//map.fitBounds(bounds);
 												
 function showMaxZoom(e) {
   maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
