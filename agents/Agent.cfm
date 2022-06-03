@@ -812,7 +812,7 @@ let maxZoomService;
 let infoWindow;
 
 function initMap() {
-	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylong#,#points2.minlat#, #points2.maxlat#);
+	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylong#);
 	
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
