@@ -814,16 +814,10 @@ let infoWindow;
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 	var bounds = new google.maps.LatLngBounds(#points2.maxlat#, #points2.minlong#);
-	for (i = 0; i < LatLng.length; i++) {
-		position = new google.maps.LatLng(LatLng[i][0], LatLng[i][1]);
-		marker = new google.maps.Marker({
-			position: position,
-			map: map
-		});
-		bounds.extend(position)
+		//bounds.extend(position)
 	}
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 11,
+    zoom: bounds,
     center: centerpoint,
 	controlSize: 20,
     mapTypeId: "hybrid",
