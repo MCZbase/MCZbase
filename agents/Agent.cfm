@@ -804,8 +804,7 @@ limitations under the License.
 //												}
 												
 												var zoom = map.getBoundsZoomLevel(bounds);
-												map.setCenter(center, zoom);
-												//map.fitBounds(bounds);
+												map.fitBounds(bounds,getZoom());
 												
 											</script>
 											<div class="p-1 mx-1">
@@ -818,78 +817,7 @@ limitations under the License.
 								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
 								</div>
 							</section>
-							</cfif>		
-<!---	//START test		--->			
-
-
-
-<ul id="mapMarkers">
-<cfloop query="points">
-    <li class="mapMarker" data-latitude="#points.Latitude#" data-longitude="#points.Longitude#"></li>
-</cfloop>
-</ul>
-<div id="map1"></div>
-
-<script type="text/javascript">
-$(function() {
-    var $container = $("##mapMarkers");
-
-    var $map = $("##map1");
-    var $markers = $container.find(".mapMarker");
-
-    var bounds = new google.maps.LatLngBounds();
-    var infowindow = new google.maps.InfoWindow({
-        maxWidth: 300
-    });
-
-    var gmap = new google.maps.Map($map[0], {
-        zoom: 8
-        , mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-
-    $markers.each(function(){
-        $this = $(this);
-        var Latitude = $this.attr("data-latitude");
-        var Longitude = $this.attr("data-longitude");
-        var content = $this.find(".info-window").remove().html();
-        var latlng = new google.maps.LatLng(Latitude, Longitude);
-
-        bounds.extend(latlng);
-
-        var marker = new google.maps.Marker({
-            position: latlng
-            , map: gmap
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent(content);
-            infowindow.open(this.map, this);
-        });
-
-        google.maps.event.addListener(gmap, 'click', function() {
-            infowindow.close();
-        });
-
-        $this.click(function(e, el) {
-            e.preventDefault();
-
-            infowindow.setContent(content);
-            infowindow.open(gmap, marker);
-        })
-    });
-
-    if($markers.length > 1)
-        gmap.fitBounds(bounds);
-    else
-        gmap.setCenter(bounds.getCenter());
-
-    $container.hide();
-});
-	
-	
-</script>
-						
-	   <!---END test--->
+							</cfif>
 								
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
