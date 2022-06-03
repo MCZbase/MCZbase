@@ -821,8 +821,7 @@ function initMap() {
 	controlSize: 20,
     mapTypeId: "hybrid",
   });
-//	var ne = "#points2.maxlat#, #points2.maxlong#";
-//	var sw = "#points2.minlat#, #points2.minlong#";
+
   infoWindow = new google.maps.InfoWindow();
   maxZoomService = new google.maps.MaxZoomService();
   map.addListener("click", showMaxZoom);
