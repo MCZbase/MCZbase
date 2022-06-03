@@ -813,9 +813,9 @@ let infoWindow;
 
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-	var bounds = new google.maps.LatLngBounds();
-	for (i = 0; i < LatLngs.length; i++) {
-		position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+	var bounds = new google.maps.LatLngBounds(#points2.maxlat#, #points2.minlong#);
+	for (i = 0; i < LatLng.length; i++) {
+		position = new google.maps.LatLng(LatLng[i][0], LatLng[i][1]);
 		marker = new google.maps.Marker({
 			position: position,
 			map: map
