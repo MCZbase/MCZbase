@@ -738,9 +738,10 @@ limitations under the License.
 															//position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
+														
+													},
 														var zoom = map.getBoundsZoomLevel(bounds);
 														map.setCenter(center, zoom);
-													},
 														scaleControl: true,
 														streetViewControl: true,
 														streetViewControlOptions: {
