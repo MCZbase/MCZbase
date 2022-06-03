@@ -809,19 +809,19 @@ limitations under the License.
 //												bounds.extend(extendPoint1);
 //												bounds.extend(extendPoint2);
 //												}
-												var bounds = new google.maps.LatLngBounds();
-												for (i = 0; i < LatLngs.length; i++) {
-													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-													marker = new google.maps.Marker({
-														position: position,
-														map: map
-													});
-													bounds.extend(position)
-												}
+											//	var bounds = new google.maps.LatLngBounds();
+//												for (i = 0; i < LatLngs.length; i++) {
+//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+//													marker = new google.maps.Marker({
+//														position: position,
+//														map: map
+//													});
+//													bounds.extend(position)
+//												}
 //												var myLatlng = new google.maps.LatLng(
 //
 //												var zoom = map.getBoundsZoomLevel(bounds);
-												map.fitBounds(bounds);
+												//map.fitBounds(bounds);
 //												map.setCenter(center, zoom);
 												
 											</script>
