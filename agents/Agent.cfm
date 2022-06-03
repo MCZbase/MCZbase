@@ -727,7 +727,22 @@ limitations under the License.
 											let map, heatmap;
 											function initMap() {
 													//var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-													var myLatlng = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													//var myLatlng = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+													function getPoints(){
+													return [
+													<cfloop query="points">
+														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+													</cfloop>
+													]
+												}
+												
+												if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+												bounds.extend(extendPoint1);
+												bounds.extend(extendPoint2);
+												}
+												var myLatlng = new google.maps.LatLng(#extendPoint1#, #extendPoint2#);
 													var map = new google.maps.Map(
 													document.getElementById("map"),{
 														zoom: 1,
