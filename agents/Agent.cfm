@@ -825,7 +825,7 @@ limitations under the License.
 
 <ul id="mapMarkers">
 <cfloop query="points">
-    <li class="mapMarker" data-latitude="#points.dec_lat#" data-longitude="#points.dec_long#">
+    <li class="mapMarker" data-latitude="#points.Latitude#" data-longitude="#points.Longitude#">
         <div class="info-window">
        
         </div>
