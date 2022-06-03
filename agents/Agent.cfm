@@ -728,8 +728,9 @@ limitations under the License.
 												function initMap() {
 													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
-														center: Cambridge,
-														zoom:1,
+														//center: Cambridge,
+														zoom: 1,
+														center: new google.maps.LatLng(lat, lng),
 														minZoom: 1,
 														maxZoom: 19,
 														mapTypeControl: true,
