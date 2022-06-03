@@ -806,7 +806,7 @@ limitations under the License.
 												
 											//	var zoom = map.getBoundsZoomLevel(bounds);
 //												map.setCenter(center, zoom);
-//												map.fitBounds(bounds);
+											map.fitBounds(bounds);
 												
 												
 												function getZoomByBounds( map, bounds ){
