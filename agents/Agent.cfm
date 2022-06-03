@@ -725,6 +725,7 @@ limitations under the License.
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 											<script>
 											let map, heatmap;
+											let maxZoomService: google.maps.MaxZoomService;
 												function initMap() {
 													var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
