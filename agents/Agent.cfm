@@ -810,13 +810,13 @@ limitations under the License.
 													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 												}
 											
-												function getPoints(){
-													return [
-													<cfloop query="points">
-														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-													</cfloop>
-													]
-												}
+//												function getPoints(){
+//													return [
+//													<cfloop query="points">
+//														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+//													</cfloop>
+//													]
+//												}
 												
 								//				if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 //												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
