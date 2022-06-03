@@ -970,9 +970,9 @@ window.initMap = initMap;
 //						map.fitBounds(bounds);
 //			        	for(var a=0; a<polygonArray.length; a++){
 //			        		if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-//			        			$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+//			        			$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
 //				        	} else {
-//				    			$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+//				    			$("##mapdiv_" + locid).addClass('niceGeoSPatData');
 //			        		}
 //			        	}
 //					});
