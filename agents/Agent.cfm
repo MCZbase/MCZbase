@@ -810,10 +810,11 @@ limitations under the License.
 let map, heatmap;
 let maxZoomService;
 let infoWindow;
-	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+
 	var bounds = new google.maps.LatLngBounds(#points2.maxlat#, #points2.minlong#);
 	bounds.extend(bounds);
 function initMap() {
+	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 5,
     center: centerpoint,
