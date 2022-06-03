@@ -725,8 +725,7 @@ limitations under the License.
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 											<script>
 											let map, heatmap;
-											let maxZoomService: google.maps.MaxZoomService;
-												function initMap() {
+											function initMap() {
 													var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: centerpoint,
@@ -803,9 +802,10 @@ limitations under the License.
 //													});
 //													bounds.extend(position)
 //												}
+												map.fitBounds(bounds);
 												var zoom = map.getBoundsZoomLevel(bounds);
 												map.setCenter(center, zoom);
-												//map.fitBounds(bounds);
+												
 											</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
