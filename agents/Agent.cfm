@@ -786,21 +786,21 @@ limitations under the License.
 													]
 												}
 												
-												if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
-												}
-//												var bounds = new google.maps.LatLngBounds();
-//												for (i = 0; i < LatLngs.length; i++) {
-//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-//													marker = new google.maps.Marker({
-//														position: position,
-//														map: map
-//													});
-//													bounds.extend(position)
+								//				if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+//												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+//												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+//												bounds.extend(extendPoint1);
+//												bounds.extend(extendPoint2);
 //												}
+												var bounds = new google.maps.LatLngBounds();
+												for (i = 0; i < LatLngs.length; i++) {
+													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+													marker = new google.maps.Marker({
+														position: position,
+														map: map
+													});
+													bounds.extend(position)
+												}
 												
 												var zoom = map.getBoundsZoomLevel(bounds);
 												map.fitBounds(bounds);
