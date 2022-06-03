@@ -727,26 +727,43 @@ limitations under the License.
 											let map, heatmap;
 											function initMap() {
 													var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-													map = new google.maps.Map(document.getElementById('map'), {
-														center: centerpoint,
-														zoom: 3,
-														minZoom: 1,
-														maxZoom: 19,
-														mapTypeControl: true,
-														mapTypeControlOptions: {
-															style: google.maps.MapTypeControlStyle.SMALL,
-															//position: google.maps.ControlPosition.CENTER_TOP,
-															mapTypeIds: ["roadmap","satellite","terrain"],
-															controlSize: 20,
-													},
-														scaleControl: true,
-														streetViewControl: true,
-														streetViewControlOptions: {
-															//position: google.maps.ControlPosition.CENTER_TOP,
-													},
-														mapTypeId: 'roadmap',
-														controlSize: 20,
+													var myLatlng = new google.maps.LatLng(180 * Math.random() - 90, 360 * Math.random() - 180);
+													var map = new google.maps.Map(
+													document.getElementById("map"),{
+														zoom: 0,
+														center: myLatlng,
+														mapTypeId: google.maps.MapTypeId.HYBRID
 													});
+													var maxZoomService = new google.maps.MaxZoomService();
+													maxZoomService.getMaxZoomAtLatLng(
+													  myLatlng,
+													  function(response) {
+														if (response.status == google.maps.MaxZoomStatus.OK) {
+														  map.setZoom(response.zoom);
+														} else {
+														  alert("Error in Max Zoom Service.");
+														}
+													});
+													//map = new google.maps.Map(document.getElementById('map'), {
+//														center: centerpoint,
+//														zoom: 1,
+//														minZoom: 1,
+//														maxZoom: 19,
+//														mapTypeControl: true,
+//														mapTypeControlOptions: {
+//															style: google.maps.MapTypeControlStyle.SMALL,
+//															//position: google.maps.ControlPosition.CENTER_TOP,
+//															mapTypeIds: ["roadmap","satellite","terrain"],
+//															controlSize: 20,
+//													},
+													//	scaleControl: true,
+//														streetViewControl: true,
+//														streetViewControlOptions: {
+//															//position: google.maps.ControlPosition.CENTER_TOP,
+//													},
+//														mapTypeId: 'roadmap',
+//														controlSize: 20,
+//													});
 													heatmap = new google.maps.visualization.HeatmapLayer({
 														data: getPoints(),
 															map: map,
@@ -792,19 +809,20 @@ limitations under the License.
 //												bounds.extend(extendPoint1);
 //												bounds.extend(extendPoint2);
 //												}
-												var bounds = new google.maps.LatLngBounds();
-												for (i = 0; i < LatLngs.length; i++) {
-													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-													marker = new google.maps.Marker({
-														position: position,
-														map: map
-													});
-													bounds.extend(position)
-												}
-												
-												var zoom = map.getBoundsZoomLevel(bounds);
-												map.fitBounds(bounds);
-												map.setCenter(center, zoom);
+												//var bounds = new google.maps.LatLngBounds();
+//												for (i = 0; i < LatLngs.length; i++) {
+//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
+//													marker = new google.maps.Marker({
+//														position: position,
+//														map: map
+//													});
+//													bounds.extend(position)
+//												}
+//												var myLatlng = new google.maps.LatLng(
+//
+//												var zoom = map.getBoundsZoomLevel(bounds);
+//												map.fitBounds(bounds);
+//												map.setCenter(center, zoom);
 												
 											</script>
 											<div class="p-1 mx-1">
