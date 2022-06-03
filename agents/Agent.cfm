@@ -825,11 +825,7 @@ limitations under the License.
 
 <ul id="mapMarkers">
 <cfloop query="points">
-    <li class="mapMarker" data-latitude="#points.Latitude#" data-longitude="#points.Longitude#">
-        <div class="info-window">
-       
-        </div>
-    </li>
+    <li class="mapMarker" data-latitude="#points.Latitude#" data-longitude="#points.Longitude#"></li>
 </cfloop>
 </ul>
 <div id="map1"></div>
@@ -853,10 +849,10 @@ $(function() {
 
     $markers.each(function(){
         $this = $(this);
-        var latitude = $this.attr("data-latitude");
-        var longitude = $this.attr("data-longitude");
+        var Latitude = $this.attr("data-latitude");
+        var Longitude = $this.attr("data-longitude");
         var content = $this.find(".info-window").remove().html();
-        var latlng = new google.maps.LatLng(latitude, longitude);
+        var latlng = new google.maps.LatLng(Latitude, Longitude);
 
         bounds.extend(latlng);
 
