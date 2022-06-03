@@ -812,9 +812,8 @@ let maxZoomService;
 let infoWindow;
 
 function initMap() {
-	var ne = new google.maps.LatLngBounds(#points2.maxlat#, #points2.maxlong#);
-	var sw = new google.maps.LatLngBounds(#points2.minlat#, #points2.minlong#);
-	var centerpoint = new google.maps.LatLng([ne,sw]);
+
+	var centerpoint = new google.maps.LatLng([#points2.mylat#, #points2.mylong#]);
 	
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 3,
@@ -822,9 +821,10 @@ function initMap() {
 	controlSize: 20,
     mapTypeId: "hybrid",
   });
-
+	var ne = "#points2.maxlat#, #points2.maxlong#";
+	var sw = "#points2.minlat#, #points2.minlong#";
   infoWindow = new google.maps.InfoWindow();
-  maxZoomService = new google.maps.MaxZoomService([#points2.maxlat#, #points2.minlong#]);
+  maxZoomService = new google.maps.MaxZoomService([ne, sw]);
   map.addListener("click", showMaxZoom);
 	
 	heatmap = new google.maps.visualization.HeatmapLayer({
