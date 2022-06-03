@@ -729,7 +729,7 @@ limitations under the License.
 													var Cambridge = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: Cambridge,
-														zoom:1,
+														//zoom:1,
 														minZoom: 1,
 														maxZoom: 19,
 														mapTypeControl: true,
@@ -785,7 +785,8 @@ limitations under the License.
 													</cfloop>
 													]
 												}
-												
+
+												map.fitBounds(bounds);
 												if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
 												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
