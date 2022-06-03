@@ -707,7 +707,7 @@ limitations under the License.
 							</section>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 								
-								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng, max(lat_long.dec_long) as maxlong,min(lat_long.dec_long)as minlong,min(lat_long.dec_lat) as minlat,max(lat_long.dec_lat)as maxlat
+								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng, max(lat_long.dec_long) as maxlong,min(lat_long.dec_long)as minlong
 								FROM locality
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									on flat.locality_id = locality.locality_id
@@ -822,7 +822,7 @@ function initMap() {
   });
 
   infoWindow = new google.maps.InfoWindow();
-  maxZoomService = new google.maps.MaxZoomService();
+  maxZoomService = new google.maps.MaxZoomService([#points2.maxlong#, #points2.minlong#]);
   map.addListener("click", showMaxZoom);
 	
 	heatmap = new google.maps.visualization.HeatmapLayer({
