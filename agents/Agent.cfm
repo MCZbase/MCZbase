@@ -729,15 +729,17 @@ limitations under the License.
 													var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 													map = new google.maps.Map(document.getElementById('map'), {
 														center: centerpoint,
-														zoom: 1,
-														minZoom: 1,
-														maxZoom: 19,
+														//zoom: 1,
+														//minZoom: 1,
+														//maxZoom: 19,
 														mapTypeControl: true,
 														mapTypeControlOptions: {
 															style: google.maps.MapTypeControlStyle.SMALL,
 															//position: google.maps.ControlPosition.CENTER_TOP,
 															mapTypeIds: ["roadmap","satellite","terrain"],
 															controlSize: 20,
+														var zoom = map.getBoundsZoomLevel(bounds);
+														map.setCenter(center, zoom);
 													},
 														scaleControl: true,
 														streetViewControl: true,
@@ -802,9 +804,9 @@ limitations under the License.
 //													});
 //													bounds.extend(position)
 //												}
+												
+												
 												map.fitBounds(bounds);
-												var zoom = map.getBoundsZoomLevel(bounds);
-												map.setCenter(center, zoom);
 												
 											</script>
 											<div class="p-1 mx-1">
