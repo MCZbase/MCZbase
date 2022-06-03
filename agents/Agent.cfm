@@ -792,7 +792,6 @@ limitations under the License.
 												bounds.extend(extendPoint1);
 												bounds.extend(extendPoint2);
 												}
-												//var center = new LatLng(bounds.extend(extendPoint1), bounds.extend(extendPoint2));
 //												var bounds = new google.maps.LatLngBounds();
 //												for (i = 0; i < LatLngs.length; i++) {
 //													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
@@ -804,7 +803,8 @@ limitations under the License.
 //												}
 												
 												var zoom = map.getBoundsZoomLevel(bounds);
-												map.fitBounds(bounds,getZoom());
+												map.fitBounds(bounds);
+												map.setCenter(center, zoom);
 												
 											</script>
 											<div class="p-1 mx-1">
