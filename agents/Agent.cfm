@@ -819,7 +819,82 @@ limitations under the License.
 								</div>
 							</section>
 							</cfif>		
-							
+<!---	//START test		--->			
+
+
+
+<ul id="mapMarkers">
+<cfoutput query="points">
+    <li class="mapMarker" data-latitude="#points.dec_lat#" data-longitude="#points.dec_long#">
+        <div class="info-window">
+       
+        </div>
+    </li>
+</cfoutput>
+</ul>
+<div id="map1"></div>
+
+<script type="text/javascript">
+$(function() {
+    var $container = $("##mapMarkers");
+
+    var $map = $("##map1");
+    var $markers = $container.find(".mapMarker");
+
+    var bounds = new google.maps.LatLngBounds();
+    var infowindow = new google.maps.InfoWindow({
+        maxWidth: 300
+    });
+
+    var gmap = new google.maps.Map($map[0], {
+        zoom: 8
+        , mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+
+    $markers.each(function(){
+        $this = $(this);
+        var latitude = $this.attr("data-latitude");
+        var longitude = $this.attr("data-longitude");
+        var content = $this.find(".info-window").remove().html();
+        var latlng = new google.maps.LatLng(latitude, longitude);
+
+        bounds.extend(latlng);
+
+        var marker = new google.maps.Marker({
+            position: latlng
+            , map: gmap
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent(content);
+            infowindow.open(this.map, this);
+        });
+
+        google.maps.event.addListener(gmap, 'click', function() {
+            infowindow.close();
+        });
+
+        $this.click(function(e, el) {
+            e.preventDefault();
+
+            infowindow.setContent(content);
+            infowindow.open(gmap, marker);
+        })
+    });
+
+    if($markers.length > 1)
+        gmap.fitBounds(bounds);
+    else
+        gmap.setCenter(bounds.getCenter());
+
+    $container.hide();
+});
+	
+	
+</script>
+						
+	   <!---END test--->
+								
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
