@@ -812,8 +812,8 @@ let maxZoomService;
 let infoWindow;
 
 function initMap() {
-	var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
-	var sw = new google.maps.LatLng(#points2.minlat#, #points2.minlong#);
+	var ne = new google.maps.LatLngBounds(#points2.maxlat#, #points2.maxlong#);
+	var sw = new google.maps.LatLngBounds(#points2.minlat#, #points2.minlong#);
 	var centerpoint = new google.maps.LatLng([ne,sw]);
 	
   map = new google.maps.Map(document.getElementById("map"), {
