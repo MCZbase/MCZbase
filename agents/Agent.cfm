@@ -730,7 +730,7 @@ limitations under the License.
 													var myLatlng = new google.maps.LatLng(180 * Math.random(#points2.mylat#) - 90, 360 * Math.random(#points2.mylng#) - 180);
 													var map = new google.maps.Map(
 													document.getElementById("map"),{
-														zoom: 0,
+														zoom: 1,
 														center: myLatlng,
 														mapTypeId: google.maps.MapTypeId.HYBRID
 													});
