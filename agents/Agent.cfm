@@ -807,104 +807,29 @@ limitations under the License.
 											//	var zoom = map.getBoundsZoomLevel(bounds);
 //												map.setCenter(center, zoom);
 										//	map.fitBounds(bounds);
-//let map, heatmap;
+let map, heatmap;
 
-//
-//function initMap() {
-//	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-//	map = new google.maps.Map(document.getElementById("map"), {
-//	//zoom: 3,
-//		center: centerpoint,
-//		controlSize: 20,
-//		mapTypeId: "hybrid",
-//	});
-//
 
-//	
-//	heatmap = new google.maps.visualization.HeatmapLayer({
-//		data: getPoints(),
-//		map: map,
-//	});
-//
-//	document
-//		.getElementById("change-gradient")
-//		.addEventListener("click", changeGradient);
-//}
-//	function toggleHeatmap(){
-//		heatmap.setMap(heatmap.getMap() ? null : map);
-//	}
-//	function changeGradient() {
-//		const gradient = [
-//			"rgba(0, 255, 255, 0)",
-//			"rgba(0, 255, 255, 1)",
-//			"rgba(0, 191, 255, 1)",
-//			"rgba(0, 127, 255, 1)",
-//			"rgba(0, 63, 255, 1)",
-//			"rgba(0, 0, 255, 1)",
-//			"rgba(0, 0, 223, 1)",
-//			"rgba(0, 0, 191, 1)",
-//			"rgba(0, 0, 159, 1)",
-//			"rgba(0, 0, 127, 1)",
-//			"rgba(63, 0, 91, 1)",
-//			"rgba(127, 0, 63, 1)",
-//			"rgba(191, 0, 31, 1)",
-//			"rgba(255, 0, 0, 1)",
-//		];
-//		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-//	}
-//
-//	function getPoints() {
-//		return [
-//		<cfloop query="points">
-//			new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-//		</cfloop>
-//		]
-//	}
-//	getNorthEast = getBounds(getPoints());
-//	map.fitBounds(latLngBounds); 
+function initMap() {
+	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+	map = new google.maps.Map(document.getElementById("map"), {
+		zoom: 2,
+		center: centerpoint,
+		controlSize: 20,
+		mapTypeId: "hybrid",
+	});
+
+
 	
-												
+	heatmap = new google.maps.visualization.HeatmapLayer({
+		data: getPoints(),
+		map: map,
+	});
 
-	var map, pointarray, heatmap;
-
-	var points= [];
-
-	function initialize() {
-		var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-		var mapOptions = {
-			zoom: 3,
-			controlSize: 20,
-			mapTypeId: "hybrid",
-		};
-
-		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-		var geocoder = new google.maps.Geocoder();
-
-		geocoder.geocode({'address': 'WORLD'}, function(results, status) {
-			var ne = results[0].geometry.viewport.getNorthEast();
-			var sw = results[0].geometry.viewport.getSouthWest();
-			map.fitBounds(results[0].geometry.viewport);
-		});
-		
-	
-
-	function getPoints() {
-		return [
-		<cfloop query="points">
-			coordData = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-		</cfloop>
-		]
-	}
-		var pointArray = new google.maps.MVCArray(coordData);	
-		heatmap = new google.maps.visualization.HeatmapLayer({
-			data: pointArray,
-			map: map,
-			});
-			heatmap.setMap(map);
-		document
-			.getElementById("change-gradient")
-			.addEventListener("click", changeGradient);
-		}
+	document
+		.getElementById("change-gradient")
+		.addEventListener("click", changeGradient);
+}
 	function toggleHeatmap(){
 		heatmap.setMap(heatmap.getMap() ? null : map);
 	}
@@ -926,7 +851,81 @@ limitations under the License.
 			"rgba(255, 0, 0, 1)",
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+	}
+
+	function getPoints() {
+		return [
+		<cfloop query="points">
+			new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+		</cfloop>
+		]
+	}
+
 	
+												
+
+	//var map, pointarray, heatmap;
+//
+//	var points= [];
+//
+//	function initialize() {
+//		var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
+//		var mapOptions = {
+//			zoom: 3,
+//			controlSize: 20,
+//			mapTypeId: "hybrid",
+//		};
+//
+//		map = new google.maps.Map(document.getElementById('map'), mapOptions);
+//		var geocoder = new google.maps.Geocoder();
+//
+//		geocoder.geocode({'address': 'WORLD'}, function(results, status) {
+//			var ne = results[0].geometry.viewport.getNorthEast();
+//			var sw = results[0].geometry.viewport.getSouthWest();
+//			map.fitBounds(results[0].geometry.viewport);
+//		});
+//		
+//	
+//
+//	function getPoints() {
+//		return [
+//		<cfloop query="points">
+//			coordData = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+//		</cfloop>
+//		]
+//	}
+//		var pointArray = new google.maps.MVCArray(coordData);	
+//		heatmap = new google.maps.visualization.HeatmapLayer({
+//			data: pointArray,
+//			map: map,
+//			});
+//			heatmap.setMap(map);
+//		document
+//			.getElementById("change-gradient")
+//			.addEventListener("click", changeGradient);
+//		}
+//	function toggleHeatmap(){
+//		heatmap.setMap(heatmap.getMap() ? null : map);
+//	}
+//	function changeGradient() {
+//		const gradient = [
+//			"rgba(0, 255, 255, 0)",
+//			"rgba(0, 255, 255, 1)",
+//			"rgba(0, 191, 255, 1)",
+//			"rgba(0, 127, 255, 1)",
+//			"rgba(0, 63, 255, 1)",
+//			"rgba(0, 0, 255, 1)",
+//			"rgba(0, 0, 223, 1)",
+//			"rgba(0, 0, 191, 1)",
+//			"rgba(0, 0, 159, 1)",
+//			"rgba(0, 0, 127, 1)",
+//			"rgba(63, 0, 91, 1)",
+//			"rgba(127, 0, 63, 1)",
+//			"rgba(191, 0, 31, 1)",
+//			"rgba(255, 0, 0, 1)",
+//		];
+//		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+//	
 
 
 											</script>
