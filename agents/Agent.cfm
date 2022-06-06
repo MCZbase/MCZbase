@@ -742,7 +742,7 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = // do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { height: 200, width: 600 };
+			var WORLD_DIM = { height: 256, width: 256 };
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
@@ -767,7 +767,7 @@ function initMap() {
 		}
 		// Set the map to these exact bounds
 		map.setCenter(bounds.getCenter());
-		map.setZoom(ZOOM_MAX);
+		map.setZoom();
 		// NOTE: fitBounds() will not work
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -815,7 +815,7 @@ function initMap() {
 
 </script>
 											<div class="p-1 mx-1">
-												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
+												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
 													<span class="text-left d-block float-left">Collecting Events</span>
 													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Marker Color</button>
