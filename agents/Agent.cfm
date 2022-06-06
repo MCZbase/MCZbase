@@ -807,6 +807,8 @@ limitations under the License.
 											//	var zoom = map.getBoundsZoomLevel(bounds);
 //												map.setCenter(center, zoom);
 										//	map.fitBounds(bounds);
+												
+// example https://github.com/rdudley/Google-Maps-Heatmap-Layer-Sample/blob/master/map.html 
 let map, heatmap;
 
 
