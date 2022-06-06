@@ -185,6 +185,10 @@ libraries found in github.com/filteredpush/ repositories.
    <cfreturn serializeJSON(result) >
 </cffunction>
 
+<!--- Lookup a scientific name in WoRMS and various GBIF checklist bank lists.
+  @param taxon_name_id the primary key of the taxon record to look up 
+  @return a json structure containing matches on each service 
+--->
 <cffunction name="lookupName" access="remote">
 	<cfargument name="taxon_name_id" type="string" required="yes">
 
@@ -234,7 +238,15 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfset r.authorship = returnName.getAuthorship()>
 					<cfset r.guid = returnName.getGuid()>
 					<cfset r.authorStringDistance = returnName.getAuthorshipStringEditDistance()>
-					<cfset r.habitatFlags = "">
+					<cfset habitatVals = "">
+					<cfset separator = "">
+					<cfset habitats = returnName.getExtension()>
+					<cfif  habitats.get("marine") EQ "true"><cfset habitatVals = "Marine"><cfset separator=", "></cfif>
+					<cfif  habitats.get("brackish") EQ "true"><cfset habitatVals = "#habitatVals##separator#Brackish"><cfset separator=", "></cfif>
+					<cfif  habitats.get("freshwater") EQ "true"><cfset habitatVals = "#habitatVals##separator#Freshwater"><cfset separator=", "></cfif>
+					<cfif  habitats.get("terrestrial") EQ "true"><cfset habitatVals = "#habitatVals##separator#Terrestrial"><cfset separator=", "></cfif>
+					<cfif  habitats.get("extinct") EQ "true"><cfset habitatVals = "#habitatVals##separator#Extinct"><cfset separator=", "></cfif>
+					<cfset r.habitatFlags = "#habitatVals#">
 				</cfif>
 				<cfset result["WoRMS"] = r>
 
