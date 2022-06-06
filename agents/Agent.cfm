@@ -742,7 +742,7 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = // do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { height: 200, width: auto };
+			var WORLD_DIM = { height: 200, width: 300 };
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
@@ -758,8 +758,8 @@ function initMap() {
 			var latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI;
 			var lngDiff = ne.lng() - sw.lng();
 			var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
-			var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction-.5);
-			var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction-.5);
+			var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+			var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
 
 			return Math.min(latZoom, lngZoom, ZOOM_MAX);
 		}
