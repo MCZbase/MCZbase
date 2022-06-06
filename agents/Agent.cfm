@@ -729,10 +729,6 @@ let map, heatmap;
 
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-	var bounds = [];
-	var lat = []
-
-	
 	var mapOptions = {
 		zoom: 2,
 		minZoom: 1,
@@ -741,7 +737,6 @@ function initMap() {
 		mapTypeId: "hybrid",
 	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-	
 
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
@@ -773,14 +768,16 @@ function initMap() {
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
-
+bounds = new google.maps.LatLngBounds();
 	function getPoints() {
 		return [
 		<cfloop query="points">
-			location = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+			loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 		]
 	}
+		loc = new google.maps.LatLng(marker.position.lat(),marker.position.lng());
+		bounds.extend(loc);
 //	var k = 5.0;
 //	
 //	var n = #point2.maxlat#;
@@ -791,9 +788,9 @@ function initMap() {
 //	var e = ne.lng()-k;
 //	var s = sw.lat()+k;
 //	var w = sw.lng()+ k;
-	bounds = new google.maps.LatLngBounds();
-	loc = new google.maps.LatLng(marker.position.lat(),marker.position.lng());
-	bounds.extend(loc);
+	
+
+	
 //	var ne = bounds.getNorthEast().lat();
 //	var sw = bounds.getSouthWest().lat();
 //	
