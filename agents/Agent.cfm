@@ -817,7 +817,7 @@ function initMap() {
 
 </script>
 											<div class="p-1 mx-1">
-												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
+												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
 													<span class="text-left d-block float-left">Collecting Events</span>
 													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Marker Color</button>
