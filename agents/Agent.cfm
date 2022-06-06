@@ -901,8 +901,7 @@ $(document).ready(function() {
 				maxIntensity: 1
 			}),
 
-			heatmap.setMap(map),
-	}
+			heatmap.setMap(map)
 
 
 	function changeGradient() {
