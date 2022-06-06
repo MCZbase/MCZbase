@@ -753,7 +753,7 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = getBoundsZoomLevel();// do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { height: 256, width: auto };
+			var WORLD_DIM = { height: 256, width: 500 };
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
