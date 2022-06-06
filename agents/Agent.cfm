@@ -820,7 +820,6 @@ function initMap() {
 	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	
-		var latlng = new google.maps.LatLng(getPoints());
 		var geocoder = new google.maps.Geocoder();
 
 		geocoder.geocode({'location': 'world' }, function(results, status) {
