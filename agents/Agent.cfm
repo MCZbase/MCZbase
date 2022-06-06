@@ -723,11 +723,12 @@ limitations under the License.
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 										<div class="heatmap">
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-<script>
+											<script>
 											
 let map, heatmap;
 
 function initMap() {
+	//var loc = new google.maps.LatLng(#points2.maxlat#,#points2.minlong#);
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
 		zoom: 2,
@@ -772,10 +773,22 @@ function initMap() {
 	function getPoints() {
 		return [
 		<cfloop query="points">
-			loc= new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+			loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 		]
 	}
+
+
+// These are exact bounds previously captured from the map object
+var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+var bounds = new google.maps.LatLngBounds(sw, ne);
+var zoom = // do some magic to calculate the zoom level
+// Set the map to these exact bounds
+map.setCenter(bounds.getCenter());
+map.setZoom(zoom);
+// NOTE: fitBounds() will not work
+
 </script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
