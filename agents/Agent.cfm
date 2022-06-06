@@ -880,7 +880,7 @@ $(document).ready(function() {
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		var geocoder = new google.maps.Geocoder();
 
-		geocoder.geocode({'address': 'US'}, function(results, status) {
+		geocoder.geocode({'address': 'WORLD'}, function(results, status) {
 			var ne = results[0].geometry.viewport.getNorthEast();
 			var sw = results[0].geometry.viewport.getSouthWest();
 			map.fitBounds(results[0].geometry.viewport);
