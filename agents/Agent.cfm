@@ -827,6 +827,11 @@ function initMap() {
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
+		gbounds.extend(getPoints()),
+		if(points.length > 1) 
+		map.fitBounds(gbounds);
+		else
+		map.setCenter(gbounds.setCenter());
 	});
 	document
 		.getElementById("change-gradient")
@@ -862,22 +867,22 @@ function initMap() {
 		]
 	}
 
-function showMaxZoom(e) {
-  maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
-    if (result.status !== "OK") {
-      infoWindow.setContent("Error in MaxZoomService");
-    } else {
-      infoWindow.setContent(
-        "The maximum zoom at this location is: " + result.zoom
-      );
-    }
+//function showMaxZoom(e) {
+//  maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
+//    if (result.status !== "OK") {
+//      infoWindow.setContent("Error in MaxZoomService");
+//    } else {
+//      infoWindow.setContent(
+//        "The maximum zoom at this location is: " + result.zoom
+//      );
+//    }
+//
+//    infoWindow.setPosition(e.latLng);
+//    infoWindow.open(map);
+//  });
+//}
 
-    infoWindow.setPosition(e.latLng);
-    infoWindow.open(map);
-  });
-}
-
-window.initMap = initMap;
+//window.initMap = initMap;
 												
 	//	function mapsYo(){
 //			$("##map").each(function(e){
