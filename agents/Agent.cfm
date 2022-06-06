@@ -731,7 +731,7 @@ function initMap() {
 	//var loc = new google.maps.LatLng(#points2.maxlat#,#points2.minlong#);
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
-		zoom: 2,
+		zoom: (bounds) ? getBoundsZoomLevel() : 0,
 		minZoom: 1,
 		center: centerpoint,
 		controlSize: 20,
@@ -742,7 +742,7 @@ function initMap() {
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
-		zoom: (bounds) ? getBoundsZoomLevel() : 0,
+		
 	});
 	document
 		.getElementById("change-gradient")
@@ -762,9 +762,7 @@ function initMap() {
 	}
 	function getBoundsZoomLevel() {
 		var GLOBE_WIDTH = 256; // a constant in Google's map projection
-		var west = new google.maps.sw.lng();
-		var east = new google.maps.ne.lng();
-		var angle = east - west;
+		var angle = ne - sw;
 		if (angle < 0) {
 		  angle += 360;
 			}
