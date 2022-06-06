@@ -753,7 +753,7 @@ function initMap() {
 			// These are exact bounds previously captured from the map object
 	
 		var bounds = new google.maps.LatLngBounds(sw, ne);
-		var zoom = getBoundsZoomLevel(bounds);
+		var zoom = getBoundsZoomLevel();
 			// do some magic to calculate the zoom level
 
 		// Set the map to these exact bounds
@@ -761,7 +761,7 @@ function initMap() {
 		map.setZoom(zoom);
 		// NOTE: fitBounds() will not work
 	}
-	function getBoundsZoomLevel(bounds) {
+	function getBoundsZoomLevel() {
 		var nel = #points2.maxlat#;
 		var swl = #points2.minlat#;
 		var GLOBE_WIDTH = 256; // a constant in Google's map projection
