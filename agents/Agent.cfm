@@ -865,7 +865,7 @@ limitations under the License.
 	
 												
 $(document).ready(function() {
-	var map, pointarray, heatmap;
+	var map, points, heatmap;
 
 	var points= [];
 
