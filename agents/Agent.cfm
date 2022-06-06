@@ -742,7 +742,7 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = // do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { height: 200, width: auto };
+			var WORLD_DIM = { height: 200, width: 600 };
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
@@ -767,7 +767,7 @@ function initMap() {
 		}
 		// Set the map to these exact bounds
 		map.setCenter(bounds.getCenter());
-		map.setZoom(zoom);
+		map.setZoom(ZOOM_MAX);
 		// NOTE: fitBounds() will not work
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
