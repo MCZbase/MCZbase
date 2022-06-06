@@ -731,11 +731,12 @@ function initMap() {
 	//var loc = new google.maps.LatLng(#points2.maxlat#,#points2.minlong#);
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
-		zoom: 2,
+		//zoom: 2,
 		minZoom: 1,
 		center: centerpoint,
 		controlSize: 20,
 		mapTypeId: "hybrid",
+		zoom: (bounds) ? getBoundsZoomLevel(bounds,mapDim): 0
 	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -753,7 +754,10 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = getBoundsZoomLevel();// do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { height: 256, width: 500 };
+			var WORLD_DIM = { 
+				var $mapDiv = $('##map');
+				var mapDim = { height: $mapDiv.height(), width: $mapDiv.width() }; 
+			};
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
