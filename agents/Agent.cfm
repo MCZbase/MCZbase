@@ -808,8 +808,7 @@ limitations under the License.
 //												map.setCenter(center, zoom);
 										//	map.fitBounds(bounds);
 //let map, heatmap;
-////let maxZoomService;
-////let infoWindow;
+
 //
 //function initMap() {
 //	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
@@ -820,9 +819,7 @@ limitations under the License.
 //		mapTypeId: "hybrid",
 //	});
 //
-//	infoWindow = new google.maps.InfoWindow();
-//	//maxZoomService = new google.maps.MaxZoomService([#points2.maxlong#, #points2.minlong#]);
-//	map.addListener("click", showMaxZoom);
+
 //	
 //	heatmap = new google.maps.visualization.HeatmapLayer({
 //		data: getPoints(),
@@ -944,19 +941,19 @@ $(document).ready(function() {
 		heatmap.set('opacity', heatmap.get('opacity') ? null : 0.25);
 	}
 
-	$("#toggle-heatmap").click(function() {
+	$("##toggle-heatmap").click(function() {
 		toggleHeatmap();
 	});
 
-	$("#change-gradient").click(function() {
+	$("##change-gradient").click(function() {
 		changeGradient();
 	});
 
-	$("#change-radius").click(function() {
+	$("##change-radius").click(function() {
 		changeRadius();
 	});
 
-	$("#change-opacity").click(function() {
+	$("##change-opacity").click(function() {
 		changeOpacity();
 	});
 
