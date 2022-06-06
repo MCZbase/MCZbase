@@ -246,7 +246,7 @@ libraries found in github.com/filteredpush/ repositories.
 					<cfif  habitats.get("freshwater") EQ "true"><cfset habitatVals = "#habitatVals##separator#Freshwater"><cfset separator=", "></cfif>
 					<cfif  habitats.get("terrestrial") EQ "true"><cfset habitatVals = "#habitatVals##separator#Terrestrial"><cfset separator=", "></cfif>
 					<cfif  habitats.get("extinct") EQ "true"><cfset habitatVals = "#habitatVals##separator#Extinct"><cfset separator=", "></cfif>
-					<cfset r.habitatFlags = "#habitatiVals#">
+					<cfset r.habitatFlags = "#habitatVals#">
 				</cfif>
 				<cfset result["WoRMS"] = r>
 
