@@ -733,7 +733,7 @@ function initMap() {
 	var bounds = new google.maps.LatLngBounds(sw, ne);
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
-		zoom: (angle) ? getBoundsZoomLevel() : 2,
+		zoom: (zoom) ? getBoundsZoomLevel() : 2,
 		minZoom: 1,
 		center: centerpoint,
 		controlSize: 20,
