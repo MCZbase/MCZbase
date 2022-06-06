@@ -892,7 +892,8 @@ $(document).ready(function() {
 		<cfloop query="points"> 
 			hmData=	new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
-
+			]
+		}
 			pointArray = new google.maps.MVCArray(hmData),
 
 			heatmap = new google.maps.visualization.HeatmapLayer({
@@ -901,14 +902,8 @@ $(document).ready(function() {
 			}),
 
 			heatmap.setMap(map),
-		}),
 	}
 
-
-
-	function toggleHeatmap() {
-  		heatmap.setMap(heatmap.getMap() ? null : map);
-	}
 
 	function changeGradient() {
 		var gradient = [
@@ -931,29 +926,11 @@ $(document).ready(function() {
 		heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
 	}
 
-	function changeRadius() {
-		heatmap.set('radius', heatmap.get('radius') ? null : 20);
-	}
-
-	function changeOpacity() {
-		heatmap.set('opacity', heatmap.get('opacity') ? null : 0.25);
-	}
-
-	$("##toggle-heatmap").click(function() {
-		toggleHeatmap();
-	});
 
 	$("##change-gradient").click(function() {
 		changeGradient();
 	});
 
-	$("##change-radius").click(function() {
-		changeRadius();
-	});
-
-	$("##change-opacity").click(function() {
-		changeOpacity();
-	});
 
 google.maps.event.addDomListener(window, 'load', initialize);
 });
