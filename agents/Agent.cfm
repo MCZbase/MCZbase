@@ -728,7 +728,9 @@ limitations under the License.
 let map, heatmap;
 
 function initMap() {
-	//var loc = new google.maps.LatLng(#points2.maxlat#,#points2.minlong#);
+	var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+	var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+	var bounds = new google.maps.LatLngBounds(sw, ne);
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
 		zoom: (bounds) ? getBoundsZoomLevel() : 2,
