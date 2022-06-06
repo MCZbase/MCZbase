@@ -901,7 +901,6 @@ $(document).ready(function() {
 			map: map,
 			});
 			heatmap.setMap(map);
-		});
 	}
 		document
 			.getElementById("change-gradient")
