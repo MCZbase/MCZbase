@@ -814,11 +814,11 @@ let map, heatmap;
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 	map = new google.maps.Map(document.getElementById("map"), {
-    //zoom: 3,
-    center: centerpoint,
-	controlSize: 20,
-    mapTypeId: "hybrid",
-  });
+	//zoom: 3,
+		center: centerpoint,
+		controlSize: 20,
+		mapTypeId: "hybrid",
+	});
 
 	infoWindow = new google.maps.InfoWindow();
 	//maxZoomService = new google.maps.MaxZoomService([#points2.maxlong#, #points2.minlong#]);
@@ -863,8 +863,8 @@ function initMap() {
 		</cfloop>
 		]
 	}
-	gbounds = getBounds(getPoints());
-	map.fitBounds(gbounds); 
+	latLngBounds = getBounds(getPoints());
+	map.fitBounds(latLngBounds); 
 	
 
 											</script>
