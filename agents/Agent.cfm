@@ -807,8 +807,6 @@ limitations under the License.
 											//	var zoom = map.getBoundsZoomLevel(bounds);
 //												map.setCenter(center, zoom);
 										//	map.fitBounds(bounds);
-												
-// example https://github.com/rdudley/Google-Maps-Heatmap-Layer-Sample/blob/master/map.html 
 let map, heatmap;
 
 
@@ -824,7 +822,7 @@ function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		var geocoder = new google.maps.Geocoder();
 
-		geocoder.geocode({'latLng': latlng}, function(results, status) {
+		geocoder.geocode({'latLng': getPoints()}, function(results, status) {
 			var ne = results[0].geometry.viewport.getNorthEast();
 			var sw = results[0].geometry.viewport.getSouthWest();
 			map.fitBounds(results[0].geometry.viewport);
