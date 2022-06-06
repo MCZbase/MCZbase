@@ -723,7 +723,7 @@ limitations under the License.
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 										<div class="heatmap">
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-											<script>
+<script>
 											
 let map, heatmap;
 
@@ -777,33 +777,6 @@ function initMap() {
 		</cfloop>
 		]
 	}
-	var lat_a = new google.maps.LatLng(#points2.maxlat#);
-	var lng_a = new google.maps.LatLng(#points2.maxlong#);
-	var lat_b = new google.maps.LatLng(#points2.minlat#);
-	var lng_b = new google.maps.LatLng(#points2.minlong#);
-//function latRad(lat) {
-//  var sin = Math.sin(lat * Math.PI / 180);
-//  var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
-//  return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
-//}
-
-function getZoom(lat_a, lng_a, lat_b, lng_b) {
-
-      let latDif = Math.abs(latRad(lat_a) - latRad(lat_b))
-      let lngDif = Math.abs(lng_a - lng_b)
-
-      let latFrac = latDif / Math.PI 
-      let lngFrac = lngDif / 360 
-
-      let lngZoom = Math.log(1/latFrac) / Math.log(2)
-      let latZoom = Math.log(1/lngFrac) / Math.log(2)
-
-      return Math.min(lngZoom, latZoom)
-
-}
-	
-		
-
 </script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
