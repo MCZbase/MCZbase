@@ -891,7 +891,7 @@ $(document).ready(function() {
 	function getPoints() {
 		return [
 		<cfloop query="points">
-			coordData = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>points.Latitude,points.Longitude<cfelse>42.378765,-71.115540</cfif>),
+			coordData = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 		]
 
