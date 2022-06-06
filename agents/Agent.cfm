@@ -777,15 +777,15 @@ function initMap() {
 		</cfloop>
 		]
 	}
-//	var lat_a = new google.maps.LatLng(#points2.maxlat#);
-//	var lng_a = new google.maps.LatLng(#points2.maxlong#);
-//	var lat_b = new google.maps.LatLng(#points2.minlat#);
-//	var lng_b = new google.maps.LatLng(#points2.minlong#);
-function latRad(lat) {
-  var sin = Math.sin(lat * Math.PI / 180);
-  var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
-  return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
-}
+	var lat_a = new google.maps.LatLng(#points2.maxlat#);
+	var lng_a = new google.maps.LatLng(#points2.maxlong#);
+	var lat_b = new google.maps.LatLng(#points2.minlat#);
+	var lng_b = new google.maps.LatLng(#points2.minlong#);
+//function latRad(lat) {
+//  var sin = Math.sin(lat * Math.PI / 180);
+//  var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+//  return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+//}
 
 function getZoom(lat_a, lng_a, lat_b, lng_b) {
 
