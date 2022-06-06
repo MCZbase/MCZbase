@@ -729,14 +729,19 @@ let map, heatmap;
 
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+	var bounds = [];
 	var k = 5.0;
-	var n = ne.lat(#points2.maxlat#) - k;
-	var e = ne.lng(#points2.minlong#) - k;
-	var s = sw.lat(#points2.maxlat#) + k;
-	var w = sw.lng(#points2.maxlong#) + k;
+	var n = #point2.maxlat#;
+	var e = #point2.maxlong#;
+	var s = #point2.minlat#;
+	var w = #point2.minlong#;
+	var n = ne.lat()-k;
+	var e = ne.lng()-k;
+	var s = sw.lat()+k;
+	var w = sw.lng()+ k;
 	var bounds = new google.maps.LatLngBounds();
-	var ne = bounds.getNorthEast();
-	var sw = bounds.getSouthWest();
+	var ne = bounds.getNorthEast().lat();
+	var sw = bounds.getSouthWest().lat();
 	
 	var neNew = new google.maps.LatLng( n, e );
 	var swNew = new google.maps.LatLng( s, w );
