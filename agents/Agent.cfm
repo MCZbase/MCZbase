@@ -777,7 +777,7 @@ function initMap() {
 		</cfloop>
 		]
 	}
-map.fitbounds(loc);
+bounds.extend(loc);
 	
 		
 
