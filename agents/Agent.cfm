@@ -738,7 +738,9 @@ function initMap() {
 		mapTypeId: "hybrid",
 	};
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
+ google.maps.event.addListenerOnce(gMap, 'idle', function(){
+        alert(this.getBounds());
+    });
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
