@@ -894,7 +894,7 @@ limitations under the License.
 			coordData = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 		]
-
+	}
 		var pointArray = new google.maps.MVCArray(coordData);	
 		heatmap = new google.maps.visualization.HeatmapLayer({
 			data: pointArray,
@@ -927,7 +927,7 @@ limitations under the License.
 			"rgba(255, 0, 0, 1)",
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-	}
+	
 
 
 											</script>
