@@ -901,7 +901,6 @@ limitations under the License.
 			map: map,
 			});
 			heatmap.setMap(map);
-	}
 		document
 			.getElementById("change-gradient")
 			.addEventListener("click", changeGradient);
