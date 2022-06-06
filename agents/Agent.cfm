@@ -746,6 +746,44 @@ function initMap() {
 	document
 		.getElementById("change-gradient")
 		.addEventListener("click", changeGradient);
+	
+			// These are exact bounds previously captured from the map object
+		var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+		var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+		var bounds = new google.maps.LatLngBounds(sw, ne);
+		var zoom = // do some magic to calculate the zoom level
+		function getBoundsZoomLevel(bounds, mapDim) {
+			var WORLD_DIM = { height: 200, width: auto };
+			var ZOOM_MAX = 21;
+
+			function latRad(lat) {
+				var sin = Math.sin(lat * Math.PI / 180);
+				var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
+				return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+			}
+
+			function zoom(mapPx, worldPx, fraction) {
+				return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
+			}
+
+			var ne = bounds.getNorthEast();
+			var sw = bounds.getSouthWest();
+
+			var latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI;
+
+			var lngDiff = ne.lng() - sw.lng();
+			var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
+
+			var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
+			var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
+
+			return Math.min(latZoom, lngZoom, ZOOM_MAX);
+		}
+		// Set the map to these exact bounds
+		map.setCenter(bounds.getCenter());
+		map.setZoom(zoom);
+		// NOTE: fitBounds() will not work
+	
 }
 	function toggleHeatmap(){
 		heatmap.setMap(heatmap.getMap() ? null : map);
@@ -769,7 +807,6 @@ function initMap() {
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
-
 	function getPoints() {
 		return [
 		<cfloop query="points">
@@ -779,43 +816,7 @@ function initMap() {
 	}
 
 
-// These are exact bounds previously captured from the map object
-var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-var bounds = new google.maps.LatLngBounds(sw, ne);
-var zoom = // do some magic to calculate the zoom level
-function getBoundsZoomLevel(bounds, mapDim) {
-	var WORLD_DIM = { height: 256, width: 256 };
-	var ZOOM_MAX = 21;
-
-	function latRad(lat) {
-		var sin = Math.sin(lat * Math.PI / 180);
-		var radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
-		return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
-	}
-
-	function zoom(mapPx, worldPx, fraction) {
-		return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
-	}
-
-	var ne = bounds.getNorthEast();
-	var sw = bounds.getSouthWest();
-
-	var latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI;
-
-	var lngDiff = ne.lng() - sw.lng();
-	var lngFraction = ((lngDiff < 0) ? (lngDiff + 360) : lngDiff) / 360;
-
-	var latZoom = zoom(mapDim.height, WORLD_DIM.height, latFraction);
-	var lngZoom = zoom(mapDim.width, WORLD_DIM.width, lngFraction);
-
-	return Math.min(latZoom, lngZoom, ZOOM_MAX);
-}
-// Set the map to these exact bounds
-map.setCenter(bounds.getCenter());
-map.setZoom(zoom);
-// NOTE: fitBounds() will not work
-
+	
 </script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
