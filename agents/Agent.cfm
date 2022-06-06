@@ -768,7 +768,7 @@ function initMap() {
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
-	bounds = new google.maps.LatLngBounds();
+
 	function getPoints() {
 		return [
 		<cfloop query="points">
@@ -776,9 +776,10 @@ function initMap() {
 		</cfloop>
 		]
 	}
-		loc = new google.maps.LatLng(heatmap.position.lat(),heatmap.position.lng());
-		bounds.extend(loc);
 
+	bounds = new google.maps.LatLngBounds(#points2.minlat#,#points2.minlong#,#points2.maxlat#,#points2.maxlong#);
+	loc = new google.maps.LatLng(heatmap.position.lat(),heatmap.position.lng());
+	bounds.extend(loc);
 
 </script>
 											<div class="p-1 mx-1">
