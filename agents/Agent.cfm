@@ -738,7 +738,7 @@ function initMap() {
 		mapTypeId: "hybrid",
 		});
 	};
-		map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
@@ -755,7 +755,7 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = getBoundsZoomLevel(bounds, mapDim);
 			// do some magic to calculate the zoom level
-		function getBoundsZoomLevel(bounds, mapDim) {
+			function getBoundsZoomLevel(bounds, mapDim) {
 			var WORLD_DIM = { 
 				var $mapDiv = $('##map');
 				var mapDim = { height: $mapDiv.height(), width: $mapDiv.width() }; 
@@ -789,10 +789,7 @@ function initMap() {
 		map.setCenter(bounds.getCenter());
 		map.setZoom(zoom);
 		// NOTE: fitBounds() will not work
-	
-}
-
-$.each(markers, function() { this.setMap(map); });
+	}
 	function toggleHeatmap(){
 		heatmap.setMap(heatmap.getMap() ? null : map);
 	}
