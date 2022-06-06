@@ -864,7 +864,7 @@ limitations under the License.
 //	map.fitBounds(latLngBounds); 
 	
 												
-$(document).ready(function() {
+
 	var map, pointarray, heatmap;
 
 	var points= [];
@@ -928,8 +928,7 @@ $(document).ready(function() {
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
-google.maps.event.addDomListener(window, 'load', initialize);
-});
+
 
 											</script>
 											<div class="p-1 mx-1">
