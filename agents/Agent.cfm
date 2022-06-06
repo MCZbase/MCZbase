@@ -864,13 +864,8 @@ function initMap() {
 		</cfloop>
 		]
 	}
-	declare global {
-		interface Window {
-			initMap: () => void;
-		}
-	}
-	window.initMap = initMap;
-	export {};
+
+	
 
 											</script>
 											<div class="p-1 mx-1">
