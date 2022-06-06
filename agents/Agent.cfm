@@ -762,8 +762,8 @@ function initMap() {
 		// NOTE: fitBounds() will not work
 	}
 	function getBoundsZoomLevel(bounds) {
-		var nel = new google.maps.Lat(#points2.maxlat#);
-		var swl = new google.maps.Lat(#points2.minlat#);
+		var nel = new google.maps.getNorthEast(#points2.maxlat#);
+		var swl = new google.maps.getSouthWest(#points2.minlat#);
 		var GLOBE_WIDTH = 256; // a constant in Google's map projection
 		var angle = nel - swl;
 		if (angle < 0) {
