@@ -817,7 +817,7 @@ function initMap() {
 		center: centerpoint,
 		controlSize: 20,
 		mapTypeId: "hybrid",
-	});
+	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		var geocoder = new google.maps.Geocoder();
 
