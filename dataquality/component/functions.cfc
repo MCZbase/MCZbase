@@ -363,12 +363,13 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset result.mechanism = dwcSciNameDQ.getClass().getAnnotation(Mechanism.getClass()).label() >
 
 			<cfset wormsAuthority = sciNameSourceAuthority.init("WORMS")>
+			<cfset gbifAuthority = sciNameSourceAuthority.init("GBIF_BACKBONE_TAXONOMY")>
 
 			<!--- pre-amendment phase --->
 			<!--- TODO: Provide metadata from annotations --->
 
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameEmpty(scientific_name) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(scientific_name) >
 			<cfset r.label = "dwc:scientificName contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -388,7 +389,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("f2ce7d55-5b1d-426a-b00e-6d4efe3058ec") --->
-			<cfset dqResponse = dwcSciNameDQ.validationGenusNotfound(genus,wormsAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationGenusFound(genus,wormsAuthority) >
 			<cfset r.label = "dwc:genus is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -398,8 +399,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
-			<cfset dqResponse = dwcSciNameDQ.validationFamilyNotfound(family,wormsAuthority) >
-			<cfset r.label = "dwc:family is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationFamilyFound(family,gbifAuthority) >
+			<cfset r.label = "dwc:family is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -408,8 +409,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("81cc974d-43cc-4c0f-a5e0-afa23b455aa3") --->
-			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(phylorder,wormsAuthority) >
-			<cfset r.label = "dwc:order is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationOrderFound(phylorder,gbifAuthority) >
+			<cfset r.label = "dwc:order is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -417,14 +418,34 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset preamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("2cd6884e-3d14-4476-94f7-1191cfff309b") --->
+			<cfset dqResponse = dwcSciNameDQ.validationClassFound(class,gbifAuthority) >
+			<cfset r.label = "dwc:class is known to GBIF" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["2cd6884e-3d14-4476-94f7-1191cfff309b"] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f") --->
-			<cfset dqResponse = dwcSciNameDQ.validationPhylumNotfound(phylum,wormsAuthority) >
-			<cfset r.label = "dwc:phylum is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationPhylumFound(phylum,gbifAuthority) >
+			<cfset r.label = "dwc:phylum is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset preamendment["eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("125b5493-052d-4a0d-a3e1-ed5bf792689e") --->
+			<cfset dqResponse = dwcSciNameDQ.validationKingdomFound(kingdom,gbifAuthority) >
+			<cfset r.label = "dwc:kingdom is known to GBIF" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["125b5493-052d-4a0d-a3e1-ed5bf792689e"] = r >
 			<cfset r=structNew()>
 
 			<!--- amendment phase --->
@@ -453,7 +474,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- post-amendment phase --->
 
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameEmpty(scientific_name) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(scientific_name) >
 			<cfset r.label = "dwc:scientificName contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -473,7 +494,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("f2ce7d55-5b1d-426a-b00e-6d4efe3058ec") --->
-			<cfset dqResponse = dwcSciNameDQ.validationGenusNotfound(genus,wormsAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationGenusFound(genus,wormsAuthority) >
 			<cfset r.label = "dwc:genus is known to WoRMS" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -483,8 +504,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3667556d-d8f5-454c-922b-af8af38f613c") --->
-			<cfset dqResponse = dwcSciNameDQ.validationFamilyNotfound(family,wormsAuthority) >
-			<cfset r.label = "dwc:family is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationFamilyFound(family,gbifAuthority) >
+			<cfset r.label = "dwc:family is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -493,8 +514,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 	
 			<!--- @Provides("81cc974d-43cc-4c0f-a5e0-afa23b455aa3") --->
-			<cfset dqResponse = dwcSciNameDQ.validationOrderNotfound(phylorder,wormsAuthority) >
-			<cfset r.label = "dwc:order is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationOrderFound(phylorder,gbifAuthority) >
+			<cfset r.label = "dwc:order is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -502,14 +523,34 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset postamendment["81cc974d-43cc-4c0f-a5e0-afa23b455aa3"] = r >
 			<cfset r=structNew()>
 
+			<!--- @Provides("2cd6884e-3d14-4476-94f7-1191cfff309b") --->
+			<cfset dqResponse = dwcSciNameDQ.validationClassFound(class,gbifAuthority) >
+			<cfset r.label = "dwc:class is known to GBIF" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["2cd6884e-3d14-4476-94f7-1191cfff309b"] = r >
+			<cfset r=structNew()>
+
 			<!--- @Provides("eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f") --->
-			<cfset dqResponse = dwcSciNameDQ.validationPhylumNotfound(phylum,wormsAuthority) >
-			<cfset r.label = "dwc:phylum is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationPhylumFound(phylum,gbifAuthority) >
+			<cfset r.label = "dwc:phylum is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset postamendment["eaad41c5-1d46-4917-a08b-4fd1d7ff5c0f"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("125b5493-052d-4a0d-a3e1-ed5bf792689e") --->
+			<cfset dqResponse = dwcSciNameDQ.validationKingdomFound(kingdom,gbifAuthority) >
+			<cfset r.label = "dwc:kingdom is known to GBIF" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["125b5493-052d-4a0d-a3e1-ed5bf792689e"] = r >
 			<cfset r=structNew()>
 
 			<!--- Add results from phases to result to return --->
