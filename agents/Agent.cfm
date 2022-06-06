@@ -901,7 +901,7 @@ $(document).ready(function() {
 			}),
 
 			heatmap.setMap(map),
-		});
+		}),
 	}
 
 
