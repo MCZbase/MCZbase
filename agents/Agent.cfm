@@ -767,7 +767,7 @@ function initMap() {
 		}
 		// Set the map to these exact bounds
 		map.setCenter(bounds.getCenter());
-		map.setZoom();
+		map.setZoom(lngZoom);
 		// NOTE: fitBounds() will not work
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
