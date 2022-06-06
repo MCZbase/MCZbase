@@ -824,7 +824,7 @@ function initMap() {
 		var latlng = new google.maps.LatLng(lat, lng);
 		var geocoder = new google.maps.Geocoder();
 
-		geocoder.geocode({'latLng': latlng) }, function(results, status) {
+		geocoder.geocode({'latLng': latlng }, function(results, status) {
 			var ne = results[0].geometry.viewport.getNorthEast();
 			var sw = results[0].geometry.viewport.getSouthWest();
 			map.fitBounds(results[0].geometry.viewport);
