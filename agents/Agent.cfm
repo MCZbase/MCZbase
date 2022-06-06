@@ -728,29 +728,31 @@ limitations under the License.
 let map, heatmap;
 
 function initMap() {
-			// These are exact bounds previously captured from the map object
-	var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-	var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-	var bounds = new google.maps.LatLngBounds(sw, ne);
-	var zoom = getBoundsZoomLevel();
+	//var loc = new google.maps.LatLng(#points2.maxlat#,#points2.minlong#);
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
-		zoom: ?,
+		zoom: 2,
 		minZoom: 1,
 		center: centerpoint,
 		controlSize: 20,
 		mapTypeId: "hybrid",
-		zoomControl: false,
 	};
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
-		});
+		zoom: (bounds) ? getBoundsZoomLevel() : 0,
+	});
 	document
 		.getElementById("change-gradient")
 		.addEventListener("click", changeGradient);
+	
+			// These are exact bounds previously captured from the map object
+		var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+		var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+		var bounds = new google.maps.LatLngBounds(sw, ne);
+		var zoom = getBoundsZoomLevel();
 			// do some magic to calculate the zoom level
 
 		// Set the map to these exact bounds
@@ -760,8 +762,8 @@ function initMap() {
 	}
 	function getBoundsZoomLevel() {
 		var GLOBE_WIDTH = 256; // a constant in Google's map projection
-		var west = sw.lng(#points2.minlong#);
-		var east = ne.lng(#points2.maxlong#);
+		var west = new google.maps.sw.lng();
+		var east = new google.maps.ne.lng();
 		var angle = east - west;
 		if (angle < 0) {
 		  angle += 360;
