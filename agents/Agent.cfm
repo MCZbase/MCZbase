@@ -891,7 +891,7 @@ $(document).ready(function() {
 			<cfscript>
 			dataStruct = {};
 			dataStruct["new google.maps.LatLng"] = #points.Latitude#,#points.Longitude#;
-			dataArray.append(dataStruct,);
+			dataArray.append(dataStruct);
 			</cfscript>
 		</cfloop>
 		<cfset pointsArray = serializejson(dataArray)>
