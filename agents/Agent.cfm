@@ -729,25 +729,23 @@ let map, heatmap;
 
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-											 
-	var bounds = new google.maps.LatLngBounds();
-	var ptsArray = [];
-	var ne = bounds.getNorthEast();
-	var sw = bounds.getSouthWest();
-	bounds.extend(center);
-	var k = 5.0;
-
 	var n = ne.lat(#points2.maxlat#) - k;
 	var e = ne.lng(#points2.minlong#) - k;
 	var s = sw.lat(#points2.maxlat#) + k;
 	var w = sw.lng(#points2.maxlong#) + k;
+	var bounds = new google.maps.LatLngBounds();
+	var ptsArray = [];
+	var ne = bounds.getNorthEast();
+	var sw = bounds.getSouthWest();
+	bounds.extend(centerpoint);
+	var k = 5.0;
 
 	var neNew = new google.maps.LatLng( n, e );
 	var swNew = new google.maps.LatLng( s, w );
 	var boundsNew = new google.maps.LatLngBounds( swNew, neNew );
 	
-	qlog( "bo=" + bounds.toUrlValue() );
-	qlog( "bn=" + boundsNew.toUrlValue() );
+	//qlog( "bo=" + bounds.toUrlValue() );
+//	qlog( "bn=" + boundsNew.toUrlValue() );
 
 	map.fitBounds( boundsNew );
 	
