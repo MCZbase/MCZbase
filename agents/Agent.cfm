@@ -809,7 +809,6 @@ limitations under the License.
 										//	map.fitBounds(bounds);
 let map, heatmap;
 
-
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 	var mapOptions = {
@@ -821,7 +820,7 @@ function initMap() {
 	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	
-		var latlng = new google.maps.LatLng(lat, lng);
+		var latlng = new google.maps.LatLng(getPoints());
 		var geocoder = new google.maps.Geocoder();
 
 		geocoder.geocode({'latLng': latlng }, function(results, status) {
@@ -830,7 +829,6 @@ function initMap() {
 			map.fitBounds(results[0].geometry.viewport);
 		});
 
-	
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
