@@ -823,7 +823,7 @@ function initMap() {
 		var latlng = new google.maps.LatLng(getPoints());
 		var geocoder = new google.maps.Geocoder();
 
-		geocoder.geocode({'latLng': latlng }, function(results, status) {
+		geocoder.geocode({'location': 'world' }, function(results, status) {
 			var ne = results[0].geometry.viewport.getNorthEast();
 			var sw = results[0].geometry.viewport.getSouthWest();
 			map.fitBounds(results[0].geometry.viewport);
@@ -864,7 +864,7 @@ function initMap() {
 	function getPoints() {
 		return [
 		<cfloop query="points">
-			new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+			location = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 		]
 	}
