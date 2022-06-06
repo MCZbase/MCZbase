@@ -755,9 +755,7 @@ function initMap() {
 		var zoom = getBoundsZoomLevel(bounds, mapDim);
 			// do some magic to calculate the zoom level
 			function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { 
-				var mapDim = { height: 256, width:500 }; 
-							};
+			var WORLD_DIM = { height: 256, width:500 }; 
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
