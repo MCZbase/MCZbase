@@ -736,12 +736,15 @@ function initMap() {
 		center: centerpoint,
 		controlSize: 20,
 		mapTypeId: "hybrid",
+		});
 	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
+		center: (bounds) ? bounds.getCenter() : new google.maps.LatLng(0, 0),
+		zoom: (bounds) ? getBoundsZoomLevel(bounds, mapDim) : 0,
 	});
 	document
 		.getElementById("change-gradient")
@@ -751,7 +754,7 @@ function initMap() {
 		var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 		var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 		var bounds = new google.maps.LatLngBounds(sw, ne);
-		var zoom = getBoundsZoomLevel();// do some magic to calculate the zoom level
+		// do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
 			var WORLD_DIM = { height: 256, width: 256 };
 			var ZOOM_MAX = 21;
@@ -812,11 +815,7 @@ function initMap() {
 
 		var bounds = (markers.length > 0) ? createBoundsForMarkers(markers) : null;
 
-		var map = new google.maps.Map($mapDiv[0], {
-			center: (bounds) ? bounds.getCenter() : new google.maps.LatLng(0, 0),
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			zoom: (bounds) ? getBoundsZoomLevel(bounds, mapDim) : 0
-		});
+
 
 $.each(markers, function() { this.setMap(map); });
 	function toggleHeatmap(){
