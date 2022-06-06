@@ -171,33 +171,39 @@
 			<cfabort>
 		</cfif>
 	</cfloop>
-	<cfquery name="newBug" datasource="cf_dbuser">
-		INSERT INTO cf_bugs (
-			bug_id,
-			user_id,
-			reported_name,
-			form_name,
-			complaint,
-			suggested_solution,
-			user_priority,
-			user_remarks,
-			user_email,
-			submission_date)
-		VALUES (
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bugID.id#">,
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reported_name#">,
-			'',
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#complaint#">,
-			'',
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_priority#">,
-			'',
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_email#">,
-			<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#thisDate#">
-		)
-	</cfquery>
-        <cfset sentok="true">
-        <cftry>
+	<cfset insertErrorMessage = "">
+	<cftry>
+		<cfquery name="newBug" datasource="cf_dbuser">
+			INSERT INTO cf_bugs (
+				bug_id,
+				user_id,
+				reported_name,
+				form_name,
+				complaint,
+				suggested_solution,
+				user_priority,
+				user_remarks,
+				user_email,
+				submission_date)
+			VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bugID.id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reported_name#">,
+				'',
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#complaint#">,
+				'',
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_priority#">,
+				'',
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_email#">,
+				<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#thisDate#">
+			)
+		</cfquery>
+	<cfcatch>
+		<cfset insertErrorMessage="Insert into cf_bugs failed: #cfcatch.message#">
+	</cfcatch>
+	</cftry>
+	<cfset sentok="true">
+	<cftry>
 	<cfmail to="#Application.bugReportEmail#" subject="ColdFusion bug report submitted" from="BugReport@#Application.fromEmail#" type="html">
 		<p>Reported Name: #reported_name# (AKA #session.username#) submitted a bug report on #thisDate#.</p>
 
@@ -206,6 +212,8 @@
 		<P>Priority: #user_priority#</P>
 
 		<P>Email: #user_email#</P>
+
+		#insertErrorMessage#
 
 	</cfmail>
         <cfcatch>
