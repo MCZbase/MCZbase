@@ -728,7 +728,11 @@ limitations under the License.
 let map, heatmap;
 
 function initMap() {
-	//var loc = new google.maps.LatLng(#points2.maxlat#,#points2.minlong#);
+			// These are exact bounds previously captured from the map object
+	var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+	var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+	var bounds = new google.maps.LatLngBounds(sw, ne);
+	var zoom = getBoundsZoomLevel();
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
 		zoom: 2,
@@ -736,6 +740,7 @@ function initMap() {
 		center: centerpoint,
 		controlSize: 20,
 		mapTypeId: "hybrid",
+		zoomControl: false,
 	};
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -748,11 +753,7 @@ function initMap() {
 		.getElementById("change-gradient")
 		.addEventListener("click", changeGradient);
 	
-			// These are exact bounds previously captured from the map object
-		var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-		var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-		var bounds = new google.maps.LatLngBounds(sw, ne);
-		var zoom = getBoundsZoomLevel();
+
 			// do some magic to calculate the zoom level
 
 		// Set the map to these exact bounds
