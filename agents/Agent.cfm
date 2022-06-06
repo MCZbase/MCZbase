@@ -778,7 +778,7 @@ function initMap() {
 	}
 
 	bounds = new google.maps.LatLngBounds(#points2.minlat#,#points2.minlong#,#points2.maxlat#,#points2.maxlong#);
-	loc = new google.maps.LatLng(heatmap.position.lat(),heatmap.position.lng());
+	loc = new google.maps.LatLng();
 	bounds.extend(loc);
 
 </script>
