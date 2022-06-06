@@ -898,7 +898,7 @@ $(document).ready(function() {
 			heatmap = new google.maps.visualization.HeatmapLayer({
 				data: pointArray,
 				maxIntensity: 1
-			});
+			}),
 
 			heatmap.setMap(map);
 		});
