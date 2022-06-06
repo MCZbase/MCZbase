@@ -742,7 +742,7 @@ function initMap() {
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
-		zoom: (bounds) ? getBoundsZoomLevel(bounds, mapDim) : 0,
+		zoom: (bounds) ? getBoundsZoomLevel(ne,sw) : 0,
 	});
 	document
 		.getElementById("change-gradient")
