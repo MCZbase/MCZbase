@@ -825,10 +825,10 @@ function initMap() {
 	map.addListener("click", showMaxZoom);
 	
 	heatmap = new google.maps.visualization.HeatmapLayer({
-		data: points,
+		data: getPoints(),
 		map: map,
-		gbounds.extend(points),
-		map.fitBounds(gbounds);
+		gbounds: extend(getPoints()),
+		map: fitBounds(gbounds),
 	});
 	document
 		.getElementById("change-gradient")
@@ -857,130 +857,21 @@ function initMap() {
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
 
-		var points = []
+	function getPoints() {
 		return [
 		<cfloop query="points">
 			new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 		]
+	}
+	declare global {
+		interface Window {
+			initMap: () => void;
+		}
+	}
+	window.initMap = initMap;
+	export {};
 
-
-//function showMaxZoom(e) {
-//  maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
-//    if (result.status !== "OK") {
-//      infoWindow.setContent("Error in MaxZoomService");
-//    } else {
-//      infoWindow.setContent(
-//        "The maximum zoom at this location is: " + result.zoom
-//      );
-//    }
-//
-//    infoWindow.setPosition(e.latLng);
-//    infoWindow.open(map);
-//  });
-//}
-
-//window.initMap = initMap;
-												
-	//	function mapsYo(){
-//			$("##map").each(function(e){
-//				var locid=this.id.split('_')[1];
-//				var coords=this.value;
-//				var bounds = new google.maps.LatLngBounds();
-//				var polygonArray = [];
-//				var ptsArray=[];
-//				var lat=coords.split(',')[0];
-//				var lng=coords.split(',')[1];
-//				var errorm=$("##error_" + locid).val();
-//				var mapOptions = {
-//					zoom: 1,
-//				    center: new google.maps.LatLng(lat, lng),
-//				    mapTypeId: google.maps.MapTypeId.ROADMAP,
-//				    panControl: false,
-//				    scaleControl: false,
-//					fullscreenControl: false,
-//					zoomControl: false
-//				};
-//				var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
-//
-//				var center=new google.maps.LatLng(lat,lng);
-//				var marker = new google.maps.Marker({
-//					position: center,
-//					map: map,
-//					zIndex: 10
-//				});
-//				bounds.extend(center);
-//				if (parseInt(errorm)>0){
-//					var circleoptn = {
-//						strokeColor: '##FF0000',
-//						strokeOpacity: 0.8,
-//						strokeWeight: 2,
-//						fillColor: '##FF0000',
-//						fillOpacity: 0.15,
-//						map: map,
-//						center: center,
-//						radius: parseInt(errorm),
-//						zIndex:-99
-//					};
-//					crcl = new google.maps.Circle(circleoptn);
-//					bounds.union(crcl.getBounds());
-//				}
-//				// WKT can be big and slow, so async fetch
-//				$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
-//  					  if (wkt.length>0){
-//						var regex = /\(([^()]+)\)/g;
-//						var Rings = [];
-//						var results;
-//						while( results = regex.exec(wkt) ) {
-//						    Rings.push( results[1] );
-//						}
-//						for(var i=0;i<Rings.length;i++){
-//							// for every polygon in the WKT, create an array
-//							var lary=[];
-//							var da=Rings[i].split(",");
-//							for(var j=0;j<da.length;j++){
-//								// push the coordinate pairs to the array as LatLngs
-//								var xy = da[j].trim().split(" ");
-//								var pt=new google.maps.LatLng(xy[1],xy[0]);
-//								lary.push(pt);
-//								//console.log(lary);
-//								bounds.extend(pt);
-//							}
-//							// now push the single-polygon array to the array of arrays (of polygons)
-//							ptsArray.push(lary);
-//						}
-//						var poly = new google.maps.Polygon({
-//						    paths: ptsArray,
-//						    strokeColor: '##1E90FF',
-//						    strokeOpacity: 0.8,
-//						    strokeWeight: 2,
-//						    fillColor: '##1E90FF',
-//						    fillOpacity: 0.35
-//						});
-//						poly.setMap(map);
-//						polygonArray.push(poly);
-//						// END this block build WKT
-//  					  	} else {
-//  					  		$("##mapdiv_" + locid).addClass('noWKT');
-//  					  	}
-//  					  	if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-//					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-//					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-//					       bounds.extend(extendPoint1);
-//					       bounds.extend(extendPoint2);
-//					    }
-//						map.fitBounds(bounds);
-//			        	for(var a=0; a<polygonArray.length; a++){
-//			        		if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-//			        			$("##mapdiv_" + locid).addClass('uglyGeoSPatData');
-//				        	} else {
-//				    			$("##mapdiv_" + locid).addClass('niceGeoSPatData');
-//			        		}
-//			        	}
-//					});
-//					map.fitBounds(bounds);
-//			});
-//		}
 											</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
