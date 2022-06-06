@@ -738,9 +738,7 @@ function initMap() {
 		mapTypeId: "hybrid",
 	};
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
- google.maps.event.addListenerOnce(gMap, 'idle', function(){
-        alert(this.getBounds());
-    });
+
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
@@ -769,7 +767,9 @@ function initMap() {
 			function zoom(mapPx, worldPx, fraction) {
 				return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
 			}
-
+ google.maps.event.addListenerOnce(gMap, 'idle', function(){
+        alert(this.getBounds());
+    });
 			var ne = google.maps.bounds.getNorthEast();
 			var sw = google.maps.bounds.getSouthWest();
 
