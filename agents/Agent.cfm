@@ -814,6 +814,7 @@ function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 	var mapOptions = {
 		zoom: 2,
+		minZoom: 1,
 		center: centerpoint,
 		controlSize: 20,
 		mapTypeId: "hybrid",
@@ -821,7 +822,7 @@ function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 		var geocoder = new google.maps.Geocoder();
 
-		geocoder.geocode({'location': getPoints()}, function(results, status) {
+		geocoder.geocode({'latLng': latlng}, function(results, status) {
 			var ne = results[0].geometry.viewport.getNorthEast();
 			var sw = results[0].geometry.viewport.getSouthWest();
 			map.fitBounds(results[0].geometry.viewport);
