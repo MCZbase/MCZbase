@@ -735,7 +735,7 @@ function initMap() {
 	var zoom = getBoundsZoomLevel();
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var mapOptions = {
-		zoom: 2,
+		zoom: ?,
 		minZoom: 1,
 		center: centerpoint,
 		controlSize: 20,
@@ -747,13 +747,10 @@ function initMap() {
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
-		zoom: (bounds) ? getBoundsZoomLevel(sw,ne),
-	});
+		});
 	document
 		.getElementById("change-gradient")
 		.addEventListener("click", changeGradient);
-	
-
 			// do some magic to calculate the zoom level
 
 		// Set the map to these exact bounds
