@@ -762,7 +762,7 @@ function initMap() {
 				if (angle < 0) {
 				  angle += 360;
 					}
-				var zoom = Math.round(Math.log(pixelWidth * 360 / angle / GLOBE_WIDTH) / Math.LN2);
+				var zoom = Math.round(Math.log(GLOBE_WIDTH * 360 / angle) / Math.LN2);
 			}
 		// Set the map to these exact bounds
 		map.setCenter(bounds.getCenter());
