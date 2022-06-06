@@ -751,8 +751,7 @@ function initMap() {
 		.addEventListener("click", changeGradient);
 	
 			// These are exact bounds previously captured from the map object
-		var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-		var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+	
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = getBoundsZoomLevel(bounds);
 			// do some magic to calculate the zoom level
@@ -763,6 +762,8 @@ function initMap() {
 		// NOTE: fitBounds() will not work
 	}
 	function getBoundsZoomLevel(bounds) {
+		var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+		var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 		var GLOBE_WIDTH = 256; // a constant in Google's map projection
 		var angle = ne - sw;
 		if (angle < 0) {
