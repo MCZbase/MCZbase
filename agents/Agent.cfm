@@ -768,7 +768,7 @@ function initMap() {
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
-bounds = new google.maps.LatLngBounds();
+	bounds = new google.maps.LatLngBounds();
 	function getPoints() {
 		return [
 		<cfloop query="points">
@@ -778,27 +778,7 @@ bounds = new google.maps.LatLngBounds();
 	}
 		loc = new google.maps.LatLng(marker.position.lat(),marker.position.lng());
 		bounds.extend(loc);
-//	var k = 5.0;
-//	
-//	var n = #point2.maxlat#;
-//	var e = #point2.maxlong#;
-//	var s = #point2.minlat#;
-//	var w = #point2.minlong#;
-//	var n = ne.lat()-k;
-//	var e = ne.lng()-k;
-//	var s = sw.lat()+k;
-//	var w = sw.lng()+ k;
-	
 
-	
-//	var ne = bounds.getNorthEast().lat();
-//	var sw = bounds.getSouthWest().lat();
-//	
-//	var neNew = new google.maps.LatLng( n, e );
-//	var swNew = new google.maps.LatLng( s, w );
-//	var boundsNew = new google.maps.LatLngBounds( swNew, neNew );
-//	bounds.extend(centerpoint);
-//	map.fitBounds( boundsNew );
 
 </script>
 											<div class="p-1 mx-1">
