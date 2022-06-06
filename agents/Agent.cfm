@@ -867,7 +867,7 @@ limitations under the License.
 $(document).ready(function() {
 	var map, pointarray, heatmap;
 
-	var hmData = [];
+	var points= [];
 
 	function initialize() {
 		var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
@@ -886,68 +886,47 @@ $(document).ready(function() {
 			map.fitBounds(results[0].geometry.viewport);
 		});
 		
-		<cfset dataArray = []/>
-		<cfloop query="points"> 
-			<cfscript>
-			dataStruct = {};
-			dataStruct["new google.maps.LatLng"] = #points.Latitude#,#points.Longitude#;
-			dataArray.append(dataStruct);
-			</cfscript>
-		</cfloop>
-		<cfset pointsArray = serializejson(dataArray)>
-		function(dataArray) {
-			$.each(dataArray, function(i, dataStruct) {
-				hmData.push({
-					location: new google.maps.LatLng(pointsArray.Latitude,pointsArray.Longitude),
-					weight: 1
-				});
-			};
-
-			var pointsArray = new google.maps.MVCArray(hmData);
-
-			heatmap = new google.maps.visualization.HeatmapLayer({
-				data: dataArray,
-				maxIntensity: 1
-			});
-
-			heatmap.setMap(map);
+		heatmap = new google.maps.visualization.HeatmapLayer({
+		data: getPoints(),
+		map: map,
 		});
-			pointArray = new google.maps.MVCArray(hmData);
 
-			heatmap = new google.maps.visualization.HeatmapLayer({
-				data: pointArray,
-				maxIntensity: 1
-			});
-
-			heatmap.setMap(map);
-	}
-
+			document
+				.getElementById("change-gradient")
+				.addEventListener("click", changeGradient);
+			}
+//	function toggleHeatmap(){
+//		heatmap.setMap(heatmap.getMap() ? null : map);
+//	}
 	function changeGradient() {
-		var gradient = [
-			'rgba(0, 255, 255, 0)',
-			'rgba(0, 255, 255, 1)',
-			'rgba(0, 191, 255, 1)',
-			'rgba(0, 127, 255, 1)',
-			'rgba(0, 63, 255, 1)',
-			'rgba(0, 0, 255, 1)',
-			'rgba(0, 0, 223, 1)',
-			'rgba(0, 0, 191, 1)',
-			'rgba(0, 0, 159, 1)',
-			'rgba(0, 0, 127, 1)',
-			'rgba(63, 0, 91, 1)',
-			'rgba(127, 0, 63, 1)',
-			'rgba(191, 0, 31, 1)',
-			'rgba(255, 0, 0, 1)'
-		]
-
-		heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+		const gradient = [
+			"rgba(0, 255, 255, 0)",
+			"rgba(0, 255, 255, 1)",
+			"rgba(0, 191, 255, 1)",
+			"rgba(0, 127, 255, 1)",
+			"rgba(0, 63, 255, 1)",
+			"rgba(0, 0, 255, 1)",
+			"rgba(0, 0, 223, 1)",
+			"rgba(0, 0, 191, 1)",
+			"rgba(0, 0, 159, 1)",
+			"rgba(0, 0, 127, 1)",
+			"rgba(63, 0, 91, 1)",
+			"rgba(127, 0, 63, 1)",
+			"rgba(191, 0, 31, 1)",
+			"rgba(255, 0, 0, 1)",
+		];
+		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
 
+	function getPoints() {
+		return [
+		<cfloop query="points">
+			new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+		</cfloop>
+		]
+	}
 
-	$("##change-gradient").click(function() {
-		changeGradient();
-	});
-
+	
 
 google.maps.event.addDomListener(window, 'load', initialize);
 });
