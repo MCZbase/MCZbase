@@ -885,15 +885,33 @@ $(document).ready(function() {
 			var sw = results[0].geometry.viewport.getSouthWest();
 			map.fitBounds(results[0].geometry.viewport);
 		});
-	  
-	function getPoints() {
 		
-		return [
+		<cfset dataArray = []/>
 		<cfloop query="points"> 
-			new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+			<cfscript>
+			dataStruct = {};
+			dataStruct["new google.maps.LatLng"] = #points.Latitude#,#points.Longitude#;
+			dataArray.append(dataStruct,);
+			</cfscript>
 		</cfloop>
-			]
-		}
+		<cfset pointsArray = serializejson(dataArray)>
+		function(dataArray) {
+			$.each(dataArray, function(i, dataStruct) {
+				hmData.push({
+					location: new google.maps.LatLng(pointsArray.Latitude,pointsArray.Longitude),
+					weight: 1
+				});
+			};
+
+			var pointsArray = new google.maps.MVCArray(hmData);
+
+			heatmap = new google.maps.visualization.HeatmapLayer({
+				data: dataArray,
+				maxIntensity: 1
+			});
+
+			heatmap.setMap(map);
+		});
 			pointArray = new google.maps.MVCArray(hmData);
 
 			heatmap = new google.maps.visualization.HeatmapLayer({
