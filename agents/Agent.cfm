@@ -724,93 +724,38 @@ limitations under the License.
 										<div class="heatmap">
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 											<script>
-											//let map, heatmap;
-											//function initMap() {
-												//	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-												//	map = new google.maps.Map(document.getElementById('map'), {
-												//		center: centerpoint,
-												//		zoom: 1,
-												//		minZoom: 1,
-												//		maxZoom: 19,
-													//	mapTypeControl: true,
-													//	mapTypeControlOptions: {
-													//		style: google.maps.MapTypeControlStyle.SMALL,
-															//position: google.maps.ControlPosition.CENTER_TOP,
-													//		mapTypeIds: ["roadmap","satellite","terrain"],
-													//		controlSize: 20,
-//														},
-														//scaleControl: true,
-													//	streetViewControl: true,
-														//streetViewControlOptions: {
-															//position: google.maps.ControlPosition.CENTER_TOP,
-													//},
-														//mapTypeId: 'roadmap',
-													//	controlSize: 20,
-													//});
-//													heatmap = new google.maps.visualization.HeatmapLayer({
-//														data: getPoints(),
-//															map: map,
-//													});
-//														document
-//															.getElementById("change-gradient")
-//															.addEventListener("click", changeGradient);
-//												}
-//												function toggleHeatmap(){
-//													heatmap.setMap(heatmap.getMap() ? null : map);
-//												}
-//												function changeGradient() {
-//													const gradient = [
-//														"rgba(0, 255, 255, 0)",
-//														"rgba(0, 255, 255, 1)",
-//														"rgba(0, 191, 255, 1)",
-//														"rgba(0, 127, 255, 1)",
-//														"rgba(0, 63, 255, 1)",
-//														"rgba(0, 0, 255, 1)",
-//														"rgba(0, 0, 223, 1)",
-//														"rgba(0, 0, 191, 1)",
-//														"rgba(0, 0, 159, 1)",
-//														"rgba(0, 0, 127, 1)",
-//														"rgba(63, 0, 91, 1)",
-//														"rgba(127, 0, 63, 1)",
-//														"rgba(191, 0, 31, 1)",
-//														"rgba(255, 0, 0, 1)",
-//													];
-//													heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-//												}
 											
-//												function getPoints(){
-//													return [
-//													<cfloop query="points">
-//														new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-//													</cfloop>
-//													]
-//												}
-												
-									//			if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-//												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-//												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-//												bounds.extend(extendPoint1);
-//												bounds.extend(extendPoint2);
-//												}
-												//var center = new LatLng(bounds.extend(extendPoint1), bounds.extend(extendPoint2));
-												
-//												var bounds = new google.maps.LatLngBounds();
-//												for (i = 0; i < LatLngs.length; i++) {
-//													position = new google.maps.LatLng(LatLngs[i][0], LatLngs[i][1]);
-//													marker = new google.maps.Marker({
-//														position: position,
-//														map: map
-//													});
-//													bounds.extend(position)
-//												}
-												
-											//	var zoom = map.getBoundsZoomLevel(bounds);
-//												map.setCenter(center, zoom);
-										//	map.fitBounds(bounds);
 let map, heatmap;
 
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											 
+	var fourpoints = [
+			{lat:#points2.minlat#,lng:#points2.minlong#}, 
+			{lat:#points2.maxlat#,lng:#points2.maxlong#}
+		];
+	
+	var bounds = map.getBounds();
+
+var ne = bounds.getNorthEast();
+var sw = bounds.getSouthWest();
+
+var k = 5.0;
+
+var n = ne.lat(#points2.maxlat#) - k;
+var e = ne.lng(#points2.minlong#) - k;
+var s = sw.lat(#points2.maxlat#) + k;
+var w = sw.lng(#points2.maxlong#) + k;
+
+var neNew = new google.maps.LatLng( n, e );
+var swNew = new google.maps.LatLng( s, w );
+var boundsNew = new google.maps.LatLngBounds( swNew, neNew );
+
+qlog( "bo=" + bounds.toUrlValue() );
+qlog( "bn=" + boundsNew.toUrlValue() );
+
+map.fitBounds( boundsNew );
+	
 	var mapOptions = {
 		zoom: 2,
 		minZoom: 1,
@@ -822,10 +767,8 @@ function initMap() {
 	
 		var geocoder = new google.maps.Geocoder();
 
-		geocoder.geocode({'address': 'world' }, function(results, status) {
-			var ne = results[0].geometry.viewport.getNorthEast();
-			var sw = results[0].geometry.viewport.getSouthWest();
-			map.fitBounds(results[0].geometry.viewport);
+		geocoder.geocode({'address': 'world' }
+
 		});
 
 	heatmap = new google.maps.visualization.HeatmapLayer({
@@ -868,72 +811,8 @@ function initMap() {
 		]
 	}
 
-	
+
 												
-
-	//var map, pointarray, heatmap;
-//
-//	var points= [];
-//
-//	function initialize() {
-//		var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
-//		var mapOptions = {
-//			zoom: 3,
-//			controlSize: 20,
-//			mapTypeId: "hybrid",
-//		};
-//
-//		map = new google.maps.Map(document.getElementById('map'), mapOptions);
-//		var geocoder = new google.maps.Geocoder();
-//
-//		geocoder.geocode({'localtion': 'getPoints()'}, function(results, status) {
-//			var ne = results[0].geometry.viewport.getNorthEast();
-//			var sw = results[0].geometry.viewport.getSouthWest();
-//			map.fitBounds(results[0].geometry.viewport);
-//		});
-//		
-//	
-//
-//	function getPoints() {
-//		return [
-//		<cfloop query="points">
-//			coordData = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-//		</cfloop>
-//		]
-//	}
-//		var pointArray = new google.maps.MVCArray(coordData);	
-//		heatmap = new google.maps.visualization.HeatmapLayer({
-//			data: pointArray,
-//			map: map,
-//			});
-//			heatmap.setMap(map);
-//		document
-//			.getElementById("change-gradient")
-//			.addEventListener("click", changeGradient);
-//		}
-//	function toggleHeatmap(){
-//		heatmap.setMap(heatmap.getMap() ? null : map);
-//	}
-//	function changeGradient() {
-//		const gradient = [
-//			"rgba(0, 255, 255, 0)",
-//			"rgba(0, 255, 255, 1)",
-//			"rgba(0, 191, 255, 1)",
-//			"rgba(0, 127, 255, 1)",
-//			"rgba(0, 63, 255, 1)",
-//			"rgba(0, 0, 255, 1)",
-//			"rgba(0, 0, 223, 1)",
-//			"rgba(0, 0, 191, 1)",
-//			"rgba(0, 0, 159, 1)",
-//			"rgba(0, 0, 127, 1)",
-//			"rgba(63, 0, 91, 1)",
-//			"rgba(127, 0, 63, 1)",
-//			"rgba(191, 0, 31, 1)",
-//			"rgba(255, 0, 0, 1)",
-//		];
-//		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-//	
-
 
 											</script>
 											<div class="p-1 mx-1">
