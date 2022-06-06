@@ -777,9 +777,9 @@ function initMap() {
 		]
 	}
 
-	bounds = new google.maps.LatLngBounds(#points2.minlat#,#points2.minlong#,#points2.maxlat#,#points2.maxlong#);
-	loc = new google.maps.LatLng();
-	bounds.extend(loc);
+	bounds = new google.maps.LatLngBounds();
+	//loc = new google.maps.LatLng();
+	bounds.extend(#points2.minlat#,#points2.minlong#,#points2.maxlat#,#points2.maxlong#);
 
 </script>
 											<div class="p-1 mx-1">
