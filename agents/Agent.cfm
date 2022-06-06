@@ -825,13 +825,10 @@ function initMap() {
 	map.addListener("click", showMaxZoom);
 	
 	heatmap = new google.maps.visualization.HeatmapLayer({
-		data: getPoints(),
+		data: points,
 		map: map,
-		gbounds.extend(getPoints()),
-		if(points.length > 1) 
+		gbounds.extend(points),
 		map.fitBounds(gbounds);
-		else
-		map.setCenter(gbounds.setCenter());
 	});
 	document
 		.getElementById("change-gradient")
@@ -859,13 +856,14 @@ function initMap() {
 		];
 		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
 	}
-	function getPoints(){
+
+		var points = []
 		return [
 		<cfloop query="points">
 			new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 		]
-	}
+
 
 //function showMaxZoom(e) {
 //  maxZoomService.getMaxZoomAtLatLng(e.latLng, (result) => {
