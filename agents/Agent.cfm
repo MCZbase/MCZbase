@@ -736,7 +736,6 @@ function initMap() {
 		center: centerpoint,
 		controlSize: 20,
 		mapTypeId: "hybrid",
-		zoom: (bounds) ? getBoundsZoomLevel(bounds,mapDim): 0
 	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -754,10 +753,7 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		var zoom = getBoundsZoomLevel();// do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { 
-				var $mapDiv = $('##map');
-				var mapDim = { height: $mapDiv.height(), width: $mapDiv.width() }; 
-			};
+			var WORLD_DIM = { height: 256, width: 256 };
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
@@ -789,6 +785,40 @@ function initMap() {
 		// NOTE: fitBounds() will not work
 	
 }
+
+		function createMarkerForPoint(point) {
+			return new google.maps.Marker({
+				position: new google.maps.LatLng(point.lat, point.lng)
+			});
+		}
+
+		function createBoundsForMarkers(markers) {
+			var bounds = new google.maps.LatLngBounds();
+			$.each(markers, function() {
+				bounds.extend(this.getPosition());
+			});
+			return bounds;
+		}
+
+		var $mapDiv = $('##map');
+
+		var mapDim = {
+			height: $mapDiv.height(),
+			width: $mapDiv.width()
+		}
+
+		var markers = [];
+		$.each(points, function() { markers.push(createMarkerForPoint(this)); });
+
+		var bounds = (markers.length > 0) ? createBoundsForMarkers(markers) : null;
+
+		var map = new google.maps.Map($mapDiv[0], {
+			center: (bounds) ? bounds.getCenter() : new google.maps.LatLng(0, 0),
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			zoom: (bounds) ? getBoundsZoomLevel(bounds, mapDim) : 0
+		});
+
+$.each(markers, function() { this.setMap(map); });
 	function toggleHeatmap(){
 		heatmap.setMap(heatmap.getMap() ? null : map);
 	}
