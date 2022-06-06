@@ -730,31 +730,26 @@ let map, heatmap;
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											 
-	var fourpoints = [
-			{lat:#points2.minlat#,lng:#points2.minlong#}, 
-			{lat:#points2.maxlat#,lng:#points2.maxlong#}
-		];
-	
 	var bounds = map.getBounds();
 
-var ne = bounds.getNorthEast();
-var sw = bounds.getSouthWest();
+	var ne = bounds.getNorthEast();
+	var sw = bounds.getSouthWest();
 
-var k = 5.0;
+	var k = 5.0;
 
-var n = ne.lat(#points2.maxlat#) - k;
-var e = ne.lng(#points2.minlong#) - k;
-var s = sw.lat(#points2.maxlat#) + k;
-var w = sw.lng(#points2.maxlong#) + k;
+	var n = ne.lat(#points2.maxlat#) - k;
+	var e = ne.lng(#points2.minlong#) - k;
+	var s = sw.lat(#points2.maxlat#) + k;
+	var w = sw.lng(#points2.maxlong#) + k;
 
-var neNew = new google.maps.LatLng( n, e );
-var swNew = new google.maps.LatLng( s, w );
-var boundsNew = new google.maps.LatLngBounds( swNew, neNew );
+	var neNew = new google.maps.LatLng( n, e );
+	var swNew = new google.maps.LatLng( s, w );
+	var boundsNew = new google.maps.LatLngBounds( swNew, neNew );
 
-qlog( "bo=" + bounds.toUrlValue() );
-qlog( "bn=" + boundsNew.toUrlValue() );
+	qlog( "bo=" + bounds.toUrlValue() );
+	qlog( "bn=" + boundsNew.toUrlValue() );
 
-map.fitBounds( boundsNew );
+	map.fitBounds( boundsNew );
 	
 	var mapOptions = {
 		zoom: 2,
@@ -765,11 +760,6 @@ map.fitBounds( boundsNew );
 	};
 		map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	
-		var geocoder = new google.maps.Geocoder();
-
-		geocoder.geocode({'address': 'world' }
-
-		});
 
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
