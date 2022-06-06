@@ -730,25 +730,8 @@ let map, heatmap;
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 	var bounds = [];
-	var k = 5.0;
-	var n = #point2.maxlat#;
-	var e = #point2.maxlong#;
-	var s = #point2.minlat#;
-	var w = #point2.minlong#;
-	var n = ne.lat()-k;
-	var e = ne.lng()-k;
-	var s = sw.lat()+k;
-	var w = sw.lng()+ k;
-	var bounds = new google.maps.LatLngBounds();
-	var ne = bounds.getNorthEast().lat();
-	var sw = bounds.getSouthWest().lat();
-	
-	var neNew = new google.maps.LatLng( n, e );
-	var swNew = new google.maps.LatLng( s, w );
-	var boundsNew = new google.maps.LatLngBounds( swNew, neNew );
-	
-	bounds.extend(centerpoint);
-	map.fitBounds( boundsNew );
+	var lat = []
+
 	
 	var mapOptions = {
 		zoom: 2,
@@ -764,7 +747,6 @@ function initMap() {
 		data: getPoints(),
 		map: map,
 	});
-
 	document
 		.getElementById("change-gradient")
 		.addEventListener("click", changeGradient);
@@ -799,11 +781,29 @@ function initMap() {
 		</cfloop>
 		]
 	}
+//	var k = 5.0;
+//	
+//	var n = #point2.maxlat#;
+//	var e = #point2.maxlong#;
+//	var s = #point2.minlat#;
+//	var w = #point2.minlong#;
+//	var n = ne.lat()-k;
+//	var e = ne.lng()-k;
+//	var s = sw.lat()+k;
+//	var w = sw.lng()+ k;
+	bounds = new google.maps.LatLngBounds();
+	loc = new google.maps.LatLng(marker.position.lat(),marker.position.lng());
+	bounds.extend(loc);
+//	var ne = bounds.getNorthEast().lat();
+//	var sw = bounds.getSouthWest().lat();
+//	
+//	var neNew = new google.maps.LatLng( n, e );
+//	var swNew = new google.maps.LatLng( s, w );
+//	var boundsNew = new google.maps.LatLngBounds( swNew, neNew );
+//	bounds.extend(centerpoint);
+//	map.fitBounds( boundsNew );
 
-
-												
-
-											</script>
+</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 200px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
