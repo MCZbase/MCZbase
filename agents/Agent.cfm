@@ -756,7 +756,7 @@ function initMap() {
 			// do some magic to calculate the zoom level
 			function getBoundsZoomLevel(bounds, mapDim) {
 			var WORLD_DIM = { 
-				var $mapDiv = $('##map');
+				var $mapDiv = document.getElementById('##map');
 				var mapDim = { height: $mapDiv.height(), width: $mapDiv.width() }; 
 							};
 			var ZOOM_MAX = 21;
