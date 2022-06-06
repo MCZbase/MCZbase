@@ -893,7 +893,7 @@ $(document).ready(function() {
 			hmData=	new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 		</cfloop>
 
-			var pointArray = new google.maps.MVCArray(hmData);
+			pointArray = new google.maps.MVCArray(hmData);
 
 			heatmap = new google.maps.visualization.HeatmapLayer({
 				data: pointArray,
