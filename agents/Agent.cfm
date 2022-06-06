@@ -743,7 +743,6 @@ function initMap() {
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
-		center: (bounds) ? bounds.getCenter() : new google.maps.LatLng(0, 0),
 		zoom: (bounds) ? getBoundsZoomLevel(bounds, mapDim) : 0,
 	});
 	document
@@ -756,7 +755,7 @@ function initMap() {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		// do some magic to calculate the zoom level
 		function getBoundsZoomLevel(bounds, mapDim) {
-			var WORLD_DIM = { height: 256, width: 256 };
+			var WORLD_DIM = { height: 256, width: 509 };
 			var ZOOM_MAX = 21;
 
 			function latRad(lat) {
@@ -791,7 +790,7 @@ function initMap() {
 
 		function createMarkerForPoint(point) {
 			return new google.maps.Marker({
-				position: new google.maps.LatLng(point.lat, point.lng)
+				position: new google.maps.LatLng(point.Latitude, point.longitude)
 			});
 		}
 
