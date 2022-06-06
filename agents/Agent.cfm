@@ -808,28 +808,27 @@ limitations under the License.
 //												map.setCenter(center, zoom);
 										//	map.fitBounds(bounds);
 let map, heatmap;
-let maxZoomService;
-let infoWindow;
+//let maxZoomService;
+//let infoWindow;
 
 function initMap() {
 	var centerpoint = new google.maps.LatLng(#points2.mylat#, #points2.mylng#);
 	map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 3,
+    //zoom: 3,
     center: centerpoint,
 	controlSize: 20,
     mapTypeId: "hybrid",
   });
 
 	infoWindow = new google.maps.InfoWindow();
-	maxZoomService = new google.maps.MaxZoomService([#points2.maxlong#, #points2.minlong#]);
+	//maxZoomService = new google.maps.MaxZoomService([#points2.maxlong#, #points2.minlong#]);
 	map.addListener("click", showMaxZoom);
 	
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
 	});
-	gbounds = getBounds(getPoints());
-	map: fitBounds(gbounds); 
+
 	document
 		.getElementById("change-gradient")
 		.addEventListener("click", changeGradient);
@@ -864,7 +863,8 @@ function initMap() {
 		</cfloop>
 		]
 	}
-
+	gbounds = getBounds(getPoints());
+	map.fitBounds(gbounds); 
 	
 
 											</script>
