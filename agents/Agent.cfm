@@ -753,7 +753,7 @@ function initMap() {
 			// These are exact bounds previously captured from the map object
 	
 		var bounds = new google.maps.LatLngBounds(swl, nel);
-		var zoom = getBoundsZoomLevel();
+		var zoom = getBoundsZoomLevel(angle);
 			// do some magic to calculate the zoom level
 
 		// Set the map to these exact bounds
