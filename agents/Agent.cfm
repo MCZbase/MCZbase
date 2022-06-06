@@ -827,9 +827,9 @@ function initMap() {
 	heatmap = new google.maps.visualization.HeatmapLayer({
 		data: getPoints(),
 		map: map,
-		gbounds: extend(getPoints()),
-		map: fitBounds(gbounds),
 	});
+	gbounds = getBounds(getPoints());
+	map: fitBounds(gbounds); 
 	document
 		.getElementById("change-gradient")
 		.addEventListener("click", changeGradient);
