@@ -776,7 +776,7 @@ function initMap() {
 		</cfloop>
 		]
 	}
-		loc = new google.maps.LatLng(marker.position.lat(),marker.position.lng());
+		loc = new google.maps.LatLng(heatmap.position.lat(),heatmap.position.lng());
 		bounds.extend(loc);
 
 
