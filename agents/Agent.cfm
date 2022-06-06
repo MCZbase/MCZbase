@@ -752,7 +752,6 @@ function initMap() {
 		var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 		var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 		var bounds = new google.maps.LatLngBounds(sw, ne);
-		var pixelWidth = []
 		var zoom = getBoundsZoomLevel();
 			// do some magic to calculate the zoom level
 
@@ -762,15 +761,14 @@ function initMap() {
 		// NOTE: fitBounds() will not work
 	}
 	function getBoundsZoomLevel() {
-		var pixelWidth = 256;
 		var GLOBE_WIDTH = 256; // a constant in Google's map projection
-		var west = sw.lng();
-		var east = ne.lng();
+		var west = sw.lng(#points2.minlong#);
+		var east = ne.lng(#points2.maxlong#);
 		var angle = east - west;
 		if (angle < 0) {
 		  angle += 360;
 			}
-		var zoom = Math.round(Math.log(pixelWidth * 360 / angle/GLOBE_WIDTH) / Math.LN2);
+		var zoom = Math.round(Math.log(GLOBE_WIDTH * 360 / angle) / Math.LN2);
 	}
 	function toggleHeatmap(){
 		heatmap.setMap(heatmap.getMap() ? null : map);
