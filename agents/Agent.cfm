@@ -743,12 +743,10 @@ limitations under the License.
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
 										
 											if  (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												google.maps.event.addListener(map,'bounds_changed',function(){
-												var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat()+0.05, bounds.getNorthEast().lng()+0.05);
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat()-0.05, bounds.getSouthWest().lng()-0.05);
-												bounds.extend(extendPoint3);
-												bounds.extend(extendPoint4);
+											var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+											var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+												bounds.extend(extendPoint1);
+												bounds.extend(extendPoint2);
 											} else {
 												google.maps.event.addListener(map,'bounds_changed',function(){
 												var bounds = map.getBounds();
