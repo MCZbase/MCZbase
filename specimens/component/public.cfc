@@ -114,7 +114,7 @@ limitations under the License.
 				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
 				<cfif len(images.media_id)gt 0>
 					<cfloop query="images1">
-<!---						<cfquery name="getImages1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---						<cfquery name="getImages1" datasource="user_login" username="#session.dbuser#" 	password="#decrypt(session.epw,cfid)#">
 							SELECT distinct
 								media.media_id,
 								media.auto_host,
@@ -1918,6 +1918,8 @@ limitations under the License.
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
+						dateformat(coll_object.coll_object_entered_date,"yyyy-mm-dd"),
+						dateformat(coll_object.last_edit_date,"yyyy-mm-dd"),
 						collection.collection_cde,
 						coll_object.flags,
 						coll_object_remark.habitat, 
@@ -1945,9 +1947,9 @@ limitations under the License.
 						<cfif len(#meta.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0">Remarks: #meta.coll_object_remarks# </li>
 						</cfif>
-						<li class="list-group-item"> Entered By: #meta.EnteredBy# <!---on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")#---> </li>
+						<li class="list-group-item pt-0"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
 						<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
-							<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# <!---on #dateformat(meta.last_edit_date,"yyyy-mm-dd")#---> </li>
+							<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
 						</cfif>
 						<cfif len(#meta.flags#) is not 0>
 							<li class="list-group-item"> Missing (flags): #one.flags# </li>
@@ -1958,10 +1960,10 @@ limitations under the License.
 					</ul>
 					<ul class="list-group list-group-flush p-0">
 						<cfif len(meta.disposition_remarks) gt 0 >
-							<li class="list-group-item py-1">Disposition Remarks: #disposition_remarks#</li>
+							<li class="list-group-item pt-0">Disposition Remarks: #disposition_remarks#</li>
 						</cfif>
 						<cfif len(meta.associated_species) gt 0 >
-							<li class="list-group-item py-1">Associated Species: #associated_species#</li>
+							<li class="list-group-item pt-0">Associated Species: #associated_species#</li>
 						</cfif>
 					</ul>
 			<cfcatch>
