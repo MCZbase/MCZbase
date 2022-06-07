@@ -723,88 +723,111 @@ limitations under the License.
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 										<div class="heatmap">
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-											<script>
+						<script>
 											
-let map, heatmap;
+							let map, heatmap;
 
-function initMap() {
-	var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-	var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-	var bounds = new google.maps.LatLngBounds(sw, ne);
-	var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-	var angle = [];
-	var swl=[];
-	var nel = [];
-	var mapOptions = {
-		zoom: (zoom) ? getBoundsZoomLevel() : 2,
-		minZoom: 1,
-		center: centerpoint,
-		controlSize: 20,
-		mapTypeId: "hybrid",
-	};
-	map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-	heatmap = new google.maps.visualization.HeatmapLayer({
-		data: getPoints(),
-		map: map,
+							function initMap() {
+								var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+								var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+								var bounds1 = new google.maps.LatLngBounds(sw, ne);
+								
+								var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+								var mapOptions = {
+								//	zoom: (bounds) ? getBoundsZoomLevel() : 2,
+									zoom: 2,
+									minZoom: 1,
+									center: centerpoint,
+									controlSize: 20,
+									mapTypeId: "hybrid",
+								};
+								map = new google.maps.Map(document.getElementById('map'), mapOptions);
+								bounds.extend(center);
+							for(var i=0;i<bounds1.length;i++){
+									// for every polygon in the WKT, create an array
+									var lary=[];
+									for(var j=0;j<bounds1.length;j++){
+									// push the coordinate pairs to the array as LatLngs
+										var xy = bounds1[j].trim().split(" ");
+										var pt=new google.maps.LatLng(xy[1],xy[0]);
+										lary.push(pt);
+									//console.log(lary);
+										bounds.extend(pt);
+									}
+							// now push the single-polygon array to the array of arrays (of polygons)
+								ptsArray.push(lary);
+							}
+								if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+					       bounds.extend(extendPoint1);
+					       bounds.extend(extendPoint2);
+					    }
+						map.fitBounds(bounds);
+			        	
+					});
 		
-	});
-	document
-		.getElementById("change-gradient")
-		.addEventListener("click", changeGradient);
-	
-			// These are exact bounds previously captured from the map object
-	
-		var bounds = new google.maps.LatLngBounds(angle);
-		var zoom = getBoundsZoomLevel();
-			// do some magic to calculate the zoom level
+								heatmap = new google.maps.visualization.HeatmapLayer({
+									data: getPoints(),
+									map: map,
 
-		// Set the map to these exact bounds
-		map.setCenter(bounds.getCenter());
-		map.setZoom(zoom);
-		// NOTE: fitBounds() will not work
-	}
-	function getBoundsZoomLevel() {
-		var nel = #points2.maxlat#;
-		var swl = #points2.minlat#;
-		var GLOBE_WIDTH = 256; // a constant in Google's map projection
-		var angle = nel - swl;
-		if (angle < 0) {
-		  angle += 360;
-			}
-		var zoom = Math.round(Math.log(GLOBE_WIDTH * 360 / angle) / Math.LN2);
-	}
-	function toggleHeatmap(){
-		heatmap.setMap(heatmap.getMap() ? null : map);
-	}
-	function changeGradient() {
-		const gradient = [
-			"rgba(0, 255, 255, 0)",
-			"rgba(0, 255, 255, 1)",
-			"rgba(0, 191, 255, 1)",
-			"rgba(0, 127, 255, 1)",
-			"rgba(0, 63, 255, 1)",
-			"rgba(0, 0, 255, 1)",
-			"rgba(0, 0, 223, 1)",
-			"rgba(0, 0, 191, 1)",
-			"rgba(0, 0, 159, 1)",
-			"rgba(0, 0, 127, 1)",
-			"rgba(63, 0, 91, 1)",
-			"rgba(127, 0, 63, 1)",
-			"rgba(191, 0, 31, 1)",
-			"rgba(255, 0, 0, 1)",
-		];
-		heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-	}
-	function getPoints() {
-		return [
-		<cfloop query="points">
-			loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-		</cfloop>
-		]
-	}
+								});
+								document
+									.getElementById("change-gradient")
+									.addEventListener("click", changeGradient);
 
-</script>
+										// These are exact bounds previously captured from the map object
+
+									//var bounds = new google.maps.LatLngBounds(angle);
+									//var zoom = getBoundsZoomLevel();
+										// do some magic to calculate the zoom level
+
+									// Set the map to these exact bounds
+									//map.setCenter(bounds.getCenter());
+									//map.setZoom(zoom);
+									// NOTE: fitBounds() will not work
+								}
+								function getBoundsZoomLevel() {
+									var nel = #points2.maxlat#;
+									var swl = #points2.minlat#;
+									var GLOBE_WIDTH = 256; // a constant in Google's map projection
+									var angle = nel - swl;
+									if (angle < 0) {
+										angle += 360;
+									}
+									var zoom = Math.round(Math.log(GLOBE_WIDTH * 360 / angle) / Math.LN2);
+								}
+								function toggleHeatmap(){
+									heatmap.setMap(heatmap.getMap() ? null : map);
+								}
+								function changeGradient() {
+									const gradient = [
+										"rgba(0, 255, 255, 0)",
+										"rgba(0, 255, 255, 1)",
+										"rgba(0, 191, 255, 1)",
+										"rgba(0, 127, 255, 1)",
+										"rgba(0, 63, 255, 1)",
+										"rgba(0, 0, 255, 1)",
+										"rgba(0, 0, 223, 1)",
+										"rgba(0, 0, 191, 1)",
+										"rgba(0, 0, 159, 1)",
+										"rgba(0, 0, 127, 1)",
+										"rgba(63, 0, 91, 1)",
+										"rgba(127, 0, 63, 1)",
+										"rgba(191, 0, 31, 1)",
+										"rgba(255, 0, 0, 1)",
+									];
+									heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+								}
+								function getPoints() {
+									return [
+									<cfloop query="points">
+										loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+									</cfloop>
+									]
+								}
+
+							</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
