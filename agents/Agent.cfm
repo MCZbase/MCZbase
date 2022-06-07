@@ -763,7 +763,7 @@ limitations under the License.
 						var latDif = Math.abs(latRad(lat_a) - latRad(lat_b));
 						var lngDif = Math.abs(lng_a - lng_b);
 						var latFrac = latDif / Math.PI; 
-						var lngFrac = lngDif / 360;
+						var lngFrac = lngDif / 180;
 						var lngZoom = Math.log(1/latFrac) / Math.log(2); 
 						var latZoom = Math.log(1/lngFrac) / Math.log(2); 
 						return Math.min(lngZoom, latZoom)
