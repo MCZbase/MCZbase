@@ -749,7 +749,7 @@ limitations under the License.
 							heatmap = new google.maps.visualization.HeatmapLayer({
 								data: getPoints(),
 								map: map,
-
+								
 							});
 				
 							function toggleHeatmap(){
@@ -773,6 +773,7 @@ limitations under the License.
 									"rgba(255, 0, 0, 1)",
 								];
 								heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+								
 							}
 							function getPoints() {
 								return [
@@ -780,7 +781,6 @@ limitations under the License.
 									loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 								</cfloop>
 								]
-							}
 							var latlngList = [];
 							latlngList.push(new google.maps.LatLng(lat, lng));
 							var bounds = new google.maps.LatLngBounds();
@@ -788,6 +788,8 @@ limitations under the License.
 							});
 							map.setCenter(centerpoint); //or use custom center
 							map.fitBounds(bounds);
+							}
+
 						</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
