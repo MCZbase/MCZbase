@@ -728,10 +728,7 @@ limitations under the License.
 				let map, heatmap;
 
 				function initMap() {
-						var lat_a = #points2.maxlat#;
-						var lat_b = #points2.maxlong#;
-						var lat_c = #points2.minlat#;
-						var lat_d = #points2.minlong#;
+
 					var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 					var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 					var bounds = new google.maps.LatLngBounds(sw, ne);
@@ -754,21 +751,7 @@ limitations under the License.
 						.getElementById("change-gradient")
 						.addEventListener("click", changeGradient);
 					}
-					function latRad(lat) { 
-								var sin = Math.sin(lat * Math.PI / 180); 
-								var radX2 = Math.log((1 + sin) / (1 - sin)) / 2; 
-								return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
-							}
-					function getZoom(lat_a, lng_a, lat_b, lng_b) {
-						var latDif = Math.abs(latRad(lat_a) - latRad(lat_b));
-						var lngDif = Math.abs(lng_a - lng_b);
-						var latFrac = latDif / Math.PI; 
-						var lngFrac = lngDif / 360;
-						var lngZoom = Math.log(1/latFrac) / Math.log(2); 
-						var latZoom = Math.log(1/lngFrac) / Math.log(2); 
-						return Math.min(lngZoom, latZoom)
-					
-					}
+				
 					function toggleHeatmap(){
 						heatmap.setMap(heatmap.getMap() ? null : map);
 					}
@@ -798,7 +781,25 @@ limitations under the License.
 						</cfloop>
 						]
 					}
+						function latRad(lat) { 
+								var sin = Math.sin(lat * Math.PI / 180); 
+								var radX2 = Math.log((1 + sin) / (1 - sin)) / 2; 
+								return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+							}
+						var lat_a = #points2.maxlat#;
+						var lat_b = #points2.maxlong#;
+						var lat_c = #points2.minlat#;
+						var lat_d = #points2.minlong#;
+					function getZoom(lat_a, lng_a, lat_b, lng_b) {
+						var latDif = Math.abs(latRad(lat_a) - latRad(lat_b));
+						var lngDif = Math.abs(lng_a - lng_b);
+						var latFrac = latDif / Math.PI; 
+						var lngFrac = lngDif / 360;
+						var lngZoom = Math.log(1/latFrac) / Math.log(2); 
+						var latZoom = Math.log(1/lngFrac) / Math.log(2); 
+						return Math.min(lngZoom, latZoom)
 					
+					}
 				</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
