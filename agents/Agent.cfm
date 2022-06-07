@@ -728,9 +728,14 @@ limitations under the License.
 				let map, heatmap;
 
 				function initMap() {
+					var lat_a = new google.maps.position(#points2.maxlat#);
+					var lat_b = new google.maps.position(#points2.maxlong#);
+					var lat_c = new google.maps.position(#points2.minlat#);
+					var lat_d = new google.maps.position(#points2.minlong#);
 					var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 					var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 					var bounds = new google.maps.LatLngBounds(sw, ne);
+					//above comes from database but couldn't implement them within google examples
 					var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 					var mapOptions = {
 						zoom: 2,
@@ -745,37 +750,25 @@ limitations under the License.
 						data: getPoints(),
 						map: map,
 						zoom: getZoom(),
-
 					});
 					document
 						.getElementById("change-gradient")
 						.addEventListener("click", changeGradient);
-
-							// These are exact bounds previously captured from the map object
-
-						//var bounds = new google.maps.LatLngBounds(angle);
-						//var zoom = getBoundsZoomLevel();
-							// do some magic to calculate the zoom level
-
-						// Set the map to these exact bounds
-						//map.setCenter(bounds.getCenter());
-						//map.setZoom(getZoom());
-						// NOTE: fitBounds() will not work
 					}
 					function latRad(lat) { 
 								var sin = Math.sin(lat * Math.PI / 180); 
 								var radX2 = Math.log((1 + sin) / (1 - sin)) / 2; 
 								return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
 							}
-							function getZoom(lat_a, lng_a, lat_b, lng_b) { 
-								var latDif = Math.abs(latRad(lat_a) - latRad(lat_b));
-								var lngDif = Math.abs(lng_a - lng_b);
-								var latFrac = latDif / Math.PI; 
-								var lngFrac = lngDif / 360;
-								var lngZoom = Math.log(1/latFrac) / Math.log(2); 
-								var latZoom = Math.log(1/lngFrac) / Math.log(2); 
-								return Math.min(lngZoom, latZoom)
-							}
+					function getZoom(lat_a, lng_a, lat_b, lng_b) { 
+						var latDif = Math.abs(latRad(lat_a) - latRad(lat_b));
+						var lngDif = Math.abs(lng_a - lng_b);
+						var latFrac = latDif / Math.PI; 
+						var lngFrac = lngDif / 360;
+						var lngZoom = Math.log(1/latFrac) / Math.log(2); 
+						var latZoom = Math.log(1/lngFrac) / Math.log(2); 
+						return Math.min(lngZoom, latZoom)
+					}
 					function toggleHeatmap(){
 						heatmap.setMap(heatmap.getMap() ? null : map);
 					}
