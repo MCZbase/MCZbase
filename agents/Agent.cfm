@@ -748,7 +748,7 @@ limitations under the License.
 							bounds.extend(extendPoint1);
 							bounds.extend(extendPoint2);
 						}
-					else bounds.extend(centerpoint);
+					
 						map.fitBounds(bounds);
 					heatmap = new google.maps.visualization.HeatmapLayer({
 						data: getPoints(),
