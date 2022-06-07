@@ -725,10 +725,46 @@ limitations under the License.
 						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
 						<script>
 											
-						let map, heatmap;
+				let map, heatmap;
 
-						function initMap() {
-								function latRad(lat) { 
+				function initMap() {
+					var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+					var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+					var bounds = new google.maps.LatLngBounds(sw, ne);
+					var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+					var angle = [];
+					var swl=[];
+					var nel = [];
+					var mapOptions = {
+						zoom: (zoom) ? getBoundsZoomLevel() : 2,
+						minZoom: 1,
+						center: centerpoint,
+						controlSize: 20,
+						mapTypeId: "hybrid",
+					};
+					map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+					heatmap = new google.maps.visualization.HeatmapLayer({
+						data: getPoints(),
+						map: map,
+
+					});
+					document
+						.getElementById("change-gradient")
+						.addEventListener("click", changeGradient);
+
+							// These are exact bounds previously captured from the map object
+
+						//var bounds = new google.maps.LatLngBounds(angle);
+						//var zoom = getBoundsZoomLevel();
+							// do some magic to calculate the zoom level
+
+						// Set the map to these exact bounds
+						//map.setCenter(bounds.getCenter());
+						map.setZoom(getZoom);
+						// NOTE: fitBounds() will not work
+					}
+					function latRad(lat) { 
 								var sin = Math.sin(lat * Math.PI / 180); 
 								var radX2 = Math.log((1 + sin) / (1 - sin)) / 2; 
 								return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
@@ -742,60 +778,37 @@ limitations under the License.
 								var latZoom = Math.log(1/lngFrac) / Math.log(2); 
 								return Math.min(lngZoom, latZoom)
 							}
-							var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-							var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-							var bounds = new google.maps.LatLngBounds(sw, ne);
-							var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-							var mapOptions = {
-								zoom: 2,
-								minZoom: 1,
-								center: centerpoint,
-								controlSize: 20,
-								mapTypeId: "hybrid",
-							};
-							map = new google.maps.Map(document.getElementById('map'), mapOptions);
-							document
-								.getElementById("change-gradient")
-								.addEventListener("click", changeGradient);
-							}
-							heatmap = new google.maps.visualization.HeatmapLayer({
-								data: getPoints(),
-								map: map,
-								
-							});
-							}
-							function toggleHeatmap(){
-								heatmap.setMap(heatmap.getMap() ? null : map);
-							}
-							function changeGradient() {
-								const gradient = [
-									"rgba(0, 255, 255, 0)",
-									"rgba(0, 255, 255, 1)",
-									"rgba(0, 191, 255, 1)",
-									"rgba(0, 127, 255, 1)",
-									"rgba(0, 63, 255, 1)",
-									"rgba(0, 0, 255, 1)",
-									"rgba(0, 0, 223, 1)",
-									"rgba(0, 0, 191, 1)",
-									"rgba(0, 0, 159, 1)",
-									"rgba(0, 0, 127, 1)",
-									"rgba(63, 0, 91, 1)",
-									"rgba(127, 0, 63, 1)",
-									"rgba(191, 0, 31, 1)",
-									"rgba(255, 0, 0, 1)",
-								];
-								heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-								
-							}
-							function getPoints() {
-								return [
-								<cfloop query="points">
-									loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-								</cfloop>
-								]
-							}
-						
-						</script>
+					function toggleHeatmap(){
+						heatmap.setMap(heatmap.getMap() ? null : map);
+					}
+					function changeGradient() {
+						const gradient = [
+							"rgba(0, 255, 255, 0)",
+							"rgba(0, 255, 255, 1)",
+							"rgba(0, 191, 255, 1)",
+							"rgba(0, 127, 255, 1)",
+							"rgba(0, 63, 255, 1)",
+							"rgba(0, 0, 255, 1)",
+							"rgba(0, 0, 223, 1)",
+							"rgba(0, 0, 191, 1)",
+							"rgba(0, 0, 159, 1)",
+							"rgba(0, 0, 127, 1)",
+							"rgba(63, 0, 91, 1)",
+							"rgba(127, 0, 63, 1)",
+							"rgba(191, 0, 31, 1)",
+							"rgba(255, 0, 0, 1)",
+						];
+						heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+					}
+					function getPoints() {
+						return [
+						<cfloop query="points">
+							loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+						</cfloop>
+						]
+					}
+
+				</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
 												<div id="floating-panel" class="w-100 mx-auto">
