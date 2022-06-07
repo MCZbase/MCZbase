@@ -732,15 +732,15 @@ limitations under the License.
 							var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 							var bounds = new google.maps.LatLngBounds(sw, ne);
 							var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-						
 							var mapOptions = {
-								zoom: getZoom(),
+								zoom: 2,
 								minZoom: 1,
 								center: centerpoint,
 								controlSize: 20,
 								mapTypeId: "hybrid",
 							};
 							map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
 				
 							document
 								.getElementById("change-gradient")
@@ -751,6 +751,7 @@ limitations under the License.
 								map: map,
 								
 							});
+				
 							function toggleHeatmap(){
 								heatmap.setMap(heatmap.getMap() ? null : map);
 							}
