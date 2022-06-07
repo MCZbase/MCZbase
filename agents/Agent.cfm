@@ -739,7 +739,7 @@ limitations under the License.
 												mapTypeId: "hybrid",
 											};
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+											if (bounds.getNorthEast().>=(bounds.getSouthWest())) {
 												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat()-0.05, bounds.getNorthEast().lng()-0.05);
 												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat()+0.05, bounds.getNorthEast().lng()+0.05);
 												bounds.extend(extendPoint1);
