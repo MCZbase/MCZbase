@@ -726,8 +726,6 @@ limitations under the License.
 									<script>
 										let map, heatmap;
 										function initMap() {
-									
-
 											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
@@ -795,7 +793,7 @@ limitations under the License.
 											]
 										}
 									</script>
-									<div class="p-1 mx-1">
+									<div class="p-0 mx-1">
 										<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
 											<span class="text-left d-block float-left">Collecting Events</span>
