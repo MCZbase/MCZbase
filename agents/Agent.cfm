@@ -735,14 +735,13 @@ limitations under the License.
 					//above comes from database but couldn't implement them within google examples
 					var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 					var mapOptions = {
-						zoom: getZoom(),
 						minZoom: 1,
 						center: centerpoint,
 						controlSize: 20,
 						mapTypeId: "hybrid",
 					};
 					map = new google.maps.Map(document.getElementById('map'), mapOptions);
-					map.setZoom(map.getZoom() - 1);
+					map.setZoom(map.getZoom(bounds));
 					heatmap = new google.maps.visualization.HeatmapLayer({
 						data: getPoints(),
 						map: map,
