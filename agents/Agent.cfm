@@ -747,14 +747,10 @@ limitations under the License.
 							var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 							bounds.extend(extendPoint1);
 							bounds.extend(extendPoint2);
-						}else {
-							var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat()-0.05, bounds.getNorthEast().lng()-0.05);
-							var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat()+0.05, bounds.getNorthEast().lng()+0.05);
-							bounds.extend(extendPoint1);
-							bounds.extend(extendPoint2);
+						map.fitBounds(bounds);
 						}
 					
-						map.fitBounds(bounds);
+				
 					heatmap = new google.maps.visualization.HeatmapLayer({
 						data: getPoints(),
 						map: map,
