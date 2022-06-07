@@ -728,7 +728,7 @@ limitations under the License.
 				let map, heatmap;
 
 				function initMap() {
-					var lat_a = []];
+					var lat_a = [];
 					var lat_b = [];
 					var lat_c = [];
 					var lat_d = [];
