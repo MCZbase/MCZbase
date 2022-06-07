@@ -743,8 +743,8 @@ limitations under the License.
 					};
 					map = new google.maps.Map(document.getElementById('map'), mapOptions);
 					if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 					       bounds.extend(extendPoint1);
 					       bounds.extend(extendPoint2);
 					    }
