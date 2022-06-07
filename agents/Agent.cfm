@@ -750,8 +750,8 @@ limitations under the License.
 											} else {
 												google.maps.event.addListener(map,'bounds_changed',function(){
 												var bounds = map.getBounds();
-												var extendPoint3=bounds.getNorthEast();
-												var extendPoint4=bounds.getSouthWest();
+												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
 												bounds.extend(extendPoint3);
 												bounds.extend(extendPoint4)
 											});
