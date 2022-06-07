@@ -738,7 +738,7 @@ limitations under the License.
 					//above comes from database but couldn't implement them within google examples
 					var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 					var mapOptions = {
-						zoom: latZoom,
+						zoom: getZoom() : 2,
 						minZoom: 1,
 						center: centerpoint,
 						controlSize: 20,
@@ -770,7 +770,7 @@ limitations under the License.
 						var lngFrac = lngDif / 360;
 						var lngZoom = Math.log(1/latFrac) / Math.log(2); 
 						var latZoom = Math.log(1/lngFrac) / Math.log(2); 
-						return Math.min(latZoom)
+						return Math.min(lngZoom, latZoom)
 					
 					}
 					function toggleHeatmap(){
