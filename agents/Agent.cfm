@@ -728,10 +728,10 @@ limitations under the License.
 				let map, heatmap;
 
 				function initMap() {
-					var lat_a = [];
-					var lat_b = [];
-					var lat_c = [];
-					var lat_d = [];
+						var lat_a = #points2.maxlat#;
+						var lat_b = #points2.maxlong#;
+						var lat_c = #points2.minlat#;
+						var lat_d = #points2.minlong#;
 					var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 					var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 					var bounds = new google.maps.LatLngBounds(sw, ne);
@@ -760,10 +760,6 @@ limitations under the License.
 								return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
 							}
 					function getZoom(lat_a, lng_a, lat_b, lng_b) {
-						var lat_a = #points2.maxlat#;
-						var lat_b = #points2.maxlong#;
-						var lat_c = #points2.minlat#;
-						var lat_d = #points2.minlong#;
 						var latDif = Math.abs(latRad(lat_a) - latRad(lat_b));
 						var lngDif = Math.abs(lng_a - lng_b);
 						var latFrac = latDif / Math.PI; 
