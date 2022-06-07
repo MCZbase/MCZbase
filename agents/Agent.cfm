@@ -742,7 +742,14 @@ limitations under the License.
 						mapTypeId: "hybrid",
 					};
 					map = new google.maps.Map(document.getElementById('map'), mapOptions);
-					map.setZoom(map.getZoom(bounds));
+					if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+					       bounds.extend(extendPoint1);
+					       bounds.extend(extendPoint2);
+					    }
+						map.fitBounds(bounds);
+					//map.setZoom(map.getZoom(bounds));
 					heatmap = new google.maps.visualization.HeatmapLayer({
 						data: getPoints(),
 						map: map,
