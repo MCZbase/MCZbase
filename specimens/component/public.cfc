@@ -1918,8 +1918,8 @@ limitations under the License.
 					SELECT
 						cataloged_item.collection_object_id as collection_object_id,
 						cataloged_item.cat_num,
-						dateformat(coll_object.coll_object_entered_date,"yyyy-mm-dd"),
-						dateformat(coll_object.last_edit_date,"yyyy-mm-dd"),
+						coll_object.coll_object_entered_date,
+						coll_object.last_edit_date,
 						collection.collection_cde,
 						coll_object.flags,
 						coll_object_remark.habitat, 
