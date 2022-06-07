@@ -744,6 +744,7 @@ limitations under the License.
 					heatmap = new google.maps.visualization.HeatmapLayer({
 						data: getPoints(),
 						map: map,
+						zoom: getZoom(),
 
 					});
 					document
@@ -758,7 +759,7 @@ limitations under the License.
 
 						// Set the map to these exact bounds
 						//map.setCenter(bounds.getCenter());
-						map.setZoom(getZoom());
+						//map.setZoom(getZoom());
 						// NOTE: fitBounds() will not work
 					}
 					function latRad(lat) { 
