@@ -1947,25 +1947,31 @@ limitations under the License.
 						<cfif len(#meta.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0 pb-2">Remarks: #meta.coll_object_remarks# </li>
 						</cfif>
-						<li class="list-group-item pt-0"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
-						<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
-							<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
-						</cfif>
-						<cfif len(#meta.flags#) is not 0>
-							<li class="list-group-item"> Missing (flags): #one.flags# </li>
-						</cfif>
-						<cfif len(#meta.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0"> Encumbrances: #replace(meta.encumbranceDetail,";","<br>","all")# </li>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
+								<li class="list-group-item pt-0"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
+								<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
+							</cfif>
+							<cfif len(#meta.flags#) is not 0>
+								<li class="list-group-item"> Missing (flags): #one.flags# </li>
+							</cfif>
+							<cfif len(#meta.encumbranceDetail#) is not 0>
+								<li class="list-group-item pt-0"> Encumbrances: #replace(meta.encumbranceDetail,";","<br>","all")# </li>
+							</cfif>
 						</cfif>
 					</ul>
+					
 					<ul class="list-group list-group-flush p-0">
-						<cfif len(meta.disposition_remarks) gt 0 >
-							<li class="list-group-item pt-0">Disposition Remarks: #disposition_remarks#</li>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<cfif len(meta.disposition_remarks) gt 0 >
+								<li class="list-group-item pt-0">Disposition Remarks: #meta.disposition_remarks#</li>
+							</cfif>
 						</cfif>
 						<cfif len(meta.associated_species) gt 0 >
-							<li class="list-group-item pt-0">Associated Species: #associated_species#</li>
+							<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
 						</cfif>
 					</ul>
+					
 			<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
