@@ -732,21 +732,19 @@ limitations under the License.
 							var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 							var bounds = new google.maps.LatLngBounds(sw, ne);
 							var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+							function latRad(lat) { var sin = Math.sin(lat * Math.PI / 180); var radX2 = Math.log((1 + sin) / (1 - sin)) / 2; return Math.max(Math.min(radX2, Math.PI), -Math.PI) / 2;
+							}
+							function getZoom(lat_a, lng_a, lat_b, lng_b) { let latDif = Math.abs(latRad(lat_a) - latRad(lat_b)) let lngDif = Math.abs(lng_a - lng_b) let latFrac = latDif / Math.PI let lngFrac = lngDif / 360 let lngZoom = Math.log(1/latFrac) / Math.log(2) let latZoom = Math.log(1/lngFrac) / Math.log(2) return Math.min(lngZoom, latZoom)
+							}
 							var mapOptions = {
-								zoom: 2,
+								zoom: getZoom(),
 								minZoom: 1,
 								center: centerpoint,
 								controlSize: 20,
 								mapTypeId: "hybrid",
 							};
 							map = new google.maps.Map(document.getElementById('map'), mapOptions);
-							var latlngList = [];
-							latlngList.push(new google.maps.LatLng(lat, lng));
-							var bounds = new google.maps.LatLngBounds();
-							latlngList.each(function(n) { bounds.extend(n);
-							});
-							map.setCenter(centerpoint); //or use custom center
-							map.fitBounds(bounds);
+
 				
 							document
 								.getElementById("change-gradient")
@@ -787,7 +785,6 @@ limitations under the License.
 									loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 								</cfloop>
 								]
-
 							}
 
 						</script>
