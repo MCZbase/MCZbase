@@ -721,89 +721,81 @@ limitations under the License.
 							<section class="accordion" id="collectorSection1">
 								<div class="card mb-2 py-1 bg-light">		
 									<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-										<div class="heatmap">
-						<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
-						<script>
-											
-				let map, heatmap;
-
-				function initMap() {
-
-					var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-					var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
-					var bounds = new google.maps.LatLngBounds(sw, ne);
-
-					var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-					var mapOptions = {
-						zoom: 2,
-						minZoom: 1,
-						maxZoom: 19,
-						center: centerpoint,
-						controlSize: 20,
-						mapTypeId: "hybrid",
-					};
-					map = new google.maps.Map(document.getElementById('map'), mapOptions);
-					if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-							var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-							var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-							bounds.extend(extendPoint1);
-							bounds.extend(extendPoint2);
-						map.fitBounds(bounds);
-						}
-					
-				
-					heatmap = new google.maps.visualization.HeatmapLayer({
-						data: getPoints(),
-						map: map,
-					});
-					document
-						.getElementById("change-gradient")
-						.addEventListener("click", changeGradient);
-					}
-				
-					function toggleHeatmap(){
-						heatmap.setMap(heatmap.getMap() ? null : map);
-					}
-					function changeGradient() {
-						const gradient = [
-							"rgba(0, 255, 255, 0)",
-							"rgba(0, 255, 255, 1)",
-							"rgba(0, 191, 255, 1)",
-							"rgba(0, 127, 255, 1)",
-							"rgba(0, 63, 255, 1)",
-							"rgba(0, 0, 255, 1)",
-							"rgba(0, 0, 223, 1)",
-							"rgba(0, 0, 191, 1)",
-							"rgba(0, 0, 159, 1)",
-							"rgba(0, 0, 127, 1)",
-							"rgba(63, 0, 91, 1)",
-							"rgba(127, 0, 63, 1)",
-							"rgba(191, 0, 31, 1)",
-							"rgba(255, 0, 0, 1)",
-						];
-						heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-					}
-					function getPoints() {
-						return [
-						<cfloop query="points">
-							loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
-						</cfloop>
-						]
-					}
-				</script>
-											<div class="p-1 mx-1">
-												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
-												<div id="floating-panel" class="w-100 mx-auto">
-													<span class="text-left d-block float-left">Collecting Events</span>
-													<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Marker Color</button>
-												</div>
-											</div>
-								 <!--Async script executes immediately and must be after any DOM elements used in callback.-->
+									<div class="heatmap">
+									<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&callback=initMap&libraries=visualization" async></script>
+									<script>
+										let map, heatmap;
+										function initMap() {
+											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+											var bounds = new google.maps.LatLngBounds(sw, ne);
+											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											var mapOptions = {
+												zoom: 2,
+												minZoom: 1,
+												maxZoom: 19,
+												center: centerpoint,
+												controlSize: 20,
+												mapTypeId: "hybrid",
+											};
+											map = new google.maps.Map(document.getElementById('map'), mapOptions);
+											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+												bounds.extend(extendPoint1);
+												bounds.extend(extendPoint2);
+												map.fitBounds(bounds);
+											}
+											heatmap = new google.maps.visualization.HeatmapLayer({
+												data: getPoints(),
+												map: map,
+											});
+											document
+												.getElementById("change-gradient")
+												.addEventListener("click", changeGradient);
+											}
+										function toggleHeatmap(){
+											heatmap.setMap(heatmap.getMap() ? null : map);
+										}
+										function changeGradient() {
+											const gradient = [
+												"rgba(0, 255, 255, 0)",
+												"rgba(0, 255, 255, 1)",
+												"rgba(0, 191, 255, 1)",
+												"rgba(0, 127, 255, 1)",
+												"rgba(0, 63, 255, 1)",
+												"rgba(0, 0, 255, 1)",
+												"rgba(0, 0, 223, 1)",
+												"rgba(0, 0, 191, 1)",
+												"rgba(0, 0, 159, 1)",
+												"rgba(0, 0, 127, 1)",
+												"rgba(63, 0, 91, 1)",
+												"rgba(127, 0, 63, 1)",
+												"rgba(191, 0, 31, 1)",
+												"rgba(255, 0, 0, 1)",
+											];
+											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+										}
+										function getPoints() {
+											return [
+											<cfloop query="points">
+												loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+											</cfloop>
+											]
+										}
+									</script>
+									<div class="p-1 mx-1">
+										<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
+										<div id="floating-panel" class="w-100 mx-auto">
+											<span class="text-left d-block float-left">Collecting Events</span>
+											<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Change Marker Color</button>
+										</div>
+									</div>
+									<!--Async script executes immediately and must be after any DOM elements used in callback.-->
 								</div>
 							</section>
-							</cfif>		
+							</cfif>
 
-								
 							<!--- Collector of families --->
 							<section class="accordion" id="collectorSection2">
 								<div class="card mb-2 bg-light">
