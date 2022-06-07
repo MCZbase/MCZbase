@@ -784,7 +784,7 @@ limitations under the License.
 							var latlngList = [];
 							latlngList.push(new google.maps.LatLng(lat, lng));
 							var bounds = new google.maps.LatLngBounds();
-							latlngList.each(function(n) { bounds.extend(n);
+							latlngList.each(function(loc) { bounds.extend(loc);
 							});
 							map.setCenter(centerpoint); //or use custom center
 							map.fitBounds(bounds);
