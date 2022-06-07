@@ -732,11 +732,8 @@ limitations under the License.
 					var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 					var bounds = new google.maps.LatLngBounds(sw, ne);
 					var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
-					var angle = [];
-					var swl=[];
-					var nel = [];
 					var mapOptions = {
-						zoom: (zoom) ? getBoundsZoomLevel() : 2,
+						zoom: 2,
 						minZoom: 1,
 						center: centerpoint,
 						controlSize: 20,
@@ -761,7 +758,7 @@ limitations under the License.
 
 						// Set the map to these exact bounds
 						//map.setCenter(bounds.getCenter());
-						map.setZoom(getZoom);
+						map.setZoom(getZoom());
 						// NOTE: fitBounds() will not work
 					}
 					function latRad(lat) { 
