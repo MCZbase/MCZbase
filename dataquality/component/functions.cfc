@@ -419,7 +419,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("2cd6884e-3d14-4476-94f7-1191cfff309b") --->
-			<cfset dqResponse = dwcSciNameDQ.validationClassFound(class,gbifAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationClassFound(phylclass,gbifAuthority) >
 			<cfset r.label = "dwc:class is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -524,7 +524,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("2cd6884e-3d14-4476-94f7-1191cfff309b") --->
-			<cfset dqResponse = dwcSciNameDQ.validationClassFound(class,gbifAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationClassFound(phylclass,gbifAuthority) >
 			<cfset r.label = "dwc:class is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
