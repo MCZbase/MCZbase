@@ -738,18 +738,17 @@ limitations under the License.
 					//above comes from database but couldn't implement them within google examples
 					var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 					var mapOptions = {
-						zoom: 2,
+						zoom: (lat_a, lng_a, lat_b, lng_b) ? getZoom : 2,
 						minZoom: 1,
 						center: centerpoint,
 						controlSize: 20,
 						mapTypeId: "hybrid",
 					};
 					map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
+					map.setZoom(map.getZoom() - 1);
 					heatmap = new google.maps.visualization.HeatmapLayer({
 						data: getPoints(),
 						map: map,
-						zoom: getZoom(lat_a, lat_b, lat_c, lat_d),
 					});
 					document
 						.getElementById("change-gradient")
@@ -798,7 +797,7 @@ limitations under the License.
 						</cfloop>
 						]
 					}
-
+					
 				</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
