@@ -740,7 +740,13 @@ limitations under the License.
 								mapTypeId: "hybrid",
 							};
 							map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
+							var latlngList = [];
+							latlngList.push(new google.maps.LatLng(lat, lng));
+							var bounds = new google.maps.LatLngBounds();
+							latlngList.each(function(n) { bounds.extend(n);
+							});
+							map.setCenter(centerpoint); //or use custom center
+							map.fitBounds(bounds);
 				
 							document
 								.getElementById("change-gradient")
@@ -781,13 +787,7 @@ limitations under the License.
 									loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
 								</cfloop>
 								]
-							var latlngList = [];
-							latlngList.push(new google.maps.LatLng(lat, lng));
-							var bounds = new google.maps.LatLngBounds();
-							latlngList.each(function(loc) { bounds.extend(loc);
-							});
-							map.setCenter(centerpoint); //or use custom center
-							map.fitBounds(bounds);
+
 							}
 
 						</script>
