@@ -742,8 +742,8 @@ limitations under the License.
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
 												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												bounds.extend(extendPoint1);
-												bounds.extend(extendPoint2);
+												bounds.extend(ne);
+												bounds.extend(sw);
 											}
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
