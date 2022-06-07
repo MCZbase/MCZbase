@@ -760,7 +760,7 @@ limitations under the License.
 									// do some magic to calculate the zoom level
 
 								// Set the map to these exact bounds
-								map.setCenter(bounds.getCenter());
+								map.setCenter(centerpoint);
 								map.setZoom(zoom);
 								// NOTE: fitBounds() will not work
 							}
