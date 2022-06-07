@@ -739,11 +739,11 @@ limitations under the License.
 												mapTypeId: "hybrid",
 											};
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
-											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
-												bounds.extend(ne);
-												bounds.extend(sw);
+											if (!!bounds) {
+												var extendPoint1 = new google.maps.LatLng(ne.getNorthEast().lat(), ne.getNorthEast().lng());
+												var extendPoint2 = new google.maps.LatLng(sw.getSouthWest().lat(), sw.getSouthWest().lng());
+												bounds.extend(extendPoint1);
+												bounds.extend(extendPoint2);
 											}
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
