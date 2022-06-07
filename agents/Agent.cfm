@@ -90,6 +90,7 @@ limitations under the License.
 		and flat.guid IS NOT NULL
 		and lat_long.dec_lat is not null
 		and lat_long.accepted_lat_long_fg = 1
+		
 </cfquery>
 <cfoutput>
 	<main class="container-xl px-0" id="content">
