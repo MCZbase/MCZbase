@@ -726,6 +726,8 @@ limitations under the License.
 									<script>
 										let map, heatmap;
 										function initMap() {
+									
+
 											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
@@ -739,11 +741,20 @@ limitations under the License.
 												mapTypeId: "hybrid",
 											};
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
-											if (bounds.getNorthEast()!== 0) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat()-0.05, bounds.getNorthEast().lng()-0.05);
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat()+0.05, bounds.getNorthEast().lng()+0.05);
+										
+											if  (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+											var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+											var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 												bounds.extend(extendPoint1);
 												bounds.extend(extendPoint2);
+											} else {
+												google.maps.event.addListener(map,'bounds_changed',function(){
+												var bounds = map.getBounds();
+												var ne=bounds.getNorthEast();
+												var sw=bounds.getSouthWest();
+												bounds.extend(ne);
+												bounds.extend(sw);
+											});
 											}
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
