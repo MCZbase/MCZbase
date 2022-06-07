@@ -728,10 +728,10 @@ limitations under the License.
 				let map, heatmap;
 
 				function initMap() {
-					var lat_a = new google.maps.position(#points2.maxlat#);
-					var lat_b = new google.maps.position(#points2.maxlong#);
-					var lat_c = new google.maps.position(#points2.minlat#);
-					var lat_d = new google.maps.position(#points2.minlong#);
+					var lat_a = #points2.maxlat#;
+					var lat_b = #points2.maxlong#;
+					var lat_c = #points2.minlat#;
+					var lat_d = #points2.minlong#;
 					var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
 					var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 					var bounds = new google.maps.LatLngBounds(sw, ne);
