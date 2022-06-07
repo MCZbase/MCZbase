@@ -744,11 +744,7 @@ limitations under the License.
 							};
 							map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-							heatmap = new google.maps.visualization.HeatmapLayer({
-								data: getPoints(),
-								map: map,
-
-							});
+				
 							document
 								.getElementById("change-gradient")
 								.addEventListener("click", changeGradient);
@@ -764,6 +760,11 @@ limitations under the License.
 								map.setZoom(zoom);
 								// NOTE: fitBounds() will not work
 							}
+							heatmap = new google.maps.visualization.HeatmapLayer({
+								data: getPoints(),
+								map: map,
+
+							});
 							function getBoundsZoomLevel() {
 								var nel = #points2.maxlat#;
 								var swl = #points2.minlat#;
