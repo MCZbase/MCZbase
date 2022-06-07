@@ -748,33 +748,13 @@ limitations under the License.
 							document
 								.getElementById("change-gradient")
 								.addEventListener("click", changeGradient);
-
-									// These are exact bounds previously captured from the map object
-
-								//var bounds = new google.maps.LatLngBounds(angle);
-								var zoom = getBoundsZoomLevel();
-									// do some magic to calculate the zoom level
-
-								// Set the map to these exact bounds
-								map.setCenter(centerpoint);
-								map.setZoom(zoom);
-								// NOTE: fitBounds() will not work
 							}
 							heatmap = new google.maps.visualization.HeatmapLayer({
 								data: getPoints(),
 								map: map,
 
 							});
-							function getBoundsZoomLevel() {
-								var nel = #points2.maxlat#;
-								var swl = #points2.minlat#;
-								var GLOBE_WIDTH = 256; // a constant in Google's map projection
-								var angle = nel - swl;
-								if (angle < 0) {
-									angle += 360;
-								}
-								var zoom = Math.round(Math.log(GLOBE_WIDTH * 360 / angle) / Math.LN2);
-							}
+				
 							function toggleHeatmap(){
 								heatmap.setMap(heatmap.getMap() ? null : map);
 							}
@@ -804,7 +784,13 @@ limitations under the License.
 								</cfloop>
 								]
 							}
-
+							var latlngList = [];
+							latlngList.push(new google.maps.LatLng(lat, lng));
+							var bounds = new google.maps.LatLngBounds();
+							latlngList.each(function(n) { bounds.extend(n);
+							});
+							map.setCenter(centerpoint); //or use custom center
+							map.fitBounds(bounds);
 						</script>
 											<div class="p-1 mx-1">
 												<div id="map" class="w-100 py-1 rounded" style="height: 256px;"></div>
