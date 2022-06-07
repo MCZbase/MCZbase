@@ -743,30 +743,29 @@ limitations under the License.
 								};
 								map = new google.maps.Map(document.getElementById('map'), mapOptions);
 								bounds.extend(center);
-							for(var i=0;i<bounds1.length;i++){
-									// for every polygon in the WKT, create an array
-									var lary=[];
-									for(var j=0;j<bounds1.length;j++){
-									// push the coordinate pairs to the array as LatLngs
-										var xy = bounds1[j].trim().split(" ");
-										var pt=new google.maps.LatLng(xy[1],xy[0]);
-										lary.push(pt);
-									//console.log(lary);
-										bounds.extend(pt);
-									}
-							// now push the single-polygon array to the array of arrays (of polygons)
-								ptsArray.push(lary);
-							}
+								var Rings = [];
+								for(var i=0;i<Rings.length;i++){
+										// for every polygon in the WKT, create an array
+										var lary=[];
+										for(var j=0;j<dia.length;j++){
+										// push the coordinate pairs to the array as LatLngs
+											var xy = dia[j].trim().split(" ");
+											var pt=new google.maps.LatLng(xy[1],xy[0]);
+											lary.push(pt);
+										//console.log(lary);
+											bounds.extend(pt);
+										}
+								// now push the single-polygon array to the array of arrays (of polygons)
+									ptsArray.push(lary);
+								}
 								if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-					       bounds.extend(extendPoint1);
-					       bounds.extend(extendPoint2);
-					    }
-						map.fitBounds(bounds);
-			        	
-					});
-		
+								   var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+								   var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+								   bounds.extend(extendPoint1);
+								   bounds.extend(extendPoint2);
+								}
+								map.fitBounds(bounds);
+							
 								heatmap = new google.maps.visualization.HeatmapLayer({
 									data: getPoints(),
 									map: map,
@@ -787,6 +786,7 @@ limitations under the License.
 									//map.setZoom(zoom);
 									// NOTE: fitBounds() will not work
 								}
+							map.fitBounds(bounds);
 								function getBoundsZoomLevel() {
 									var nel = #points2.maxlat#;
 									var swl = #points2.minlat#;
