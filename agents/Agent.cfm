@@ -749,7 +749,7 @@ limitations under the License.
 					heatmap = new google.maps.visualization.HeatmapLayer({
 						data: getPoints(),
 						map: map,
-						zoom: getZoom(),
+						zoom: getZoom(lat_a, lat_b, lat_c, lat_d),
 					});
 					document
 						.getElementById("change-gradient")
