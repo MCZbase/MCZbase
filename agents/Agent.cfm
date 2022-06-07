@@ -736,7 +736,7 @@ limitations under the License.
 							var swl=[];
 							var nel = [];
 							var mapOptions = {
-								zoom: (extends.center) ? getBoundsZoomLevel() : 2,
+								zoom: ? getBoundsZoomLevel() : 2,
 								minZoom: 1,
 								center: centerpoint,
 								controlSize: 20,
