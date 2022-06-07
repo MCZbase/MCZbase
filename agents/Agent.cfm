@@ -754,8 +754,6 @@ limitations under the License.
 								mapTypeId: "hybrid",
 							};
 							map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-				
 							document
 								.getElementById("change-gradient")
 								.addEventListener("click", changeGradient);
@@ -765,7 +763,7 @@ limitations under the License.
 								map: map,
 								
 							});
-				
+							}
 							function toggleHeatmap(){
 								heatmap.setMap(heatmap.getMap() ? null : map);
 							}
