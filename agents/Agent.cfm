@@ -82,6 +82,7 @@ limitations under the License.
 	FROM locality
 		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 			on flat.locality_id = locality.locality_id
+		left join lat_long on lat_long.locality_id = flat.locality_id
 		left join collector on collector.collection_object_id = flat.collection_object_id
 		left join agent on agent.agent_id = collector.agent_id
 	WHERE 
@@ -733,12 +734,11 @@ limitations under the License.
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
-												maxZoom: 10,
+												maxZoom: 14,
 												center: centerpoint,
 												controlSize: 20,
 												mapTypeId: "hybrid",
 											};
-											
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
 										
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
@@ -748,14 +748,13 @@ limitations under the License.
 												bounds.extend(extendPoint2);
 											} else {
 												google.maps.event.addListener(map,'bounds_changed',function(){
-												var bounds = map.getBounds();
+												//var bounds = map.getBounds();
 												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
 												bounds.extend(extendPoint3);
 												bounds.extend(extendPoint4);
 												});
 											}
-											
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
