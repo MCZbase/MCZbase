@@ -704,13 +704,20 @@ limitations under the License.
 								</div>
 							</section>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
+								SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng
+								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+									left join collector on collector.collection_object_id = flat.collection_object_id
+									left join agent on agent.agent_id = collector.agent_id
+								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								
-								SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, max(flat.dec_lat), max(flat.dec_long), min(flat.dec_lat), min(flat.dec_long)
+							</cfquery>
+							<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points3_result">
+								SELECT max(flat.dec_lat) minlat, max(flat.dec_long) maxlong, min(flat.dec_lat) minlat, min(flat.dec_long) minlong
 								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									left join collector on collector.collection_object_id = flat.collection_object_id
 									left join agent on agent.agent_id = collector.agent_id
 								WHERE min(flat.dec_lat) < '-65' 
-								AND min(flat.dec_long) < -'65' 
+								AND min(flat.dec_long) < '-65' 
 								AND collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								
 							</cfquery>
@@ -723,8 +730,8 @@ limitations under the License.
 									<script>
 										let map, heatmap;
 										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
-											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
+											var ne = new google.maps.LatLng(#points3.maxlat#,#points3.maxlong#);
+											var sw = new google.maps.LatLng(#points3.minlat#,#points3.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
