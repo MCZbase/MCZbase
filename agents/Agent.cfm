@@ -756,12 +756,13 @@ limitations under the License.
 												bounds.extend(extendPoint4);
 												});
 											}
+										
+											map.fitBounds(bounds);
 											var zoomOverride = map.getZoom();
 											 if (zoomOverride < 1) {
 												 zoomOverride = 1;
 											 }
 											map.setZoom(zoomOverride);
-											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
 												map: map,
