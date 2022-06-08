@@ -38,18 +38,18 @@ limitations under the License.
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
-		collection_object_id,
-		cat_num,
-		collection_cde,
+		flat.collection_object_id,
+		flat.cat_num,
+		flat.collection_cde,
 		<cfif #oneOfUs# eq 1>
-			accn_id,
+			flat.accn_id,
 		<cfelse>
-			NULL as accn_id,
+			NULL as flat.accn_id,
 		</cfif>
-		getpreferredagentname(entered_person_id) EnteredBy,
-		getpreferredagentname(last_edited_person_id) EditedBy,
-		concatencumbrances(collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(collection_object_id) encumbranceDetail
+		getpreferredagentname(coll_object.entered_person_id) EnteredBy,
+		getpreferredagentname(coll_object.last_edited_person_id) EditedBy,
+		concatencumbrances(coll_object.collection_object_id) concatenatedEncumbrances,
+		concatEncumbranceDetails(coll_object.collection_object_id) encumbranceDetail
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join coll_object on coll_object.collection_object_id = flat.collection_object_id
