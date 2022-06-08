@@ -46,12 +46,14 @@ limitations under the License.
 		<cfelse>
 			NULL as accn_id,
 		</cfif>
-		getpreferredagentname(coll_object.entered_person_id) EnteredBy,
-		getpreferredagentname(coll_object.last_edited_person_id) EditedBy,
-		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
+		getpreferredagentname(entered_person_id) EnteredBy,
+		getpreferredagentname(last_edited_person_id) EditedBy,
+		concatencumbrances(collection_object_id) concatenatedEncumbrances,
+		concatEncumbranceDetails(collection_object_id) encumbranceDetail
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+		left join coll_object on coll_object.collection_object_id = flat.collection_object_id
+		left join coll_object on coll_object.collection_object_id = flat.collection_object_id
 	WHERE
 		flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
