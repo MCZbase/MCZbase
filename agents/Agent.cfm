@@ -749,12 +749,13 @@ limitations under the License.
 											} else {
 												google.maps.event.addListener(map,'bounds_changed',function(){
 												var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat()-0.05, bounds.getNorthEast().lng()-0.05);
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat()+0.05, bounds.getSouthWest().lng()+0.05);
+												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
 												bounds.extend(extendPoint3);
 												bounds.extend(extendPoint4);
 												});
 											}
+											Map.setCenter(centerpoint);
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
