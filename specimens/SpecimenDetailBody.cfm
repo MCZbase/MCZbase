@@ -22,10 +22,8 @@ limitations under the License.
 	</cfif>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<cfset oneOfUs = 1>
-		<cfset isClicky = "likeLink">
 		<cfelse>
 		<cfset oneOfUs = 0>
-		<cfset isClicky = "">
 	</cfif>
 	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
 		<!--- TODO: Fix this redirect, this is probably the header delivered block above.  ----> 
@@ -38,16 +36,13 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
-<!---<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
+<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
-		cataloged_item.collection_object_id as collection_object_id,
-		cataloged_item.cat_num,
-		collection.collection_cde,
-		coll_object.coll_object_entered_date,
-		coll_object.last_edit_date,
-		coll_object.flags,
+		collection_object_id,
+		cat_num,
+		collection_cde,
 		<cfif #oneOfUs# eq 1>
-			cataloged_item.accn_id,
+			accn_id,
 		<cfelse>
 			NULL as accn_id,
 		</cfif>
@@ -56,12 +51,10 @@ limitations under the License.
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 	FROM
-		cataloged_item 
-		left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-		left join collection on cataloged_item.collection_id = collection.collection_id
+		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 	WHERE
-		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-</cfquery>--->
+		flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+</cfquery>
 <cfif one.recordcount EQ 0>
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
