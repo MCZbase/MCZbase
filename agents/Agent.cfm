@@ -734,7 +734,7 @@ limitations under the License.
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
-												maxZoom: 19,
+												maxZoom: 15,
 												center: centerpoint,
 												controlSize: 20,
 												mapTypeId: "hybrid",
@@ -753,7 +753,7 @@ limitations under the License.
 												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
 												bounds.extend(extendPoint3);
 												bounds.extend(extendPoint4);
-											});
+												});
 											}
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
