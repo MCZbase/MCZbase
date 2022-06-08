@@ -749,14 +749,14 @@ limitations under the License.
 												bounds.extend(extendPoint2);
 											} else {
 												google.maps.event.addListener(map,'bounds_changed',function(){
-												
+												var bounds = map.getBounds(centerpoint);
 												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
 												bounds.extend(extendPoint3);
 												bounds.extend(extendPoint4);
 												});
 											}
-										
+											
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
@@ -795,7 +795,6 @@ limitations under the License.
 											</cfloop>
 											]
 										}
-											map.getBounds(bounds);
 									</script>
 									<div class="p-0 mx-1">
 										<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
