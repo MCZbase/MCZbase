@@ -756,7 +756,7 @@ limitations under the License.
 												bounds.extend(extendPoint4);
 												});
 											}
-											map.getBounds(bounds);
+										
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
@@ -795,6 +795,7 @@ limitations under the License.
 											</cfloop>
 											]
 										}
+											map.getBounds(bounds);
 									</script>
 									<div class="p-0 mx-1">
 										<div id="map" class="w-100 py-1 rounded" style="height: 300px;" aria-label="Google Map of Collecting Events"></div>
