@@ -53,7 +53,6 @@ limitations under the License.
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join coll_object on coll_object.collection_object_id = flat.collection_object_id
-		left join coll_object on coll_object.collection_object_id = flat.collection_object_id
 	WHERE
 		flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
