@@ -712,7 +712,7 @@ limitations under the License.
 								
 							</cfquery>
 							<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points3_result">
-								SELECT max(flat.dec_lat) minlat, max(flat.dec_long) maxlong, min(flat.dec_lat) minlat, min(flat.dec_long) minlong
+								SELECT max(flat.dec_lat) as minlat, max(flat.dec_long)as maxlong, min(flat.dec_lat) as minlat, min(flat.dec_long) as minlong
 								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									left join collector on collector.collection_object_id = flat.collection_object_id
 									left join agent on agent.agent_id = collector.agent_id
