@@ -257,5 +257,6 @@
 		</cfif>
 	</cfif>
 <cfelse>
+	<cfset rdurl = cgi.SCRIPT_NAME>
 	<cfinclude template="/errors/404.cfm">
 </cfif>
