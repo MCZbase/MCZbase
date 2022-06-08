@@ -739,6 +739,7 @@ limitations under the License.
 												controlSize: 20,
 												mapTypeId: "hybrid",
 											};
+											
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
 										
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
@@ -755,6 +756,11 @@ limitations under the License.
 												bounds.extend(extendPoint4);
 												});
 											}
+											var zoomOverride = map.getZoom();
+											 if (zoomOverride < 1) {
+												 zoomOverride = 1;
+											 }
+											map.setZoom(zoomOverride);
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
