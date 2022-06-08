@@ -1972,6 +1972,8 @@ limitations under the License.
 							<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
 						</cfif>
 					</ul>
+					<cfelse>
+						None
 					</cfif>
 			<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
