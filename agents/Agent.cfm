@@ -716,9 +716,7 @@ limitations under the License.
 								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									left join collector on collector.collection_object_id = flat.collection_object_id
 									left join agent on agent.agent_id = collector.agent_id
-								WHERE min(flat.dec_lat) < '-65' 
-								AND min(flat.dec_long) < '-65' 
-								AND collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 								
 							</cfquery>
 							<cfif points.recordcount gt 0>
