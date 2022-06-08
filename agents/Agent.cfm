@@ -705,15 +705,14 @@ limitations under the License.
 							</section>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 								
-								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng, max(lat_long.dec_long) as maxlong,min(lat_long.dec_long)as minlong,max(lat_long.dec_lat) as maxlat,min(lat_long.dec_lat)as minlat
-								FROM locality
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									on flat.locality_id = locality.locality_id
-									left join lat_long on lat_long.locality_id = flat.locality_id
+								SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, max(flat.dec_long) as maxlong,min(flat.dec_long)as minlong,max(flat.dec_lat) as maxlat,min(flat.dec_lat)as minlat
+								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									left join collector on collector.collection_object_id = flat.collection_object_id
 									left join agent
 									on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								AND maxlat < 65
+								AND maxlong < 65
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
