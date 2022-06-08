@@ -219,8 +219,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-						
-					
 				</div>
 			</cfif>
 			<!----------------------------- two right columns ---------------------------------->
@@ -390,7 +388,13 @@ limitations under the License.
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 								<div class="card-body py-1 mb-1 float-left" id="otherIDsCardBody">
-										<cfif len(#blockotherid#) gt 60> #blockotherid# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+									<cfif len(#blockotherid#) gt 60> 
+										#blockotherid# 
+									<cfelse>
+										<ul class="pl-0 mb-0">
+											<li class="small90">None</li>
+										</ul>
+									</cfif>
 								</div>
 							</div>
 						</div>
@@ -401,7 +405,6 @@ limitations under the License.
 							<div id="partsDialog"></div>
 							<script>
 								function reloadParts() { 
-								// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other ID block.
 									loadParts(#collection_object_id#,'partsCardBody');
 								}
 							</script>
@@ -478,7 +481,6 @@ limitations under the License.
 							<div id="relationsDialog"></div>
 							<script>
 								function reloadRelations() { 
-									// invoke specimen/component/public.cfc function getRelationsHTML via ajax and repopulate the Other ID block.
 									loadRelations(#collection_object_id#,'RelationsCardBody');
 								}
 							</script>
@@ -522,7 +524,6 @@ limitations under the License.
 							<div id="metaDialog"></div>
 							<script>
 								function reloadMeta() { 
-								// invoke specimen/component/public.cfc function getRemarksHTML via ajax and repopulate the Other ID block.
 									loadMeta(#collection_object_id#,'metaCardBody');
 								}
 							</script>
@@ -554,7 +555,13 @@ limitations under the License.
 							</div>
 							<div id="MetaPane" class="collapse show" aria-labelledby="headingMeta" data-parent="##accordionMeta">
 								<div class="card-body py-1 my-1 float-left" id="metaCardBody">
-									<cfif len(#blockmeta#) gt 0>#blockmeta#<cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+									<cfif len(#blockmeta#) gt 0>
+										#blockmeta#
+									<cfelse>
+										<ul class="pl-0 mb-0">
+											<li class="small90">None</li>
+										</ul>
+									</cfif>
 								</div>
 							</div>
 						</div>
@@ -610,7 +617,6 @@ limitations under the License.
 							<div id="collectorsDialog"></div>
 							<script>
 								function reloadCollectors() { 
-									// invoke specimen/component/public.cfc function getCollectorsHTML via ajax and repopulate the Other ID block.
 									loadCollectors(#collection_object_id#,'collectorsCardBody');
 								}
 							</script>
@@ -642,7 +648,13 @@ limitations under the License.
 							</div>
 							<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
 								<div class="card-body py-1 mb-1 float-left" id="collectorsCardBody">
-									<cfif len(#blockcollectors#) gt 60> #blockcollectors# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+									<cfif len(#blockcollectors#) gt 60> 
+										#blockcollectors# 
+									<cfelse>
+										<ul class="pl-0 mb-0">
+											<li class="small90">None</li>
+										</ul>
+									</cfif>
 								</div>
 							</div>
 						</div>
@@ -653,7 +665,6 @@ limitations under the License.
 							<div id="ledgerDialog"></div>
 							<script>
 								function reloadLedger() { 
-									// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
 									loadLedger(#collection_object_id#,'ledgerCardBody');
 								}
 							</script>
@@ -689,7 +700,6 @@ limitations under the License.
 							<div id="transactionsDialog"></div>
 							<script>
 								function reloadTransactions() { 
-									// invoke specimen/component/public.cfc function getCollectorsHTML via ajax and repopulate the Other ID block.
 									loadTransactions(#collection_object_id#,'transactionsCardBody');
 								}
 							</script>
