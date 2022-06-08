@@ -78,6 +78,7 @@ limitations under the License.
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	and media.media_type != 'text'
+	and media.mask_media_fg <> 1
 	
 </cfquery>
 <cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -89,6 +90,7 @@ limitations under the License.
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	AND media_relations.media_relationship like '%ledger%'
+	and media.mask_media_fg <> 1
 </cfquery>
 <cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -98,7 +100,8 @@ limitations under the License.
 		left join media_relations on media_relations.media_id = media.media_id
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-And media_type <> 'text'
+	And media_type <> 'text'
+	and media.mask_media_fg <> 1
 
 </cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -108,6 +111,7 @@ And media_type <> 'text'
 		specimen_part
 	where
 		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#"> 
+	and media.mask_media_fg <> 1
 </cfquery>
 <cfset ctPart.ct=''>
 <cfquery name="ctPart" dbtype="query">
