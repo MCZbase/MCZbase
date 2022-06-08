@@ -795,7 +795,7 @@ limitations under the License.
 										}
 									</script>
 									<div class="p-0 mx-1">
-										<div id="map" class="w-100 py-1 rounded" style="height: 256px;" aria-label="Google Map of Collecting Events"></div>
+										<div id="map" class="w-100 py-1 rounded" style="height: 500px;" aria-label="Google Map of Collecting Events"></div>
 										<div id="floating-panel" class="w-100 mx-auto">
 											<span class="text-left d-block float-left">Collecting Event Map</span>
 											<button id="change-gradient" class="border mt-2 py-0 rounded btn-xs btn small float-right">Toggle Marker Color</button>
