@@ -756,7 +756,7 @@ limitations under the License.
 												bounds.extend(extendPoint4);
 												});
 											}
-											var bounds = map.getBounds(bounds);
+											map.getBounds(bounds);
 											map.fitBounds(bounds);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
