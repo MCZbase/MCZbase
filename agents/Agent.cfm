@@ -734,7 +734,7 @@ limitations under the License.
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
-												maxZoom: 14,
+												maxZoom: 10,
 												center: centerpoint,
 												controlSize: 20,
 												mapTypeId: "hybrid",
@@ -758,11 +758,6 @@ limitations under the License.
 											}
 										
 											map.fitBounds(bounds);
-											var zoomOverride = map.getZoom();
-											 if (zoomOverride < 1) {
-												 zoomOverride = 1;
-											 }
-											map.setZoom(zoomOverride);
 											heatmap = new google.maps.visualization.HeatmapLayer({
 												data: getPoints(),
 												map: map,
