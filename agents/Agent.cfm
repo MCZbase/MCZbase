@@ -711,8 +711,8 @@ limitations under the License.
 									left join agent
 									on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-								AND maxlat < 65
-								AND maxlong < 65
+								AND min(flat.dec_lat) < 65
+								AND min(flat.dec_long) < 65
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
