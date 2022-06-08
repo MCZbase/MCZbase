@@ -38,7 +38,7 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
-<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
+<!---<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
 		cataloged_item.collection_object_id as collection_object_id,
 		cataloged_item.cat_num,
@@ -61,7 +61,7 @@ limitations under the License.
 		left join collection on cataloged_item.collection_id = collection.collection_id
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-</cfquery>
+</cfquery>--->
 <cfif one.recordcount EQ 0>
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
