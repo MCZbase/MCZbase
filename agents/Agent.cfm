@@ -789,7 +789,7 @@ limitations under the License.
 										function getPoints() {
 											return [
 											<cfloop query="points">
-												loc = new google.maps.LatLng(<cfif len(points.Latitude)gt 0>#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540</cfif>),
+												new google.maps.LatLng(#points.Latitude#,#points.Longitude#<cfelse>42.378765,-71.115540),
 											</cfloop>
 											]
 										}
