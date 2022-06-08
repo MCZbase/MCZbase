@@ -1944,6 +1944,7 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 					<ul class="list-group pl-0 pt-0">
+					<cfif meta.recordcount gt 0>
 						<cfif len(#meta.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0 pb-2">Remarks: #meta.coll_object_remarks# </li>
 						</cfif>
@@ -1971,7 +1972,7 @@ limitations under the License.
 							<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
 						</cfif>
 					</ul>
-					
+					</cfif>
 			<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
