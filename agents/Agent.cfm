@@ -707,7 +707,7 @@ limitations under the License.
 								
 								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng, max(lat_long.dec_long) as maxlong,min(lat_long.dec_long)as minlong,max(lat_long.dec_lat) as maxlat,min(lat_long.dec_lat)as minlat
 								FROM lat_long
-									left join collector on collector.collection_object_id = flat.collection_object_id
+									left join collector on collector.collection_object_id = lat_long.collection_object_id
 									left join agent
 									on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
