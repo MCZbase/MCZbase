@@ -78,46 +78,16 @@ limitations under the License.
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
 <cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-	SELECT distinct lat_long.locality_id,lat_long.dec_lat as Latitude, lat_long.DEC_LONG as Longitude 
-	FROM locality
-		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-			on flat.locality_id = locality.locality_id
-		left join lat_long on lat_long.locality_id = flat.locality_id
+	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
+	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 		left join collector on collector.collection_object_id = flat.collection_object_id
 		left join agent on agent.agent_id = collector.agent_id
 	WHERE 
 		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		and flat.guid IS NOT NULL
-		and lat_long.dec_lat is not null
-		and lat_long.accepted_lat_long_fg = 1
+		and flat.dec_lat is not null
 		
 </cfquery>
-
-<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points3_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-SELECT
-  max(dec_lat) as nelat, max(dec_long) as nelong
-FROM
-	<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-INNER JOIN collector 
-	USING(collection_object_id)
-LEFT JOIN agent on collector.agent_id = agent.agent_id
-WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-HAVING
-	max(dec_lat) < 65 and max( dec_long ) < 164
-</cfquery>
-<cfquery name="points4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points4_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-SELECT
-  min (dec_lat) as swlat, min(dec_long) as swlong
-FROM
-	 <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-INNER JOIN collector 
-        USING(collection_object_id)
-LEFT JOIN agent on collector.agent_id = agent.agent_id
-WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-HAVING
-    MIN( dec_long ) > -170 and min(dec_lat) > -50
-</cfquery>
-
 
 <cfoutput>
 	<main class="container-xl px-0" id="content">
