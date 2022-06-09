@@ -488,8 +488,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.comment = dqResponse.getComment() >
 			<cfset amendment["431467d6-9b4b-48fa-a197-cd5379f5e889"] = r >
 			<cfset r=structNew()>
-			<cfcatch>
-			<cfset r=structNew()>
 
 			<!--- post-amendment phase --->
 
