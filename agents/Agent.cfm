@@ -102,7 +102,7 @@ INNER JOIN collector
 LEFT JOIN agent on collector.agent_id = agent.agent_id
 WHERE agent.agent_id = 91972
 HAVING
-    MIN( dec_long )< 65
+    MIN( dec_long )< -65
 </cfquery>
 #points3.minlong#
 <cfoutput>
