@@ -88,7 +88,7 @@ function loadNamedGroups(collection_object_id,targetDivId) {
 			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"load ledger");
+			handleFail(jqXHR,textStatus,error,"load named groups");
 		},
 		dataType: "html"
 	})
