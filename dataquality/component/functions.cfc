@@ -507,7 +507,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("401bf207-9a55-4dff-88a5-abcd58ad97fa") --->
-			<cfset dqResponse = dwcSciNameDQ.validationTaxonidEmpty(taxonid) >
+			<cfset dqResponse = dwcSciNameDQ.validationTaxonidNotempty(taxonid) >
 			<cfset r.label = "dwc:taxonId contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
