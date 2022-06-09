@@ -470,8 +470,8 @@ limitations under the License.
 									<cfif len(#blockattributes#) gt 50>
 										#blockattributes#
 									<cfelse>
-										<ul class="pl-1 list-group py-0 mb-0">
-											<li class="small90 list-group-item">None</li>
+										<ul class="pl-0 list-group py-0 mb-0">
+											<li class="small90 pb-0 list-group-item">None</li>
 										</ul>
 									</cfif>
 								</div>
