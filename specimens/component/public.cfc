@@ -2000,9 +2000,9 @@ limitations under the License.
 
 <cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
-	<cftry>
-		<cfset rows = 0>
+	<cfthread name="getNamedGroupsThread">
+	<cfoutput>
+		<cftry>
 		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT DISTINCT collection_name
 			FROM
@@ -2021,15 +2021,32 @@ limitations under the License.
 					</li>
 				</cfif>
 			</ul>
-	<cfcatch>
-	<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-	<cfheader statusCode="500" statusText="#message#">
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
+			<cfcatch>
+			<cfif isDefined("cfcatch.queryError") >
+				<cfset queryError=cfcatch.queryError>
+			<cfelse>
+				<cfset queryError = ''>
+			</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfcatch>
+		</cftry>
+	</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getNamedGroupsThread"/>
+	<cfreturn getNamedGroupsThread.output>
+</cffunction>	
 							
 
 </cfcomponent>
