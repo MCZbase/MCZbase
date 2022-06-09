@@ -353,6 +353,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset author_text = queryrow.author_text>
 			<cfset taxonid = queryrow.taxonid>
 			<cfset scientificnameid = queryrow.scientificnameid>
+			<cfset dwc_scientificName = trim("#queryrow.scientific_name# #queryrow.author_text#")>
 
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.Taxon" name="taxon">
@@ -371,7 +372,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- TODO: Provide metadata from annotations --->
 
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(scientific_name) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(dwc_scientificName) >
 			<cfset r.label = "dwc:scientificName contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -401,7 +402,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3f335517-f442-4b98-b149-1e87ff16de45") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound(scientific_name,gbifAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound(dwc_scientificName,gbifAuthority) >
 			<cfset r.label = "dwc:scientificName is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -472,7 +473,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset taxonObj.setFamily(family)>
 			<cfset taxonObj.setGenus(genus)>
 			<cfset taxonObj.setGenericName(genus)>
-			<cfset taxonObj.setScientificName("#scientific_name# #author_text#")>
+			<cfset taxonObj.setScientificName(dwc_scientificName)>
 			<cfset taxonObj.setScientificNameAuthorship(author_text)>
 			<cfset taxonObj.setScientificNameID(scientificnameid)>
 			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonidFromTaxon(taxonObj,wormsAuthority) >
@@ -495,7 +496,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<!--- post-amendment phase --->
 
 			<!--- @Provides("7c4b9498-a8d9-4ebb-85f1-9f200c788595") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(scientific_name) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameNotempty(dwc_scientificName) >
 			<cfset r.label = "dwc:scientificName contains a value" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
@@ -515,7 +516,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3f335517-f442-4b98-b149-1e87ff16de45") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound(scientific_name,gbifAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound(dwc_scientificName,gbifAuthority) >
 			<cfset r.label = "dwc:scientificName is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
