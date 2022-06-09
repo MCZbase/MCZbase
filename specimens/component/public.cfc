@@ -2004,19 +2004,18 @@ limitations under the License.
 	<cfoutput>
 		<cftry>
 		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT DISTINCT collection_name
+			SELECT DISTINCT collection_name, underscore_collection.underscore_collection_id
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				left join flat on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			
 		</cfquery>
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 				<cfif named_groups.recordcount eq 1>
 					<li class="list-group-item pt-0">
 						<cfloop query="named_groups">
-							#named_groups.collection_name#
+							<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection.underscore_collection_id#">#named_groups.collection_name#</a>
 						</cfloop>
 					</li>
 				</cfif>
