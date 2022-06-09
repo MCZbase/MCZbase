@@ -738,22 +738,6 @@ limitations under the License.
 										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##NamedGroupsPane">
 											Named Groups
 										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">
-												Edit
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##NamedGroupsPane">
-											Named Groups
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">
-												Add
-											</a>
-										</cfif>
 									</h3>
 								</cfif>
 							</div>
