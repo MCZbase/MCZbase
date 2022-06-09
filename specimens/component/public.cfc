@@ -2000,11 +2000,12 @@ limitations under the License.
 
 <cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfthread name="getNamedGroupsThread">
 	<cfoutput>
 		<cftry>
 		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
-			SELECT DISTINCT collection_name, underscore_collection.underscore_collection_id
+			SELECT DISTINCT collection_name, underscore_relation.underscore_collection_id
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
