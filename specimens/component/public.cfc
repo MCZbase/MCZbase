@@ -1805,6 +1805,7 @@ limitations under the License.
 			</cfif>
 			<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
+					collector.agent_id,
 					collector.coll_order,
 					case when
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
@@ -1844,13 +1845,13 @@ limitations under the License.
 					<cfif colls.recordcount eq 1>
 						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collector:&nbsp;</h5>
 							<cfloop query="colls">
-								#colls.collectors#
+								<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#">#colls.collectors#</a>
 							</cfloop>
 						</li>
 					<cfelse>
 						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collectors:&nbsp;</h5>
 							<cfloop query="colls">
-								#colls.collectors#<span class="sd">,</span>
+								<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#">#colls.collectors#</a><span class="sd">,</span>
 							</cfloop>
 						</li>
 					</cfif>
@@ -1860,39 +1861,39 @@ limitations under the License.
 						<li class="list-group-item pt-0">
 							<h5 class="my-0 d-inline">Preparator:&nbsp;</h5>
 							<cfloop query="preps">
-								#preps.preparators#
+								<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#">#preps.preparators#</a>
 							</cfloop>
 						</li>
 					<cfelse>
 						<li class="list-group-item pt-0">
 							<h5 class="my-0 d-inline">Preparators:&nbsp;</h5>
 							<cfloop query="preps">
-								#preps.preparators#<span class="sd">,</span>
+								<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#">#preps.preparators#</a><span class="sd">,</span>
 							</cfloop>
 						</li>
 					</cfif>
 				</ul>
 				</cfif>
 			<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-					<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-								<div class="row">
-									<div class="alert alert-danger" role="alert">
-										<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-										<h2>Internal Server Error.</h2>
-										<p>#message#</p>
-										<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-									</div>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+				<div class="container">
+							<div class="row">
+								<div class="alert alert-danger" role="alert">
+									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+									<h2>Internal Server Error.</h2>
+									<p>#message#</p>
+									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 								</div>
 							</div>
-				</cfcatch>
+						</div>
+			</cfcatch>
 		</cftry>
 	</cfoutput>
 	</cfthread>
