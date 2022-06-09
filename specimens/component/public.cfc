@@ -1625,8 +1625,8 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
 						</cfif>
 					</ul>
-					<cfif listcontainsnocase(session.roles,"manage_specimens")><div class="w-100"><button type="button" class="btn btn-xs btn-primary py-0">Higher Geography</button></div></cfif>
-					<button type="button" class="btn btn-xs btn-primary py-0 mx-auto w-100">Specific Locality</button>
+					<cfif listcontainsnocase(session.roles,"manage_specimens")><div class="w-100"><button type="button" class="btn btn-xs btn-primary float-left py-0 mx-auto">Higher Geography</button></div></cfif>
+					<cfif listcontainsnocase(session.roles,"manage_specimens")><div class="w-100"><button type="button" class="btn btn-xs btn-primary float-left py-0 mx-auto">Specific Locality</button></div></cfif>
 				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
