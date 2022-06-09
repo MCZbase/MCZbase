@@ -486,7 +486,10 @@ libraries found in github.com/filteredpush/ repositories.
 				<cfset r.value = "">
 			</cfif>
 			<cfset r.comment = dqResponse.getComment() >
-			<cfset amendment["431467d6-9b4b-48fa-a197-cd5379f5e889"] = r >
+			<cfif r.status NEQ "INTERNAL_PREREQUISITES_NOT_MET">
+				<!--- data does not allow for amendment to be run, thus don't report it --->
+				<cfset amendment["431467d6-9b4b-48fa-a197-cd5379f5e889"] = r >
+			</cfif>
 			<cfset r=structNew()>
 
 			<!--- post-amendment phase --->
