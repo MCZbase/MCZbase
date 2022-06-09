@@ -480,7 +480,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r.label = "lookup taxonID for taxon" >
 			<cfset r.type = "AMENDMENT" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
-			<cfif r.status eq "CHANGED">
+			<cfif r.status eq "CHANGED" OR r.status EQ "FILLED_IN">
 				<cfset taxonid = dqResponse.getValue().getObject().get("dwc:taxonID") >
 				<cfset r.value = dqResponse.getValue().getObject().toString() >
 			<cfelse>
