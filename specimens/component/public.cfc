@@ -1514,16 +1514,16 @@ limitations under the License.
 				identification.accepted_id_fg = 1 AND
 				cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
 				collecting_event.locality_id = locality.locality_id  AND
-				locality.locality_id = accepted_lat_long.locality_id (+) AND
-				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
 				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 				cataloged_item.collection_object_id = coll_object.collection_object_id AND
-				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
 				coll_object.entered_person_id = enteredPerson.agent_id AND
-				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
 				cataloged_item.accn_id =  accn.transaction_id  AND
-				accn.transaction_id = trans.transaction_id(+) AND
 				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+				locality.locality_id = accepted_lat_long.locality_id (+) AND
+				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
+				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
+				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
+				accn.transaction_id = trans.transaction_id(+) AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
