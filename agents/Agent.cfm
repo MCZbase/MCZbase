@@ -777,7 +777,7 @@ HAVING
 									<script>
 										let map, heatmap;
 										function initMap() {
-											var ne = new google.maps.LatLng(#points2.maxlat#,#points2.maxlong#);
+											var ne = new google.maps.LatLng(#points6.maxlat#,#points5.maxlong#);
 											var sw = new google.maps.LatLng(#points3.minlat#,#points4.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
