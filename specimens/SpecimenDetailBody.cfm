@@ -469,6 +469,10 @@ limitations under the License.
 								<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
 									<cfif len(#blockattributes#) gt 0>
 										#blockattributes#
+									<cfelse>
+										<ul class="pl-1 list-group py-0 mb-0">
+											<li class="small90 list-group-item">None</li>
+										</ul>
 									</cfif>
 								</div>
 							</div>
