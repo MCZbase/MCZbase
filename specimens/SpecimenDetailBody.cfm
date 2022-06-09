@@ -731,7 +731,7 @@ limitations under the License.
 									loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
 								}
 							</script>
-							<cfset blockrel = getNamedGroupsHTML(collection_object_id = "#collection_object_id#")>
+							<cfset blockrel = getNamedGroups(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingNamedGroups">
 								<cfif len(#blockrel#) gt 60> 
 									<h3 class="h4 my-0">
