@@ -467,7 +467,11 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
-									<cfif len(#blockattributes#) gt 50>#blockattributes#<cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+									<cfif len(#blockattributes#) gt 50>#blockattributes#<cfelse>
+										<ul class="pl-2 list-group py-1 mb-0">
+											<li class="small90 list-group-item">None</li>
+										</ul>
+									</cfif>
 								</div>
 							</div>
 						</div>
