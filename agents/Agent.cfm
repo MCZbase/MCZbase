@@ -758,7 +758,7 @@ HAVING
 							</section>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 								
-								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng, max(lat_long.dec_long) as maxlong,min(lat_long.dec_long)as minlong,max(lat_long.dec_lat) as maxlat,min(lat_long.dec_lat)as minlat
+								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng
 								FROM locality
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 									on flat.locality_id = locality.locality_id
