@@ -116,7 +116,6 @@ WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id
 HAVING
     MIN( dec_lat )< '-65'
 </cfquery>
-<cfoutput>
 <cfquery name="points5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points5_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 SELECT
   max (dec_long ) as maxlong
