@@ -743,10 +743,18 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
-								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
-									<cfset block = getNamedGroups(collection_object_id = "#collection_object_id#")>
-									#block#
-								</div>
+								<cfif #block# gt 0>
+									<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
+										<cfset block = getNamedGroups(collection_object_id = "#collection_object_id#")>
+										#block#
+									</div>
+								<cfelse>
+									<ul class="pl-1 mb-0">
+										<li class="small90">
+											None
+										</li>
+									</ul>	
+								</cfif>
 							</div>
 						</div>
 					</div>	
