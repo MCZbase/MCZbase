@@ -1868,7 +1868,7 @@ limitations under the License.
 						<li class="list-group-item pt-0">
 							<h5 class="my-0 d-inline">Preparators:&nbsp;</h5>
 							<cfloop query="preps">
-								<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#">#preps.preparators#</a><span class="sd">,</span>
+								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
 							</cfloop>
 						</li>
 					</cfif>
