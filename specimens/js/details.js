@@ -81,6 +81,7 @@ function loadNamedGroups(collection_object_id,targetDivId) {
 		data: { 
 			method : "getNamedGroups",
 			collection_object_id : collection_object_id,
+			underscore_collection_id : underscore_collection_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
