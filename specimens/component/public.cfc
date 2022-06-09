@@ -2003,7 +2003,7 @@ limitations under the License.
 	<cfthread name="getNamedGroupsThread">
 	<cfoutput>
 		<cftry>
-		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
 			SELECT DISTINCT collection_name, underscore_collection.underscore_collection_id
 			FROM
 				underscore_collection
