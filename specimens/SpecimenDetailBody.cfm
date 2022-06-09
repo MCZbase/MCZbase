@@ -749,8 +749,8 @@ limitations under the License.
 										#block#
 									</div>
 								<cfelse>
-									<ul class="pl-1 mb-0">
-										<li class="small90">
+									<ul class="pl-2 list-group py-1 mb-0">
+										<li class="small90 list-group-item">
 											None
 										</li>
 									</ul>	
