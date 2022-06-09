@@ -648,8 +648,8 @@ limitations under the License.
 									<cfif len(#blockcollectors#) gt 60> 
 										#blockcollectors# 
 									<cfelse>
-										<ul class="pl-0 mb-0">
-											<li class="small90">None</li>
+										<ul class="pl-2 list-group py-1 mb-0">
+											<li class="small90 list-group-item">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -684,7 +684,9 @@ limitations under the License.
 											</div>
 										</cfloop>
 									<cfelse>
-										<ul class="pl-1 mb-0"><li class="small90">None</li></ul>
+										<ul class="pl-2 list-group py-1 mb-0">
+											<li class="small90 list-group-item">None</li>
+										</ul>
 									</cfif>
 								</div>
 							</div>
