@@ -1493,23 +1493,37 @@ limitations under the License.
 				specimen_part.derived_from_cat_item,
 				decode(trans.transaction_id, null, 0, 1) vpdaccn
 			FROM
-				cataloged_item
-				left join collection on cataloged_item.collection_id = collection.collection_id
-				left join identification on cataloged_item.collection_object_id = identification.collection_object_id 
-				left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-				left join locality on collecting_event.locality_id = locality.locality_id
-				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-				left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
-				left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-				left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-				left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
-				left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
-				left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
-				left join accn on cataloged_item.accn_id = accn.transaction_id
-				left join trans on accn.transaction_id = trans.transaction_id
-				left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+				cataloged_item,
+				collection,
+				identification,
+				collecting_event,
+				locality,
+				accepted_lat_long,
+				preferred_agent_name latLongAgnt,
+				geog_auth_rec,
+				coll_object,
+				coll_object_remark,
+				preferred_agent_name enteredPerson,
+				preferred_agent_name editedPerson,
+				accn,
+				trans,
+				specimen_part
 			WHERE
-				identification.accepted_id_fg = 1 
+				cataloged_item.collection_id = collection.collection_id AND
+				cataloged_item.collection_object_id = identification.collection_object_id AND
+				identification.accepted_id_fg = 1 AND
+				cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
+				collecting_event.locality_id = locality.locality_id  AND
+				locality.locality_id = accepted_lat_long.locality_id (+) AND
+				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
+				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
+				cataloged_item.collection_object_id = coll_object.collection_object_id AND
+				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
+				coll_object.entered_person_id = enteredPerson.agent_id AND
+				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
+				cataloged_item.accn_id =  accn.transaction_id  AND
+				accn.transaction_id = trans.transaction_id(+) AND
+				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
