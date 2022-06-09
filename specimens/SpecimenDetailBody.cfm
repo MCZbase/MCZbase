@@ -674,7 +674,7 @@ limitations under the License.
 							</div>
 							<div id="ledgerPane" class="collapse show" aria-labelledby="headingLedger" data-parent="##accordionLedger">
 								<div class="card-body w-100 px-1 pt-2 pb-1 float-left" id="ledgerCardBody">
-									<cfif len(#ledger.media_id#) gt 0 and #ledger.mask_media_fg# neq 1> 
+									<cfif len(#ledger.media_id#) gt 0> 
 										<cfloop query="ledger">
 											<div class="col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left">
 												<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
