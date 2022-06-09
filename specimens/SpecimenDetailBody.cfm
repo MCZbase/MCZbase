@@ -733,7 +733,7 @@ limitations under the License.
 							</script>
 							<cfset blockrel = getNamedGroups(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingNamedGroups">
-								<cfif len(#blockrel#) gt 60> 
+								<cfif len(#blockrel#) gt 0> 
 									<h3 class="h4 my-0">
 										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##NamedGroupsPane">
 											Named Groups
@@ -758,8 +758,19 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
-								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
-										<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+								<div class="card-body w-100 px-1 pt-2 pb-1 float-left" id="NamedGroupsCardBody">
+									<cfif len(#NamedGroups.collection_object_id#) gt 0> 
+										<cfloop query="NamedGroups">
+											<div class="col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left">
+												<cfset NamedGroupsBlock= getNamedGroups(collection_object_id = "#collection_object_id#")>
+												<div id="NamedGroupsBlock#NamedGroups.collection_object_id#">
+													#blockrel# 
+												</div>
+											</div>
+										</cfloop>
+									<cfelse>
+										<ul class="pl-1 mb-0"><li class="small90">None</li></ul>
+									</cfif>
 								</div>
 							</div>
 						</div>
