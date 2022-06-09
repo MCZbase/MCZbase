@@ -72,7 +72,7 @@ function loadLedger(collection_object_id,targetDivId) {
 	});
 };
 
-function loadNamedGroups(underscore_collection_id,targetDivId) {
+function loadNamedGroups(collection_object_id,targetDivId) {
 	// TODO: Remove this, it appears to be a duplicate unused function, was named loadMedia, duplicating name of loadMedia(collection_object_id, targetDivID 
 	jQuery.ajax(
 	{

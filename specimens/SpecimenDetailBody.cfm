@@ -721,9 +721,37 @@ limitations under the License.
 						</div>
 					</div>
 						
-						
-					<!------------------------------------ named groups  ------------------------------------->
+					<!------------------------------ named groups  --------------------------------->
 					<div class="accordion" id="accordionNamedGroups">
+						<div class="card mb-2 bg-light">
+							<div id="NamedGroupsDialog"></div>
+							<script>
+								function reloadNamedGroups() { 
+									loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
+								}
+							</script>
+							<div class="card-header" id="headingNamedGroups">
+								<h3 class="h4 my-0">
+									<button type="button" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
+										Named Groups
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">
+											Edit
+										</a>
+									</cfif>
+								</h3>
+							</div>
+							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
+								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
+									<cfset block = getNamedGroupsHTML(collection_object_id = "#collection_object_id#")>
+									#block#
+								</div>
+							</div>
+						</div>
+					</div>	
+					<!------------------------------------ named groups  ------------------------------------->
+				<!---	<div class="accordion" id="accordionNamedGroups">
 						<div class="card mb-2 bg-light">
 							<div id="NamedGroupsDialog"></div>
 							<script>
@@ -747,7 +775,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>--->
 				</div>
 				
 							
