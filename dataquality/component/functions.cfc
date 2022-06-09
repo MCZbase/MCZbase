@@ -391,8 +391,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("f2ce7d55-5b1d-426a-b00e-6d4efe3058ec") --->
-			<cfset dqResponse = dwcSciNameDQ.validationGenusFound(genus,wormsAuthority) >
-			<cfset r.label = "dwc:genus is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationGenusFound(genus,gbifAuthority) >
+			<cfset r.label = "dwc:genus is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
@@ -462,7 +462,6 @@ libraries found in github.com/filteredpush/ repositories.
 
 			<!--- amendment phase --->
 
-			<cftry>
 			<!---  @Provides("431467d6-9b4b-48fa-a197-cd5379f5e889") --->
 			<cfset taxonObj = taxon.init()>
 			<cfset taxonObj.setTaxonID(taxonid)>
@@ -473,7 +472,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset taxonObj.setFamily(family)>
 			<cfset taxonObj.setGenus(genus)>
 			<cfset taxonObj.setGenericName(genus)>
-			<cfset taxonObj.setScientificName(scientific_name)>
+			<cfset taxonObj.setScientificName("#scientific_name# #author_text#")>
 			<cfset taxonObj.setScientificNameAuthorship(author_text)>
 			<cfset taxonObj.setScientificNameID(scientificnameid)>
 			<cfset dqResponse = dwcSciNameDQ.amendmentTaxonidFromTaxon(taxonObj,wormsAuthority) >
@@ -491,8 +490,6 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 			<cfcatch>
 			<cfset r=structNew()>
-			</cfcatch>
-			</cftry>
 
 			<!--- post-amendment phase --->
 
@@ -527,8 +524,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("f2ce7d55-5b1d-426a-b00e-6d4efe3058ec") --->
-			<cfset dqResponse = dwcSciNameDQ.validationGenusFound(genus,wormsAuthority) >
-			<cfset r.label = "dwc:genus is known to WoRMS" >
+			<cfset dqResponse = dwcSciNameDQ.validationGenusFound(genus,gbifAuthority) >
+			<cfset r.label = "dwc:genus is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
 			<cfif r.status eq "RUN_HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
