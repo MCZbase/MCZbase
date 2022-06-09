@@ -1234,8 +1234,7 @@ limitations under the License.
 											WHERE CREATED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfquery name="media_labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_labels_result">
-											SELECT count(distinct media_id) ct,
-												media_label
+											SELECT count(distinct media_id) ct, media_label
 											FROM media_labels 
 											WHERE ASSIGNED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY media_label
@@ -1320,7 +1319,7 @@ limitations under the License.
 											GROUP BY
 												trans.transaction_id,
 												loan_number,
-												collection				
+												collection
 										</cfquery>
 										<cfif loan_item.recordcount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
 										<cfif loan_item.recordcount GT 20 OR loan_item.recordcount EQ 0>
@@ -1484,8 +1483,7 @@ limitations under the License.
 											WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										</cfquery>
 										<cfquery name="getEncumb" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getEncumb_result">
-											SELECT count(*) as ct,
-												ENCUMBRANCE
+											SELECT count(*) as ct, ENCUMBRANCE
 											FROM encumbrance 
 											WHERE encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											GROUP BY ENCUMBRANCE
@@ -1508,8 +1506,7 @@ limitations under the License.
 										</cfquery>
 										<cfquery name="inEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="inEnc_result">
 											SELECT 
-												count(distinct(coll_object_encumbrance.collection_object_id)) specs,
-												encumbrance.encumbrance_id
+												count(distinct(coll_object_encumbrance.collection_object_id)) specs, encumbrance.encumbrance_id
 											FROM
 												encumbrance
 												left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
@@ -1978,12 +1975,10 @@ limitations under the License.
 												collection,
 												collection.collection_id
 											from 
-												coll_object,
-												cataloged_item,
-												collection
-											where 
-												coll_object.collection_object_id = cataloged_item.collection_object_id and
-												cataloged_item.collection_id=collection.collection_id and
+												coll_object
+												left join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+												left join collection on cataloged_item.collection_id=collection.collection_id
+											where
 												ENTERED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											group by
 												collection,
