@@ -1627,7 +1627,7 @@ limitations under the License.
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<div class="w-75 m-2">
-							<a type="button" class="btn btn-xs btn-powder-blue mx-2 float-left pt-0" href="/SpecimenResults.cfm?geog_auth_rec_id=#geog_auth_rec_id#">Higher Geography</a>
+							<a type="button" class="btn btn-xs btn-powder-blue mx-2 float-left pt-0" href="/SpecimenResults.cfm?geog_auth_rec_id=#geog_auth_rec.geog_auth_rec_id#">Higher Geography</a>
 							<a type="button" class="btn btn-xs btn-powder-blue mx-2 float-left pt-0" href="/SpecimenResults.cfm?locality_id=#locality_id#">Specific Locality</a>
 						</div>
 					</cfif>
