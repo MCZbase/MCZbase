@@ -102,7 +102,7 @@ INNER JOIN collector
 LEFT JOIN agent on collector.agent_id = agent.agent_id
 WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 HAVING
-    MIN( dec_long )> '-65'
+    MIN( dec_long ) < '-65'
 </cfquery>
 <cfquery name="points4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points4_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 SELECT
@@ -114,7 +114,7 @@ INNER JOIN collector
 LEFT JOIN agent on collector.agent_id = agent.agent_id
 WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 HAVING
-    MIN( dec_lat )> '-65'
+    MIN( dec_lat ) < '-65'
 </cfquery>
 <cfquery name="points5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points5_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 SELECT
