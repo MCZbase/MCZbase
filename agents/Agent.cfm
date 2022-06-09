@@ -142,7 +142,7 @@ HAVING
     Max( dec_lat )< '-65'
 </cfquery>
 <cfoutput>
-	#points3.minlong#  #points4.minlat# 	#points5.minlong#  #points6.minlat#
+	#points3.minlong#  #points4.minlat# 	#points5.maxlong#  #points6.maxlat#
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
