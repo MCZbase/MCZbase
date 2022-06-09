@@ -744,7 +744,7 @@ limitations under the License.
 							</div>
 							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
 								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
-									<cfset block = getNamedGroupsHTML(collection_object_id = "#collection_object_id#")>
+									<cfset block = getNamedGroups(collection_object_id = "#collection_object_id#")>
 									#block#
 								</div>
 							</div>
