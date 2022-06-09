@@ -60,7 +60,9 @@
 	<cfelse>
 		<cfset ipaddress='unknown'>
 	</cfif>
-	<cflog text="[#cgi.request_method#][#cgi.redirect_url#][#cgi.script_name#][#cgi.query_string#] by: [#ipaddress#] user agent: [#cgi.http_user_agent#]" file="bad_requests" application="no">
+	<cfif not isDefined("rdurl")><cfset rdurl=""></cfif>
+	<cfif not isDefined("cTemp")><cfset cTemp=""></cfif>
+	<cflog text="[#cgi.request_method#][#cTemp#][#rdurl#][#cgi.redirect_url#][#cgi.script_name#][#cgi.query_string#] by: [#ipaddress#] user agent: [#cgi.http_user_agent#]" file="bad_requests" application="no">
 	<!--- we don't have a redirect, and it's not on our hitlist, so 404 --->
 <article class="container" id="content">
 	<div class="row">
