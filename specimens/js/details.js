@@ -80,7 +80,7 @@ function loadNamedGroups(underscore_collection_id,targetDivId) {
 		url: "/specimens/component/public.cfc",
 		data: { 
 			method : "getNamedGroups",
-			underscore_collection_id : underscore_collection_id,
+			collection_object_id : collection_object_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
