@@ -104,9 +104,20 @@ WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id
 HAVING
     MIN( dec_long )< '-65'
 </cfquery>
-
+<cfquery name="points4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points4_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+SELECT
+  min (dec_lat ) as minlat
+FROM
+	<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+INNER JOIN collector 
+        USING(collection_object_id)
+LEFT JOIN agent on collector.agent_id = agent.agent_id
+WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+HAVING
+    MIN( dec_lat )< '-65'
+</cfquery>
 <cfoutput>
-	#points3.minlong#
+	#points3.minlong#  #points4.minlat#
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
