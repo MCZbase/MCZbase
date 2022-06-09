@@ -105,7 +105,7 @@ WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id
 HAVING
 	max(dec_lat) < 65 and max( dec_long ) < 164
 </cfquery>
-<cfquery name="points5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points5_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<cfquery name="points4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points4_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 SELECT
   min (dec_lat) as swlat, min(dec_long) as swlong
 FROM
@@ -120,7 +120,6 @@ HAVING
 
 
 <cfoutput>
-	#points3.nelat#  #points3.nelong# 	#points4.swlat# #points4.swlong#  
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
