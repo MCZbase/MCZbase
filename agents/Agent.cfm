@@ -1060,12 +1060,10 @@ limitations under the License.
 											collection,
 											attribute_type
 										from
-											attributes,
-											cataloged_item,
-											collection
+											attributes
+											left join cataloged_item on attributes.collection_object_id = cataloged_item.collection_object_id
+											left join collection on cataloged_item.collection_id=collection.collection_id
 										where
-											cataloged_item.collection_object_id=attributes.collection_object_id and
-											cataloged_item.collection_id=collection.collection_id and
 											determined_by_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										group by
 											collection.collection_id,
