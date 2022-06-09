@@ -96,7 +96,7 @@ limitations under the License.
 SELECT
   min (dec_long ) as minlong
 FROM
-    flat
+	<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 INNER JOIN collector 
         USING(collection_object_id)
 LEFT JOIN agent on collector.agent_id = agent.agent_id
