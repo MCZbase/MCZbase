@@ -1335,29 +1335,66 @@ limitations under the License.
 	<cfthread name="getLocalityThread">
 		<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				flat.collection_object_id,
-				flat.cat_num,
-				flat.collection_cde,
-				flat.accn_id,
-				flat.collection,
-				flat.scientific_name,
+				cataloged_item.collection_object_id,
+				cataloged_item.cat_num,
+				collection.collection_cde,
+				cataloged_item.accn_id,
+				collection.collection,
+				identification.scientific_name,
 				identification.identification_remarks,
 				identification.identification_id,
 				identification.made_date,
 				identification.nature_of_id,
-				flat.collecting_event_id,
-				collecting_event.began_date,
-				collecting_event.ended_date,
-				collecting_event.verbatim_date,
+				collecting_event.collecting_event_id,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+					and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+				then
+						replace(began_date,substr(began_date,1,4),'8888')
+				else
+					collecting_event.began_date
+				end began_date,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+					and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+				then
+						replace(ended_date,substr(ended_date,1,4),'8888')
+				else
+					collecting_event.ended_date
+				end ended_date,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+					and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
+				then
+						'Masked'
+				else
+					collecting_event.verbatim_date
+				end verbatim_date,
 				collecting_event.startDayOfYear,
 				collecting_event.endDayOfYear,
 				collecting_event.habitat_desc,
-				collecting_event.coll_event_remarks,
-				flat.locality_id,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+					and collecting_event.coll_event_remarks is not null
+				then 
+					'Masked'
+				else
+					collecting_event.coll_event_remarks
+				end COLL_EVENT_REMARKS,
+				locality.locality_id,
 				locality.minimum_elevation,
 				locality.maximum_elevation,
 				locality.orig_elev_units,
-				locality.spec_locality,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+					and locality.spec_locality is not null
+				then 
+					'Masked'
+				else
+					locality.spec_locality
+				end spec_locality,
 				case when
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
 					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
@@ -1392,8 +1429,8 @@ limitations under the License.
 				end VerbatimLongitude,
 				locality.sovereign_nation,
 				collecting_event.verbatimcoordinates,
-				flat.verbatimlatitude verblat,
-				flat.verbatimlongitude verblong,
+				collecting_event.verbatimlatitude verblat,
+				collecting_event.verbatimlongitude verblong,
 				collecting_event.verbatimcoordinatesystem,
 				collecting_event.verbatimSRS,
 				accepted_lat_long.dec_lat,
@@ -1406,16 +1443,16 @@ limitations under the License.
 				accepted_lat_long.orig_lat_long_units,
 				accepted_lat_long.datum,
 				latLongAgnt.agent_name latLongDeterminer,
-				flat.geog_auth_rec_id,
-				flat.continent_ocean,
-				flat.country,
-				flat.state_prov,
-				flat.quad,
-				flat.county,
-				flat.island,
-				flat.island_group,
-				flat.sea,
-				flat.feature,
+				geog_auth_rec.geog_auth_rec_id,
+				geog_auth_rec.continent_ocean,
+				geog_auth_rec.country,
+				geog_auth_rec.state_prov,
+				geog_auth_rec.quad,
+				geog_auth_rec.county,
+				geog_auth_rec.island,
+				geog_auth_rec.island_group,
+				geog_auth_rec.sea,
+				geog_auth_rec.feature,
 				coll_object.coll_object_entered_date,
 				coll_object.last_edit_date,
 				coll_object.flags,
@@ -1428,8 +1465,24 @@ limitations under the License.
 				accn_number accession,
 				concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 				concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-				locality.locality_remarks,
-				verbatim_locality,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
+					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
+					and locality.locality_remarks is not null
+				then 
+					'Masked'
+				else
+						locality.locality_remarks
+				end locality_remarks,
+				case when
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
+					and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
+					and verbatim_locality is not null
+				then 
+					'Masked'
+				else
+					verbatim_locality
+				end verbatim_locality,
 				collecting_time,
 				fish_field_number,
 				min_depth,
@@ -1440,26 +1493,38 @@ limitations under the License.
 				specimen_part.derived_from_cat_item,
 				decode(trans.transaction_id, null, 0, 1) vpdaccn
 			FROM
-				flat
-				left join cataloged_item on flat.collection_object_id = cataloged_item.collection_object_id
-				left join collection on flat.collection_id = collection.collection_id
-				left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-				left join coll_object on coll_object.collection_object_id = cataloged_item.collection_object_id
-				left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
-				left join locality on locality.locality_id = flat.locality_id
-				left join collector on collector.collection_object_id = flat.collection_object_id
-				left join accepted_lat_long on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
-				left join preferred_agent_name latLongAgnt on latLongAgnt.agent_id = collector.agent_id
-				left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
-				left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
-				left join accn on flat.accn_id = accn.transaction_id
-				left join trans on accn.transaction_id = trans.transaction_id
-				left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-				left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-				left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+				cataloged_item,
+				collection,
+				identification,
+				collecting_event,
+				locality,
+				accepted_lat_long,
+				preferred_agent_name latLongAgnt,
+				geog_auth_rec,
+				coll_object,
+				coll_object_remark,
+				preferred_agent_name enteredPerson,
+				preferred_agent_name editedPerson,
+				accn,
+				trans,
+				specimen_part
 			WHERE
+				cataloged_item.collection_id = collection.collection_id AND
+				cataloged_item.collection_object_id = identification.collection_object_id AND
 				identification.accepted_id_fg = 1 AND
-				flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
+				collecting_event.locality_id = locality.locality_id  AND
+				locality.locality_id = accepted_lat_long.locality_id (+) AND
+				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
+				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
+				cataloged_item.collection_object_id = coll_object.collection_object_id AND
+				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
+				coll_object.entered_person_id = enteredPerson.agent_id AND
+				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
+				cataloged_item.accn_id =  accn.transaction_id  AND
+				accn.transaction_id = trans.transaction_id(+) AND
+				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
+				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
