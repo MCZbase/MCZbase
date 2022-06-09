@@ -1824,6 +1824,7 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
+					collector.agent_id,
 					collector.coll_order,
 					case when
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
