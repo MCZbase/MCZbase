@@ -2030,12 +2030,10 @@ limitations under the License.
 												collection,
 												collection.collection_id
 											from 
-												coll_object,
-												cataloged_item,
-												collection
+												coll_object
+												left join cataloged_item on coll_object.collection_object_id = cataloged_item.collection_object_id
+												left join collection on cataloged_item.collection_id=collection.collection_id
 											where 
-												coll_object.collection_object_id = cataloged_item.collection_object_id and
-												cataloged_item.collection_id=collection.collection_id and
 												LAST_EDITED_PERSON_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											group by
 												collection,
