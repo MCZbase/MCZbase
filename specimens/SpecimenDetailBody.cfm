@@ -96,7 +96,6 @@ limitations under the License.
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	And media_type <> 'text'
-	and mask_media_fg != 1
 
 </cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
