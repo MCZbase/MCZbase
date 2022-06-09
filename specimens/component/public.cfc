@@ -1025,7 +1025,6 @@ limitations under the License.
 	<cfreturn getRelationsThread.output>
 </cffunction>
 
-
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getTransactionsThread">
@@ -1626,7 +1625,8 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
 						</cfif>
 					</ul>
-		
+					<button type="button" class="btn btn-xs btn-primary">Higher Geography</button>
+					<button type="button" class="btn btn-xs btn-primary">Specific Locality</button>
 				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
