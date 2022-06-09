@@ -86,7 +86,6 @@ limitations under the License.
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	AND media_relations.media_relationship like '%ledger%'
-	and mask_media_fg <> 1
 </cfquery>
 <cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
