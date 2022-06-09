@@ -142,7 +142,7 @@ HAVING
 </cfquery>
 
 <cfoutput>
-	#points3.minlong#  #points4.minlat# 	#points6.maxlat# #points5.maxlong#  
+	#points3.minlong#  #points4.minlat# 	#points5.maxlat# #points6.maxlong#  
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
