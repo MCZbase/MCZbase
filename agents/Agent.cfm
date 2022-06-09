@@ -139,10 +139,10 @@ INNER JOIN collector
 LEFT JOIN agent on collector.agent_id = agent.agent_id
 WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 HAVING
-    Max( dec_lat )< '-65'
+    max( dec_lat )< '-65'
 </cfquery>
 <cfoutput>
-	#points3.minlong#  #points4.minlat# 	#points5.maxlong#  #points6.maxlat#
+	#points3.minlong#  #points4.minlat# 	#points6.maxlat# #points5.maxlong#  
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
