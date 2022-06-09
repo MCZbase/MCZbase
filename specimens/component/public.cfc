@@ -2007,25 +2007,22 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT DISTINCT flat.guid, flat.sci_name, flat.verbatim_date,flat.spec_locality
+		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT DISTINCT 
+				collection_name
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-					on underscore_relation.collection_object_id = flat.collection_object_id
-			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				and flat.guid is not null
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat  on underscore_relation.collection_object_id = flat.collection_object_id
+			WHERE flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			and flat.guid is not null
 			ORDER BY flat.guid asc
 		</cfquery>
-		<cfset rows = search_result.recordcount>
+		<cfset rows = named_groups_result.recordcount>
 		<cfset i = 1>
-		<cfloop query="search">
+		<cfloop query="named_groups">
 			<cfset row = StructNew()>
-			<cfset row["guid"] = "#search.guid#">
-			<cfset row["scientific_name"] = "#search.scientific_name#">
-			<cfset row["verbatim_date"] = "#search.verbatim_date#">
-			<cfset row["spec_locality"] = "#search.spec_locality#">
+			<cfset row["named_groups"] = "#named_groups.collection_name#">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
