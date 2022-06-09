@@ -1999,11 +1999,7 @@ limitations under the License.
 </cffunction>
 
 <cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
-	<cfargument name="underscore_collection_id" type="string" required="no">
-	<cfargument name="GUID" type="string" required="no">
-	<cfargument name="SCIENTIFIC_NAME" type="string" required="no">
-	<cfargument name="verbatim_date" type="string" required="no">
-	<cfargument name="spec_locality" type="string" required="no">
+	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -2018,15 +2014,23 @@ limitations under the License.
 			and flat.guid is not null
 			ORDER BY flat.guid asc
 		</cfquery>
-		<cfset rows = named_groups_result.recordcount>
-		<cfset i = 1>
-		<cfloop query="named_groups">
-			<cfset row = StructNew()>
-			<cfset row["named_groups"] = "#named_groups.collection_name#">
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
+			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+				<cfif named_groups.recordcount gt 0>
+					<cfif named_groups.recordcount eq 1>
+						<li class="list-group-item pt-0">
+							<cfloop query="named_groups">
+								#named_groups.collectors#
+							</cfloop>
+						</li>
+					<cfelse>
+						<li class="list-group-item pt-0">
+							<cfloop query="named_groups">
+								#named_groups.collectors#<span class="sd">,</span>
+							</cfloop>
+						</li>
+					</cfif>
+				</cfif>
+			</ul>
 	<cfcatch>
 	<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >

@@ -720,7 +720,53 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+						
+						
+					<!------------------------------------ named groups  ------------------------------------->
+					<div class="accordion" id="accordionNamedGroups">
+						<div class="card mb-2 bg-light">
+							<div id="NamedGroupsDialog"></div>
+							<script>
+								function reloadNamedGroups() { 
+									loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
+								}
+							</script>
+							<cfset blockrel = getNamedGroupsHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingNamedGroups">
+								<cfif len(#blockrel#) gt 60> 
+									<h3 class="h4 my-0">
+										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##NamedGroupsPane">
+											Named Groups
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">
+												Edit
+											</a>
+										</cfif>
+									</h3>
+								<cfelse>
+									<h3 class="h4 my-0">
+										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##NamedGroupsPane">
+											Named Groups
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#guid#',reloadNamedGroups)">
+												Add
+											</a>
+										</cfif>
+									</h3>
+								</cfif>
+							</div>
+							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
+								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
+										<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
+				
+							
 				<!--- end of column 3 --->
 				<cfif oneOfUs is 1>
 					</div>
