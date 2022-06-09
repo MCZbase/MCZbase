@@ -92,7 +92,7 @@ limitations under the License.
 		and lat_long.accepted_lat_long_fg = 1
 		
 </cfquery>
-<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points3_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 SELECT
   min (dec_long ) as minlong
 FROM
