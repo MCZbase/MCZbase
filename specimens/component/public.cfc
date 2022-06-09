@@ -2000,7 +2000,6 @@ limitations under the License.
 
 <cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfthread name="getNamedGroupsThread">
 	<cfoutput>
 		<cftry>
@@ -2016,7 +2015,7 @@ limitations under the License.
 				<cfif named_groups.recordcount eq 1>
 					<li class="list-group-item pt-0">
 						<cfloop query="named_groups">
-							<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection.underscore_collection_id#">#named_groups.collection_name#</a>
+							<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
 						</cfloop>
 					</li>
 				</cfif>
