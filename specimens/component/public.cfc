@@ -1626,7 +1626,7 @@ limitations under the License.
 						</cfif>
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
-						<div class="w-100 mx-2">
+						<div class="w-75 mx-2">
 							<button type="button" class="btn btn-xs btn-primary float-left py-0">Higher Geography</button>
 							<button type="button" class="btn btn-xs btn-primary float-left py-0 ">Specific Locality</button>
 						</div>
