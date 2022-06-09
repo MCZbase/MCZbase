@@ -100,12 +100,13 @@ FROM
 INNER JOIN collector 
         USING(collection_object_id)
 LEFT JOIN agent on collector.agent_id = agent.agent_id
-WHERE agent.agent_id = 91972
+WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 HAVING
     MIN( dec_long )< -65
 </cfquery>
-#points3.minlong#
+
 <cfoutput>
+	#points3.minlong#
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
