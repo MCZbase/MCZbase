@@ -1336,16 +1336,16 @@ limitations under the License.
 		<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				flat.collection_object_id,
-				cataloged_item.cat_num,
-				collection.collection_cde,
-				cataloged_item.accn_id,
-				collection.collection,
-				identification.scientific_name,
+				flat.cat_num,
+				flat.collection_cde,
+				flat.accn_id,
+				flat.collection,
+				flat.scientific_name,
 				identification.identification_remarks,
 				identification.identification_id,
 				identification.made_date,
 				identification.nature_of_id,
-				collecting_event.collecting_event_id,
+				flat.collecting_event_id,
 				collecting_event.began_date,
 				collecting_event.ended_date,
 				collecting_event.verbatim_date,
@@ -1353,7 +1353,7 @@ limitations under the License.
 				collecting_event.endDayOfYear,
 				collecting_event.habitat_desc,
 				collecting_event.coll_event_remarks,
-				locality.locality_id,
+				flat.locality_id,
 				locality.minimum_elevation,
 				locality.maximum_elevation,
 				locality.orig_elev_units,
@@ -1406,16 +1406,16 @@ limitations under the License.
 				accepted_lat_long.orig_lat_long_units,
 				accepted_lat_long.datum,
 				latLongAgnt.agent_name latLongDeterminer,
-				geog_auth_rec.geog_auth_rec_id,
-				geog_auth_rec.continent_ocean,
-				geog_auth_rec.country,
-				geog_auth_rec.state_prov,
-				geog_auth_rec.quad,
-				geog_auth_rec.county,
-				geog_auth_rec.island,
-				geog_auth_rec.island_group,
-				geog_auth_rec.sea,
-				geog_auth_rec.feature,
+				flat.geog_auth_rec_id,
+				flat.continent_ocean,
+				flat.country,
+				flat.state_prov,
+				flat.quad,
+				flat.county,
+				flat.island,
+				flat.island_group,
+				flat.sea,
+				flat.feature,
 				coll_object.coll_object_entered_date,
 				coll_object.last_edit_date,
 				coll_object.flags,
@@ -1440,40 +1440,26 @@ limitations under the License.
 				specimen_part.derived_from_cat_item,
 				decode(trans.transaction_id, null, 0, 1) vpdaccn
 			FROM
-				flat,
-				cataloged_item,
-				collection,
-				identification,
-				collecting_event,
-				locality,
-				accepted_lat_long,
-				preferred_agent_name latLongAgnt,
-				geog_auth_rec,
-				coll_object,
-				coll_object_remark,
-				preferred_agent_name enteredPerson,
-				preferred_agent_name editedPerson,
-				accn,
-				trans,
-				specimen_part
+				flat
+				left join cataloged_item on flat.collection_object_id = cataloged_item.collection_object_id
+				left join collection on flat.collection_id = collection.collection_id
+				left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+				left join coll_object on coll_object.collection_object_id = cataloged_item.collection_object_id
+				left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
+				left join locality on locality.locality_id = flat.locality_id
+				left join collector on collector.collection_object_id = flat.collection_object_id
+				left join accepted_lat_long on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
+				left join preferred_agent_name latLongAgnt on latLongAgnt.agent_id = collector.agent_id
+				left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
+				left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
+				left join accn on flat.accn_id = accn.transaction_id
+				left join trans on accn.transaction_id = trans.transaction_id
+				left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+				left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
+				left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
 			WHERE
-				flat.collection_object_id = cataloged_item.collection_object_id AND
-				cataloged_item.collection_id = collection.collection_id AND
-				cataloged_item.collection_object_id = identification.collection_object_id AND
 				identification.accepted_id_fg = 1 AND
-				flat.collecting_event_id = collecting_event.collecting_event_id AND
-				collecting_event.locality_id = locality.locality_id  AND
-				locality.locality_id = accepted_lat_long.locality_id (+) AND
-				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
-				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-				cataloged_item.collection_object_id = coll_object.collection_object_id AND
-				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-				coll_object.entered_person_id = enteredPerson.agent_id AND
-				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-				cataloged_item.accn_id =  accn.transaction_id  AND
-				accn.transaction_id = trans.transaction_id(+) AND
-				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				flat.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
