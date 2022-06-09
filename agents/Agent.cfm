@@ -92,57 +92,35 @@ limitations under the License.
 		and lat_long.accepted_lat_long_fg = 1
 		
 </cfquery>
+
 <cfquery name="points3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points3_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 SELECT
-  min (dec_long ) as minlong
+  max(dec_lat) as nelat, max(dec_long) as nelong
 FROM
 	<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 INNER JOIN collector 
-        USING(collection_object_id)
+	USING(collection_object_id)
 LEFT JOIN agent on collector.agent_id = agent.agent_id
 WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 HAVING
-    MIN( dec_long ) < '-65'
-</cfquery>
-<cfquery name="points4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points4_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-SELECT
-  min (dec_lat ) as minlat
-FROM
-	<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-INNER JOIN collector 
-        USING(collection_object_id)
-LEFT JOIN agent on collector.agent_id = agent.agent_id
-WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-HAVING
-    MIN( dec_lat ) < '-65'
+	max(dec_lat) < 65 and max( dec_long ) < 164
 </cfquery>
 <cfquery name="points5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points5_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 SELECT
-  max (dec_lat ) as maxlat
+  min (dec_lat) as swlat, min(dec_long) as swlong
 FROM
-	<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+	 <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
 INNER JOIN collector 
         USING(collection_object_id)
 LEFT JOIN agent on collector.agent_id = agent.agent_id
 WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 HAVING
-    max( dec_lat )< '135'
-</cfquery>
-<cfquery name="points6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points6_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-SELECT
-  max (dec_long ) as maxlong
-FROM
-	<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-INNER JOIN collector 
-        USING(collection_object_id)
-LEFT JOIN agent on collector.agent_id = agent.agent_id
-WHERE agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-HAVING
-    max( dec_long )< '135'
+    MIN( dec_long ) > -170 and min(dec_lat) > -50
 </cfquery>
 
+
 <cfoutput>
-	#points3.minlong#  #points4.minlat# 	#points5.maxlat# #points6.maxlong#  
+	#points3.nelat#  #points3.nelong# 	#points4.swlat# #points4.swlong#  
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
@@ -757,15 +735,11 @@ HAVING
 								</div>
 							</section>
 							<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
-								
-								SELECT median(lat_long.dec_lat) as mylat, median(lat_long.dec_long) as mylng
-								FROM locality
-									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-									on flat.locality_id = locality.locality_id
-									left join lat_long on lat_long.locality_id = flat.locality_id
+								SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
+									min(flat.dec_long) as minlong, max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
+								FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 									left join collector on collector.collection_object_id = flat.collection_object_id
-									left join agent
-									on agent.agent_id = collector.agent_id
+									left join agent on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 							</cfquery>
 							<cfif points.recordcount gt 0>
@@ -777,8 +751,8 @@ HAVING
 									<script>
 										let map, heatmap;
 										function initMap() {
-											var ne = new google.maps.LatLng(#points5.maxlat#, #points6.maxlong#);
-											var sw = new google.maps.LatLng(#points3.minlat#,#points4.minlong#);
+											var ne = new google.maps.LatLng(<cfif #points2.maxlat# lt 65>#points2.maxlat#<cfelse> 65</cfif>, <cfif #points2.maxlong# lt #points2.maxlong#<cfelse>164</cfif>);
+											var sw = new google.maps.LatLng(<cfif #points2.minlat# gt -53>#points2.minlat#<cfelse>-53</cfif>,<cfif #points2.minlong# gt -170>#points2.minlong#<cfelse>-170</cfif>);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
