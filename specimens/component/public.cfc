@@ -1478,10 +1478,10 @@ limitations under the License.
 						zoom: 1,
 						center: new google.maps.LatLng(lat, lng),
 						mapTypeId: google.maps.MapTypeId.ROADMAP,
-						panControl: false,
+						panControl: true,
 						scaleControl: false,
-						fullscreenControl: false,
-						zoomControl: false
+						fullscreenControl: true,
+						zoomControl: true
 					};
 					var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
