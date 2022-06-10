@@ -758,7 +758,7 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfset row["id_link"] = "<a href='/media/Media.cfm?media_id#search.media_id#' target='_blank'>#search.media_uri#</a>">
+			<cfset row["id_link"] = "<a href='/media/Media.cfm?media_id#search.media_id#'>#search.media_uri#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -1290,7 +1290,7 @@ imgStyleClass=value
 							<cfelse>
 								<cfset linkTarget = "#media.media_uri#">
 							</cfif>
-							<a href="#linkTarget#" target="_blank" class="d-block w-100 active text-center" title="click to access media">
+							<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">
 								<img src="#displayImage#" alt="#alt#" #hw# style="#l_styles#" class="#l_background_class#">
 							</a>
 							<cfif #l_captionAs# EQ "textNone">
@@ -1300,15 +1300,15 @@ imgStyleClass=value
 								<div class="mt-0 col-12 pb-1 px-0 mt-1">
 									<p class="text-center px-1 pb-1 mb-0 smaller col-12">
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<span class="d-inline">(<a target="_blank" href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>
+											<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>
 										</cfif>
-										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+										(<a class="" href="/media/#media_id#">Media Record</a>)
 										<cfif NOT isDisplayable>
 											<cfif listcontainsnocase(session.roles,"manage_publications")> #media_type# (#mime_type#)</cfif>
-											(<a class="" target="_blank" href="#media_uri#">media file</a>)
+											(<a class="" href="#media_uri#">media file</a>)
 										<cfelse>
-											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-											(<a class="" target="_blank" href="#media_uri#">full</a>)
+											(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+											(<a class="" href="#media_uri#">full</a>)
 										</cfif>
 									</p>
 								</div>
@@ -1316,15 +1316,15 @@ imgStyleClass=value
 								<div class="mt-0 col-12 pb-1 px-0 mt-1">
 									<p class="text-center px-1 pb-1 mb-0 smaller col-12">
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<span class="d-inline">(<a target="_blank" href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
+											<span class="d-inline">(<a href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>
 										</cfif>
-										(<a class="" target="_blank" href="/media/#media_id#">Media Record</a>)
+										(<a class="" href="/media/#media_id#">Media Record</a>)
 										<cfif NOT isDisplayable>
 											<cfif listcontainsnocase(session.roles,"manage_publications")>#media_type# (#mime_type#)</cfif>
-											(<a class="" target="_blank" href="#media_uri#">media file</a>)
+											(<a class="" href="#media_uri#">media file</a>)
 										<cfelse>
-											(<a class="" target="_blank" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
-											(<a class="" target="_blank" href="#media_uri#">full</a>)
+											(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)
+											(<a class="" href="#media_uri#">full</a>)
 										</cfif>
 									</p>
 									<div class="pb-1">
