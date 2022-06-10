@@ -1480,6 +1480,7 @@ limitations under the License.
 						mapTypeId: google.maps.MapTypeId.ROADMAP,
 						panControl: true,
 						scaleControl: false,
+						controlSize: 20,
 						fullscreenControl: true,
 						zoomControl: true
 					};
