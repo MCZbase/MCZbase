@@ -1880,7 +1880,7 @@ limitations under the License.
 				</cfquery>
 					<ul class="list-group pl-0 pt-0">
 						<cfif len(#meta.recordcount#) gt 0>
-							<li class="list-group-item pt-0 pb-2">Remarks: #meta.coll_object_remarks# </li>
+							<li class="list-group-item pt-0 pb-1">Remarks: #meta.coll_object_remarks# </li>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
 									<li class="list-group-item pt-0"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
