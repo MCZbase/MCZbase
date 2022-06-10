@@ -1376,12 +1376,13 @@ table#pairs, th, td {
 table.mediaTable tr {
 	border-bottom: 1px solid #dee2e6;
 }
+table.mediaTable td {
+	border-bottom: 1px solid #f8f9fa;
+}
 table.mediaTable tr:last-child {
 	border-bottom: none;
 }
-table.mediaTable td:last-child {
-	border-bottom: 1px solid #f8f9fa;
-}
+
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
