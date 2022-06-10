@@ -223,7 +223,7 @@ limitations under the License.
 						<ul class="list-group border-green mb-2 mt-2 mx-2 rounded px-3 py-2 h4 font-weight-normal">
 							<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
+								<div class="font-italic h4 mb-0 mt-1 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
 									<cfif len(getTaxa.author_text) gt 0>
 										<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 									</cfif>
