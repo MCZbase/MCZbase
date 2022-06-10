@@ -1875,12 +1875,11 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"public")>
 					<ul class="list-group pl-0 pt-0">
 						<cfif len(#meta.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0 pb-2">Remarks: #meta.coll_object_remarks# </li>
 						</cfif>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
 								<li class="list-group-item pt-0"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
 								<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
@@ -1891,11 +1890,11 @@ limitations under the License.
 							<cfif len(#meta.encumbranceDetail#) is not 0>
 								<li class="list-group-item pt-0"> Encumbrances: #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 							</cfif>
+						<cfelse>
+							Public
 						</cfif>
 					</ul>
-						<cfelse>
-						Public
-					</cfif>
+					
 					<ul class="list-group list-group-flush p-0">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif len(meta.disposition_remarks) gt 0 >
