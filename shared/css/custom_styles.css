@@ -1236,7 +1236,7 @@ table#POITable tr td select:hover {
 	border:1px solid #3E6f7d;
 }
 .mediaTable td:last-child {
-	border-bottom: 1px solid #dee2e6;
+	border-bottom: 1px solid #f8f9fa;
 }
 #contenttablejqxgrid {
 	z-index: 100;
