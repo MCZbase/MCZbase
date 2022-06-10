@@ -223,7 +223,7 @@ limitations under the License.
 						<ul class="list-group border-green mb-2 mt-2 mx-2 rounded px-3 py-2 h4 font-weight-normal">
 							<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
+								<div class="font-italic h4 mb-0 mt-2 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
 									<cfif len(getTaxa.author_text) gt 0>
 										<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 									</cfif>
@@ -234,7 +234,7 @@ limitations under the License.
 								<cfset thisSciName="#scientific_name#">
 								<cfloop query="getTaxa">
 									<span class="font-italic h4 font-weight-lessbold d-inline-block">
-									<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline" target="_blank">#display_name#</a>'>
+									<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline">#display_name#</a>'>
 									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 									<cfset i=#i#+1>
 									<a href="##">#thisSciName#</a> <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span> </span>
@@ -290,7 +290,7 @@ limitations under the License.
 							<li class="px-0">
 							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<span class="font-italic h4 font-weight-normal">
-									<a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a>
+									<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name#</a>
 								</span><!---identification  for former names when there is no author--->
 								<cfif len(getTaxa.author_text) gt 0>
 									<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
@@ -300,7 +300,7 @@ limitations under the License.
 									<cfset i=1>
 									<cfset thisSciName="#scientific_name#">
 								<cfloop query="getTaxa">
-									<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
+									<cfset thisLink='<a href="/name/#scientific_name#">#display_name#</a>'>
 									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 									<cfset i=#i#+1>
 								</cfloop>
@@ -416,7 +416,7 @@ limitations under the License.
 						<cfloop query="oid">
 							<li class="list-group-item pt-0">#other_id_type#:
 							<cfif len(link) gt 0>
-								<a class="external" href="#link#" target="_blank">#display_value#</a>
+								<a class="external" href="#link#">#display_value#</a>
 							<cfelse>
 								#display_value#
 							</cfif>
@@ -484,7 +484,7 @@ limitations under the License.
 							<cfif len(occurs_page_number) gt 0>
 								Page
 								<cfif len(citation_page_uri) gt 0>
-									<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+									<a href ="#citation_page_uri#">#occurs_page_number#</a>,
 								<cfelse>
 								#occurs_page_number#,
 								</cfif>
@@ -985,7 +985,7 @@ limitations under the License.
 				<ul class="list-group list-group-flush pt-1 float-left">
 					<cfloop query="relns">
 						<li class="list-group-item py-0"> #biol_indiv_relationship# 
-							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#" target="_blank"> #related_collection# #related_cat_num# </a>
+							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#"> #related_collection# #related_cat_num# </a>
 							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 								(Remark: #biol_indiv_relation_remarks#)
 							</cfif>
@@ -993,7 +993,7 @@ limitations under the License.
 					</cfloop>
 				<!---<cfif len(relns.biol_indiv_relationship) gt 0>
 						<li class="pb-1 list-group-item">
-						<a href="/Specimens.cfm?execute=true&action=fixedSearch&/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_blank">(Specimens List)</a>
+						<a href="/Specimens.cfm?execute=true&action=fixedSearch&/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#">(Specimens List)</a>
 						</li>
 					</cfif>--->
 				</ul>
@@ -1108,7 +1108,7 @@ limitations under the License.
 					<ul class="list-group list-group-flush pl-0 pt-1">
 						<li class="list-group-item pt-0"><h5 class="mb-0 d-inline-block">Accession:</h5>
 							<cfif oneOfUs is 1>
-								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#one.Accn_number#</a>
+								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#">#one.Accn_number#</a>
 								<cfelse>
 								#one.accn_number#
 							</cfif>
@@ -1116,7 +1116,7 @@ limitations under the License.
 								<cfloop query="accnMedia">
 									<div class="m-2 d-inline"> 
 										<cfset mt = #media_type#>
-										<a href="/media/#media_id#" target="_blank">
+										<a href="/media/#media_id#">
 											<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
 										</a>
 										<span class="small d-block">#media_type# (#mime_type#)</span>
@@ -1706,7 +1706,7 @@ limitations under the License.
 						<div class="container">
 							<div class="row">
 								<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
+									<h2>Internal Server Error.</h2>
 									<p>#message#</p>
 									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 								</div>
