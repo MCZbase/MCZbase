@@ -199,7 +199,7 @@ limitations under the License.
 							
 							<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
 								<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
-									<cfif #mediaCount.ct# gt 8>
+									<cfif #mediaCount.ct# gt 10>
 										<p class="smaller w-100 text-center"> double-click header to see all #mediaCount.ct#</p>
 									</cfif>
 									<cfloop query="images">
