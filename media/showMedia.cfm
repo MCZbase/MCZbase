@@ -180,7 +180,7 @@
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
-					<table class="search-box table table-responsive mt-1 w-100">
+					<table class="search-box table table-responsive mediaTable mt-1 w-100">
 						<thead class="search-box-header mt-1 mediaTableHeader">
 							<tr class="text-white">
 								<th class="border-top-0 border-right-0 border-left-0">Catalog&nbsp;Item</th>
@@ -193,15 +193,15 @@
 						<tbody>
 							<cfloop query="spec">
 								<tr>
-									<td style="width: 9%;" class="mediaTable"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></td>
+									<td style="width: 9%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></td>
 									<cfif len(spec.typestatus) gt 0>
-										<td class="mediaTable">#spec.typestatus#</td>
+										<td>#spec.typestatus#</td>
 										<cfelse>
-										<td class="mediaTable">None</td>
+										<td>None</td>
 									</cfif>
-									<td class="mediaTable">#spec.name#</td>
-									<td style="min-width: 120px;" class="mediaTable">#spec.geography#</td>
-									<td style="width:54%; padding-left: 0.75rem;" class="mediaTable">
+									<td>#spec.name#</td>
+									<td style="min-width: 120px;">#spec.geography#</td>
+									<td style="width:54%; padding-left: 0.75rem;">
 										<cfif relm2.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
