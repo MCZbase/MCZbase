@@ -183,11 +183,11 @@
 					<table class="search-box table table-responsive mt-1 w-100">
 						<thead class="search-box-header mt-1">
 							<tr class="text-white">
-								<th>Catalog&nbsp;Item</th>
-								<th>Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
-								<th>Scientific&nbsp;Name</th>
-								<th>Location&nbsp;Data</th>
-								<th>Image&nbsp;Thumbnail(s)</th>
+								<th class="border-top-0 border-right-0 border-left-0">Catalog&nbsp;Item</th>
+								<th class="border-top-0 border-right-0 border-left-0">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
+								<th class="border-top-0 border-right-0 border-left-0">Scientific&nbsp;Name</th>
+								<th class="border-top-0 border-right-0 border-left-0">Location&nbsp;Data</th>
+								<th class="border-top-0 border-right-0 border-left-0">Image&nbsp;Thumbnail(s)</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -231,7 +231,7 @@
 													</cfif>
 												</div>
 											</cfloop>
-											<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,'targetDiv')">Show More</a>
+										<!---	<a class="btn btn-xs btn-primary float-left mb-2" onClick="moreMedia(#media.media_id#,'targetDiv')">Show More</a>--->
 										</cfif>
 										<div id="targetDiv"></div>
 									</td>
