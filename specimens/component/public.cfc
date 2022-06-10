@@ -1477,9 +1477,9 @@ limitations under the License.
 					var mapOptions = {
 						zoom: 1,
 						center: new google.maps.LatLng(lat, lng),
-						mapTypeId: "hybrid",
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
 						panControl: true,
-						//scaleControl: false,
+						scaleControl: false,
 						controlSize: 20,
 						fullscreenControl: true,
 						zoomControl: true
