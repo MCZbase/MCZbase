@@ -1379,7 +1379,7 @@ table.mediaTable tr {
 table.mediaTable td {
 	border-bottom: 1px solid #f8f9fa;
 }
-table.mediaTable tr:last-child {
+table.mediaTable td:last-child {
 	border-bottom: none;
 }
 
