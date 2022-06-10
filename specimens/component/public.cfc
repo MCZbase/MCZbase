@@ -631,15 +631,25 @@ limitations under the License.
 				<tbody>
 					<cfset i=1>
 					<cfloop query="mPart">
-					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><span class="">#part_name#</span></td>
-						<td>#part_condition#</td>
-						<td>#part_disposition#</td>
-						<td>#lot_count#</td>
-						<cfif oneOfus is "1">
-							<td>#label#</td>
-						</cfif>
-					</tr>
+					<cfif mPart.recordcount gt 0>
+						<tr>
+							<td><span class="">#part_name#</span></td>
+							<td>#part_condition#</td>
+							<td>#part_disposition#</td>
+							<td>#lot_count#</td>
+							<cfif oneOfus is "1">
+								<td>#label#</td>
+							</cfif>
+						</tr>
+					<cfelse>
+						<tr>
+							<td><span class="">None</span></td>
+							<td> </td>
+							<td> </td>
+							<td> </td>
+							<td> </td>
+						<tr>
+					</cfif>
 					<cfif len(part_remarks) gt 0>
 						<tr class="small90 border-bottom-0">
 							<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-1">
