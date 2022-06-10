@@ -1232,10 +1232,10 @@ table#POITable tr td select:hover {
 	padding: .9rem;
 	margin-right: -5px;
 }
-.mediaTable {
+.mediaTableHeader {
 	border:1px solid #3E6f7d;
 }
-.search-box td.mediaTable:last-child {
+.search-box-header td.mediaTable:last-child {
 	border-bottom: 1px solid #dee2e6;
 }
 #contenttablejqxgrid {
