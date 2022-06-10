@@ -146,7 +146,7 @@
 				<cfset media_id = listgetat(rdurl,gPos+1,"/")>
 				<cfset action="search">
 			</cfif>
-			<cfif findNoCase('redesign',Session.gitBranch) GT 0>	
+			<cfif findNoCase('redesign2',Session.gitBranch) GT 0>	
 				<cfinclude template="/media/showMedia.cfm">
 			<cfelse>
 				<!--- WARNING: /production must continue to use /MediaSearch.cfm until it's API and functionality has been entirely replaced by working code.  --->
