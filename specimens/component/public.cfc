@@ -478,7 +478,7 @@ limitations under the License.
 					</cfquery>
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
-						<div class="d-block py-1 px-2 w-100 float-left">
+						<div class="d-block py-1 px-2 w-100 float-left small90">
 							<span class="d-inline"></span>
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
@@ -1628,7 +1628,7 @@ limitations under the License.
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<div class="w-75 mx-2">
-							<span class="mx-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See other specimens with this Higher Geography</a>)</span>
+							<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See other specimens with this Higher Geography</a></span>
 						</div>
 					</cfif>
 				</div>
@@ -1688,7 +1688,7 @@ limitations under the License.
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<div class="w-75 mx-2">
-							<span class="mx-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See other specimens with this Locality</a>)</span>
+							<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See other specimens with this Locality</a></span>
 						</div>
 					</cfif>
 				</div>
