@@ -1629,7 +1629,7 @@ limitations under the License.
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<div class="w-75 m-2">
 							<a class="mx-2 float-left pt-0 small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">Higher Geography</a>
-							<a class="mx-2 float-left pt-0 small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">Specific Locality</a>
+							<a class="mx-2 px-5 float-left pt-0 small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">Specific Locality</a>
 						</div>
 					</cfif>
 				</div>
