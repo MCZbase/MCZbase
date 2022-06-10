@@ -515,7 +515,7 @@ limitations under the License.
 							</div>
 							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-										<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 py-0 mb-0"><li class="pb-0 list-group-item small90">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
@@ -690,8 +690,8 @@ limitations under the License.
 											</div>
 										</cfloop>
 									<cfelse>
-										<ul class="pl-2 list-group py-1 mb-0">
-											<li class="small90 list-group-item">None</li>
+										<ul class="pl-2 list-group py-0 mb-0">
+											<li class="small90 mb-0 list-group-item">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -766,32 +766,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>	
-					<!------------------------------------ named groups  ------------------------------------->
-				<!---	<div class="accordion" id="accordionNamedGroups">
-						<div class="card mb-2 bg-light">
-							<div id="NamedGroupsDialog"></div>
-							<script>
-								function reloadNamedGroups() { 
-									loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
-								}
-							</script>
-							<cfset blockrel = getNamedGroups(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="headingNamedGroups">
-								<cfif len(#blockrel#) gt 0> 
-									<h3 class="h4 my-0">
-										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##NamedGroupsPane">
-											Named Groups
-										</button>
-									</h3>
-								</cfif>
-							</div>
-							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
-								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
-										<cfif len(#blockrel#) gt 0> #blockrel# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
-								</div>
-							</div>
-						</div>
-					</div>--->
+		
 				</div>
 				
 							
