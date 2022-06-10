@@ -1776,9 +1776,10 @@ limitations under the License.
 					<cfif colls.recordcount eq 1>
 						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collector:&nbsp;</h5>
 							<cfloop query="colls">
-								<cfif preferred_agent_name.agent_name neq '[no agent data]'>
-									<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#"></cfif>#colls.collectors#<cfif preferred_agent_name.agent_name != '[no agent data]'></a>
-								</cfif>
+								<cfif isdefined("preferred_agent_name.agent_name") and listfindnocase(preferred_agent_name.agent_name,"[no agent data")> '[no agent data]'>
+									<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#"></cfif>
+									#colls.collectors#
+								<cfif isdefined("preferred_agent_name.agent_name") and listfindnocase(preferred_agent_name.agent_name,"[no agent data")></a></cfif>
 							</cfloop>
 						</li>
 					<cfelse>
