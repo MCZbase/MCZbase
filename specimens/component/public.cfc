@@ -308,7 +308,7 @@ limitations under the License.
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<cfif stored_as_fg is 1>
-									<span style="float-right rounded p-1 bg-light">STORED AS</span>
+									<span style="float-right rounded p-1 bg-light font-weight-lessbold">STORED AS</span>
 								</cfif>
 							</cfif>
 							<cfif not isdefined("metaDesc")>
