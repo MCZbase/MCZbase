@@ -1774,10 +1774,11 @@ limitations under the License.
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 				<cfif colls.recordcount gt 0>
 					<cfif colls.recordcount eq 1>
+						<cfset agentM = #preferred_agent_name.agent_name#>
 						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collector:&nbsp;</h5>
 							<cfloop query="colls">
-								<cfif #preferred_agent_name.agent_name# neq '[no agent data]'>
-									<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#"></cfif>#colls.collectors#<cfif #preferred_agent_name.agent_name# neq '[no agent data]'></a>
+								<cfif isDefined(agentM) and #agentM# neq '[no agent data]'>
+									<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#"></cfif>#colls.collectors#<cfif isDefined(agentM) and #agentM# neq '[no agent data]'></a>
 								</cfif>
 							</cfloop>
 						</li>
