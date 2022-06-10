@@ -1375,11 +1375,13 @@ table#pairs, th, td {
 }
 table.mediaTable tr {
 	border-bottom: 1px solid #dee2e6;
+	border-bottom: 1px solid green;
+}
+table.mediaTable tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+	border-bottom: 1px solid red;
 }
 table.mediaTable td {
-	border-bottom: 1px solid #f8f9fa;
-}
-table.mediaTable td:last-child {
 	border-bottom: none;
 }
 
