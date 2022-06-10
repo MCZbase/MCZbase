@@ -925,12 +925,7 @@ a#showLeftPush.hiddenclass {
 	margin-top: 3.5rem;
 	margin-bottom: 2rem;
 }
-.mediaTable {
-	border:1px solid #3E6f7d;
-}
-.search-box td.mediaTable:last-child {
-	border-bottom: 1px solid #dee2e6;
-}
+
 .shell {
 	background-color: #deedec;
 	padding-top: .13rem;
@@ -1236,6 +1231,12 @@ table#POITable tr td select:hover {
 	color: #212529;
 	padding: .9rem;
 	margin-right: -5px;
+}
+.mediaTable {
+	border:1px solid #3E6f7d;
+}
+.search-box td.mediaTable:last-child {
+	border-bottom: 1px solid #dee2e6;
 }
 #contenttablejqxgrid {
 	z-index: 100;
