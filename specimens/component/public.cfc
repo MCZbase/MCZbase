@@ -630,7 +630,7 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<cfset i=1>
-					<cfif len(ctPart) gt 0>
+					<cfif ctPart.recordcount gt 0>
 					<cfloop query="mPart">
 					<tr>
 						<td><span class="">#part_name#</span></td>
