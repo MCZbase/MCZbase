@@ -1628,8 +1628,7 @@ limitations under the License.
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<div class="w-75 m-2">
-							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See specimens with this Higher Geography</a>)</span>
-							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See specimens with this Locality</a>)</span>
+							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See other specimens with this Higher Geography</a>)</span>
 						</div>
 					</cfif>
 				</div>
@@ -1686,13 +1685,12 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><h5 class="my-0">Coordinates Originally Recorded as: </h5></li>
 							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
 						</cfif>
-<!---						<cfif localityMedia.recordcount gt 0>
-							<cfset locBlock= getMediaBlockHtml(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
-							<div id="locBlock#localityMedia.media_id#">
-								#locBlock#
-							</div>
-						</cfif>--->
 					</ul>
+					<cfif listcontainsnocase(session.roles,"manage_specimens")>
+						<div class="w-75 m-2">
+							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See other specimens with this Locality</a>)</span>
+						</div>
+					</cfif>
 				</div>
 					<cfcatch>
 						<cfif isDefined("cfcatch.queryError") >
