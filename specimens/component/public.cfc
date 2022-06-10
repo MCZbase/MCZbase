@@ -1627,10 +1627,10 @@ limitations under the License.
 						</cfif>
 					</ul>
 					<div class="w-75 mx-2">
-						<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
+						<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#" title="See other specimens with this Higher Geography.">Higher Geography</a></span>
 					</div>
 					<div class="w-75 mx-2">
-						<span class="mx-4 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#" title="See other specimens with this Locality">Locality</a></span>
+						<span class="mx-4 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#" title="See other specimens with this Locality.">Locality</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
