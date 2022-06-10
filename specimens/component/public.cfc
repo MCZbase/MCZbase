@@ -642,7 +642,7 @@ limitations under the License.
 					</tr>
 					<cfif len(part_remarks) gt 0>
 						<tr class="small90 border-bottom-0">
-							<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-0">
+							<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-1">
 								<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 							</td>
 						</tr>
@@ -1880,7 +1880,7 @@ limitations under the License.
 				</cfquery>
 					<ul class="list-group pl-0 pt-0">
 						<cfif len(#meta.recordcount#) gt 0>
-							<li class="list-group-item pt-0 pb-1"><h5 class="my-0 d-inline">Collector:&nbsp;</h5> #meta.coll_object_remarks# </li>
+							<li class="list-group-item pt-0 pb-1"><h5 class="my-0 d-inline">Remarks:&nbsp;</h5> #meta.coll_object_remarks# </li>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
 									<li class="list-group-item pt-0"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
