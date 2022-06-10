@@ -1891,7 +1891,7 @@ limitations under the License.
 								<li class="list-group-item pt-0"> Encumbrances: #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 							</cfif>
 						<cfelse>
-							<li class="list-group-item pt-0">None</li>
+							<li class="list-group-item py-0 small90 mb-0">None</li>
 						</cfif>
 					</ul>
 					
