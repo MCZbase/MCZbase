@@ -1628,8 +1628,8 @@ limitations under the License.
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<div class="w-75 m-2">
-							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">Higher Geography</a>)</span>
-							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">Locality</a>)</span>
+							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See specimens with this Higher Geography</a>)</span>
+							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See specimens with this Locality</a>)</span>
 						</div>
 					</cfif>
 				</div>
