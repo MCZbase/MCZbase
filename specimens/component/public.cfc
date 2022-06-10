@@ -1627,8 +1627,8 @@ limitations under the License.
 						</cfif>
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
-						<div class="w-75 m-2">
-							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See other specimens with this Higher Geography</a>)</span>
+						<div class="w-75 mx-2">
+							<span class="mx-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See other specimens with this Higher Geography</a>)</span>
 						</div>
 					</cfif>
 				</div>
@@ -1687,8 +1687,8 @@ limitations under the License.
 						</cfif>
 					</ul>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
-						<div class="w-75 m-2">
-							<span class="m-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See other specimens with this Locality</a>)</span>
+						<div class="w-75 mx-2">
+							<span class="mx-2 float-left pt-0">(<a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See other specimens with this Locality</a>)</span>
 						</div>
 					</cfif>
 				</div>
