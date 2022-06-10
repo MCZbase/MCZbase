@@ -1479,7 +1479,7 @@ limitations under the License.
 						center: new google.maps.LatLng(lat, lng),
 						mapTypeId: google.maps.MapTypeId.HYBRID,
 						panControl: true,
-						scaleControl: false,
+						//scaleControl: false,
 						controlSize: 20,
 						fullscreenControl: true,
 						zoomControl: true
