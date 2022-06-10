@@ -308,7 +308,7 @@ limitations under the License.
 							</cfif>
 							<cfif listcontainsnocase(session.roles,"manage_specimens")>
 								<cfif stored_as_fg is 1>
-									<span class="float-right rounded p-1 bg-light font-weight-lessbold"><i class="fa fa-arrow-left" aria-hidden="true"></i> STORED AS</span>
+									<span class="float-right rounded p-1 bg-light font-weight-lessbold"><i class="fa fa-arrow-left" aria-hidden="true"></i>STORED AS</span>
 								</cfif>
 							</cfif>
 							<cfif not isdefined("metaDesc")>
@@ -630,9 +630,8 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<cfset i=1>
-					<cfif ctPart.recordcount gt 0>
 					<cfloop query="mPart">
-					<tr>
+					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
 						<td><span class="">#part_name#</span></td>
 						<td>#part_condition#</td>
 						<td>#part_disposition#</td>
@@ -713,16 +712,8 @@ limitations under the License.
 						</tr>
 						</cfif>
 					</cfloop>
-					</cfloop>
-					<cfelse>
-						<tr>
-							<td>None</td>
-							<td>None</td>
-							<td>None</td>
-							<td>None</td>
-							<td>None</td>
-						</tr>
-					</cfif>
+
+				</cfloop>
 				</tbody>
 			</table>
 			<cfcatch>
