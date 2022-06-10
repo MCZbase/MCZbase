@@ -1232,18 +1232,7 @@ table#POITable tr td select:hover {
 	padding: .9rem;
 	margin-right: -5px;
 }
-.mediaTableHeader {
-	border:1px solid #3E6f7d;
-}
-.mediaTable tr {
-	border-bottom: 1px solid #f8f9fa;
-}
-.mediaTable tr:last-child {
-	border-bottom: none;
-}
-.mediaTable td:last-child {
-	border-bottom: 1px solid #f8f9fa;
-}
+
 #contenttablejqxgrid {
 	z-index: 100;
 }
@@ -1380,6 +1369,18 @@ table#pairs, th, td {
 }
 #collapseParts .table th {
 	font-weight: 500;
+}
+.mediaTableHeader {
+	border:1px solid #3E6f7d;
+}
+table.mediaTable tr {
+	border-bottom: 1px solid #dee2e6;
+}
+table.mediaTable tr:last-child {
+	border-bottom: none;
+}
+table.mediaTable td:last-child {
+	border-bottom: 1px solid #f8f9fa;
 }
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
