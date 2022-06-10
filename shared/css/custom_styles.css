@@ -1235,6 +1235,12 @@ table#POITable tr td select:hover {
 .mediaTableHeader {
 	border:1px solid #3E6f7d;
 }
+.mediaTable tr {
+	border-bottom: 1px solid #f8f9fa;
+}
+.mediaTable tr:last-child {
+	border-bottom: none;
+}
 .mediaTable td:last-child {
 	border-bottom: 1px solid #f8f9fa;
 }
