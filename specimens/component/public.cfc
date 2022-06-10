@@ -1626,11 +1626,12 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
 						</cfif>
 					</ul>
-					<cfif listcontainsnocase(session.roles,"manage_specimens")>
-						<div class="w-75 mx-2">
-							<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#">See other specimens with this Higher Geography</a></span>
-						</div>
-					</cfif>
+					<div class="w-75 mx-2">
+						<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
+					</div>
+					<div class="w-75 mx-2">
+						<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#" title="See other specimens with this Locality">Locality</a></span>
+					</div>
 				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
@@ -1686,11 +1687,7 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
 						</cfif>
 					</ul>
-					<cfif listcontainsnocase(session.roles,"manage_specimens")>
-						<div class="w-75 mx-2">
-							<span class="mx-2 float-left pt-0"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#">See other specimens with this Locality</a></span>
-						</div>
-					</cfif>
+
 				</div>
 					<cfcatch>
 						<cfif isDefined("cfcatch.queryError") >
