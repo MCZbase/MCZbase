@@ -631,7 +631,7 @@ limitations under the License.
 				<tbody>
 					<cfset i=1>
 					<cfloop query="mPart">
-					<cfif mPart.recordcount gt 0>
+					<cfif parts.recordcount gt 0>
 						<tr>
 							<td><span class="">#part_name#</span></td>
 							<td>#part_condition#</td>
@@ -643,7 +643,7 @@ limitations under the License.
 						</tr>
 					<cfelse>
 						<tr>
-							<td><span class="">None</span></td>
+							<td>None</td>
 							<td> </td>
 							<td> </td>
 							<td> </td>
