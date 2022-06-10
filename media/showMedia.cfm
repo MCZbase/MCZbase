@@ -193,15 +193,15 @@
 						<tbody>
 							<cfloop query="spec">
 								<tr>
-									<td style="width: 9%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></td>
+									<td style="width: 9%;" class="mediaTable"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></td>
 									<cfif len(spec.typestatus) gt 0>
-										<td>#spec.typestatus#</td>
+										<td class="mediaTable">#spec.typestatus#</td>
 										<cfelse>
-										<td>None</td>
+										<td class="mediaTable">None</td>
 									</cfif>
-									<td>#spec.name#</td>
-									<td style="min-width: 120px;">#spec.geography#</td>
-									<td style="width:54%; padding-left: 0.75rem;border-bottom:1px solid ##3e6f7d;">
+									<td class="mediaTable">#spec.name#</td>
+									<td style="min-width: 120px;" class="mediaTable">#spec.geography#</td>
+									<td style="width:54%; padding-left: 0.75rem;" class="mediaTable">
 										<cfif relm2.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
