@@ -691,7 +691,7 @@ limitations under the License.
 										</cfloop>
 									<cfelse>
 										<ul class="pl-1 list-group py-0 mb-0">
-											<li class="small90 mb-0 list-group-item">None</li>
+											<li class="small90 mb-0 pt-0 list-group-item">None</li>
 										</ul>
 									</cfif>
 								</div>
