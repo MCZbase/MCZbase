@@ -201,7 +201,7 @@
 									</cfif>
 									<td>#spec.name#</td>
 									<td style="min-width: 120px;">#spec.geography#</td>
-									<td style="width:54%; padding-left: 0.75rem;border-bottom:1px solid #3e6f7d;">
+									<td style="width:54%; padding-left: 0.75rem;border-bottom:1px solid ##3e6f7d;">
 										<cfif relm2.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 195px">
