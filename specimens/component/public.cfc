@@ -1875,6 +1875,7 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"public")>
 					<ul class="list-group pl-0 pt-0">
 						<cfif len(#meta.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0 pb-2">Remarks: #meta.coll_object_remarks# </li>
@@ -1892,7 +1893,9 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</ul>
-					
+						<cfelse>
+						Public
+					</cfif>
 					<ul class="list-group list-group-flush p-0">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif len(meta.disposition_remarks) gt 0 >

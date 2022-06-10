@@ -515,7 +515,7 @@ limitations under the License.
 							</div>
 							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 py-0 mb-0"><li class="pb-0 list-group-item small90">None</li></ul></cfif>
+									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 py-0 mb-0"><li class="pb-0 list-group-item mb-0 small90">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
