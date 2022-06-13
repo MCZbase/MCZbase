@@ -137,19 +137,17 @@ limitations under the License.
 						<div class="col-6 py-1 float-left px-1">
 							<div class="border rounded py-2 px-1">
 								<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-									<cfif #getImages1.media_id# gt 0>
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#images1.media_id#",displayAs="thumbSm")>
 										<div id="mediaBlock#images1.media_id#">
 											#mediaBlock#
 										</div>
-									<cfelse>
-											none
-									</cfif>
 									</div>
 								</div>
 							</div>
 						</div>
 					</cfloop>
+				<cfelse>
+					<cfif #getImages1.recordcount# eq 0>NONE</cfif>
 				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
