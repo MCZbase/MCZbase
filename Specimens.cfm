@@ -366,21 +366,21 @@ limitations under the License.
 												</div>
 											</cfif>
 											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<div class="row border">
-														<div class="col-8">
+												<div class="col-12 col-md-2 border">
+													<div class="row">
+														<div class="col-8 pr-0">
 															<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 															<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
 															<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 														</div>
-														<div class="col-4">
-															<cfif not isdefined("current_id_only")><cfset current_id_only="current"></cfif>
+														<div class="col-4 pl-1">
+															<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 															<label for="current_id_only" class="data-entry-label">Search</label>
-															<select id="current_id_only" class="data-entry-select">
+															<select id="current_id_only" name="current_id_only" class="data-entry-select">
 																<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 																<cfif current_id_only EQ "any"><cfset any_selected = " selected "><cfset any_selected=""></cfif>
-																<option value="current" #current_selected#>Current Id Only</option>
 																<option value="any" #any_selected#>Any Id</option>
+																<option value="current" #current_selected#>Current Id Only</option>
 															</select>
 														</div>
 													</div>
