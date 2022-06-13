@@ -281,7 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfquery name="formerID_title">
+						<cfquery name="formerID_title" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct
 								taxonomy.taxon_name_id,
 							FROM 
