@@ -244,6 +244,8 @@ limitations under the License.
 												<dd>Other number accepts single numbers, ranges of numbers, comma separated lists of numbers, and ranges of numbers, but for most cases with prefixes, search for just a single prefixed number with an exact match search (e.g. =BT-782)</dd>
 												<dt><span class="text-info font-weight-bold">Taxonomy and Higher Geography Fields</span> </dt>
 												<dd>Search for a substring (e.g. murex), an exact match (e.g. =Murex), or a comma separated list (e.g. Vulpes,Urocyon).</dd>
+												<dt><span class="text-info font-weight-bold">Any Geography (kewyword) Field</span> </dt>
+												<dd>This field runs a keyword search on a large set of geography fields.  See the Keyword Search Help for guidance.</dd>
 												<dt><span class="text-info font-weight-bold">Dates</span></dt>
 												<dd>Collecting Events are stored in two date fields (date began and date ended), plus a verbatim field.  Date Collected searches on both the began date and end date for collecting events.  A range search on Date Collected (e.g. 1980/1985) will find all cataloged items where both the date began and date ended fall within the specified range.  Usually you will want to search on Date Collected.  The began date and ended date fields can be searched separately for special cases, in particular cases where the collecting date range is poorly constrained.  Search on Began Date 1700-01-01 Ended Date 1800-01-01/1899-12-31 to find all material where the began date is not known, but the end date has been constrained to sometime in the 1800s (contrast with Date Collected 1800-01-01/1899-12-31 which finds material where both the start and end dates are in the 1800s).</dd>
 												<dt><span class="text-info font-weight-bold">Media Type</span></dt>
@@ -366,10 +368,24 @@ limitations under the License.
 												</div>
 											</cfif>
 											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("full_taxon_name")><cfset full_taxon_name=""></cfif>
-													<label for="taxa" class="data-entry-label">Any Taxonomic Element</label>
-													<input id="taxa" name="full_taxon_name" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(full_taxon_name)#">
+												<div class="col-12 col-md-2 border">
+													<div class="row">
+														<div class="col-8 pr-0">
+															<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
+															<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
+															<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
+														</div>
+														<div class="col-4 pl-1">
+															<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
+															<label for="current_id_only" class="data-entry-label">Search</label>
+															<select id="current_id_only" name="current_id_only" class="data-entry-select">
+																<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
+																<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
+																<option value="any" #any_selected#>Any Id</option>
+																<option value="current" #current_selected#>Current Id Only</option>
+															</select>
+														</div>
+													</div>
 												</div>
 												<div class="col-12 col-md-2">
 													<label for="phylum" class="data-entry-label">Phylum
@@ -521,7 +537,12 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="form-row mb-2">
-												<div class="col-12 col-md-4">
+												<div class="col-12 col-md-2">
+													<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
+													<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
+													<input type="text" class="data-entry-input" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
+												</div>
+												<div class="col-12 col-md-2">
 													<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 													<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 													<input type="text" class="data-entry-input" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
