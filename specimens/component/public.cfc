@@ -1142,12 +1142,15 @@ limitations under the License.
 							SELECT 
 								project_name, project.project_id 
 							FROM 
-								loan_item
-								left join project_trans on loan_item.transaction_id =project_trans.transaction_id
-								left join project on project_trans.project_id=project.project_id
-								specimen_part on specimen_part.collection_object_id = loan_item.collection_object_id
+								loan_item,
+								project,
+								project_trans,
+								specimen_part 
 							WHERE 
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> AND
+								loan_item.transaction_id=project_trans.transaction_id AND
+								project_trans.project_id=project.project_id AND
+								specimen_part.collection_object_id = loan_item.collection_object_id 
 							GROUP BY 
 								project_name, project.project_id
 						</cfquery>
