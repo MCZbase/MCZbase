@@ -899,12 +899,12 @@ limitations under the License.
 							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, <span class="text-capitalize d-inline font-weight-lessbold">Method:</span> #determination_method#'>
+							<cfset determination = '#determination#, <span class="text-capitalize d-inline font-weight-lessbold pl-1">Method:</span> #determination_method#'>
 						</cfif>
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							<span class="text-capitalize font-weight-lessbold d-inline"> Remark: </span>#attribute_remark#
+							<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Remark: </span>#attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
