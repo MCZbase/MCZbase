@@ -811,10 +811,10 @@ limitations under the License.
 						<cfif len(attributeDeterminer) gt 0>
 							<cfset determination = "<span class='float-left font-weight-lessbold'>Determiner:Y </span> <span class='float-left'>#attributeDeterminer#</span>">
 							<cfif len(determined_date) gt 0>  
-								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
+								<cfset determination = "<span class='float-left'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = "<span class='float-left font-weight-lessbold'>X </span> <span class='float-left'>#determination#Z</span>, <span class='float-left font-weight-lessbold'>Method: </span> <span class='float-left'>#determination_method#</span>">
+								<cfset determination = "<span class='float-left font-weight-lessbold'>X </span> <span class='float-left'>#determination#Z</span>, <span class='float-left font-weight-lessbold'>Method:p </span> <span class='float-left'>#determination_method#</span>">
 							</cfif>
 							#determination#
 						</cfif>
