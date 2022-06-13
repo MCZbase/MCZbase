@@ -384,7 +384,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
-								<div class="card-body py-1 mb-1 float-left" id="otherIDsCardBody">
+								<div class="card-body py-1 mb-0 float-left" id="otherIDsCardBody">
 									<cfif len(#blockotherid#) gt 60> 
 										#blockotherid# 
 									<cfelse>
