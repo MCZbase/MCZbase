@@ -1571,7 +1571,7 @@ limitations under the License.
 		</script>
 		<cfoutput>
 			<cftry>
-				<div class="col-12 col-md-5 pl-md-0 mb-2 float-right">
+				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
 					<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
 					<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
 						<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
@@ -1630,10 +1630,10 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
 						</cfif>
 					</ul>
-					<div class="w-75 mx-2">
+					<div class="w-100 float-left mx-2">
 						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
 					</div>
-					<div class="w-75 mx-2">
+					<div class="w-100 mx-2 float-left">
 						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#" title="See other specimens with this Locality">Locality</a></span>
 					</div>
 				</div>
