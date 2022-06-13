@@ -418,7 +418,7 @@ limitations under the License.
 							<cfif len(link) gt 0>
 								<a class="external" href="#link#"> #display_value#</a>
 							<cfelse>
-								#display_value#
+								<span> #display_value#</span>
 							</cfif>
 							</li>
 						</cfloop>
