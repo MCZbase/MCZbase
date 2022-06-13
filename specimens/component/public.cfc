@@ -891,8 +891,8 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfloop query="theRest">
-					<li class="list-group-item"> <span class='font-weight-lessbold'>#attribute_type#:</span> #attribute_value#
-						<cfif len(attribute_units) gt 0>#attribute_units#</cfif><cfif len(attributeDeterminer) gt 0><cfset determination =", determiner: #attributeDeterminer#">
+					<li class="list-group-item">#attribute_type#: #attribute_value#
+						<cfif #attribute_units# is not null>#attribute_units#</cfif><cfif len(attributeDeterminer) gt 0><cfset determination =", determiner: #attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
 							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
@@ -902,7 +902,7 @@ limitations under the License.
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							,  <span class='font-weight-lessbold'>Remark:</span> #attribute_remark#
+							, Remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
