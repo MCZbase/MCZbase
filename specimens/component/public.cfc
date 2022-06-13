@@ -892,12 +892,12 @@ limitations under the License.
 				</cfif>
 				<cfloop query="theRest">
 					<li class="list-group-item">#attribute_type#: #attribute_value#
-						<cfif #attribute_units# eq 0>#attribute_units#</cfif><cfif len(attributeDeterminer) gt 0><cfset determination =", determiner: #attributeDeterminer#">
+						<cfif #attribute_units# eq 0>#attribute_units#</cfif><cfif len(attributeDeterminer) gt 0><cfset determination ="<span class="float-left text-capitalize">, determiner: #attributeDeterminer#</span>">
 						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
+							<cfset determination = '<span class="float-left text-capitalize">#determination# on #dateformat(determined_date,"yyyy-mm-dd")#</span>'>
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							<cfset determination = ', <span class="float-left text-capitalize">#determination#, #determination_method#</span>'>
+							<cfset determination = '<span class="float-left text-capitalize">, #determination#, #determination_method#</span>'>
 						</cfif>
 							<span class="float-left text-capitalize">#determination#</span>
 						</cfif>
