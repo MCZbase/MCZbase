@@ -820,7 +820,7 @@ limitations under the License.
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							, <span class='font-weight-lessbold'>remark:</span> #attribute_remark#
+							, remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
