@@ -291,7 +291,7 @@ limitations under the License.
 								identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 							AND rownum =2
 						</cfquery>
-						<cfif formerID_title.recordcount>
+						<cfif formerID_title.recordcount gt 0>
 							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
 						<cfelse>
 						</cfif>
