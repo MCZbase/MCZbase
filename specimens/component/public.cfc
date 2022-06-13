@@ -814,7 +814,7 @@ limitations under the License.
 								<cfset determination = " <span class='float-left pr-1'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = "<span class='float-left pr-1'> #determination#</span><span class='float-left font-weight-lessbold pr-1'>, Method: </span> <span class='float-left'> #determination_method#</span>">
+								<cfset determination = "<span class='float-left pr-1'>#determination#</span><span class='float-left font-weight-lessbold pr-1'>, Method: </span> <span class='float-left'> #determination_method#</span>">
 							</cfif>
 							#determination#
 						</cfif>
