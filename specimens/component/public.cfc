@@ -820,7 +820,7 @@ limitations under the License.
 							</cfif>
 							#determination#
 						</cfif>
-						<cfif len(attribute_remark) gt 0>, remark: #attribute_remark#
+						<cfif len(attribute_remark) gt 0>, Remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
@@ -894,14 +894,14 @@ limitations under the License.
 					<li class="list-group-item">#attribute_type#: #attribute_value#
 						<cfif #attribute_units# eq 0>#attribute_units#</cfif><cfif len(attributeDeterminer) gt 0><cfset determination =", determiner: #attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
+							<cfset determination = '#determination#R on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
 						<cfif len(determination_method) gt 0>
 							<cfset determination = '#determination#C, #determination_method#D'>
 						</cfif>
 							#determination#
 						</cfif>
-						<cfif len(attribute_remark) gt 0>, Remark: #attribute_remark#
+						<cfif len(attribute_remark) gt 0> Remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
