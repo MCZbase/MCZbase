@@ -896,7 +896,7 @@ limitations under the License.
 						<cfif len(attributeDeterminer) gt 0>
 							<cfset determination ='<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Determiner: </span>#attributeDeterminer#'>
 						<cfif len(determined_date) gt 0>
-							<cfset determination = '<span class="text-capitalize d-inline">#determination#</span> on #dateformat(determined_date,"yyyy-mm-dd")#'>
+							<cfset determination = '<span class="d-inline">#determination#</span> on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
 						<cfif len(determination_method) gt 0>
 							<cfset determination = '<span class="text-capitalize d-inline">#determination#</span>, #determination_method#'>
