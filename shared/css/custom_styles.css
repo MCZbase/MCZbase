@@ -1974,8 +1974,11 @@ button[tabindex="-1"]:focus {
 	float: left !important;
 	cursor: pointer;
 }
-.formerID {
-	display:none;
+.formerID:nth-child(2) {
+	display:none!important;
+}
+.formerID:nth-child(3) {
+	display:none!important;
 }
 .formerID:nth-child(1) {
 	display: block!important;
