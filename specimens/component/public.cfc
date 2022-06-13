@@ -809,7 +809,7 @@ limitations under the License.
 				<cfloop query="sex">
 					<li class="list-group-item"><span class='d-inline font-weight-lessbold'>Sex: </span><span class='d-inline'>#attribute_value#</span>						
 						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination ="<span class='d-inline font-weight-lessbold'>, Determiner: </span><span class='d-inline'>#attributeDeterminer#</span>">
+							<cfset determination =", <span class='d-inline font-weight-lessbold'>Determiner: </span><span class='d-inline'>#attributeDeterminer#</span>">
 							<cfif len(determined_date) gt 0>
 								<cfset determination = "<span class='d-inline'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
@@ -818,7 +818,7 @@ limitations under the License.
 							</cfif>#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							<span class="d-inline font-weight-lessbold">, Remark:</span> <span class="d-inline">#attribute_remark#</span>
+							, <span class="d-inline font-weight-lessbold">Remark:</span> <span class="d-inline">#attribute_remark#</span>
 						</cfif>
 					</li>
 				</cfloop>
