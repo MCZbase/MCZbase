@@ -146,9 +146,6 @@ limitations under the License.
 							</div>
 						</div>
 					</cfloop>
-					<cfelse>
-						
-						None
 				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >

@@ -278,7 +278,7 @@ limitations under the License.
 							</script>
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCitations">
-								<h3 class="h4 my-0 text-dark">
+								<h3 class="h5 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
 										Citations
 									</button>
@@ -360,7 +360,7 @@ limitations under the License.
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingOtherID">
 								<cfif len(#blockotherid#) gt 1> 
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other IDs
 										</button>
@@ -406,7 +406,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingParts">
-								<h3 class="h4 my-0">
+								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
 										Parts <span class="text-success">(#ctPart.ct#)</span>
 									</button>
@@ -442,7 +442,7 @@ limitations under the License.
 							<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAttributes">
 								<cfif len(#blockattributes#) gt 50> 
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
 											Attributes
 										</button>
@@ -490,7 +490,7 @@ limitations under the License.
 							<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRelations">
 								<cfif len(#blockrel#) gt 60> 
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
 											Relationships
 										</button>
@@ -501,7 +501,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
 											Relationships
 										</button>
@@ -533,7 +533,7 @@ limitations under the License.
 							<cfset blockmeta = getMetaHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingMeta">
 								<cfif len(#blockmeta#) gt 50> 
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
 											Catalog Record Remarks and Metadata
 										</button>
@@ -544,7 +544,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
 											Catalog Record Remarks and Metadata
 										</button>
@@ -584,7 +584,7 @@ limitations under the License.
 							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingLocality">
 								<cfif len(#blocklocality#) gt 60>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" data-toggle="collapse" aria-expanded="true" data-target="##LocalityPane" aria-controls="LocalityPane" class="headerLnk w-100 h-100 text-left">
 											Location and Collecting Event
 										</button>
@@ -595,7 +595,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" aria-controls="LocalityPane" data-target="##LocalityPane">
 											Location and Collecting Event
 										</button>
@@ -626,7 +626,7 @@ limitations under the License.
 							<cfset blockcollectors = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCollectors">
 								<cfif len(#blockcollectors#) gt 5>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" data-toggle="collapse" class="w-100 h-100 headerLnk text-left" aria-controls="CollectorsPane" aria-expanded="true" data-target="##CollectorsPane">
 											Collectors and Preparators
 										</button>
@@ -637,7 +637,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button class="headerLnk w-100 h-100 text-left" aria-expanded="true" type="button" aria-controls="CollectorsPane" data-toggle="collapse" data-target="##CollectorsPane">
 											Collectors and Preparators
 										</button>
@@ -672,7 +672,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingLedger">
-								<h3 class="h4 my-0">
+								<h3 class="h5 my-0">
 									<button type="button" aria-controls="ledgerPane" class="headerLnk text-left h-100 w-100" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" >
 										Ledger and Collecting Notes
 									</button>
@@ -709,7 +709,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingTransactions">
-								<h3 class="h4 my-0">
+								<h3 class="h5 my-0">
 									<button type="button" aria-controls="TransactionsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##TransactionsPane">
 										Transactions
 									</button>
@@ -739,7 +739,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingNamedGroups">
-								<h3 class="h4 my-0">
+								<h3 class="h5 my-0">
 									<button type="button" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
 										Named Groups
 									</button>
