@@ -281,19 +281,8 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfquery name="formerID_title" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT distinct
-								taxonomy.taxon_name_id,
-							FROM 
-								identification_taxonomy
-								left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
-							WHERE 
-								identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
-							AND rownum =2
-						</cfquery>
-						<cfif formerID_title.recordcount gt 0>
+						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
-						<cfelse>
 						</cfif>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
