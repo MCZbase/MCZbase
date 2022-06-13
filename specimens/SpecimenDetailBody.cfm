@@ -389,7 +389,7 @@ limitations under the License.
 										#blockotherid# 
 									<cfelse>
 										<ul class="pl-0 mb-0">
-											<li class="small90">None</li>
+											<li class="small90 font-italic">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -471,7 +471,7 @@ limitations under the License.
 										#blockattributes#
 									<cfelse>
 										<ul class="pl-0 list-group py-0 mb-0">
-											<li class="small90 pb-0 list-group-item">None</li>
+											<li class="small90 pb-0 list-group-item font-italic">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -515,7 +515,7 @@ limitations under the License.
 							</div>
 							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
 								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 py-0 mb-0"><li class="pb-0 list-group-item mb-0 small90">None</li></ul></cfif>
+									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 py-0 mb-0"><li class="pb-0 list-group-item mb-0 small90 font-italic">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
@@ -562,7 +562,7 @@ limitations under the License.
 										#blockmeta#
 									<cfelse>
 										<ul class="pl-1 py-0 mb-0">
-											<li class="list-group-item mb-0 small90">None</li>
+											<li class="list-group-item mb-0 small90 font-italic">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -609,7 +609,7 @@ limitations under the License.
 							</div>
 							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
 								<div class="card-body px-0 py-1 mb-1 float-left" id="localityCardBody">
-									<cfif len(#blocklocality#) gt 60> #blocklocality# <cfelse><ul class="pl-0 mb-0"><li class="small90">None</li></ul></cfif>
+									<cfif len(#blocklocality#) gt 60> #blocklocality# <cfelse><ul class="pl-0 mb-0"><li class="small90 font-italic">None</li></ul></cfif>
 								</div>
 							</div>
 						</div>
@@ -655,7 +655,7 @@ limitations under the License.
 										#blockcollectors# 
 									<cfelse>
 										<ul class="pl-2 list-group py-1 mb-0">
-											<li class="small90 list-group-item">None</li>
+											<li class="small90 list-group-item font-italic">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -691,7 +691,7 @@ limitations under the License.
 										</cfloop>
 									<cfelse>
 										<ul class="pl-1 list-group py-0 mb-0">
-											<li class="small90 mb-0 pt-0 list-group-item">None</li>
+											<li class="small90 mb-0 pt-0 list-group-item font-italic">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -758,7 +758,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 list-group py-1 mb-0">
-										<li class="small90 list-group-item">
+										<li class="small90 list-group-item font-italic">
 											None
 										</li>
 									</ul>	
