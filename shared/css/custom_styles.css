@@ -1974,6 +1974,13 @@ button[tabindex="-1"]:focus {
 	float: left !important;
 	cursor: pointer;
 }
+.formerID {
+	display:none;
+}
+.formerID:first-child {
+	display: block;
+}
+
 .accordion .card-header h3 button:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;

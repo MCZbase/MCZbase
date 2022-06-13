@@ -281,9 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfloop query="getTaxa" startrow=1 endrow=2>
-								<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
-						</cfloop>
+					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identifications</div>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 							<li class="px-0">
