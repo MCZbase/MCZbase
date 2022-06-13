@@ -281,7 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfloop index="getTaxa" step="1">
+						<cfloop index="getTaxa" startrow=1 endrow=2>
 							<cfif getTaxa eq 1>
 								<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
 							</cfif>
