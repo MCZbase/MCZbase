@@ -206,7 +206,7 @@ limitations under the License.
 				</cfquery>
 				<cfset formerHeadShown = false>
 				<cfloop query="identification">
-					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getTaxa" index='i' datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
 							taxonomy.taxon_name_id,
 							display_name,
