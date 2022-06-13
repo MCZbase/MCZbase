@@ -1633,11 +1633,12 @@ limitations under the License.
 					<div class="w-75 mx-2">
 						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
 					</div>
+					
+				</div>
+				<div class="col-12 float-left px-0">
 					<div class="w-75 mx-2">
 						<span class="mx-4 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#" title="See other specimens with this Locality">Locality</a></span>
 					</div>
-				</div>
-				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
 						<cfif len(getLoc.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="font-weight-lessbold my-0">Specific Locality: </span></li>
