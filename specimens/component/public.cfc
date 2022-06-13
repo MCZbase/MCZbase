@@ -281,7 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfif getTaxa.recordcount GT 0 AND NOT formerHeadShown>
+						<cfif getTaxa.recordcount GT 0 AND formerHeadShown = 'false'>
 							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
 							<cfset formerHeadShown = false>
 						</cfif>
