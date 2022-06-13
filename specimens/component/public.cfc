@@ -810,7 +810,6 @@ limitations under the License.
 					<li class="list-group-item"> Sex: #attribute_value#,
 						<cfif len(attributeDeterminer) gt 0>
 							<cfset determination = "determiner: #attributeDeterminer#">
-
 							<cfif len(determined_date) gt 0>  
 								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 							</cfif>
