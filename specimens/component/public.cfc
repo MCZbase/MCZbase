@@ -890,9 +890,9 @@ limitations under the License.
 				</cfif>
 				<cfloop query="theRest">
 					<li class="list-group-item"><span class="text-capitalize d-inline font-weight-lessbold">#attribute_type#:</span><span class="d-inline"> #attribute_value#</span>
-						<cfif len(attribute_units) gt 0>#attribute_units#</cfif>
+						<cfif len(attribute_units) gt 0>#attribute_units#m</cfif>
 						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination ='<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Determiner:</span> <span class="d-inline">#attributeDeterminer#</span>'>
+							<cfset determination ='<span class="text-capitalize font-weight-lessbold d-inline pl-1">, Determiner:</span> <span class="d-inline">#attributeDeterminer#</span>'>
 						<cfif len(determined_date) gt 0>
 							<cfset determination = '<span class="text-capitalize d-inline">#determination#</span> on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
