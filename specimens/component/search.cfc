@@ -948,6 +948,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="other_id_number" type="string" required="no">
 	<cfargument name="type_status" type="string" required="no">
 	<cfargument name="full_taxon_name" type="string" required="no">
+	<cfargument name="any_taxa_term" type="string" required="no">
+	<cfargument name="current_id_only" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
 	<cfargument name="phylorder" type="string" required="no">
@@ -957,6 +959,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
+	<cfargument name="any_geography" type="string" required="no">
 	<cfargument name="higher_geog" type="string" required="no">
 	<cfargument name="continent_ocean" type="string" required="no">
 	<cfargument name="ocean_region" type="string" required="no">
@@ -1267,7 +1270,19 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+		<cfif isDefined("any_taxa_term") AND len(any_taxa_term) GT 0>
+			<cfif isDefined("current_id_only") AND current_id_only EQ "current">
+				<cfset field = '"field": "taxa_term"'>
+			<cfelse>
+				<cfset field = '"field": "taxa_term_all"'>
+			</cfif>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#any_taxa_term#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
 		<cfif isDefined("full_taxon_name") AND len(full_taxon_name) GT 0>
+			<!--- not currently on form --->
 			<cfset field = '"field": "full_taxon_name"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#full_taxon_name#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
@@ -1367,7 +1382,32 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 	</cfif>
-	
+	<cfif isDefined("any_geography") AND len(any_geography) GT 0>
+		<cfset field = '"field": "any_geography"'>
+		<cfset comparator = '"comparator": ""'>
+		<!--- convert operator characters from conventions used elsewhere in MCZbase to oracle CONTAINS operators --->
+		<!--- 
+		User enters >  converted to:  meaning
+			! ->  ~   NOT
+			$ ->  !   SOUNDEX
+			# ->  $   STEM
+			~ ->  ~   NOT  (no change made, but we don't document that ~ is allowed)
+		NOTE: order of replacements matters.
+		--->
+		<cfset searchValue = any_geography>
+		<cfset searchValue = replace(searchValue,"!","~","all")>
+		<cfset searchValue = replace(searchValue,"$","!","all")>
+		<cfset searchValue = replace(searchValue,"##","$","all")>
+
+		<!--- escape quotes for json construction --->
+		<cfset searchValueForJSON = searchValue>
+		<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
+		<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
 	<cfif isDefined("higher_geog") AND len(higher_geog) GT 0>
 		<cfset field = '"field": "higher_geog"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#higher_geog#",separator="#separator#",nestDepth="#nest#")>
