@@ -281,7 +281,17 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfif getTaxa.recordcount eq 1>
+						<cfquery name="formerID_title">
+							SELECT distinct
+								taxonomy.taxon_name_id,
+							FROM 
+								identification_taxonomy
+								left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
+							WHERE 
+								identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+							AND rownum =2
+						</cfquery>
+						<cfif formerID_title.recordcount eq 1>
 							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
 						</cfif>
 						<!---Add Title for former identifications--->
