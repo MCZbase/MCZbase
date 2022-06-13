@@ -274,9 +274,9 @@ limitations under the License.
 									</cfif>
 								</div>
 							</div>
-							<div class="small mr-2"><span class="h5">Nature of ID:</span> #nature_of_id# </div>
+							<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id# </div>
 							<cfif len(identification_remarks) gt 0>
-									<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
+									<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</div>
 								</cfif>
 						</ul>
 					<cfelse>
@@ -1772,7 +1772,7 @@ limitations under the License.
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 				<cfif colls.recordcount gt 0>
 					<cfif colls.recordcount eq 1>
-						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collector:&nbsp;</h5>
+						<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Collector:&nbsp;</span>
 							<cfloop query="colls">
 								<cfif #colls.collectors# neq '[no agent data]'>
 									<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#"></cfif>#colls.collectors#<cfif #colls.collectors# neq '[no agent data]'></a>
@@ -1780,7 +1780,7 @@ limitations under the License.
 							</cfloop>
 						</li>
 					<cfelse>
-						<li class="list-group-item pt-0"><h5 class="my-0 d-inline">Collectors:&nbsp;</h5>
+						<li class="list-group-item pt-0"><span class="font-weight-lessbold my-0 d-inline">Collectors:&nbsp;</span>
 							<cfloop query="colls">
 								<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#">#colls.collectors#</a><span class="sd">,</span>
 							</cfloop>
@@ -1790,14 +1790,14 @@ limitations under the License.
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
 						<li class="list-group-item pt-0">
-							<h5 class="my-0 d-inline">Preparator:&nbsp;</h5>
+							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
 							</cfloop>
 						</li>
 					<cfelse>
 						<li class="list-group-item pt-0">
-							<h5 class="my-0 d-inline">Preparators:&nbsp;</h5>
+							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
 							</cfloop>
@@ -1878,7 +1878,7 @@ limitations under the License.
 					<ul class="list-group pl-0 pt-0">
 						<cfif len(#meta.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0 pb-1">
-								<h5 class="my-0 d-inline">Remarks:&nbsp;</h5>
+								<span class="my-0 d-inline font-weight-lessbold">Remarks:&nbsp;</span>
 								#meta.coll_object_remarks# 
 							</li>
 						<cfelse>
