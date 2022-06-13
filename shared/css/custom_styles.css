@@ -1959,7 +1959,7 @@ button[tabindex="-1"]:focus {
 	float: left !important;
 	content: "\f067";
 	content: "\f0fe";/*plus*/
-	padding-top: 2px;
+	padding-top: 1px;
 	cursor: pointer;
 	padding-right: 6px;
 }
@@ -1970,7 +1970,7 @@ button[tabindex="-1"]:focus {
 	content: "\f068";
 	content: "\f146";/*minus*/
 	padding-right: 6px;
-	padding-top: 2px;
+	padding-top: 1px;
 	float: left !important;
 	cursor: pointer;
 }
