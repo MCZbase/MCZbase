@@ -1974,16 +1974,21 @@ button[tabindex="-1"]:focus {
 	float: left !important;
 	cursor: pointer;
 }
-.formerID:nth-child(1) {
-	display:none!important;
-}
 .formerID:nth-child(2) {
-	display:none!important;
-}
-.formerID:nth-child(0) {
 	display: block!important;
 }
-
+.formerID:nth-child(3) {
+	display:none!important;
+}
+.formerID:nth-child(4) {
+	display:none!important;
+}
+.formerID:nth-child(5) {
+	display:none!important;
+}
+.formerID:nth-child(6) {
+	display:none!important;
+}
 .accordion .card-header h3 button:focus {
 	border: 2px inset rgba(255, 193, 7, .2)!important;
 	box-shadow: none;
