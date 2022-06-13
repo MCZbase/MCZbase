@@ -959,6 +959,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="scientific_name" type="string" required="no">
 	<cfargument name="taxon_name_id" type="string" required="no">
+	<cfargument name="any_geography" type="string" required="no">
 	<cfargument name="higher_geog" type="string" required="no">
 	<cfargument name="continent_ocean" type="string" required="no">
 	<cfargument name="ocean_region" type="string" required="no">
@@ -1381,7 +1382,16 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
 	</cfif>
-	
+	<cfif isDefined("any_geography") AND len(any_geography) GT 0>
+		<cfif REMatch("^[A-Za-z ]+$",any_geography)>
+			<cfset any_geography = REReplace(any_geography,"[ ]+",",","all">
+		</cfif>
+		<cfset field = '"field": "any_geography"'>
+		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#any_geography#",separator="#separator#",nestDepth="#nest#")>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	</cfif>
 	<cfif isDefined("higher_geog") AND len(higher_geog) GT 0>
 		<cfset field = '"field": "higher_geog"'>
 		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#higher_geog#",separator="#separator#",nestDepth="#nest#")>
