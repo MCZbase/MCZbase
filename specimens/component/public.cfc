@@ -283,10 +283,9 @@ limitations under the License.
 					<!---	Start of former Identifications--->
 						<cfloop index="getTaxa" step="1">
 							<cfif getTaxa eq 1>
-							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
-								
+								<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
 							</cfif>
-						</cfif>
+						</cfloop>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 							<li class="px-0">
