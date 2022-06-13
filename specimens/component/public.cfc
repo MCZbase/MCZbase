@@ -866,12 +866,12 @@ limitations under the License.
 						</tr>
 					</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-							<cfset determination = ", Determiner: #attributeDeterminer#">
+							<cfset determination = "<span class='text-capitalize font-weight-lessbold d-inline pl-1'> Determiner:</span> #attributeDeterminer#">
 							<cfif len(determined_date) gt 0>
-								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
+								<cfset determination = '<span class="text-capitalize d-inline">#determination#</span> on #dateformat(determined_date,"yyyy-mm-dd")#'>
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = '#determination#, #determination_method#'>
+								<cfset determination = '<span class="text-capitalize d-inline">#determination#</span>, #determination_method#'>
 							</cfif>
 							#determination#
 						</cfif>
@@ -902,7 +902,7 @@ limitations under the License.
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							<span class="text-capitalize font-weight-lessbold d-inline">Remark:</span> <span class="d-inline">#attribute_remark#</span>
+							<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Remark:</span> <span class="d-inline">#attribute_remark#</span>
 						</cfif>
 					</li>
 				</cfloop>
