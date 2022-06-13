@@ -139,7 +139,7 @@ limitations under the License.
 								<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
 										<cfset mediaBlock= getMediaBlockHtml(media_id="#images1.media_id#",displayAs="thumbSm")>
 										<div id="mediaBlock#images1.media_id#">
-										<cfif len(mediaBlock) gt 0>#mediaBlock# <cfelse><span>None</span></cfif>	
+										<cfif #mediaBlock# is not null>#mediaBlock# <cfelse><span>None</span></cfif>	
 										</div>
 									</div>
 								</div>
