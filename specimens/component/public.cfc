@@ -904,7 +904,7 @@ limitations under the License.
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							<span class="text-capitalize font-weight-lessbold d-inline">, Remark: </span>#attribute_remark#
+							<span class="text-capitalize font-weight-lessbold d-inline"> Remark: </span>#attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
