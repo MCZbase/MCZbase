@@ -809,17 +809,17 @@ limitations under the License.
 				<cfloop query="sex">
 					<li class="list-group-item"><span class='float-left font-weight-lessbold pr-1'>Sex: </span><span class='float-left'>#attribute_value#</span>
 						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination ="<span class='float-left font-weight-lessbold pr-1'>, Determiner: </span> <span class='float-left'> #attributeDeterminer#</span>">
+							<cfset determination ="<span class='d-inline font-weight-lessbold pr-1'>, Determiner: </span> <span class='float-left'> #attributeDeterminer#</span>">
 							<cfif len(determined_date) gt 0>
-								<cfset determination = " <span class='float-left pr-1'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
+								<cfset determination = " <span class='d-inline'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = "<span class='float-left'>#determination#</span><span class='float-left font-weight-lessbold pr-1'>, Method: </span> <span class='float-left'> #determination_method#</span>">
+								<cfset determination = "<span class='d-inline'>#determination#</span><span class='d-inline font-weight-lessbold pr-1'>, Method: </span> <span class='d-inline'> #determination_method#</span>">
 							</cfif>
 							#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							, remark: #attribute_remark#
+							<span class="d-inline">, remark: #attribute_remark#</span>
 						</cfif>
 					</li>
 				</cfloop>
