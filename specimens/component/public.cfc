@@ -1882,7 +1882,7 @@ limitations under the License.
 								#meta.coll_object_remarks# 
 							</li>
 						<cfelse>
-							<li class="list-group-item py-0 small90 mb-0">None</li>
+							<li class="list-group-item py-0 small90 mb-0 font-italic">None</li>
 						</cfif>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
