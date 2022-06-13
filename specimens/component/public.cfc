@@ -809,7 +809,7 @@ limitations under the License.
 				<cfloop query="sex">
 					<li class="list-group-item"><span class='d-inline font-weight-lessbold'>Sex: </span><span class='d-inline'>#attribute_value#</span>
 						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination =" <span class='d-inline font-weight-lessbold pr-2'>Determiner: </span><span class='d-inline'>#attributeDeterminer#</span>">
+							<cfset determination =" <span class='d-inline font-weight-lessbold pl-1'>Determiner: </span><span class='d-inline'>#attributeDeterminer#</span>">
 							<cfif len(determined_date) gt 0>
 								<cfset determination ="<span class='d-inline'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
@@ -818,7 +818,7 @@ limitations under the License.
 							</cfif>#determination#
 						</cfif>
 						<cfif len(attribute_remark) gt 0>
-							<span class="d-inline font-weight-lessbold"> Remark:</span> <span class="d-inline">#attribute_remark#</span>
+							<span class="d-inline font-weight-lessbold pl-1"> Remark:</span> <span class="d-inline">#attribute_remark#</span>
 						</cfif>
 					</li>
 				</cfloop>
@@ -866,7 +866,7 @@ limitations under the License.
 						</tr>
 					</table>
 						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-							<cfset determination = ", determiner: #attributeDeterminer#">
+							<cfset determination = ", Determiner: #attributeDeterminer#">
 							<cfif len(determined_date) gt 0>
 								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 							</cfif>
@@ -892,7 +892,7 @@ limitations under the License.
 					<li class="list-group-item"><span class="text-capitalize d-inline font-weight-lessbold">#attribute_type#:</span><span class="d-inline"> #attribute_value#</span>
 						<cfif len(attribute_units) gt 0>#attribute_units#</cfif>
 						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination ='<span class="text-capitalize font-weight-lessbold d-inline pl-2"> Determiner:</span> <span class="d-inline">#attributeDeterminer#</span>'>
+							<cfset determination ='<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Determiner:</span> <span class="d-inline">#attributeDeterminer#</span>'>
 						<cfif len(determined_date) gt 0>
 							<cfset determination = '<span class="text-capitalize d-inline">#determination#</span> on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
