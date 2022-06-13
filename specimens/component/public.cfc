@@ -1108,7 +1108,7 @@ limitations under the License.
 						MCZBASE.is_media_encumbered(media.media_id) < 1
 				</cfquery>
 					<ul class="list-group list-group-flush pl-0 pt-1">
-						<li class="list-group-item pt-0"><h5 class="mb-0 d-inline-block">Accession:</h5>
+						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
 							<cfif oneOfUs is 1>
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#">#one.Accn_number#</a>
 								<cfelse>
@@ -1197,13 +1197,13 @@ limitations under the License.
 									<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
 							</cfloop>
 							<cfloop query="isLoan">
-								<li class="list-group-item pt-0"><h5 class="mb-0 d-inline-block">Used By Project:</h5> 
+								<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Used By Project:</span> 
 									<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> 
 								</li>
 							</cfloop>
 							<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 								<li class="list-group-item pt-0">
-									<h5 class="mb-0 d-inline-block">Loan History:</h5>
+									<span class="font-weight-lessbold mb-0 d-inline-block">Loan History:</span>
 									<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<cfloop query="loanList">
@@ -1216,7 +1216,7 @@ limitations under the License.
 							</cfif>
 							<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 								<li class="list-group-item">
-									<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
+									<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
 									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<cfloop query="deaccessionList">
@@ -1638,54 +1638,54 @@ limitations under the License.
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
 						<cfif len(getLoc.spec_locality) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Specific Locality: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="font-weight-lessbold my-0">Specific Locality: </span></li>
 							<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
 						</cfif>
 						<cfif len(getLoc.verbatim_locality) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Locality: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Locality: </span></li>
 							<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
 						</cfif>
 						<cfif len(getLoc.collecting_source) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Source: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Source: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
 						</cfif>
 						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
 						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collected On: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collected On: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
 						</cfif>
 						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Began Date / Ended Date: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Began Date / Ended Date: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.began_date# / #getLoc.ended_date#</li>
 						</cfif>
 						<cfif len(getLoc.verbatim_date) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Date: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Date: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
 						</cfif>
 						<cfif len(getLoc.verbatimcoordinates) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Verbatim Coordinates: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
 						</cfif>
 						<cfif len(getLoc.collecting_method) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Method: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
 						</cfif>
 						<cfif len(getLoc.coll_event_remarks) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Collecting Event Remarks: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
 						</cfif>
 						<cfif len(getLoc.habitat_desc) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Habitat Description: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Habitat Description: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
 						</cfif>
 						<cfif len(getLoc.habitat) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Microhabitat: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Microhabitat: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
 						</cfif>
 						<cfif len(getLoc.dec_lat) gt 0>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Decimal Latitude, Longitude: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long# (error: #getLoc.max_error_distance##getLoc.max_error_units#)</li>
-							<li class="list-group-item col-5 px-0"><h5 class="my-0">Coordinates Originally Recorded as: </h5></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
 						</cfif>
 					</ul>
