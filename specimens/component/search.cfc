@@ -1385,10 +1385,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfif isDefined("any_geography") AND len(any_geography) GT 0>
 		<cfset field = '"field": "any_geography"'>
 		<cfset comparator = '"comparator": ""'>
-		<!--- convert a simple space separated list of strings to a comma separated list to fit user expectations. --->
-		<cfif NOT ArrayIsEmpty(REMatch("^[A-Za-z ]+$",any_geography))>
-			<cfset any_geography = REReplace(any_geography," +",",","all")>
-		</cfif>
 		<!--- convert operator characters from conventions used elsewhere in MCZbase to oracle CONTAINS operators --->
 		<!--- 
 		User enters >  converted to:  meaning
