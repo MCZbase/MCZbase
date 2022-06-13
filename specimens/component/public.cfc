@@ -807,9 +807,7 @@ limitations under the License.
 			</cfquery>
 			<ul class="list-group">
 				<cfloop query="sex">
-					<li class="list-group-item"><span class='d-inline font-weight-lessbold'>Sex: </span><span class='d-inline'>#attribute_value#</span>
-						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination ="<span class='d-inline font-weight-lessbold'>, Determiner: </span><span class='d-inline'>#attributeDeterminer#</span>">
+					<li class="list-group-item"><span class='d-inline font-weight-lessbold'>Sex: </span><span class='d-inline'>#attribute_value#</span>						<cfif len(attributeDeterminer) gt 0>							<cfset determination ="<span class='d-inline font-weight-lessbold'>, Determiner: </span><span class='d-inline'>#attributeDeterminer#</span>">
 							<cfif len(determined_date) gt 0>
 								<cfset determination = "<span class='d-inline'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
