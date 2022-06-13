@@ -816,12 +816,11 @@ limitations under the License.
 								<cfset determination = " <span class='float-left pr-1'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = "<span class='float-left'>#determination#</span><span class='float-left font-weight-lessbold pr-1'>, Method: </span> <span class='float-left'> #determination_method#</span>">
+								<cfset determination = "<span class='float-left'>#determination#</span><span class='float-left font-weight-lessbold pr-1'>, Method: </span><span class='float-left'> #determination_method#</span>">
 							</cfif>
 							#determination#
 						</cfif>
-						<cfif len(attribute_remark) gt 0>
-							, remark: #attribute_remark#
+						<cfif len(attribute_remark) gt 0>, remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
@@ -874,7 +873,7 @@ limitations under the License.
 								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = '#determination#, #determination_method#'>
+								<cfset determination = '#determination#A, #determination_method#B'>
 							</cfif>
 							#determination#
 						</cfif>
@@ -898,12 +897,11 @@ limitations under the License.
 							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, #determination_method#'>
+							<cfset determination = '#determination#C, #determination_method#D'>
 						</cfif>
 							#determination#
 						</cfif>
-						<cfif len(attribute_remark) gt 0>
-							, Remark: #attribute_remark#
+						<cfif len(attribute_remark) gt 0>, Remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
