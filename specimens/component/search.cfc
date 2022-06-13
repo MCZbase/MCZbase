@@ -1383,11 +1383,31 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset nest = nest + 1>
 	</cfif>
 	<cfif isDefined("any_geography") AND len(any_geography) GT 0>
-		<cfif REMatch("^[A-Za-z ]+$",any_geography)>
-			<cfset any_geography = REReplace(any_geography,"[ ]+",",","all">
-		</cfif>
 		<cfset field = '"field": "any_geography"'>
-		<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#any_geography#",separator="#separator#",nestDepth="#nest#")>
+		<cfset comparator = '"comparator": ""'>
+		<!--- convert a simple space separated list of strings to a comma separated list to fit user expectations. --->
+		<cfif NOT ArrayIsEmpty(REMatch("^[A-Za-z ]+$",any_geography))>
+			<cfset any_geography = REReplace(any_geography," +",",","all")>
+		</cfif>
+		<!--- convert operator characters from conventions used elsewhere in MCZbase to oracle CONTAINS operators --->
+		<!--- 
+		User enters >  converted to:  meaning
+			! ->  ~   NOT
+			$ ->  !   SOUNDEX
+			# ->  $   STEM
+			~ ->  ~   NOT  (no change made, but we don't document that ~ is allowed)
+		NOTE: order of replacements matters.
+		--->
+		<cfset searchValue = any_geography>
+		<cfset searchValue = replace(searchValue,"!","~","all")>
+		<cfset searchValue = replace(searchValue,"$","!","all")>
+		<cfset searchValue = replace(searchValue,"##","$","all")>
+
+		<!--- escape quotes for json construction --->
+		<cfset searchValueForJSON = searchValue>
+		<cfset searchValueForJSON = replace(searchValueForJSON,"\","\\","all")>
+		<cfset searchValueForJSON = replace(searchValueForJSON,'"','\"',"all")>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#searchValueForJSON#"}'>
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
