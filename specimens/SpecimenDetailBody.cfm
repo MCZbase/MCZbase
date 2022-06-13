@@ -186,7 +186,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="card-header" id="headingMedia">
-								<h3 class="h4 my-0 text-dark">
+								<h3 class="h5 my-0 text-dark">
 									<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
 										<span class="text-success">(#mediaCount.ct#)</span>
@@ -235,7 +235,7 @@ limitations under the License.
 							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="heading1">
 								<cfif len(#blockident#) gt 10> 
-									<h3 class="h4 my-0" tabindex="0">
+									<h3 class="h5 my-0" tabindex="0">
 										<button type="button" class="headerLnk text-left w-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 											Identifications
 										</button>
@@ -246,7 +246,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0" tabindex="0">
+									<h3 class="h5 my-0" tabindex="0">
 										<button type="button" class="headerLnk text-left w-100 h-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-controls="identificationPane">
 											Identifications
 										</button>
@@ -371,7 +371,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="OtherIDsPane" aria-expanded="true" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other IDs
 										</button>
@@ -453,7 +453,7 @@ limitations under the License.
 										</cfif>
 									</h3>
 								<cfelse>
-									<h3 class="h4 my-0">
+									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
 											Attributes
 										</button>
