@@ -478,7 +478,7 @@ limitations under the License.
 					</cfquery>
 					<cfset i = 1>
 					<cfloop query="citations" group="formatted_publication">
-						<div class="d-block py-1 px-2 w-100 float-left small90">
+						<div class="d-block py-1 px-2 w-100 float-left small95">
 							<span class="d-inline"></span>
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 							<cfif len(occurs_page_number) gt 0>
