@@ -146,8 +146,6 @@ limitations under the License.
 							</div>
 						</div>
 					</cfloop>
-				<cfelse>
-					<cfif #getImages1.recordcount# eq 0>NONE</cfif>
 				</cfif>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
@@ -813,14 +811,15 @@ limitations under the License.
 						<cfif len(attributeDeterminer) gt 0>
 							<cfset determination = "<span class='float-left font-weight-lessbold pr-1'>, Determiner: </span> <span class='float-left'> #attributeDeterminer#</span>">
 							<cfif len(determined_date) gt 0>
-								<cfset determination = " <span class='float-left pr-1'>#determination#G</span> on #dateformat(determined_date,'yyyy-mm-dd')#H">
+								<cfset determination = " <span class='float-left pr-1'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = "<span class='float-left'>#determination#E</span><span class='float-left font-weight-lessbold pr-1'>, Method: </span><span class='float-left'> #determination_method#F</span>">
+								<cfset determination = "<span class='float-left'>#determination#</span><span class='float-left font-weight-lessbold pr-1'>, Method: </span> <span class='float-left'> #determination_method#</span>">
 							</cfif>
 							#determination#
 						</cfif>
-						<cfif len(attribute_remark) gt 0>, Remark: #attribute_remark#
+						<cfif len(attribute_remark) gt 0>
+							, remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
@@ -873,7 +872,7 @@ limitations under the License.
 								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 							</cfif>
 							<cfif len(determination_method) gt 0>
-								<cfset determination = '#determination#A, #determination_method#B'>
+								<cfset determination = '#determination#, #determination_method#'>
 							</cfif>
 							#determination#
 						</cfif>
@@ -892,16 +891,17 @@ limitations under the License.
 				</cfif>
 				<cfloop query="theRest">
 					<li class="list-group-item">#attribute_type#: #attribute_value#
-						<cfif #attribute_units# eq 0>#attribute_units#</cfif><cfif len(attributeDeterminer) gt 0><cfset determination ="<span class='float-left text-capitalize'>, determiner: #attributeDeterminer#</span>">
+						<cfif #attribute_units# is not null>#attribute_units#</cfif><cfif len(attributeDeterminer) gt 0><cfset determination =", determiner: #attributeDeterminer#">
 						<cfif len(determined_date) gt 0>
-							<cfset determination = '<span class="float-left text-capitalize">#determination# on #dateformat(determined_date,"yyyy-mm-dd")#</span>'>
+							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
 						</cfif>
 						<cfif len(determination_method) gt 0>
-							<cfset determination = '<span class="float-left text-capitalize">, #determination#, #determination_method#</span>'>
+							<cfset determination = '#determination#, #determination_method#'>
 						</cfif>
-							<span class="float-left text-capitalize">#determination#</span>
+							#determination#
 						</cfif>
-						<cfif len(attribute_remark) gt 0><span class="float-left text-capitalize">, Remark: #attribute_remark#</span>
+						<cfif len(attribute_remark) gt 0>
+							, Remark: #attribute_remark#
 						</cfif>
 					</li>
 				</cfloop>
