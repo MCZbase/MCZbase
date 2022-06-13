@@ -206,7 +206,7 @@ limitations under the License.
 				</cfquery>
 				<cfset formerHeadShown = false>
 				<cfloop query="identification">
-					<cfquery name="getTaxa" index='i' datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
 							taxonomy.taxon_name_id,
 							display_name,
@@ -281,8 +281,11 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
+						<cfloop index="getTaxa" step="1">
+							<cfif getTaxa eq 1>
 							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">Former Identifications</div>
+								
+							</cfif>
 						</cfif>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
