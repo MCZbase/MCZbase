@@ -1270,7 +1270,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset nest = nest + 1>
 		</cfif>
 		<cfif isDefined("any_taxa_term") AND len(any_taxa_term) GT 0>
-			<cfif isDefined("current_id_only") AND current_id_only = "current">
+			<cfif isDefined("current_id_only") AND current_id_only EQ "current">
 				<cfset field = '"field": "taxa_term"'>
 			<cfelse>
 				<cfset field = '"field": "taxa_term_all"'>
