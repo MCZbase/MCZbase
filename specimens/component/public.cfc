@@ -281,6 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
+					<cfset i = 1>
 						<cfset title2 = "Former Identifications">
 						<cfif getTaxa.recordcount gt 1 and #i# eq 1>
 							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success">#title# #i#</div>
