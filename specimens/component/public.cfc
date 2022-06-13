@@ -249,7 +249,7 @@ limitations under the License.
 								<cfset metaDesc="">
 							</cfif>
 							<cfloop query="getTaxa">
-								<div class="h5 mb-1 text-dark font-italic"> #full_taxon_name# </div>
+								<div class="font-weight-lessbold mb-1 text-dark font-italic"> #full_taxon_name# </div>
 								<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 								<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
@@ -263,7 +263,7 @@ limitations under the License.
 										common_name order by common_name
 								</cfquery>
 								<cfif len(cName.common_name) gt 0>
-									<div class="h5 mb-1 mt-0 text-muted font-weight-normal pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+									<div class="font-weight-lessbold mb-1 mt-0 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
 								</cfif>
 								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 							</cfloop>
@@ -849,7 +849,7 @@ limitations under the License.
 						len(efn.attribute_units) gt 0  OR
 						len(weight.attribute_units) gt 0>
 						<!---semi-standard measurements --->
-						<span class="h5 pt-1 px-2 mb-0">Standard Measurements</span>
+						<span class="font-weight-lessbold pt-1 px-2 mb-0">Standard Measurements</span>
 						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
 						<tr>
 							<td><font size="-1">total length</font></td>
@@ -1193,7 +1193,7 @@ limitations under the License.
 						</cfquery>
 						<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 							<cfloop query="isProj">
-								<li class="list-group-item pt-0"><h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
+								<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Contributed By Project:</span>
 									<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
 							</cfloop>
 							<cfloop query="isLoan">
