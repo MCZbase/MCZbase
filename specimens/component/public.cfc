@@ -412,11 +412,12 @@ limitations under the License.
 				<cfif len(oid.other_id_type) gt 0>
 					<ul class="list-group pt-1 pb-0 mb-0">
 						<cfloop query="oid">
-							<li class="list-group-item pb-0 mb-0 pt-0"><span style="text-transform: capitalize;" class="float-left font-weight-lessbold">#other_id_type#: </span>
+							<li class="list-group-item pb-0 mb-0 pt-0">
+								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external" href="#link#"> #display_value#</a>
+								<a class="external mb-0" href="#link#"> #display_value#</a>
 							<cfelse>
-								<span class="float-left pl-1"> #display_value#</span>
+								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
 							</li>
 						</cfloop>
