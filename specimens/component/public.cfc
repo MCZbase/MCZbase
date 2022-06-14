@@ -313,7 +313,7 @@ limitations under the License.
 							</cfif>
 							<cfloop query="getTaxa">
 							<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-							<p class="small90 text-muted mb-0"> #full_taxon_name#</p>
+							<p class="small90 mb-0"> #full_taxon_name#</p>
 							<!--- full taxon name for former id--->
 							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -336,13 +336,13 @@ limitations under the License.
 							<cfif len(formatted_publication) gt 0>
 							 sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
 							</cfif>
-							<span class="small90">Determination: #agent_name#
+								<span class="small90"><span class="font-weight-lessbold">Determination:</span> #agent_name#
 								<cfif len(made_date) gt 0>
 								on #dateformat(made_date,"yyyy-mm-dd")#
 								</cfif>
-								<span class="d-block">Nature of ID: #nature_of_id#</span>
+								<span class="d-block"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id#</span>
 								<cfif len(identification_remarks) gt 0>
-								<span class="d-block">Remarks: #identification_remarks#</span>
+									<span class="d-block"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</span>
 								</cfif>
 							</span>
 							</li>
