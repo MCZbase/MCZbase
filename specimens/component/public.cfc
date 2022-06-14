@@ -1813,7 +1813,7 @@ limitations under the License.
 								#object_remarks.coll_object_remarks# 
 							</li>
 						<cfelse>
-							<li class="list-group-item py-0 small90 mb-0 font-italic">None</li>
+							<li class="list-group-item small90 mb-0 font-italic">None</li>
 						</cfif>
 					</ul>
 			<cfcatch>
