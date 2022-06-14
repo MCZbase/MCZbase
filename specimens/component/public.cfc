@@ -1611,7 +1611,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(getLoc.max_depth) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Depth: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #getLoc.min_depth# eq #getLoc.max_depth#>#getLoc.min_depth#<cfelse>#getLoc.min_depth# - #getLoc.max_depth#</li>
+							<li class="list-group-item col-7 px-0"><cfif #getLoc.min_depth# eq #getLoc.max_depth#>#getLoc.min_depth#<cfelse>#getLoc.min_depth# - #getLoc.max_depth#</cfif></li>
 						</cfif>
 						<cfif len(getLoc.maximum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
