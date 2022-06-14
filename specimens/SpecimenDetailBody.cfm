@@ -571,6 +571,7 @@ limitations under the License.
 					</div>
 					
 			<!------------ Meta Data----------------------------------------->
+				<cfif #oneOfUs# eq 1>
 					<div class="accordion" id="accordionMeta">
 						<div class="card mb-2 bg-light">
 							<div id="metaDialog"></div>
@@ -619,6 +620,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+			</cfif>
 				<!---  start of column three  --->
 				<div class="col-12 col-md-6 px-1 float-left"> 
 					<!--------------------locality and collecting event------------------------------>
