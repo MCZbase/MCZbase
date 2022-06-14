@@ -1812,8 +1812,6 @@ limitations under the License.
 							<li class="list-group-item pt-0 pb-1">
 								#object_remarks.coll_object_remarks# 
 							</li>
-						<cfelse>
-							<li class="list-group-item small90 mb-0 font-italic">None</li>
 						</cfif>
 					</ul>
 			<cfcatch>
