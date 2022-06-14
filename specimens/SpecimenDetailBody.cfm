@@ -522,6 +522,55 @@ limitations under the License.
 					</div>
 								
 						<!------------ coll object remarks ----------------------------------------->
+					<div class="accordion" id="accordionRemarks">
+						<div class="card mb-2 bg-light">
+							<div id="RemarksDialog"></div>
+							<script>
+								function reloadRemarks() { 
+									loadRemarks(#collection_object_id#,'metaCardBody');
+								}
+							</script>
+							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingRemarks">
+								<cfif len(#blockRemarks#) gt 50> 
+									<h3 class="h5 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
+											Catalog Record Remarks
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
+												Edit
+											</a>
+										</cfif>
+									</h3>
+								<cfelse>
+									<h3 class="h5 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
+											Catalog Record Remarks
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
+												Add
+											</a>
+										</cfif>
+									</h3>
+								</cfif>
+							</div>
+							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
+								<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
+									<cfif len(#blockRemarks#) gt 0>
+										#blockRemarks#
+									<cfelse>
+										<ul class="pl-1 py-0 mb-0">
+											<li class="list-group-item mb-0 small90 font-italic">None</li>
+										</ul>
+									</cfif>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+			<!------------ Meta Data----------------------------------------->
 					<div class="accordion" id="accordionMeta">
 						<div class="card mb-2 bg-light">
 							<div id="metaDialog"></div>
@@ -535,7 +584,7 @@ limitations under the License.
 								<cfif len(#blockmeta#) gt 50> 
 									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
-											Catalog Record Remarks and Metadata
+											Recorded Metadata
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
@@ -546,7 +595,7 @@ limitations under the License.
 								<cfelse>
 									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
-											Catalog Record Remarks and Metadata
+											Recorded Metadata
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">

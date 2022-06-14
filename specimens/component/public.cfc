@@ -1780,6 +1780,71 @@ limitations under the License.
 	<cfreturn getCollectorsThread.output>
 </cffunction>		
 							
+<cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getRemarksThread">
+	<cfoutput>
+		<cftry>
+			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+				<div class="error"> Improper call. Aborting..... </div>
+				<cfabort>
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+				<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+				<cfquery name="object_remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT  
+						coll_object_remark.coll_object_remarks
+					FROM
+						cataloged_item
+						left join collection on cataloged_item.collection_id = collection.collection_id
+						left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+					<ul class="list-group pl-0 pt-0">
+						<cfif len(#object_remarks.coll_object_remarks#) gt 0>
+							<li class="list-group-item pt-0 pb-1">
+								<span class="my-0 d-inline font-weight-lessbold">Remarks:&nbsp;</span>
+								#object_remarks.coll_object_remarks# 
+							</li>
+						<cfelse>
+							<li class="list-group-item py-0 small90 mb-0 font-italic">None</li>
+						</cfif>
+					</ul>
+			<cfcatch>
+					<cfif isDefined("cfcatch.queryError") >
+						<cfset queryError=cfcatch.queryError>
+					<cfelse>
+						<cfset queryError = ''>
+					</cfif>
+					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+					<cfcontent reset="yes">
+					<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+			</cfcatch>
+		</cftry>
+	</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getRemarksThread"/>
+	<cfreturn getRemarksThread.output>
+</cffunction>
+
+							
 <cffunction name="getMetaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getMetadataThread">
@@ -1884,7 +1949,7 @@ limitations under the License.
 	<cfthread action="join" name="getMetadataThread"/>
 	<cfreturn getMetadataThread.output>
 </cffunction>
-
+							
 <cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getNamedGroupsThread">
