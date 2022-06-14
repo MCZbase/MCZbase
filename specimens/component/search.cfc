@@ -127,11 +127,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	var orBit = "";
 	var wherePart = "";
 	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
-		suffixFieldName EQ "CAT_NUM_SUFFIX";
+		suffixFieldName = "CAT_NUM_SUFFIX";
  	} else { 
-		suffixFieldName EQ "OTHER_ID_SUFFIX";
+		suffixFieldName = "OTHER_ID_SUFFIX";
 	}
-	
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
