@@ -162,7 +162,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		// list consists of only number or comma separated numbers, no ranges or prefixes, skip splitting into atoms
 		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
 		wherebit = numericClause;
-	if (REFind("^[0-9]+\-[A-Za-z]+$",listOfNumbers)>0) {
+	} else if (REFind("^[0-9]+\-[A-Za-z]+$",listOfNumbers)>0) {
 		suffix = "";
 		numericClause = "";
 		wherebit = "";
