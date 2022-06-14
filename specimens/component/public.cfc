@@ -1613,9 +1613,9 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Depth: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.min_depth# - #getLoc.max_depth#</li>
 						</cfif>
-						<cfif len(getLoc.elevation) gt 0>
+						<cfif len(getLoc.maximum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.elevation#</li>
+							<li class="list-group-item col-7 px-0">#getLoc.minimum_elevation# - #getLoc.maximum_elevation#</li>
 						</cfif>
 						<cfif len(getLoc.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
