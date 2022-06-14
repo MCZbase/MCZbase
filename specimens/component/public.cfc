@@ -487,7 +487,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 							<span class="font-weight-lessbold">#cited_name_status#</span> of 
-								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame">
+								<a href="/name/#cited_name#">
 									<i>#replace(cited_name," ","&nbsp;","all")#</i>
 								</a>
 								<cfif find("(ms)", #type_status#) NEQ 0>
