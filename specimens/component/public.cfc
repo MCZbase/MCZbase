@@ -1789,11 +1789,11 @@ limitations under the License.
 				<div class="error"> Improper call. Aborting..... </div>
 				<cfabort>
 			</cfif>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+<!---			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				<cfset oneOfUs = 1>
 				<cfelse>
 				<cfset oneOfUs = 0>
-			</cfif>
+			</cfif>--->
 				<cfquery name="object_remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT  
 						coll_object_remark.coll_object_remarks
