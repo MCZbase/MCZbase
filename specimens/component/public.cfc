@@ -281,6 +281,9 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
+						 <cfset formerIDct= evaluate('#accepted_id_fg# + #i#')>
+							#evaluate(formerIDct)#
+
 					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification<cfif #i# gt 1>s</cfif></div>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
