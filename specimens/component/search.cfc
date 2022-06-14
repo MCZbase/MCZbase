@@ -126,6 +126,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
+	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
+		suffixFieldName EQ "CAT_NUM_SUFFIX";
+ 	} else { 
+		suffixFieldName EQ "OTHER_ID_SUFFIX";
+	}
+	
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
@@ -152,11 +158,44 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		lparts = ListToArray(listOfNumbers,",",false);
 	}
 
-	// find prefixes in atoms
+	// find prefixes and suffixes in atoms
 	if (REFind("^[0-9,]+$",listOfNumbers)>0) {
 		// list consists of only number or comma separated numbers, no ranges or prefixes, skip splitting into atoms
 		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
 		wherebit = numericClause;
+	if (REFind("^[0-9]+\-[A-Za-z]+$",listOfNumbers)>0) {
+		suffix = "";
+		numericClause = "";
+		wherebit = "";
+		comma = "";
+		leadingJoin = "and";
+		comma = "";
+		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
+			// single catalog number with suffix
+			numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
+			if (numericSt.pos[1] EQ 0 ) {
+				numeric = "";
+			} else {
+				numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
+			}
+			suffixSt = REFind("\-[A-Za-z]+$",lparts[i],0,true);
+			if (suffixSt.pos[1] EQ 0 ) {
+				suffix = "";
+			} else {
+				suffix = Mid(lparts[i],suffixSt.pos[1],suffixSt.len[1]);
+			}
+			if (numeric NEQ "") {
+				numericClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
+				wherebit = wherebit & comma & numericClause;
+				comma = ",";
+				leadingJoin = "or";
+			}
+			if (suffix NEQ "") {
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldname &'","comparator": "=","value": "#suffix#"}';
+				comma = ",";
+				leadingJoin = "or";
+			}
+		}
 	} else { 
 		prefix = "";
 		numericClause = "";
