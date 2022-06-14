@@ -563,22 +563,15 @@ limitations under the License.
 					attribute_remark,
 					agent_name
 				from
-					specimen_part,
-					coll_object,
-					coll_object_remark,
-					coll_obj_cont_hist,
-					container oc,
-					container pc,
-					specimen_part_attribute,
-					preferred_agent_name
+					specimen_part
+					left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+					left join coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
+					left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+					left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+					left join container pc on oc.parent_container_id=pc.container_id
+					left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
+					left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
 				where
-					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
-					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
-					specimen_part.collection_object_id=coll_object.collection_object_id and
-					coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
-					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
-					coll_obj_cont_hist.container_id=oc.container_id and
-					oc.parent_container_id=pc.container_id (+) and
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 			<cfquery name="parts" dbtype="query">
