@@ -220,7 +220,7 @@ limitations under the License.
 							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<cfif accepted_id_fg is 1>
-						<ul class="list-group border-green mb-2 mt-1 mx-2 rounded px-3 py-2 h4 font-weight-normal">
+						<ul class="list-group border-green mb-2 mt-2 mx-2 rounded px-3 py-2 h4 font-weight-normal">
 							<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<div class="font-italic h4 mb-0 mt-1 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
@@ -283,7 +283,7 @@ limitations under the License.
 					<!---	Start of former Identifications--->
 						<cfset IDtitle = 'Former Identification(s)'>
 
-					<div class="h6 pl-3 font-italic mt-3 mb-0 text-success formerID"><cfif #i# eq 2>#IDtitle#</cfif></div>
+					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID"><cfif #i# eq 2>#IDtitle#</cfif></div>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 							<li class="px-0">
