@@ -1807,13 +1807,15 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul class="list-group pl-0 pt-0">
-					<cfif len(#object_remarks.coll_object_remarks#) gt 0>
-						<li class="list-group-item pt-0 pb-1">
-							#object_remarks.coll_object_remarks# 
-						</li>
-					</cfif>
-				</ul>
+					<ul class="list-group pl-0 pt-0">
+						<cfif len(#object_remarks.coll_object_remarks#) gt 0>
+							<li class="list-group-item pt-0 pb-1">
+								#object_remarks.coll_object_remarks# 
+							</li>
+						<cfelse>
+							<li class="list-group-item small90 mb-0 font-italic">None</li>
+						</cfif>
+					</ul>
 			<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
