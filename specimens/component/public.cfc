@@ -1083,9 +1083,10 @@ limitations under the License.
 						
 						<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
-								project_name, project.project_id project_id 
+								project_name, project.project_id 
 							FROM
-								project left join project_trans on project.project_id = project_trans.project_id
+								project
+								left join project_trans on project.project_id = project_trans.project_id
 							WHERE
 								project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 							GROUP BY project_name, project.project_id
