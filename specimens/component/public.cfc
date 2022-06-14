@@ -1370,37 +1370,23 @@ limitations under the License.
 				specimen_part.derived_from_cat_item,
 				decode(trans.transaction_id, null, 0, 1) vpdaccn
 			FROM
-				cataloged_item,
-				collection,
-				identification,
-				collecting_event,
-				locality,
-				accepted_lat_long,
-				preferred_agent_name latLongAgnt,
-				geog_auth_rec,
-				coll_object,
-				coll_object_remark,
-				preferred_agent_name enteredPerson,
-				preferred_agent_name editedPerson,
-				accn,
-				trans,
-				specimen_part
+				cataloged_item
+				left join collection on cataloged_item.collection_id = collection.collection_id
+				left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+				left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+				left join locality on collecting_event.locality_id = locality.locality_id
+				left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
+				left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
+				left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+				left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+				left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
+				left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
+				left join accn on cataloged_item.accn_id =  accn.transaction_id
+				left join trans on accn.transaction_id = trans.transaction_id
+				left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 			WHERE
-				cataloged_item.collection_id = collection.collection_id AND
-				cataloged_item.collection_object_id = identification.collection_object_id AND
 				identification.accepted_id_fg = 1 AND
-				cataloged_item.collecting_event_id = collecting_event.collecting_event_id AND
-				collecting_event.locality_id = locality.locality_id  AND
-				locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
-				cataloged_item.collection_object_id = coll_object.collection_object_id AND
-				coll_object.entered_person_id = enteredPerson.agent_id AND
-				cataloged_item.accn_id =  accn.transaction_id  AND
-				cataloged_item.collection_object_id = specimen_part.derived_from_cat_item AND
-				locality.locality_id = accepted_lat_long.locality_id (+) AND
-				accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id (+) AND
-				coll_object.last_edited_person_id = editedPerson.agent_id (+) AND
-				coll_object.collection_object_id = coll_object_remark.collection_object_id (+) AND
-				accn.transaction_id = trans.transaction_id(+) AND
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1521,13 +1507,11 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-					<!---<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>--->
 					<cfif len(getLoc.dec_lat) gt 0 and len(getLoc.dec_long) gt 0>
 						<cfset coordinates="#getLoc.dec_lat#,#getLoc.dec_long#">
 						<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
 						<input type="hidden" id="error_#getLoc.locality_id#" value="1196">
 						<div id="mapdiv_#getLoc.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
-						<!---span class="infoLink mapdialog">map key/tools</div--->
 					</cfif>
 					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 						<div class="error"> Improper call. Aborting..... </div>
