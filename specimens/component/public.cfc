@@ -204,7 +204,7 @@ limitations under the License.
 						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
-				<cfset formerHeadShown = false>
+				<cfset i=1>
 				<cfloop query="identification">
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
@@ -281,7 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfif #getTaxa.recordcount# eq 1 and accepted_id_fg is 0> Hello1</cfif>
+						<cfif #getTaxa.recordcount# eq 1 and accepted_id_fg is 0 and #i# eq 2> Hello1</cfif>
 						<cfif #getTaxa.recordcount# eq 2> Hello2</cfif>
 					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification(s)</div>
 						<!---Add Title for former identifications--->
@@ -350,6 +350,7 @@ limitations under the License.
 							</li>
 						</ul>
 					</cfif>
+				<cfset i = i+1>
 				</cfloop>
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
