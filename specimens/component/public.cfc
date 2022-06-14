@@ -283,9 +283,6 @@ limitations under the License.
 					<!---	Start of former Identifications--->
 						 <cfset formerIDct= evaluate('#accepted_id_fg# + #i#')>
 						<cfset IDtitle = 'Former Identification'>
-					
-							<cfif #evaluate(formerIDct)# eq 3>#s#</cfif>
-							<cfif #evaluate(formerIDct)# eq 2>#IDTitle#</cfif>
 
 					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification<cfif #evaluate(formerIDct)# gt 1>#IDtitle#</cfif><cfif #evaluate(formerIDct)# gt 2>s</cfif></div>
 						<!---Add Title for former identifications--->
