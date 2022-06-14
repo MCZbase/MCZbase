@@ -1828,7 +1828,7 @@ limitations under the License.
 								<span class="my-0 d-inline font-weight-lessbold">Remarks:&nbsp;</span>
 								#meta.coll_object_remarks# 
 							</li>
-						<cfelseif len(meta.EditedBy)gt 0)>
+						<cfelseif len(#meta.EditedBy#)gt 0>
 						
 						<cfelse>
 							<li class="list-group-item py-0 small90 mb-0 font-italic">None</li>
