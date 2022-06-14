@@ -751,10 +751,9 @@ limitations under the License.
 					attributes.determined_date,
 					attribute_determiner.agent_name attributeDeterminer
 				FROM
-					attributes,
-					preferred_agent_name attribute_determiner
+					attributes
+					left join preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id
 				WHERE
-					attributes.determined_by_agent_id = attribute_determiner.agent_id and
 					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
