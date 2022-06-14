@@ -1049,12 +1049,10 @@ limitations under the License.
 					media.preview_uri,
 					label_value descr 
 				FROM 
-					media,
-					media_relations,
-					(select media_id,label_value from media_labels where media_label='description') media_labels 
+					media
+					left join media_relations on media.media_id=media_relations.media_id
+					left join (select media_id,label_value from media_labels where media_label='description') media_labels on media.media_id=media_labels.media_id 
 				WHERE 
-					media.media_id=media_relations.media_id and
-					media.media_id=media_labels.media_id (+) and
 					media_relations.media_relationship like '% accn' and
 					media_relations.related_primary_key = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 					MCZBASE.is_media_encumbered(media.media_id) < 1
