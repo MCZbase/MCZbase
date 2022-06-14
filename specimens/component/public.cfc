@@ -281,7 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfif #getTaxa.taxon_name_id# eq 3> Hello3</cfif>
+						<cfif #getTaxa.taxon_name_id# eq 1> Hello1</cfif>
 						<cfif #getTaxa.taxon_name_id# eq 2> Hello2</cfif>
 					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification(s)</div>
 						<!---Add Title for former identifications--->
