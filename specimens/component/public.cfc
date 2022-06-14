@@ -1828,19 +1828,21 @@ limitations under the License.
 								<span class="my-0 d-inline font-weight-lessbold">Remarks:&nbsp;</span>
 								#meta.coll_object_remarks# 
 							</li>
+						<cfelseif len(meta.EditedBy)gt 0)>
+						
 						<cfelse>
 							<li class="list-group-item py-0 small90 mb-0 font-italic">None</li>
 						</cfif>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
-								<li class="list-group-item pt-0"> Entered By: #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
-								<li class="list-group-item pt-0"> Last Edited By: #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
+								<li class="list-group-item pt-0"> <span class="my-0 d-inline font-weight-lessbold">Entered By:</span> #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
+								<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Last Edited By:</span> #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
 							</cfif>
 							<cfif len(#meta.flags#) is not 0>
-								<li class="list-group-item"> Missing (flags): #one.flags# </li>
+								<li class="list-group-item"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #one.flags# </li>
 							</cfif>
 							<cfif len(#meta.encumbranceDetail#) is not 0>
-								<li class="list-group-item pt-0"> Encumbrances: #replace(meta.encumbranceDetail,";","<br>","all")# </li>
+								<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 							</cfif>
 						</cfif>
 					</ul>
