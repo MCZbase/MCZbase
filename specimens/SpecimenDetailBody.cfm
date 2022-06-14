@@ -568,7 +568,7 @@ limitations under the License.
 										#blockRemarks#
 									</div>
 								<cfelse>
-									<ul class="pl-1 py-0 list-group mb-0">
+									<ul class="pl-2 py-0 list-group mb-0">
 										<li class="small90 list-group-item mb-0 font-italic">None</li>
 									</ul>
 								</cfif>
