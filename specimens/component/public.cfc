@@ -281,9 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfif #getTaxa.recordcount# eq 1 and accepted_id_fg is 0 and #i# gt 2> Hellos</cfif>
-						<cfif #getTaxa.recordcount# eq 1 and accepted_id_fg is 0 and #i# lt 1> Hello</cfif>
-					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification(s)</div>
+					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification<cfif #getTaxa.recordcount# eq 1 and accepted_id_fg is 0 and #i# gt 2>s</cfif></div>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 							<li class="px-0">
