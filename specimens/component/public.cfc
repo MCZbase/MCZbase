@@ -281,7 +281,7 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification<cfif #identification.recordcount# eq 1 and #i# gte 2>s</cfif></div>
+					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification<cfif #i# gt 2>s</cfif></div>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 							<li class="px-0">
