@@ -281,11 +281,9 @@ limitations under the License.
 						</ul>
 					<cfelse>
 					<!---	Start of former Identifications--->
-						<cfset IDtitle = 'Former Identification'>
-						<cfset IDtitles = 'Former Identifications'>
-							<cfif isDefined(#i# eq 3)>This</cfif>
+						<cfset IDtitle = 'Former Identification(s)'>
 
-					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID"><cfif #i# eq 2>#IDtitles#<cfelse>#IDtitle#</cfif> </div>
+					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID"><cfif #i# eq 2>#IDtitles#</div>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 							<li class="px-0">
