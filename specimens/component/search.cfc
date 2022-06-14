@@ -190,7 +190,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "or";
 			}
 			if (suffix NEQ "") {
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldname &'","comparator": "=","value": "#suffix#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				comma = ",";
 				leadingJoin = "or";
 			}
