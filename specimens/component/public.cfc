@@ -282,9 +282,12 @@ limitations under the License.
 					<cfelse>
 					<!---	Start of former Identifications--->
 						 <cfset formerIDct= evaluate('#accepted_id_fg# + #i#')>
-							#evaluate(formerIDct)#
+						<cfset IDtitle = 'Former Identification'>
+						<cfset plural = 's'>
+							<cfif #evaluate(formerIDct)# eq 3>#s#</cfif>
+							<cfif #evaluate(formerIDct)# eq 2>#IDTitle#</cfif>
 
-					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification<cfif #i# gt 1>s</cfif></div>
+					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">Former Identification<cfif #evaluate(formerIDct)# gt 1>#IDtitle#</cfif><cfif #evaluate(formerIDct)# gt 2>#plural#</cfif></div>
 						<!---Add Title for former identifications--->
 						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 							<li class="px-0">
