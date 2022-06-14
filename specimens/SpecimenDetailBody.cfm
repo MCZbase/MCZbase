@@ -288,15 +288,16 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
-								<div class="card-body py-1 mb-1 float-left" id="citationsCardBody">
-									<cfif len(#blockcit#) gt 10>
+								<cfif len(#blockcit#) gt 10>
+									<div class="card-body py-1 mb-1 float-left" id="citationsCardBody">
 										#blockcit#
-									<cfelse>
-										<ul class="pl-0 list-group py-0 mb-0">
-											<li class="small90 mb-0 list-group-item font-italic">None</li>
-										</ul>
-									</cfif>
-									<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									</div>
+								<cfelse>
+									<ul class="pl-2 list-group py-0 mb-0">
+										<li class="small90 mb-0 list-group-item font-italic">None</li>
+									</ul>
+								</cfif>
+								<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										SELECT
 											mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 										FROM
@@ -313,7 +314,7 @@ limitations under the License.
 											MCZBASE.is_media_encumbered(m.media_id) < 1
 										ORDER by substr(formatted_publication, -4)
 									</cfquery>
-									<cfif publicationMedia.recordcount gt 0>
+								<cfif publicationMedia.recordcount gt 0>
 										<cfloop query="publicationMedia">
 											<cfset puri=getMediaPreview(preview_uri,mime_type)>
 											<cfquery name="citationPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -343,7 +344,6 @@ limitations under the License.
 											</div>
 										</cfloop>
 									</cfif>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -384,15 +384,15 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
-								<div class="card-body py-1 mb-0 float-left" id="otherIDsCardBody">
-									<cfif len(#blockotherid#) gt 60> 
+								<cfif len(#blockotherid#) gt 60> 
+									<div class="card-body py-1 mb-0 float-left" id="otherIDsCardBody">
 										#blockotherid# 
-									<cfelse>
-										<ul class="pl-0 list-group py-0 mb-0">
-											<li class="small90 list-group-item mb-0 font-italic">None</li>
-										</ul>
-									</cfif>
-								</div>
+									</div>
+								<cfelse>
+									<ul class="pl-2 list-group py-0 mb-0">
+										<li class="small90 list-group-item mb-0 font-italic">None</li>
+									</ul>
+								</cfif>
 							</div>
 						</div>
 					</div>
@@ -466,15 +466,15 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
-								<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
-									<cfif len(#blockattributes#) gt 50>
+								<cfif len(#blockattributes#) gt 50>
+									<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
 										#blockattributes#
-									<cfelse>
-										<ul class="pl-0 list-group py-0 mb-0">
-											<li class="small90 pb-0 list-group-item font-italic">None</li>
-										</ul>
-									</cfif>
-								</div>
+									</div>
+								<cfelse>
+									<ul class="pl-2 list-group py-0 mb-0">
+										<li class="small90 mb-0 list-group-item font-italic">None</li>
+									</ul>
+								</cfif>
 							</div>
 						</div>
 					</div>
@@ -514,9 +514,15 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
-								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-									<cfif len(#blockrel#) gt 60> #blockrel# <cfelse><ul class="pl-0 py-0 list-group mb-0"><li class="list-group-item mb-0 small90 font-italic">None</li></ul></cfif>
-								</div>
+								<cfif len(#blockrel#) gt 60>
+									<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
+										#blockrel# 
+									</div>
+								<cfelse>
+									<ul class="pl-2 py-0 list-group mb-0">
+										<li class="list-group-item mb-0 small90 font-italic">None</li>
+									</ul>
+								</cfif>
 							</div>
 						</div>
 					</div>
@@ -557,15 +563,15 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
-									<cfif len(#blockRemarks#) gt 0>
+								<cfif len(#blockRemarks#) gt 0>
+									<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
 										#blockRemarks#
-									<cfelse>
-										<ul class="pl-1 py-0 list-group mb-0">
-											<li class="small90 list-group-item mb-0 font-italic">None</li>
-										</ul>
-									</cfif>
-								</div>
+									</div>
+								<cfelse>
+									<ul class="pl-1 py-0 list-group mb-0">
+										<li class="small90 list-group-item mb-0 font-italic">None</li>
+									</ul>
+								</cfif>
 							</div>
 						</div>
 					</div>
@@ -607,15 +613,15 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="MetaPane" class="collapse show" aria-labelledby="headingMeta" data-parent="##accordionMeta">
-								<div class="card-body py-1 my-1 float-left" id="metaCardBody">
-									<cfif len(#blockmeta#) gt 0>
+								<cfif len(#blockmeta#) gt 0>
+									<div class="card-body py-1 my-1 float-left" id="metaCardBody">
 										#blockmeta#
-									<cfelse>
-										<ul class="pl-1 py-0 mb-0">
-											<li class="list-group-item mb-0 small90 font-italic">None</li>
-										</ul>
-									</cfif>
-								</div>
+									</div>
+								<cfelse>
+									<ul class="pl-3 py-0 mb-0">
+										<li class="list-group-item mb-0 small90 font-italic">None</li>
+									</ul>
+								</cfif>
 							</div>
 						</div>
 					</div>
@@ -660,9 +666,16 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
-								<div class="card-body px-0 py-1 mb-1 float-left" id="localityCardBody">
-									<cfif len(#blocklocality#) gt 60> #blocklocality# <cfelse><ul class="pl-0 mb-0 list-group py-0"><li class="small90 list-group-item mb-0 font-italic">None</li></ul></cfif>
-								</div>
+								<cfif len(#blocklocality#) gt 60> 
+									<div class="card-body px-0 py-1 mb-1 float-left" id="localityCardBody">
+										#blocklocality# 
+									</div>
+								<cfelse>
+									<ul class="pl-2 mb-0 list-group py-0">
+										<li class="small90 list-group-item mb-0 font-italic">None</li>
+									</ul>
+								</cfif>
+								
 							</div>
 						</div>
 					</div>
@@ -743,7 +756,7 @@ limitations under the License.
 										</cfloop>
 									</div>
 								<cfelse>
-									<ul class="pl-1 list-group py-0 mb-0">
+									<ul class="pl-2 list-group py-0 mb-0">
 										<li class="small90 mb-0 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
