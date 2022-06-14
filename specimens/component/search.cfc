@@ -170,12 +170,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		leadingJoin = "and";
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
 			// single catalog number with suffix
-			numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
-			if (numericSt.pos[1] EQ 0 ) {
-				numeric = "";
-			} else {
-				numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
-			}
+			numericSt = REFind("[0-9]+",lparts[i],0,true);
+			numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
 			suffixSt = REFind("\-[A-Za-z]+$",lparts[i],0,true);
 			if (suffixSt.pos[1] EQ 0 ) {
 				suffix = "";
