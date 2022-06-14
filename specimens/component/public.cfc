@@ -1580,6 +1580,10 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Locality: </span></li>
 							<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
 						</cfif>
+						<cfif len(getLoc.locality_remarks) gt 0>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Locality Remarks: </span></li>
+							<li class="list-group-item col-7 px-0">#getLoc.locality_remarks#</li>
+						</cfif>
 						<cfif len(getLoc.collecting_source) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Source: </span></li>
 							<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
