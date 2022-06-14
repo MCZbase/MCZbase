@@ -1810,7 +1810,6 @@ limitations under the License.
 					<ul class="list-group pl-0 pt-0">
 						<cfif len(#object_remarks.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0 pb-1">
-								<span class="my-0 d-inline font-weight-lessbold">Remarks:&nbsp;</span>
 								#object_remarks.coll_object_remarks# 
 							</li>
 						<cfelse>
