@@ -581,7 +581,7 @@ limitations under the License.
 							</script>
 							<cfset blockmeta = getMetaHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingMeta">
-								<cfif len(#blockmeta#) gt 50> 
+								<cfif len(#blockmeta#) gt 0> 
 									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
 											Metadata
