@@ -619,8 +619,9 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+				</cfif>
 				</div>
-			</cfif>
+	
 				<!---  start of column three  --->
 				<div class="col-12 col-md-6 px-1 float-left"> 
 					<!--------------------locality and collecting event------------------------------>
