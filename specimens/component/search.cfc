@@ -169,7 +169,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		comma = "";
 		leadingJoin = "and";
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
-			if (len(lparts[i]) GT 0) { 
 			// single catalog number with suffix
 			numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
 			if (numericSt.pos[1] EQ 0 ) {
@@ -193,7 +192,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				comma = ",";
 				leadingJoin = "or";
-			}
 			}
 		}
 	} else { 
