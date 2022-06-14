@@ -760,40 +760,34 @@ limitations under the License.
 				SELECT 
 					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 				SELECT
-					 rel.biol_indiv_relationship as biol_indiv_relationship,
-					 collection as related_collection,
-					 rel.related_coll_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
+					rel.biol_indiv_relationship as biol_indiv_relationship,
+					collection as related_collection,
+					rel.related_coll_object_id as related_coll_object_id,
+					rcat.cat_num as related_cat_num,
 					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 				FROM
-					 biol_indiv_relations rel
-					 left join cataloged_item rcat
-						 on rel.related_coll_object_id = rcat.collection_object_id
-					 left join collection
-						 on collection.collection_id = rcat.collection_id
-					 left join ctbiol_relations ctrel
-					  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					biol_indiv_relations rel
+					left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+					left join collection on collection.collection_id = rcat.collection_id
+					left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					  and ctrel.rel_type <> 'functional'
+					and ctrel.rel_type <> 'functional'
 				UNION
 				SELECT
-					 ctrel.inverse_relation as biol_indiv_relationship,
-					 collection as related_collection,
-					 irel.collection_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
+					ctrel.inverse_relation as biol_indiv_relationship,
+					collection as related_collection,
+					irel.collection_object_id as related_coll_object_id,
+					rcat.cat_num as related_cat_num,
 					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 				FROM
-					 biol_indiv_relations irel
-					 left join ctbiol_relations ctrel
-					  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-					 left join cataloged_item rcat
-					  on irel.collection_object_id = rcat.collection_object_id
-					 left join collection
-					 on collection.collection_id = rcat.collection_id
+					biol_indiv_relations irel
+					left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+					left join collection on collection.collection_id = rcat.collection_id
 				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					 and ctrel.rel_type <> 'functional'
+					and ctrel.rel_type <> 'functional'
 				)
-			</cfquery>    
+			</cfquery>
 			<cfquery name="sex" dbtype="query">
 				select * from attribute where attribute_type = 'sex'
 			</cfquery>
@@ -816,7 +810,12 @@ limitations under the License.
 					</li>
 				</cfloop>
 				<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select collection_cde from cataloged_item where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+					select 
+						collection_cde 
+					from 
+						cataloged_item 
+					where 
+						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
 				</cfquery>
 				<cfif #code.collection_cde# is "Mamm">
 					<cfquery name="total_length" dbtype="query">
@@ -870,8 +869,11 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<cfquery name="theRest" dbtype="query">
-						select * from attribute 
-						where attribute_type NOT IN (
+						select * 
+						from 
+							attribute 
+						where 
+							attribute_type NOT IN (
 						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
 						)
 					</cfquery>
@@ -939,38 +941,32 @@ limitations under the License.
 				related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM 
 				(
 				SELECT
-					 rel.biol_indiv_relationship as biol_indiv_relationship,
-					 collection as related_collection,
+					rel.biol_indiv_relationship as biol_indiv_relationship,
+					collection as related_collection,
 					rel.collection.collection_cde as related_coll_cde,
-					 rel.related_coll_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
+					rel.related_coll_object_id as related_coll_object_id,
+					rcat.cat_num as related_cat_num,
 					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 				FROM
-					 biol_indiv_relations rel
-					 left join cataloged_item rcat
-						 on rel.related_coll_object_id = rcat.collection_object_id
-					 left join collection
-						 on collection.collection_id = rcat.collection_id
-					 left join ctbiol_relations ctrel
-					  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					biol_indiv_relations rel
+					left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+					left join collection on collection.collection_id = rcat.collection_id
+					left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
 				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					  and ctrel.rel_type <> 'functional'
+					and ctrel.rel_type <> 'functional'
 				UNION
 				SELECT
-					 ctrel.inverse_relation as biol_indiv_relationship,
-					 collection as related_collection,
+					ctrel.inverse_relation as biol_indiv_relationship,
+					collection as related_collection,
 					ctrel.collection.collection_cde as related_coll_cde,
-					 irel.collection_object_id as related_coll_object_id,
-					 rcat.cat_num as related_cat_num,
+					irel.collection_object_id as related_coll_object_id,
+					rcat.cat_num as related_cat_num,
 					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
 				FROM
-					 biol_indiv_relations irel
-					 left join ctbiol_relations ctrel
-					  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-					 left join cataloged_item rcat
-					  on irel.collection_object_id = rcat.collection_object_id
-					 left join collection
-					 on collection.collection_id = rcat.collection_id
+					biol_indiv_relations irel
+					left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+					left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+					left join collection on collection.collection_id = rcat.collection_id
 				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					 and ctrel.rel_type <> 'functional'
 				)
@@ -1032,34 +1028,10 @@ limitations under the License.
 			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					cataloged_item.collection_object_id as collection_object_id,
-					cataloged_item.cat_num,
-					collection.collection_cde,
 					cataloged_item.accn_id,
-					collection.collection,
-					identification.scientific_name,
-					identification.identification_remarks,
-					identification.identification_id,
-					identification.made_date,
-					identification.nature_of_id,
-					collecting_event.collecting_event_id,
-					collecting_event.began_date,
-					collecting_event.ended_date,
-					collecting_event.verbatim_date,
-					collecting_event.startDayOfYear,
-					collecting_event.endDayOfYear,
-					collecting_event.habitat_desc,
-					collecting_event.coll_event_remarks,
-					coll_object.coll_object_entered_date,
-					coll_object.last_edit_date,
-					coll_object.flags,
-					enteredPerson.agent_name EnteredBy,
-					editedPerson.agent_name EditedBy,
-					accn.transaction_id Accession,
 					accn.accn_number,
 					concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 					concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-					collecting_method,
-					collecting_source,
 					decode(trans.transaction_id, null, 0, 1) vpdaccn
 				FROM
 					cataloged_item
