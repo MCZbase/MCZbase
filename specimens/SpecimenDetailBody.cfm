@@ -731,8 +731,8 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="ledgerPane" class="collapse show" aria-labelledby="headingLedger" data-parent="##accordionLedger">
-								<div class="card-body w-100 px-1 pt-2 pb-0 float-left" id="ledgerCardBody">
-									<cfif len(#ledger.media_id#) gt 0> 
+								<cfif len(#ledger.media_id#) gt 0> 
+									<div class="card-body w-100 px-1 pt-2 pb-0 float-left" id="ledgerCardBody">
 										<cfloop query="ledger">
 											<div class="col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left">
 												<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
@@ -741,12 +741,12 @@ limitations under the License.
 												</div>
 											</div>
 										</cfloop>
-									<cfelse>
-										<ul class="pl-1 list-group py-0 mb-0">
-											<li class="small90 mb-0 pt-0 list-group-item font-italic">None</li>
-										</ul>
-									</cfif>
-								</div>
+									</div>
+								<cfelse>
+									<ul class="pl-1 list-group py-0 mb-0">
+										<li class="small90 mb-0 list-group-item font-italic">None</li>
+									</ul>
+								</cfif>
 							</div>
 						</div>
 					</div>
