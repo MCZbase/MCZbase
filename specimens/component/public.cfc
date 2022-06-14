@@ -126,11 +126,9 @@ limitations under the License.
 								media.media_type,
 								mczbase.get_media_descriptor(media.media_id) as media_descriptor
 							FROM 
-								media,
-								media_relations
-							WHERE 
-								media_relations.media_id = media.media_id
-							AND
+								media
+								left join media_relations on media_relations.media_id = media.media_id
+							WHERE
 								media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
 							and media.media_type = 'text'
 						</cfquery>
