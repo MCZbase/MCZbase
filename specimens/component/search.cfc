@@ -193,7 +193,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				if (REFind(atomParts[1],"^[0-9]+$") AND REFind(atomParts[2],"^[0-9]+$")) { 
 					// 1-2 numeric range
 					numeric = lparts[i];
-				} else if (REFind(atomParts[1],"^[0-9]+$") { 
+				} else if (REFind(atomParts[1],"^[0-9]+$")) { 
 					// 1-a    // suffix
 					numeric = atomParts[1];
 					suffix = atomParts[2];
