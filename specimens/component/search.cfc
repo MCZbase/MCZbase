@@ -173,6 +173,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			prefix = "";
 			numeric= "";
 			suffix = "";
+			// A      // just prefix
+			// 1      // just number
 			// 1-2    // numeric range 1 to 2
 			// A-1    // prefix
 			// 1-a    // suffix
@@ -269,6 +271,15 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				leadingJoin = "and";
 			}
 			if (Len(suffix) GT 0) { 
+				if (embeddedSeparator EQ true) {
+					// If the suffix isn't blank and doesn't start with the separator, add it.
+					if ((suffix NEQ "") AND (Find("-",suffix) EQ 0)) {
+						suffix = "-" & suffix;
+					}
+				} else {
+					//remove any trailing dash
+					suffix = REReplace(suffix,"\-$","");
+				}
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				comma = ",";
 				leadingJoin = "and";
