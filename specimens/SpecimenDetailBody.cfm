@@ -44,6 +44,7 @@ limitations under the License.
 		cataloged_item.cat_num,
 		collection.collection_id,
 		coll_object_remark.coll_object_remarks,
+		accn_number accession,
 		case when
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
