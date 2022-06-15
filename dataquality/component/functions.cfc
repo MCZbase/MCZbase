@@ -405,7 +405,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3f335517-f442-4b98-b149-1e87ff16de45") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound(dwc_scientificName",gbifAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound(dwc_scientificName,gbifAuthority) >
 			<cfset r.label = "dwc:scientificName is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
