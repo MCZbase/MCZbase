@@ -1546,20 +1546,20 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
 							<li class="list-group-item col-7 px-0">#isOne.island_group#</li>
 						</cfif>
-						<cfif len(getLoc.island) gt 0>
+						<cfif len(isOne.island) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
 							<li class="list-group-item col-7 px-0">#getLoc.island#</li>
 						</cfif>
-						<cfif len(getLoc.quad) gt 0>
+						<cfif len(isOne.quad) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.quad#</li>
+							<li class="list-group-item col-7 px-0">#isOne.quad#</li>
 						</cfif>
 					</ul>
 					<div class="w-100 float-left mx-2">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#getloc.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
+						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#isOne.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
 					</div>
 					<div class="w-100 mx-2 float-left">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#getloc.locality_id#" title="See other specimens with this Locality">Locality</a></span>
+						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#isOne.locality_id#" title="See other specimens with this Locality">Locality</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
