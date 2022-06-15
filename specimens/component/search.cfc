@@ -183,7 +183,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// 1-a-5-a  // suffix with range alternative (1-a to 5-a)
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
 			atomParts = ListToArray(lparts[i],"-",false);
-			partCount = Len(atomParts);
+			partCount = ArrayLen(atomParts);
 			if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldname &'","comparator": "=","value": "#lparts[i]#"}';
