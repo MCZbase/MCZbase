@@ -212,7 +212,7 @@ limitations under the License.
 <cfif one.recordcount GT 1>
 	<cfthrow message = "Error: multiple rows returned from query 'one' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
-<cfset guid = "MCZ:#one.collection_cde#:#one.cat_num#">
+<cfset guid = "MCZ:#isOne.collection_cde#:#isOne.cat_num#">
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
 	SELECT
 		count(*) as ct 
@@ -252,7 +252,7 @@ limitations under the License.
 	from
 		specimen_part
 	where
-		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#"> 
+		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isOne.collection_object_id#"> 
 </cfquery>
 <cfset ctPart.ct=''>
 <cfquery name="ctPart" dbtype="query">
