@@ -176,6 +176,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// 1-2    // numeric range 1 to 2
 			// A-1    // prefix
 			// 1-a    // suffix
+			// A1-5   // prefix with range (A-1 to A-4)
 			// A-1-5  // prefix with range (A-1 to A-4)
 			// A-1-a  // prefix and suffix
 			// 1-a-5  // suffix with range (1-a to 5-a)
@@ -184,7 +185,10 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
 			atomParts = ListToArray(lparts[i],"-",false);
 			partCount = ArrayLen(atomParts);
-			if (partCount EQ 1 OR partCount GT 4) { 
+			if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
+				// just a prefix.
+				prefix = atomParts[1];
+			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldname &'","comparator": "=","value": "#lparts[i]#"}';
 				comma = ",";
@@ -192,6 +196,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// 1-2 numeric range
 					numeric = lparts[i];
+				} else if (REFind("^[A-Za-z]+[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
+					// A1-5   // prefix with range (A-1 to A-4)
+					startNumBit = replace(atomParts[1],"[^0-9]]","","all");
+					prefix = replace(atomParts[1],"[^A-Za-z]","","all");
+					numeric = startNumBit & "-" & atomParts[2];
 				} else if (REFind("^[0-9]+$",atomParts[1])) { 
 					// 1-a    // suffix
 					numeric = atomParts[1];
@@ -240,6 +249,11 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					suffix = atomParts[4];
 				}
 			}
+			if (Len(numeric) GT 0) { 
+				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
+				comma = ",";
+				leadingJoin = "and";
+			}
 			if (Len(prefix) GT 0) { 
 				if (embeddedSeparator EQ true) {
 					// If the prefix isn't blank and doesn't end with the separator, add it.
@@ -254,16 +268,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				comma = ",";
 				leadingJoin = "and";
 			}
-			if (Len(numeric) GT 0) { 
-				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
-				comma = ",";
-				leadingJoin = "and";
-			}
 			if (Len(suffix) GT 0) { 
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				comma = ",";
 				leadingJoin = "and";
 			}
+			leadingJoin = "or";
 		} 
 	}
 	result = wherebit;
