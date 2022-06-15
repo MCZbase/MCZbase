@@ -1371,7 +1371,8 @@ limitations under the License.
 				specimen_part.derived_from_cat_item,
 				decode(trans.transaction_id, null, 0, 1) vpdaccn
 			FROM
-				cataloged_item
+				flat
+				left join cataloged_item on cataloged_item.collection_object_id = flat.collection_object_id
 				left join collection on cataloged_item.collection_id = collection.collection_id
 				left join identification on cataloged_item.collection_object_id = identification.collection_object_id
 				left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
