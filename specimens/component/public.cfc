@@ -1214,6 +1214,15 @@ limitations under the License.
 		<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
+				cataloged_item.cat_num,
+				collection.collection_cde,
+				cataloged_item.accn_id,
+				collection.collection,
+				identification.scientific_name,
+				identification.identification_remarks,
+				identification.identification_id,
+				identification.made_date,
+				identification.nature_of_id,
 				collecting_event.collecting_event_id,
 				case when
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
@@ -1782,17 +1791,26 @@ limitations under the License.
 			</cfif>
 				<cfquery name="object_remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT  
-						remarks
+						coll_object_remark.coll_object_remarks
 					FROM
-						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+						cataloged_item
+						left join collection on cataloged_item.collection_id = collection.collection_id
+						left join identification on cataloged_item.collection_object_id = identification.collection_object_id
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
 					WHERE
-						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfif len(#object_remarks.remarks#) gt 0>
+				<cfif len(#object_remarks.coll_object_remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
 						<li class="list-group-item pt-0 pb-1">
-							#object_remarks.remarks# 
+							#object_remarks.coll_object_remarks# 
 						</li>
+					</ul>
+				<cfelse>
+					<ul class="pl-0 py-0 list-group my-0">
+						<li class="small90 list-group-item my-0 py-0 font-italic">wNone</li>
 					</ul>
 				</cfif>
 			<cfcatch>
@@ -1928,7 +1946,7 @@ limitations under the License.
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on underscore_relation.collection_object_id = flat.collection_object_id
+				left join flat on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
