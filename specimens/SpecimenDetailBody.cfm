@@ -41,7 +41,8 @@ limitations under the License.
 		cataloged_item.collection_object_id,
 		collecting_event.collecting_event_id,
 		cataloged_item.collection_cde,
-	collection.collection_id,
+		cataloged_item.cat_num,
+		collection.collection_id,
 		case when
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
 			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
