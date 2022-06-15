@@ -1218,11 +1218,6 @@ limitations under the License.
 				collection.collection_cde,
 				cataloged_item.accn_id,
 				collection.collection,
-				identification.scientific_name,
-				identification.identification_remarks,
-				identification.identification_id,
-				identification.made_date,
-				identification.nature_of_id,
 				collecting_event.collecting_event_id,
 				case when
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
