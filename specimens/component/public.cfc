@@ -1214,10 +1214,6 @@ limitations under the License.
 		<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				cataloged_item.collection_object_id,
-				cataloged_item.cat_num,
-				collection.collection_cde,
-				cataloged_item.accn_id,
-				collection.collection,
 				collecting_event.collecting_event_id,
 				case when
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
