@@ -1784,7 +1784,7 @@ limitations under the License.
 					SELECT  
 						remarks
 					FROM
-						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+						coll_object_remarks
 					WHERE
 						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>

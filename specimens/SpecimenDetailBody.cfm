@@ -38,26 +38,27 @@ limitations under the License.
 <!--- query one is needed for the metadata block and one.collection_object_id is used for the counts on media and part headers --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="one_result">
 	SELECT distinct
-		flat.collection_object_id,
-		flat.cat_num,
-		flat.collection_cde,
+		cataloged_item.collection_object_id,
+		cataloged_item.cat_num,
+		cataloged_item.collection_cde,
 		coll_object.coll_object_entered_date,
 		coll_object.last_edit_date,
-		flat.remarks,
+		coll_object.remarks,
 		<cfif #oneOfUs# eq 1>
-			flat.accn_id,
+			cataloged_item.accn_id,
 		<cfelse>
 			NULL as accn_id,
 		</cfif>
 		getpreferredagentname(coll_object.entered_person_id) EnteredBy,
 		getpreferredagentname(coll_object.last_edited_person_id) EditedBy,
-		concatencumbrances(flat.collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(flat.collection_object_id) encumbranceDetail
+		concatencumbrances(cat_num.collection_object_id) concatenatedEncumbrances,
+		concatEncumbranceDetails(cat_num.collection_object_id) encumbranceDetail
 	FROM
-		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-		left join coll_object on flat.collection_object_id = coll_object.collection_object_id
+		cataloged_item
+		left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+		left join coll_object_remarks on cataloged_item.collection_object_id = coll_object_remark.coll_object_remarks
 	WHERE
-		flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <cfif one.recordcount EQ 0>
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
@@ -832,11 +833,8 @@ limitations under the License.
 								</cfif>
 							</div>
 						</div>
-					</div>	
-		
+					</div>
 				</div>
-				
-							
 				<!--- end of column 3 --->
 				<cfif oneOfUs is 1>
 					</div>
