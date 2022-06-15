@@ -126,6 +126,13 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	var result = "";
 	var orBit = "";
 	var wherePart = "";
+	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
+		baseFieldName = "CAT_NUM";
+		suffixFieldName = "CAT_NUM_SUFFIX";
+ 	} else { 
+		suffixFieldName = "OTHER_ID_SUFFIX";
+		baseFieldName = "OTHER_ID";
+	}
 
 	// Prepare list for parsing
 	listOfNumbers = trim(listOfNumbers);
@@ -152,55 +159,133 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		lparts = ListToArray(listOfNumbers,",",false);
 	}
 
-	// find prefixes in atoms
+	// find prefixes and suffixes in atoms
 	if (REFind("^[0-9,]+$",listOfNumbers)>0) {
 		// list consists of only number or comma separated numbers, no ranges or prefixes, skip splitting into atoms
 		numericClause = ScriptNumberListToJSON(listOfNumbers, integerFieldname, nestDepth, leadingJoin);
 		wherebit = numericClause;
 	} else { 
-		prefix = "";
 		numericClause = "";
 		wherebit = "";
 		comma = "";
 		leadingJoin = "and";
-		comma = "";
 		for (i=1; i LTE ArrayLen(lparts); i=i+1) {
-			// Prefix is at least one letter optionally followed by a dash separator.
-			// Need to use [A-Z]+ here to prevent match on dash inside bare numeric range.
-			prefixSt = REFind("^[A-Za-z]+\-{0,1}",lparts[i],0,true);
-			if (prefixSt.pos[1] EQ 0 ) {
-				prefix = "";
-			} else {
-				prefix = Mid(lparts[i],prefixSt.pos[1],prefixSt.len[1]);
-			}
-			numericSt = REFind("[0-9]+\-*[0-9]*",lparts[i],0,true);
-			if (numericSt.pos[1] EQ 0 ) {
-				numeric = "";
-			} else {
-				numeric = Mid(lparts[i],numericSt.pos[1],numericSt.len[1]);
-			}
-			if (embeddedSeparator EQ true) {
-				// If the prefix isn't blank and doesn't end with the separator, add it.
-				if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
-					prefix = prefix & "-";
+			prefix = "";
+			numeric= "";
+			suffix = "";
+			// A      // just prefix
+			// 1      // just number
+			// 1-2    // numeric range 1 to 2
+			// A-1    // prefix
+			// 1-a    // suffix
+			// A1-5   // prefix with range (A-1 to A-4)
+			// A-1-5  // prefix with range (A-1 to A-4)
+			// A-1-a  // prefix and suffix
+			// 1-a-5  // suffix with range (1-a to 5-a)
+			// A-1-A-5  // prefix with range alternative (A-1 to A-5)
+			// 1-a-5-a  // suffix with range alternative (1-a to 5-a)
+			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
+			atomParts = ListToArray(lparts[i],"-",false);
+			partCount = ArrayLen(atomParts);
+			if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
+				// just a prefix.
+				prefix = atomParts[1];
+			} else if (partCount EQ 1 OR partCount GT 4) { 
+				// unexpected, and likely failure case, but try something
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldname &'","comparator": "=","value": "#lparts[i]#"}';
+				comma = ",";
+			} else if (partCount EQ 2) { 
+				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
+					// 1-2 numeric range
+					numeric = lparts[i];
+				} else if (REFind("^[A-Za-z]+[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
+					// A1-5   // prefix with range (A-1 to A-4)
+					startNumBit = rereplace(atomParts[1],"[^0-9]]","","all");
+					prefix = rereplace(atomParts[1],"[^A-Za-z]","","all");
+					numeric = startNumBit & "-" & atomParts[2];
+				} else if (REFind("^[0-9]+$",atomParts[1])) { 
+					// 1-a    // suffix
+					numeric = atomParts[1];
+					suffix = atomParts[2];
+				} else {
+					// A-1    // prefix
+					numeric = atomParts[2];
+					prefix = atomParts[1];
 				}
-			} else {
-				//remove any trailing dash
-				prefix = REReplace(prefix,"\-$","");
+			} else if (partCount EQ 3) { 
+				if (REFind("[A-Za-z]",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2]) AND REFind("^[0-9]+$",atomParts[3])) { 
+					// A-1-5  // prefix with range (A-1 to A-4)
+					prefix = atomParts[1];
+					numeric = atomParts[2] & "-" & atomParts[3];
+				} else if (REFind("[A-Za-z-]",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2]) AND REFind("[A-Za-z]",atomParts[3])) { 
+					// A-1-a  // prefix and suffix
+					prefix = atomParts[1];
+					numeric = atomParts[2];
+					suffix = atomParts[3];
+				} else { 
+					// 1-a-5  // suffix with range (1-a to 5-a)
+					numeric = atomParts[1] & "-" & atomParts[3];
+					suffix = atomParts[2];
+				}
+			} else if (partCount EQ 4) { 
+				if (REFind("[A-Za-z]",atomparts[1]) AND REFind("^[0-9]+$",atomParts[2]) AND REFind("[A-Za-z]",atomParts[3]) AND REFind("^[0-9]+$",atomParts[4])) { 
+					// A-1-A-5  // prefix with range alternative (A-1 to A-5)
+					if (atomParts[1] EQ atomParts[3]) { 
+						prefix = atomParts[1];
+					} else { 
+						prefix = atomParts[1] & "," & atomParts[3];
+					}
+					numeric = atomParts[2] & "-" & atomParts[4];
+				} else if (REFind("^[0-9]+$",atomParts[1]) AND REFind("[A-Za-z]",atomParts[2]) AND REFind("^[0-9]+$",atomParts[3]) AND REFind("[A-Za-z]",atomParts[4])) { 
+					// 1-a-5-a  // suffix with range alternative (1-a to 5-a)
+					if (atomParts[2] EQ atomParts[4]) { 
+						suffix = atomParts[2];
+					} else { 
+						suffix = atomParts[2] & "," & atomParts[4];
+					}
+					numeric = atomParts[1] & "-" & atomParts[3];
+				} else { 
+					// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
+					prefix = atomParts[1];
+					numeric = atomParts[2] & "-" & atomParts[3];
+					suffix = atomParts[4];
+				}
 			}
-	
-			if (numeric NEQ "") {
-				numericClause = ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
-				wherebit = wherebit & comma & numericClause;
+			if (Len(numeric) GT 0) { 
+				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				comma = ",";
-				leadingJoin = "or";
+				leadingJoin = "and";
 			}
-			if (prefix NEQ "") {
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & prefixFieldname &'","comparator": "=","value": "#prefix#"}';
+			if (Len(prefix) GT 0) { 
+				if (embeddedSeparator EQ true) {
+					// If the prefix isn't blank and doesn't end with the separator, add it.
+					if ((prefix NEQ "") AND (Find("-",prefix) EQ 0)) {
+						prefix = prefix & "-";
+					}
+				} else {
+					//remove any trailing dash
+					prefix = REReplace(prefix,"\-$","");
+				}
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				comma = ",";
-				leadingJoin = "or";
+				leadingJoin = "and";
 			}
-		}
+			if (Len(suffix) GT 0) { 
+				if (embeddedSeparator EQ true) {
+					// If the suffix isn't blank and doesn't start with the separator, add it.
+					if ((suffix NEQ "") AND (Find("-",suffix) EQ 0)) {
+						suffix = "-" & suffix;
+					}
+				} else {
+					//remove any trailing dash
+					suffix = REReplace(suffix,"\-$","");
+				}
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
+				comma = ",";
+				leadingJoin = "and";
+			}
+			leadingJoin = "or";
+		} 
 	}
 	result = wherebit;
 	return result;
