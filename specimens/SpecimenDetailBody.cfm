@@ -43,7 +43,7 @@ limitations under the License.
 		cataloged_item.collection_cde,
 		coll_object.coll_object_entered_date,
 		coll_object.last_edit_date,
-		coll_object.remarks,
+		coll_object_remark.coll_object_remarks,
 		<cfif #oneOfUs# eq 1>
 			cataloged_item.accn_id,
 		<cfelse>
