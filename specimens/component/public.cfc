@@ -1500,10 +1500,10 @@ limitations under the License.
 			<cftry>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
 					<cfif len(isOne.dec_lat) gt 0 and len(isOne.dec_long) gt 0>
-						<cfset coordinates="#isOne.dec_lat#,#getLoc.dec_long#">
-						<input type="hidden" id="coordinates_#getLoc.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#getLoc.locality_id#" value="1196">
-						<div id="mapdiv_#getLoc.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+						<cfset coordinates="#isOne.dec_lat#,#isOne.dec_long#">
+						<input type="hidden" id="coordinates_#isOne.locality_id#" value="#coordinates#">
+						<input type="hidden" id="error_#isOne.locality_id#" value="1196">
+						<div id="mapdiv_#isOne.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 					</cfif>
 					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 						<div class="error"> Improper call. Aborting..... </div>
@@ -1518,33 +1518,33 @@ limitations under the License.
 				</div>
 				<div class="col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
-						<cfif len(getLoc.continent_ocean) gt 0>
+						<cfif len(isOne.continent_ocean) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.continent_ocean#</li>
+							<li class="list-group-item col-7 px-0">#isOne.continent_ocean#</li>
 						</cfif>
-						<cfif len(getLoc.sea) gt 0>
+						<cfif len(isOne.sea) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.sea#</li>
+							<li class="list-group-item col-7 px-0">#isOne.sea#</li>
 						</cfif>
-						<cfif len(getLoc.country) gt 0>
+						<cfif len(isOne.country) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.country#</li>
+							<li class="list-group-item col-7 px-0">#isOne.country#</li>
 						</cfif>
-						<cfif len(getLoc.state_prov) gt 0>
+						<cfif len(isOne.state_prov) gt 0>
 							<li class="list-group-item col-5 px-0"><em>State:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.state_prov#</li>
+							<li class="list-group-item col-7 px-0">#isOne.state_prov#</li>
 						</cfif>
-						<cfif len(getLoc.feature) gt 0>
+						<cfif len(isOne.feature) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.feature#</li>
+							<li class="list-group-item col-7 px-0">#isOne.feature#</li>
 						</cfif>
-						<cfif len(getLoc.county) gt 0>
+						<cfif len(isOne.county) gt 0>
 							<li class="list-group-item col-5 px-0"><em>County:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.county#</li>
+							<li class="list-group-item col-7 px-0">#isOne.county#</li>
 						</cfif>
-						<cfif len(getLoc.island_group) gt 0>
+						<cfif len(isOne.island_group) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.island_group#</li>
+							<li class="list-group-item col-7 px-0">#isOne.island_group#</li>
 						</cfif>
 						<cfif len(getLoc.island) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
