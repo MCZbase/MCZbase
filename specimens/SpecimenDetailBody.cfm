@@ -540,7 +540,7 @@ limitations under the License.
 							</script>
 							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRemarks">
-								<cfif len(#blockRemarks#) gt 50> 
+								<cfif len(#blockRemarks#) gt 50>
 									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
 											Collection Object Remarks
@@ -565,7 +565,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<cfif #one.remarks# neq '(null)'>
+								<cfif #one.remarks# is not null>
 									<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
 										#blockRemarks#
 									</div>
