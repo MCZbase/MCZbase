@@ -51,8 +51,8 @@ limitations under the License.
 		</cfif>
 		getpreferredagentname(coll_object.entered_person_id) EnteredBy,
 		getpreferredagentname(coll_object.last_edited_person_id) EditedBy,
-		concatencumbrances(cat_num.collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(cat_num.collection_object_id) encumbranceDetail
+		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
+		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail
 	FROM
 		cataloged_item
 		left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
