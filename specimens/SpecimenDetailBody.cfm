@@ -265,7 +265,7 @@ limitations under the License.
 	select count(*) as ct from rparts
 </cfquery>
 <cfoutput>
-	<cfif #oneOfUs# eq 0>
+	<cfif #oneOfUs# eq 1 and listcontainsnocase(session.roles,"manage_specimens")>>
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
@@ -324,7 +324,8 @@ limitations under the License.
 				</ul>
 			</div>
 		</div>
-	
+	</cfif>
+	<cfif #oneOfUs# eq 0>
 		<div class="container-fluid ">
 			<div class="row mx-0 mt-2">
 					<!----------------------------- one left column for media ---------------------------------->
