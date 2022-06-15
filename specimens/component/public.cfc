@@ -1782,7 +1782,7 @@ limitations under the License.
 			</cfif>
 				<cfquery name="object_remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT  
-						remarks,
+						coll_object_remarks,
 						collection_object_id
 					FROM
 						cataloged_item
