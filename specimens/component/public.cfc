@@ -981,12 +981,11 @@ limitations under the License.
 								(Remark: #biol_indiv_relation_remarks#)
 							</cfif>
 						</li>
-					</cfloop>
-					<cfif len(relns.biol_indiv_relationship) gt 0>
 						<li class="pb-1 list-group-item">
-						<a href="/Specimens.cfm?execute=true&action=fixedSearch&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
+							<a href="/Specimens.cfm?execute=true&action=fixedSearch&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
 						</li>
-					</cfif>
+					</cfloop>
+
 				</ul>
 			</cfif>
 			<cfcatch>
