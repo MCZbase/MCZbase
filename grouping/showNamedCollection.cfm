@@ -435,7 +435,7 @@ limitations under the License.
 												minZoom: 1,
 												maxZoom: 14,
 												center: centerpoint,
-												controlSize: 20,
+												controlSize: 22,
 												mapTypeId: "hybrid",
 											};
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
