@@ -355,7 +355,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset scientificnameid = queryrow.scientificnameid>
 			<cfset dwc_scientificName = trim("#queryrow.scientific_name# #queryrow.author_text#")>
 			<cfobject type="Java" class="java.text.Normalizer" name="normalizer">
-			<cfobject type="Java" class="java.text.NormalizerForm" name="normalizerForm">
+			<cfobject type="Java" class="java.text.Normalizer$Form" name="normalizerForm">
 			<cfset dwc_scientificName = normalizer.normalize(javaCast("string",dwc_scientificName), normalizerForm.NFC)>
 
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
