@@ -36,7 +36,12 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
-
+<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+	<cfset session.sdmapclass='tinymap'>
+</cfif>
+<cfoutput>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
@@ -426,8 +431,8 @@ limitations under the License.
 										<script>
 										let map, heatmap;
 										function initMap() {
-											var ne = new google.maps.LatLng(<cfif #points2.maxlat# lt 75>#points2.maxlat#<cfelse> 75</cfif>, <cfif #points2.maxlong# lt 88>#points2.maxlong#<cfelse>88</cfif>);
-											var sw = new google.maps.LatLng(<cfif #points2.minlat# gt -31>#points2.minlat#<cfelse>-31</cfif>,<cfif #points2.minlong# gt -170>#points2.minlong#<cfelse>-170</cfif>);
+											var ne = new google.maps.LatLng(<cfif #points2.maxlat# lt 65>#points2.maxlat#<cfelse> 65</cfif>, <cfif #points2.maxlong# lt 164>#points2.maxlong#<cfelse>164</cfif>);
+											var sw = new google.maps.LatLng(<cfif #points2.minlat# gt -60>#points2.minlat#<cfelse>-60</cfif>,<cfif #points2.minlong# gt -131>#points2.minlong#<cfelse>-131</cfif>);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
@@ -435,21 +440,21 @@ limitations under the License.
 												minZoom: 1,
 												maxZoom: 14,
 												center: centerpoint,
-												controlSize: 22,
+												controlSize: 20,
 												mapTypeId: "hybrid",
 											};
 											map = new google.maps.Map(document.getElementById('map'), mapOptions);
 										
 											if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng()-0.05);
-												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng()-0.05);
+												var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+												var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
 												bounds.extend(extendPoint1);
 												bounds.extend(extendPoint2);
 											} else {
 												google.maps.event.addListener(map,'bounds_changed',function(){
 												//var bounds = map.getBounds();
-												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng()+0.05);
-												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng()+0.05);
+												var extendPoint3=new google.maps.LatLng(bounds.getNorthEast().lat(), bounds.getNorthEast().lng());
+												var extendPoint4=new google.maps.LatLng(bounds.getSouthWest().lat(), bounds.getSouthWest().lng());
 												bounds.extend(extendPoint3);
 												bounds.extend(extendPoint4);
 												});
@@ -459,32 +464,47 @@ limitations under the License.
 												data: getPoints(),
 												map: map,
 											});
-											document
-												.getElementById("change-gradient")
-												.addEventListener("click", changeGradient);
+													document
+														.getElementById("toggle-heatmap")
+														.addEventListener("click", toggleHeatmap);
+													document
+														.getElementById("change-gradient")
+														.addEventListener("click", changeGradient);
+													document
+														.getElementById("change-opacity")
+														.addEventListener("click", changeOpacity);
+													document
+														.getElementById("change-radius")
+														.addEventListener("click", changeRadius);
 											}
-										function toggleHeatmap(){
-											heatmap.setMap(heatmap.getMap() ? null : map);
-										}
-										function changeGradient() {
-											const gradient = [
-												"rgba(0, 255, 255, 0)",
-												"rgba(0, 255, 255, 1)",
-												"rgba(0, 191, 255, 1)",
-												"rgba(0, 127, 255, 1)",
-												"rgba(0, 63, 255, 1)",
-												"rgba(0, 0, 255, 1)",
-												"rgba(0, 0, 223, 1)",
-												"rgba(0, 0, 191, 1)",
-												"rgba(0, 0, 159, 1)",
-												"rgba(0, 0, 127, 1)",
-												"rgba(63, 0, 91, 1)",
-												"rgba(127, 0, 63, 1)",
-												"rgba(191, 0, 31, 1)",
-												"rgba(255, 0, 0, 1)",
-											];
-											heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
-										}
+											function toggleHeatmap(){
+												heatmap.setMap(heatmap.getMap() ? null : map);
+											}
+											function changeGradient() {
+												const gradient = [
+													"rgba(0, 255, 255, 0)",
+													"rgba(0, 255, 255, 1)",
+													"rgba(0, 191, 255, 1)",
+													"rgba(0, 127, 255, 1)",
+													"rgba(0, 63, 255, 1)",
+													"rgba(0, 0, 255, 1)",
+													"rgba(0, 0, 223, 1)",
+													"rgba(0, 0, 191, 1)",
+													"rgba(0, 0, 159, 1)",
+													"rgba(0, 0, 127, 1)",
+													"rgba(63, 0, 91, 1)",
+													"rgba(127, 0, 63, 1)",
+													"rgba(191, 0, 31, 1)",
+													"rgba(255, 0, 0, 1)",
+												];
+												heatmap.set("gradient", heatmap.get("gradient") ? null : gradient);
+											}
+											function changeRadius() {
+												heatmap.set("radius", heatmap.get("radius") ? null : 20);
+											}
+											function changeOpacity() {
+												heatmap.set("opacity", heatmap.get("opacity") ? null : 0.2);
+											}
 										function getPoints() {
 											return [
 											<cfloop query="points">
