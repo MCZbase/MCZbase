@@ -265,7 +265,7 @@ limitations under the License.
 	select count(*) as ct from rparts
 </cfquery>
 <cfoutput>
-	<cfif #oneOfUs# eq 1>
+	<cfif #oneOfUs# eq 0>
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
