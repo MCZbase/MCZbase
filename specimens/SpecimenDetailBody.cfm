@@ -716,7 +716,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<cfif len(one.coll_object_remarks) gt 6>
+								<cfif len(isOne.coll_object_remarks) gt 6>
 									<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
 										#blockRemarks#
 									</div>
