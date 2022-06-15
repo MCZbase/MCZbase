@@ -1882,7 +1882,6 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</ul>
-					
 					<ul class="list-group list-group-flush p-0">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif len(meta.disposition_remarks) gt 0 >
