@@ -633,55 +633,55 @@ limitations under the License.
 									</div>
 								</div>
 								<!------------------------------------ relationships  ------------------------------------->
-							<cfif #oneOfUs# eq 1>
-								<div class="accordion" id="accordionRelations">
-									<div class="card mb-2 bg-light">
-										<div id="relationsDialog"></div>
-										<script>
-											function reloadRelations() { 
-												loadRelations(#collection_object_id#,'RelationsCardBody');
-											}
-										</script>
-										<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
-										<div class="card-header" id="headingRelations">
-											<cfif len(#blockrel#) gt 60> 
-												<h3 class="h5 my-0">
-													<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
-														Relationships
-													</button>
-													<cfif listcontainsnocase(session.roles,"manage_specimens")>
-														<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
-															Edit
-														</a>
-													</cfif>
-												</h3>
-											<cfelse>
-												<h3 class="h5 my-0">
-													<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
-														Relationships
-													</button>
-													<cfif listcontainsnocase(session.roles,"manage_specimens")>
-														<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
-															Add
-														</a>
-													</cfif>
-												</h3>
-											</cfif>
-										</div>
-										<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
-											<cfif len(#blockrel#) gt 60>
-												<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-													#blockrel# 
-												</div>
-											<cfelse>
-												<ul class="pl-2 py-0 list-group mb-0">
-													<li class="list-group-item small90 font-italic">None</li>
-												</ul>
-											</cfif>
+								<cfif #oneOfUs# eq 1>
+									<div class="accordion" id="accordionRelations">
+										<div class="card mb-2 bg-light">
+											<div id="relationsDialog"></div>
+											<script>
+												function reloadRelations() { 
+													loadRelations(#collection_object_id#,'RelationsCardBody');
+												}
+											</script>
+											<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
+											<div class="card-header" id="headingRelations">
+												<cfif len(#blockrel#) gt 60> 
+													<h3 class="h5 my-0">
+														<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
+															Relationships
+														</button>
+														<cfif listcontainsnocase(session.roles,"manage_specimens")>
+															<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
+																Edit
+															</a>
+														</cfif>
+													</h3>
+												<cfelse>
+													<h3 class="h5 my-0">
+														<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
+															Relationships
+														</button>
+														<cfif listcontainsnocase(session.roles,"manage_specimens")>
+															<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
+																Add
+															</a>
+														</cfif>
+													</h3>
+												</cfif>
+											</div>
+											<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
+												<cfif len(#blockrel#) gt 60>
+													<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
+														#blockrel# 
+													</div>
+												<cfelse>
+													<ul class="pl-2 py-0 list-group mb-0">
+														<li class="list-group-item small90 font-italic">None</li>
+													</ul>
+												</cfif>
+											</div>
 										</div>
 									</div>
-								</div>
-							</cfif>
+								</cfif>
 									<!------------ coll object remarks ----------------------------------------->
 								<div class="accordion" id="accordionRemarks">
 									<div class="card mb-2 bg-light">
