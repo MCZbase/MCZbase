@@ -349,8 +349,8 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset phylorder = queryrow.phylorder>
 			<cfset family = queryrow.family>
 			<cfset genus = queryrow.genus>
-			<cfset scientific_name = queryrow.scientific_name>
-			<cfset author_text = queryrow.author_text>
+			<cfset scientific_name = "#trim(queryrow.scientific_name)#">
+			<cfset author_text = "#trim(queryrow.author_text)#">
 			<cfset taxonid = queryrow.taxonid>
 			<cfset scientificnameid = queryrow.scientificnameid>
 			<cfset dwc_scientificName = canonicalize(trim("#queryrow.scientific_name# #queryrow.author_text#"),true,false)>
