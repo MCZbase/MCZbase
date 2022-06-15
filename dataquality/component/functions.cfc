@@ -354,6 +354,9 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset taxonid = queryrow.taxonid>
 			<cfset scientificnameid = queryrow.scientificnameid>
 			<cfset dwc_scientificName = trim("#queryrow.scientific_name# #queryrow.author_text#")>
+			<cfobject type="Java" class="java.text.Normalizer" name="normalizer">
+			<cfobject type="Java" class="java.text.NormalizerForm" name="normalizerForm">
+			<cfset dwc_scientificName = normalizer.normalize(javaCast("string",dwc_scientificName), normalizerForm.NFC)>
 
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.Taxon" name="taxon">
@@ -402,7 +405,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset r=structNew()>
 
 			<!--- @Provides("3f335517-f442-4b98-b149-1e87ff16de45") --->
-			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound("#dwc_scientificName#",gbifAuthority) >
+			<cfset dqResponse = dwcSciNameDQ.validationScientificnameFound(dwc_scientificName",gbifAuthority) >
 			<cfset r.label = "dwc:scientificName is known to GBIF" >
 			<cfset r.type = "VALIDATION" >
 			<cfset r.status = dqResponse.getResultState().getLabel() >
