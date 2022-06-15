@@ -1791,10 +1791,10 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfif len(#object_remarks.remarks#) gt 0>
+				<cfif len(#object_remarks.coll_object_remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
 						<li class="list-group-item pt-0 pb-1">
-							#object_remarks.remarks# 
+							#object_remarks.coll_object_remarks# 
 						</li>
 					</ul>
 				</cfif>
