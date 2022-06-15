@@ -198,8 +198,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 					numeric = lparts[i];
 				} else if (REFind("^[A-Za-z]+[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// A1-5   // prefix with range (A-1 to A-4)
-					startNumBit = replace(atomParts[1],"[^0-9]]","","all");
-					prefix = replace(atomParts[1],"[^A-Za-z]","","all");
+					startNumBit = rereplace(atomParts[1],"[^0-9]]","","all");
+					prefix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 					numeric = startNumBit & "-" & atomParts[2];
 				} else if (REFind("^[0-9]+$",atomParts[1])) { 
 					// 1-a    // suffix
