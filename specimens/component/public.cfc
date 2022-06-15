@@ -1793,7 +1793,7 @@ limitations under the License.
 					SELECT  
 						remarks
 					FROM
-						flat
+						<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 					WHERE
 						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
@@ -1937,7 +1937,7 @@ limitations under the License.
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join flat on underscore_relation.collection_object_id = flat.collection_object_id
+				left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on underscore_relation.collection_object_id = flat.collection_object_id
 			WHERE flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
