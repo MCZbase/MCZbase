@@ -43,6 +43,7 @@ limitations under the License.
 		flat.collection_cde,
 		coll_object.coll_object_entered_date,
 		coll_object.last_edit_date,
+		flat.remarks,
 		<cfif #oneOfUs# eq 1>
 			flat.accn_id,
 		<cfelse>
@@ -564,7 +565,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<cfif #one.coll_object_remarks# neq '(null)'>
+								<cfif #one.remarks# neq '(null)'>
 									<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
 										#blockRemarks#
 									</div>
