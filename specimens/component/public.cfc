@@ -35,7 +35,7 @@ limitations under the License.
 					media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
 			<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-				<cfif len(images.media_id)gt 0>
+				<cfif len(images.media_id) gt 0>
 					<cfloop query="images">
 						<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct
@@ -1789,11 +1789,6 @@ limitations under the License.
 				<div class="error"> Improper call. Aborting..... </div>
 				<cfabort>
 			</cfif>
-<!---			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-				<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>--->
 				<cfquery name="object_remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT  
 						coll_object_remark.coll_object_remarks
@@ -1807,13 +1802,17 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
+				<cfif len(#object_remarks.coll_object_remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
-						<cfif len(#object_remarks.coll_object_remarks#) gt 0>
-							<li class="list-group-item pt-0 pb-1">
-								#object_remarks.coll_object_remarks# 
-							</li>
-						</cfif>
+						<li class="list-group-item pt-0 pb-1">
+							#object_remarks.coll_object_remarks# 
+						</li>
 					</ul>
+				<cfelse>
+					<ul class="pl-0 py-0 list-group my-0">
+						<li class="small90 list-group-item my-0 py-0 font-italic">None</li>
+					</ul>
+				</cfif>
 			<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >
 						<cfset queryError=cfcatch.queryError>
