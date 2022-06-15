@@ -56,7 +56,7 @@ limitations under the License.
 	FROM
 		cataloged_item
 		left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-		left join coll_object_remarks on cataloged_item.collection_object_id = coll_object_remark.coll_object_remarks
+		left join coll_object_remark on cataloged_item.collection_object_id = coll_object_remark.coll_object_remarks
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
