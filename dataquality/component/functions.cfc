@@ -353,7 +353,7 @@ libraries found in github.com/filteredpush/ repositories.
 			<cfset author_text = queryrow.author_text>
 			<cfset taxonid = queryrow.taxonid>
 			<cfset scientificnameid = queryrow.scientificnameid>
-			<cfset dwc_scientificName = trim("#queryrow.scientific_name# #queryrow.author_text#")>
+			<cfset dwc_scientificName = canonicalize(trim("#queryrow.scientific_name# #queryrow.author_text#"),true,false)>
 
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.DwCSciNameDQ" name="dwcSciNameDQ">
 			<cfobject type="Java" class="org.filteredpush.qc.sciname.Taxon" name="taxon">
