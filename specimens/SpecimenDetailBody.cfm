@@ -38,7 +38,7 @@ limitations under the License.
 <!--- query one is needed for determining what is public and what is partitioned --->
 <cfquery name="isOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
-		cataloged_item.collection_object_id,
+		distinct cataloged_item.collection_object_id,
 		collecting_event.collecting_event_id,
 		cataloged_item.collection_cde,
 		cataloged_item.cat_num,
@@ -216,7 +216,7 @@ limitations under the License.
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
 <cfif isOne.recordcount GT 1>
-	<cfthrow message = "Error: multiple rows returned from query 'one' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
+	<cfthrow message = "Error: multiple rows returned from query 'isOne' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
 <cfset guid = "MCZ:#isOne.collection_cde#:#isOne.cat_num#">
 <cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
