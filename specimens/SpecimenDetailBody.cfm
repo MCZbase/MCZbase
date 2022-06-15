@@ -634,7 +634,7 @@ limitations under the License.
 									</div>
 								</div>
 								<!------------------------------------ relationships  ------------------------------------->
-								<cfif #oneOfUs# eq 1>
+								<cfif #oneOfUs# eq 0>
 									<div class="accordion" id="accordionRelations">
 										<div class="card mb-2 bg-light">
 											<div id="relationsDialog"></div>
