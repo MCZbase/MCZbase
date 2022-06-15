@@ -54,7 +54,7 @@ limitations under the License.
 		concatencumbrances(flat.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(flat.collection_object_id) encumbranceDetail
 	FROM
-		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+		Redmine Issue: 687 Specimen Details Style PURPOSE: 
 		left join coll_object on flat.collection_object_id = coll_object.collection_object_id
 	WHERE
 		flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
@@ -296,7 +296,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 mb-0 list-group-item font-italic">None</li>
+										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
 								<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -392,7 +392,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 list-group-item mb-0 font-italic">None</li>
+										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
 							</div>
@@ -474,7 +474,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 mb-0 list-group-item font-italic">None</li>
+										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
 							</div>
@@ -522,7 +522,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 py-0 list-group mb-0">
-										<li class="list-group-item mb-0 small90 font-italic">None</li>
+										<li class="list-group-item small90 font-italic">None</li>
 									</ul>
 								</cfif>
 							</div>
@@ -571,7 +571,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 mb-0 list-group-item font-italic">None</li>
+										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
 							</div>
@@ -621,7 +621,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-3 py-0 mb-0">
-										<li class="list-group-item mb-0 small90 font-italic">None</li>
+										<li class="list-group-item small90 font-italic">None</li>
 									</ul>
 								</cfif>
 							</div>
@@ -674,7 +674,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 mb-0 list-group py-0">
-										<li class="small90 list-group-item mb-0 font-italic">None</li>
+										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
 								
@@ -722,7 +722,7 @@ limitations under the License.
 										#blockcollectors# 
 									<cfelse>
 										<ul class="pl-2 list-group py-0 mb-0">
-											<li class="small90 list-group-item mb-0 font-italic">None</li>
+											<li class="small90 list-group-item font-italic">None</li>
 										</ul>
 									</cfif>
 								</div>
@@ -759,7 +759,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 mb-0 list-group-item font-italic">None</li>
+										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
 							</div>
@@ -825,7 +825,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 list-group-item mb-0 font-italic">
+										<li class="small90 list-group-item font-italic">
 											None
 										</li>
 									</ul>	
