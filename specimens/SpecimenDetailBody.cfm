@@ -162,6 +162,7 @@ limitations under the License.
 		enteredPerson.agent_name EnteredBy,
 		editedPerson.agent_name EditedBy,
 		accn.accn_number,
+		cataloged_item.accn_id,
 		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
 		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
 		case when
