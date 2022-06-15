@@ -983,6 +983,7 @@ limitations under the License.
 						</li>
 						<li class="pb-1 list-group-item">
 							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
+							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection_object_id=#relns.related_collection_object_id#">(Specimens List2)</a>
 						</li>
 					</cfloop>
 
