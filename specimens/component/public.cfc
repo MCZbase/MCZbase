@@ -982,11 +982,11 @@ limitations under the License.
 							</cfif>
 						</li>
 					</cfloop>
-				<!---<cfif len(relns.biol_indiv_relationship) gt 0>
+					<cfif len(relns.biol_indiv_relationship) gt 0>
 						<li class="pb-1 list-group-item">
-						<a href="/Specimens.cfm?execute=true&action=fixedSearch&/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#">(Specimens List)</a>
+						<a href="/Specimens.cfm?execute=true&action=fixedSearch&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
 						</li>
-					</cfif>--->
+					</cfif>
 				</ul>
 			</cfif>
 			<cfcatch>
@@ -1664,11 +1664,6 @@ limitations under the License.
 			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 				<div class="error"> Improper call. Aborting..... </div>
 				<cfabort>
-			</cfif>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-				<cfelse>
-				<cfset oneOfUs = 0>
 			</cfif>
 			<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
