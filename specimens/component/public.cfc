@@ -1548,7 +1548,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(isOne.island) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-							<li class="list-group-item col-7 px-0">#getLoc.island#</li>
+							<li class="list-group-item col-7 px-0">#isOne.island#</li>
 						</cfif>
 						<cfif len(isOne.quad) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
@@ -1564,68 +1564,68 @@ limitations under the License.
 				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
-						<cfif len(getLoc.spec_locality) gt 0>
+						<cfif len(isOne.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="font-weight-lessbold my-0">Specific Locality: </span></li>
-							<li class="list-group-item col-7 px-0 last">#getLoc.spec_locality#</li>
+							<li class="list-group-item col-7 px-0 last">#isOne.spec_locality#</li>
 						</cfif>
-						<cfif len(getLoc.verbatim_locality) gt 0>
+						<cfif len(isOne.verbatim_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Locality: </span></li>
-							<li class="list-group-item col-7 px-0 ">#getLoc.verbatim_locality#</li>
+							<li class="list-group-item col-7 px-0 ">#isOne.verbatim_locality#</li>
 						</cfif>
-						<cfif len(getLoc.locality_remarks) gt 0>
+						<cfif len(isOne.locality_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Locality Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.locality_remarks#</li>
+							<li class="list-group-item col-7 px-0">#isOne.locality_remarks#</li>
 						</cfif>
-						<cfif len(getLoc.collecting_source) gt 0>
+						<cfif len(isOne.collecting_source) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Source: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.collecting_source#</li>
+							<li class="list-group-item col-7 px-0">#isOne.collecting_source#</li>
 						</cfif>
 						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date eq #getLoc.ended_date#>
+						<cfif len(geisOne.began_date) gt 0 AND isOne.began_date eq #isOne.ended_date#>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collected On: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.began_date#</li>
+							<li class="list-group-item col-7 px-0">#isOne.began_date#</li>
 						</cfif>
-						<cfif len(getLoc.began_date) gt 0 AND getLoc.began_date neq #getLoc.ended_date#>
+						<cfif len(isOne.began_date) gt 0 AND isOne.began_date neq #isOne.ended_date#>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Began Date / Ended Date: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.began_date# / #getLoc.ended_date#</li>
+							<li class="list-group-item col-7 px-0">#isOne.began_date# / #isOne.ended_date#</li>
 						</cfif>
-						<cfif len(getLoc.verbatim_date) gt 0>
+						<cfif len(isOne.verbatim_date) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Date: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.verbatim_date#</li>
+							<li class="list-group-item col-7 px-0">#isOne.verbatim_date#</li>
 						</cfif>
-						<cfif len(getLoc.verbatimcoordinates) gt 0>
+						<cfif len(isOne.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.verbatimcoordinates#</li>
+							<li class="list-group-item col-7 px-0">#isOne.verbatimcoordinates#</li>
 						</cfif>
-						<cfif len(getLoc.collecting_method) gt 0>
+						<cfif len(isOne.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.collecting_method#</li>
+							<li class="list-group-item col-7 px-0">#isOne.collecting_method#</li>
 						</cfif>
-						<cfif len(getLoc.max_depth) gt 0>
+						<cfif len(isOne.max_depth) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Depth: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #getLoc.min_depth# eq #getLoc.max_depth#>#getLoc.min_depth# #getLoc.depth_units#<cfelse>#getLoc.min_depth# - #getLoc.max_depth# #getLoc.depth_units#</cfif></li>
+							<li class="list-group-item col-7 px-0"><cfif #isOne.min_depth# eq #isOne.max_depth#>#isOne.min_depth# #isOne.depth_units#<cfelse>#isOne.min_depth# - #isOne.max_depth# #isOne.depth_units#</cfif></li>
 						</cfif>
-						<cfif len(getLoc.maximum_elevation) gt 0>
+						<cfif len(isOne.maximum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #getLoc.minimum_elevation# eq #getLoc.maximum_elevation#>#getLoc.minimum_elevation# #getLoc.orig_elev_units#<cfelse>#getLoc.minimum_elevation# - #getLoc.maximum_elevation# #getLoc.orig_elev_units#</cfif></li>
+							<li class="list-group-item col-7 px-0"><cfif #isOne.minimum_elevation# eq #isOne.maximum_elevation#>#isOne.minimum_elevation# #isOne.orig_elev_units#<cfelse>#isOne.minimum_elevation# - #isOne.maximum_elevation# #isOne.orig_elev_units#</cfif></li>
 						</cfif>
-						<cfif len(getLoc.coll_event_remarks) gt 0>
+						<cfif len(isOne.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.coll_event_remarks#</li>
+							<li class="list-group-item col-7 px-0">#isOne.coll_event_remarks#</li>
 						</cfif>
-						<cfif len(getLoc.habitat_desc) gt 0>
+						<cfif len(isOne.habitat_desc) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Habitat Description: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.habitat_desc#</li>
+							<li class="list-group-item col-7 px-0">#isOne.habitat_desc#</li>
 						</cfif>
-						<cfif len(getLoc.habitat) gt 0>
+						<cfif len(isOne.habitat) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Microhabitat: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.habitat#</li>
+							<li class="list-group-item col-7 px-0">#isOne.habitat#</li>
 						</cfif>
-						<cfif len(getLoc.dec_lat) gt 0>
+						<cfif len(isOne.dec_lat) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.dec_lat#, #getLoc.dec_long# (error: #getLoc.max_error_distance##getLoc.max_error_units#)</li>
+							<li class="list-group-item col-7 px-0">#isOne.dec_lat#, #isOne.dec_long# (error: #isOne.max_error_distance##isOne.max_error_units#)</li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#getLoc.orig_lat_long_units# (datum: #getLoc.datum#)</li>
+							<li class="list-group-item col-7 px-0">#isOne.orig_lat_long_units# (datum: #isOne.datum#)</li>
 						</cfif>
 					</ul>
 
