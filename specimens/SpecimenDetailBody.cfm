@@ -206,10 +206,10 @@ limitations under the License.
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-<cfif one.recordcount EQ 0>
+<cfif isOne.recordcount EQ 0>
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
-<cfif one.recordcount GT 1>
+<cfif isOne.recordcount GT 1>
 	<cfthrow message = "Error: multiple rows returned from query 'one' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
 <cfset guid = "MCZ:#isOne.collection_cde#:#isOne.cat_num#">
