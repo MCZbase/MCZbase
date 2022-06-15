@@ -188,7 +188,6 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				// unexpected, and likely failure case, but try something
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldname &'","comparator": "=","value": "#lparts[i]#"}';
 				comma = ",";
-				leadingJoin = "or";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// 1-2 numeric range
@@ -253,17 +252,17 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				}
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & prefixFieldName &'","comparator": "=","value": "#prefix#"}';
 				comma = ",";
-				leadingJoin = "or";
+				leadingJoin = "and";
 			}
 			if (Len(numeric) GT 0) { 
 				wherebit = wherebit & comma & ScriptNumberListToJSON(numeric, integerFieldname, nestDepth, leadingJoin);
 				comma = ",";
-				leadingJoin = "or";
+				leadingJoin = "and";
 			}
 			if (Len(suffix) GT 0) { 
 				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & suffixFieldName &'","comparator": "=","value": "#suffix#"}';
 				comma = ",";
-				leadingJoin = "or";
+				leadingJoin = "and";
 			}
 		} 
 	}
