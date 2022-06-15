@@ -1808,10 +1808,6 @@ limitations under the License.
 							#object_remarks.coll_object_remarks# 
 						</li>
 					</ul>
-				<cfelse>
-					<ul class="pl-0 py-0 list-group my-0">
-						<li class="small90 list-group-item my-0 py-0 font-italic">wNone</li>
-					</ul>
 				</cfif>
 			<cfcatch>
 					<cfif isDefined("cfcatch.queryError") >

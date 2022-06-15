@@ -564,13 +564,13 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<cfif #blockRemarks# eq '(null)'>
+								<cfif #blockRemarks# neq '(null)'>
 									<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
 										#blockRemarks#
 									</div>
 								<cfelse>
-									<ul class="pl-2 py-0 mb-0">
-										<li class="small90 mb-0 font-italic">None</li>
+									<ul class="pl-2 list-group py-0 mb-0">
+										<li class="small90 mb-0 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
 							</div>
