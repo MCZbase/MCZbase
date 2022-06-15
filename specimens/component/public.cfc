@@ -1791,21 +1791,16 @@ limitations under the License.
 			</cfif>
 				<cfquery name="object_remarks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT  
-						coll_object_remark.coll_object_remarks
+						remarks
 					FROM
-						cataloged_item
-						left join collection on cataloged_item.collection_id = collection.collection_id
-						left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
+						flat
 					WHERE
-						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfif len(#object_remarks.coll_object_remarks#) gt 0>
+				<cfif len(#object_remarks.remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
 						<li class="list-group-item pt-0 pb-1">
-							#object_remarks.coll_object_remarks# 
+							#object_remarks.remarks# 
 						</li>
 					</ul>
 				</cfif>
