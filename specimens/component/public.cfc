@@ -1581,7 +1581,7 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#isOne.collecting_source#</li>
 						</cfif>
 						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-						<cfif len(geisOne.began_date) gt 0 AND isOne.began_date eq #isOne.ended_date#>
+						<cfif len(isOne.began_date) gt 0 AND isOne.began_date eq #isOne.ended_date#>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collected On: </span></li>
 							<li class="list-group-item col-7 px-0">#isOne.began_date#</li>
 						</cfif>
