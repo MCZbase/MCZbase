@@ -971,6 +971,8 @@ limitations under the License.
 				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					 and ctrel.rel_type <> 'functional'
 				)
+				ORDER BY 
+					related_cat_num
 		</cfquery>
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<ul class="list-group list-group-flush pt-1 float-left">
