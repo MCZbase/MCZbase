@@ -1361,6 +1361,8 @@ limitations under the License.
 				fish_field_number,
 				min_depth,
 				max_depth,
+				accepted_lat_long.DETERMINED_BY_AGENT_ID,
+				accepted_lat_long.determined_date,
 				depth_units,
 				collecting_method,
 				collecting_source,
