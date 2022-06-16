@@ -793,7 +793,9 @@ limitations under the License.
 															<div id="collapseTax" aria-labelledby="headingTax" data-parent="##accordionForTaxa" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="taxonQuery">
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> </li>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(taxonQuery.rank)#=#encodeForUrl(taxonQuery.taxonlink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#taxonQuery.taxon#</a> 
+																		</li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -836,7 +838,9 @@ limitations under the License.
 															<div id="collapseMar" aria-labelledby="headingMar" data-parent="##accordionForMarine" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="marine">
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> 
+																		</li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -846,7 +850,9 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="marine">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> </li>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<a class="h4" target="_blank" href="/SpecimenResults.cfm?continent_ocean=#encodeForURL(marine.ocean)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#marine.ocean#</a> 
+														</li>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -906,7 +912,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+															<a target="_blank" class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -940,7 +946,9 @@ limitations under the License.
 															<div id="collapseIS" aria-labelledby="headingIS" data-parent="##accordionForIslands" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="islandsQuery">
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> </li>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#"> #continent_ocean#: #islandsQuery.island# </a> 
+																		</li>
 																	</cfloop>
 																</ul>
 															</div>
@@ -951,7 +959,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="islandsQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#islandsQuery.island#</a> 
+															<a target="_blank" class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#islandsQuery.island#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -989,7 +997,9 @@ limitations under the License.
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> </li>
+																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																		<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> 
+																	</li>
 																</cfloop>
 																</ul>
 															</div>
