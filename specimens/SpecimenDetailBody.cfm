@@ -133,7 +133,7 @@ limitations under the License.
 		collecting_event.verbatimcoordinatesystem,
 		collecting_event.verbatimSRS,
 		accepted_lat_long.dec_lat,
-		GET_AGENTNAMEOFTYPE(agent_id, 'preferred'),
+		accepted_lat_long.DETERMINED_BY_AGENT_ID,
 		accepted_lat_long.determined_date,
 		accepted_lat_long.dec_long,
 		accepted_lat_long.max_error_distance,
