@@ -1205,7 +1205,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfelse>
 		<cfif isDefined("other_id_number") AND len(other_id_number) GT 0>
 			<cfif left(other_id_number,1) is "=" OR left(other_id_number,1) is "!">
-				<cfset field = '"field": "display_value"'>
+				<cfset field = '"field": "DISPLAY_VALUE"'>
 				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number#",separator="#separator#",nestDepth="#nest#")>
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
@@ -1229,7 +1229,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		</cfif>
 		<cfif isDefined("other_id_number_1") AND len(other_id_number_1) GT 0>
 			<cfif left(other_id_number_1,1) is "=" OR left(other_id_number_1,1) is "!">
-				<cfset field = '"field": "display_value"'>
+				<cfset field = '"field": "DISPLAY_VALUE"'>
 				<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#other_id_number_1#",separator="#separator#",nestDepth="#nest#")>
 				<cfset separator = ",">
 				<cfset join='"join":"and",'>
