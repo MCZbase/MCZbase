@@ -1457,8 +1457,9 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#isOne.habitat#</li>
 						</cfif>
 						<cfif len(isOne.dec_lat) gt 0>
+							<cfset dateDet = left(#isOne.latLongDeterminedDate#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.dec_lat#, #isOne.dec_long# (error: #isOne.max_error_distance##isOne.max_error_units#) <span class="d-block small mb-0 pb-0"> #isOne.latLongDeterminer# on left(#isOne.latLongDeterminedDate#,10)</span></li>
+							<li class="list-group-item col-7 px-0">#isOne.dec_lat#, #isOne.dec_long# (error: #isOne.max_error_distance##isOne.max_error_units#) <span class="d-block small mb-0 pb-0"> #isOne.latLongDeterminer# on #dateDet#</span></li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
 							<li class="list-group-item col-7 px-0">#isOne.orig_lat_long_units# (datum: #isOne.datum#) </li>
 						</cfif>
