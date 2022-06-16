@@ -1458,9 +1458,9 @@ limitations under the License.
 						</cfif>
 						<cfif len(isOne.dec_lat) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.dec_lat#, #isOne.dec_long# (error: #isOne.max_error_distance##isOne.max_error_units#)</li>
+							<li class="list-group-item col-7 px-0">#isOne.dec_lat#, #isOne.dec_long# (error: #isOne.max_error_distance##isOne.max_error_units#) <span class="d-block smaller"> #isOne.latLongDeterminer# on #isOne.latLongDeterminedDate#</span></li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.orig_lat_long_units# (datum: #isOne.datum#) #isOne.latLongDeterminer# on #isOne.latLongDeterminedDate#</li>
+							<li class="list-group-item col-7 px-0">#isOne.orig_lat_long_units# (datum: #isOne.datum#) </li>
 						</cfif>
 					</ul>
 
