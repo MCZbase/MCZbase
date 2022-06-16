@@ -107,7 +107,7 @@ limitations under the License.
 							</cfif>
 							<cfif getAgent.vetted EQ 1 ><cfset vetted_marker="*"><cfelse><cfset vetted_marker=""></cfif> 
 							<cfif oneOfUs EQ 1><cfset agent_id_bit = " [Agent ID: #getAgent.agent_id#]"><cfelse><cfset agent_id_bit=""></cfif>
-							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0">  #dates# #agent_type# #agent_id_bit#</span> 		
+							<h1 class="h2 mt-2 mb-2">#preferred_agent_name##vetted_marker# <span class="h4 my-0"> #dates# #agent_type# #agent_id_bit#</span> 
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
 								<a href="/agents/editAgent.cfm?agent_id=#agent_id#" class="btn btn-primary btn-xs float-right">Edit</a>
 								</cfif>
@@ -150,7 +150,6 @@ limitations under the License.
 									and agent_relationship like '% duplicate of'
 								ORDER BY agent_relationship
 						</cfquery>
-					
 						<cfif getDupAgentRel.recordcount GT 0 OR getDupAgentRelRev.recordcount GT 0>
 							<div class="row mx-0">
 								<cfif getDupAgentRel.recordcount GT 0>
@@ -1037,7 +1036,7 @@ limitations under the License.
 													<ul class="list-group">
 														<cfloop query="identification">
 															<li class="list-group-item">
-																#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#">
+																#cnt# identifications for <a href="/SpecimenResults.cfm?identified_agent_id=#agent_id#&collection_id=#collection_id#" target="_blank">
 																#specs# #collection#</a> cataloged items
 															</li>
 														</cfloop>
@@ -1094,7 +1093,7 @@ limitations under the License.
 													<cfloop query="attributes">
 														<li class="list-group-item">
 															#attributes.attribute_type# for #attributes.colObjCount#
-															<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#">
+															<a href="/SpecimenResults.cfm?attributed_determiner_agent_id=#agent_id#&collection_id=#attributes.collection_id#" target="_blank">
 																#attributes.collection#</a> specimens
 														</li>
 													</cfloop>
@@ -1273,7 +1272,7 @@ limitations under the License.
 													<cfelse>
 														<li class="list-group-item">
 															Created #getMediaCreation.ct# 
-															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#">Media Record#plural#</a>
+															<a href="/media/findMedia.cfm?execute=true&created_by_agent_name=#encodeForURL(prefName)#&created_by_agent_id=#agent_id#" target="_blank">Media Record#plural#</a>
 														</li>
 													</cfif>
 													<cfif media_assd_relations.ct EQ 0>
@@ -1437,7 +1436,7 @@ limitations under the License.
 														<cfloop query="packedBy">
 															<li class="list-group-item">
 																Packed shipment for #transaction_type#
-																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#" target="_blank">
 																	#collection# #specific_number#
 																</a>
 															</li>
@@ -1448,7 +1447,7 @@ limitations under the License.
 														<cfloop query="shippedTo">
 															<li class="list-group-item">
 																Recipient of shipment for #transaction_type#
-																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#" target="_blank">
 																	#collection# #specific_number#
 																</a>
 															</li>
@@ -1459,7 +1458,7 @@ limitations under the License.
 														<cfloop query="shippedFrom">
 															<li class="list-group-item">
 																Sender of shipment for #transaction_type#
-																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#">
+																<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=#collection_id#&number=#specific_number#" target="_blank">
 																	#collection# #specific_number#
 																</a>
 															</li>
@@ -1548,7 +1547,7 @@ limitations under the License.
 													<cfloop query="coll_object_encumbrance">
 														<li class="list-group-item">
 															Encumbered 
-															<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#">
+															<a href="/SpecimenResults.cfm?encumbering_agent_id=#agent_id#&collection_id=#collection_id#" target="_blank">
 															#specs# #collection#</a> records
 														</li>
 													</cfloop>
@@ -1608,7 +1607,7 @@ limitations under the License.
 												<cfelse>
 													<ul class="list-group">
 														<cfloop query="getProjRoles">
-															<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#">#project_name#</a></li>
+															<li class="list-group-item">#getProjRoles.role# for <a href="/ProjectDetail.cfm?project_id=#project_id#" target="_blank">#project_name#</a></li>
 														</cfloop>
 													</ul>
 												</cfif>
@@ -1695,7 +1694,7 @@ limitations under the License.
 											<cfelse>
 												<h3 class="small95 mt-2 px-3 mb-1">
 													#prefName# has some role in 
-													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" >
+													<a href="/Transactions.cfm?action=findAll&execute=true&collection_id=-1&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" target="_blank">
 													#getTransCount.ct# Transaction#plural#
 													</a>
 												</h3>
@@ -1717,7 +1716,7 @@ limitations under the License.
 																	<cfelse>
 																		<cfset targetStatus="#transaction_type#_status">
 																	</cfif>
-																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#">
+																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" target="_blank">
 																		#getTransactions.ct# 
 																	</a>
 																	<span class="text-capitalize">#transaction_type#</span> 
@@ -1738,7 +1737,7 @@ limitations under the License.
 																		<cfset liOpen = true>
 																		<cfset statusDate = "(#trans_date# #getTransactions.status#)">
 																		<span class="text-capitalize">#transaction_type#</span> 
-																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true">#specific_number#</a>
+																		<a href="/Transactions.cfm?number=#specific_number#&action=findAll&execute=true" target="_blank">#specific_number#</a>
 																		#trans_agent_role#
 																	<!--- /li added in cfif either above or below --->
 																<cfelse>
@@ -1827,7 +1826,7 @@ limitations under the License.
 													<cfelse>
 														<li class="list-group-item">
 															#getPermitsTo.recordcount# recorded
-															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#">
+															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedToAgent=#encodeForURL(prefName)#&issued_to_agent_id=#agent_id#" target="_blank">
 																permissions and rights documents issued to #encodeForHtml(prefName)#
 															</a>
 														</li>
@@ -1836,7 +1835,7 @@ limitations under the License.
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#" target="_blank">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued to #encodeForHtml(prefName)#
@@ -1848,7 +1847,7 @@ limitations under the License.
 													<cfelse>
 														<li class="list-group-item">
 															#getPermitsFrom.recordcount# recorded
-															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#">
+															<a href="/transactions/Permit.cfm?action=search&execute=true&IssuedByAgent=#encodeForURL(prefName)#&issued_by_agent_id=#agent_id#" target="_blank">
 																permissions and rights documents issued by #encodeForHtml(prefName)#
 															</a>
 														</li>
@@ -1857,7 +1856,7 @@ limitations under the License.
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																Document 
-																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#" target="_blank">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 																was issued by #encodeForHtml(prefName)#
@@ -1869,7 +1868,7 @@ limitations under the License.
 													<cfelse>
 														<li class="list-group-item">
 															#getPermitContacts.recordcount# recorded
-															<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#">
+															<a href="/transactions/Permit.cfm?action=search&execute=true&ContactAgent=#encodeForURL(prefName)#&contact_agent_id=#agent_id#" target="_blank">
 																permissions and rights documents where #encodeForHtml(prefName)# is a contact
 															</a>
 														</li>
@@ -1878,7 +1877,7 @@ limitations under the License.
 															<cfif len(pnrDoc) EQ 0><cfset pnrDoc=specific_type ></cfif>
 															<li class="list-group-item">
 																#encodeForHtml(prefName)# is contact for 
-																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">
+																<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#" target="_blank">
 																	#pnrDoc#
 																</a> (#permit_type#:#specific_type#)
 															</li>
@@ -1946,7 +1945,7 @@ limitations under the License.
 													<cfloop query="publicationAuthor">
 														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
 														<li class="border bg-white list-group-item d-flex justify-content-between align-items-center mt-1">
-															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>
+															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_blank">#formatted_publication#</a>
 															<cfif citation_count eq 0>
 																<cfelse>
 																<span class="badge badge-primary badge-pill pb-1">
@@ -2062,7 +2061,7 @@ limitations under the License.
 													<ul class="list-group">
 														<cfloop query="lastEdit">
 															<li class="list-group-item">
-																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#">#cnt# #collection#</a> specimens
+																<a href="/SpecimenResults.cfm?edited_by_id=#agent_id#&collection_id=#collection_id#" target="_blank">#cnt# #collection#</a> specimens
 															</li>
 														</cfloop>
 													</ul>
