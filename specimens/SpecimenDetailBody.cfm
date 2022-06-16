@@ -903,7 +903,7 @@ limitations under the License.
 											<cfif len(#ledger.media_id#) gt 0> 
 												<div class="card-body w-100 px-1 pt-2 pb-0 float-left" id="ledgerCardBody">
 													<cfloop query="ledger">
-														<div class="col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left">
+														<div class="col-12 px-1 col-md-4 mb-1 px-md-1 pt-1 float-left">
 															<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
 															<div id="ledgerBlock#ledger.media_id#">
 																#ledgerBlock# 
