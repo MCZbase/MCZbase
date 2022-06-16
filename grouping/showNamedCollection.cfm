@@ -321,7 +321,7 @@ limitations under the License.
 						<div class="col-12 my-2">
 							<h2 class="float-left">Specimen Records 
 								<span class="small">
-									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#">#specimens.recordcount#</a>
+									<a href="/SpecimenResults.cfm?underscore_coll_id=#encodeForURL(underscore_collection_id)#" target="_blank">#specimens.recordcount#</a>
 								</span>
 							</h2>
 							<div id="btnContainer" class="ml-3 float-left"></div>
