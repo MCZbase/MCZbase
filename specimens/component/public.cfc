@@ -1458,6 +1458,8 @@ limitations under the License.
 						</cfif>
 						<cfif len(isOne.dec_lat) gt 0>
 							<cfset dateDet = left(#isOne.latLongDeterminedDate#,10)>
+							<cfset dla = left(#isOne.dec_lat#,10)>
+							<cfset dlo = left(#isOne.dec_long#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
 							<li class="list-group-item col-7 px-0">#isOne.dec_lat#, #isOne.dec_long# (error: #isOne.max_error_distance##isOne.max_error_units#) <span class="d-block small mb-0 pb-0"> #isOne.latLongDeterminer# on #dateDet#</span></li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
