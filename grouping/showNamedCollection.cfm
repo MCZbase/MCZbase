@@ -740,7 +740,7 @@ limitations under the License.
 												Associated Agent
 												</h3>
 												<p class="rounded-0"> 
-													<a class="h4 px-2 py-2 d-block" target="_blank" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
+													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
 											</div>
 										</cfif>
 									</cfif>
@@ -912,7 +912,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="geogQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
+															<a class="h4" href="/SpecimenResults.cfm?#encodeForUrl(geogQuery.rank)#=#encodeForUrl(geogQuery.geoglink)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#geogQuery.geog#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -957,7 +957,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="islandsQuery">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<a class="h4" target="_blank" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#islandsQuery.island#</a> 
+															<a class="h4" href="/SpecimenResults.cfm?island=#encodeForUrl(islandsQuery.island)#&underscore_coll_id=#getNamedGroup.underscore_collection_id#">#islandsQuery.island#</a> 
 														</li>
 													</cfloop>
 												</ul>
@@ -995,7 +995,7 @@ limitations under the License.
 															<div id="collapseCollectors" aria-labelledby="headingCollectors" data-parent="##accordionForCollectors" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="collectors">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name# </a> </li>
+																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name# </a> </li>
 																</cfloop>
 																</ul>
 															</div>
@@ -1005,7 +1005,9 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="collectors">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> <a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#" target="_blank">#collectors.agent_name#</a> </li>
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name#</a> 
+														</li>
 													</cfloop>
 												</ul>
 											</cfif>
@@ -1049,7 +1051,7 @@ limitations under the License.
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="citations">
 																		<li class="list-group-item col-12 col-md-12 float-left py-2"> 
-																			<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#</a>
+																			<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a>
 																		</li>
 																	</cfloop>
 																	</ul>
@@ -1060,7 +1062,7 @@ limitations under the License.
 												<cfelse>
 													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 														<cfloop query="citations">
-															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.formatted_publication#, </a> </li>
+															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#, </a> </li>
 														</cfloop>
 													</ul>
 												</cfif>
