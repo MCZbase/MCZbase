@@ -1147,11 +1147,11 @@ limitations under the License.
 						<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 							<cfloop query="isProj">
 								<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Contributed By Project:</span>
-									<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
+									<a href="/project/#project_name#">#isProj.project_name#</a> </li>
 							</cfloop>
 							<cfloop query="isLoan">
 								<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Used By Project:</span> 
-									<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> 
+									<a href="/project/#project_name#" target="_mainFrame">#isLoan.project_name#</a> 
 								</li>
 							</cfloop>
 							<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
