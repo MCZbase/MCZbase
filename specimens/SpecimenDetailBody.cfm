@@ -325,7 +325,7 @@ limitations under the License.
 			</div>
 		</div>
 	</cfif>
-	<cfif #oneOfUs# eq 0>
+	
 		<div class="container-fluid ">
 			<div class="row mx-0 mt-2">
 					<!----------------------------- one left column for media ---------------------------------->
@@ -991,5 +991,5 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-	</cfif>
+
 </cfoutput>
