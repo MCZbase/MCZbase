@@ -1350,7 +1350,7 @@ imgStyleClass=value
 												<cfset showTitleText = "#left(showTitleText,250)#..." >
 											</cfif>
 										</cfif>
-										<p class="text-center col-12 my-0 p-0 smaller"<cfif #alt# CONTAINS 'type text'><cfelse>style="height: 48px;"</cfif>>#showTitleText# </p> 
+										<p class="text-center col-12 my-0 p-0 smaller"<cfif #alt# CONTAINS 'type text'><cfelseif len(#alt#) gt 81>style="height: 101px;"<cfelse>style="height: 48px;"</cfif>>#showTitleText# </p> 
 										<cfif len(#license_uri#) gt 0>
 											<cfif #l_captionAs# EQ "TextFull">
 											<p class="text-center col-12 p-0 my-0 smaller">
