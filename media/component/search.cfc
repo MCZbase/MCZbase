@@ -1350,10 +1350,11 @@ imgStyleClass=value
 												<cfset showTitleText = "#left(showTitleText,250)#..." >
 											</cfif>
 										</cfif>
-											<p class="text-center col-12 my-0 p-0 smaller" <cfif len(#showTitleText#) lt 81 and #alt# contains 'type text' or #showTitleText# contains 'ledger'><cfelseif len(#showTitleText#) lt 89 and #showTitleText# contains 'MCZ:'>style="height: 55px;"<cfelse></cfif>> #showTitleText# </p> 
+											<p class="text-center col-12 my-0 p-0 smaller" > #showTitleText# </p> 
+											<!---<cfif len(#showTitleText#) lt 81 and #alt# contains 'type text' or #showTitleText# contains 'ledger'><cfelseif len(#showTitleText#) lt 89 and #showTitleText# contains 'MCZ:'>style="height: 55px;"<cfelse></cfif>--->
 										<cfif len(#license_uri#) gt 0>
 											<cfif #l_captionAs# EQ "TextFull">
-											<p class="text-center col-12 p-0 my-0 smaller">
+											<p class="text-center col-12 p-0 my-0 smaller"><!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
 												<a href="#license_uri#">#license_display#</a>
 											</p>
 											</cfif>
