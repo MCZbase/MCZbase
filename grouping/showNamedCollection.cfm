@@ -36,12 +36,6 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
-<!---<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
-	<cfset session.sdmapclass='tinymap'>
-</cfif>
-<cfoutput>
-	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>--->
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
