@@ -1145,15 +1145,19 @@ limitations under the License.
 								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
-							<cfloop query="isProj">
-								<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Contributed By Project:</span>
-									<a href="/project/#project_name#">#isProj.project_name#</a> </li>
-							</cfloop>
-							<cfloop query="isLoan">
-								<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Used By Project:</span> 
-									<a href="/project/#project_name#" target="_mainFrame">#isLoan.project_name#</a> 
-								</li>
-							</cfloop>
+							<cfif isProj.project_name gt 0>
+								<cfloop query="isProj">
+									<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Contributed By Project:</span>
+										<a href="/project/#project_name#">#isProj.project_name#</a> </li>
+								</cfloop>
+							</cfif>
+							<cfif isLoan.project_name gt 0>
+								<cfloop query="isLoan">
+									<li class="list-group-item pt-0"><span class="mb-0 d-inline-block font-weight-lessbold">Used By Project:</span> 
+										<a href="/project/#project_name#" target="_mainFrame">#isLoan.project_name#</a> 
+									</li>
+								</cfloop>
+							</cfif>
 							<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 								<li class="list-group-item pt-0">
 									<span class="font-weight-lessbold mb-0 d-inline-block">Loan History:</span>
@@ -1626,7 +1630,7 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
 							<li class="list-group-item col-7 px-0">#isOne.dec_lat#, #isOne.dec_long# (error: #isOne.max_error_distance##isOne.max_error_units#)</li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.orig_lat_long_units# (datum: #isOne.datum#)</li>
+							<li class="list-group-item col-7 px-0">#isOne.orig_lat_long_units# (datum: #isOne.datum#) #isOne.EnteredBy#</li>
 						</cfif>
 					</ul>
 
