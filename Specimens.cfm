@@ -239,7 +239,7 @@ limitations under the License.
 											<h2 class="headerSm">Guidance for specific fields</h2>
 											<dl class="mb-0"> 
 												<dt><span class="text-info font-weight-bold">Catalog Number</span></dt>
-												<dd>Catalog number accepts single numbers (e.g. 1100), ranges of numbers (e.g. 100-110), comma separated lists of number (or search, e.g. 100,110), or ranges of numbers with prefixes (put the prefix only at the beginning of the range, e.g. R-200-210).  Wildcards are not added to catalog number searches (so =1 and 1 return the same result)</dd>
+												<dd>Catalog number accepts single numbers (e.g. 1100), ranges of numbers (e.g. 100-110), comma separated lists of number (or search, e.g. 100,110), ranges of numbers with prefixes (e.g. R-200-210 or R-200-R-210), or ranges of numbers with suffixes (e.g. 1-a-50 or 1-a-50-a).  Wildcards are not added to catalog number searches (so =1 and 1 return the same result).  To search with wildcards or to limit both prefixes and suffixes, use the search builder.</dd>
 												<dt><span class="text-info font-weight-bold">Other Number</span></dt> 
 												<dd>Other number accepts single numbers, ranges of numbers, comma separated lists of numbers, and ranges of numbers, but for most cases with prefixes, search for just a single prefixed number with an exact match search (e.g. =BT-782)</dd>
 												<dt><span class="text-info font-weight-bold">Taxonomy and Higher Geography Fields</span> </dt>
