@@ -380,8 +380,8 @@ limitations under the License.
 											<section class="accordion mb-3" id="basic_Taxonomy">
 												<div class="card bg-light form-row">
 													<div class="card-header" id="basic_Taxaheader">
-														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##TaxaCardBodyWrap" aria-expanded="false" aria-controls="TaxaCardBodyWrap">
+														<h2 class="h5 my-0">
+															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##TaxaCardBodyWrap" aria-expanded="false" aria-controls="TaxaCardBodyWrap">
 																Taxonomy
 															</button>
 														</h2>
@@ -558,7 +558,7 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-3" id="basic_Geog">
-												<div class="card bg-primary form-row mb-2">
+												<div class="card form-row mb-2">
 													<div class="card-header" id="basic_Geogheader">
 														<h2 class="h5 my-0">
 															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="true" aria-controls="GeogCardBodyWrap">
@@ -691,6 +691,7 @@ limitations under the License.
 													<div class="card-header" id="basic_collecting_header">
 														<h2 class="h5 my-0">
 															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+																Collecting Event
 															</button>
 														</h2>
 													</div>
@@ -786,8 +787,9 @@ limitations under the License.
 											<section class="accordion mb-3" id="basic_bioIndividual">
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_basic_bioIndividual">
-														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="true" aria-controls="basic_bioIndividualCardBodyWrap">
+														<h2 class="h5 my-0">
+															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="true" aria-controls="basic_bioIndividualCardBodyWrap">
+																Biological Individual
 															</button>
 														</h2>
 													</div>
@@ -849,6 +851,7 @@ limitations under the License.
 													<div class="card-header" id="basic_transactions">
 														<h2 class="h5 my-0">
 															<button type="button" class="headerLnk bg-light-blue text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
+																Transactions
 															</button>
 														</h2>
 													</div>
