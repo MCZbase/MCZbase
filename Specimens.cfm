@@ -260,7 +260,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="accordion mb-3" id="basic_identifiers">
+											<section class="accordion mb-2" id="basic_identifiers">
 												<div class="card bg-light form-row mx-0">
 													<div class="card-header" id="basic_IDheader">
 														<h2 class="h5 my-0">
@@ -377,7 +377,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-3" id="basic_Taxonomy">
+											<section class="accordion mb-2" id="basic_Taxonomy">
 												<div class="card bg-light form-row mx-0">
 													<div class="card-header" id="basic_Taxaheader">
 														<h2 class="h5 my-0">
@@ -557,7 +557,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-3" id="basic_Geog">
+											<section class="accordion mb-2" id="basic_Geog">
 												<div class="card bg-light form-row mx-0">
 													<div class="card-header" id="basic_Geogheader">
 														<h2 class="h5 my-0">
@@ -696,7 +696,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 62px">
-														<div class="form-row mb-2">
+														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<label for="collector" class="data-entry-label">Collector</label>
 																<cfif not isdefined("collector")>
@@ -732,7 +732,7 @@ limitations under the License.
 																		</cfloop>
 																	</cfif>
 																</cfif>
-																<input type="text" id="collector" name="collector" class="data-entry-input" value="#encodeForHtml(collector)#">
+																<input type="text" id="collector" name="collector" class="data-entry-input inputHeight" value="#encodeForHtml(collector)#">
 																<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
 																<script>
 																	jQuery(document).ready(function() {
@@ -784,7 +784,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-3" id="basic_bioIndividual">
+											<section class="accordion mb-2" id="basic_bioIndividual">
 												<div class="card bg-light form-row mx-0">
 													<div class="card-header" id="basic_basic_bioIndividual">
 														<h2 class="h5 my-0">
@@ -846,7 +846,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-3" id="basic_transactions">
+											<section class="accordion mb-2" id="basic_transactions">
 												<div class="card bg-light form-row mx-0">
 													<div class="card-header" id="basic_transactions">
 														<h2 class="h5 my-0">
