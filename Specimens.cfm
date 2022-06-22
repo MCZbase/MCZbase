@@ -268,9 +268,9 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 58px">
+													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 56px">
 														<div class="form-row mx-0">
-															<div class="col-12 px-3 mb-0 py-1 col-md-3">
+															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
 																<div name="collection" id="fixedCollection" class="w-100"></div>
 																<cfif not isdefined("collection")><cfset collection=""></cfif>
@@ -297,12 +297,12 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-3">
+															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 																<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 																<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-3">
+															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
 																<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -329,7 +329,7 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-3">
+															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 																<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
@@ -386,9 +386,9 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 58px">
+													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 56px">
 														<div class="form-row mx-0">
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<div class="form-row mx-0">
 																	<div class="col-9 px-0">
 																		<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
@@ -407,7 +407,7 @@ limitations under the License.
 																	</div>
 																</div>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -419,7 +419,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="phylclass" class="data-entry-label">Class</label>
 																<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
 																<input id="phylclass" name="phylclass" class="data-entry-input inputHeight" value="#encodeForHtml(phylclass)#" >
@@ -429,7 +429,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="phylorder" class="data-entry-label">Order</label>
 																<cfif not isdefined("phylorder")><cfset phylorder=""></cfif>
 																<input id="phylorder" name="phylorder" class="data-entry-input inputHeight" value="#encodeForHtml(phylorder)#" >
@@ -439,7 +439,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="family" class="data-entry-label">Family</label>
 																<cfif not isdefined("family")><cfset family=""></cfif>
 																<input type="text" id="family" name="family" class="data-entry-input inputHeight" value="#encodeForHtml(family)#" >
@@ -449,7 +449,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
@@ -461,7 +461,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -473,7 +473,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="genus" class="data-entry-label">Genus</label>
 																<cfif not isdefined("genus")><cfset genus=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -483,7 +483,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 																<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 																<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
@@ -507,7 +507,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="author_text" class="data-entry-label">Authorship</label>
 																<cfif not isdefined("author_text")><cfset author_text=""></cfif>
 																<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
@@ -517,7 +517,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="determiner" class="data-entry-label">Determiner</label>
 																<cfif not isdefined("determiner")><cfset determiner=""></cfif>
 																<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
@@ -541,7 +541,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select  inputHeight col-sm-12 pl-2">
@@ -566,19 +566,19 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 58px">
+													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 56px">
 														<div class="form-row mb-2 mx-0">
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 																<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 																<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 																<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 																<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
 																<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
@@ -588,7 +588,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
@@ -598,7 +598,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 																<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
@@ -608,7 +608,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="sea" class="data-entry-label">Sea
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -622,7 +622,7 @@ limitations under the License.
 															</div>
 														</div>
 														<div class="form-row mb-2 mx-0">
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="country" class="data-entry-label">Country</label>
 																<cfif not isdefined("country")><cfset country=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
@@ -632,7 +632,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="state_prov" class="data-entry-label">State/Province</label>
 																<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
@@ -642,7 +642,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="county" class="data-entry-label">County/Shire/Parish</label>
 																<cfif not isdefined("county")><cfset county=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
@@ -662,7 +662,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="island" class="data-entry-label">Island</label>
 																<cfif not isdefined("island")><cfset island=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island" name="island" value="#encodeForHtml(island)#">
@@ -672,7 +672,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 																<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
@@ -695,9 +695,9 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 58px">
+													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 56px">
 														<div class="form-row mx-0 mb-2">
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="collector" class="data-entry-label">Collector</label>
 																<cfif not isdefined("collector")>
 																	<cfset collector="">
@@ -740,7 +740,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("collecting_source")>
 																	<cfset collecting_source="">
 																</cfif>
@@ -754,26 +754,26 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("date_collected")>
 																	<cfset date_collected="">
 																</cfif>
 																<label for="date_collected" class="data-entry-label">Date Collected</label>
 																<input type="text" name="date_collected" class="data-entry-input" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 																<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
 																<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
 																</cfif>
 																<label for="date_began_date" class="data-entry-label">Date Began</label>
 																<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("date_ended_date")>
 																	<cfset date_ended_date="">
 																</cfif>
@@ -793,9 +793,9 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" style="height: 58px">
+													<div class="card-body py-2" style="height: 56px">
 														<div class="form-row mx-0 mb-2">
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 																<label for="part_name" class="data-entry-label">Part Name</label>
 																<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
@@ -805,7 +805,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 																<label for="preserve_method" class="data-entry-label">Preserve Method
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -817,7 +817,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
 																<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -829,7 +829,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 																<label for="media_type" class="data-entry-label">Media Type
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
@@ -855,10 +855,10 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 58px">
+													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 56px">
 														<div class="form-row mx-0 mb-2">
 														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("loan_number")>
 																	<cfset loan_number="">
 																</cfif>
@@ -877,7 +877,7 @@ limitations under the License.
 																<label for="loan_number" class="data-entry-label">Loan Number</label>
 																<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("accn_number")>
 																	<cfset accn_number="">
 																</cfif>
@@ -896,7 +896,7 @@ limitations under the License.
 																<label for="accn_number" class="data-entry-label">Accession Number</label>
 																<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("deaccession_number")>
 																	<cfset deaccession_number="">
 																</cfif>
@@ -904,21 +904,21 @@ limitations under the License.
 																<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 															</div>
 															<!--- TODO: Move from manage transactions section --->
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("coll_object_entered_date")>
 																	<cfset coll_object_entered_date="">
 																</cfif>
 																<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
 																<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("last_edit_date")>
 																	<cfset last_edit_date="">
 																</cfif>
 																<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
 																<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 															</div>
-															<div class="col-12 px-3 mb-0 py-1 col-md-2">
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																	<label class="data-entry-label" for="debug">Debug</label>
 																	<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
