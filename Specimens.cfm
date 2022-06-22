@@ -388,7 +388,7 @@ limitations under the License.
 													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 62px">
 														<div class="form-row mb-2">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
-																<div class="col-8 px-0">
+																<div class="col-8 px-0 form-row mx-0">
 																	<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 																	<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
 																	<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
