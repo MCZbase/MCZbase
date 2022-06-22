@@ -264,7 +264,7 @@ limitations under the License.
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_IDheader">
 														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##IDCardBodyWrap" aria-expanded="#ariaExpanded#" aria-controls="IDCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##IDCardBodyWrap" aria-expanded="true" aria-controls="IDCardBodyWrap">
 															</button>
 														</h2>
 													</div>
