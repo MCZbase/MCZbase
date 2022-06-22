@@ -16,82 +16,60 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 
-<!--- getMediaHTML obtain a block of html listing identifications for a cataloged item
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
- @return html for viewing identifications for the specified cataloged item. 
+<!--- getMediaHTML obtain a block of html listing media for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
+ @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'ledger' for
+   ledger entry for cataloged item, or 'all' for any cataloged_item media relationship.
+ @return html for viewing media for the specified cataloged item. 
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getMediaThread">
-		<cfoutput>
-			<cftry>
-			<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					media.media_id
-				FROM
-					media
-					left join media_relations on media_relations.media_id = media.media_id
-				WHERE
-					media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-			<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-				<cfif len(images.media_id) gt 0>
-					<cfloop query="images">
-						<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT distinct
-								media.media_id,
-								media.auto_host,
-								media.auto_path,
-								media.auto_filename,
-								media.media_uri,
-								media.preview_uri as preview_uri,
-								media.mime_type as mime_type,
-								media.media_type,
-								mczbase.get_media_descriptor(media.media_id) as media_descriptor
-							FROM 
-								media
-								left join media_relations on media_relations.media_id = media.media_id
-							WHERE
-								media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-							and (media.media_type = 'image' OR media.media_type = 'audio' OR media.media_type = '3D model' OR media.media_type = 'video')
-						</cfquery>
-							<div class="col-6 py-1 float-left px-1">
-								<div  class="border rounded py-2 px-1">
-									<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-										<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",displayAs="thumbSm")>
-										<div id="mediaBlock#images.media_id#">
-											#mediaBlock#
-										</div>
-									</div>
-								</div>
-							</div>
-					</cfloop>
-				</cfif>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
+	<cfargument name="relationship_type" type="string" required="yes">
+	<cfset output = "" >
+	<cftry>
+		<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT distinct
+				media.media_id,
+				media.auto_host,
+				media.auto_path,
+				media.auto_filename,
+				media.media_uri,
+				media.preview_uri as preview_uri,
+				media.mime_type as mime_type,
+				media.media_type,
+				mczbase.get_media_descriptor(media.media_id) as media_descriptor
+			FROM 
+				media
+				JOIN media_relations on media_relations.media_id = media.media_id
+			WHERE
+				media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				<cfif relationship_type EQ 'shows'>
+					AND media_relations.media_relationship = 'shows cataloged_item'
+				<cfelseif relationship_type EQ 'ledger'>
+					AND media_relations.media_relationship = 'ledger entry for cataloged_item'
 				<cfelse>
-					<cfset queryError = ''>
+					AND media_relations.media_relationship like '% cataloged_item'
 				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">"Feedback/Report Errors"</a></p>
-							</div>
-						</div>
-					</div>
-			</cfcatch>
-		</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="getMediaThread" />
-	<cfreturn getMediaThread.output>
+				AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+		</cfquery>
+		<cfif #getImages.recordcount# gt 8>
+			<cfset output = "#output#<p class='smaller w-100 text-center'> double-click header to see all #getImages.recordcount#</p>" >
+		</cfif>
+		<cfloop query="getImages">
+			<cfset output = "#output#<div class='col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left'>" >
+			<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+			<cfset mediaBlock= getMediaBlockHtml(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
+			<cfset output = "#output#<div id='mediaBlock#getImages.media_id#'>#mediaBlock#</div>" >
+			<cfset output = "#output#</div>">
+		</cfloop>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfset output = "<h2 class='h3'>Error in #function_called#:</h2>" >
+		<cfset output = "#output#<div>#error_message#</div>" >
+	</cfcatch>
+	</cftry>
+	<cfreturn output>
 </cffunction>
 							
 <cffunction name="getLedgerHTML" returntype="string" access="remote" returnformat="plain">
