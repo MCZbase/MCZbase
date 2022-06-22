@@ -25,6 +25,9 @@ limitations under the License.
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="relationship_type" type="string" required="yes">
+	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
+	<cfset l_collection_object_id= #arguments.collection_object_id#>
+	<cfset l_relationship_type= #arguments.relationship_type#>
 	<cfthread name="getMediaThread">
 		<cftry>
 			<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -34,10 +37,10 @@ limitations under the License.
 					media
 					JOIN media_relations on media_relations.media_id = media.media_id
 				WHERE
-					media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					<cfif relationship_type EQ 'shows'>
+					media_relations.related_primary_key = <cfqueryparam value="#l_collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					<cfif l_relationship_type EQ 'shows'>
 						AND media_relations.media_relationship = 'shows cataloged_item'
-					<cfelseif relationship_type EQ 'ledger'>
+					<cfelseif l_relationship_type EQ 'ledger'>
 						AND media_relations.media_relationship = 'ledger entry for cataloged_item'
 					<cfelse>
 						AND media_relations.media_relationship like '% cataloged_item'
