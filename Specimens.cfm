@@ -686,7 +686,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-3" id="basic_collecting">
+											<section class="accordion mb-2" id="basic_collecting">
 												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_collecting_header">
 														<h2 class="h5 my-0">
