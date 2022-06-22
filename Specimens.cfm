@@ -261,10 +261,10 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="accordion mb-2" id="basic_identifiers">
-												<div class="card bg-light form-row mx-0">
+												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_IDheader">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##IDCardBodyWrap" aria-expanded="false" aria-controls="IDCardBodyWrap">Identifiers
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##IDCardBodyWrap" aria-expanded="false" aria-controls="IDCardBodyWrap">Identifiers
 															</button>
 														</h2>
 													</div>
@@ -378,10 +378,10 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-2" id="basic_Taxonomy">
-												<div class="card bg-light form-row mx-0">
+												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_Taxaheader">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##TaxaCardBodyWrap" aria-expanded="false" aria-controls="TaxaCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##TaxaCardBodyWrap" aria-expanded="false" aria-controls="TaxaCardBodyWrap">
 																Taxonomy
 															</button>
 														</h2>
@@ -558,10 +558,10 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-2" id="basic_Geog">
-												<div class="card bg-light form-row mx-0">
+												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_Geogheader">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="true" aria-controls="GeogCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="true" aria-controls="GeogCardBodyWrap">
 																Geography
 															</button>
 														</h2>
@@ -687,10 +687,10 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-3" id="basic_collecting">
-												<div class="card bg-light form-row mx-0">
+												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_collecting_header">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
 																Collecting Event
 															</button>
 														</h2>
@@ -785,10 +785,10 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-2" id="basic_bioIndividual">
-												<div class="card bg-light form-row mx-0">
+												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_basic_bioIndividual">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="true" aria-controls="basic_bioIndividualCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="true" aria-controls="basic_bioIndividualCardBodyWrap">
 																Biological Individual
 															</button>
 														</h2>
@@ -847,10 +847,10 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-2" id="basic_transactions">
-												<div class="card bg-light form-row mx-0">
+												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_transactions">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
 																Transactions
 															</button>
 														</h2>
