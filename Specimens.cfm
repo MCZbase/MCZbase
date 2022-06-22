@@ -263,8 +263,8 @@ limitations under the License.
 											<section class="accordion mb-3" id="basic_identifiers">
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_IDheader">
-														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##IDCardBodyWrap" aria-expanded="false" aria-controls="IDCardBodyWrap">Identifiers
+														<h2 class="h5 my-0">
+															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##IDCardBodyWrap" aria-expanded="false" aria-controls="IDCardBodyWrap">Identifiers
 															</button>
 														</h2>
 													</div>
@@ -558,7 +558,7 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-3" id="basic_Geog">
-												<div class="card form-row mb-2">
+												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_Geogheader">
 														<h2 class="h5 my-0">
 															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="true" aria-controls="GeogCardBodyWrap">
@@ -798,7 +798,7 @@ limitations under the License.
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 																<label for="part_name" class="data-entry-label">Part Name</label>
-																<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#encodeForHtml(part_name)#" >
+																<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makePartNameAutocompleteMeta('part_name');
@@ -810,7 +810,7 @@ limitations under the License.
 																<label for="preserve_method" class="data-entry-label">Preserve Method
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
-																<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#encodeForHtml(preserve_method)#" >
+																<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input inputHeight" value="#encodeForHtml(preserve_method)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makePreserveMethodAutocompleteMeta('preserve_method');
@@ -822,7 +822,7 @@ limitations under the License.
 																<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
-																<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input" value="#encodeForHtml(biol_indiv_relationship)#" >
+																<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
@@ -850,7 +850,7 @@ limitations under the License.
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_transactions">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk bg-light-blue text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
+															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
 																Transactions
 															</button>
 														</h2>
@@ -875,7 +875,7 @@ limitations under the License.
 																	</cfif>
 																</cfif>
 																<label for="loan_number" class="data-entry-label">Loan Number</label>
-																<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+																<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 															</div>
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("accn_number")>
@@ -901,7 +901,7 @@ limitations under the License.
 																	<cfset deaccession_number="">
 																</cfif>
 																<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
-																<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
+																<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 															</div>
 															<!--- TODO: Move from manage transactions section --->
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
@@ -909,14 +909,14 @@ limitations under the License.
 																	<cfset coll_object_entered_date="">
 																</cfif>
 																<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
-																<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
+																<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 															</div>
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("last_edit_date")>
 																	<cfset last_edit_date="">
 																</cfif>
 																<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
-																<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
+																<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 															</div>
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
