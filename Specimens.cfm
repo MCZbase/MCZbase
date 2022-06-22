@@ -387,7 +387,7 @@ limitations under the License.
 													</div>
 													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 62px">
 														<div class="form-row mb-2">
-															<div class="col-12 mb-1 py-1 col-md-2 border rounded">
+															<div class="col-12 px-3 mb-1 py-1 col-md-2 border rounded">
 																<div class="form-row">
 																	<div class="col-8 px-0">
 																		<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
