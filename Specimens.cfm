@@ -394,7 +394,7 @@ limitations under the License.
 																		<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
 																		<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 																	</div>
-																	<div class="col-3 pr-0 pl-1">
+																	<div class="col-auto pr-0 pl-1">
 																		<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 																		<label for="current_id_only" class="data-entry-label">Search</label>
 																		<select id="current_id_only" name="current_id_only" class="data-entry-select">
