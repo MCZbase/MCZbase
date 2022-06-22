@@ -388,7 +388,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 56px">
+													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 55px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<div class="form-row mx-0">
@@ -570,7 +570,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 56px">
+													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 55px">
 														<div class="form-row mb-2 mx-0">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
@@ -699,7 +699,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 56px">
+													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 55px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="collector" class="data-entry-label">Collector</label>
@@ -797,7 +797,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" style="height: 56px">
+													<div class="card-body py-2" style="height: 55px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
@@ -859,7 +859,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 56px">
+													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 55px">
 														<div class="form-row mx-0 mb-2">
 														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
