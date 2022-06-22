@@ -1350,6 +1350,19 @@ imgStyleClass=value
 												<cfset showTitleText = "#left(showTitleText,250)#..." >
 											</cfif>
 										</cfif>
+										<!--- clean up broken html tags resulting from truncation of scientific names with <i></i> tags --->
+										<cfif refind("<$",showTitleText) GT 0>
+											<cfset showTitleText = left(showTitleText,len(showTitleText-1))>
+										</cfif>
+										<cfif refind("<i$",showTitleText) GT 0>
+											<cfset showTitleText = left(showTitleText,len(showTitleText-2))>
+										</cfif>
+										<cfif refind("</$",showTitleText) GT 0>
+											<cfset showTitleText = left(showTitleText,len(showTitleText-2))>
+										</cfif>
+										<cfif refind("</i$",showTitleText) GT 0>
+											<cfset showTitleText = "#showTitleText#>">
+										</cfif>
 										<cfif refind("<i>[^<]+$",showTitleText) GT 0 >
 											<!--- close an unclosed italic tag resulting from truncation --->
 											<cfset showTitleText = "#showTitleText#</i>">
