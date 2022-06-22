@@ -260,7 +260,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="accordion mb-1" id="basic_identifiers">
+											<section class="accordion mb-3" id="basic_identifiers">
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_IDheader">
 														<h2 class="h4 my-0">
@@ -377,16 +377,16 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-1" id="basic_Taxonomy">
-												<div class="card bg-light form-row mb-2">
+											<section class="accordion mb-3" id="basic_Taxonomy">
+												<div class="card bg-light form-row">
 													<div class="card-header" id="basic_Taxaheader">
 														<h2 class="h4 my-0">
 															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##TaxaCardBodyWrap" aria-expanded="true" aria-controls="TaxaCardBodyWrap">
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 62px">
-														<div class="form-row mb-2">
+													<div class="card-body py-2 mb-2" id="TaxaCardBodyWrap" style="height: 62px">
+														<div class="form-row mb-0">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<div class="form-row mx-0">
 																	<div class="col-9 px-0">
@@ -556,7 +556,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-1" id="basic_Geog">
+											<section class="accordion mb-3" id="basic_Geog">
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_Geogheader">
 														<h2 class="h4 my-0">
@@ -684,143 +684,167 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<label for="collector" class="data-entry-label">Collector</label>
-													<cfif not isdefined("collector")>
-														<cfset collector="">
-													</cfif>
-													<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
-														<cfif len(collector) EQ 0>
-															<cfset collector_agent_id ="">
-														<cfelse>
-															<cfset collector_agent_id ="">
-															<!--- lookup collector's agent_id --->
-															<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																SELECT agent_id 
-																FROM preferred_agent_name 
-																WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
-																	AND rownum < 2
-															</cfquery>
-															<cfloop query="collectorLookup">
-																<cfset collector_agent_id = collectorLookup.agent_id>
-															</cfloop>
-														</cfif>
-													<cfelse>
-														<!--- lookup collector --->
-														<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															SELECT agent_name 
-															FROM preferred_agent_name 
-															WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
-																AND rownum < 2
-														</cfquery>
-														<cfif collectorLookup.recordcount GT 0>
-															<cfloop query="collectorLookup">
-																<cfset collector = collectorLookup.agent_name>
-															</cfloop>
-														</cfif>
-													</cfif>
-													<input type="text" id="collector" name="collector" class="data-entry-input" value="#encodeForHtml(collector)#">
-													<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
-													<script>
-														jQuery(document).ready(function() {
-															makeConstrainedAgentPicker('collector','collector_agent_id','collector');
-														});
-													</script>
+											<section class="accordion mb-3" id="basic_collecting">
+												<div class="card bg-light form-row mb-2">
+													<div class="card-header" id="basic_collecting_header">
+														<h2 class="h4 my-0">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+															</button>
+														</h2>
+													</div>
+													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 62px">
+														<div class="form-row mb-2">
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<label for="collector" class="data-entry-label">Collector</label>
+																<cfif not isdefined("collector")>
+																	<cfset collector="">
+																</cfif>
+																<cfif not isdefined("collector_agent_id") OR len(collector_agent_id) EQ 0>
+																	<cfif len(collector) EQ 0>
+																		<cfset collector_agent_id ="">
+																	<cfelse>
+																		<cfset collector_agent_id ="">
+																		<!--- lookup collector's agent_id --->
+																		<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																			SELECT agent_id 
+																			FROM preferred_agent_name 
+																			WHERE agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collector#"> 
+																				AND rownum < 2
+																		</cfquery>
+																		<cfloop query="collectorLookup">
+																			<cfset collector_agent_id = collectorLookup.agent_id>
+																		</cfloop>
+																	</cfif>
+																<cfelse>
+																	<!--- lookup collector --->
+																	<cfquery name="collectorLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																		SELECT agent_name 
+																		FROM preferred_agent_name 
+																		WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collector_agent_id#">
+																			AND rownum < 2
+																	</cfquery>
+																	<cfif collectorLookup.recordcount GT 0>
+																		<cfloop query="collectorLookup">
+																			<cfset collector = collectorLookup.agent_name>
+																		</cfloop>
+																	</cfif>
+																</cfif>
+																<input type="text" id="collector" name="collector" class="data-entry-input" value="#encodeForHtml(collector)#">
+																<input type="hidden" id="collector_agent_id" name="collector_agent_id" value="#encodeForHtml(collector_agent_id)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeConstrainedAgentPicker('collector','collector_agent_id','collector');
+																	});
+																</script>
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("collecting_source")>
+																	<cfset collecting_source="">
+																</cfif>
+																<label for="collecting_source" class="data-entry-label">Collecting Source
+																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<input type="text" name="collecting_source" class="data-entry-input" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
+																	});
+																</script>
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("date_collected")>
+																	<cfset date_collected="">
+																</cfif>
+																<label for="date_collected" class="data-entry-label">Date Collected</label>
+																<input type="text" name="date_collected" class="data-entry-input" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
+																<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
+																<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("date_began_date")>
+																	<cfset date_began_date="">
+																</cfif>
+																<label for="date_began_date" class="data-entry-label">Date Began</label>
+																<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("date_ended_date")>
+																	<cfset date_ended_date="">
+																</cfif>
+																<label for="date_ended_date" class="data-entry-label">Date Ended</label>
+																<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+															</div>
+														</div>
+													</div>
 												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("collecting_source")>
-														<cfset collecting_source="">
-													</cfif>
-													<label for="collecting_source" class="data-entry-label">Collecting Source
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-													</label>
-													<input type="text" name="collecting_source" class="data-entry-input" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
-														});
-													</script>
+											</section>
+											<section class="accordion mb-3" id="basic_collecting">
+												<div class="card bg-light form-row mb-2">
+													<div class="card-header" id="basic_collecting_header">
+														<h2 class="h4 my-0">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+															</button>
+														</h2>
+													</div>
+													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 62px">
+														<div class="form-row mb-2">
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
+																<label for="part_name" class="data-entry-label">Part Name</label>
+																<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#encodeForHtml(part_name)#" >
+																<script>
+																	jQuery(document).ready(function() {
+																		makePartNameAutocompleteMeta('part_name');
+																	});
+																</script>
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
+																<label for="preserve_method" class="data-entry-label">Preserve Method
+																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#encodeForHtml(preserve_method)#" >
+																<script>
+																	jQuery(document).ready(function() {
+																		makePreserveMethodAutocompleteMeta('preserve_method');
+																	});
+																</script>
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
+																<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
+																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input" value="#encodeForHtml(biol_indiv_relationship)#" >
+																<script>
+																	jQuery(document).ready(function() {
+																		makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+																	});
+																</script>
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("media_type")><cfset media_type=""></cfif>
+																<label for="media_type" class="data-entry-label">Media Type
+																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
+																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<input type="text" id="media_type" name="media_type" class="data-entry-input" value="#encodeForHtml(media_type)#" >
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
+																	});
+																</script>
+															</div>
+														</div>
+													</div>
 												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("date_collected")>
-														<cfset date_collected="">
-													</cfif>
-													<label for="date_collected" class="data-entry-label">Date Collected</label>
-													<input type="text" name="date_collected" class="data-entry-input" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
-													<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
-													<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("date_began_date")>
-														<cfset date_began_date="">
-													</cfif>
-													<label for="date_began_date" class="data-entry-label">Date Began</label>
-													<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("date_ended_date")>
-														<cfset date_ended_date="">
-													</cfif>
-													<label for="date_ended_date" class="data-entry-label">Date Ended</label>
-													<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
-												</div>
-											</div>
-											<div class="form-row mb-2">
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-													<label for="part_name" class="data-entry-label">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="data-entry-input" value="#encodeForHtml(part_name)#" >
-													<script>
-														jQuery(document).ready(function() {
-															makePartNameAutocompleteMeta('part_name');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
-													<label for="preserve_method" class="data-entry-label">Preserve Method
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-													</label>
-													<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input" value="#encodeForHtml(preserve_method)#" >
-													<script>
-														jQuery(document).ready(function() {
-															makePreserveMethodAutocompleteMeta('preserve_method');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-													<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-													</label>
-													<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input" value="#encodeForHtml(biol_indiv_relationship)#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
-														});
-													</script>
-												</div>
-												<div class="col-12 col-md-2">
-													<cfif not isdefined("media_type")><cfset media_type=""></cfif>
-													<label for="media_type" class="data-entry-label">Media Type
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-													</label>
-													<input type="text" id="media_type" name="media_type" class="data-entry-input" value="#encodeForHtml(media_type)#" >
-													<script>
-														jQuery(document).ready(function() {
-															makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
-														});
-													</script>
-												</div>
-											</div>
+											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<div class="form-row mb-2">
-													<div class="col-12 col-md-2">
+													<div class="col-12 px-3 mb-1 py-1 col-md-2">
 														<cfif not isdefined("loan_number")>
 															<cfset loan_number="">
 														</cfif>
@@ -839,7 +863,7 @@ limitations under the License.
 														<label for="loan_number" class="data-entry-label">Loan Number</label>
 														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 													</div>
-													<div class="col-12 col-md-2">
+													<div class="col-12 px-3 mb-1 py-1 col-md-2">
 														<cfif not isdefined("accn_number")>
 															<cfset accn_number="">
 														</cfif>
@@ -858,7 +882,7 @@ limitations under the License.
 														<label for="accn_number" class="data-entry-label">Accession Number</label>
 														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 													</div>
-													<div class="col-12 col-md-2">
+													<div class="col-12 px-3 mb-1 py-1 col-md-2">
 														<cfif not isdefined("deaccession_number")>
 															<cfset deaccession_number="">
 														</cfif>
@@ -866,21 +890,21 @@ limitations under the License.
 														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 													</div>
 													<!--- TODO: Move from manage transactions section --->
-													<div class="col-12 col-md-2">
+													<div class="col-12 px-3 mb-1 py-1 col-md-2">
 														<cfif not isdefined("coll_object_entered_date")>
 															<cfset coll_object_entered_date="">
 														</cfif>
 														<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
 														<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 													</div>
-													<div class="col-12 col-md-2">
+													<div class="col-12 px-3 mb-1 py-1 col-md-2">
 														<cfif not isdefined("last_edit_date")>
 															<cfset last_edit_date="">
 														</cfif>
 														<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
 														<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
-													<div class="col-12 col-md-2">
+													<div class="col-12 px-3 mb-1 py-1 col-md-2">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 															<label class="data-entry-label" for="debug">Debug</label>
 															<select title="debug" name="debug" id="dbug" class="data-entry-select">
