@@ -561,7 +561,7 @@ limitations under the License.
 												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_Geogheader">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="true" aria-controls="GeogCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="false" aria-controls="GeogCardBodyWrap">
 																Geography
 															</button>
 														</h2>
@@ -690,7 +690,7 @@ limitations under the License.
 												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_collecting_header">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="false" aria-controls="collectingCardBodyWrap">
 																Collecting Event
 															</button>
 														</h2>
@@ -788,7 +788,7 @@ limitations under the License.
 												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_basic_bioIndividual">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="true" aria-controls="basic_bioIndividualCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="false" aria-controls="basic_bioIndividualCardBodyWrap">
 																Biological Individual
 															</button>
 														</h2>
@@ -850,7 +850,7 @@ limitations under the License.
 												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_transactions">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="false" aria-controls="transactionsCardBodyWrap">
 																Transactions
 															</button>
 														</h2>
