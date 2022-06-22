@@ -385,7 +385,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2 mb-2" id="TaxaCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 62px">
 														<div class="form-row mb-0">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<div class="form-row mx-0">
