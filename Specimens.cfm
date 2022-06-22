@@ -269,7 +269,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 62px">
-														<div class="form-row">
+														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-1 py-1 col-md-3">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
 																<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -387,7 +387,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 62px">
-														<div class="form-row mb-0">
+														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<div class="form-row mx-0">
 																	<div class="col-9 px-0">
@@ -567,7 +567,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 62px">
-														<div class="form-row mb-2">
+														<div class="form-row mb-2 mx-0">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 																<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
@@ -621,7 +621,7 @@ limitations under the License.
 																</script>
 															</div>
 														</div>
-														<div class="form-row mb-2">
+														<div class="form-row mb-2 mx-0">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<label for="country" class="data-entry-label">Country</label>
 																<cfif not isdefined("country")><cfset country=""></cfif>
@@ -672,7 +672,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 col-md-2">
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 																<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
@@ -794,7 +794,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 62px">
-														<div class="form-row mb-2">
+														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 																<label for="part_name" class="data-entry-label">Part Name</label>
@@ -856,7 +856,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 62px">
-														<div class="form-row mb-2">
+														<div class="form-row mx-0 mb-2">
 														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("loan_number")>
