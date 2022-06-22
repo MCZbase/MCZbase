@@ -350,20 +350,9 @@ limitations under the License.
 									</div>
 
 									<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+										<cfset mediaCardBodyContent = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
 										<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
-											<cfif #mediaCount.ct# gt 8>
-												<p class="smaller w-100 text-center"> double-click header to see all #mediaCount.ct#</p>
-											</cfif>
-											<cfloop query="images">
-												<div class="col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left">
-
-													<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
-													<cfset mediaBlock= getMediaBlockHtml(media_id="#images.media_id#",size="350",captionAs="textCaption")>
-													<div id="mediaBlock#images.media_id#">
-														#mediaBlock#
-													</div>
-												</div>
-											</cfloop>
+											#mediaCardBodyContent#
 										</div>
 									</div>
 								</div>

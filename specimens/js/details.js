@@ -43,7 +43,8 @@ function loadMedia(collection_object_id,targetDivId) {
 		url: "/specimens/component/public.cfc",
 		data : {
 			method : "getMediaHTML",
-			collection_object_id: collection_object_id
+			collection_object_id: collection_object_id,
+			relationship_type: "shows" 
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
