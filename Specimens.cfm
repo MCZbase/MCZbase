@@ -269,7 +269,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 56px">
-														<div class="form-row mx-0">
+														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
 																<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -387,7 +387,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 56px">
-														<div class="form-row mx-0">
+														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<div class="form-row mx-0">
 																	<div class="col-9 px-0">
@@ -462,7 +462,7 @@ limitations under the License.
 																</script>
 															</div>
 														</div>
-														<div class="form-row mx-0">
+														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
