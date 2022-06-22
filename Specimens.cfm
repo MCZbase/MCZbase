@@ -268,7 +268,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 59px">
+													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 58px">
 														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-0 py-1 col-md-3">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
@@ -386,7 +386,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 59px">
+													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 58px">
 														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<div class="form-row mx-0">
@@ -566,7 +566,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 59px">
+													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 58px">
 														<div class="form-row mb-2 mx-0">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
@@ -695,7 +695,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 59px">
+													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 58px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<label for="collector" class="data-entry-label">Collector</label>
@@ -793,7 +793,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 59px">
+													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 58px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
@@ -855,7 +855,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 59px">
+													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 58px">
 														<div class="form-row mx-0 mb-2">
 														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
@@ -1069,7 +1069,7 @@ limitations under the License.
 																	<cfset comma=",">
 																</cfloop>
 															];
-															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
+															$("##keywordCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
 															setKeywordCollectionValues();
 														});
 													</script> 
