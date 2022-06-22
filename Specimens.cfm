@@ -781,7 +781,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-3" id="basic_collecting">
+											<section class="accordion mb-3" id="basic_bio_individual">
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_collecting_header">
 														<h2 class="h4 my-0">
@@ -842,87 +842,101 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="form-row mb-2">
-													<div class="col-12 px-3 mb-1 py-1 col-md-2">
-														<cfif not isdefined("loan_number")>
-															<cfset loan_number="">
-														</cfif>
-														<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
-															<!--- lookup loan number (for api call &loan_trans_id=) --->
-															<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
-																SELECT loan_number as lnum
-																FROM loan
-																WHERE
-																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
-															</cfquery>
-															<cfif lookupLoan.recordcount EQ 1>
-																<cfset accn_number = "=#lookupLoan.lnum#">
-															</cfif>
-														</cfif>
-														<label for="loan_number" class="data-entry-label">Loan Number</label>
-														<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+											<section class="accordion mb-3" id="basic_transactions">
+												<div class="card bg-light form-row mb-2">
+													<div class="card-header" id="basic_collecting_header">
+														<h2 class="h4 my-0">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+															</button>
+														</h2>
 													</div>
-													<div class="col-12 px-3 mb-1 py-1 col-md-2">
-														<cfif not isdefined("accn_number")>
-															<cfset accn_number="">
+													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 62px">
+														<div class="form-row mb-2">
+														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("loan_number")>
+																	<cfset loan_number="">
+																</cfif>
+																<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
+																	<!--- lookup loan number (for api call &loan_trans_id=) --->
+																	<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
+																		SELECT loan_number as lnum
+																		FROM loan
+																		WHERE
+																			transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
+																	</cfquery>
+																	<cfif lookupLoan.recordcount EQ 1>
+																		<cfset accn_number = "=#lookupLoan.lnum#">
+																	</cfif>
+																</cfif>
+																<label for="loan_number" class="data-entry-label">Loan Number</label>
+																<input type="text" name="loan_number" class="data-entry-input" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("accn_number")>
+																	<cfset accn_number="">
+																</cfif>
+																<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
+																	<!--- lookup accession number (for api call &accn_trans_id=) --->
+																	<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
+																		SELECT accn_number as accnum
+																		FROM accn
+																		WHERE
+																			transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
+																	</cfquery>
+																	<cfif lookupAccn.recordcount EQ 1>
+																		<cfset accn_number = "=#lookupAccn.accnum#">
+																	</cfif>
+																</cfif>
+																<label for="accn_number" class="data-entry-label">Accession Number</label>
+																<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("deaccession_number")>
+																	<cfset deaccession_number="">
+																</cfif>
+																<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
+																<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
+															</div>
+															<!--- TODO: Move from manage transactions section --->
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("coll_object_entered_date")>
+																	<cfset coll_object_entered_date="">
+																</cfif>
+																<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
+																<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif not isdefined("last_edit_date")>
+																	<cfset last_edit_date="">
+																</cfif>
+																<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
+																<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
+															</div>
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
+																<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																	<label class="data-entry-label" for="debug">Debug</label>
+																	<select title="debug" name="debug" id="dbug" class="data-entry-select">
+																		<option value=""></option>
+																		<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																		<option value="true" #selected#>Debug JSON</option>
+																	</select>
+																</cfif>
+															</div>
 														</cfif>
-														<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
-															<!--- lookup accession number (for api call &accn_trans_id=) --->
-															<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
-																SELECT accn_number as accnum
-																FROM accn
-																WHERE
-																	transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
-															</cfquery>
-															<cfif lookupAccn.recordcount EQ 1>
-																<cfset accn_number = "=#lookupAccn.accnum#">
-															</cfif>
-														</cfif>
-														<label for="accn_number" class="data-entry-label">Accession Number</label>
-														<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
-													</div>
-													<div class="col-12 px-3 mb-1 py-1 col-md-2">
-														<cfif not isdefined("deaccession_number")>
-															<cfset deaccession_number="">
-														</cfif>
-														<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
-														<input type="text" name="deaccession_number" class="data-entry-input" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
-													</div>
-													<!--- TODO: Move from manage transactions section --->
-													<div class="col-12 px-3 mb-1 py-1 col-md-2">
-														<cfif not isdefined("coll_object_entered_date")>
-															<cfset coll_object_entered_date="">
-														</cfif>
-														<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
-														<input type="text" name="coll_object_entered_date" class="data-entry-input" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
-													</div>
-													<div class="col-12 px-3 mb-1 py-1 col-md-2">
-														<cfif not isdefined("last_edit_date")>
-															<cfset last_edit_date="">
-														</cfif>
-														<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
-														<input type="text" name="last_edit_date" class="data-entry-input" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
-													</div>
-													<div class="col-12 px-3 mb-1 py-1 col-md-2">
-														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-															<label class="data-entry-label" for="debug">Debug</label>
-															<select title="debug" name="debug" id="dbug" class="data-entry-select">
-																<option value=""></option>
-																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-																<option value="true" #selected#>Debug JSON</option>
-															</select>
-														</cfif>
+														</div>
 													</div>
 												</div>
-											</cfif>
-											<div class="form-row my-3">
-												<div class="col-12">
-													<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
-													<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
-													<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
+											</section>
+											<section id="searchButtons">
+												<div class="form-row my-3">
+													<div class="col-12">
+														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
+														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
+														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
+													</div>
 												</div>
-											</div>
+											</section>
 										</div><!--- end container-flex --->
 										<div class="menu_results"> </div>
 									</form>
