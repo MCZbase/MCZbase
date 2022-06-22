@@ -788,12 +788,12 @@ limitations under the License.
 												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_basic_bioIndividual">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="false" aria-controls="basic_bioIndividualCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100">
 																Biological Individual
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 58px">
+													<div class="card-body py-2" style="height: 58px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
