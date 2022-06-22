@@ -237,17 +237,6 @@ limitations under the License.
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 	AND media_relations.media_relationship like '%ledger%'
 </cfquery>
-<cfquery name="images" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		media.media_id
-	FROM
-		media
-		left join media_relations on media_relations.media_id = media.media_id
-	WHERE
-		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	And media_type <> 'text'
-	and (MASK_MEDIA_FG = 0 OR MASK_MEDIA_FG IS NULL)
-</cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id
