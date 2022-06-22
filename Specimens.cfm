@@ -781,15 +781,15 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-3" id="basic_bio_individual">
+											<section class="accordion mb-3" id="basic_bioIndividual">
 												<div class="card bg-light form-row mb-2">
-													<div class="card-header" id="basic_collecting_header">
+													<div class="card-header" id="basic_basic_bioIndividual">
 														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##basic_bioIndividualCardBodyWrap" aria-expanded="true" aria-controls="basic_bioIndividualCardBodyWrap">
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 62px">
 														<div class="form-row mb-2">
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
@@ -844,13 +844,13 @@ limitations under the License.
 											</section>
 											<section class="accordion mb-3" id="basic_transactions">
 												<div class="card bg-light form-row mb-2">
-													<div class="card-header" id="basic_collecting_header">
+													<div class="card-header" id="basic_transactions">
 														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 62px">
 														<div class="form-row mb-2">
 														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
