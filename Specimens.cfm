@@ -387,14 +387,14 @@ limitations under the License.
 													</div>
 													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 62px">
 														<div class="form-row mb-2">
-															<div class="col-12 px-3 mb-1 py-1 col-md-2 border rounded">
+															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<div class="form-row">
 																	<div class="col-8 px-0">
 																		<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 																		<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
 																		<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 																	</div>
-																	<div class="col-4 pl-1">
+																	<div class="col-4 px-0">
 																		<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 																		<label for="current_id_only" class="data-entry-label">Search</label>
 																		<select id="current_id_only" name="current_id_only" class="data-entry-select">
