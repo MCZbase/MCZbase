@@ -272,7 +272,7 @@ limitations under the License.
 														<div class="form-row">
 															<div class="col-12 px-3 mb-1 py-1 col-md-3">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
-																<div name="collection" id="fixedCollection" class="w-100 inputHeight"></div>
+																<div name="collection" id="fixedCollection" class="w-100"></div>
 																<cfif not isdefined("collection")><cfset collection=""></cfif>
 																<cfset collection_array = ListToArray(collection)>
 																<script>
@@ -292,7 +292,7 @@ limitations under the License.
 																				<cfset comma=",">
 																			</cfloop>
 																		];
-																		$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '23px', width: '100%' });
+																		$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '20px', width: '100%' });
 																		setFixedCollectionValues();
 																	});
 																</script> 
@@ -305,7 +305,7 @@ limitations under the License.
 															<div class="col-12 px-3 mb-1 py-1 col-md-3">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
-																<div name="other_id_type" id="other_id_type" class="w-100 inputHeight"></div>
+																<div name="other_id_type" id="other_id_type" class="w-100"></div>
 																<cfset otheridtype_array = ListToArray(other_id_type)>
 																<script>
 																	function setOtherIdTypeValues() {
@@ -324,7 +324,7 @@ limitations under the License.
 																				<cfset comma=",">
 																			</cfloop>
 																		];
-																		$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '23px', width: '100%' });
+																		$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '20px', width: '100%' });
 																		setOtherIdTypeValues();
 																	});
 																</script> 
@@ -332,7 +332,7 @@ limitations under the License.
 															<div class="col-12 px-3 mb-1 py-1 col-md-3">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
-																<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+																<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 															</div>
 															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 																<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
