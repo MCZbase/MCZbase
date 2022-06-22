@@ -453,7 +453,7 @@ limitations under the License.
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
-																<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#encodeForHtml(publication_id)#" >
+																<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input inputHeight" value="#encodeForHtml(publication_id)#" >
 																<input type="text" id="citation" name="citation" class="data-entry-input inputHeight" value="#encodeForHtml(citation)#" >
 																<script>
 																	jQuery(document).ready(function() {
@@ -764,7 +764,7 @@ limitations under the License.
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 																<label class="data-entry-label" for="when">Verbatim Collecting Date</label>
-																<input type="text" name="verbatim_date" class="data-entry-input" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
+																<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 															</div>
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<cfif not isdefined("date_began_date")>
@@ -835,7 +835,7 @@ limitations under the License.
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
-																<input type="text" id="media_type" name="media_type" class="data-entry-input" value="#encodeForHtml(media_type)#" >
+																<input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
