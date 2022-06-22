@@ -793,7 +793,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 40px">
+													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 58px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
