@@ -412,7 +412,7 @@ limitations under the License.
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
 																<cfif not isdefined("phylum")><cfset phylum=""></cfif>
-																<input id="phylum" name="phylum" class="data-entry-input" value="#encodeForHtml(phylum)#" >
+																<input id="phylum" name="phylum" class="data-entry-input inputHeight" value="#encodeForHtml(phylum)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeTaxonSearchAutocomplete('phylum','phylum');
@@ -422,7 +422,7 @@ limitations under the License.
 															<div class="col-12 px-3 mb-1 py-1 col-md-2">
 																<label for="phylclass" class="data-entry-label">Class</label>
 																<cfif not isdefined("phylclass")><cfset phylclass=""></cfif>
-																<input id="phylclass" name="phylclass" class="data-entry-input" value="#encodeForHtml(phylclass)#" >
+																<input id="phylclass" name="phylclass" class="data-entry-input inputHeight" value="#encodeForHtml(phylclass)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeTaxonSearchAutocomplete('phylclass','class');
@@ -453,8 +453,8 @@ limitations under the License.
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
-																<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input inputHeight" value="#encodeForHtml(publication_id)#" >
-																<input type="text" id="citation" name="citation" class="data-entry-input" value="#encodeForHtml(citation)#" >
+																<input type="hidden"  id="publication_id" name="publication_id" class="data-entry-input" value="#encodeForHtml(publication_id)#" >
+																<input type="text" id="citation" name="citation" class="data-entry-input inputHeight" value="#encodeForHtml(citation)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makePublicationPicker('citation','publication_id');
@@ -558,10 +558,11 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="accordion mb-3" id="basic_Geog">
-												<div class="card bg-light form-row mb-2">
+												<div class="card bg-primary form-row mb-2">
 													<div class="card-header" id="basic_Geogheader">
-														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="true" aria-controls="GeogCardBodyWrap">
+														<h2 class="h5 my-0">
+															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##GeogCardBodyWrap" aria-expanded="true" aria-controls="GeogCardBodyWrap">
+																Geography
 															</button>
 														</h2>
 													</div>
@@ -688,8 +689,8 @@ limitations under the License.
 											<section class="accordion mb-3" id="basic_collecting">
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_collecting_header">
-														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
+														<h2 class="h5 my-0">
+															<button type="button" class="headerLnk bg-blue-gray text-left w-100 h-100" data-toggle="collapse" data-target="##collectingCardBodyWrap" aria-expanded="true" aria-controls="collectingCardBodyWrap">
 															</button>
 														</h2>
 													</div>
@@ -846,8 +847,8 @@ limitations under the License.
 											<section class="accordion mb-3" id="basic_transactions">
 												<div class="card bg-light form-row mb-2">
 													<div class="card-header" id="basic_transactions">
-														<h2 class="h4 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
+														<h2 class="h5 my-0">
+															<button type="button" class="headerLnk bg-light-blue text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="true" aria-controls="transactionsCardBodyWrap">
 															</button>
 														</h2>
 													</div>
