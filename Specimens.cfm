@@ -269,7 +269,7 @@ limitations under the License.
 														</h2>
 													</div>
 													<div class="card-body" id="IDCardBodyWrap" >
-														<div class="row">
+														<div class="form-row">
 															<div class="col-12 col-md-3">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
 																<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -336,7 +336,6 @@ limitations under the License.
 															</div>
 															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 																<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
-																<div class="form-row mb-2">
 																	<div class="col-12 col-md-3">
 																		<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
 																		<label for="otherID" class="data-entry-label">Other ID Type</label>
@@ -373,7 +372,6 @@ limitations under the License.
 																		<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
 																		<p id="other_id_controls_note" class="px-1">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
 																	</div>
-																</div>
 															</cfif>
 														</div>
 													</div>
