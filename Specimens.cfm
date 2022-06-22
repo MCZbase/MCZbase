@@ -268,7 +268,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="IDCardBodyWrap" style="height: 59px">
 														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-0 py-1 col-md-3">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
@@ -386,7 +386,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="TaxaCardBodyWrap" style="height: 59px">
 														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<div class="form-row mx-0">
@@ -398,7 +398,7 @@ limitations under the License.
 																	<div class="col-3 pr-0 pl-1">
 																		<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 																		<label for="current_id_only" class="data-entry-label">Search</label>
-																		<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight px-0">
+																		<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight smaller px-0">
 																			<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 																			<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
 																			<option value="any" #any_selected#>Any Id</option>
@@ -566,7 +566,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="GeogCardBodyWrap" style="height: 59px">
 														<div class="form-row mb-2 mx-0">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
@@ -695,7 +695,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="collectingCardBodyWrap" style="height: 59px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<label for="collector" class="data-entry-label">Collector</label>
@@ -793,7 +793,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="basic_bioIndividualCardBodyWrap" style="height: 59px">
 														<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
@@ -855,7 +855,7 @@ limitations under the License.
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 62px">
+													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 59px">
 														<div class="form-row mx-0 mb-2">
 														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
