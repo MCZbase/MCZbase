@@ -18,6 +18,8 @@ limitations under the License.
 
 <!--- getMediaHTML obtain a block of html listing media for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
+ @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'ledger' for
+   ledger entry for cataloged item, or 'all' for any cataloged_item media relationship.
  @return html for viewing media for the specified cataloged item. 
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
@@ -33,9 +35,9 @@ limitations under the License.
 					JOIN media_relations on media_relations.media_id = media.media_id
 				WHERE
 					media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					<cfif relationship_type = 'shows'>
+					<cfif relationship_type EQ 'shows'>
 						AND media_relations.media_relationship = 'shows cataloged_item'
-					<cfelseif relationship_type = 'ledger'>
+					<cfelseif relationship_type EQ 'ledger'>
 						AND media_relations.media_relationship = 'ledger entry for cataloged_item'
 					<cfelse>
 						AND media_relations.media_relationship like '% cataloged_item'
