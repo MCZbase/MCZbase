@@ -894,7 +894,7 @@ limitations under the License.
 																	</cfif>
 																</cfif>
 																<label for="accn_number" class="data-entry-label">Accession Number</label>
-																<input type="text" name="accn_number" class="data-entry-input" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
+																<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 															</div>
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif not isdefined("deaccession_number")>
@@ -921,7 +921,7 @@ limitations under the License.
 															<div class="col-12 px-3 mb-0 py-1 col-md-2">
 																<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																	<label class="data-entry-label" for="debug">Debug</label>
-																	<select title="debug" name="debug" id="dbug" class="data-entry-select">
+																	<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
 																		<option value=""></option>
 																		<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																		<option value="true" #selected#>Debug JSON</option>
