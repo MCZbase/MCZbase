@@ -854,12 +854,12 @@ limitations under the License.
 												<div class="card bg-light border form-row mx-0">
 													<div class="card-header" id="basic_transactions">
 														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##transactionsCardBodyWrap" aria-expanded="false" aria-controls="transactionsCardBodyWrap">
+															<button type="button" class="headerLnk text-left w-100 h-100">
 																Transactions
 															</button>
 														</h2>
 													</div>
-													<div class="card-body py-2" id="transactionsCardBodyWrap" style="height: 55px">
+													<div class="card-body py-2" style="height: 55px">
 														<div class="form-row mx-0 mb-2">
 														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
