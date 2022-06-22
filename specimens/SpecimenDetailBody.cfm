@@ -215,17 +215,15 @@ limitations under the License.
 	<cfthrow message = "Error: multiple rows returned from query 'isOne' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
 <cfset guid = "MCZ:#isOne.collection_cde#:#isOne.cat_num#">
-<cfquery name="mediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mediaCount_result">
-	SELECT
-		count(*) as ct 
-	FROM
+<cfquery name="specimenMediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenMediaCount_result">
+	SELECT count(distinct media.media_id) as ct
+	FROM 
 		media
-		left join media_relations on media_relations.media_id = media.media_id
+		JOIN media_relations on media_relations.media_id = media.media_id
 	WHERE
 		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	and media.media_type != 'text'
-	and (MASK_MEDIA_FG = 0 OR MASK_MEDIA_FG is null)
-	
+		AND media_relations.media_relationship = 'shows cataloged_item'
+		AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
 </cfquery>
 <cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -314,7 +312,7 @@ limitations under the License.
 		<div class="container-fluid ">
 			<div class="row mx-0 mt-2">
 					<!----------------------------- one left column for media ---------------------------------->
-					<cfif mediaCount.ct gt 0>
+					<cfif specimenMediaCount.ct gt 0>
 						<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 							<!-----------------------------Media----------------------------------> 
 							<div class="accordion" id="accordionMedia">
@@ -330,7 +328,7 @@ limitations under the License.
 										<h3 class="h5 my-0 text-dark">
 											<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 												Media
-												<span class="text-dark">(#mediaCount.ct#)</span>
+												<span class="text-dark">(#specimenMediaCount.ct#)</span>
 											</button>
 											<cfif listcontainsnocase(session.roles,"manage_media")>
 												<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
@@ -338,7 +336,7 @@ limitations under the License.
 										</h3>
 									</div>
 
-									<div id="mediaPane" class="collapse show" <cfif #mediaCount.ct# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+									<div id="mediaPane" class="collapse show" <cfif #specimenMediaCount.ct# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
 										<cfset mediaCardBodyContent = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
 										<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
 											#mediaCardBodyContent#
@@ -349,7 +347,7 @@ limitations under the License.
 						</div>
 					</cfif>
 						<!----------------------------- two right columns ---------------------------------->
-						<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif mediaCount.ct gt 0>col-md-9 col-lg-9 col-xl-10 float-left <cfelse>col-md-12 col-lg-12 col-xl-12 float-left</cfif>">
+						<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif specimenMediaCount.ct gt 0>col-md-9 col-lg-9 col-xl-10 float-left <cfelse>col-md-12 col-lg-12 col-xl-12 float-left</cfif>">
 							<div class="col-12 col-md-6 px-1 float-left"> 
 								<!----------------------------- identifications ----------------------------------> 
 								<div class="accordion" id="accordionB">
