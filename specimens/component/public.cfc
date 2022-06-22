@@ -43,9 +43,9 @@ limitations under the License.
 				JOIN media_relations on media_relations.media_id = media.media_id
 			WHERE
 				media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				<cfif l_relationship_type EQ 'shows'>
+				<cfif relationship_type EQ 'shows'>
 					AND media_relations.media_relationship = 'shows cataloged_item'
-				<cfelseif l_relationship_type EQ 'ledger'>
+				<cfelseif relationship_type EQ 'ledger'>
 					AND media_relations.media_relationship = 'ledger entry for cataloged_item'
 				<cfelse>
 					AND media_relations.media_relationship like '% cataloged_item'
