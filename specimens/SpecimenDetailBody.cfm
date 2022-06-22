@@ -12,25 +12,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
-<!---<cfif not isdefined("HEADER_DELIVERED")>
-</cfif>--->
-<cfoutput>
-	<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-		<div class="error"> Improper call. Aborting..... </div>
-		<cfabort>
-	</cfif>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
-		<cfelse>
-		<cfset oneOfUs = 0>
-	</cfif>
-	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-		<!--- TODO: Fix this redirect, this is probably the header delivered block above.  ----> 
-		<!---<cfheader statuscode="301" statustext="Moved permanently">
-	<cfheader name="Location" value="/Specimens.cfm?collection_object_id=#collection_object_id#">--->
-	</cfif>
-</cfoutput> 
+<cfif NOT isDefined("collection_object_id") OR NOT isNumeric(collection_object_id)>
+	<cfthrow message="Specimen Detail Body requested without a numeric collection_object_id.">
+</cfif>
+<cfif not isdefined("HEADER_DELIVERED")>
+	<!--- Header hasn't been shown, handle approprately with a redirect to enclosing Specimen.cfm page --->
+	<cfheader statuscode="301" statustext="Moved permanently">
+	<cfheader name="Location" value="/specimens/Specimen.cfm?collection_object_id=#collection_object_id#">
+</cfif>
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+	<cfelse>
+	<cfset oneOfUs = 0>
+</cfif>
 <!--- Include the template that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
