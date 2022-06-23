@@ -943,7 +943,7 @@ limitations under the License.
 															<cfif not isdefined("coll_object_entered_date")>
 																<cfset coll_object_entered_date="">
 															</cfif>
-															<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
+															<label for="coll_object_entered_date" class="data-entry-label w-50">Date Entered</label>
 															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
