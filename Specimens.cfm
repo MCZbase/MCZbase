@@ -828,7 +828,7 @@ limitations under the License.
 													</h2>
 												</div>
 												<div class="form-row mx-0 mb-2">
-													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+													<div class="col-12 px-3 my-2 col-md-2">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label">Part Name</label>
 														<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
@@ -838,7 +838,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+													<div class="col-12 px-3 my-2 col-md-2">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method" class="data-entry-label">Preserve Method
 															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -850,7 +850,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+													<div class="col-12 px-3 my-2 col-md-2">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
 														<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
 															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -862,7 +862,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+													<div class="col-12 px-3 my-2 col-md-2">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 														<label for="media_type" class="data-entry-label">Media Type
 															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
@@ -877,90 +877,87 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-4 py-1">
-													<h2 class="h4 text-dark mb-0">
-														Transactions
-													</h2>
-												</div>
-												<div class="form-row mx-0 mb-2">
-													<div class="col-12 px-3 my-2 col-md-2">
-														<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-															<div class="col-12 px-3 my-2 col-md-2">
-																<cfif not isdefined("loan_number")>
-																	<cfset loan_number="">
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<section class="col-12 px-0 mt-0 mb-2">
+													<div class="jqx-widget-header border-bottom px-4 py-1">
+														<h2 class="h4 text-dark mb-0">
+															Transactions
+														</h2>
+													</div>
+													<div class="form-row mx-0 mb-2">
+														<div class="col-12 px-3 my-2 col-md-2">
+															<cfif not isdefined("loan_number")>
+																<cfset loan_number="">
+															</cfif>
+															<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
+																<!--- lookup loan number (for api call &loan_trans_id=) --->
+																<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
+																	SELECT loan_number as lnum
+																	FROM loan
+																	WHERE
+																		transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
+																</cfquery>
+																<cfif lookupLoan.recordcount EQ 1>
+																	<cfset accn_number = "=#lookupLoan.lnum#">
 																</cfif>
-																<cfif isDefined("loan_trans_id") AND len(loan_trans_id) GT 0>
-																	<!--- lookup loan number (for api call &loan_trans_id=) --->
-																	<cfquery name="lookupLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupLoan_result">
-																		SELECT loan_number as lnum
-																		FROM loan
-																		WHERE
-																			transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan_trans_id#">
-																	</cfquery>
-																	<cfif lookupLoan.recordcount EQ 1>
-																		<cfset accn_number = "=#lookupLoan.lnum#">
-																	</cfif>
+															</cfif>
+															<label for="loan_number" class="data-entry-label">Loan Number</label>
+															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
+														</div>
+														<div class="col-12 px-3 my-2 col-md-2">
+															<cfif not isdefined("accn_number")>
+																<cfset accn_number="">
+															</cfif>
+															<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
+																<!--- lookup accession number (for api call &accn_trans_id=) --->
+																<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
+																	SELECT accn_number as accnum
+																	FROM accn
+																	WHERE
+																		transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
+																</cfquery>
+																<cfif lookupAccn.recordcount EQ 1>
+																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
-																<label for="loan_number" class="data-entry-label">Loan Number</label>
-																<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
-															</div>
-															<div class="col-12 px-3 my-2 col-md-2">
-																<cfif not isdefined("accn_number")>
-																	<cfset accn_number="">
-																</cfif>
-																<cfif isDefined("accn_trans_id") AND len(accn_trans_id) GT 0>
-																	<!--- lookup accession number (for api call &accn_trans_id=) --->
-																	<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAccn_result">
-																		SELECT accn_number as accnum
-																		FROM accn
-																		WHERE
-																			transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_trans_id#">
-																	</cfquery>
-																	<cfif lookupAccn.recordcount EQ 1>
-																		<cfset accn_number = "=#lookupAccn.accnum#">
-																	</cfif>
-																</cfif>
-																<label for="accn_number" class="data-entry-label">Accession Number</label>
-																<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
-															</div>
-															<div class="col-12 px-3 my-2 col-md-2">
-																<cfif not isdefined("deaccession_number")>
-																	<cfset deaccession_number="">
-																</cfif>
-																<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
-																<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
-															</div>
-															<!--- TODO: Move from manage transactions section --->
-															<div class="col-12 px-3 my-2 col-md-2">
-																<cfif not isdefined("coll_object_entered_date")>
-																	<cfset coll_object_entered_date="">
-																</cfif>
-																<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
-																<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
-															</div>
-															<div class="col-12 px-3 my-2 col-md-2">
-																<cfif not isdefined("last_edit_date")>
-																	<cfset last_edit_date="">
-																</cfif>
-																<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
-																<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
-															</div>
-															<div class="col-12 px-3 my-2 col-md-2">
-																<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-																	<label class="data-entry-label" for="debug">Debug</label>
-																	<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
-																		<option value=""></option>
-																		<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-																		<option value="true" #selected#>Debug JSON</option>
-																	</select>
-																</cfif>
-															</div>
-														</cfif>
+															</cfif>
+															<label for="accn_number" class="data-entry-label">Accession Number</label>
+															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
+														</div>
+														<div class="col-12 px-3 my-2 col-md-2">
+															<cfif not isdefined("deaccession_number")>
+																<cfset deaccession_number="">
+															</cfif>
+															<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
+															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
+														</div>
+														<!--- TODO: Move from manage transactions section --->
+														<div class="col-12 px-3 my-2 col-md-2">
+															<cfif not isdefined("coll_object_entered_date")>
+																<cfset coll_object_entered_date="">
+															</cfif>
+															<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
+															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
+														</div>
+														<div class="col-12 px-3 my-2 col-md-2">
+															<cfif not isdefined("last_edit_date")>
+																<cfset last_edit_date="">
+															</cfif>
+															<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
+															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
+														</div>
+														<div class="col-12 px-3 my-2 col-md-2">
+															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																<label class="data-entry-label" for="debug">Debug</label>
+																<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
+																	<option value=""></option>
+																	<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																	<option value="true" #selected#>Debug JSON</option>
+																</select>
+															</cfif>
 														</div>
 													</div>
-												</div>
-											</section>
+												</section>
+											</cfif>
 											<section id="searchButtons">
 												<div class="form-row my-3">
 													<div class="col-12">
