@@ -887,12 +887,12 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 px-0 mt-0 mb-2">
-													<div class="jqx-widget-header border-bottom px-5 py-1">
+													<div class="jqx-widget-header border-bottom px-xl-5 px-md-3 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Transactions
 														</h2>
 													</div>
-													<div class="form-row px-4 mx-0 mb-2">
+													<div class="form-row px-3 mx-0 mb-2">
 														<div class="col-12 my-2 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
