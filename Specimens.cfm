@@ -743,7 +743,7 @@ limitations under the License.
 														Collecting Event
 													</h2>
 												</div>
-												<div class="form-row px-4 mx-0 mb-2">
+												<div class="form-row px-md-2 px-xl-4 mx-0 mb-2">
 													<div class="col-12 my-2 col-md-2">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
