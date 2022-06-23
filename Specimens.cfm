@@ -193,7 +193,7 @@ limitations under the License.
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
 							<button class="col-12 col-md-auto px-md-5 my-1 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
-						<div class="tab-content">
+						<div class="tab-content px-0">
 							<!---Fixed Search tab panel--->
 							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
@@ -964,7 +964,7 @@ limitations under the License.
 											</cfif>
 											<section id="searchButtons">
 												<div class="form-row my-3">
-													<div class="col-12">
+													<div class="col-12 px-4">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
