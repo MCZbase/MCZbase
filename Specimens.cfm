@@ -1079,7 +1079,7 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##IDrefDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('More Fields');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('More Fields');
 								} else {
 									$("##GeogDetail").show();
 									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Fewer Fields');
@@ -1255,7 +1255,6 @@ limitations under the License.
 									</div>
 								</section>
 							</div><!--- end keyword search/results panel --->
-	
 								<!---Query Builder tab panel--->
 							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<section role="search" class="container-fluid">
