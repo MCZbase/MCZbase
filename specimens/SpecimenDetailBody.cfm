@@ -215,26 +215,6 @@ limitations under the License.
 	<cfthrow message = "Error: multiple rows returned from query 'isOne' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
 <cfset guid = "MCZ:#isOne.collection_cde#:#isOne.cat_num#">
-<cfquery name="specimenMediaCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenMediaCount_result">
-	SELECT count(distinct media.media_id) as ct
-	FROM 
-		media
-		JOIN media_relations on media_relations.media_id = media.media_id
-	WHERE
-		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-		AND media_relations.media_relationship = 'shows cataloged_item'
-		AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-</cfquery>
-<cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		media.media_id
-	FROM
-		media
-		left join media_relations on media_relations.media_id = media.media_id
-	WHERE
-		media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	AND media_relations.media_relationship like '%ledger%'
-</cfquery>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id
@@ -248,18 +228,32 @@ limitations under the License.
 	select count(*) as ct from rparts
 </cfquery>
 <cfoutput>
-	<cfif #oneOfUs# eq 1>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<!--- user can edit the specimen record --->
+		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
+		<script>
+			function reloadMedia() { 
+				// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+				loadMedia(#collection_object_id#,'specimenMediaCardBody');
+			}
+		</script>
+		<script>
+			function reloadOtherIDs() { 
+				// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+				loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
+			}
+		</script>
+		<script>
+			function reloadLedger() { 
+				loadLedger(#collection_object_id#,'ledgerCardBody');
+			}
+		</script>
+		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
 					<li class="list-group-item px-0 mx-1">
 						<div id="mediaDialog"></div>
-						<script>
-							function reloadMedia() { 
-								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-								loadMedia(#collection_object_id#,'mediaCardBody');
-							}
-						</script>
 						<cfif listcontainsnocase(session.roles,"manage_media")>
 							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 						</cfif>
@@ -272,12 +266,6 @@ limitations under the License.
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<div id="otherIDsDialog"></div>
-						<script>
-							function reloadOtherIDs() { 
-								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-								loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
-							}
-						</script>
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">Other&nbsp;IDs</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
@@ -312,34 +300,29 @@ limitations under the License.
 		<div class="container-fluid ">
 			<div class="row mx-0 mt-2">
 					<!----------------------------- one left column for media ---------------------------------->
-					<cfif specimenMediaCount.ct gt 0>
+					<cfset specimenMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows", get_count = 'true')>
+					<cfif specimenMediaCount gt 0>
 						<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 							<!-----------------------------Media----------------------------------> 
 							<div class="accordion" id="accordionMedia">
 								<div class="card mb-2 bg-light">
 									<div id="mediaDialog"></div>
-									<script>
-										function reloadMedia() { 
-											// invoke specimen/component/public.cfc function getMediaHTML via ajax and repopulate the media block.
-											loadMedia(#collection_object_id#,'mediaCardBody');
-										}
-									</script>
 									<div class="card-header" id="headingMedia">
 										<h3 class="h5 my-0 text-dark">
 											<button type="button" class="headerLnk text-left h-100 w-100" href="##" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 												Media
-												<span class="text-dark">(#specimenMediaCount.ct#)</span>
+												<span class="text-dark">(#specimenMediaCount#)</span>
 											</button>
-											<cfif listcontainsnocase(session.roles,"manage_media")>
+											<cfif listcontainsnocase(session.roles,"manage_specimens")>
 												<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Add/Remove</a>
 											</cfif>
 										</h3>
 									</div>
 
-									<div id="mediaPane" class="collapse show" <cfif #specimenMediaCount.ct# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
-										<cfset mediaCardBodyContent = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
-										<div class="card-body w-100 px-1 pt-2 float-left" id="mediaCardBody">
-											#mediaCardBodyContent#
+									<div id="mediaPane" class="collapse show" <cfif #specimenMediaCount# gt 8>style="height:940px;"</cfif> aria-labelledby="headingMedia" data-parent="##accordionMedia">
+										<cfset specimenMediaBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows")>
+										<div class="card-body w-100 px-1 pt-2 float-left" id="specimenMediaCardBody">
+											#specimenMediaBlock#
 										</div>
 									</div>
 								</div>
@@ -347,7 +330,7 @@ limitations under the License.
 						</div>
 					</cfif>
 						<!----------------------------- two right columns ---------------------------------->
-						<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif specimenMediaCount.ct gt 0>col-md-9 col-lg-9 col-xl-10 float-left <cfelse>col-md-12 col-lg-12 col-xl-12 float-left</cfif>">
+						<div class="col-12 col-sm-12 mb-2 clearfix px-0 <cfif specimenMediaCount gt 0>col-md-9 col-lg-9 col-xl-10 float-left <cfelse>col-md-12 col-lg-12 col-xl-12 float-left</cfif>">
 							<div class="col-12 col-md-6 px-1 float-left"> 
 								<!----------------------------- identifications ----------------------------------> 
 								<div class="accordion" id="accordionB">
@@ -856,32 +839,24 @@ limitations under the License.
 									</div>
 								</div>
 								<!-----------------------------Ledger--------------------------------> 
+								<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
 								<div class="accordion" id="accordionLedger">
 									<div class="card mb-2 bg-light">
 										<div id="ledgerDialog"></div>
-										<script>
-											function reloadLedger() { 
-												loadLedger(#collection_object_id#,'ledgerCardBody');
-											}
-										</script>
 										<div class="card-header" id="headingLedger">
 											<h3 class="h5 my-0">
 												<button type="button" aria-controls="ledgerPane" class="headerLnk text-left h-100 w-100" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" >
-													Ledger and Collecting Notes
+													Ledger and Field Notes
 												</button>
 											</h3>
 										</div>
 										<div id="ledgerPane" class="collapse show" aria-labelledby="headingLedger" data-parent="##accordionLedger">
-											<cfif len(#ledger.media_id#) gt 0> 
+											<cfif ledgerMediaCount gt 0> 
 												<div class="card-body w-100 px-1 pt-2 pb-0 float-left" id="ledgerCardBody">
-													<cfloop query="ledger">
-														<div class="col-12 px-1 col-md-4 mb-1 px-md-1 pt-1 float-left">
-															<cfset ledgerBlock= getMediaBlockHtml(media_id="#ledger.media_id#",size="350",captionAs="textCaption")>
-															<div id="ledgerBlock#ledger.media_id#">
-																#ledgerBlock# 
-															</div>
-														</div>
-													</cfloop>
+													<cfset ledgerBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents")>
+													<div class="col-12 px-1 col-md-4 mb-1 px-md-1 pt-1 float-left">
+														#ledgerBlock# 
+													</div>
 												</div>
 											<cfelse>
 												<ul class="pl-2 list-group py-0 mb-0">
