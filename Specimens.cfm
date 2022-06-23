@@ -291,7 +291,7 @@ limitations under the License.
 														<cfset IDButton = "Fewer Fields">
 													</cfif> 
 													<div class="form-row px-4 m-0">
-														<div class="col-12 px-3 my-2 col-md-3">
+														<div class="col-12 my-2 col-md-3">
 															<label for="fixedCollection" class="data-entry-label">Collection</label>
 															<div name="collection" id="fixedCollection" class="w-100"></div>
 															<cfif not isdefined("collection")><cfset collection=""></cfif>
@@ -421,7 +421,7 @@ limitations under the License.
 													</h2>
 												</div>
 												<div class="form-row px-4 mx-0 mb-2">
-													<div class="col-12 px-3 my-2 col-md-3">
+													<div class="col-12 my-2 col-md-3">
 														<div class="form-row mx-0">
 															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
@@ -440,7 +440,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12 px-3 pr-md-2 pl-md-3 my-2 col-md-2">
+													<div class="col-12 my-2 col-md-2">
 														<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
