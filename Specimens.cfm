@@ -501,7 +501,7 @@ limitations under the License.
 													<div class="col-12 px-2 my-2 col-md-2">
 														<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
 														<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
-														<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select  inputHeight col-sm-12 pl-2">
+														<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
 															<option value=""></option>
 															<cfset nid = nature_of_id>
 															<cfloop query="ctnature_of_id">
@@ -1190,7 +1190,7 @@ limitations under the License.
 												<div class="col-12 col-xl-2">
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<label class="data-entry-label" for="debug">Debug</label>
-														<select title="debug" name="debug" id="dbug" class="data-entry-select">
+														<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
 															<option value=""></option>
 															<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 															<option value="true" #selected#>Debug JSON</option>
