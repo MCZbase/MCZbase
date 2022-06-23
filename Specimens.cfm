@@ -640,7 +640,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+													<div class="col-12 px-3 my-2 col-md-2">
 														<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 														<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
@@ -729,17 +729,13 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-2" id="basic_collecting">
-												<div class="card bg-light border form-row mx-0">
-													<div class="card-header" id="basic_collecting_header">
-														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100">
-																Collecting Event
-															</button>
-														</h2>
-													</div>
-													<div class="card-body py-2" style="height: 55px">
-														<div class="form-row mx-0 mb-2">
+											<section class="col-12 px-0 mt-0 mb-2">
+												<div class="jqx-widget-header border-bottom px-4 py-1">
+													<h2 class="h4 text-dark mb-0">
+														Collecting Event
+													</h2>
+												</div>
+												<div class="form-row mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="collector" class="data-entry-label">Collector</label>
 																<cfif not isdefined("collector")>
@@ -790,7 +786,7 @@ limitations under the License.
 																<label for="collecting_source" class="data-entry-label">Collecting Source
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##collecting_source').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
-																<input type="text" name="collecting_source" class="data-entry-input" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
+																<input type="text" name="collecting_source" class="data-entry-input inputHeight" id="collecting_source" value="#encodeForHtml(collecting_source)#" >
 																<script>
 																	jQuery(document).ready(function() {
 																		makeCTFieldSearchAutocomplete("collecting_source","COLLECTING_SOURCE");
@@ -814,78 +810,70 @@ limitations under the License.
 																	<cfset date_began_date="">
 																</cfif>
 																<label for="date_began_date" class="data-entry-label">Date Began</label>
-																<input type="text" name="date_began_date" class="data-entry-input" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+																<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
 															</div>
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<cfif not isdefined("date_ended_date")>
 																	<cfset date_ended_date="">
 																</cfif>
 																<label for="date_ended_date" class="data-entry-label">Date Ended</label>
-																<input type="text" name="date_ended_date" class="data-entry-input" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
 															</div>
 														</div>
-													</div>
-												</div>
 											</section>
-											<section class="accordion mb-2" id="basic_bioIndividual">
-												<div class="card bg-light border form-row mx-0">
-													<div class="card-header" id="basic_basic_bioIndividual">
-														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100">
-																Biological Individual
-															</button>
-														</h2>
+											<section class="col-12 px-0 mt-0 mb-2">
+												<div class="jqx-widget-header border-bottom px-4 py-1">
+													<h2 class="h4 text-dark mb-0">
+														Biological Individual
+													</h2>
+												</div>
+												<div class="form-row mx-0 mb-2">
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
+														<label for="part_name" class="data-entry-label">Part Name</label>
+														<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makePartNameAutocompleteMeta('part_name');
+															});
+														</script>
 													</div>
-													<div class="card-body py-2" style="height: 55px">
-														<div class="form-row mx-0 mb-2">
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<cfif not isdefined("part_name")><cfset part_name=""></cfif>
-																<label for="part_name" class="data-entry-label">Part Name</label>
-																<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makePartNameAutocompleteMeta('part_name');
-																	});
-																</script>
-															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
-																<label for="preserve_method" class="data-entry-label">Preserve Method
-																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input inputHeight" value="#encodeForHtml(preserve_method)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makePreserveMethodAutocompleteMeta('preserve_method');
-																	});
-																</script>
-															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
-																<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
-																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
-																	});
-																</script>
-															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<cfif not isdefined("media_type")><cfset media_type=""></cfif>
-																<label for="media_type" class="data-entry-label">Media Type
-																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
-																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
-																	});
-																</script>
-															</div>
-														</div>
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
+														<label for="preserve_method" class="data-entry-label">Preserve Method
+															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+														</label>
+														<input type="text" id="preserve_method" name="preserve_method" class="data-entry-input inputHeight" value="#encodeForHtml(preserve_method)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makePreserveMethodAutocompleteMeta('preserve_method');
+															});
+														</script>
+													</div>
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
+														<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
+															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+														</label>
+														<input type="text" id="biol_indiv_relationship" name="biol_indiv_relationship" class="data-entry-input inputHeight" value="#encodeForHtml(biol_indiv_relationship)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeBiolIndivRelationshipAutocompleteMeta('biol_indiv_relationship');
+															});
+														</script>
+													</div>
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
+														<label for="media_type" class="data-entry-label">Media Type
+															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
+															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+														</label>
+														<input type="text" id="media_type" name="media_type" class="data-entry-input inputHeight" value="#encodeForHtml(media_type)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeCTFieldSearchAutocomplete("media_type","MEDIA_TYPE");
+															});
+														</script>
 													</div>
 												</div>
 											</section>
