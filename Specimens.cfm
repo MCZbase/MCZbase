@@ -266,6 +266,11 @@ limitations under the License.
 										<cfelse>
 											<cfset searchPrefList = "">
 										</cfif>
+										<cfif isdefined("session.GeogSrchPrefs") and len(session.GeogSrchPrefs) gt 0>
+											<cfset searchPrefList = session.GeogSrchPrefs>
+										<cfelse>
+											<cfset searchPrefList = "">
+										</cfif>
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
@@ -610,7 +615,7 @@ limitations under the License.
 													</h2>
 												</div>
 												<div class="form-row px-4 m-0">
-													<div class="col-12 px-3 my-2  col-md-3 col-xl-2">
+													<div class="col-12 px-3 my-2 col-md-3 col-xl-2">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
@@ -718,17 +723,17 @@ limitations under the License.
 															</script>
 														</div>
 														<div class="col-12 px-3 mb-0 py-0 col-md-3 col-xl-2">
-														<label for="sea" class="data-entry-label">Sea
-															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-														</label>
-														<cfif not isdefined("sea")><cfset sea=""></cfif>
-														<input type="text" class="data-entry-input inputHeight" id="sea" name="sea" value="#encodeForHtml(sea)#">
-														<script>
-															jQuery(document).ready(function() {
-																makeGeogSearchAutocomplete('sea','sea');
-															});
-														</script>
-													</div>
+															<label for="sea" class="data-entry-label">Sea
+																<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+															</label>
+															<cfif not isdefined("sea")><cfset sea=""></cfif>
+															<input type="text" class="data-entry-input inputHeight" id="sea" name="sea" value="#encodeForHtml(sea)#">
+															<script>
+																jQuery(document).ready(function() {
+																	makeGeogSearchAutocomplete('sea','sea');
+																});
+															</script>
+														</div>
 													</div>
 												</div>
 											</section>
@@ -1074,10 +1079,10 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##IDrefDetailCtl").attr('onCLick','toggleGeogrefDetail(1)').html('More Fields');
+									$("##IDrefDetailCtl").attr('onCLick','toggleGeogDetail(1)').html('More Fields');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogrefDetail(0)').html('Fewer Fields');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogDetail(0)').html('Fewer Fields');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
