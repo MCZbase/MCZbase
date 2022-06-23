@@ -54,6 +54,8 @@ limitations under the License.
 				AND cmr.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				<cfif relationship_type EQ 'shows'>
 					AND cmr.media_relationship = 'shows cataloged_item'
+				<cfelseif relationship_type EQ 'documents'>
+					AND cmr.media_relationship = 'ledger entry for cataloged_item'
 				<cfelse>
 					AND cmr.media_relationship like '% cataloged_item'
 				</cfif>
@@ -75,7 +77,7 @@ limitations under the License.
 				LEFT JOIN collecting_event on lmr.related_primary_key = collecting_event.collecting_event_id 
 			WHERE
 				MCZBASE.is_media_encumbered(media.media_id)  < 1 
-				AND lmr.media_relationship = 'documents collecting_event')
+				AND lmr.media_relationship = 'documents collecting_event'
 				AND collecting_event.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfif>
 			)
