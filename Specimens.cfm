@@ -640,6 +640,10 @@ limitations under the License.
 															});
 														</script>
 													</div>
+													<div class="col-12 col-md-2 px-1 my-2">
+														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
+														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+													</div>
 													<div class="col-12 px-3 my-2 col-md-2">
 														<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 														<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
