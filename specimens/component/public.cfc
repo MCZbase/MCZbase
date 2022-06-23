@@ -74,11 +74,11 @@ limitations under the License.
 			FROM 
 				media
 				LEFT JOIN media_relations lmr on media.media_id = lmr.media_id
-				LEFT JOIN collecting_event on lmr.related_primary_key = collecting_event.collecting_event_id 
+				LEFT JOIN cataloged_item on lmr.related_primary_key = cataloged_item.collecting_event_id 
 			WHERE
 				MCZBASE.is_media_encumbered(media.media_id)  < 1 
 				AND lmr.media_relationship = 'documents collecting_event'
-				AND collecting_event.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				AND cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfif>
 			)
 		</cfquery>
