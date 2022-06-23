@@ -1020,22 +1020,22 @@ limitations under the License.
 				$("##IDDetail").show();
 				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
 			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/localities/component/functions.cfc",
-					{
-						method : "saveIDSrchPref",
-						id : 'IDDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					}, 
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
-				});
-			</cfif>
+		//	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+//				jQuery.getJSON("/localities/component/functions.cfc",
+//					{
+//						method : "saveIDSrchPref",
+//						id : 'IDDetail',
+//						onOff : onOff,
+//						returnformat : "json",
+//						queryformat : 'column'
+//					}, 
+//					function (data) { 
+//						console.log(data);
+//					}
+//				).fail(function(jqXHR,textStatus,error){
+//					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
+//				});
+//			</cfif>
 		}
 		function toggleIDDetail(onOff) {
 			if (onOff==0) {
@@ -1045,22 +1045,22 @@ limitations under the License.
 				$("##IDDetail").show();
 				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
 			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/specimens/component/search.cfc",
-					{
-						method : "saveIDSrchPref",
-						id : 'IDDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
-				});
-			</cfif>
+		//	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+//				jQuery.getJSON("/specimens/component/search.cfc",
+//					{
+//						method : "saveIDSrchPref",
+//						id : 'IDDetail',
+//						onOff : onOff,
+//						returnformat : "json",
+//						queryformat : 'column'
+//					},
+//					function (data) { 
+//						console.log(data);
+//					}
+//				).fail(function(jqXHR,textStatus,error){
+//					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
+//				});
+//			</cfif>
 		}
 		function toggleIDrefDetail(onOff) {
 			if (onOff==0) {
@@ -1070,31 +1070,31 @@ limitations under the License.
 				$("##IDrefDetail").show();
 				$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(0)').html('Hide IDref Fields');
 			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/localities/component/functions.cfc",
-					{
-						method : "saveIDSrchPref",
-						id : 'IDrefDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting IDrefDetail state");
-				});
-			</cfif>
+	//		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+//				jQuery.getJSON("/localities/component/functions.cfc",
+//					{
+//						method : "saveIDSrchPref",
+//						id : 'IDrefDetail',
+//						onOff : onOff,
+//						returnformat : "json",
+//						queryformat : 'column'
+//					},
+//					function (data) { 
+//						console.log(data);
+//					}
+//				).fail(function(jqXHR,textStatus,error){
+//					handleFail(jqXHR,textStatus,error,"persisting IDrefDetail state");
+//				});
+//			</cfif>
 		}
-		function toggleEventDetail(onOff) {
-			if (onOff==0) {
-				$("##eventDetail").hide();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Fields');
-			} else {
-				$("##eventDetail").show();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
-			}
+//		function toggleEventDetail(onOff) {
+//			if (onOff==0) {
+//				$("##eventDetail").hide();
+//				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Fields');
+//			} else {
+//				$("##eventDetail").show();
+//				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
+//			}
 		//	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 //				jQuery.getJSON("/specimens/component/search.cfc",
 //					{
