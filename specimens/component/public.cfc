@@ -195,9 +195,13 @@ limitations under the License.
 					<cfif not isdefined("metaDesc")>
 						<cfset metaDesc="">
 					</cfif>
+					<cfquery name="getHigher" dbtype="query">
+						SELECT distinct replace(full_taxon_name,scientific_name,'') as distinct_higher
+						FROM getTaxa
+					</cfquery>
+					<!--- show the distinct bits of the full classification for each name in the identification --->
+					<div class="h6 mb-1 text-dark font-italic"> #getHigher.full_taxon_name# </div>
 					<cfloop query="getTaxa">
-						<!--- show the full classification for each name in the identification --->
-						<div class="h6 mb-1 text-dark font-italic"> #getTaxa.full_taxon_name# </div>
 						<!--- get the list of common names for each taxon in the identification ---->
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
