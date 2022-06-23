@@ -609,12 +609,12 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div class="jqx-widget-header border-bottom px-5 py-1">
+												<div class="jqx-widget-header border-bottom px-4 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Geography
 													</h2>
 												</div>
-												<div class="form-row px-4 m-0">
+												<div class="form-row px-3 mx-0 mb-2">
 													<div class="col-12 my-2 col-md-3 col-xl-2">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
@@ -738,12 +738,12 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-xl-5 px-md-2 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Collecting Event
 													</h2>
 												</div>
-												<div class="form-row px-md-2 px-xl-4 mx-0 mb-2">
+												<div class="form-row px-3 mx-0 mb-2">
 													<div class="col-12 my-2 col-md-2">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
