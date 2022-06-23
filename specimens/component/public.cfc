@@ -204,7 +204,7 @@ limitations under the License.
 							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<!--- show the distinct bits of the full classification for each name in the identification --->
-					<div class="h6 mb-1 text-dark font-italic"> #getHigher.distinct_higher# </div>
+					<div class="h6 mb-1 text-dark"> #getHigher.distinct_higher# </div>
 					<cfloop query="getTaxa">
 						<!--- get the list of common names for each taxon in the identification ---->
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
