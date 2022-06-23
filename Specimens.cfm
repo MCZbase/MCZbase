@@ -887,7 +887,7 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 px-0 mt-0 mb-2">
-													<div class="jqx-widget-header border-bottom px-xl-5 px-md-3 py-1">
+													<div class="jqx-widget-header border-bottom px-xl-4 px-md-3 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Transactions
 														</h2>
@@ -909,7 +909,7 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
-															<label for="loan_number" class="data-entry-label">Loan <br>Number</label>
+															<label for="loan_number" class="data-entry-label w-50">Loan Number</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
@@ -928,14 +928,14 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
 															</cfif>
-															<label for="accn_number" class="data-entry-label">Accession <br/>Number</label>
+															<label for="accn_number" class="data-entry-label">Accession Number</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
-															<label for="deaccession_number" class="data-entry-label">Deaccession <br/>Number</label>
+															<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 														</div>
 														<!--- TODO: Move from manage transactions section --->
@@ -943,19 +943,19 @@ limitations under the License.
 															<cfif not isdefined("coll_object_entered_date")>
 																<cfset coll_object_entered_date="">
 															</cfif>
-															<label for="coll_object_entered_date" class="data-entry-label">Date <br/>Entered</label>
+															<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
 															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
 															<cfif not isdefined("last_edit_date")>
 																<cfset last_edit_date="">
 															</cfif>
-															<label for="last_edit_date" class="data-entry-label">Date Last <br/>Updated</label>
+															<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
 															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
 															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-																<label class="data-entry-label" for="debug">Debug<br>code</label>
+																<label class="data-entry-label" for="debug">Debug JSON</label>
 																<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
 																	<option value=""></option>
 																	<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
