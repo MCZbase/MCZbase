@@ -265,7 +265,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="col-12 px-0 mt-0">
+											<section class="col-12 px-0 mt-0 mb-2">
 													<div class="jqx-widget-header border-bottom px-4 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Identifiers
@@ -318,8 +318,8 @@ limitations under the License.
 															<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
 													</div>
-													<div id="IDDetail" class="col-12 px-3" style="#IDDetailStyle#">
-														<div class="form-row">
+													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
+														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
@@ -1011,108 +1011,108 @@ limitations under the License.
 									</div>
 								</section>
 							</div><!--- end fixed search tab --->
-		<script type="text/javascript" language="javascript">
-		function toggleGeogDetail(onOff) {
-			if (onOff==0) {
-				$("##IDDetail").hide();
-				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
-			} else {
-				$("##IDDetail").show();
-				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
-			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/localities/component/functions.cfc",
-					{
-						method : "saveIDSrchPref",
-						id : 'IDDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					}, 
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
-				});
-			</cfif>
-		}
-		function toggleIDDetail(onOff) {
-			if (onOff==0) {
-				$("##IDDetail").hide();
-				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
-			} else {
-				$("##IDDetail").show();
-				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
-			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/specimens/component/search.cfc",
-					{
-						method : "saveIDSrchPref",
-						id : 'IDDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
-				});
-			</cfif>
-		}
-		function toggleIDrefDetail(onOff) {
-			if (onOff==0) {
-				$("##IDrefDetail").hide();
-				$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(1)').html('Show IDref Fields');
-			} else {
-				$("##IDrefDetail").show();
-				$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(0)').html('Hide IDref Fields');
-			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/localities/component/functions.cfc",
-					{
-						method : "saveIDSrchPref",
-						id : 'IDrefDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting IDrefDetail state");
-				});
-			</cfif>
-		}
-		function toggleEventDetail(onOff) {
-			if (onOff==0) {
-				$("##eventDetail").hide();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Fields');
-			} else {
-				$("##eventDetail").show();
-				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
-			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/localities/component/functions.cfc",
-					{
-						method : "saveLocSrchPref",
-						id : 'EventDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
-				});
-			</cfif>
-		}
-	</script>
+							<script type="text/javascript" language="javascript">
+							function toggleGeogDetail(onOff) {
+								if (onOff==0) {
+									$("##IDDetail").hide();
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
+								} else {
+									$("##IDDetail").show();
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/specimens/component/search.cfc",
+										{
+											method : "saveIDSrchPref",
+											id : 'IDDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										}, 
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
+									});
+								</cfif>
+							}
+							function toggleIDDetail(onOff) {
+								if (onOff==0) {
+									$("##IDDetail").hide();
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
+								} else {
+									$("##IDDetail").show();
+									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/specimens/component/search.cfc",
+										{
+											method : "saveIDSrchPref",
+											id : 'IDDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
+									});
+								</cfif>
+							}
+							function toggleIDrefDetail(onOff) {
+								if (onOff==0) {
+									$("##IDrefDetail").hide();
+									$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(1)').html('Show IDref Fields');
+								} else {
+									$("##IDrefDetail").show();
+									$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(0)').html('Hide IDref Fields');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/specimens/component/search.cfc",
+										{
+											method : "saveIDSrchPref",
+											id : 'IDrefDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting IDrefDetail state");
+									});
+								</cfif>
+							}
+							function toggleEventDetail(onOff) {
+								if (onOff==0) {
+									$("##eventDetail").hide();
+									$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Fields');
+								} else {
+									$("##eventDetail").show();
+									$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/localities/component/functions.cfc",
+										{
+											method : "saveLocSrchPref",
+											id : 'EventDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
+									});
+								</cfif>
+							}
+						</script>
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 								<div class="col-9 float-right px-0"> 
