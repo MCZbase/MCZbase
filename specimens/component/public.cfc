@@ -112,9 +112,10 @@ limitations under the License.
 --->
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getIdentificationsThread">
-			<cfoutput>
-				<cftry>
+
+	<cfthread name="getIdentificationsThread">
+		<cfoutput>
+			<cftry>
 				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						identification.scientific_name,
@@ -141,6 +142,7 @@ limitations under the License.
 				<cfloop query="identification">
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
+							identification_taxonomy.variable,
 							taxonomy.taxon_name_id,
 							display_name,
 							scientific_name,
@@ -152,163 +154,92 @@ limitations under the License.
 						WHERE 
 							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
-					<cfif accepted_id_fg is 1>
+					<cfif identification.accepted_id_fg is 1>
+						<!---	Start for current Identification, enclose in green bordered block. --->
 						<ul class="list-group border-green mb-2 mt-2 mx-2 rounded px-3 py-2 h4 font-weight-normal">
-							<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
-							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<div class="font-italic h4 mb-0 mt-1 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
-									<cfif len(getTaxa.author_text) gt 0>
-										<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
-									</cfif>
-								</div>
-							<cfelse>
-								<cfset link="">
-								<cfset i=1>
-								<cfset thisSciName="#scientific_name#">
-								<cfloop query="getTaxa">
-									<span class="font-italic h4 font-weight-lessbold d-inline-block">
-									<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline">#display_name#</a>'>
-									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-									<cfset i=#i#+1>
-									<a href="##">#thisSciName#</a> <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span> </span>
-								</cfloop>
-							</cfif>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<cfif stored_as_fg is 1>
-									<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
-								</cfif>
-							</cfif>
-							<cfif not isdefined("metaDesc")>
-								<cfset metaDesc="">
-							</cfif>
-							<cfloop query="getTaxa">
-								<div class="h6 mb-1 text-dark font-italic"> #full_taxon_name# </div>
-								<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-								<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										common_name 
-									FROM 
-										common_name
-									WHERE 
-										taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-										and common_name is not null
-									GROUP BY 
-										common_name order by common_name
-								</cfquery>
-								<cfif len(cName.common_name) gt 0>
-									<div class="font-weight-lessbold mb-1 mt-0 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
-								</cfif>
-								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
-							</cfloop>
-							<div class="form-row mx-0">
-								<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #agent_name#
-									<cfif len(made_date) gt 0>
-										<span class="font-weight-lessbold">on</span> #dateformat(made_date,"yyyy-mm-dd")#
-									</cfif>
-								</div>
-							</div>
-							<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id# </div>
-							<cfif len(identification_remarks) gt 0>
-									<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</div>
-								</cfif>
-						</ul>
+						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
-					<!---	Start of former Identifications--->
-						<cfset IDtitle = 'Former Identification(s)'>
-
-					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID"><cfif #i# eq 2>#IDtitle#</cfif></div>
-						<!---Add Title for former identifications--->
-						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
-							<li class="px-0">
-							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<span class="font-italic h4 font-weight-normal">
-									<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name#</a>
-								</span><!---identification  for former names when there is no author--->
-								<cfif len(getTaxa.author_text) gt 0>
-									<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
-								</cfif>
-							<cfelse>
-									<cfset link="">
-									<cfset i=1>
-									<cfset thisSciName="#scientific_name#">
-								<cfloop query="getTaxa">
-									<cfset thisLink='<a href="/name/#scientific_name#">#display_name#</a>'>
-									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-									<cfset i=#i#+1>
-								</cfloop>
-								#thisSciName#<!---identification for former names when there is an author--it put the sci name with the author--->
-							</cfif>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<cfif stored_as_fg is 1>
-									<span class="float-right rounded p-1 bg-light font-weight-lessbold"><i class="fa fa-arrow-left" aria-hidden="true"></i>STORED AS</span>
-								</cfif>
-							</cfif>
-							<cfif not isdefined("metaDesc")>
-								<cfset metaDesc="">
-							</cfif>
-							<cfloop query="getTaxa">
-							<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-							<p class="small90 mb-0"> #full_taxon_name#</p>
-							<!--- full taxon name for former id--->
-							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										common_name 
-									FROM 
-										common_name
-									WHERE 
-										taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-										and common_name is not null
-									GROUP BY 
-										common_name order by common_name
-							</cfquery>
-							<cfif len(cName.common_name) gt 0>
-								<div class="small90 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")#</div>
-								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
-							</cfif>
-							<!---  common name for former id--->
-						</cfloop>
-							<cfif len(formatted_publication) gt 0>
-							 sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
-							</cfif>
-								<span class="small90"><span class="font-weight-lessbold">Determination:</span> #agent_name#
-								<cfif len(made_date) gt 0>
-								on #dateformat(made_date,"yyyy-mm-dd")#
-								</cfif>
-								<span class="d-block"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id#</span>
-								<cfif len(identification_remarks) gt 0>
-									<span class="d-block"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</span>
-								</cfif>
-							</span>
-							</li>
-						</ul>
+						<!---	Start of former Identifications --->
+						<cfif identifications.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
+						<cfset IDtitle = "Previous Identification#plural#">
+						<!--- no ul for previous idntifications --->
+						<cfif i EQ 2>
+							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">#IDtitle#</div>
+						</cfif>
 					</cfif>
-				<cfset i = i+1>
-				</cfloop>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
+					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
+						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
+							<!--- simple formula with no added information just show name and link --->
+							<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
+							<cfif len(getTaxa.author_text) gt 0>
+								<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
+							</cfif>
+						<cfelse>
+							<!--- interpret the taxon formula in identification --->
+							<cfset expandedVariables="#identification.taxa_formula#">
+							<cfloop query="getTaxa">
+								<!--- replace each component of the formula with the name, in a hyperlink --->
+								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
+								<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
+								<cfset expandedVariables=#replace(expandedVariables,getTaxa.veriable,thisLink)#>
+								<cfset i=#i#+1>
+							</cfloop>
+							#expandedVariables#
+						</cfif>
+					</div>
+					<cfif listcontainsnocase(session.roles,"manage_specimens")>
+						<cfif stored_as_fg is 1>
+							<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
+						</cfif>
+					</cfif>
+					<cfif not isdefined("metaDesc")>
+						<cfset metaDesc="">
+					</cfif>
+					<cfloop query="getTaxa">
+						<!--- get the list of common names for each taxon in the identification ---->
+						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
+						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								common_name 
+							FROM 
+								common_name
+							WHERE 
+								taxon_name_id= <cfqueryparam value="#getTaxa.taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
+								and common_name is not null
+							GROUP BY 
+								common_name order by common_name
+						</cfquery>
+						<cfif len(cName.common_name) gt 0>
+							<div class="font-weight-lessbold mb-1 mt-0 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+						</cfif>
+						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
+					</cfloop>
+					<div class="form-row mx-0">
+						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #agent_name#
+							<cfif len(made_date) gt 0>
+								<span class="font-weight-lessbold">on</span> #dateformat(made_date,"yyyy-mm-dd")#
+							</cfif>
 						</div>
 					</div>
+					<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id# </div>
+					<cfif len(identification_remarks) gt 0>
+						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</div>
+					</cfif>
+					<cfif identification.accepted_id_fg is 1>
+						</ul>
+					</cfif>
+					<cfset i = i+1>
+				</cfloop>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
-			</cfoutput>
-		</cfthread>
-		<cfthread action="join" name="getIdentificationsThread" />
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getIdentificationsThread" />
 	<cfreturn getIdentificationsThread.output>
 </cffunction>
 
