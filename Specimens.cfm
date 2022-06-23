@@ -318,7 +318,7 @@ limitations under the License.
 															<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 															<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 														</div>
-														<div class="col-12 col-md-2 px-3 my-2">
+														<div class="col-12 col-md-2 px-1 my-2">
 															<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
 															<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
@@ -511,7 +511,7 @@ limitations under the License.
 													</div>
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
 														<div class="form-row mx-0">
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
+															<div class="col-12 px-2 mb-0 py-0 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -563,6 +563,21 @@ limitations under the License.
 																	});
 																</script>
 															</div>
+															
+														</div>
+														<div class="form-row mx-0 mb-2">
+															<div class="col-12 px-2 my-2 col-md-2">
+																<label for="type_status" class="data-entry-label">Type Status/Citation
+																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+																</label>
+																<cfif not isdefined("type_status")><cfset type_status=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeTypeStatusSearchAutocomplete('type_status');
+																	});
+																</script>
+															</div>
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
@@ -575,21 +590,6 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-														</div>
-														<div class="form-row mx-0 mb-2">
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<label for="type_status" class="data-entry-label">Type Status/Citation
-																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<cfif not isdefined("type_status")><cfset type_status=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTypeStatusSearchAutocomplete('type_status');
-																	});
-																</script>
-															</div>
-
 														</div>
 													</div>
 												</div>
