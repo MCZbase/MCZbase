@@ -271,7 +271,7 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-4 py-1">
+												<div class="jqx-widget-header border-bottom px-5 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Identifiers
 													</h2>
@@ -285,7 +285,7 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset IDButton = "Fewer Fields">
 													</cfif> 
-													<div class="form-row m-0">
+													<div class="form-row px-4 m-0">
 														<div class="col-12 px-3 my-2 col-md-3">
 															<label for="fixedCollection" class="data-entry-label">Collection</label>
 															<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -324,7 +324,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
-														<div class="form-row mx-0">
+														<div class="form-row px-4 mx-0">
 															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
@@ -410,12 +410,12 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif> 
-												<div class="jqx-widget-header border-bottom px-4 py-1">
+												<div class="jqx-widget-header border-bottom px-5 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Taxonomy
 													</h2>
 												</div>
-												<div class="form-row mx-0 mb-2">
+												<div class="form-row px-4 mx-0 mb-2">
 													<div class="col-12 px-3 my-2 col-md-3">
 														<div class="form-row mx-0">
 															<div class="col-9 px-0">
@@ -510,7 +510,7 @@ limitations under the License.
 														<button type="button" id="TaxaDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
-														<div class="form-row mx-0 mb-2">
+														<div class="form-row px-4 mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -565,7 +565,7 @@ limitations under the License.
 															</div>
 															
 														</div>
-														<div class="form-row mx-0 mb-2">
+														<div class="form-row px-4 mx-0 mb-2">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -604,12 +604,12 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div class="jqx-widget-header border-bottom px-4 py-1">
+												<div class="jqx-widget-header border-bottom px-5 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Geography
 													</h2>
 												</div>
-												<div class="form-row m-0">
+												<div class="form-row px-4 m-0">
 													<div class="col-12 px-3 my-2 col-md-3">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
@@ -656,7 +656,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-													<div class="form-row mb-2 mx-0">
+													<div class="form-row px-4 mb-2 mx-0">
 														<div class="col-12 px-3 mb-0 py-0 col-md-2">
 															<label for="country" class="data-entry-label">Country</label>
 															<cfif not isdefined("country")><cfset country=""></cfif>
@@ -733,12 +733,12 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-4 py-1">
+												<div class="jqx-widget-header border-bottom px-5 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Collecting Event
 													</h2>
 												</div>
-												<div class="form-row mx-0 mb-2">
+												<div class="form-row px-4 mx-0 mb-2">
 													<div class="col-12 px-3 my-2 col-md-2">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
@@ -825,12 +825,12 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-4 py-1">
+												<div class="jqx-widget-header border-bottom px-5 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Biological Individual
 													</h2>
 												</div>
-												<div class="form-row mx-0 mb-2">
+												<div class="form-row px-4 mx-0 mb-2">
 													<div class="col-12 px-3 my-2 col-md-2">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label">Part Name</label>
@@ -882,12 +882,12 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 px-0 mt-0 mb-2">
-													<div class="jqx-widget-header border-bottom px-4 py-1">
+													<div class="jqx-widget-header border-bottom px-5 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Transactions
 														</h2>
 													</div>
-													<div class="form-row mx-0 mb-2">
+													<div class="form-row px-4 mx-0 mb-2">
 														<div class="col-12 px-3 my-2 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
@@ -962,8 +962,8 @@ limitations under the License.
 												</section>
 											</cfif>
 											<section id="searchButtons">
-												<div class="form-row my-3">
-													<div class="col-12 px-4">
+												<div class="form-row px-4 my-3">
+													<div class="col-12 px-5">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-1 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
