@@ -594,7 +594,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 px-3 mt-0 mb-2">
+											<section class="col-12 px-0 mt-0 mb-2">
 												<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -609,7 +609,7 @@ limitations under the License.
 														Geography
 													</h2>
 												</div>
-												<div class="form-row mb-2 mx-0">
+												<div class="form-row m-0">
 													<div class="col-12 px-2 my-2 col-md-3">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
@@ -650,8 +650,8 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-2 px-1 my-2">
-														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
+													<div class="col-12 col-md-1 px-1 my-2">
+														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
 														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
