@@ -1095,22 +1095,22 @@ limitations under the License.
 				$("##eventDetail").show();
 				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
 			}
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				jQuery.getJSON("/localities/component/functions.cfc",
-					{
-						method : "saveLocSrchPref",
-						id : 'EventDetail',
-						onOff : onOff,
-						returnformat : "json",
-						queryformat : 'column'
-					},
-					function (data) { 
-						console.log(data);
-					}
-				).fail(function(jqXHR,textStatus,error){
-					handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
-				});
-			</cfif>
+		//	<cfif isdefined("session.username") and len(#session.username#) gt 0>
+//				jQuery.getJSON("/specimens/component/search.cfc",
+//					{
+//						method : "saveLocSrchPref",
+//						id : 'EventDetail',
+//						onOff : onOff,
+//						returnformat : "json",
+//						queryformat : 'column'
+//					},
+//					function (data) { 
+//						console.log(data);
+//					}
+//				).fail(function(jqXHR,textStatus,error){
+//					handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
+//				});
+//			</cfif>
 		}
 	</script>
 							<!---Keyword Search/results tab panel--->
