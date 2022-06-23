@@ -276,7 +276,7 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
+												<div class="jqx-widget-header border-bottom px-2 px-xl-4 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Identifiers
 													</h2>
@@ -415,7 +415,7 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif> 
-												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Taxonomy
 													</h2>
@@ -609,7 +609,7 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div class="jqx-widget-header border-bottom px-xl-4 px-md-3 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Geography
 													</h2>
@@ -738,7 +738,7 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Collecting Event
 													</h2>
@@ -830,7 +830,7 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Biological Individual
 													</h2>
@@ -887,7 +887,7 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 px-0 mt-0 mb-2">
-													<div class="jqx-widget-header border-bottom px-xl-4 px-md-3 py-1">
+													<div class="jqx-widget-header border-bottom px-xl-4 px-2 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Transactions
 														</h2>
