@@ -830,12 +830,12 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-xl-5 px-md-2 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Biological Individual
 													</h2>
 												</div>
-												<div class="form-row  px-md-2 px-xl-4 mx-0 mb-2">
+												<div class="form-row px-3 mx-0 mb-2">
 													<div class="col-12 my-2 col-md-3 col-xl-2">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label">Part Name</label>
