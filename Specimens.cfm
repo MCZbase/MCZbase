@@ -435,7 +435,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12 px-3 my-2 col-md-2">
+													<div class="col-12 px-3 pr-md-2 pl-md-3 my-2 col-md-2">
 														<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
@@ -615,7 +615,7 @@ limitations under the License.
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 													</div>
-													<div class="col-12 px-2 my-2 col-md-2">
+													<div class="col-12 px-2 pl-md-3 pr-md-2 my-2 col-md-2">
 														<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 														<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 														<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
