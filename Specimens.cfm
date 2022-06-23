@@ -261,6 +261,11 @@ limitations under the License.
 										<cfelse>
 											<cfset searchPrefList = "">
 										</cfif>
+										<cfif isdefined("session.TaxaSrchPrefs") and len(session.TaxaSrchPrefs) gt 0>
+											<cfset searchPrefList = session.TaxaSrchPrefs>
+										<cfelse>
+											<cfset searchPrefList = "">
+										</cfif>
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
@@ -396,6 +401,15 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
+													<cfif listFind(searchPrefList,"TaxaDetail") EQ 0>
+														<cfset TaxaDetailStyle="display:none;">
+														<cfset toggleTo = "1">
+														<cfset TaxaButton = "More Fields">
+													<cfelse>
+														<cfset TaxaDetailStyle="">
+														<cfset toggleTo = "0">
+														<cfset TaxaButton = "Fewer Fields">
+													</cfif> 
 												<div class="jqx-widget-header border-bottom px-4 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Taxonomy
