@@ -254,7 +254,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-								<section role="search" class="container-fluid">
+								<section role="search" class="container-fluid px-0">
 									<form id="fixedSearchForm">
 										<cfif isdefined("session.IDSrchPrefs") and len(session.IDSrchPrefs) gt 0>
 											<cfset searchPrefList = session.IDSrchPrefs>
@@ -266,11 +266,11 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="col-12 px-0 mt-0 mb-2">
-													<div class="jqx-widget-header border-bottom px-4 py-1">
-														<h2 class="h4 text-dark mb-0">
-															Identifiers
-														</h2>
-													</div>
+												<div class="jqx-widget-header border-bottom px-4 py-1">
+													<h2 class="h4 text-dark mb-0">
+														Identifiers
+													</h2>
+												</div>
 													<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 														<cfset IDDetailStyle="display:none;">
 														<cfset toggleTo = "1">
@@ -395,35 +395,104 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="accordion mb-2" id="basic_Taxonomy">
-												<div class="card bg-light border form-row mx-0">
-													<div class="card-header" id="basic_Taxaheader">
-														<h2 class="h5 my-0">
-															<button type="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##TaxaCardBodyWrap" aria-expanded="false" aria-controls="TaxaCardBodyWrap">
-																Taxonomy
-															</button>
-														</h2>
-													</div>
-														<div class="form-row mx-0 mb-2">
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<div class="form-row mx-0">
-																	<div class="col-9 px-0">
-																		<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
-																		<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
-																		<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
-																	</div>
-																	<div class="col-3 pr-0 pl-1">
-																		<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
-																		<label for="current_id_only" class="data-entry-label">Search</label>
-																		<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight smaller px-0">
-																			<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
-																			<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
-																			<option value="any" #any_selected#>Any Id</option>
-																			<option value="current" #current_selected#>Current Id Only</option>
-																		</select>
-																	</div>
-																</div>
+											<section class="col-12 px-0 mt-0 mb-2">
+												<div class="jqx-widget-header border-bottom px-4 py-1">
+													<h2 class="h4 text-dark mb-0">
+														Taxonomy
+													</h2>
+												</div>
+												<div class="form-row mx-0 mb-2">
+													<div class="col-12 mb-0 py-0 col-md-3">
+														<div class="form-row mx-0">
+															<div class="col-9 px-0">
+																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
+																<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
+																<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
 															</div>
+															<div class="col-3 pr-0 pl-1">
+																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
+																<label for="current_id_only" class="data-entry-label">Search</label>
+																<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight smaller px-0">
+																	<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
+																	<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
+																	<option value="any" #any_selected#>Any Id</option>
+																	<option value="current" #current_selected#>Current Id Only</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<label for="scientific_name" class="data-entry-label">Scientific Name</label>
+														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
+														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
+														<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
+															<!--- lookup scientific name --->
+															<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupTaxon_result">
+																SELECT scientific_name as sciname
+																FROM taxonomy
+																WHERE
+																	taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+															</cfquery>
+															<cfif lookupTaxon.recordcount EQ 1>
+																<cfset scientific_name = "=#lookupTaxon.sciname#">
+															</cfif>
+														</cfif>
+														<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input inputHeight" value="#encodeForHtml(scientific_name)#" >
+														<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#encodeForHtml(taxon_name_id)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
+															});
+														</script>
+													</div>
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<label for="author_text" class="data-entry-label">Authorship</label>
+														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
+														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeTaxonSearchAutocomplete('author_text','author_text');
+															});
+														</script>
+													</div>
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<label for="determiner" class="data-entry-label">Determiner</label>
+														<cfif not isdefined("determiner")><cfset determiner=""></cfif>
+														<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
+														<!--- lookup agent name --->
+														<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
+															<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+																SELECT agent_name
+																FROM preferred_agent_name
+																WHERE
+																	agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
+															</cfquery>
+															<cfif lookupDeterminer.recordcount EQ 1>
+																<cfset determiner = "=#lookupDeterminer.agent_name#">
+															</cfif>
+														</cfif>
+														<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#encodeForHtml(determiner_id)#" >
+														<input type="text" id="determiner" name="determiner" class="data-entry-input inputHeight" value="#encodeForHtml(determiner)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
+															});
+														</script>
+													</div>
+													<div class="col-12 px-3 mb-0 py-0 col-md-2">
+														<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
+														<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
+														<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select  inputHeight col-sm-12 pl-2">
+															<option value=""></option>
+															<cfset nid = nature_of_id>
+															<cfloop query="ctnature_of_id">
+																<cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
+																<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
+															</cfloop>
+														</select>
+													</div>
+													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
+														<div class="form-row mx-0">
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -467,6 +536,16 @@ limitations under the License.
 																</script>
 															</div>
 															<div class="col-12 px-3 mb-0 py-0 col-md-2">
+																<label for="genus" class="data-entry-label">Genus</label>
+																<cfif not isdefined("genus")><cfset genus=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeTaxonSearchAutocomplete('genus','genus');
+																	});
+																</script>
+															</div>
+															<div class="col-12 px-3 mb-0 py-0 col-md-2">
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
@@ -492,86 +571,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<label for="genus" class="data-entry-label">Genus</label>
-																<cfif not isdefined("genus")><cfset genus=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('genus','genus');
-																	});
-																</script>
-															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<label for="scientific_name" class="data-entry-label">Scientific Name</label>
-																<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
-																<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
-																<cfif len(taxon_name_id) GT 0 and len(scientific_name) EQ 0>
-																	<!--- lookup scientific name --->
-																	<cfquery name="lookupTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupTaxon_result">
-																		SELECT scientific_name as sciname
-																		FROM taxonomy
-																		WHERE
-																			taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-																	</cfquery>
-																	<cfif lookupTaxon.recordcount EQ 1>
-																		<cfset scientific_name = "=#lookupTaxon.sciname#">
-																	</cfif>
-																</cfif>
-																<input type="text" id="scientific_name" name="scientific_name" class="data-entry-input inputHeight" value="#encodeForHtml(scientific_name)#" >
-																<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#encodeForHtml(taxon_name_id)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeScientificNameAutocompleteMeta('scientific_name','taxon_name_id');
-																	});
-																</script>
-															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<label for="author_text" class="data-entry-label">Authorship</label>
-																<cfif not isdefined("author_text")><cfset author_text=""></cfif>
-																<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeTaxonSearchAutocomplete('author_text','author_text');
-																	});
-																</script>
-															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<label for="determiner" class="data-entry-label">Determiner</label>
-																<cfif not isdefined("determiner")><cfset determiner=""></cfif>
-																<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
-																<!--- lookup agent name --->
-																<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
-																	<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
-																		SELECT agent_name
-																		FROM preferred_agent_name
-																		WHERE
-																			agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
-																	</cfquery>
-																	<cfif lookupDeterminer.recordcount EQ 1>
-																		<cfset determiner = "=#lookupDeterminer.agent_name#">
-																	</cfif>
-																</cfif>
-																<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#encodeForHtml(determiner_id)#" >
-																<input type="text" id="determiner" name="determiner" class="data-entry-input inputHeight" value="#encodeForHtml(determiner)#" >
-																<script>
-																	jQuery(document).ready(function() {
-																		makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
-																	});
-																</script>
-															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
-																<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
-																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
-																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select  inputHeight col-sm-12 pl-2">
-																	<option value=""></option>
-																	<cfset nid = nature_of_id>
-																	<cfloop query="ctnature_of_id">
-																		<cfif nid EQ "=#ctnature_of_id.nature_of_id#"><cfset selected=" selected "><cfelse><cfset selected = ""></cfif>
-																		<option value="=#ctnature_of_id.nature_of_id#" #selected#>#ctnature_of_id.nature_of_id# (#ctnature_of_id.ct#)</option>
-																	</cfloop>
-																</select>
-															</div>
+
 														</div>
 													</div>
 												</div>
@@ -1012,7 +1012,7 @@ limitations under the License.
 								</section>
 							</div><!--- end fixed search tab --->
 							<script type="text/javascript" language="javascript">
-							function toggleGeogDetail(onOff) {
+							function toggleIDDetail(onOff) {
 								if (onOff==0) {
 									$("##IDDetail").hide();
 									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
@@ -1037,19 +1037,19 @@ limitations under the License.
 									});
 								</cfif>
 							}
-							function toggleIDDetail(onOff) {
+							function toggleTaxaDetail(onOff) {
 								if (onOff==0) {
-									$("##IDDetail").hide();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
+									$("##TaxaDetail").hide();
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(1)').html('More Fields');
 								} else {
-									$("##IDDetail").show();
-									$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
+									$("##TaxaDetail").show();
+									$("##TaxaDetailCtl").attr('onCLick','toggleTaxaDetail(0)').html('Fewer Fields');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
 										{
-											method : "saveIDSrchPref",
-											id : 'IDDetail',
+											method : "saveTaxaSrchPref",
+											id : 'TaxaDetail',
 											onOff : onOff,
 											returnformat : "json",
 											queryformat : 'column'
@@ -1058,23 +1058,23 @@ limitations under the License.
 											console.log(data);
 										}
 									).fail(function(jqXHR,textStatus,error){
-										handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
+										handleFail(jqXHR,textStatus,error,"persisting TaxaDetail state");
 									});
 								</cfif>
 							}
-							function toggleIDrefDetail(onOff) {
+							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
-									$("##IDrefDetail").hide();
-									$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(1)').html('Show IDref Fields');
+									$("##GeogDetail").hide();
+									$("##IDrefDetailCtl").attr('onCLick','toggleGeogrefDetail(1)').html('Show Geog Fields');
 								} else {
-									$("##IDrefDetail").show();
-									$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(0)').html('Hide IDref Fields');
+									$("##GeogDetail").show();
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogrefDetail(0)').html('Hide Geog Fields');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
 										{
-											method : "saveIDSrchPref",
-											id : 'IDrefDetail',
+											method : "saveGeogSrchPref",
+											id : 'GeogDetail',
 											onOff : onOff,
 											returnformat : "json",
 											queryformat : 'column'
@@ -1083,32 +1083,7 @@ limitations under the License.
 											console.log(data);
 										}
 									).fail(function(jqXHR,textStatus,error){
-										handleFail(jqXHR,textStatus,error,"persisting IDrefDetail state");
-									});
-								</cfif>
-							}
-							function toggleEventDetail(onOff) {
-								if (onOff==0) {
-									$("##eventDetail").hide();
-									$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Fields');
-								} else {
-									$("##eventDetail").show();
-									$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
-								}
-								<cfif isdefined("session.username") and len(#session.username#) gt 0>
-									jQuery.getJSON("/localities/component/functions.cfc",
-										{
-											method : "saveLocSrchPref",
-											id : 'EventDetail',
-											onOff : onOff,
-											returnformat : "json",
-											queryformat : 'column'
-										},
-										function (data) { 
-											console.log(data);
-										}
-									).fail(function(jqXHR,textStatus,error){
-										handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
+										handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
 									});
 								</cfif>
 							}
