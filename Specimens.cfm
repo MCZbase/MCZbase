@@ -440,7 +440,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12 my-2 col-md-2">
+													<div class="col-12 my-2 col-md-2 pl-xl-3">
 														<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
