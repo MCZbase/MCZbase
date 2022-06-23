@@ -256,8 +256,8 @@ limitations under the License.
 								</div>
 								<section role="search" class="container-fluid">
 									<form id="fixedSearchForm">
-										<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
-											<cfset searchPrefList = session.locSrchPrefs>
+										<cfif isdefined("session.IDSrchPrefs") and len(session.IDSrchPrefs) gt 0>
+											<cfset searchPrefList = session.IDSrchPrefs>
 										<cfelse>
 											<cfset searchPrefList = "">
 										</cfif>
@@ -1011,7 +1011,108 @@ limitations under the License.
 									</div>
 								</section>
 							</div><!--- end fixed search tab --->
-	
+		<script type="text/javascript" language="javascript">
+		function toggleGeogDetail(onOff) {
+			if (onOff==0) {
+				$("##IDDetail").hide();
+				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
+			} else {
+				$("##IDDetail").show();
+				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/localities/component/functions.cfc",
+					{
+						method : "saveIDSrchPref",
+						id : 'IDDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					}, 
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
+				});
+			</cfif>
+		}
+		function toggleIDDetail(onOff) {
+			if (onOff==0) {
+				$("##IDDetail").hide();
+				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(1)').html('More Fields');
+			} else {
+				$("##IDDetail").show();
+				$("##IDDetailCtl").attr('onCLick','toggleIDDetail(0)').html('Fewer Fields');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/specimens/component/search.cfc",
+					{
+						method : "saveIDSrchPref",
+						id : 'IDDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting IDDetail state");
+				});
+			</cfif>
+		}
+		function toggleIDrefDetail(onOff) {
+			if (onOff==0) {
+				$("##IDrefDetail").hide();
+				$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(1)').html('Show IDref Fields');
+			} else {
+				$("##IDrefDetail").show();
+				$("##IDrefDetailCtl").attr('onCLick','toggleIDrefDetail(0)').html('Hide IDref Fields');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/localities/component/functions.cfc",
+					{
+						method : "saveIDSrchPref",
+						id : 'IDrefDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting IDrefDetail state");
+				});
+			</cfif>
+		}
+		function toggleEventDetail(onOff) {
+			if (onOff==0) {
+				$("##eventDetail").hide();
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(1)').html('More Fields');
+			} else {
+				$("##eventDetail").show();
+				$("##eventDetailCtl").attr('onCLick','toggleEventDetail(0)').html('Fewer Fields');
+			}
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				jQuery.getJSON("/localities/component/functions.cfc",
+					{
+						method : "saveLocSrchPref",
+						id : 'EventDetail',
+						onOff : onOff,
+						returnformat : "json",
+						queryformat : 'column'
+					},
+					function (data) { 
+						console.log(data);
+					}
+				).fail(function(jqXHR,textStatus,error){
+					handleFail(jqXHR,textStatus,error,"persisting EventDetail state");
+				});
+			</cfif>
+		}
+	</script>
 							<!---Keyword Search/results tab panel--->
 							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 								<div class="col-9 float-right px-0"> 
