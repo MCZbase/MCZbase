@@ -256,6 +256,11 @@ limitations under the License.
 								</div>
 								<section role="search" class="container-fluid">
 									<form id="fixedSearchForm">
+										<cfif isdefined("session.locSrchPrefs") and len(session.locSrchPrefs) gt 0>
+											<cfset searchPrefList = session.locSrchPrefs>
+										<cfelse>
+											<cfset searchPrefList = "">
+										</cfif>
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
