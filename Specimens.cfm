@@ -610,7 +610,7 @@ limitations under the License.
 													</h2>
 												</div>
 												<div class="form-row m-0">
-													<div class="col-12 px-2 my-2 col-md-3">
+													<div class="col-12 px-3 my-2 col-md-3">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
