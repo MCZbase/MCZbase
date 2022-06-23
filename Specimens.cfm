@@ -640,10 +640,6 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-2 px-1 my-2">
-														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
-														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
-													</div>
 													<div class="col-12 px-3 my-2 col-md-2">
 														<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 														<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
@@ -654,7 +650,10 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													
+													<div class="col-12 col-md-2 px-1 my-2">
+														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
+														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+													</div>
 												</div>
 												<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
 													<div class="form-row mb-2 mx-0">
@@ -1075,10 +1074,10 @@ limitations under the License.
 							function toggleGeogDetail(onOff) {
 								if (onOff==0) {
 									$("##GeogDetail").hide();
-									$("##IDrefDetailCtl").attr('onCLick','toggleGeogrefDetail(1)').html('Show Geog Fields');
+									$("##IDrefDetailCtl").attr('onCLick','toggleGeogrefDetail(1)').html('More Fields');
 								} else {
 									$("##GeogDetail").show();
-									$("##GeogDetailCtl").attr('onCLick','toggleGeogrefDetail(0)').html('Hide Geog Fields');
+									$("##GeogDetailCtl").attr('onCLick','toggleGeogrefDetail(0)').html('Fewer Fields');
 								}
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
