@@ -630,7 +630,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-2 my-2 col-md-2">
+													<div class="col-12 px-2 my-2 col-md-3 col-xl-2">
 														<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 														<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
@@ -640,7 +640,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-2 my-2 col-md-2">
+													<div class="col-12 px-2 my-2 col-md-3 col-xl-2">
 														<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 														<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
@@ -650,7 +650,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-1 px-1 my-2">
+													<div class="col-12 col-md-2 col-xl-1 px-1 my-2">
 														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
 														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
