@@ -511,7 +511,7 @@ limitations under the License.
 													</div>
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
 														<div class="form-row mx-0">
-															<div class="col-12 px-2 mb-0 py-0 col-md-2">
+															<div class="col-12 px-3 my-2 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -578,7 +578,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-2">
+															<div class="col-12 px-2 my-2 col-md-2">
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
