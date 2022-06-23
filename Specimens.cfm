@@ -738,7 +738,7 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-5 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-5 px-md-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Collecting Event
 													</h2>
@@ -830,12 +830,12 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-5 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-5 px-md-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Biological Individual
 													</h2>
 												</div>
-												<div class="form-row px-4 mx-0 mb-2">
+												<div class="form-row  px-md-2 px-xl-4 mx-0 mb-2">
 													<div class="col-12 my-2 col-md-3 col-xl-2">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label">Part Name</label>
@@ -928,14 +928,14 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
 															</cfif>
-															<label for="accn_number" class="data-entry-label">Accession Number</label>
+															<label for="accn_number" class="data-entry-label">Accession<br/> Number</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
-															<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
+															<label for="deaccession_number" class="data-entry-label">Deaccession<br/> Number</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 														</div>
 														<!--- TODO: Move from manage transactions section --->
@@ -943,14 +943,14 @@ limitations under the License.
 															<cfif not isdefined("coll_object_entered_date")>
 																<cfset coll_object_entered_date="">
 															</cfif>
-															<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
+															<label for="coll_object_entered_date" class="data-entry-label">Date<br/> Entered</label>
 															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
 															<cfif not isdefined("last_edit_date")>
 																<cfset last_edit_date="">
 															</cfif>
-															<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
+															<label for="last_edit_date" class="data-entry-label">Date Last<br/> Updated</label>
 															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 														</div>
 														<div class="col-12 my-2 col-md-2">
