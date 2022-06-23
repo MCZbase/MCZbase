@@ -196,7 +196,7 @@ limitations under the License.
 						<cfset metaDesc="">
 					</cfif>
 					<cfquery name="getHigher" dbtype="query">
-						SELECT distinct replace(full_taxon_name,scientific_name,'') as distinct_higher
+						SELECT distinct replace(full_taxon_name,scientific_name,'') distinct_higher
 						FROM getTaxa
 					</cfquery>
 					<!--- show the distinct bits of the full classification for each name in the identification --->
