@@ -196,6 +196,8 @@ limitations under the License.
 						<cfset metaDesc="">
 					</cfif>
 					<cfloop query="getTaxa">
+						<!--- show the full classification for each name in the identification --->
+						<div class="h6 mb-1 text-dark font-italic"> #getTaxa.full_taxon_name# </div>
 						<!--- get the list of common names for each taxon in the identification ---->
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -215,15 +217,18 @@ limitations under the License.
 						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 					</cfloop>
 					<div class="form-row mx-0">
-						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #agent_name#
+						<div class="small mr-2"><span class="font-weight-lessbold">Determined As:</span> #identification.scientific_name# </div>
+					</div>
+					<div class="form-row mx-0">
+						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #identification.agent_name#
 							<cfif len(made_date) gt 0>
-								<span class="font-weight-lessbold">on</span> #dateformat(made_date,"yyyy-mm-dd")#
+								<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
 							</cfif>
 						</div>
 					</div>
-					<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id# </div>
+					<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #identification.nature_of_id# </div>
 					<cfif len(identification_remarks) gt 0>
-						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</div>
+						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
 					</cfif>
 					<cfif identification.accepted_id_fg is 1>
 						</ul>
