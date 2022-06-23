@@ -181,7 +181,7 @@ limitations under the License.
 								<!--- replace each component of the formula with the name, in a hyperlink --->
 								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
 								<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
-								<cfset expandedVariables=#replace(expandedVariables,getTaxa.veriable,thisLink)#>
+								<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
 								<cfset i=#i#+1>
 							</cfloop>
 							#expandedVariables#
