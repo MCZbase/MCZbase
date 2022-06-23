@@ -160,7 +160,7 @@ limitations under the License.
 						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
 						<!---	Start of former Identifications --->
-						<cfif identifications.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
+						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
 						<cfif i EQ 2>
