@@ -505,7 +505,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="col-12 col-md-2 px-3 my-2">
+													<div class="col-12 col-md-1 px-1 my-2">
 														<label for="TaxaDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Taxonomy</label>
 														<button type="button" id="TaxaDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
