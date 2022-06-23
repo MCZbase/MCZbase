@@ -276,7 +276,7 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="jqx-widget-header border-bottom px-5 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Identifiers
 													</h2>
@@ -290,7 +290,7 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset IDButton = "Fewer Fields">
 													</cfif> 
-													<div class="form-row px-4 m-0">
+													<div class="form-row px-3 m-0">
 														<div class="col-12 my-2 col-md-3">
 															<label for="fixedCollection" class="data-entry-label">Collection</label>
 															<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -329,7 +329,7 @@ limitations under the License.
 														</div>
 													</div>
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
-														<div class="form-row px-4 mx-0">
+														<div class="form-row px-3 mx-0">
 															<div class="col-12 px-3 mb-0 py-0 col-md-3">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
@@ -415,12 +415,12 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif> 
-												<div class="jqx-widget-header border-bottom px-5 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-md-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Taxonomy
 													</h2>
 												</div>
-												<div class="form-row px-4 mx-0 mb-2">
+												<div class="form-row px-3 mx-0 mb-2">
 													<div class="col-12 my-2 col-md-3">
 														<div class="form-row mx-0">
 															<div class="col-9 px-0">
@@ -609,7 +609,7 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div class="jqx-widget-header border-bottom px-4 py-1">
+												<div class="jqx-widget-header border-bottom px-xl-4 px-md-3 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Geography
 													</h2>
