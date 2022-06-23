@@ -594,7 +594,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 px-0 mt-0 mb-2">
+											<section class="col-12 px-3 mt-0 mb-2">
 												<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -610,17 +610,17 @@ limitations under the License.
 													</h2>
 												</div>
 												<div class="form-row mb-2 mx-0">
-													<div class="col-12 px-3 my-2 col-md-3">
+													<div class="col-12 px-2 my-2 col-md-3">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 													</div>
-													<div class="col-12 px-3 my-2 col-md-2">
+													<div class="col-12 px-2 my-2 col-md-2">
 														<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 														<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 														<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
 													</div>
-													<div class="col-12 px-3 my-2 col-md-2">
+													<div class="col-12 px-2 my-2 col-md-2">
 														<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 														<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
 														<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
@@ -630,7 +630,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-3 my-2 col-md-2">
+													<div class="col-12 px-2 my-2 col-md-2">
 														<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 														<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
@@ -640,7 +640,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-3 my-2 col-md-2">
+													<div class="col-12 px-2 my-2 col-md-2">
 														<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 														<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
