@@ -2748,7 +2748,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			<cfoutput>
 			<cftransaction>
 			<cftry>
-				<cfif listFind("IDDetail,LocDetail,GeorefDetail,EventDetail",id) EQ 0 >
+				<cfif listFind("IDDetail,TaxaDetail,GeogDetail",id) EQ 0 >
 					<cfthrow message="unknown location search preference id.">
 				</cfif>
 				<cfquery name="getcurrentvalues" datasource="cf_dbuser">
