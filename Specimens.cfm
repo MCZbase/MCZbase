@@ -537,7 +537,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-2 px-xl-3 mb-2 col-md-2">
+															<div class="col-12 px-2 px-xl-3 mb-2 col-md-3 col-xl-2">
 																<label for="family" class="data-entry-label">Family</label>
 																<cfif not isdefined("family")><cfset family=""></cfif>
 																<input type="text" id="family" name="family" class="data-entry-input inputHeight" value="#encodeForHtml(family)#" >
@@ -547,7 +547,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-2 mb-2 px-xl-3 col-md-2">
+															<div class="col-12 px-2 mb-2 px-xl-3 col-md-3 col-xl-2">
 																<label for="genus" class="data-entry-label">Genus</label>
 																<cfif not isdefined("genus")><cfset genus=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -560,7 +560,7 @@ limitations under the License.
 															
 														</div>
 														<div class="form-row px-0 mx-0 mb-2">
-															<div class="col-12 pr-xl-3 mb-2 col-md-2">
+															<div class="col-12 pr-xl-3 mb-2 col-md-3 col-xl-2">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -572,7 +572,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-2 px-xl-3 mb-2 col-md-2">
+															<div class="col-12 px-2 px-xl-3 mb-2 col-md-3 col-xl-2">
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
@@ -584,7 +584,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-2 px-xl-3 mb-2 col-md-2">
+															<div class="col-12 px-2 px-xl-3 mb-2 col-md-3 col-xl-2">
 																<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
