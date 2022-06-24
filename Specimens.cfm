@@ -1065,7 +1065,7 @@ limitations under the License.
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
 										{
-											method : "saveIDSrchPref",
+											method : "saveBasicSrchPref",
 											id : 'IDDetail',
 											onOff : onOff,
 											returnformat : "json",
@@ -1090,7 +1090,7 @@ limitations under the License.
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
 										{
-											method : "saveIDSrchPref",
+											method : "saveBasicSrchPref",
 											id : 'TaxaDetail',
 											onOff : onOff,
 											returnformat : "json",
@@ -1115,7 +1115,7 @@ limitations under the License.
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
 										{
-											method : "saveIDSrchPref",
+											method : "saveBasicSrchPref",
 											id : 'GeogDetail',
 											onOff : onOff,
 											returnformat : "json",
@@ -1140,7 +1140,7 @@ limitations under the License.
 								<cfif isdefined("session.username") and len(#session.username#) gt 0>
 									jQuery.getJSON("/specimens/component/search.cfc",
 										{
-											method : "saveIDSrchPref",
+											method : "saveBasicSrchPref",
 											id : 'CollDetail',
 											onOff : onOff,
 											returnformat : "json",
