@@ -269,11 +269,11 @@ limitations under the License.
 											<section class="col-12 border-bottom-ltblue px-0 mt-0 mb-0">
 														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 															<cfset IDDetailStyle="display:none;">
-															<cfset toggleTo = "1">
+															<cfset toggleTo = "0">
 															<cfset IDButton = "More Fields">
 														<cfelse>
 															<cfset IDDetailStyle="">
-															<cfset toggleTo = "0">
+															<cfset toggleTo = "1">
 															<cfset IDButton = "Fewer Fields">
 														</cfif> 
 												<div class="form-row mx-0 px-0 pb-1 mb-1">
