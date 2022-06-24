@@ -317,12 +317,12 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 mt-2 mb-1 px-2 px-xl-3 col-md-3 col-xl-3 float-left">
+															<div class="col-12 mt-1 mb-0 px-2 px-xl-3 col-md-3 col-xl-3 float-left">
 																<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 																<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 																<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 															</div>
-															<div class="col-12 mb-2 px-xl-3 px-2 mt-2 mb-1 col-md-2 float-left">
+															<div class="col-12 mb-0 px-xl-3 px-2 mt-1 col-md-2 float-left">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
 																<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -349,7 +349,7 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 px-2 mb-1 mt-2 px-xl-3 mb-2 col-md-3 float-left">
+															<div class="col-12 px-2 mb-0 mt-1 px-xl-3 mb-2 col-md-3 float-left">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 																<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
