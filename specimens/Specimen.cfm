@@ -89,21 +89,19 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-
 <cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 	<cfthrow message="Not for production use yet.">
 </cfif>
 
-<!--- (3) Look up summary and type information on the specimen and display the summary/type bar for the record --->
+<!--- (2) Look up summary and type information on the specimen --->
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
 		flattable.collection,
 		flattable.collection_id,
-		web_link,
-		web_link_text,
 		flattable.cat_num,
 		flattable.collection_object_id as collection_object_id,
 		flattable.scientific_name,
+		flattable.full_taxon_name,
 		flattable.collecting_event_id,
 		flattable.higher_geog,
 		flattable.collectors,
@@ -129,11 +127,15 @@ limitations under the License.
 		left join collection on flattable.collection_id = collection.collection_id
 	WHERE
 		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		AND rownum < 2 
 	ORDER BY
 		cat_num
 </cfquery>
-			<!--- (2) Display the page header ---> 
+
+<!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
+<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.typestatuswords#">
 <cfset pageTitle = "MCZbase Specimen Details #guid#">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
@@ -142,17 +144,15 @@ limitations under the License.
 <cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
 </cfoutput>
-<cfoutput>
-	<cfif detail.recordcount lt 1>
-		<!--- It shouldn't be possible to reach here, the logic above should catch this condition. --->
-		<cfinclude template="/errors/404.cfm">
-		<cfabort>
-	</cfif>
 
-	<cfset title="#detail.collection# #detail.cat_num#: #detail.scientific_name#">
-	<cfset metaDesc="#detail.collection# #detail.cat_num# (#guid#); #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
-</cfoutput> 
-<cfoutput query="detail" group="cat_num">
+<!--- (4) Display the summary/type bar for the record --->
+<cfif detail.recordcount LT 1>
+	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
+	<cfinclude template="/errors/404.cfm">
+	<cfabort>
+</cfif>
+
+<cfoutput query="detail">
 	<cfset typeName = typestatuswords>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
@@ -264,6 +264,7 @@ limitations under the License.
 		</section><!-- end resultSetNavivationSection --->
 	</div>
 </cfoutput>
+
 <!--- (4) Bulk of the specimen page is provided on SpecimenDetailBody.cfm --->
 <cfinclude template="/specimens/SpecimenDetailBody.cfm">
 <!--- (4a) QC section, which might better go into SpecimenDetailBody.cfm --->

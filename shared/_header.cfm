@@ -21,19 +21,24 @@ limitations under the License.
 <html lang="en">
 <head>
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=<cfoutput>#Application.Google_uacct#</cfoutput>"></script>
+<cfoutput>
+<script async src="https://www.googletagmanager.com/gtag/js?id=#Application.Google_uacct#"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', '<cfoutput>#Application.Google_uacct#</cfoutput>');
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', '#Application.Google_uacct#');
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<cfoutput>
-<meta name="description" content="#Application.meta_description#">
-<meta name="keywords" content="#Application.meta_keywords#">
+<cfif NOT isDefined="addedMetaDescription">
+	<cfset addedMetaDescription="">
+</cfif>
+<meta name="description" content="#Application.meta_description# #addedMetaDescription#">
+<cfif NOT isDefined="addedKeywords">
+	<cfset addedKeywords="">
+</cfif>
+<meta name="keywords" content="#Application.meta_keywords# #addedKeywords#">
 <meta name="author" content="Museum of Comparative Zoology, Harvard University">
 <link rel="SHORTCUT ICON" href="/shared/images/favicon.ico">
 <cfif not isdefined("pageTitle")>

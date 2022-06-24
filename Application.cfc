@@ -252,7 +252,8 @@ limitations under the License.
 		</cfquery>
 		<cfset Application.blacklist=valuelist(d.ip) />
 		<cfif serverName contains "harvard.edu">
-		    <cfif serverName contains "-test">
+			<cfset Application.meta_description = "MCZbase, the database of the natural science collections of the Museum of Comparative Zoology, Harvard University." />
+			<cfif serverName contains "-test">
 				 <cfset Application.serverrole ="test">
 			    <cfset Application.header_color = "##ADE1EA" />
 			    <cfset Application.login_color = "##000066" />
