@@ -322,7 +322,7 @@ limitations under the License.
 																<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 																<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 															</div>
-															<div class="col-12 mb-2 px-xl-3 col-md-2">
+															<div class="col-12 mb-2 px-xl-3 col-md-2 float-left">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
 																<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -349,7 +349,7 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 px-2 px-xl-3 mb-2 col-md-3">
+															<div class="col-12 px-2 px-xl-3 mb-2 col-md-3 float-left">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 																<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
@@ -358,7 +358,7 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0">
 												<div class="col-12 col-md-1 px-2 px-xl-4 mb-2">
-													<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
+												<!---	<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>--->
 													<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 												</div>
 											
