@@ -140,6 +140,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i=1>
 				<cfloop query="identification">
+					<cfset nameAsInIdentification = identification.scientific_name>
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
 							identification_taxonomy.variable,
@@ -150,7 +151,7 @@ limitations under the License.
 							full_taxon_name 
 						FROM 
 							identification_taxonomy
-							left join taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
+							JOIN taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
 						WHERE 
 							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
@@ -170,18 +171,26 @@ limitations under the License.
 					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
-							<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
-							<cfif len(getTaxa.author_text) gt 0>
-								<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
-							</cfif>
+							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
+								<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
+								<cfif len(getTaxa.author_text) gt 0>
+									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
+								</cfif>
+								<cfset nameAsInTaxon = getTaxa.scientific_name>
+							</cfloop>
 						<cfelse>
 							<!--- interpret the taxon formula in identification --->
 							<cfset expandedVariables="#identification.taxa_formula#">
+							<cfset nameAsInTaxon="#identification.taxa_formula#">
 							<cfloop query="getTaxa">
 								<!--- replace each component of the formula with the name, in a hyperlink --->
 								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
-								<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
+								<cfif identification.taxa_formula NEQ "A x B">
+									<!--- include the authorship if not a hybrid --->
+									<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
+								</cfif>
 								<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
+								<cfset nameAsInTaxon=#replace(nameAsInTaxon,getTaxa.variable,getTaxa.scientific_name)#>
 								<cfset i=#i#+1>
 							</cfloop>
 							#expandedVariables#
@@ -224,9 +233,12 @@ limitations under the License.
 						</cfif>
 						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 					</cfloop>
-					<div class="form-row mx-0">
-						<div class="small mr-2"><span class="font-weight-lessbold">Determined As:</span> #identification.scientific_name# </div>
-					</div>
+					<cfif nameAsInTaxon NEQ nameAsInIdentification>
+						<!--- show the name preserving the original form used in the identification --->
+						<div class="form-row mx-0">
+							<div class="small mr-2"><span class="font-weight-lessbold">Determined As:</span> #identification.scientific_name# </div>
+						</div>
+					</cfif>
 					<div class="form-row mx-0">
 						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #identification.agent_name#
 							<cfif len(made_date) gt 0>
