@@ -802,7 +802,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-2 px-2 px-xl-3">
+													<div class="col-12 my-2 col-md-3 px-2 px-xl-3">
 														<cfif not isdefined("collecting_source")>
 															<cfset collecting_source="">
 														</cfif>
@@ -816,7 +816,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-2 px-2 px-xl-3">
+													<div class="col-12 my-2 col-md-3 px-2 px-xl-3">
 														<cfif not isdefined("date_collected")>
 															<cfset date_collected="">
 														</cfif>
