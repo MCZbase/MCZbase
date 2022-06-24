@@ -270,7 +270,8 @@ limitations under the License.
 												<div class="form-row mx-0 px-0 mb-1">
 													<div class="jqx-widget-header col-12 px-0 border-bottom py-0">
 														<div class="h4 mt-3 float-left px-4 d-inline text-dark mb-0">
-															Identifiers
+															Identifiers<br>
+															<button type="button" id="IDDetailCtl" class="btn btn-xs py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
 														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 															<cfset IDDetailStyle="display:none;">
@@ -350,7 +351,7 @@ limitations under the License.
 												<div class="form-row mx-0">
 												<div class="col-2 col-md-2 px-2 px-xl-4 mt-0 mb-0">
 												<!---	<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>--->
-													<button type="button" id="IDDetailCtl" class="btn btn-xs py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+													
 												</div>
 											
 												<div id="IDDetail" class="col-10 col-md-10 px-0" style="#IDDetailStyle#">
