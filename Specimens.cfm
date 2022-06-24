@@ -802,7 +802,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 px-2 px-xl-3">
+													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
 														<cfif not isdefined("collecting_source")>
 															<cfset collecting_source="">
 														</cfif>
@@ -816,7 +816,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 px-2 px-xl-3">
+													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
 														<cfif not isdefined("date_collected")>
 															<cfset date_collected="">
 														</cfif>
@@ -836,14 +836,14 @@ limitations under the License.
 												</div>
 												<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
 													<div class="form-row px-3 mx-0 mb-2">
-														<div class="col-12 mb-2 col-md-3">
+														<div class="col-12 mb-2 col-md-3 col-xl-2">
 															<cfif not isdefined("date_began_date")>
 																<cfset date_began_date="">
 															</cfif>
 															<label for="date_began_date" class="data-entry-label">Date Began</label>
 															<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
 														</div>
-														<div class="col-12 mb-2 col-md-3 px-2 px-xl-3">
+														<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
 															<cfif not isdefined("date_ended_date")>
 																<cfset date_ended_date="">
 															</cfif>
