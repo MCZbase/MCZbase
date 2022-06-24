@@ -440,7 +440,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12 my-2 col-md-2 pl-xl-3">
+													<div class="col-12 my-2 col-md-2 px-2 px-xl-3 pl-xl-3">
 														<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
@@ -464,7 +464,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-2 my-2 col-md-2">
+													<div class="col-12 my-2 px-2 px-xl-3 col-md-2">
 														<label for="author_text" class="data-entry-label">Authorship</label>
 														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
 														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
@@ -474,7 +474,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-2 my-2 col-md-2">
+													<div class="col-12 px-2 px-xl-3 my-2 col-md-2">
 														<label for="determiner" class="data-entry-label">Determiner</label>
 														<cfif not isdefined("determiner")><cfset determiner=""></cfif>
 														<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
@@ -498,7 +498,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-2 my-2 col-md-2">
+													<div class="col-12 px-2 px-xl-3 my-2 col-md-2">
 														<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
 														<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 														<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
@@ -510,7 +510,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="col-12 col-md-1 my-2">
+													<div class="col-12 col-md-1 px-2 px-xl-3 my-2">
 														<label for="TaxaDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Taxonomy</label>
 														<button type="button" id="TaxaDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
