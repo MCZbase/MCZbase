@@ -329,8 +329,8 @@ limitations under the License.
 														</div>
 													</div>
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
-														<div class="form-row px-3 mx-0">
-															<div class="col-12 px-3 mb-0 py-0 col-md-3">
+														<div class="form-row px-0 mx-0">
+															<div class="col-12 px-2 pr-xl-3 mb-2 col-md-3">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
 																<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -357,14 +357,14 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 px-3 mb-0 py-0 col-md-3">
+															<div class="col-12 px-2 px-xl-3 mb-2 col-md-3">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 																<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 															</div>
 															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 																<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
-																	<div class="col-12 px-3 mb-0 py-0 col-md-3">
+																	<div class="col-12 px-2 px-xl-3 mb-2 col-md-3">
 																		<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
 																		<label for="otherID" class="data-entry-label">Other ID Type</label>
 																		<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
@@ -391,13 +391,13 @@ limitations under the License.
 																			});
 																		</script> 
 																	</div>
-																	<div class="col-12 px-3 mb-0 py-0 col-md-3">
+																	<div class="col-12 px-2 px-xl-3 mb-2 col-md-3">
 																		<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 																		<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
 																		<input type="text" class="data-entry-input inputHeight" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
 																	</div>
-																	<div class="col-12 px-3 mb-0 py-0 col-md-6">
-																		<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
+																	<div class="col-12 px-2 px-xl-3 mb-2 col-md-6">
+																		<label for="other_id_controls_note" class="data-entry-label">Note: </label>
 																		<p id="other_id_controls_note" class="px-1 small">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
 																	</div>
 															</cfif>
