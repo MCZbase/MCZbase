@@ -515,8 +515,8 @@ limitations under the License.
 														<button type="button" id="TaxaDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
-														<div class="form-row px-3 mx-0 mb-2">
-															<div class="col-12 mb-2 col-md-2">
+														<div class="form-row px-0 mx-0 mb-2">
+															<div class="col-12 mb-2 pr-xl-3 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -570,8 +570,8 @@ limitations under the License.
 															</div>
 															
 														</div>
-														<div class="form-row px-3 mx-0 mb-2">
-															<div class="col-12 px-2 px-xl-3 mb-2 col-md-2">
+														<div class="form-row px-0 mx-0 mb-2">
+															<div class="col-12 px-2 pr-xl-3 mb-2 col-md-2">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
