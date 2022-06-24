@@ -267,12 +267,6 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="col-12 px-0 mt-0 mb-0">
-												<div class="form-row mx-0 px-0 mb-1">
-													<div class="jqx-widget-header col-12 px-0 border-bottom py-0">
-														<div class="h4 mt-3 float-left px-4 d-inline text-dark mb-0">
-															Identifiers<br>
-															<button type="button" id="IDDetailCtl" class="btn btn-xs py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
-														</div>
 														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 															<cfset IDDetailStyle="display:none;">
 															<cfset toggleTo = "1">
@@ -282,6 +276,13 @@ limitations under the License.
 															<cfset toggleTo = "0">
 															<cfset IDButton = "Fewer Fields">
 														</cfif> 
+												<div class="form-row mx-0 px-0 mb-1">
+													<div class="jqx-widget-header col-12 px-0 border-bottom py-0">
+														<div class="h4 mt-3 float-left px-4 d-inline text-dark mb-0">
+															Identifiers<br>
+															<button type="button" id="IDDetailCtl" class="btn btn-xs py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+														</div>
+											
 														<div class="col-12 mt-1 mb-0 px-2 px-xl-3 col-md-2 col-xl-2 float-left">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
 																<div name="collection" id="fixedCollection" class="w-100"></div>
