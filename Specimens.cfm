@@ -279,8 +279,7 @@ limitations under the License.
 												<div class="form-row mx-0 px-0 mb-1">
 													<div class="jqx-widget-header col-12 px-0 border-bottom py-0">
 														<div class="h4 mt-1 float-left px-4 d-inline text-dark mb-2">
-															<span class="pl-2">Identifiers</span><br>
-															<button type="button" id="IDDetailCtl" class="btn btn-xs mt-2 small py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<span class="pl-2">Identifiers</span><button type="button" id="IDDetailCtl" class="btn d-inline btn-xs mt-2 small py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
 											
 														<div class="col-12 mt-1 mb-0 px-2 px-xl-3 col-md-2 col-xl-2 float-left">
