@@ -267,8 +267,8 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="form-row mx-0 px-2 mb-2">
-													<div class="jqx-widget-header col-12 px-0 border-bottom py-1">
+												<div class="form-row mx-0 px-0 mb-2">
+													<div class="jqx-widget-header col-12 px-0 border-bottom py-0">
 														<div class="h4 mt-3 float-left px-4 d-inline text-dark mb-0">
 															Identifiers
 														</div>

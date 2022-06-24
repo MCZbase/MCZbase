@@ -2788,7 +2788,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			</cfoutput>
 		</cfthread>
 		<cfthread action="join" name="saveBasicSrchThread" />
-		<cfset retval = session.BasicSrchPrefs>
+		<cfset retval = session.BASICSRCHPREFS>
 	</cfif>
 	<cfreturn retval>
 </cffunction>
