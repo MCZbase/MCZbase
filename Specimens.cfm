@@ -256,8 +256,8 @@ limitations under the License.
 								</div>
 								<section role="search" class="container-fluid px-0">
 									<form id="fixedSearchForm">
-										<cfif isdefined("session.BasicSrchPrefs") and len(session.BasicSrchPrefs) gt 0>
-											<cfset searchPrefList = session.BasicSrchPrefs>
+										<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
+											<cfset searchPrefList = session.BASICSRCHPREFS>
 										<cfelse>
 											<cfset searchPrefList = "">
 										</cfif>
