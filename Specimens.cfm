@@ -421,7 +421,7 @@ limitations under the License.
 													</h2>
 												</div>
 												<div class="form-row px-3 mx-0 mb-2">
-													<div class="col-12 my-2 col-md-3">
+													<div class="col-12 my-2 col-md-4 col-xl-3">
 														<div class="form-row mx-0 px-0 mb-2">
 															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
@@ -499,7 +499,7 @@ limitations under the License.
 														</script>
 													</div>
 							
-													<div class="col-12 col-md-1 my-2">
+													<div class="col-12 col-md-2 col-xl-1 my-2">
 														<label for="TaxaDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Taxonomy</label>
 														<button type="button" id="TaxaDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
