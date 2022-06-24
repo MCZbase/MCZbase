@@ -2738,13 +2738,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 </cffunction>
 
 		
-<cffunction name="saveIDSrchPref" access="remote">
+<cffunction name="saveBasicSrchPref" access="remote">
 	<cfargument name="id" type="string" required="yes">
 	<cfargument name="onOff" type="numeric" required="yes">
 
 	<cfset retval = "">
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
-	   <cfthread name="saveIDSrchThread" >
+	   <cfthread name="saveBasicSrchThread" >
 			<cfoutput>
 			<cftransaction>
 			<cftry>
@@ -2752,11 +2752,11 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<cfthrow message="unknown location search preference id.">
 				</cfif>
 				<cfquery name="getcurrentvalues" datasource="cf_dbuser">
-					SELECT IDSRCHPREFS
+					SELECT BASICSRCHPREFS
 					FROM cf_users
 					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset currentList=valuelist(getcurrentvalues.IDSRCHPREFS)>
+				<cfset currentList=valuelist(getcurrentvalues.BASICSRCHPREFS)>
 				<cfset nv = currentList>
 				<cfif onOff is 1>
 					<cfif not listfind(currentList,id)>
@@ -2769,7 +2769,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				</cfif>
 				<cfquery name="update" datasource="cf_dbuser" result="update_result">
 					update cf_users
-					set IDSRCHPREFS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nv#">
+					set BASICSRCHPREFS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nv#">
 					where
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
@@ -2786,9 +2786,9 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			</cftry>
 			</cftransaction>
 			</cfoutput>
-	   </cfthread>
-		<cfthread action="join" name="saveIDSrchThread" />
-		<cfset retval = session.IDSrchPrefs>
+		</cfthread>
+		<cfthread action="join" name="saveBasicSrchThread" />
+		<cfset retval = session.BasicSrchPrefs>
 	</cfif>
 	<cfreturn retval>
 </cffunction>
