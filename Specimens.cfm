@@ -318,12 +318,12 @@ limitations under the License.
 																});
 															</script> 
 														</div>
-														<div class="col-12 my-2 col-md-3 col-xl-3">
+														<div class="col-12 my-2 px-2 px-xl-3 col-md-3 col-xl-3">
 															<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 															<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 															<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 														</div>
-														<div class="col-12 col-md-2 my-2">
+														<div class="col-12 col-md-2 px-2 px-xl-3 my-2">
 															<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
 															<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
