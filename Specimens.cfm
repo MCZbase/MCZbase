@@ -640,7 +640,7 @@ limitations under the License.
 														</script>
 													</div>
 									
-													<div class="col-12 col-md-2 col-xl-1 my-2">
+													<div class="col-12 col-md-2 col-xl-2 my-2">
 														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
 														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
@@ -830,7 +830,7 @@ limitations under the License.
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
 													
-													<div class="col-12 col-md-2 col-xl-1 my-2">
+													<div class="col-12 col-md-2 col-xl-2 my-2">
 														<label for="CollDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Collecting</label>
 														<button type="button" id="CollDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
