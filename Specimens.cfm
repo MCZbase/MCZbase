@@ -440,7 +440,7 @@ limitations under the License.
 															</div>
 														</div>
 													</div>
-													<div class="col-12 my-2 col-md-2 px-2 px-xl-3 pl-xl-3">
+													<div class="col-12 my-2 col-md-2 px-2 pr-xl-3 pl-xl-4">
 														<label for="scientific_name" class="data-entry-label">Scientific Name</label>
 														<cfif not isdefined("scientific_name")><cfset scientific_name=""></cfif>
 														<cfif not isdefined("taxon_name_id")><cfset taxon_name_id=""></cfif>
@@ -499,7 +499,7 @@ limitations under the License.
 														</script>
 													</div>
 							
-													<div class="col-12 col-md-2 col-xl-1 my-2">
+													<div class="col-12 col-md-2 my-2">
 														<label for="TaxaDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Taxonomy</label>
 														<button type="button" id="TaxaDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
