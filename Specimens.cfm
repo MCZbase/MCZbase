@@ -349,7 +349,7 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 px-2 px-xl-3 mb-2 col-md-3 float-left">
+															<div class="col-12 px-2 mb-1 mt-2 px-xl-3 mb-2 col-md-3 float-left">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 																<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
