@@ -176,7 +176,7 @@ limitations under the License.
 								<cfif len(getTaxa.author_text) gt 0>
 									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 								</cfif>
-								<cfset nameAsInTaxon = getTaxa.scientificName>
+								<cfset nameAsInTaxon = getTaxa.scientific_name>
 							</cfloop>
 						<cfelse>
 							<!--- interpret the taxon formula in identification --->
