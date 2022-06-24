@@ -266,7 +266,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="col-12 px-0 mt-0 mb-0">
+											<section class="col-12 border-bottom-ltblue px-0 mt-0 mb-0">
 														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 															<cfset IDDetailStyle="display:none;">
 															<cfset toggleTo = "1">
