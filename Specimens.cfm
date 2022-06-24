@@ -324,12 +324,13 @@ limitations under the License.
 															</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-2 px-2 px-xl-4 my-2 float-left">
+												<div class="form-row mx-0">
+												<div class="col-12 col-md-2 px-2 px-xl-4 my-2">
 													<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
 													<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 												</div>
 											
-												<div id="IDDetail" class="col-12 px-0 float-left" style="#IDDetailStyle#">
+												<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
 													<div class="form-row px-2 mx-0">
 														<div class="col-12 mb-2 px-xl-3 col-md-3">
 															<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
