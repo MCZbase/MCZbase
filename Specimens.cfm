@@ -571,7 +571,7 @@ limitations under the License.
 															
 														</div>
 														<div class="form-row px-0 mx-0 mb-2">
-															<div class="col-12 px-2 pr-xl-3 mb-2 col-md-2">
+															<div class="col-12 pr-xl-3 mb-2 col-md-2">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
