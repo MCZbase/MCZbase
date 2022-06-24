@@ -742,6 +742,15 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 mb-2">
+													<cfif listFind(searchPrefList,"CollDetail") EQ 0>
+														<cfset CollDetailStyle="display:none;">
+														<cfset toggleTo = "1">
+														<cfset CollButton = "More Fields">
+													<cfelse>
+														<cfset CollDetailStyle="">
+														<cfset toggleTo = "0">
+														<cfset CollButton = "Fewer Fields">
+													</cfif> 
 												<div class="jqx-widget-header border-bottom px-xl-4 px-2 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Collecting Event
