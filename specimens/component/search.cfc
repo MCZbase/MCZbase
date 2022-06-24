@@ -2773,7 +2773,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					where
 						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
-				<cfset session.locSrchPrefs=nv>
+				<cfset session.BASICSRCHPREFS=nv>
 				<cftransaction action="commit">
 			<cfcatch>
 				<cftransaction action="rollback">
