@@ -290,7 +290,7 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset IDButton = "Fewer Fields">
 													</cfif> 
-													<div class="form-row px-3 m-0">
+													<div class="form-row mx-0 px-0 mb-2">
 														<div class="col-12 my-2 col-md-3">
 															<label for="fixedCollection" class="data-entry-label">Collection</label>
 															<div name="collection" id="fixedCollection" class="w-100"></div>
