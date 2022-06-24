@@ -636,6 +636,34 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 my-2 col-md-3 col-xl-2">
+														<label for="country" class="data-entry-label">Country</label>
+														<cfif not isdefined("country")><cfset country=""></cfif>
+														<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
+														<script>
+															jQuery(document).ready(function() {
+																makeCountrySearchAutocomplete('country');
+															});
+														</script>
+													</div>
+
+													<div class="col-12 my-2 col-md-3 col-xl-2">
+														<label for="spec_locality" class="data-entry-label">Specific Locality</label>
+														<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
+														<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
+														<script>
+															jQuery(document).ready(function() {
+																makeSpecLocalitySearchAutocomplete('spec_locality',);
+															});
+														</script>
+													</div>
+									
+													<div class="col-12 col-md-2 col-xl-1 my-2">
+														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
+														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+													</div>
+												</div>
+												<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
+													<div class="col-12 my-2 col-md-3 col-xl-2">
 														<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 														<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
@@ -655,23 +683,8 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 col-md-2 col-xl-1 my-2">
-														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
-														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
-													</div>
-												</div>
-												<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
 													<div class="form-row px-4 mb-2 mx-0">
-														<div class="col-12 my-2 col-md-3 col-xl-2">
-															<label for="country" class="data-entry-label">Country</label>
-															<cfif not isdefined("country")><cfset country=""></cfif>
-															<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
-															<script>
-																jQuery(document).ready(function() {
-																	makeCountrySearchAutocomplete('country');
-																});
-															</script>
-														</div>
+	
 														<div class="col-12 my-2 col-md-3 col-xl-2">
 															<label for="state_prov" class="data-entry-label">State/Province</label>
 															<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
@@ -712,16 +725,7 @@ limitations under the License.
 																});
 															</script>
 														</div>
-														<div class="col-12 my-2 col-md-3 col-xl-2">
-															<label for="spec_locality" class="data-entry-label">Specific Locality</label>
-															<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
-															<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
-															<script>
-																jQuery(document).ready(function() {
-																	makeSpecLocalitySearchAutocomplete('spec_locality',);
-																});
-															</script>
-														</div>
+										
 														<div class="col-12 my-2 col-md-3 col-xl-2">
 															<label for="sea" class="data-entry-label">Sea
 																<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -813,6 +817,13 @@ limitations under the License.
 														<label class="data-entry-label" for="when">Verbatim Date</label>
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
+													
+													<div class="col-12 col-md-2 col-xl-1 my-2">
+														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
+														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+													</div>
+												</div>
+												<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
 													<div class="col-12 my-2 col-md-2">
 														<cfif not isdefined("date_began_date")>
 															<cfset date_began_date="">
@@ -1098,6 +1109,31 @@ limitations under the License.
 										}
 									).fail(function(jqXHR,textStatus,error){
 										handleFail(jqXHR,textStatus,error,"persisting GeogDetail state");
+									});
+								</cfif>
+							}
+							function toggleCollDetail(onOff) {
+								if (onOff==0) {
+									$("##CollDetail").hide();
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(1)').html('More Fields');
+								} else {
+									$("##CollDetail").show();
+									$("##CollDetailCtl").attr('onCLick','toggleCollDetail(0)').html('Fewer Fields');
+								}
+								<cfif isdefined("session.username") and len(#session.username#) gt 0>
+									jQuery.getJSON("/specimens/component/search.cfc",
+										{
+											method : "saveIDSrchPref",
+											id : 'CollDetail',
+											onOff : onOff,
+											returnformat : "json",
+											queryformat : 'column'
+										},
+										function (data) { 
+											console.log(data);
+										}
+									).fail(function(jqXHR,textStatus,error){
+										handleFail(jqXHR,textStatus,error,"persisting CollDetail state");
 									});
 								</cfif>
 							}
