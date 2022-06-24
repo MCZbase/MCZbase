@@ -299,7 +299,8 @@ limitations under the License.
 	
 	<div class="container-fluid ">
 		<div class="row mx-0 mt-2">
-			<!----------------------------- one left column for media ---------------------------------->
+
+			<!----------------------------- one left column for media only if media exist ---------------------------------->
 			<cfset specimenMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows", get_count = 'true')>
 			<cfif specimenMediaCount gt 0>
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
@@ -333,8 +334,11 @@ limitations under the License.
 				<!--- two column layout --->
 				<cfset twoThreeColumnClasses="col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
+
 			<!----------------------------- two right columns ---------------------------------->
 			<div class="col-12 col-sm-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
+
+				<!---- column 2 the leftmost of the two right columns ---->
 				<div class="col-12 col-md-6 px-1 float-left"> 
 					<!----------------------------- identifications ----------------------------------> 
 					<div class="accordion" id="accordionB">
@@ -742,7 +746,7 @@ limitations under the License.
 					</cfif>
 				</div>
 
-				<!---  start of column three  --->
+				<!---  start of column three  (rightmost of the two right columns) --->
 				<div class="col-12 col-md-6 px-1 float-left"> 
 					<!--------------------locality and collecting event------------------------------>
 					<div class="accordion" id="accordionLocality">
@@ -934,11 +938,10 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</div>
-				<!--- end of column 3 --->
-				</div>
-			</div>
-		</div>
-	</div>
+				</div> <!--- end of column 3 --->
+
+			</div><!--- end of column to hold the two right colums (the two colums if no media) --->
+		</div><!--- end row --->
+	</div><!--- end container-fluid --->
 
 </cfoutput>
