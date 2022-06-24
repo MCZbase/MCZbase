@@ -277,7 +277,7 @@ limitations under the License.
 										<div class="container-flex">
 											<section class="col-12 px-0 mt-0 mb-2">
 												<div class="form-row mx-0 px-0 mb-2">
-													<div class="jqx-widget-header col-12 border-bottom px-4 py-0">
+													<div class="jqx-widget-header col-12 px-0 border-bottom px-4 py-0">
 														<div class="h4 mt-4 float-left px-2 d-inline text-dark mb-0">
 															Identifiers
 														</div>
