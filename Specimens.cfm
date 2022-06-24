@@ -654,7 +654,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-													<div class="form-row px-4 mb-2 mx-0">
+													<div class="form-row px-3 mb-2 mx-0">
 														<div class="col-12 mb-2 col-md-3 col-xl-2">
 															<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 															<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
@@ -708,7 +708,7 @@ limitations under the License.
 															</script>
 														</div>
 													</div>
-													<div class="form-row px-4 mb-2 mx-0">
+													<div class="form-row px-3 mb-2 mx-0">
 														<div class="col-12 mb-2 col-md-3 col-xl-2">
 															<label for="country" class="data-entry-label">Country</label>
 															<cfif not isdefined("country")><cfset country=""></cfif>
