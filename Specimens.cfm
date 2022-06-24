@@ -290,7 +290,7 @@ limitations under the License.
 															<cfset toggleTo = "0">
 															<cfset IDButton = "Fewer Fields">
 														</cfif> 
-														<div class="col-12 my-2 px-2 px-xl-3 col-md-2 col-xl-2 float-left">
+														<div class="col-12 mt-2 mb-1 px-2 px-xl-3 col-md-2 col-xl-2 float-left">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
 																<div name="collection" id="fixedCollection" class="w-100"></div>
 																<cfif not isdefined("collection")><cfset collection=""></cfif>
@@ -317,12 +317,12 @@ limitations under the License.
 																	});
 																</script> 
 															</div>
-															<div class="col-12 my-2 px-2 px-xl-3 col-md-3 col-xl-3 float-left">
+															<div class="col-12 mt-2 mb-1 px-2 px-xl-3 col-md-3 col-xl-3 float-left">
 																<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 																<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 																<input id="catalogNum" type="text" name="cat_num" class="data-entry-input inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 															</div>
-															<div class="col-12 mb-2 px-xl-3 col-md-2 float-left">
+															<div class="col-12 mb-2 px-xl-3 mt-2 mb-1 col-md-2 float-left">
 																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 																<label for="otherID" class="data-entry-label">Other ID Type</label>
 																<div name="other_id_type" id="other_id_type" class="w-100"></div>
