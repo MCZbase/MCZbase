@@ -256,21 +256,12 @@ limitations under the License.
 								</div>
 								<section role="search" class="container-fluid px-0">
 									<form id="fixedSearchForm">
-										<cfif isdefined("session.IDSrchPrefs") and len(session.IDSrchPrefs) gt 0>
-											<cfset searchPrefList = session.IDSrchPrefs>
+										<cfif isdefined("session.BasicSrchPrefs") and len(session.BasicSrchPrefs) gt 0>
+											<cfset searchPrefList = session.BasicSrchPrefs>
 										<cfelse>
 											<cfset searchPrefList = "">
 										</cfif>
-										<cfif isdefined("session.TaxaSrchPrefs") and len(session.TaxaSrchPrefs) gt 0>
-											<cfset searchPrefList = session.TaxaSrchPrefs>
-										<cfelse>
-											<cfset searchPrefList = "">
-										</cfif>
-										<cfif isdefined("session.GeogSrchPrefs") and len(session.GeogSrchPrefs) gt 0>
-											<cfset searchPrefList = session.GeogSrchPrefs>
-										<cfelse>
-											<cfset searchPrefList = "">
-										</cfif>
+								
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
