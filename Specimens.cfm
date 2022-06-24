@@ -266,8 +266,8 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="col-12 px-0 mt-0 mb-2">
-												<div class="form-row mx-0 px-0 mb-2">
+											<section class="col-12 px-0 mt-0 mb-0">
+												<div class="form-row mx-0 px-0 mb-1">
 													<div class="jqx-widget-header col-12 px-0 border-bottom py-0">
 														<div class="h4 mt-3 float-left px-4 d-inline text-dark mb-0">
 															Identifiers
@@ -348,7 +348,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0">
-												<div class="col-2 col-md-2 px-2 px-xl-4 mt-2 mb-2">
+												<div class="col-2 col-md-2 px-2 px-xl-4 mt-0 mb-0">
 												<!---	<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>--->
 													<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 												</div>
