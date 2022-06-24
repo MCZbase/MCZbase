@@ -620,12 +620,12 @@ limitations under the License.
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2">
+													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
 														<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 														<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 														<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2">
+													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
 														<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 														<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
 														<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
@@ -637,7 +637,7 @@ limitations under the License.
 													</div>
 												
 
-													<div class="col-12 my-2 col-md-3 col-xl-2">
+													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
 														<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 														<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
@@ -801,7 +801,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-2">
+													<div class="col-12 my-2 col-md-2 px-2 px-xl-3">
 														<cfif not isdefined("collecting_source")>
 															<cfset collecting_source="">
 														</cfif>
