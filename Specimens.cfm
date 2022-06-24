@@ -325,14 +325,14 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0">
-												<div class="col-12 col-md-1 px-2 px-xl-4 my-2">
+												<div class="col-12 col-md-1 px-2 px-xl-4 mb-2">
 													<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>
 													<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 												</div>
 											
 												<div id="IDDetail" class="col-11 px-0" style="#IDDetailStyle#">
 													<div class="form-row px-2 mx-0">
-														<div class="col-12 mb-2 px-xl-3 col-md-3">
+														<div class="col-12 mb-2 px-xl-3 col-md-2">
 															<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 															<label for="otherID" class="data-entry-label">Other ID Type</label>
 															<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -366,7 +366,7 @@ limitations under the License.
 														</div>
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
-																<div class="col-12 px-2 px-xl-3 mb-2 col-md-3">
+																<div class="col-12 px-2 px-xl-3 mb-2 col-md-2">
 																	<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
 																	<label for="otherID" class="data-entry-label">Other ID Type</label>
 																	<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
