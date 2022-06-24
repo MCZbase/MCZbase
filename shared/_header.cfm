@@ -31,11 +31,11 @@ limitations under the License.
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<cfif NOT isDefined="addedMetaDescription">
+<cfif NOT isDefined("addedMetaDescription")>
 	<cfset addedMetaDescription="">
 </cfif>
 <meta name="description" content="#Application.meta_description# #addedMetaDescription#">
-<cfif NOT isDefined="addedKeywords">
+<cfif NOT isDefined("addedKeywords")>
 	<cfset addedKeywords="">
 </cfif>
 <meta name="keywords" content="#Application.meta_keywords# #addedKeywords#">
