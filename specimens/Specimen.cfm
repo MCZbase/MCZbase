@@ -108,7 +108,7 @@ limitations under the License.
 		flattable.higher_geog,
 		flattable.collectors,
 		flattable.spec_locality,
-		flattable.author_text,
+		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
 		flattable.verbatim_date,
 		flattable.BEGAN_DATE,
 		flattable.ended_date,
