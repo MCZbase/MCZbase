@@ -499,7 +499,7 @@ limitations under the License.
 														</script>
 													</div>
 							
-													<div class="col-12 col-md-1 px-2 px-xl-3 my-2">
+													<div class="col-12 col-md-1 my-2">
 														<label for="TaxaDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Taxonomy</label>
 														<button type="button" id="TaxaDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
@@ -584,7 +584,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 px-2 px-xl-3 my-2 col-md-2">
+															<div class="col-12 px-2 px-xl-3 mb-2 col-md-2">
 																<label for="nature_of_id" class="data-entry-label">Nature Of Id</label>
 																<cfif not isdefined("nature_of_id")><cfset nature_of_id=""></cfif>
 																<select title="nature of id" name="nature_of_id" id="nature_of_id" class="data-entry-select inputHeight col-sm-12 pl-2">
