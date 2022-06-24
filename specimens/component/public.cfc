@@ -16,19 +16,26 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
 
-<!--- getMediaHTML obtain a block of html listing media for a cataloged item
+<!--- getMediaHTML obtain a block of html listing media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
- @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'ledger' for
-   ledger entry for cataloged item, or 'all' for any cataloged_item media relationship.
- @return html for viewing media for the specified cataloged item. 
+ @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'documents' for
+   ledger entry for cataloged item and field notes, or 'all' for any cataloged_item media relationship.
+ @param get_count if equal to 'true', return just the count of the number of related media records, not the html (forces the count
+   to be the same query as the media record query).
+ @return html for viewing media for the specified cataloged item, or the integer count of media records if get_count
+   is specified as true. 
 --->
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="relationship_type" type="string" required="yes">
+	<cfargument name="get_count" type="string" required="no">
 	<cfset output = "" >
 	<cftry>
 		<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT distinct
+		select distinct 
+			media_id, auto_host, auto_path, auto_filename, media_uri, preview_uri, mime_type, media_type, media_descriptor 
+		FROM (
+			SELECT
 				media.media_id,
 				media.auto_host,
 				media.auto_path,
@@ -40,18 +47,45 @@ limitations under the License.
 				mczbase.get_media_descriptor(media.media_id) as media_descriptor
 			FROM 
 				media
-				JOIN media_relations on media_relations.media_id = media.media_id
+					LEFT JOIN media_relations on media.media_id = media_relations.media_id 
+				JOIN media_relations cmr on media.media_id = cmr.media_id
 			WHERE
-				media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				AND cmr.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				<cfif relationship_type EQ 'shows'>
-					AND media_relations.media_relationship = 'shows cataloged_item'
-				<cfelseif relationship_type EQ 'ledger'>
-					AND media_relations.media_relationship = 'ledger entry for cataloged_item'
+					AND cmr.media_relationship = 'shows cataloged_item'
+				<cfelseif relationship_type EQ 'documents'>
+					AND cmr.media_relationship = 'ledger entry for cataloged_item'
 				<cfelse>
-					AND media_relations.media_relationship like '% cataloged_item'
+					AND cmr.media_relationship like '% cataloged_item'
 				</cfif>
-				AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+			<cfif relationship_type EQ 'documents'>
+			UNION
+			SELECT
+				media.media_id,
+				media.auto_host,
+				media.auto_path,
+				media.auto_filename,
+				media.media_uri,
+				media.preview_uri as preview_uri,
+				media.mime_type as mime_type,
+				media.media_type,
+				mczbase.get_media_descriptor(media.media_id) as media_descriptor
+			FROM 
+				media
+				LEFT JOIN media_relations lmr on media.media_id = lmr.media_id
+				LEFT JOIN cataloged_item on lmr.related_primary_key = cataloged_item.collecting_event_id 
+			WHERE
+				MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				AND lmr.media_relationship = 'documents collecting_event'
+				AND cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			</cfif>
+			)
 		</cfquery>
+		<cfif isDefined("get_count") AND get_count EQ "true">
+			<cfreturn getImages.recordcount>
+			<cfabort>
+		</cfif>
 		<cfif #getImages.recordcount# gt 8>
 			<cfset output = "#output#<p class='smaller w-100 text-center'> double-click header to see all #getImages.recordcount#</p>" >
 		</cfif>
@@ -72,92 +106,16 @@ limitations under the License.
 	<cfreturn output>
 </cffunction>
 							
-<cffunction name="getLedgerHTML" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getLedgerThread">
-		<cfoutput>
-			<cftry>
-				<cfquery name="images1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						media.media_id,
-						media.media_uri,
-						media.preview_uri,
-						media.mime_type
-					FROM
-						media
-						left join media_relations on media_relations.media_id = media.media_id
-					WHERE
-						media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
-				<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
-				<cfif len(images.media_id)gt 0>
-					<cfloop query="images1">
-						<cfquery name="getImages1" datasource="user_login" username="#session.dbuser#" 	password="#decrypt(session.epw,cfid)#">
-							SELECT distinct
-								media.media_id,
-								media.auto_host,
-								media.auto_path,
-								media.auto_filename,
-								media.media_uri,
-								media.preview_uri as preview_uri,
-								media.mime_type as mime_type,
-								media.media_type,
-								mczbase.get_media_descriptor(media.media_id) as media_descriptor
-							FROM 
-								media
-								left join media_relations on media_relations.media_id = media.media_id
-							WHERE
-								media.media_id = <cfqueryparam value="#images.media_id#" cfsqltype="CF_SQL_DECIMAL">
-							and media.media_type = 'text'
-						</cfquery>
-						<div class="col-6 py-1 float-left px-1">
-							<div class="border rounded py-2 px-1">
-								<div class="col-12 px-1 col-md-6 mb-1 py-1 float-left">
-										<cfset mediaBlock= getMediaBlockHtml(media_id="#images1.media_id#",displayAs="thumbSm")>
-										<div id="mediaBlock#images1.media_id#">
-											#mediaBlock#
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</cfloop>
-				</cfif>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">"Feedback/Report Errors"</a></p>
-							</div>
-						</div>
-					</div>
-			</cfcatch>
-		</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="getLedgerThread" />
-	<cfreturn getLedgerThread.output>
-</cffunction>
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 
 --->
 <cffunction name="getIdentificationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getIdentificationsThread">
-			<cfoutput>
-				<cftry>
+
+	<cfthread name="getIdentificationsThread">
+		<cfoutput>
+			<cftry>
 				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						identification.scientific_name,
@@ -184,6 +142,7 @@ limitations under the License.
 				<cfloop query="identification">
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
+							identification_taxonomy.variable,
 							taxonomy.taxon_name_id,
 							display_name,
 							scientific_name,
@@ -195,163 +154,105 @@ limitations under the License.
 						WHERE 
 							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
-					<cfif accepted_id_fg is 1>
+					<cfif identification.accepted_id_fg is 1>
+						<!---	Start for current Identification, enclose in green bordered block. --->
 						<ul class="list-group border-green mb-2 mt-2 mx-2 rounded px-3 py-2 h4 font-weight-normal">
-							<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
-							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<div class="font-italic h4 mb-0 mt-1 font-weight-lessbold d-inline-block"> <a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
-									<cfif len(getTaxa.author_text) gt 0>
-										<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
-									</cfif>
-								</div>
-							<cfelse>
-								<cfset link="">
-								<cfset i=1>
-								<cfset thisSciName="#scientific_name#">
-								<cfloop query="getTaxa">
-									<span class="font-italic h4 font-weight-lessbold d-inline-block">
-									<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline">#display_name#</a>'>
-									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-									<cfset i=#i#+1>
-									<a href="##">#thisSciName#</a> <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span> </span>
-								</cfloop>
-							</cfif>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<cfif stored_as_fg is 1>
-									<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
-								</cfif>
-							</cfif>
-							<cfif not isdefined("metaDesc")>
-								<cfset metaDesc="">
-							</cfif>
-							<cfloop query="getTaxa">
-								<div class="h6 mb-1 text-dark font-italic"> #full_taxon_name# </div>
-								<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-								<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										common_name 
-									FROM 
-										common_name
-									WHERE 
-										taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-										and common_name is not null
-									GROUP BY 
-										common_name order by common_name
-								</cfquery>
-								<cfif len(cName.common_name) gt 0>
-									<div class="font-weight-lessbold mb-1 mt-0 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
-								</cfif>
-								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
-							</cfloop>
-							<div class="form-row mx-0">
-								<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #agent_name#
-									<cfif len(made_date) gt 0>
-										<span class="font-weight-lessbold">on</span> #dateformat(made_date,"yyyy-mm-dd")#
-									</cfif>
-								</div>
-							</div>
-							<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id# </div>
-							<cfif len(identification_remarks) gt 0>
-									<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</div>
-								</cfif>
-						</ul>
+						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
-					<!---	Start of former Identifications--->
-						<cfset IDtitle = 'Former Identification(s)'>
-
-					<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID"><cfif #i# eq 2>#IDtitle#</cfif></div>
-						<!---Add Title for former identifications--->
-						<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
-							<li class="px-0">
-							<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<span class="font-italic h4 font-weight-normal">
-									<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name#</a>
-								</span><!---identification  for former names when there is no author--->
-								<cfif len(getTaxa.author_text) gt 0>
-									<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
-								</cfif>
-							<cfelse>
-									<cfset link="">
-									<cfset i=1>
-									<cfset thisSciName="#scientific_name#">
-								<cfloop query="getTaxa">
-									<cfset thisLink='<a href="/name/#scientific_name#">#display_name#</a>'>
-									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-									<cfset i=#i#+1>
-								</cfloop>
-								#thisSciName#<!---identification for former names when there is an author--it put the sci name with the author--->
-							</cfif>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<cfif stored_as_fg is 1>
-									<span class="float-right rounded p-1 bg-light font-weight-lessbold"><i class="fa fa-arrow-left" aria-hidden="true"></i>STORED AS</span>
-								</cfif>
-							</cfif>
-							<cfif not isdefined("metaDesc")>
-								<cfset metaDesc="">
-							</cfif>
-							<cfloop query="getTaxa">
-							<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-							<p class="small90 mb-0"> #full_taxon_name#</p>
-							<!--- full taxon name for former id--->
-							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT 
-										common_name 
-									FROM 
-										common_name
-									WHERE 
-										taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-										and common_name is not null
-									GROUP BY 
-										common_name order by common_name
-							</cfquery>
-							<cfif len(cName.common_name) gt 0>
-								<div class="small90 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")#</div>
-								<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
-							</cfif>
-							<!---  common name for former id--->
-						</cfloop>
-							<cfif len(formatted_publication) gt 0>
-							 sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
-							</cfif>
-								<span class="small90"><span class="font-weight-lessbold">Determination:</span> #agent_name#
-								<cfif len(made_date) gt 0>
-								on #dateformat(made_date,"yyyy-mm-dd")#
-								</cfif>
-								<span class="d-block"><span class="font-weight-lessbold">Nature of ID:</span> #nature_of_id#</span>
-								<cfif len(identification_remarks) gt 0>
-									<span class="d-block"><span class="font-weight-lessbold">Remarks:</span> #identification_remarks#</span>
-								</cfif>
-							</span>
-							</li>
-						</ul>
+						<!---	Start of former Identifications --->
+						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
+						<cfset IDtitle = "Previous Identification#plural#">
+						<!--- no ul for previous idntifications --->
+						<cfif i EQ 2>
+							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">#IDtitle#</div>
+						</cfif>
 					</cfif>
-				<cfset i = i+1>
-				</cfloop>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
+					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
+						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
+							<!--- simple formula with no added information just show name and link --->
+							<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
+							<cfif len(getTaxa.author_text) gt 0>
+								<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
+							</cfif>
+						<cfelse>
+							<!--- interpret the taxon formula in identification --->
+							<cfset expandedVariables="#identification.taxa_formula#">
+							<cfloop query="getTaxa">
+								<!--- replace each component of the formula with the name, in a hyperlink --->
+								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
+								<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
+								<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
+								<cfset i=#i#+1>
+							</cfloop>
+							#expandedVariables#
+						</cfif>
+					</div>
+					<cfif listcontainsnocase(session.roles,"manage_specimens")>
+						<cfif stored_as_fg is 1>
+							<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
+						</cfif>
+					</cfif>
+					<cfif not isdefined("metaDesc")>
+						<cfset metaDesc="">
+					</cfif>
+					<cfquery name="getHigher" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct replace(full_taxon_name,scientific_name,'') distinct_higher
+						FROM 
+							identification_taxonomy
+							JOIN taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
+						WHERE 
+							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+					</cfquery>
+					<!--- show the distinct bits of the full classification for each name in the identification --->
+					<div class="h6 mb-1 text-dark"> #getHigher.distinct_higher# </div>
+					<cfloop query="getTaxa">
+						<!--- get the list of common names for each taxon in the identification ---->
+						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
+						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								common_name 
+							FROM 
+								common_name
+							WHERE 
+								taxon_name_id= <cfqueryparam value="#getTaxa.taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
+								and common_name is not null
+							GROUP BY 
+								common_name order by common_name
+						</cfquery>
+						<cfif len(cName.common_name) gt 0>
+							<div class="font-weight-lessbold mb-1 mt-0 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+						</cfif>
+						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
+					</cfloop>
+					<div class="form-row mx-0">
+						<div class="small mr-2"><span class="font-weight-lessbold">Determined As:</span> #identification.scientific_name# </div>
+					</div>
+					<div class="form-row mx-0">
+						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #identification.agent_name#
+							<cfif len(made_date) gt 0>
+								<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
+							</cfif>
 						</div>
 					</div>
+					<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #identification.nature_of_id# </div>
+					<cfif len(identification_remarks) gt 0>
+						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
+					</cfif>
+					<cfif identification.accepted_id_fg is 1>
+						</ul>
+					</cfif>
+					<cfset i = i+1>
+				</cfloop>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
-			</cfoutput>
-		</cfthread>
-		<cfthread action="join" name="getIdentificationsThread" />
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getIdentificationsThread" />
 	<cfreturn getIdentificationsThread.output>
 </cffunction>
 

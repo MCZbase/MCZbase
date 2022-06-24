@@ -1,36 +1,5 @@
 /** Functions used (only) on the specimen details page.  **/
 
-/** loadMedia populate an html block with the media 
- * @param media_id 
- * @param form 
- *
- * @deprecated
- **/
-function loadMediaFromMediaID(media_id,targetDivId) {
-	// TODO: Remove this, it appears to be a duplicate unused function, was named loadMedia, duplicating name of loadMedia(collection_object_id, targetDivID 
-	jQuery.ajax(
-	{
-		dataType: "json",
-		url: "/specimens/component/functions.cfc",
-		data: { 
-			method : "getMedia",
-			media_id : media_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		error: function (jqXHR, status, message) {
-			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
-		},
-		success: function (result) {
-			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are media";
-				$('#' + targetDiv).html(message);
-			}
-		}
-	}
-	)
-};
-
 /** loadMedia populate an html block with the media for 
  * a cataloged item
  * @param collection_object_id for the cataloged item for which
@@ -50,7 +19,7 @@ function loadMedia(collection_object_id,targetDivId) {
 			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading media");
+			handleFail(jqXHR,textStatus,error,"loading specimen media");
 		},
 		dataType: "html"
 	});
@@ -60,21 +29,21 @@ function loadLedger(collection_object_id,targetDivId) {
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
-			method : "getLedgerHTML",
-			collection_object_id: collection_object_id
+			method : "getMediaHTML",
+			collection_object_id: collection_object_id,
+			relationship_type: "documents" 
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"load ledger");
+			handleFail(jqXHR,textStatus,error,"loading ledger media");
 		},
 		dataType: "html"
 	});
 };
 
 function loadNamedGroups(collection_object_id,targetDivId) {
-	// TODO: Remove this, it appears to be a duplicate unused function, was named loadMedia, duplicating name of loadMedia(collection_object_id, targetDivID 
 	jQuery.ajax(
 	{
 		dataType: "json",
