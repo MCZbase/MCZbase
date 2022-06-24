@@ -635,16 +635,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2">
-														<label for="country" class="data-entry-label">Country</label>
-														<cfif not isdefined("country")><cfset country=""></cfif>
-														<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
-														<script>
-															jQuery(document).ready(function() {
-																makeCountrySearchAutocomplete('country');
-															});
-														</script>
-													</div>
+												
 
 													<div class="col-12 my-2 col-md-3 col-xl-2">
 														<label for="spec_locality" class="data-entry-label">Specific Locality</label>
@@ -663,45 +654,36 @@ limitations under the License.
 													</div>
 												</div>
 												<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-													<div class="col-12 my-2 col-md-3 col-xl-2">
-														<label for="ocean_region" class="data-entry-label">Ocean Region</label>
-														<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
-														<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
-														<script>
-															jQuery(document).ready(function() {
-																makeGeogSearchAutocomplete('ocean_region','ocean_region');
-															});
-														</script>
-													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2">
-														<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
-														<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
-														<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
-														<script>
-															jQuery(document).ready(function() {
-																makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
-															});
-														</script>
-													</div>
 													<div class="form-row px-4 mb-2 mx-0">
-	
 														<div class="col-12 my-2 col-md-3 col-xl-2">
-															<label for="state_prov" class="data-entry-label">State/Province</label>
-															<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
-															<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
+															<label for="ocean_region" class="data-entry-label">Ocean Region</label>
+															<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
+															<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
 															<script>
 																jQuery(document).ready(function() {
-																	makeGeogSearchAutocomplete('state_prov','state_prov');
+																	makeGeogSearchAutocomplete('ocean_region','ocean_region');
 																});
 															</script>
 														</div>
 														<div class="col-12 my-2 col-md-3 col-xl-2">
-															<label for="county" class="data-entry-label">County/Shire/Parish</label>
-															<cfif not isdefined("county")><cfset county=""></cfif>
-															<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
+															<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
+															<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
+															<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
 															<script>
 																jQuery(document).ready(function() {
-																	makeGeogSearchAutocomplete('county','county');
+																	makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
+																});
+															</script>
+														</div>
+														<div class="col-12 my-2 col-md-3 col-xl-2">
+															<label for="sea" class="data-entry-label">Sea
+																<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+															</label>
+															<cfif not isdefined("sea")><cfset sea=""></cfif>
+															<input type="text" class="data-entry-input inputHeight" id="sea" name="sea" value="#encodeForHtml(sea)#">
+															<script>
+																jQuery(document).ready(function() {
+																	makeGeogSearchAutocomplete('sea','sea');
 																});
 															</script>
 														</div>
@@ -725,16 +707,35 @@ limitations under the License.
 																});
 															</script>
 														</div>
-										
+													</div>
+													<div class="form-row px-4 mb-2 mx-0">
 														<div class="col-12 my-2 col-md-3 col-xl-2">
-															<label for="sea" class="data-entry-label">Sea
-																<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-															</label>
-															<cfif not isdefined("sea")><cfset sea=""></cfif>
-															<input type="text" class="data-entry-input inputHeight" id="sea" name="sea" value="#encodeForHtml(sea)#">
+															<label for="country" class="data-entry-label">Country</label>
+															<cfif not isdefined("country")><cfset country=""></cfif>
+															<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
 															<script>
 																jQuery(document).ready(function() {
-																	makeGeogSearchAutocomplete('sea','sea');
+																	makeCountrySearchAutocomplete('country');
+																});
+															</script>
+														</div>
+														<div class="col-12 my-2 col-md-3 col-xl-2">
+															<label for="state_prov" class="data-entry-label">State/Province</label>
+															<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
+															<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
+															<script>
+																jQuery(document).ready(function() {
+																	makeGeogSearchAutocomplete('state_prov','state_prov');
+																});
+															</script>
+														</div>
+														<div class="col-12 my-2 col-md-3 col-xl-2">
+															<label for="county" class="data-entry-label">County/Shire/Parish</label>
+															<cfif not isdefined("county")><cfset county=""></cfif>
+															<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
+															<script>
+																jQuery(document).ready(function() {
+																	makeGeogSearchAutocomplete('county','county');
 																});
 															</script>
 														</div>
@@ -828,8 +829,8 @@ limitations under the License.
 													</div>
 													
 													<div class="col-12 col-md-2 col-xl-1 my-2">
-														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
-														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+														<label for="CollDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Collecting</label>
+														<button type="button" id="CollDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
