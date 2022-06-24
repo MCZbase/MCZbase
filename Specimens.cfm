@@ -357,7 +357,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0">
-												<div class="col-12 col-md-1 px-2 px-xl-4 mb-2">
+												<div class="col-12 col-md-1 px-2 px-xl-4 mt-2 mb-2">
 												<!---	<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>--->
 													<button type="button" id="IDDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 												</div>
