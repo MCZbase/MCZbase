@@ -344,7 +344,7 @@ limitations under the License.
 																				<cfset comma=",">
 																			</cfloop>
 																		];
-																		$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '21px', width: '100%' });
+																		$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '15px', width: '100%' });
 																		setOtherIdTypeValues();
 																	});
 																</script> 
@@ -352,7 +352,7 @@ limitations under the License.
 															<div class="col-12 px-2 mb-1 mt-2 px-xl-3 mb-2 col-md-3 float-left">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
-																<input type="text" class="data-entry-input inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+																<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 															</div>
 													</div>
 												</div>
