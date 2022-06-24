@@ -278,7 +278,7 @@ limitations under the License.
 											<section class="col-12 px-0 mt-0 mb-2">
 												<div class="form-row mx-0 px-2 mb-2">
 													<div class="jqx-widget-header col-12 px-0 border-bottom py-1">
-														<div class="h4 mt-4 float-left px-2 d-inline text-dark mb-0">
+														<div class="h4 mt-3 float-left px-4 d-inline text-dark mb-0">
 															Identifiers
 														</div>
 														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
@@ -312,7 +312,7 @@ limitations under the License.
 																				<cfset comma=",">
 																			</cfloop>
 																		];
-																		$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '19px', width: '100%' });
+																		$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '18px', width: '100%' });
 																		setFixedCollectionValues();
 																	});
 																</script> 
@@ -344,7 +344,7 @@ limitations under the License.
 																				<cfset comma=",">
 																			</cfloop>
 																		];
-																		$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '19px', width: '100%' });
+																		$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '18px', width: '100%' });
 																		setOtherIdTypeValues();
 																	});
 																</script> 
