@@ -233,18 +233,32 @@ limitations under the License.
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
 			function reloadMedia() { 
-				// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
 				loadMedia(#collection_object_id#,'specimenMediaCardBody');
 			}
 		</script>
 		<script>
-			function reloadOtherIDs() { 
+			function reloadIdentifications() { 
 				// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+				loadIdentifications(#collection_object_id#,'identificationsCardBody');
+			}
+		</script>
+		<script>
+			function reloadCitations() { 
+				// replace the citations block via ajax.
+				loadCitations(#collection_object_id#,'citationsCardBody');
+			}
+							</script>
+		<script>
+			function reloadOtherIDs() { 
+				// replace the other IDs block via ajax
 				loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
 			}
 		</script>
 		<script>
 			function reloadLedger() { 
+				// replace the ledger/field notes block via ajax.
+				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type documents.
 				loadLedger(#collection_object_id#,'ledgerCardBody');
 			}
 		</script>
@@ -344,12 +358,6 @@ limitations under the License.
 					<div class="accordion" id="accordionB">
 						<div class="card mb-2 bg-light">
 							<div id="identificationsDialog"></div>
-							<script>
-								function reloadIdentifications() { 
-									// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-									loadIdentifications(#collection_object_id#,'identificationsCardBody');
-								}
-							</script>
 							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="heading1">
 								<cfif len(#blockident#) gt 10> 
@@ -388,12 +396,6 @@ limitations under the License.
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>
-							<script>
-								function reloadCitations() { 
-								// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
-									loadCitations(#collection_object_id#,'citationsCardBody');
-								}
-							</script>
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCitations">
 								<h3 class="h5 my-0 text-dark">
