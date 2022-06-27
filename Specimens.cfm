@@ -401,13 +401,13 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif>
-												<div class="px-3">
-													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark my-0 py-1">
+												<div class="col-12 col-xl-1 float-left px-1">
+													<div class="h4 d-inline text-dark my-0 py-1">
 														<span class="d-block">Taxonomy</span>
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-md-10 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
