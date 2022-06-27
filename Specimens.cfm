@@ -485,7 +485,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div id="TaxaDetail" class="col-12" style="#TaxaDetailStyle#">
+													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
@@ -541,7 +541,7 @@ limitations under the License.
 															</div>
 															
 														</div>
-														<div class="form-row mx-0 pb-1">
+														<div class="form-row mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-4">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -663,7 +663,7 @@ limitations under the License.
 															</div>
 															
 														</div>
-														<div class="form-row px-0 mb-0 mx-0">
+														<div class="form-row mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-2">
 																<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
@@ -891,8 +891,8 @@ limitations under the License.
 															Transactions
 														</div>
 													</div>
-													<div class="form-row px-3 mx-0">
-														<div class="col-12 my-2 col-md-2">
+													<div class="form-row mb-0 mx-0">
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
 															</cfif>
@@ -911,7 +911,7 @@ limitations under the License.
 															<label for="loan_number" class="data-entry-label w-50">Loan Number</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
-														<div class="col-12 my-2 col-md-2">
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("accn_number")>
 																<cfset accn_number="">
 															</cfif>
@@ -930,7 +930,7 @@ limitations under the License.
 															<label for="accn_number" class="data-entry-label">Accession Number</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
-														<div class="col-12 my-2 col-md-2">
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
@@ -938,21 +938,21 @@ limitations under the License.
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 														</div>
 														<!--- TODO: Move from manage transactions section --->
-														<div class="col-12 my-2 col-md-2">
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("coll_object_entered_date")>
 																<cfset coll_object_entered_date="">
 															</cfif>
 															<label for="coll_object_entered_date" class="data-entry-label w-50">Date Entered</label>
 															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 														</div>
-														<div class="col-12 my-2 col-md-2">
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("last_edit_date")>
 																<cfset last_edit_date="">
 															</cfif>
 															<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
 															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 														</div>
-														<div class="col-12 my-2 col-md-2">
+														<div class="col-12 mb-1 col-md-2">
 															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 																<label class="data-entry-label w-50" for="debug">Debug JSON</label>
 																<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
