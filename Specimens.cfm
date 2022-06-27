@@ -407,7 +407,7 @@ limitations under the License.
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-md-10 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
