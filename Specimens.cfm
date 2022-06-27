@@ -599,7 +599,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row px-3 mx-0 mb-0">
-													<div class="col-12 my-2 col-md-3 col-xl-3">
+													<div class="col-12 my-2 col-md-3 col-xl-3 px-2 px-xl-3">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
@@ -618,10 +618,6 @@ limitations under the License.
 																makeSpecLocalitySearchAutocomplete('spec_locality',);
 															});
 														</script>
-													</div>
-													<div class="col-12 col-md-2 col-xl-2 my-2">
-														<label for="GeogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
-														<button type="button" id="GeogDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
 												<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
