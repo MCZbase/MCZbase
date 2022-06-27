@@ -275,8 +275,8 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset IDButton = "Fewer Fields">
 												</cfif> 
-												<div class="px-3">
-													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark my-0 py-0">
+												<div class="col-12 col-xl-1 float-left px-1">
+													<div class="h4 d-inline text-dark my-0 py-0">
 														<span class="d-block">Identifiers</span>
 														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
