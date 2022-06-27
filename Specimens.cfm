@@ -282,7 +282,7 @@ limitations under the License.
 													</div>
 												</div>	
 												<div class="form-row px-2">
-													<div class="col-12 mt-1 mb-0 px-2 px-xl-2 pb-2 col-md-3 col-xl-3 float-left">
+													<div class="col-12 mt-1 mb-0 px-2 px-xl-3 pb-2 col-md-3 col-xl-3 float-left">
 														<label for="fixedCollection" class="data-entry-label">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
