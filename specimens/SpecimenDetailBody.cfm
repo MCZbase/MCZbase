@@ -849,6 +849,7 @@ limitations under the License.
 					</div>
 					<!-----------------------------Ledger--------------------------------> 
 					<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
+					<cfset ledgerMediaCount = val(rereplace(ledgerMediaCount,"[^0-9]","","all"))>
 					<div class="accordion" id="accordionLedger">
 						<div class="card mb-2 bg-light">
 							<div id="ledgerDialog"></div>
