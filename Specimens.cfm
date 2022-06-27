@@ -275,10 +275,10 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset IDButton = "Fewer Fields">
 												</cfif> 
-												<div class="px-4">
+												<div class="px-3">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-0">
-														<span class="pr-2 d-block pb-0">Identifiers</span>
-														<button type="button" id="IDDetailCtl" class="btn d-inline ml-4 btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+														<span class="d-block">Identifiers</span>
+														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs ml-5 small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
 												<div class="form-row mx-0">
@@ -401,10 +401,10 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif>
-												<div class="px-4">
+												<div class="px-3">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
-														<span class="pr-2 d-block pb-0">Taxonomy</span>
-														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs ml-4 small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<span class="d-block">Taxonomy</span>
+														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs ml-5 small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row mx-0 mb-1">
@@ -592,10 +592,10 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div class="px-4 py-1">
+												<div class="px-3">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
-														<span class="pr-2 d-block pb-0">Geography</span>
-														<button type="button" id="GeogDetailCtl" class="btn d-inline pl-4 btn-xs small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+														<span class="d-block">Geography</span>
+														<button type="button" id="GeogDetailCtl" class="btn d-inline btn-xs ml-5small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
 												<div class="form-row mx-0 mb-0">
@@ -730,10 +730,10 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset CollButton = "Fewer Fields">
 												</cfif> 
-												<div class="px-4 py-1">
+												<div class="px-3">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
-														<span class="pr-2 d-block pb-0">Collecting Event</span>
-														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs pl-4 small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
+														<span class="d-block">Collecting Event</span>
+														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs ml-5 small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div class="form-row px-3 mx-0 mb-0">
@@ -827,12 +827,12 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 search-header-basic py-1">
-												<div class="px-4 py-1">
+												<div class="px-4">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
-														<span class="pr-2 d-block pb-0">
+														<span class="d-block">
 														Specimen Object
 														</span>
-													</h2>
+													</div>
 												</div>
 												<div class="form-row px-3 mx-0 mb-0">
 													<div class="col-12 my-2 col-md-3 col-xl-2">
