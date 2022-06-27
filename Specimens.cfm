@@ -732,7 +732,7 @@ limitations under the License.
 												</cfif> 
 												<div>
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark my-0 py-1">
-														<span class="d-block">Collecting Event</span>
+														<span class="d-block">Collection</span>
 														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
