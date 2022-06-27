@@ -28,10 +28,10 @@ limitations under the License.
 <cffunction name="getMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="relationship_type" type="string" required="yes">
-	<cfargument name="get_count" type="string" required="no">
+	<cfargument name="get_count" type="string" required="no" default="">
 
 	<cfset l_get_count = arguments.get_count>
-	<cfset l_relationship_type= arguments.relationhship_type>
+	<cfset l_relationship_type= arguments.relationship_type>
 	<cfset l_collection_object_id= arguments.collection_object_id>
 	<cfset returnvalue = 0>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
