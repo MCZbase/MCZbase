@@ -1084,7 +1084,7 @@ ul.sd li.list-group-item:last-child {
 	border-bottom: 2px solid #ddd!important;
 }
 .search-header-basic-gray {
-	background: #e9ecef!important;
+	background: #f5f5f5!important;
 	border-bottom: 2px solid #ddd!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
