@@ -582,7 +582,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 search-header-basic px-0 mt-0 pb-2">
+											<section class="col-12 search-header-basic px-0 mt-0 py-1">
 												<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -720,7 +720,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 px-0 mt-0 pb-2">
+											<section class="col-12 px-0 mt-0 py-1">
 												<cfif listFind(searchPrefList,"CollDetail") EQ 0>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -826,7 +826,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 search-header-basic px-0 mt-0 pb-2">
+											<section class="col-12 search-header-basic px-0 mt-0 py-1">
 												<div class="px-4 py-1">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">
@@ -885,7 +885,7 @@ limitations under the License.
 												</div>
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<section class="col-12 px-0 mt-0 pb-2">
+												<section class="col-12 px-0 mt-0 py-1">
 													<div class="px-xl-4 px-2 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Transactions
@@ -966,7 +966,7 @@ limitations under the License.
 												</section>
 											</cfif>
 											<section id="searchButtons">
-												<div class="form-row px-4 my-3 pb-2">
+												<div class="form-row px-4 my-3 pb-1">
 													<div class="col-12 px-5">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
