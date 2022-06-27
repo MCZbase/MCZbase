@@ -598,18 +598,18 @@ limitations under the License.
 														<button type="button" id="GeogDetailCtl" class="btn d-inline pl-4 btn-xs small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
-												<div class="form-row px-3 mx-0 mb-0">
-													<div class="col-12 my-2 col-md-3 col-xl-4 px-2 px-xl-3">
+												<div class="form-row mx-0 mb-0">
+													<div class="col-12 my-2 col-md-3 col-xl-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-3 px-2 px-xl-3">
+													<div class="col-12 my-2 col-md-3 col-xl-3">
 														<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 														<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 														<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-4 px-2 px-xl-3">
+													<div class="col-12 my-2 col-md-3 col-xl-4">
 														<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 														<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
@@ -620,7 +620,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-														<div class="form-row px-0 mb-0 mx-0">
+														<div class="form-row mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-3 col-xl-2">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
@@ -641,7 +641,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3 col-xl-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-3 col-xl-2">
 																<label for="state_prov" class="data-entry-label">State/Province</label>
 																<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
@@ -799,7 +799,7 @@ limitations under the License.
 															<cfset date_collected="">
 														</cfif>
 														<label for="date_collected" class="data-entry-label">Date Collected</label>
-														<input type="text" name="date_collected" class="data-entry-input" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
+														<input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
 													</div>
 													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
