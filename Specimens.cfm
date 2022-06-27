@@ -410,7 +410,7 @@ limitations under the License.
 												<div class="form-row px-3 mx-0">
 													<div class="col-12 my-1 col-md-4 col-xl-4">
 														<div class="form-row mx-0 px-0 mb-0">
-															<div class="col-9 px-0">
+															<div class="col-9 px-1">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 																<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
 																<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
@@ -620,8 +620,8 @@ limitations under the License.
 														</script>
 													</div>
 													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-														<div class="form-row px-3 mb-0 mx-0">
-															<div class="col-12 mb-2 col-md-3 col-xl-2">
+														<div class="form-row px-0 mb-0 mx-0">
+															<div class="col-12 mb-1 col-md-3 col-xl-2">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
 																<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
@@ -631,7 +631,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2">
+															<div class="col-12 mb-1 col-md-3 col-xl-2">
 																<label for="country" class="data-entry-label">Country</label>
 																<cfif not isdefined("country")><cfset country=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
@@ -641,7 +641,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-3 col-xl-2 px-xl-3">
 																<label for="state_prov" class="data-entry-label">State/Province</label>
 																<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
@@ -651,7 +651,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-3 col-xl-2">
 																<label for="county" class="data-entry-label">County/Shire/Parish</label>
 																<cfif not isdefined("county")><cfset county=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
@@ -663,8 +663,8 @@ limitations under the License.
 															</div>
 															
 														</div>
-														<div class="form-row px-3 mb-2 mx-0">
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+														<div class="form-row px-0 mb-0 mx-0">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="ocean_region" name="ocean_region" value="#encodeForHtml(ocean_region)#">
@@ -674,7 +674,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="ocean_subregion" class="data-entry-label">Ocean Sub-Region</label>
 																<cfif not isdefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="ocean_subregion" name="ocean_subregion" value="#encodeForHtml(ocean_subregion)#">
@@ -684,7 +684,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="sea" class="data-entry-label">Sea
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##sea').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -696,7 +696,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="island_group" class="data-entry-label">Island Group</label>
 																<cfif not isdefined("island_group")><cfset island_group=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island_group" name="island_group" value="#encodeForHtml(island_group)#">
@@ -706,7 +706,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-2 px-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="island" class="data-entry-label">Island</label>
 																<cfif not isdefined("island")><cfset island=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island" name="island" value="#encodeForHtml(island)#">
@@ -736,7 +736,7 @@ limitations under the License.
 													</h2>
 												</div>
 												<div class="form-row px-3 mx-0 pb-2">
-													<div class="col-12 my-2 col-md-2">
+													<div class="col-12 mb-1 col-md-2">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
 															<cfset collector="">
@@ -779,7 +779,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
+													<div class="col-12 mb-1 col-md-3 col-xl-2">
 														<cfif not isdefined("collecting_source")>
 															<cfset collecting_source="">
 														</cfif>
@@ -793,20 +793,20 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
+													<div class="col-12 mb-1 col-md-3 col-xl-2">
 														<cfif not isdefined("date_collected")>
 															<cfset date_collected="">
 														</cfif>
 														<label for="date_collected" class="data-entry-label">Date Collected</label>
 														<input type="text" name="date_collected" class="data-entry-input" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
 													</div>
-													<div class="col-12 my-2 col-md-2 px-2 px-xl-3">
+													<div class="col-12 mb-1 col-md-2">
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 														<label class="data-entry-label" for="when">Verbatim Date</label>
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
 													
-													<div class="col-12 col-md-2 col-xl-2 my-2">
+													<div class="col-12 col-md-2 col-xl-2 mb-1">
 														<label for="CollDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Collecting</label>
 														<button type="button" id="CollDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
