@@ -275,12 +275,14 @@ limitations under the License.
 															<cfset toggleTo = "0">
 															<cfset IDButton = "Fewer Fields">
 														</cfif> 
-												<div class="form-row mx-0 px-0 pb-0">
-													<div class="col-12 px-0 py-0">
-														<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 pb-2">
-															<span class="pr-2 d-block pb-0">Identifiers</span>
-															<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
-														</div>
+												<div class="px-4 py-1">
+													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-1">
+														<span class="pr-2 d-block pb-0">Identifiers</span>
+														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+													</div>
+												</div>	
+												<div class="form-row px-3 mx-0">
+													<div class="col-12 my-2 col-md-4 col-xl-4">
 														<div class="col-12 mt-1 mb-0 px-2 px-xl-3 pb-2 col-md-3 col-xl-3 float-left">
 															<label for="fixedCollection" class="data-entry-label">Collection</label>
 															<div name="collection" id="fixedCollection" class="w-100"></div>
