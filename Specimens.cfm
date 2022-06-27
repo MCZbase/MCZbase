@@ -261,12 +261,11 @@ limitations under the License.
 										<cfelse>
 											<cfset searchPrefList = "">
 										</cfif>
-								
 										<input type="hidden" name="result_id" id="result_id_fixedSearch" value="" class="excludeFromLink">
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="col-12 search-header-basic-teal px-0 mt-0 mb-0 py-2">
+											<section class="col-12 search-header-basic px-0 mt-0 mb-0 py-2">
 														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 															<cfset IDDetailStyle="display:none;">
 															<cfset toggleTo = "1">
@@ -277,11 +276,10 @@ limitations under the License.
 															<cfset IDButton = "Fewer Fields">
 														</cfif> 
 												<div class="form-row mx-0 px-0 pb-0">
-													<div class="col-12 px-0 border-bottom py-0">
+													<div class="col-12 px-0 py-0">
 														<div class="h4  float-left px-4 d-inline text-dark mt-2 pb-2">
 															<span class="pr-2">Identifiers</span><button type="button" id="IDDetailCtl" class="btn d-inline btn-xs  small py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
-											
 														<div class="col-12 mt-1 mb-0 px-2 px-xl-3 pb-2 col-md-2 col-xl-2 float-left">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
 																<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -349,14 +347,8 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0">
-										<!---		<div class="col-2 col-md-2 px-2 px-xl-4 mt-0 mb-0">--->
-												<!---	<label for="IDDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Identifiers</label>--->
-													
-												<!---</div>--->
-											
 												<div id="IDDetail" class="col-11 col-md-10 px-0" style="#IDDetailStyle#">
 													<div class="form-row px-2 mx-0">
-													
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 																<div class="col-12 px-2 px-xl-3 mb-1 col-md-2">
@@ -410,7 +402,7 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif> 
-												<div class="border-bottom px-4 py-1">
+												<div class="px-4 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Taxonomy
 													</h2>
@@ -595,7 +587,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 search-header-basic-teal px-0 mt-0 pb-2">
+											<section class="col-12 search-header-basic px-0 mt-0 pb-2">
 												<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -605,7 +597,7 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div class="border-bottom px-4 py-1">
+												<div class="px-4 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Geography
 													</h2>
@@ -745,7 +737,7 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset CollButton = "Fewer Fields">
 													</cfif> 
-												<div class="border-bottom px-4 py-1">
+												<div class="px-4 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Collecting Event
 													</h2>
@@ -845,8 +837,8 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 search-header-basic-teal px-0 mt-0 pb-2">
-												<div class="border-bottom px-4 py-1">
+											<section class="col-12 search-header-basic px-0 mt-0 pb-2">
+												<div class="px-4 py-1">
 													<h2 class="h4 text-dark mb-0">
 														Biological Individual
 													</h2>
@@ -903,7 +895,7 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 search-header-basic-gray px-0 mt-0 pb-2">
-													<div class="border-bottom px-xl-4 px-2 py-1">
+													<div class="px-xl-4 px-2 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Transactions
 														</h2>

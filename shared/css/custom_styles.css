@@ -1079,15 +1079,16 @@ ul.sd li.list-group-item:last-child {
 	border-radius: 4px;
 	margin-top: 0px;
 }
-.search-header-basic-teal {
+.search-header-basic {
 	background-color: #deebec !important;
 	background-color: #ffffff!important;
 	border-bottom: 2px solid #b8d7f8;
+	border-bottom: 2px solid #c5c5c5!important;
 }
 .search-header-basic-gray {
-	border-bottom: 2px solid #c5c5c5!important;
 	background: #e8e8e8!important;
 	border-bottom: 2px solid #b8d7f8!important;
+	border-bottom: 2px solid #c5c5c5!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
