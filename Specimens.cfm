@@ -461,7 +461,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 px-2 px-xl-3 my-2 col-md-2">
+													<div class="col-12 px-2 pl-xl-3 my-2 col-md-2">
 														<label for="determiner" class="data-entry-label">Determiner</label>
 														<cfif not isdefined("determiner")><cfset determiner=""></cfif>
 														<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
