@@ -281,7 +281,7 @@ limitations under the License.
 														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
