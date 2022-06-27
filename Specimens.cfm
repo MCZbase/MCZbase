@@ -392,7 +392,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 search-header-basic-gray px-0 mt-0 pb-2">
+											<section class="col-12 px-0 mt-0 pb-2">
 													<cfif listFind(searchPrefList,"TaxaDetail") EQ 0>
 														<cfset TaxaDetailStyle="display:none;">
 														<cfset toggleTo = "1">
@@ -727,7 +727,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 search-header-basic-gray px-0 mt-0 pb-2">
+											<section class="col-12 px-0 mt-0 pb-2">
 													<cfif listFind(searchPrefList,"CollDetail") EQ 0>
 														<cfset CollDetailStyle="display:none;">
 														<cfset toggleTo = "1">
@@ -894,7 +894,7 @@ limitations under the License.
 												</div>
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<section class="col-12 search-header-basic-gray px-0 mt-0 pb-2">
+												<section class="col-12 px-0 mt-0 pb-2">
 													<div class="px-xl-4 px-2 py-1">
 														<h2 class="h4 text-dark mb-0">
 															Transactions

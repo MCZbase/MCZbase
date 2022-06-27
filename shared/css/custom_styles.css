@@ -1081,11 +1081,7 @@ ul.sd li.list-group-item:last-child {
 }
 .search-header-basic {
 	background-color: #ffffff!important;
-	border-bottom: 2px solid #ddd!important;
-}
-.search-header-basic-gray {
-	background: #ededed!important;
-	border-bottom: 2px solid #ddd!important;
+	border-bottom: 2px solid #ededed!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
