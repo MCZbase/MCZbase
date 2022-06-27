@@ -721,21 +721,22 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 px-0 mt-0 pb-2">
-													<cfif listFind(searchPrefList,"CollDetail") EQ 0>
-														<cfset CollDetailStyle="display:none;">
-														<cfset toggleTo = "1">
-														<cfset CollButton = "More Fields">
-													<cfelse>
-														<cfset CollDetailStyle="">
-														<cfset toggleTo = "0">
-														<cfset CollButton = "Fewer Fields">
-													</cfif> 
+												<cfif listFind(searchPrefList,"CollDetail") EQ 0>
+													<cfset CollDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset CollButton = "More Fields">
+												<cfelse>
+													<cfset CollDetailStyle="">
+													<cfset toggleTo = "0">
+													<cfset CollButton = "Fewer Fields">
+												</cfif> 
 												<div class="px-4 py-1">
-													<h2 class="h4 text-dark mb-0">
-														Collecting Event
-													</h2>
+													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-1">
+														<span class="pr-2 d-block pb-0">Collecting Event</span>
+														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
+													</div>
 												</div>
-												<div class="form-row px-3 mx-0 pb-2">
+												<div class="form-row px-3 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-2">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
@@ -805,27 +806,26 @@ limitations under the License.
 														<label class="data-entry-label" for="when">Verbatim Date</label>
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
-													
 													<div class="col-12 col-md-2 col-xl-2 mb-1">
 														<label for="CollDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Collecting</label>
 														<button type="button" id="CollDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
-												</div>
-												<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
-													<div class="form-row px-3 mx-0 mb-2">
-														<div class="col-12 mb-2 col-md-3 col-xl-2">
-															<cfif not isdefined("date_began_date")>
-																<cfset date_began_date="">
-															</cfif>
-															<label for="date_began_date" class="data-entry-label">Date Began</label>
-															<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
-														</div>
-														<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
-															<cfif not isdefined("date_ended_date")>
-																<cfset date_ended_date="">
-															</cfif>
-															<label for="date_ended_date" class="data-entry-label">Date Ended</label>
-															<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
+														<div class="form-row px-3 mx-0 mb-2">
+															<div class="col-12 mb-2 col-md-3 col-xl-2">
+																<cfif not isdefined("date_began_date")>
+																	<cfset date_began_date="">
+																</cfif>
+																<label for="date_began_date" class="data-entry-label">Date Began</label>
+																<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
+															</div>
+															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+																<cfif not isdefined("date_ended_date")>
+																	<cfset date_ended_date="">
+																</cfif>
+																<label for="date_ended_date" class="data-entry-label">Date Ended</label>
+																<input type="text" name="date_ended_date" class="data-entry-input inputHeight" id="date_ended_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_ended_date)#" >
+															</div>
 														</div>
 													</div>
 												</div>
