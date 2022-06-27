@@ -736,8 +736,8 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs ml-4 small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
-												<div class="form-row px-3 mx-0 mb-0">
-													<div class="col-12 mb-1 col-md-2">
+												<div class="form-row mx-0 mb-0">
+													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
 															<cfset collector="">
@@ -780,7 +780,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3 col-xl-2">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("collecting_source")>
 															<cfset collecting_source="">
 														</cfif>
@@ -794,7 +794,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-3 col-xl-2">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("date_collected")>
 															<cfset date_collected="">
 														</cfif>
@@ -807,8 +807,8 @@ limitations under the License.
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
-														<div class="form-row px-3 mx-0 mb-2">
-															<div class="col-12 mb-2 col-md-3 col-xl-2">
+														<div class="form-row mx-0 mb-2">
+															<div class="col-12 mb-2 col-md-3">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
 																</cfif>
@@ -834,8 +834,8 @@ limitations under the License.
 														</span>
 													</div>
 												</div>
-												<div class="form-row px-3 mx-0 mb-0">
-													<div class="col-12 my-2 col-md-3 col-xl-2">
+												<div class="form-row mx-0 mb-0">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label">Part Name</label>
 														<input type="text" id="part_name" name="part_name" class="data-entry-input inputHeight" value="#encodeForHtml(part_name)#" >
@@ -845,7 +845,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("preserve_method")><cfset preserve_method=""></cfif>
 														<label for="preserve_method" class="data-entry-label">Preserve Method
 															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##preserve_method').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -857,7 +857,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("biol_indiv_relationship")><cfset biol_indiv_relationship=""></cfif>
 														<label for="biol_indiv_relationship" class="data-entry-label">Has Relationship
 															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##biol_indiv_relationship').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -869,7 +869,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-2 px-2 px-xl-3">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("media_type")><cfset media_type=""></cfif>
 														<label for="media_type" class="data-entry-label">Media Type
 															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##media_type').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items with media of any type</span></a>
