@@ -407,8 +407,8 @@ limitations under the License.
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs ml-4 small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row mx-0 mb-1">
-													<div class="col-12 mb-1 col-md-4 col-xl-4">
+												<div class="form-row mx-0 mb-0">
+													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
@@ -599,17 +599,17 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0 mb-0">
-													<div class="col-12 my-2 col-md-3 col-xl-4">
+													<div class="col-12 mb-1 col-md-3 col-xl-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 													</div>
-													<div class="col-12 my-2 col-md-4">
+													<div class="col-12 mb-1 col-md-4">
 														<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 														<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 														<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-4">
+													<div class="col-12 mb-1 col-md-3 col-xl-4">
 														<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 														<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
 														<input type="text" class="data-entry-input inputHeight" id="spec_locality" name="spec_locality" value="#encodeForHtml(spec_locality)#">
