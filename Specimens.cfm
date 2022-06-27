@@ -806,10 +806,6 @@ limitations under the License.
 														<label class="data-entry-label" for="when">Verbatim Date</label>
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
-													<div class="col-12 col-md-2 col-xl-2 mb-1">
-														<label for="CollDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Collecting</label>
-														<button type="button" id="CollDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
-													</div>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
 														<div class="form-row px-3 mx-0 mb-2">
 															<div class="col-12 mb-2 col-md-3 col-xl-2">
@@ -834,7 +830,7 @@ limitations under the License.
 												<div class="px-4 py-1">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">
-														Spec. Object
+														Specimen Object
 														</span>
 													</h2>
 												</div>
