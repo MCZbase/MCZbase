@@ -1172,6 +1172,7 @@ imgStyleClass=value
 		<cfoutput>
 			<cfset output = getMediaBlockHtmlUnthreaded(media_id="#l_media_id#",displayAs="#l_displayAs#",size="#l_size#",styles="#l_styles#",captionAs="#l_captionAs#",background_class="#l_background_class#",background_color="#l_background_color#")>
 			#output#
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="mediaWidgetThread#tn#" />
 	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
@@ -1411,8 +1412,8 @@ imgStyleClass=value
 			<cfabort>
 		</cfcatch>
 		</cftry>
+		#output#
 	</cfoutput>
-	#output#
 </cffunction>
 
 <!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc showMore is not working-- Michelle--->				
