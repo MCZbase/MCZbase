@@ -112,7 +112,7 @@ limitations under the License.
 		</cfoutput>
 	</cfthread>
 	<cfif isDefined("get_count") AND get_count EQ "true">
-		<cfreturn expr="#returnvalue#">
+		<cfreturn returnvalue>
 	<cfelse>
 		<cfthread action="join" name="getMediaThread#tn#" />
 	</cfif>
