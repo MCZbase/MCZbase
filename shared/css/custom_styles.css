@@ -1080,15 +1080,12 @@ ul.sd li.list-group-item:last-child {
 	margin-top: 0px;
 }
 .search-header-basic {
-	background-color: #deebec !important;
 	background-color: #ffffff!important;
-	border-bottom: 2px solid #b8d7f8;
-	border-bottom: 2px solid #c5c5c5!important;
+	border-bottom: 2px solid #ddd!important;
 }
 .search-header-basic-gray {
-	background: #e8e8e8!important;
-	border-bottom: 2px solid #b8d7f8!important;
-	border-bottom: 2px solid #c5c5c5!important;
+	background: #e9ecef!important;
+	border-bottom: 2px solid #ddd!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
