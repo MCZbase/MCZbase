@@ -276,13 +276,13 @@ limitations under the License.
 													<cfset IDButton = "Fewer Fields">
 												</cfif> 
 												<div class="px-3">
-													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark my-0 py-0">
+													<div class="h4 col-12 col-xl-1 px-1 d-inline text-dark my-0 py-0">
 														<span class="d-block">Identifiers</span>
 														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs ml-4 small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
 												<div class="form-row mx-0 mb-0">
-													<div class="col-12 mt-1 mb-0 pb-1 col-md-3 col-xl-3 float-left">
+													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
@@ -309,12 +309,12 @@ limitations under the License.
 															});
 														</script> 
 													</div>
-													<div class="col-12 mt-1 mb-0 pb-1 col-md-3 col-xl-3 float-left">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 														<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
-													<div class="col-12 mb-0 pb-1 mt-1 col-md-3 float-left">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 														<label for="otherID" class="data-entry-label">Other ID Type</label>
 														<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -341,7 +341,7 @@ limitations under the License.
 															});
 														</script> 
 													</div>
-													<div class="col-12 mb-0 mt-1 pb-1 mb-0 col-md-3 float-left">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 														<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
@@ -384,7 +384,7 @@ limitations under the License.
 																</div>
 																<div class="col-12 mb-1 col-md-6">
 																	<label for="other_id_controls_note" class="data-entry-label">Note: </label>
-																	<p id="other_id_controls_note" class="px-1 small">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
+																	<p id="other_id_controls_note" class="px-1 pb-0 small">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
 																</div>
 															</cfif>
 														</div>
