@@ -347,7 +347,7 @@ limitations under the License.
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
-													<div class="form-row col-12 mx-0 mb-0">
+													<div class="form-row col-12 px-0 mx-0 mb-0">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 																<div class="col-12 mb-1 col-md-2">
@@ -486,7 +486,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div id="TaxaDetail" class="col-12 px-0" style="#TaxaDetailStyle#">
-														<div class="form-row col-12 mx-0 mb-0">
+														<div class="form-row col-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-2">
 																<label for="phylum" class="data-entry-label">Phylum
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##phylum').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
@@ -541,7 +541,7 @@ limitations under the License.
 															</div>
 															
 														</div>
-														<div class="form-row col-12 mx-0 mb-0">
+														<div class="form-row col-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-4">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
