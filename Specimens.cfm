@@ -346,9 +346,7 @@ limitations under the License.
 														<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
-												</div>
-												<div class="form-row mx-0">
-												<div id="IDDetail" class="col-11 col-md-10 px-0" style="#IDDetailStyle#">
+													<div id="IDDetail" class="col-11 col-md-10 px-0" style="#IDDetailStyle#">
 													<div class="form-row px-2 mx-0">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
