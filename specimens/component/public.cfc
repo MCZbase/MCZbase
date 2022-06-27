@@ -29,6 +29,11 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="relationship_type" type="string" required="yes">
 	<cfargument name="get_count" type="string" required="no">
+
+	<cfset l_get_count = arguments.get_count>
+	<cfset l_relationship_type= arguments.relationhship_type>
+	<cfset l_collection_object_id= arguments.collection_object_id>
+	<cfset returnvalue = 0>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
 	<cfthread name="getMediaThread#tn#">
 		<cfoutput>
@@ -53,15 +58,15 @@ limitations under the License.
 						JOIN media_relations cmr on media.media_id = cmr.media_id
 					WHERE
 						MCZBASE.is_media_encumbered(media.media_id)  < 1 
-						AND cmr.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						<cfif relationship_type EQ 'shows'>
+						AND cmr.related_primary_key = <cfqueryparam value="#l_collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						<cfif l_relationship_type EQ 'shows'>
 							AND cmr.media_relationship = 'shows cataloged_item'
-						<cfelseif relationship_type EQ 'documents'>
+						<cfelseif l_relationship_type EQ 'documents'>
 							AND cmr.media_relationship = 'ledger entry for cataloged_item'
 						<cfelse>
 							AND cmr.media_relationship like '% cataloged_item'
 						</cfif>
-					<cfif relationship_type EQ 'documents'>
+					<cfif l_relationship_type EQ 'documents'>
 					UNION
 					SELECT
 						media.media_id,
@@ -80,12 +85,12 @@ limitations under the License.
 					WHERE
 						MCZBASE.is_media_encumbered(media.media_id)  < 1 
 						AND lmr.media_relationship = 'documents collecting_event'
-						AND cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND cataloged_item.collection_object_id = <cfqueryparam value="#l_collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfif>
 					)
 				</cfquery>
-				<cfif isDefined("get_count") AND get_count EQ "true">
-					#getImages.recordcount#
+				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
+					<cfset returnvalue=#getImages.recordcount#>
 				</cfif>
 				<cfif #getImages.recordcount# gt 8>
 					<p class='smaller w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
@@ -106,7 +111,11 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getMediaThread#tn#" />
+	<cfif isDefined("get_count") AND get_count EQ "true">
+		<cfreturn expr="#returnvalue#">
+	<cfelse>
+		<cfthread action="join" name="getMediaThread#tn#" />
+	</cfif>
 </cffunction>
 							
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
