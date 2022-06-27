@@ -409,7 +409,7 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0 mb-1">
 													<div class="col-12 mb-1 col-md-4 col-xl-4">
-														<div class="form-row mx-0 mb-1">
+														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 																<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
