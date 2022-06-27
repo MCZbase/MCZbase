@@ -1081,6 +1081,7 @@ ul.sd li.list-group-item:last-child {
 }
 .search-header-basic-teal {
 	background-color: #deebec !important;
+	background-color: #ffffff!important;
 	border-bottom: 2px solid #b8d7f8;
 }
 .search-header-basic-gray {

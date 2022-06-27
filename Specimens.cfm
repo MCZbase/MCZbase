@@ -266,7 +266,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="col-12 search-header-basic-teal px-0 mt-0 mb-0 pb-2">
+											<section class="col-12 search-header-basic-teal px-0 mt-0 mb-0 py-2">
 														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 															<cfset IDDetailStyle="display:none;">
 															<cfset toggleTo = "1">
@@ -276,7 +276,7 @@ limitations under the License.
 															<cfset toggleTo = "0">
 															<cfset IDButton = "Fewer Fields">
 														</cfif> 
-												<div class="form-row mx-0 px-0">
+												<div class="form-row mx-0 px-0 pb-2">
 													<div class="col-12 px-0 border-bottom py-0">
 														<div class="h4  float-left px-4 d-inline text-dark mt-3">
 															<span class="pr-2">Identifiers</span><button type="button" id="IDDetailCtl" class="btn d-inline btn-xs  small py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
