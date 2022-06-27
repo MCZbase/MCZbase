@@ -830,7 +830,7 @@ limitations under the License.
 												<div>
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="d-block">
-														Specimen Object
+														Specimen
 														</span>
 													</div>
 												</div>
