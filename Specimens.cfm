@@ -278,67 +278,68 @@ limitations under the License.
 												<div class="form-row mx-0 px-0 pb-0">
 													<div class="col-12 px-0 py-0">
 														<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 pb-2">
-															<span class="pr-2 d-block pb-">Identifiers</span><button type="button" id="IDDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<span class="pr-2 d-block pb-0">Identifiers</span>
+															<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
 														<div class="col-12 mt-1 mb-0 px-2 px-xl-3 pb-2 col-md-3 col-xl-3 float-left">
-																<label for="fixedCollection" class="data-entry-label">Collection</label>
-																<div name="collection" id="fixedCollection" class="w-100"></div>
-																<cfif not isdefined("collection")><cfset collection=""></cfif>
-																<cfset collection_array = ListToArray(collection)>
-																<script>
-																	function setFixedCollectionValues() {
-																		$('##fixedCollection').jqxComboBox('clearSelection');
+															<label for="fixedCollection" class="data-entry-label">Collection</label>
+															<div name="collection" id="fixedCollection" class="w-100"></div>
+															<cfif not isdefined("collection")><cfset collection=""></cfif>
+															<cfset collection_array = ListToArray(collection)>
+															<script>
+																function setFixedCollectionValues() {
+																	$('##fixedCollection').jqxComboBox('clearSelection');
+																	<cfloop query="ctCollection">
+																		<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+																			$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
+																		</cfif>
+																	</cfloop>
+																};
+																$(document).ready(function () {
+																	var collectionsource = [
+																		<cfset comma="">
 																		<cfloop query="ctCollection">
-																			<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
-																				$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
-																			</cfif>
+																			#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+																			<cfset comma=",">
 																		</cfloop>
-																	};
-																	$(document).ready(function () {
-																		var collectionsource = [
-																			<cfset comma="">
-																			<cfloop query="ctCollection">
-																				#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
-																				<cfset comma=",">
-																			</cfloop>
-																		];
-																		$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '19px', width: '100%' });
-																		setFixedCollectionValues();
-																	});
-																</script> 
-															</div>
+																	];
+																	$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '19px', width: '100%' });
+																	setFixedCollectionValues();
+																});
+															</script> 
+														</div>
 														<div class="col-12 mt-1 mb-0 px-2 pb-2 px-xl-3 col-md-3 col-xl-3 float-left">
-																<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
-																<label for="catalogNum" class="data-entry-label">Catalog Number</label>
-																<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
-															</div>
+															<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
+															<label for="catalogNum" class="data-entry-label">Catalog Number</label>
+															<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
+														</div>
 														<div class="col-12 mb-0 px-xl-3 pb-2 px-2 mt-1 col-md-2 float-left">
-																<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
-																<label for="otherID" class="data-entry-label">Other ID Type</label>
-																<div name="other_id_type" id="other_id_type" class="w-100"></div>
-																<cfset otheridtype_array = ListToArray(other_id_type)>
-																<script>
-																	function setOtherIdTypeValues() {
-																		$('##other_id_type').jqxComboBox('clearSelection');
+															<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
+															<label for="otherID" class="data-entry-label">Other ID Type</label>
+															<div name="other_id_type" id="other_id_type" class="w-100"></div>
+															<cfset otheridtype_array = ListToArray(other_id_type)>
+															<script>
+																function setOtherIdTypeValues() {
+																	$('##other_id_type').jqxComboBox('clearSelection');
+																	<cfloop query="ctother_id_type">
+																		<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
+																			$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
+																		</cfif>
+																	</cfloop>
+																};
+																$(document).ready(function () {
+																	var otheridtypesource = [
+																		<cfset comma="">
 																		<cfloop query="ctother_id_type">
-																			<cfif ArrayContains(otheridtype_array, ctother_id_type.other_id_type)>
-																				$("##other_id_type").jqxComboBox("selectItem","#ctother_id_type.other_id_type#");
-																			</cfif>
+																			#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
+																			<cfset comma=",">
 																		</cfloop>
-																	};
-																	$(document).ready(function () {
-																		var otheridtypesource = [
-																			<cfset comma="">
-																			<cfloop query="ctother_id_type">
-																				#comma#{name:"#ctother_id_type.other_id_type#",meta:"#ctother_id_type.other_id_type# (#ctother_id_type.ct#)"}
-																				<cfset comma=",">
-																			</cfloop>
-																		];
-																		$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '19px', width: '100%' });
-																		setOtherIdTypeValues();
-																	});
-																</script> 
-															</div>
+																	];
+																	$("##other_id_type").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '19px', width: '100%' });
+																	setOtherIdTypeValues();
+																});
+															</script> 
+														</div>
 														<div class="col-12 px-2 mb-0 mt-1 pb-2 px-xl-3 mb-0 col-md-3 float-left">
 																<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 																<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
@@ -401,11 +402,12 @@ limitations under the License.
 														<cfset TaxaDetailStyle="">
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
-													</cfif> 
+													</cfif>
 												<div class="px-4 py-1">
-													<h2 class="h4 text-dark mb-0">
-														Taxonomy
-													</h2>
+													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-1">
+														<span class="pr-2 d-block pb-0">Taxonomy</span>
+														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+													</div>
 												</div>
 												<div class="form-row px-3 mx-0">
 													<div class="col-12 my-2 col-md-4 col-xl-3">
