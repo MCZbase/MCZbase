@@ -641,7 +641,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3 col-xl-2">
+															<div class="col-12 mb-1 col-md-3">
 																<label for="state_prov" class="data-entry-label">State/Province</label>
 																<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
@@ -651,7 +651,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3 col-xl-2">
+															<div class="col-12 mb-1 col-md-3">
 																<label for="county" class="data-entry-label">County/Shire/Parish</label>
 																<cfif not isdefined("county")><cfset county=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
@@ -696,7 +696,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
+															<div class="col-12 mb-1 col-md-3">
 																<label for="island_group" class="data-entry-label">Island Group</label>
 																<cfif not isdefined("island_group")><cfset island_group=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island_group" name="island_group" value="#encodeForHtml(island_group)#">
