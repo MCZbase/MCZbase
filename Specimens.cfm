@@ -966,7 +966,7 @@ limitations under the License.
 												</section>
 											</cfif>
 											<section id="searchButtons">
-												<div class="form-row px-4 my-2 pb-1">
+												<div class="form-row px-4 my-1 pb-1">
 													<div class="col-12 px-5">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
