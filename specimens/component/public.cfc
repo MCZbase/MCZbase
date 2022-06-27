@@ -112,7 +112,6 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getMediaThread#tn#" />
 	<cfreturn cfthread["getMediaThread#tn#"].output>
-	</cfif>
 </cffunction>
 							
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
