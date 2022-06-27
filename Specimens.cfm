@@ -631,6 +631,39 @@ limitations under the License.
 																	});
 																</script>
 															</div>
+															<div class="col-12 mb-2 col-md-3 col-xl-2">
+																<label for="country" class="data-entry-label">Country</label>
+																<cfif not isdefined("country")><cfset country=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeCountrySearchAutocomplete('country');
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+																<label for="state_prov" class="data-entry-label">State/Province</label>
+																<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeGeogSearchAutocomplete('state_prov','state_prov');
+																	});
+																</script>
+															</div>
+															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+																<label for="county" class="data-entry-label">County/Shire/Parish</label>
+																<cfif not isdefined("county")><cfset county=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeGeogSearchAutocomplete('county','county');
+																	});
+																</script>
+															</div>
+															
+														</div>
+														<div class="form-row px-3 mb-2 mx-0">
 															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
 																<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
@@ -680,38 +713,6 @@ limitations under the License.
 																<script>
 																	jQuery(document).ready(function() {
 																		makeGeogSearchAutocomplete('island','island');
-																	});
-																</script>
-															</div>
-														</div>
-														<div class="form-row px-3 mb-2 mx-0">
-															<div class="col-12 mb-2 col-md-3 col-xl-2">
-																<label for="country" class="data-entry-label">Country</label>
-																<cfif not isdefined("country")><cfset country=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeCountrySearchAutocomplete('country');
-																	});
-																</script>
-															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
-																<label for="state_prov" class="data-entry-label">State/Province</label>
-																<cfif not isdefined("state_prov")><cfset state_prov=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="state_prov" name="state_prov" aria-label="state or province" value="#encodeForHtml(state_prov)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeGeogSearchAutocomplete('state_prov','state_prov');
-																	});
-																</script>
-															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
-																<label for="county" class="data-entry-label">County/Shire/Parish</label>
-																<cfif not isdefined("county")><cfset county=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="county" name="county" aria-label="county shire or parish" value="#encodeForHtml(county)#">
-																<script>
-																	jQuery(document).ready(function() {
-																		makeGeogSearchAutocomplete('county','county');
 																	});
 																</script>
 															</div>
