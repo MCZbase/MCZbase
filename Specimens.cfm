@@ -801,7 +801,7 @@ limitations under the License.
 														<label for="date_collected" class="data-entry-label">Date Collected</label>
 														<input type="text" name="date_collected" class="data-entry-input inputHeight" id="date_collected" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_collected)#" >
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("verbatim_date")><cfset verbatim_date=""></cfif>
 														<label class="data-entry-label" for="when">Verbatim Date</label>
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
