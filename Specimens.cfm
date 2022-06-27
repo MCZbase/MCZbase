@@ -620,7 +620,7 @@ limitations under the License.
 														</script>
 													</div>
 													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
-														<div class="form-row col-12 col-md-11 px-0 mb-0 mx-0">
+														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
@@ -663,7 +663,7 @@ limitations under the License.
 															</div>
 															
 														</div>
-														<div class="form-row col-12 col-md-11 px-0 mb-0 mx-0">
+														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-2">
 																<label for="ocean_region" class="data-entry-label">Ocean Region</label>
 																<cfif not isdefined("ocean_region")><cfset ocean_region=""></cfif>
@@ -807,7 +807,7 @@ limitations under the License.
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
-														<div class="form-row col-12 col-md-10 px-0 mx-0 mb-0">
+														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
