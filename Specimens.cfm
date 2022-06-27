@@ -276,7 +276,7 @@ limitations under the License.
 													<cfset IDButton = "Fewer Fields">
 												</cfif> 
 												<div class="px-4 py-0">
-													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-0">
+													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-0">
 														<span class="pr-2 d-block pb-0">Identifiers</span>
 														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
@@ -402,7 +402,7 @@ limitations under the License.
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif>
 												<div class="px-4 py-1">
-													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-1">
+													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">Taxonomy</span>
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
@@ -593,7 +593,7 @@ limitations under the License.
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
 												<div class="px-4 py-1">
-													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-1">
+													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">Geography</span>
 														<button type="button" id="GeogDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
@@ -731,7 +731,7 @@ limitations under the License.
 													<cfset CollButton = "Fewer Fields">
 												</cfif> 
 												<div class="px-4 py-1">
-													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-1">
+													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">Collecting Event</span>
 														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
