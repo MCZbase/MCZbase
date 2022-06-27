@@ -278,7 +278,7 @@ limitations under the License.
 												<div class="px-4 py-0">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-0">
 														<span class="pr-2 d-block pb-0">Identifiers</span>
-														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+														<button type="button" id="IDDetailCtl" class="btn d-inline pl-4 btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
 												<div class="form-row mx-0 px-2">
@@ -404,7 +404,7 @@ limitations under the License.
 												<div class="px-4 py-1">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">Taxonomy</span>
-														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs pl-4 small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row px-3 mx-0">
@@ -595,7 +595,7 @@ limitations under the License.
 												<div class="px-4 py-1">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">Geography</span>
-														<button type="button" id="GeogDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+														<button type="button" id="GeogDetailCtl" class="btn d-inline pl-4 btn-xs small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
 												<div class="form-row px-3 mx-0 mb-0">
@@ -733,7 +733,7 @@ limitations under the License.
 												<div class="px-4 py-1">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">Collecting Event</span>
-														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
+														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs pl-4 small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div class="form-row px-3 mx-0 mb-0">
@@ -832,11 +832,13 @@ limitations under the License.
 											</section>
 											<section class="col-12 search-header-basic px-0 mt-0 pb-2">
 												<div class="px-4 py-1">
-													<h2 class="h4 text-dark mb-0">
+													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
+														<span class="pr-2 d-block pb-0">
 														Biological Individual
+														</span>
 													</h2>
 												</div>
-												<div class="form-row px-3 mx-0 mb-2">
+												<div class="form-row px-3 mx-0 mb-0">
 													<div class="col-12 my-2 col-md-3 col-xl-2">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label">Part Name</label>
