@@ -266,15 +266,15 @@ limitations under the License.
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
 											<section class="col-12 search-header-basic px-0 mt-0 mb-0 py-1">
-														<cfif listFind(searchPrefList,"IDDetail") EQ 0>
-															<cfset IDDetailStyle="display:none;">
-															<cfset toggleTo = "1">
-															<cfset IDButton = "More Fields">
-														<cfelse>
-															<cfset IDDetailStyle="">
-															<cfset toggleTo = "0">
-															<cfset IDButton = "Fewer Fields">
-														</cfif> 
+												<cfif listFind(searchPrefList,"IDDetail") EQ 0>
+													<cfset IDDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset IDButton = "More Fields">
+												<cfelse>
+													<cfset IDDetailStyle="">
+													<cfset toggleTo = "0">
+													<cfset IDButton = "Fewer Fields">
+												</cfif> 
 												<div class="px-4 py-0">
 													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-0">
 														<span class="pr-2 d-block pb-0">Identifiers</span>
@@ -391,7 +391,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 px-0 mt-0 py-0">
+											<section class="col-12 px-0 mt-0 mb-0 py-1">
 													<cfif listFind(searchPrefList,"TaxaDetail") EQ 0>
 														<cfset TaxaDetailStyle="display:none;">
 														<cfset toggleTo = "1">
@@ -593,9 +593,10 @@ limitations under the License.
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
 												<div class="px-4 py-1">
-													<h2 class="h4 text-dark mb-0">
-														Geography
-													</h2>
+													<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 mb-0 py-1">
+														<span class="pr-2 d-block pb-0">Geography</span>
+														<button type="button" id="GeogDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+													</div>
 												</div>
 												<div class="form-row px-3 mx-0 mb-0">
 													<div class="col-12 my-2 col-md-3 col-xl-3">
