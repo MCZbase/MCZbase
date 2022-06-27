@@ -148,9 +148,6 @@ limitations under the License.
 		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	</cfif>
 </cfif>
-<cfif CGI.script_name IS "/specimens/Specimen.cfm">
-	<script type="text/javascript" src="/specimens/js/details.js"></script> 
-</cfif>
 <cfif CGI.script_name IS "/Specimens.cfm">
 	<script type="text/javascript" src="/specimens/js/search.js"></script> 
 </cfif>
