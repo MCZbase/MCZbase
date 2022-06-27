@@ -807,7 +807,7 @@ limitations under the License.
 														<input type="text" name="verbatim_date" class="data-entry-input inputHeight" id="verbatim_date" value="#encodeForHtml(verbatim_date)#">
 													</div>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
-														<div class="form-row mx-0 mb-2">
+														<div class="form-row mx-0 mb-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
@@ -966,7 +966,7 @@ limitations under the License.
 												</section>
 											</cfif>
 											<section id="searchButtons">
-												<div class="form-row px-4 my-3 pb-1">
+												<div class="form-row px-4 my-2 pb-1">
 													<div class="col-12 px-5">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
