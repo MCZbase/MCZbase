@@ -391,7 +391,7 @@ limitations under the License.
 													</div>
 												</div>
 											</section>
-											<section class="col-12 px-0 mt-0 py-1">
+											<section class="col-12 px-0 mt-0 py-0">
 													<cfif listFind(searchPrefList,"TaxaDetail") EQ 0>
 														<cfset TaxaDetailStyle="display:none;">
 														<cfset toggleTo = "1">
