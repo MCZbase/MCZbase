@@ -908,7 +908,7 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
-															<label for="loan_number" class="data-entry-label w-50">Loan Number</label>
+															<label for="loan_number" class="data-entry-label">Loan Number</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
@@ -942,7 +942,7 @@ limitations under the License.
 															<cfif not isdefined("coll_object_entered_date")>
 																<cfset coll_object_entered_date="">
 															</cfif>
-															<label for="coll_object_entered_date" class="data-entry-label w-50">Date Entered</label>
+															<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
 															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
@@ -954,7 +954,7 @@ limitations under the License.
 														</div>
 														<div class="col-12 mb-1 col-md-2">
 															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-																<label class="data-entry-label w-50" for="debug">Debug JSON</label>
+																<label class="data-entry-label" for="debug">Debug JSON</label>
 																<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
 																	<option value=""></option>
 																	<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
