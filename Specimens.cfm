@@ -834,7 +834,7 @@ limitations under the License.
 												<div class="px-4 py-1">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="pr-2 d-block pb-0">
-														Biological Individual
+														Other
 														</span>
 													</h2>
 												</div>
