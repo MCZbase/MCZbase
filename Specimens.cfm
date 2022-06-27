@@ -384,7 +384,7 @@ limitations under the License.
 																</div>
 																<div class="col-12 mb-1 col-md-6">
 																	<label for="other_id_controls_note" class="data-entry-label">Note: </label>
-																	<p id="other_id_controls_note" class="px-1 pb-0 small">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
+																	<p id="other_id_controls_note" class="px-1 pb-0 small mb-0">Second set of other id type/other id number fields is for testing, may not work as expected.</p>
 																</div>
 															</cfif>
 														</div>
