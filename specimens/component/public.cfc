@@ -35,7 +35,7 @@ limitations under the License.
 	<cfset l_collection_object_id= arguments.collection_object_id>
 	<cfset returnvalue = 0>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
-	<cfthread name="getMediaThread#tn#">
+	<cfthread name="getMediaThread#tn#" returnvalue="#returnvalue#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
