@@ -197,7 +197,7 @@ limitations under the License.
 							<!---Fixed Search tab panel--->
 							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
-									<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
 									<div class="collapse collapseStyle" id="collapseFixed">
@@ -278,7 +278,7 @@ limitations under the License.
 												<div class="form-row mx-0 px-0 pb-0">
 													<div class="col-12 px-0 py-0">
 														<div class="h4 col-12 col-xl-1 float-left px-4 d-inline text-dark mt-1 pb-2">
-															<span class="pr-2 d-block pb-1">Identifiers</span><button type="button" id="IDDetailCtl" class="btn d-inline btn-xs  small py-0 btn-secondary" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+															<span class="pr-2 d-block pb-1">Identifiers</span><button type="button" id="IDDetailCtl" class="btn d-inline btn-xs small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 														</div>
 														<div class="col-12 mt-1 mb-0 px-2 px-xl-3 pb-2 col-md-3 col-xl-3 float-left">
 																<label for="fixedCollection" class="data-entry-label">Collection</label>
