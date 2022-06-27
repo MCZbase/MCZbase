@@ -410,7 +410,7 @@ limitations under the License.
 												<div class="form-row mx-0 mb-1">
 													<div class="col-12 mb-1 col-md-4 col-xl-4">
 														<div class="form-row mx-0 mb-1">
-															<div class="col-9">
+															<div class="col-9 px-0">
 																<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 																<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
 																<input id="any_taxa_term" name="any_taxa_term" class="data-entry-input inputHeight" aria-label="any taxonomy" value="#encodeForHtml(any_taxa_term)#">
@@ -451,7 +451,7 @@ limitations under the License.
 															});
 														</script>
 													</div>
-													<div class="col-12 mb-1 col-md-2">
+													<div class="col-12 mb-1 col-md-3">
 														<label for="author_text" class="data-entry-label">Authorship</label>
 														<cfif not isdefined("author_text")><cfset author_text=""></cfif>
 														<input id="author_text" name="author_text" class="data-entry-input inputHeight" value="#encodeForHtml(author_text)#" >
@@ -604,7 +604,7 @@ limitations under the License.
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
 														<input type="text" class="data-entry-input inputHeight" name="any_geography" id="any_geography" value="#encodeForHtml(any_geography)#">
 													</div>
-													<div class="col-12 my-2 col-md-3 col-xl-3">
+													<div class="col-12 my-2 col-md-4">
 														<cfif not isdefined("higher_geog")><cfset higher_geog=""></cfif>
 														<label for="higher_geog" class="data-entry-label">Higher Geography</label>
 														<input type="text" class="data-entry-input inputHeight" name="higher_geog" id="higher_geog" value="#encodeForHtml(higher_geog)#">
