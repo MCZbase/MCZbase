@@ -33,9 +33,8 @@ limitations under the License.
 	<cfset l_get_count = arguments.get_count>
 	<cfset l_relationship_type= arguments.relationship_type>
 	<cfset l_collection_object_id= arguments.collection_object_id>
-	<cfset returnvalue = 0>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
-	<cfthread name="getMediaThread#tn#" returnvalue="#returnvalue#">
+	<cfthread name="getMediaThread#tn#">
 		<cfoutput>
 			<cftry>
 				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -90,7 +89,7 @@ limitations under the License.
 					)
 				</cfquery>
 				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
-					<cfset returnvalue=#getImages.recordcount#>
+					#getImages.recordcount#
 				</cfif>
 				<cfif #getImages.recordcount# gt 8>
 					<p class='smaller w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
@@ -112,9 +111,7 @@ limitations under the License.
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getMediaThread#tn#" />
-	<cfif isDefined("get_count") AND get_count EQ "true">
-		<cfreturn returnvalue>
-	<cfelse>
+	<cfreturn cfthread["getMediaThread#tn#"].output>
 	</cfif>
 </cffunction>
 							
