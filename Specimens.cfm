@@ -314,7 +314,7 @@ limitations under the License.
 														<label for="catalogNum" class="data-entry-label">Catalog Number</label>
 														<input id="catalogNum" type="text" name="cat_num" class="data-entry-input small inputHeight" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 													</div>
-													<div class="col-12 mb-0 pb-2 mt-1 col-md-2 float-left">
+													<div class="col-12 mb-0 pb-2 mt-1 col-md-3 float-left">
 														<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
 														<label for="otherID" class="data-entry-label">Other ID Type</label>
 														<div name="other_id_type" id="other_id_type" class="w-100"></div>
@@ -827,7 +827,7 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 search-header-basic py-1">
-												<div class="px-4">
+												<div class="px-3">
 													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="d-block">
 														Specimen Object
@@ -886,7 +886,7 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 py-1">
-													<div class="px-4">
+													<div class="px-3">
 														<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
 															Transactions
 														</div>
