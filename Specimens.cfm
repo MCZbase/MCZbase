@@ -281,7 +281,7 @@ limitations under the License.
 														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -347,7 +347,7 @@ limitations under the License.
 														<input type="text" class="data-entry-input small inputHeight" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 													</div>
 													<div id="IDDetail" class="col-12 px-0" style="#IDDetailStyle#">
-													<div class="form-row col-12 col-md-10 px-0 mx-0 mb-0">
+													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 																<div class="col-12 mb-1 col-md-2">
