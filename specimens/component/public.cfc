@@ -85,8 +85,7 @@ limitations under the License.
 					)
 				</cfquery>
 				<cfif isDefined("get_count") AND get_count EQ "true">
-					<cfreturn getImages.recordcount>
-					<cfabort>
+					#getImages.recordcount#
 				</cfif>
 				<cfif #getImages.recordcount# gt 8>
 					<p class='smaller w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
