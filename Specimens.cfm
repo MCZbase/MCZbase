@@ -529,7 +529,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-2 col-md-3">
+															<div class="col-12 mb-1 col-md-3">
 																<label for="genus" class="data-entry-label">Genus</label>
 																<cfif not isdefined("genus")><cfset genus=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -542,7 +542,7 @@ limitations under the License.
 															
 														</div>
 														<div class="form-row mx-0 pb-1">
-															<div class="col-12 mb-1 col-md-3 col-xl-4">
+															<div class="col-12 mb-1 col-md-4">
 																<label for="type_status" class="data-entry-label">Type Status/Citation
 																	<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
 																</label>
@@ -554,7 +554,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3 col-xl-4">
+															<div class="col-12 mb-1 col-md-4">
 																<label for="publication_id" class="data-entry-label">Cited In</label>
 																<cfif not isdefined("publication_id")><cfset publication_id=""></cfif>
 																<cfif not isdefined("citation")><cfset citation=""></cfif>
