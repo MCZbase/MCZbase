@@ -1305,102 +1305,101 @@ imgStyleClass=value
 					</cfif>
 					<!--- prepare output --->
 					<cfset output='#output#<div class="media_widget">'>	
-						<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
-						<cfif #captionAs# EQ "textNone">
-							<cfset linkTarget = "/media/#media.media_id#">
-						<cfelse>
-							<cfset linkTarget = "#media.media_uri#">
+					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
+					<cfif #captionAs# EQ "textNone">
+						<cfset linkTarget = "/media/#media.media_id#">
+					<cfelse>
+						<cfset linkTarget = "#media.media_uri#">
+					</cfif>
+					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
+					<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
+					<cfset output='#output#</a>'>
+					<cfif #captionAs# EQ "textNone">
+						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
+					<cfelseif #captionAs# EQ "textLinks">
+						<!--- textLinks is used when only the links are desired under the thumbnail--->
+						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0 mt-1">'>
+						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 smaller col-12">'>
+						<cfif listcontainsnocase(session.roles,"manage_specimens")>
+							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
-						<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
-						<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
-						<cfset output='#output#</a>'>
-						<cfif #captionAs# EQ "textNone">
-							<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
-						<cfelseif #captionAs# EQ "textLinks">
-							<!--- textLinks is used when only the links are desired under the thumbnail--->
-							<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0 mt-1">'>
-							<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 smaller col-12">'>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
+						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
+						<cfif NOT isDisplayable>
+							<cfif listcontainsnocase(session.roles,"manage_publications")> #media_type# (#mime_type#)</cfif>
+								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
+							<cfelse>
+								<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
+								<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
 							</cfif>
-							<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
-							<cfif NOT isDisplayable>
-								<cfif listcontainsnocase(session.roles,"manage_publications")> #media_type# (#mime_type#)</cfif>
-									<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
-								<cfelse>
-									<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
-									<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
-								</cfif>
-								<cfset output='#output#</p>'>
-							<cfset output='#output#</div>'>
-						<cfelse>
-							<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0 mt-1">'>
-							<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 smaller col-12">'>
-							<cfif listcontainsnocase(session.roles,"manage_specimens")>
-								<cfset output='#output#<span class="d-inline">(<a href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>'>
-							</cfif>
-							<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
-							<cfif NOT isDisplayable>
-								<cfif listcontainsnocase(session.roles,"manage_publications")>#media_type# (#mime_type#)</cfif>
-									<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
-								<cfelse>
-									<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
-									<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
-								</cfif>
-								<cfset output='#output#</p>'>
-								<cfset output='#output#<div class="pb-1">'>
-								<cfset showTitleText = trim(title)>
-								<cfif len(showTitleText) EQ 0>
-									<cfset showTitleText = trim(subject)>
-								</cfif>
-								<cfif len(showTitleText) EQ 0>
-									<cfset showTitleText = "Externally Sourced Media Object">
-								</cfif>
-								<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
-									<cfif len(showTitleText) GT 200>
-										<cfset showTitleText = "#left(showTitleText,200)#..." >
-									</cfif>
-								</cfif>
-								<cfif #captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
-									<cfif len(showTitleText) GT 70>
-										<cfset showTitleText = "#left(showTitleText,70)#..." >
-									</cfif>
-								</cfif>
-								<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
-									<cfif len(showTitleText) GT 250>
-										<cfset showTitleText = "#left(showTitleText,250)#..." >
-									</cfif>
-								</cfif>
-								<!--- clean up broken html tags resulting from truncation of scientific names with <i></i> tags --->
-								<cfif refind("<$",showTitleText) GT 0>
-									<cfset showTitleText = left(showTitleText,len(showTitleText-1))>
-								</cfif>
-								<cfif refind("<i$",showTitleText) GT 0>
-									<cfset showTitleText = left(showTitleText,len(showTitleText-2))>
-								</cfif>
-								<cfif refind("</$",showTitleText) GT 0>
-									<cfset showTitleText = left(showTitleText,len(showTitleText-2))>
-								</cfif>
-								<cfif refind("</i$",showTitleText) GT 0>
-									<cfset showTitleText = "#showTitleText#>">
-								</cfif>
-								<cfif refind("<i>[^<]+$",showTitleText) GT 0 >
-									<!--- close an unclosed italic tag resulting from truncation --->
-									<cfset showTitleText = "#showTitleText#</i>">
-								</cfif>
-								<cfset output='#output#<p class="text-center col-12 my-0 p-0 smaller" > #showTitleText# </p>'>
-								<cfif len(#license_uri#) gt 0>
-									<cfif #captionAs# EQ "TextFull">
-										<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
-										<cfset output='#output#<p class="text-center col-12 p-0 my-0 smaller">'>
-										<cfset output='#output#<a href="#license_uri#">#license_display#</a>'>
-										<cfset output='#output#</p>'>
-									</cfif>
-								</cfif>
-								<cfset output='#output#</div>'>
-							</cfif>
-							<cfset output='#output#</div>'>
+							<cfset output='#output#</p>'>
+						<cfset output='#output#</div>'>
+					<cfelse>
+						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0 mt-1">'>
+						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 smaller col-12">'>
+						<cfif listcontainsnocase(session.roles,"manage_specimens")>
+							<cfset output='#output#<span class="d-inline">(<a href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
+						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
+						<cfif NOT isDisplayable>
+							<cfif listcontainsnocase(session.roles,"manage_publications")>#media_type# (#mime_type#)</cfif>
+							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
+						<cfelse>
+							<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
+							<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+						</cfif>
+						<cfset output='#output#</p>'>
+						<cfset output='#output#<div class="pb-1">'>
+						<cfset showTitleText = trim(title)>
+						<cfif len(showTitleText) EQ 0>
+							<cfset showTitleText = trim(subject)>
+						</cfif>
+						<cfif len(showTitleText) EQ 0>
+							<cfset showTitleText = "Externally Sourced Media Object">
+						</cfif>
+						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
+							<cfif len(showTitleText) GT 200>
+								<cfset showTitleText = "#left(showTitleText,200)#..." >
+							</cfif>
+						</cfif>
+						<cfif #captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
+							<cfif len(showTitleText) GT 70>
+								<cfset showTitleText = "#left(showTitleText,70)#..." >
+							</cfif>
+						</cfif>
+						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+							<cfif len(showTitleText) GT 250>
+								<cfset showTitleText = "#left(showTitleText,250)#..." >
+							</cfif>
+						</cfif>
+						<!--- clean up broken html tags resulting from truncation of scientific names with <i></i> tags --->
+						<cfif refind("<$",showTitleText) GT 0>
+							<cfset showTitleText = left(showTitleText,len(showTitleText-1))>
+						</cfif>
+						<cfif refind("<i$",showTitleText) GT 0>
+							<cfset showTitleText = left(showTitleText,len(showTitleText-2))>
+						</cfif>
+						<cfif refind("</$",showTitleText) GT 0>
+							<cfset showTitleText = left(showTitleText,len(showTitleText-2))>
+						</cfif>
+						<cfif refind("</i$",showTitleText) GT 0>
+							<cfset showTitleText = "#showTitleText#>">
+						</cfif>
+						<cfif refind("<i>[^<]+$",showTitleText) GT 0 >
+							<!--- close an unclosed italic tag resulting from truncation --->
+							<cfset showTitleText = "#showTitleText#</i>">
+						</cfif>
+						<cfset output='#output#<p class="text-center col-12 my-0 p-0 smaller" > #showTitleText# </p>'>
+						<cfif len(#license_uri#) gt 0>
+							<cfif #captionAs# EQ "TextFull">
+								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
+								<cfset output='#output#<p class="text-center col-12 p-0 my-0 smaller">'>
+								<cfset output='#output#<a href="#license_uri#">#license_display#</a>'>
+								<cfset output='#output#</p>'>
+							</cfif>
+						</cfif>
+						<cfset output='#output#</div>'>
+						<cfset output='#output#</div>'>
+					</cfif>
 					<cfset output='#output#</div>'>
 				</cfloop>
 			</cfif>
