@@ -621,7 +621,7 @@ limitations under the License.
 													</div>
 													<div id="GeogDetail" class="col-12 px-0" style="#GeogDetailStyle#">
 														<div class="form-row mb-0 mx-0">
-															<div class="col-12 mb-1 col-md-3 col-xl-2">
+															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
 																<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
 																<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
@@ -631,7 +631,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3 col-xl-2">
+															<div class="col-12 mb-1 col-md-3">
 																<label for="country" class="data-entry-label">Country</label>
 																<cfif not isdefined("country")><cfset country=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="country" name="country" value="#encodeForHtml(country)#">
@@ -706,7 +706,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-2">
+															<div class="col-12 mb-1 col-md-3">
 																<label for="island" class="data-entry-label">Island</label>
 																<cfif not isdefined("island")><cfset island=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="island" name="island" value="#encodeForHtml(island)#">
@@ -808,14 +808,14 @@ limitations under the License.
 													</div>
 													<div id="CollDetail" class="col-12 px-0" style="#CollDetailStyle#">
 														<div class="form-row mx-0 mb-2">
-															<div class="col-12 mb-2 col-md-3">
+															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("date_began_date")>
 																	<cfset date_began_date="">
 																</cfif>
 																<label for="date_began_date" class="data-entry-label">Date Began</label>
 																<input type="text" name="date_began_date" class="data-entry-input inputHeight" id="date_began_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(date_began_date)#" >
 															</div>
-															<div class="col-12 mb-2 col-md-3 col-xl-2 px-2 px-xl-3">
+															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("date_ended_date")>
 																	<cfset date_ended_date="">
 																</cfif>
