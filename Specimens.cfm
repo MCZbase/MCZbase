@@ -278,7 +278,7 @@ limitations under the License.
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h4 d-inline text-dark my-0 py-0">
 														<span class="d-block">Identifiers</span>
-														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -401,13 +401,13 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif>
-												<div class="col-12 col-xl-1 float-left">
+												<div class="col-12 col-xl-1 px-0 float-left">
 													<div class="h4 d-inline text-dark my-0 py-1">
 														<span class="d-block">Taxonomy</span>
-														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<div class="form-row mx-0 mb-0">
 															<div class="col-9 px-0">
@@ -592,13 +592,13 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div class="col-12 col-xl-1 float-left">
+												<div class="col-12 col-xl-1 px-0 float-left">
 													<div class="h4 d-inline text-dark my-0 py-1">
 														<span class="d-block">Geography</span>
-														<button type="button" id="GeogDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+														<button type="button" id="GeogDetailCtl" class="btn d-inline px-0 btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
@@ -730,10 +730,10 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset CollButton = "Fewer Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 float-left">
+												<div class="col-12 col-xl-1 px-0 float-left">
 													<div class="h4 d-inline text-dark my-0 py-1">
 														<span class="d-block">Collection</span>
-														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
+														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
@@ -827,8 +827,8 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 search-header-basic py-1">
-												<div class="col-12 col-xl-1 float-left">
-													<div class="h4 d-inline text-dark mt-1 mb-0 py-1">
+												<div class="col-12 col-xl-1 px-0 float-left">
+													<div class="h4 d-inline text-dark px-0 my-1 py-1">
 														<span class="d-block">
 														Specimen
 														</span>
@@ -886,8 +886,8 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 py-1">
-													<div class="col-12 col-xl-1 float-left">
-														<div class="h4 d-inline text-dark mt-1 mb-0 py-1">
+													<div class="col-12 col-xl-1 px-0 float-left">
+														<div class="h4 d-inline text-dark my-1 py-1">
 															Transactions
 														</div>
 													</div>
