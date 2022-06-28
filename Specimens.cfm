@@ -736,7 +736,7 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-lg-12 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
