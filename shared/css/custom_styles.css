@@ -2131,7 +2131,7 @@ section#mediaSection.accordion {
 .inputHeight {
 	padding-top: 1px!important;
 	padding-bottom: 1px!important;
-	line-height: 12px!important;
+	line-height: 1rem!important;
 }
 .smallselect {
 	font-size: 84%!important;
