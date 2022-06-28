@@ -189,11 +189,11 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
-							<button class="col-3 px-1 col-sm-3 col-md-auto px-md-5 my-0 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+							<button class="col-3 px-1 col-sm-3 col-md-auto px-1 px-md-2 my-0 my-md-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
 							<button class="col-4 col-md-4 col-md-auto px-1 px-md-2 my-0 my-md-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
 							<button class="col-4 px-1 col-md-auto px-md-2 my-0 my-md-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
-						<div class="tab-content px-0 pb-0">
+						<div class="tab-content pt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
 							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
