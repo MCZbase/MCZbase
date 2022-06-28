@@ -372,7 +372,7 @@ limitations under the License.
 																					<cfset comma=",">
 																				</cfloop>
 																			];
-																			$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '16px', width: '100%' });
+																			$("##other_id_type_1").jqxComboBox({ source: otheridtypesource, displayMember:"meta", valueMember:"name", multiSelect: true, height: '17px', width: '100%',fontSize: '10px' });
 																			setOtherIdType_1_Values();
 																		});
 																	</script> 
