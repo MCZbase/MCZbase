@@ -215,6 +215,11 @@ limitations under the License.
 							<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
 						</cfif>
 					</cfif>
+					<cfif len(formatted_publication) gt 0>
+						<div class="h6 mb-1">
+							sensu <a href="/publication/#publication_id#">#formatted_publication#</a>
+						</div>
+					</cfif>
 					<cfif not isdefined("metaDesc")>
 						<cfset metaDesc="">
 					</cfif>
