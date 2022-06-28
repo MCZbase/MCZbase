@@ -291,6 +291,12 @@ limitations under the License.
 																.jqx-combobox-multi-item{
 																	margin:0;
 																}
+																.jqx-widget-content {
+																	min-height: 14px;
+																}
+																.jqx-widget-content div {
+																	min-height: 14px;
+																}
 																.jqx-fill-state-normal{
 																	font-size:11px;
 																}
