@@ -884,7 +884,7 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 py-1">
-													<div class="col-12 col-xl-1 px-0 float-left">
+													<div class="col-12 col-xl-1 float-left">
 														<div class="h4 d-inline-block text-dark my-1 py-1">
 															Transactions
 														</div>
