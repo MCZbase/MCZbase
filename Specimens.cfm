@@ -281,7 +281,7 @@ limitations under the License.
 														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
-												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="fixedCollection" class="data-entry-label">Collection</label>
 														<div name="collection" id="fixedCollection" class="w-100"></div>
@@ -598,7 +598,7 @@ limitations under the License.
 														<button type="button" id="GeogDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3 col-xl-4">
 														<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 														<label for="any_geography" class="data-entry-label">Any Geography (keywords)</label>
@@ -736,7 +736,7 @@ limitations under the License.
 														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
-												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<label for="collector" class="data-entry-label">Collector</label>
 														<cfif not isdefined("collector")>
@@ -834,7 +834,7 @@ limitations under the License.
 														</span>
 													</div>
 												</div>
-												<div class="form-row col-12 col-md-11 px-0 mx-0 mb-0">
+												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
 													<div class="col-12 mb-1 col-md-3">
 														<cfif not isdefined("part_name")><cfset part_name=""></cfif>
 														<label for="part_name" class="data-entry-label">Part Name</label>
@@ -891,7 +891,7 @@ limitations under the License.
 															Transactions
 														</div>
 													</div>
-													<div class="form-row col-12 col-md-11 px-0 mb-0 mx-0">
+													<div class="form-row col-12 co-lg-11 px-0 mb-0 mx-0">
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
