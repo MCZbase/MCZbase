@@ -369,13 +369,14 @@ limitations under the License.
 							cited_taxa.taxon_name_id as cited_name_id,
 							formatted_publication.formatted_publication,
 							formatted_publication.publication_id,
+							publication.doi,
 							cited_taxa.taxon_status as cited_name_status
 						from
 							citation
 							left join taxonomy cited_taxa on citation.cited_taxon_name_id = cited_taxa.taxon_name_id
-							left join formatted_publication on citation.publication_id = formatted_publication.publication_id
+							left join publication on citation.publication_id = publication.publication_id
+							left join formatted_publication on publication.publication_id = formatted_publication.publication_id and format_style='short'
 						where
-							format_style='short' and
 							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						order by
 							substr(formatted_publication, - 4)
@@ -392,23 +393,33 @@ limitations under the License.
 								<cfelse>
 								#occurs_page_number#,
 								</cfif>
+							<cfelse>
+                        <cfif len(citation_page_uri) gt 0>
+                           <a href ="#citation_page_uri#">[link]</a>,
+                        </cfif>
 							</cfif>
-							<span class="font-weight-lessbold">#cited_name_status#</span> of 
-								<a href="/name/#cited_name#">
-									<i>#replace(cited_name," ","&nbsp;","all")#</i>
-								</a>
-								<cfif find("(ms)", #type_status#) NEQ 0>
+							<span class="font-weight-lessbold">#type_status#</span> of 
+							<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#">
+								<i>#replace(cited_name," ","&nbsp;","all")#</i>
+							</a>
+							<cfif find("(ms)", #type_status#) NEQ 0>
 								<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
-									<cfif find(" ", #cited_name#) NEQ 0>
+								<cfif find(" ", #cited_name#) NEQ 0>
 									&nbsp;ssp. nov.
-									<cfelse>
+								<cfelse>
 									&nbsp;sp. nov.
-									</cfif>
 								</cfif>
-								<span class="small font-italic">
-									<cfif len(citation_remarks) gt 0></cfif>
-									#CITATION_REMARKS#
-								</span>
+							</cfif>
+							<cfif len(cited_name_status) GT 0>
+								<span class="font-weight-lessbold">[#cited_name_status#]</span>
+							</cfif>
+							<cfif len(#doi#) GT 0>
+                     	doi: <a target="_blank" href='https://doi.org/#doi#'>#doi#</a><br>
+                     </cfif>
+							<span class="small font-italic">
+								<cfif len(citation_remarks) gt 0></cfif>
+								#CITATION_REMARKS#
+							</span>
 						</div>
 						<cfset i = i + 1>
 					</cfloop>
