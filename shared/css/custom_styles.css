@@ -2129,8 +2129,8 @@ section#mediaSection.accordion {
 	height: 1.8rem!important;
 }
 .inputHeight {
-	padding-top: 2px!important;
-	padding-bottom: 2px!important;
+	padding-top: 1px!important;
+	padding-bottom: 1px!important;
 	line-height: 12px!important;
 }
 .smallselect {
