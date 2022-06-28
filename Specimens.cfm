@@ -934,7 +934,7 @@ limitations under the License.
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
-															<label for="deaccession_number" class="data-entry-label">Deaccession Number</label>
+															<label for="deaccession_number" class="data-entry-label">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 														</div>
 														<!--- TODO: Move from manage transactions section --->
@@ -949,7 +949,7 @@ limitations under the License.
 															<cfif not isdefined("last_edit_date")>
 																<cfset last_edit_date="">
 															</cfif>
-															<label for="last_edit_date" class="data-entry-label">Date Last Updated</label>
+															<label for="last_edit_date" class="data-entry-label">Last Updated on</label>
 															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
