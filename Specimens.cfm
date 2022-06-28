@@ -364,7 +364,7 @@ limitations under the License.
 													<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
-																<div class="col-12 mb-1 col-md-2">
+																<div class="col-12 mb-1 col-md-3">
 																	<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
 																	<label for="otherID" class="data-entry-label">Other ID Type</label>
 																	<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
