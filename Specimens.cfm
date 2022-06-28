@@ -278,7 +278,7 @@ limitations under the License.
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h4 d-inline-block text-dark my-0 py-0">
 														Identifiers
-														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
+														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs px-3 px-md-0 float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
 												</div>	
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -404,7 +404,7 @@ limitations under the License.
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h4 d-inline-block text-dark my-0 py-1">
 														Taxonomy
-														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
+														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs px-3 px-md-0 float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -595,7 +595,7 @@ limitations under the License.
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h4 d-inline-block text-dark my-0 py-1">
 														Geography
-														<button type="button" id="GeogDetailCtl" class="btn d-inline-block px-0 btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+														<button type="button" id="GeogDetailCtl" class="btn d-inline-block px-3 px-md-0 btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -733,7 +733,7 @@ limitations under the License.
 												<div class="col-12 col-xl-1 float-left">
 													<div class="h4 d-inline-block text-dark my-0 py-1">
 														Collection
-														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
+														<button type="button" id="CollDetailCtl" class="btn  px-3 px-md-0 d-inline btn-xs  float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-lg-11 px-0 mx-0 mb-0">
