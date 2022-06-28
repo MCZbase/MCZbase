@@ -437,6 +437,70 @@ limitations under the License.
 	<cfthread action="join" name="getCitationsThread" />
 	<cfreturn getCitationsThread.output>
 </cffunction>
+
+<!--- getCitationMediaHTML obtain a block of html listing media related to citations a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
+ @param get_count if equal to 'true', return just the count of the number of related media records, not the html (forces the count
+   to be the same query as the media record query).
+ @return html for viewing media for the specified cataloged item, or the integer count of media records if get_count
+   is specified as true. 
+--->
+<cffunction name="getCitationMediaHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="get_count" type="string" required="no" default="">
+
+	<cfset l_get_count = arguments.get_count>
+	<cfset l_collection_object_id= arguments.collection_object_id>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getCitMediaThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="getImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						mr.media_id, 
+						m.media_uri, 
+						m.preview_uri, 
+						ml.label_value descr, 
+						m.media_type, 
+						m.mime_type
+					FROM
+						media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+					WHERE
+						mr.media_id = ml.media_id and
+						mr.media_id = m.media_id and
+						ml.media_label = 'description' and
+						MEDIA_RELATIONSHIP like '% publication' and
+						RELATED_PRIMARY_KEY = c.publication_id and
+						c.publication_id = fp.publication_id and
+						fp.format_style='short' and
+						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						MCZBASE.is_media_encumbered(m.media_id) < 1
+					ORDER by substr(formatted_publication, -4)
+				</cfquery>
+				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
+					#getImages.recordcount#
+				<cfelse>
+					<cfloop query="getImages">
+						<div class='col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left'>
+							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+							<div id='mediaBlock#getImages.media_id#'>
+								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
+							</div>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getCitMediaThread#tn#" />
+	<cfreturn cfthread["getCitMediaThread#tn#"].output>
+</cffunction>
 								
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
