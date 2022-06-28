@@ -287,6 +287,8 @@ limitations under the License.
 														<div name="collection" id="fixedCollection" class="w-100"></div>
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
 														<cfset collection_array = ListToArray(collection)>
+															<style>.jqx-combobox-multi-item{margin:0;}
+																.jqx-fill-state-normal{font-size:11px;}</style>
 														<script>
 															function setFixedCollectionValues() {
 																$('##fixedCollection').jqxComboBox('clearSelection');
