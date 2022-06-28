@@ -15,6 +15,10 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 <cfinclude template = "/shared/functionLib.cfm" runOnce="true">
+<cfinclude template = "/media/component/search.cfc" runOnce="true">
+<cfif NOT isDefined("reportError")>
+	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+</cfif>
 
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
