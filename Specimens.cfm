@@ -595,7 +595,7 @@ limitations under the License.
 												<div class="col-12 col-xl-1 px-0 float-left">
 													<div class="h4 d-inline-block text-dark my-0 py-1">
 														Geography
-														<button type="button" id="GeogDetailCtl" class="btn d-inline px-0 btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
+														<button type="button" id="GeogDetailCtl" class="btn d-inline-block px-0 btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
