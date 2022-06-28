@@ -275,7 +275,7 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset IDButton = "Fewer Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 float-left px-1">
+												<div class="col-12 col-xl-1 float-left">
 													<div class="h4 d-inline text-dark my-0 py-0">
 														<span class="d-block">Identifiers</span>
 														<button type="button" id="IDDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
@@ -401,7 +401,7 @@ limitations under the License.
 														<cfset toggleTo = "0">
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif>
-												<div class="col-12 col-xl-1 float-left px-1">
+												<div class="col-12 col-xl-1 float-left">
 													<div class="h4 d-inline text-dark my-0 py-1">
 														<span class="d-block">Taxonomy</span>
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
@@ -592,8 +592,8 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
-												<div>
-													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark my-0 py-1">
+												<div class="col-12 col-xl-1 float-left">
+													<div class="h4 d-inline text-dark my-0 py-1">
 														<span class="d-block">Geography</span>
 														<button type="button" id="GeogDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
@@ -730,8 +730,8 @@ limitations under the License.
 													<cfset toggleTo = "0">
 													<cfset CollButton = "Fewer Fields">
 												</cfif> 
-												<div>
-													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark my-0 py-1">
+												<div class="col-12 col-xl-1 float-left">
+													<div class="h4 d-inline text-dark my-0 py-1">
 														<span class="d-block">Collection</span>
 														<button type="button" id="CollDetailCtl" class="btn d-inline btn-xs float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
@@ -827,8 +827,8 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 search-header-basic py-1">
-												<div>
-													<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
+												<div class="col-12 col-xl-1 float-left">
+													<div class="h4 d-inline text-dark mt-1 mb-0 py-1">
 														<span class="d-block">
 														Specimen
 														</span>
@@ -886,12 +886,12 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 py-1">
-													<div>
-														<div class="h4 col-12 col-xl-1 float-left px-1 d-inline text-dark mt-1 mb-0 py-1">
+													<div class="col-12 col-xl-1 float-left">
+														<div class="h4 d-inline text-dark mt-1 mb-0 py-1">
 															Transactions
 														</div>
 													</div>
-													<div class="form-row col-12 co-xl-11 px-0 mb-0 mx-0">
+													<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("loan_number")>
 																<cfset loan_number="">
