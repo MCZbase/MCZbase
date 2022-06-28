@@ -295,7 +295,7 @@ limitations under the License.
 																	min-height: 14px;
 																}
 																.jqx-widget-content div {
-																	min-height: 14px;
+																	min-height: 14px!important;
 																}
 																.jqx-fill-state-normal{
 																	font-size:11px;
