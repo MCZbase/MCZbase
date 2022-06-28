@@ -316,6 +316,7 @@ limitations under the License.
 
 			<!----------------------------- one left column for media only if media exist ---------------------------------->
 			<cfset specimenMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows", get_count = 'true')>
+			<cfset specimenMediaCount = val(rereplace(specimenMediaCount,"[^0-9]","","all"))>
 			<cfif specimenMediaCount gt 0>
 				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 					<!-----------------------------Media----------------------------------> 
@@ -848,6 +849,7 @@ limitations under the License.
 					</div>
 					<!-----------------------------Ledger--------------------------------> 
 					<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
+					<cfset ledgerMediaCount = val(rereplace(ledgerMediaCount,"[^0-9]","","all"))>
 					<div class="accordion" id="accordionLedger">
 						<div class="card mb-2 bg-light">
 							<div id="ledgerDialog"></div>

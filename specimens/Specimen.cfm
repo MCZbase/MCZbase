@@ -143,6 +143,7 @@ limitations under the License.
 </cfif>
 <cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+	<script type="text/javascript" src="/specimens/js/details.js"></script> 
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
