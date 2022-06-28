@@ -276,7 +276,7 @@ limitations under the License.
 													<cfset IDButton = "Fewer Fields">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
-													<div class="h4 d-inline-block-md text-dark my-0 py-0">
+													<div class="h5 d-inline-block-md text-dark my-0 py-0">
 														Identifiers
 														<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleIDDetail(#toggleTo#);">#IDButton#</button>
 													</div>
@@ -366,7 +366,7 @@ limitations under the License.
 															<!--- for now, while testing nesting, only show second other ID controls for collops users.  --->
 																<div class="col-12 mb-1 col-md-3">
 																	<cfif not isdefined("other_id_type_1")><cfset other_id_type_1=""></cfif>
-																	<label for="otherID" class="data-entry-label">Other ID Type</label>
+																	<label for="otherID" class="data-entry-label small">Other ID Type</label>
 																	<div name="other_id_type_1" id="other_id_type_1" class="w-100"></div>
 																	<cfset otheridtype_array = ListToArray(other_id_type_1)>
 																	<script>
@@ -416,7 +416,7 @@ limitations under the License.
 														<cfset TaxaButton = "Fewer Fields">
 													</cfif>
 												<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
-													<div class="h4 d-inline-block-md text-dark my-0 py-1">
+													<div class="h5 d-inline-block-md text-dark my-0 py-1">
 														Taxonomy
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 infoLink" onclick="toggleTaxaDetail(#toggleTo#);">#TaxaButton#</button>
 													</div>
@@ -607,7 +607,7 @@ limitations under the License.
 													<cfset GeogButton = "Fewer Fields">
 												</cfif>
 												<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
-													<div class="h4 d-inline-block-md text-dark my-0 py-1">
+													<div class="h5 d-inline-block-md text-dark my-0 py-1">
 														Geography
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-0 btn-xs float-right small py-0 border-0 infoLink" onclick="toggleGeogDetail(#toggleTo#);">#GeogButton#</button>
 													</div>
@@ -637,7 +637,7 @@ limitations under the License.
 														<div class="form-row col-12 col-md-12 px-0 mb-0 mx-0">
 															<div class="col-12 mb-1 col-md-3">
 																<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
-																<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
+																<label for="continent_ocean" class="data-entry-label small">Continent/Ocean</label>
 																<input type="text" class="data-entry-input inputHeight" name="continent_ocean" id="continent_ocean" value="#encodeForHtml(continent_ocean)#">
 																<script>
 																	jQuery(document).ready(function() {
@@ -745,7 +745,7 @@ limitations under the License.
 													<cfset CollButton = "Fewer Fields">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
-													<div class="h4 d-inline-block-md text-dark my-0 py-1">
+													<div class="h5 d-inline-block-md text-dark my-0 py-1">
 														Collection
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 infoLink" onclick="toggleCollDetail(#toggleTo#);">#CollButton#</button>
 													</div>
@@ -842,7 +842,7 @@ limitations under the License.
 											</section>
 											<section class="col-12 search-header-basic py-1">
 												<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
-													<div class="h4 d-inline-block text-dark px-0 my-1 py-1">
+													<div class="h5 d-inline-block text-dark px-0 my-1 py-1">
 														Specimen
 													</div>
 												</div>
@@ -899,7 +899,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 py-1">
 													<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
-														<div class="h4 d-inline-block text-dark my-1 py-1">
+														<div class="h5 d-inline-block text-dark my-1 py-1">
 															Transactions
 														</div>
 													</div>
@@ -920,7 +920,7 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupLoan.lnum#">
 																</cfif>
 															</cfif>
-															<label for="loan_number" class="data-entry-label small">Loan Number</label>
+															<label for="loan_number" class="data-entry-label small">Loan ##</label>
 															<input type="text" name="loan_number" class="data-entry-input inputHeight" id="loan_number" placeholder="yyyy-n-Col" value="#encodeForHtml(loan_number)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
@@ -939,14 +939,14 @@ limitations under the License.
 																	<cfset accn_number = "=#lookupAccn.accnum#">
 																</cfif>
 															</cfif>
-															<label for="accn_number" class="data-entry-label">Accession Number</label>
+															<label for="accn_number" class="data-entry-label small">Accession ##</label>
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
-															<label for="deaccession_number" class="data-entry-label">Deaccession ##</label>
+															<label for="deaccession_number" class="data-entry-label small">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 														</div>
 														<!--- TODO: Move from manage transactions section --->
@@ -954,19 +954,19 @@ limitations under the License.
 															<cfif not isdefined("coll_object_entered_date")>
 																<cfset coll_object_entered_date="">
 															</cfif>
-															<label for="coll_object_entered_date" class="data-entry-label">Date Entered</label>
+															<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
 															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("last_edit_date")>
 																<cfset last_edit_date="">
 															</cfif>
-															<label for="last_edit_date" class="data-entry-label">Last Updated on</label>
+															<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
 															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
 															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-																<label class="data-entry-label" for="debug">Debug JSON</label>
+																<label class="data-entry-label small" for="debug">Debug JSON</label>
 																<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
 																	<option value=""></option>
 																	<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
