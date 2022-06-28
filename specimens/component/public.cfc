@@ -105,7 +105,7 @@ limitations under the License.
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
 				<h2 class='h3'>Error in #function_called#:</h2>
-				#output#<div>#error_message#</div>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
