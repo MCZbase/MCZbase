@@ -422,7 +422,7 @@ limitations under the License.
 								</cfif>
 								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
 								<cfif citationMediaCount gt 0>
-									<div class="col-5 col-sm-2 col-md-4 col-xl-3 pb-1 px-0 mx-2 my-0 float-left d-inline">
+									<div class="float-left d-inline">
 										<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
 										<div id="citationMediaBlock" class="px-2">
 											#citationMediaBlock#
@@ -828,7 +828,7 @@ limitations under the License.
 								<cfif ledgerMediaCount gt 0> 
 									<div class="card-body w-100 px-1 pt-2 pb-0 float-left" id="ledgerCardBody">
 										<cfset ledgerBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents")>
-										<div class="col-12 px-1 col-md-4 mb-1 px-md-1 pt-1 float-left">
+										<div class="col-12 px-1 mb-1 px-md-1 pt-1 float-left">
 											#ledgerBlock# 
 										</div>
 									</div>
