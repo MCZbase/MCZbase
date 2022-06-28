@@ -145,12 +145,12 @@ limitations under the License.
 						identification.publication_id,
 						stored_as_fg
 					FROM
-						identification,
-						(select * from formatted_publication where format_style='short') formatted_publication
+						identification
+						left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
 					WHERE
-						identification.publication_id=formatted_publication.publication_id (+) and
 						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
+					ORDER BY 
+						accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
 				<cfset i=1>
 				<cfloop query="identification">
@@ -261,7 +261,11 @@ limitations under the License.
 					<div class="form-row mx-0">
 						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #identification.agent_name#
 							<cfif len(made_date) gt 0>
-								<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
+								<cfif len(made_date) gt 8>
+									<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
+								<cfelse>
+									<span class="font-weight-lessbold">in</span> #dateformat(identification.made_date,"yyyy")#
+								</cfif>
 							</cfif>
 						</div>
 					</div>
