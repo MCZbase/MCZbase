@@ -17,7 +17,7 @@ limitations under the License.
 
 -->
 <style>
-#fixedCollection.jqx-combobox-multi-item{
+/*#fixedCollection.jqx-combobox-multi-item{
 		margin:0;
 	}
 #fixedCollection.jqx-widget-content,#fixedCollection.jqx-widget-content div {
@@ -60,12 +60,12 @@ limitations under the License.
 .fade-in {
 	opacity: 0;
 	animation: fadeIn 1s ease-in forwards; 
-}
+}*/
 </style>
 
-<div class="splash">
+<!---<div class="splash">
 	<h1 class="fade-in">Welcome to MCZbase</h1>
-</div>
+</div>--->
 
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
@@ -2953,19 +2953,19 @@ limitations under the License.
 
 		
 		
-const splash = document.querySelector('.splash');
-document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
-
-const fixed = document.querySelector('.tabs');
-window.onscroll = function(){
-var top = window.scrollY;
-console.log(top);
-	if(top>= 50){
-		fixed.classList.add('active')
-	}else{
-		fixed.classList.remove('active');
-	}
-}
+//const splash = document.querySelector('.splash');
+//document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
+//
+//const fixed = document.querySelector('.tabs');
+//window.onscroll = function(){
+//var top = window.scrollY;
+//console.log(top);
+//	if(top>= 50){
+//		fixed.classList.add('active')
+//	}else{
+//		fixed.classList.remove('active');
+//	}
+//}
 </script>
 
 </cfoutput>
