@@ -62,11 +62,14 @@ limitations under the License.
 	animation: fadeIn 1s ease-in forwards; 
 }
 </style>
+
+<div class="splash">
+<h1 class="fade-in">Welcome to MCZbase</h1></div>
 <script>
 const splash = document.querySelector('.splash');
 document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
 
-const header = document.querySelector('.header');
+const header = document.querySelector('#header');
 window.onscroll = function(){
 var top = window.scrollY;
 console.log(top);
@@ -77,8 +80,6 @@ console.log(top);
 	}
 }
 </script>
-<div class="splash">
-<h1 class="fade-in">Welcome to MCZbase</h1></div>
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
