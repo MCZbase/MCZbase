@@ -119,7 +119,7 @@ limitations under the License.
 	<h1 class="fade-in">Welcome to MCZbase</h1>
 </div>
 <script>
-const splash = document.querySelector('#header');
+const splash = document.querySelector('.splash');
 document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
 
 const header = document.querySelector('#header');
