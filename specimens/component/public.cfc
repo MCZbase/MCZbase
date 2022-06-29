@@ -293,21 +293,27 @@ limitations under the License.
 
 <!--- getOtherIdsHTML obtain a block of html listing other id numbers for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other id numbers
- @return html for viewing identifications for the specified cataloged item. 
+ @return html for viewing other identifiers for the specified cataloged item. 
 --->
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getOtherIDsThread">
-			<cfoutput>
-				<cftry>
+
+	<cfthread name="getOtherIDsThread">
+		<cfoutput>
+			<cftry>
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						case when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-							coll_obj_other_id_num.other_id_type = 'original identifier'
-							then 'Masked'
-						else
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							coll_obj_other_id_num.display_value
-						end display_value,
+						<cfelse>
+							case 
+								when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+									(coll_obj_other_id_num.other_id_type = 'original identifier' or 
+									coll_obj_other_id_num.other_id_type = 'field number')
+								then 'Masked'
+								else coll_obj_other_id_num.display_value
+							end display_value,
+						</cfif>
 						coll_obj_other_id_num.other_id_type,
 						case when base_url is not null then
 							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
@@ -337,29 +343,16 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfif>
-				<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-				<cfset queryError=cfcatch.queryError>
-				<cfelse>
-				<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
-			</cfoutput>
-		</cfthread>
-		<cfthread action="join" name="getOtherIDsThread" />
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getOtherIDsThread" />
 	<cfreturn getOtherIDsThread.output>
 </cffunction>
 					

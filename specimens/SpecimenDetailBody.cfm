@@ -250,10 +250,10 @@ limitations under the License.
 				// replace the citation media block via ajax.
 				loadCitationMedia(#collection_object_id#,'citationMediaBlock')'
 			}
-							</script>
+		</script>
 		<script>
 			function reloadOtherIDs() { 
-				// replace the other IDs block via ajax
+				// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other Identifiers block.
 				loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
 			}
 		</script>
@@ -395,7 +395,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!----------------------------- Citations new ----------------------------------> 
+					<!----------------------------- Citations ----------------------------------> 
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>
@@ -436,18 +436,12 @@ limitations under the License.
 					<div class="accordion" id="accordionOtherID">
 						<div class="card mb-2 bg-light">
 							<div id="otherIDsDialog"></div>
-							<script>
-								function reloadOtherIDs() { 
-								// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other ID block.
-									loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
-								}
-							</script>
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingOtherID">
 								<cfif len(#blockotherid#) gt 1> 
 									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
-											Other IDs
+											Other Identifiers
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="##" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
@@ -458,7 +452,7 @@ limitations under the License.
 								<cfelse>
 									<h3 class="h5 my-0">
 										<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="OtherIDsPane" aria-expanded="true" data-toggle="collapse" data-target="##OtherIDsPane">
-											Other IDs
+											Other Identifiers
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
