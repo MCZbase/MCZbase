@@ -288,13 +288,13 @@ limitations under the License.
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
 														<cfset collection_array = ListToArray(collection)>
 															<style>
-																.jqx-combobox-multi-item{
+																##fixedCollection.jqx-combobox-multi-item{
 																	margin:0;
 																}
-																.jqx-widget-content {
+																##fixedCollection.jqx-widget-content,##fixedCollection.jqx-widget-content div {
 																	min-height: 14px;
 																}
-																.jqx-fill-state-normal{
+																##fixedCollection.jqx-fill-state-normal{
 																	font-size:11px;
 																}
 															</style>
