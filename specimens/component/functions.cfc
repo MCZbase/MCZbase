@@ -1779,7 +1779,7 @@ limitations under the License.
 				SELECT
 					case when status = 1 and
 						concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-						coll_obj_other_id_num.encumber_as_field_number = 1
+						coll_obj_other_id_num.encumber_as_field_num = 1
 						then 'Masked'
 					else
 						coll_obj_other_id_num.display_value
