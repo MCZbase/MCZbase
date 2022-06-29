@@ -295,7 +295,7 @@ limitations under the License.
 																	min-height: 13px;
 																}
 																##fixedCollection.jqx-fill-state-normal{
-																	font-size:11px;
+																	font-size:11px!important;
 																}
 															</style>
 														<script>
