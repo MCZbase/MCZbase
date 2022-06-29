@@ -355,13 +355,18 @@ limitations under the License.
 	<cfreturn getOtherIDsThread.output>
 </cffunction>
 					
+<!--- getCitationsHTML obtain a block of html listing citations for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the citations
+ @return html for viewing other citations for the specified cataloged item. 
+ @see getCitationMediaHTML for media linked to the citations (publication media).
+--->
 <cffunction name="getCitationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 		<cfthread name="getCitationsThread">
 			<cfoutput>
 				<cftry>
 				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
+						SELECT distinct
 							citation.type_status,
 							citation.occurs_page_number,
 							citation.citation_page_uri,
@@ -456,6 +461,7 @@ limitations under the License.
    to be the same query as the media record query).
  @return html for viewing media for the specified cataloged item, or the integer count of media records if get_count
    is specified as true. 
+ @see getCitationsHTML for list of citations.
 --->
 <cffunction name="getCitationMediaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -468,7 +474,7 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<cfquery name="getImages"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
+					SELECT distinct 
 						mr.media_id, 
 						m.media_uri, 
 						m.preview_uri, 
