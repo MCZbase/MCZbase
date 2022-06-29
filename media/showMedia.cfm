@@ -170,9 +170,10 @@
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
 							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-								ctmedia_license.uri as license_uri,
-								mczbase.get_media_credit(media.media_id) as credit,
-								MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+							ctmedia_license.uri as license_uri,
+							mczbase.get_media_credit(media.media_id) as credit,
+							MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+							MCZBASE.get_media_title(media.media_id) as title
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
 							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
@@ -203,17 +204,18 @@
 									<td style="min-width: 120px;">#spec.geography#</td>
 									<td style="width:54%; padding-left: 0.75rem;">
 										<cfif relm2.recordcount lte #maxMedia#>
-											<cfloop query="relm">
+											<cfloop query="relm2">
 												<div class="border-light float-left mx-1 px-0 py-1 mb-1" style="width:112px;height: 175px">
 													<cfif len(media.media_id) gt 0>
-														<cfif relm.media_id eq '#media.media_id#'> 
+														<cfif relm2.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
 														<cfelse>	
 															<cfset activeimg = "border-light px-1 pt-2">
 														</cfif>
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
 													</cfif>
+															<div class="float-left">#title#</div>
 												</div>
 											</cfloop>
 										<cfelse>
