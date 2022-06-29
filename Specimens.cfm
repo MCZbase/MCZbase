@@ -31,26 +31,25 @@ limitations under the License.
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100vh;
+	height: 10rem;
 	background: black;
 	z-index: 300;
 	color: white;
-	margin-top: 10rem;
 	text-align: center;
-	line-height: 90vh;
+	line-height: 90px;
 }
 .splash.display-none{
 	position:fixed;
 	opacity:0;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100vh;
+	width: 25%;
+	height: 10rem;
 	background: black;
 	z-index: -10;
 	color: white;
 	text-align: center;
-	line-height: 90vh;
+	line-height: 90px;
 	transition: all 0.5s;
 }
 @keyframes fadeIn{
