@@ -2179,7 +2179,7 @@ button.help-btn {
 	z-index: 3000; 
 	position: absolute; 
 	margin-top: 6.13rem; 
-	margin-right: -1rem;
+	margin-right: 0rem;
 }
 .current {
 	width: 300px;
