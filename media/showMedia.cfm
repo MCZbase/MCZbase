@@ -196,7 +196,7 @@
 															<cfset activeimg = "border-light float-left px-1 py-2">
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-														<div class="#activeimg#" id="mediaBlock#relm.media_id#"><div class="col-5 px-0 float-left"> #mediablock# </div><div class="float-left col-7 px-0 smaller" style="line-height: .95rem;">#title#</div></div>
+														<div class="#activeimg#" id="mediaBlock#relm.media_id#"><div class="col-5 px-0 float-left"> #mediablock# </div><div class="float-left col-7 px-0 small" style="line-height: .86rem;">#title#</div></div>
 													</cfif>
 													
 												</div>
