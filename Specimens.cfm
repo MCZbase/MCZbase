@@ -67,21 +67,7 @@ limitations under the License.
 <div class="splash">
 	<h1 class="fade-in">Welcome to MCZbase</h1>
 </div>
-<script>
-const splash = document.querySelector('.splash');
-document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
 
-//const header = document.querySelector('#header');
-//window.onscroll = function(){
-//var top = window.scrollY;
-//console.log(top);
-//	if(top>= 50){
-//		header.classList.add('active')
-//	}else{
-//		header.classList.remove('active');
-//	}
-//}
-</script>
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
@@ -2966,5 +2952,20 @@ document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.class
 	
 	})( window );
 	</script>
+<script>
+const splash = document.querySelector('.splash');
+document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
+
+//const header = document.querySelector('#header');
+//window.onscroll = function(){
+//var top = window.scrollY;
+//console.log(top);
+//	if(top>= 50){
+//		header.classList.add('active')
+//	}else{
+//		header.classList.remove('active');
+//	}
+//}
+</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
