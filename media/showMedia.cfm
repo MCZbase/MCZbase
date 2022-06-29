@@ -153,23 +153,6 @@
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
 							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-								ctmedia_license.uri as license_uri,
-								mczbase.get_media_credit(media.media_id) as credit,
-								MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-						from media_relations
-							 left join media on media_relations.media_id = media.media_id
-							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-							AND rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maxMedia#">
-							
-					</cfquery>
-					<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media.media_id, preview_uri, media.media_uri,
-							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-							CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
 							ctmedia_license.uri as license_uri,
 							mczbase.get_media_credit(media.media_id) as credit,
 							MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
@@ -203,34 +186,19 @@
 									<td>#spec.name#</td>
 									<td style="min-width: 120px;">#spec.geography#</td>
 									<td style="width:54%; padding-left: 0.75rem;">
-										<cfif relm2.recordcount lte #maxMedia#>
-											<cfloop query="relm2">
-												<div class="border-light col-4 float-left mx-1 px-0 py-1 mb-1" style="width:112px;height: 175px">
+										<cfif relm.recordcount lte #maxMedia#>
+											<cfloop query="relm">
+												<div class="border-light col-4 float-left mx-1 px-0 py-1 mb-1"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
-														<cfif relm2.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning float-left col-2 border-left px-1 pt-2 border-right border-bottom border-top">
+														<cfif relm.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning float-left col-6 border-left px-1 pt-2 border-right border-bottom border-top">
 														<cfelse>	
-															<cfset activeimg = "border-light float-left col-2 px-1 pt-2">
+															<cfset activeimg = "border-light float-left col-6 px-1 pt-2">
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
 													</cfif>
-													<div class="float-left col-2">#title#</div>
-												</div>
-											</cfloop>
-										<cfelse>
-											<cfloop query="relm">
-												<div class="border-light float-left mx-1 px-0 mb-1 py-1" style="width:112px;height: 175px">
-													<cfif len(media.media_id) gt 0>
-														<cfif relm.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning border-left px-1 pt-2 border-right border-bottom border-top">
-														<cfelse>	
-															<cfset activeimg = "border-light px-1 pt-2">
-														</cfif>
-														
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
-														<div class="float-left #activeimg#" id="mediaBlock#relm.media_id#">#mediablock# </div>
-													</cfif>
+													<div class="float-left col-6 small" style="line-height: 11px;">#title#</div>
 												</div>
 											</cfloop>
 										</cfif>
