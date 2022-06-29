@@ -30,203 +30,32 @@ limitations under the License.
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
 <!--- query one is needed for determining what is public and what is partitioned --->
-<cfquery name="isOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		distinct cataloged_item.collection_object_id,
-		collecting_event.collecting_event_id,
+<cfquery name="getCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT 
+		cataloged_item.collection_object_id,
 		cataloged_item.collection_cde,
-		cataloged_item.cat_num,
-		collection.collection_id,
-		coll_object_remark.coll_object_remarks,
-		accn_number,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-		then
-				replace(began_date,substr(began_date,1,4),'8888')
-		else
-			collecting_event.began_date
-		end began_date,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-		then
-				replace(ended_date,substr(ended_date,1,4),'8888')
-		else
-			collecting_event.ended_date
-		end ended_date,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask year collected%' 
-		then
-				'Masked'
-		else
-			collecting_event.verbatim_date
-		end verbatim_date,
-		collecting_event.startDayOfYear,
-		collecting_event.endDayOfYear,
-		collecting_event.habitat_desc,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and collecting_event.coll_event_remarks is not null
-		then 
-			'Masked'
-		else
-			collecting_event.coll_event_remarks
-		end COLL_EVENT_REMARKS,
-		locality.locality_id,
-		locality.minimum_elevation,
-		locality.maximum_elevation,
-		locality.orig_elev_units,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and locality.spec_locality is not null
-		then 
-			'Masked'
-		else
-			locality.spec_locality
-		end spec_locality,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-			and accepted_lat_long.orig_lat_long_units is not null
-		then 
-			'Masked'
-		else
-			decode(accepted_lat_long.orig_lat_long_units,
-				'decimal degrees',to_char(accepted_lat_long.dec_lat) || '&deg; ',
-				'deg. min. sec.', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-					to_char(accepted_lat_long.lat_min) || '&acute; ' ||
-					decode(accepted_lat_long.lat_sec, null,  '', to_char(accepted_lat_long.lat_sec) || '&acute;&acute; ') || accepted_lat_long.lat_dir,
-				'degrees dec. minutes', to_char(accepted_lat_long.lat_deg) || '&deg; ' ||
-					to_char(accepted_lat_long.dec_lat_min) || '&acute; ' || accepted_lat_long.lat_dir
-			)
-		end VerbatimLatitude,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and accepted_lat_long.orig_lat_long_units is not null
-		then 
-			'Masked'
-		else
-			decode(accepted_lat_long.orig_lat_long_units,
-				'decimal degrees',to_char(accepted_lat_long.dec_long) || '&deg;',
-				'deg. min. sec.', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-					to_char(accepted_lat_long.long_min) || '&acute; ' ||
-					decode(accepted_lat_long.long_sec, null, '', to_char(accepted_lat_long.long_sec) || '&acute;&acute; ') || accepted_lat_long.long_dir,
-				'degrees dec. minutes', to_char(accepted_lat_long.long_deg) || '&deg; ' ||
-					to_char(accepted_lat_long.dec_long_min) || '&acute; ' || accepted_lat_long.long_dir
-			)
-		end VerbatimLongitude,
-		locality.sovereign_nation,
-		collecting_event.verbatimcoordinates,
-		collecting_event.verbatimlatitude verblat,
-		collecting_event.verbatimlongitude verblong,
-		collecting_event.verbatimcoordinatesystem,
-		collecting_event.verbatimSRS,
-		accepted_lat_long.dec_lat,
-		accepted_lat_long.DETERMINED_BY_AGENT_ID,
-		accepted_lat_long.determined_date,
-		accepted_lat_long.dec_long,
-		accepted_lat_long.max_error_distance,
-		accepted_lat_long.max_error_units,
-		accepted_lat_long.determined_date latLongDeterminedDate,
-		accepted_lat_long.lat_long_ref_source,
-		accepted_lat_long.lat_long_remarks,
-		accepted_lat_long.orig_lat_long_units,
-		accepted_lat_long.datum,
-		latLongAgnt.agent_name latLongDeterminer,
-		geog_auth_rec.geog_auth_rec_id,
-		geog_auth_rec.continent_ocean,
-		geog_auth_rec.country,
-		geog_auth_rec.state_prov,
-		geog_auth_rec.quad,
-		geog_auth_rec.county,
-		geog_auth_rec.island,
-		geog_auth_rec.island_group,
-		geog_auth_rec.sea,
-		geog_auth_rec.feature,
-		coll_object.coll_object_entered_date,
-		coll_object.last_edit_date,
-		coll_object.flags,
-		coll_object_remark.coll_object_remarks,
-		coll_object_remark.disposition_remarks,
-		coll_object_remark.associated_species,
-		coll_object_remark.habitat,
-		enteredPerson.agent_name EnteredBy,
-		editedPerson.agent_name EditedBy,
-		accn.accn_number,
-		cataloged_item.accn_id,
-		concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
-		concatEncumbranceDetails(cataloged_item.collection_object_id) encumbranceDetail,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%'
-			and locality.locality_remarks is not null
-		then 
-			'Masked'
-		else
-				locality.locality_remarks
-		end locality_remarks,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1
-			and concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' 
-			and verbatim_locality is not null
-		then 
-			'Masked'
-		else
-			verbatim_locality
-		end verbatim_locality,
-		collecting_time,
-		fish_field_number,
-		min_depth,
-		max_depth,
-		depth_units,
-		collecting_method,
-		collecting_source,
-		specimen_part.derived_from_cat_item,
-		decode(trans.transaction_id, null, 0, 1) vpdaccn
+		cataloged_item.cat_num
 	FROM
 		cataloged_item
-		left join collection on cataloged_item.collection_id = collection.collection_id
-		left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-		left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-		left join locality on collecting_event.locality_id = locality.locality_id
-		left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-		left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
-		left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
-		left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-		left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
-		left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
-		left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
-		left join accn on cataloged_item.accn_id =  accn.transaction_id
-		left join trans on accn.transaction_id = trans.transaction_id
-		left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 	WHERE
-		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-<cfif isOne.recordcount EQ 0>
+<cfif getCatalogedItem.recordcount EQ 0>
 	<cfthrow message = "Error: Unable to find cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
-<cfif isOne.recordcount GT 1>
-	<cfthrow message = "Error: multiple rows returned from query 'isOne' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
+<cfif getCatalogedItem.recordcount GT 1>
+	<cfthrow message = "Error: multiple rows returned from query 'getCatalogedItem' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
-<cfset guid = "MCZ:#isOne.collection_cde#:#isOne.cat_num#">
-<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfset guid = "MCZ:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
+<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
-		specimen_part.collection_object_id part_id
+		count(specimen_part.collection_object_id) ct
 	from
 		specimen_part
 	where
-		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isOne.collection_object_id#"> 
+		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalogedItem.collection_object_id#"> 
 </cfquery>
-<cfset ctPart.ct=''>
-<cfquery name="ctPart" dbtype="query">
-	select count(*) as ct from rparts
-</cfquery>
+<cfset partCount=#countParts.ct#>
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 		<!--- user can edit the specimen record --->
@@ -255,6 +84,18 @@ limitations under the License.
 			function reloadOtherIDs() { 
 				// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other Identifiers block.
 				loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
+			}
+		</script>
+		<script>
+			function reloadParts() { 
+				loadParts(#collection_object_id#,'partsCardBody');
+				// TODO: Update part count
+				$("##partCountSpan").html('');
+			}
+		</script>
+		<script>
+			function reloadRemarks() { 
+				loadRemarks(#collection_object_id#,'remarksCardBody');
 			}
 		</script>
 		<script>
@@ -475,19 +316,14 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!------------------------------------ parts new ---------------------------------->
+					<!------------------------------------ parts ---------------------------------->
 					<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
 							<div id="partsDialog"></div>
-							<script>
-								function reloadParts() { 
-									loadParts(#collection_object_id#,'partsCardBody');
-								}
-							</script>
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts <span class="text-dark">(#ctPart.ct#)</span>
+										Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
 									</button>
 
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -497,10 +333,10 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<div id="PartsPane" <cfif #ctPart.ct# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
+							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 								<div class="card-body py-1 w-100 mb-1 float-left" id="partsCardBody">
 									<p class="smaller py-0 mb-0 text-center w-100">
-										<cfif #ctPart.ct# gt 5>double-click part header to see all #ctPart.ct#</cfif>
+										<cfif #partCount# gt 5>double-click part header to see all #partCount#</cfif>
 									</p>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
@@ -611,11 +447,6 @@ limitations under the License.
 					<div class="accordion" id="accordionRemarks">
 						<div class="card mb-2 bg-light">
 							<div id="RemarksDialog"></div>
-							<script>
-								function reloadRemarks() { 
-									loadRemarks(#collection_object_id#,'metaCardBody');
-								}
-							</script>
 							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRemarks">
 								<cfif len(#blockRemarks#) gt 50>
@@ -643,8 +474,8 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<cfif len(isOne.coll_object_remarks) gt 6>
-									<div class="card-body py-1 my-1 float-left" id="RemarksCardBody">
+								<cfif len(blockRemarks) gt 0>
+									<div class="card-body py-1 my-1 float-left" id="remarksCardBody">
 										#blockRemarks#
 									</div>
 								<cfelse>

@@ -522,207 +522,337 @@ limitations under the License.
 								
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getPartsThread">
-	<cfoutput>
-		<cftry>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
-	<cfelse>
-		<cfset oneOfUs = 0>
-	</cfif>
-			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					specimen_part.collection_object_id part_id,
-					Case
-						when #oneOfus#= 1
-						then pc.label
-						else null
-					End label,
-					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
-					sampled_from_obj_id,
-					coll_object.COLL_OBJ_DISPOSITION part_disposition,
-					coll_object.CONDITION part_condition,
-					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
-					coll_object_remarks part_remarks,
-					attribute_type,
-					attribute_value,
-					attribute_units,
-					determined_date,
-					attribute_remark,
-					agent_name
-				from
-					specimen_part
-					left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-					left join coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
-					left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
-					left join container oc on coll_obj_cont_hist.container_id=oc.container_id
-					left join container pc on oc.parent_container_id=pc.container_id
-					left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
-					left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
-				where
-					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			</cfquery>
-			<cfquery name="parts" dbtype="query">
-				select
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				from
-					rparts
-				group by
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				order by
-					part_name
-			</cfquery>
-			<cfquery name="mPart" dbtype="query">
-				select * from parts where sampled_from_obj_id is null order by part_name
-			</cfquery>
-			<cfset ctPart.ct=''>
-			<cfquery name="ctPart" dbtype="query">
-				select count(*) as ct from parts
-			</cfquery>
-			<table class="table border-bottom mb-0 mt-1">
-				<thead>
-					<tr class="bg-light">
-						<th><span>Part Name</span></th>
-						<th><span>Condition</span></th>
-						<th><span>Disposition</span></th>
-						<th><span>##</span></th>
-						<cfif oneOfus is "1">
-							<th>
-								<span>Container</span>
-							</th>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
+		<cfoutput>
+			<cftry>
+				<!--- find out if any of this material is on loan --->
+				<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id 
+					FROM
+						specimen_part 
+						left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
+			 			left join loan on loan_item.transaction_id = loan.transaction_id
+					WHERE
+						loan_number is not null and
+						specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<!--- retrieve all the denormalized parts data in one query, then query those results to get normalized information to display --->
+				<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						specimen_part.collection_object_id part_id,
+						<cfif oneOfUs EQ 1>
+							pc.label, 
+						<cfelse>
+							null as label,
 						</cfif>
-					</tr>
-				</thead>
-				<tbody>
-					<cfset i=1>
-					<cfloop query="mPart">
-					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><span class="">#part_name#</span></td>
-						<td>#part_condition#</td>
-						<td>#part_disposition#</td>
-						<td>#lot_count#</td>
-						<cfif oneOfus is "1">
-							<td>#label#</td>
-						</cfif>
-					</tr>
-					<cfif len(part_remarks) gt 0>
-						<tr class="small90 border-bottom-0">
-							<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-1">
-								<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
-							</td>
-						</tr>
-					</cfif>
-					<cfquery name="patt" dbtype="query">
-						select
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-						from
-							rparts
-						where
-							attribute_type is not null and
-							part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-						group by
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-					</cfquery>
-					<cfif patt.recordcount gt 0>
-						<tr class="border-top-0">
-							<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
-								<cfloop query="patt">
-									<div class="small90 pl-3" style="line-height: .9rem;">
-										#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
-									<cfif len(attribute_units) gt 0>
-										#attribute_units# &nbsp;
-									</cfif>
-									<cfif len(determined_date) gt 0>
-										determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
-									</cfif>
-									<cfif len(agent_name) gt 0>
-										determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
-									</cfif>
-									<cfif len(attribute_remark) gt 0>
-										remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
-									</cfif>
-									</div>
-								</cfloop>
-							</td>
-						</tr>
-					</cfif>
-					<cfquery name="sPart" dbtype="query">
-						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-					</cfquery>
-					<cfloop query="sPart">
-						<tr>
-							<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
-							<td>#part_condition#</td>
-							<td>#part_disposition#</td>
-							<td>#lot_count#</td>
+						nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+						sampled_from_obj_id,
+						coll_object.COLL_OBJ_DISPOSITION part_disposition,
+						coll_object.CONDITION part_condition,
+						nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+						coll_object_remarks part_remarks,
+						attribute_type,
+						attribute_value,
+						attribute_units,
+						determined_date,
+						attribute_remark,
+						agent_name
+					from
+						specimen_part
+						left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+						left join coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
+						left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+						left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+						left join container pc on oc.parent_container_id=pc.container_id
+						left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
+						left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
+					where
+						specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<!---- obtain the distinct parts from the getParts query (collapsing duplicated rows from attributes) --->
+				<cfquery name="distinctParts" dbtype="query">
+					select
+						part_id,
+						label,
+						part_name,
+						sampled_from_obj_id,
+						part_disposition,
+						part_condition,
+						lot_count,
+						part_remarks
+					from
+						getParts
+					group by
+						part_id,
+						label,
+						part_name,
+						sampled_from_obj_id,
+						part_disposition,
+						part_condition,
+						lot_count,
+						part_remarks
+					order by
+						part_name
+				</cfquery>
+				<table class="table border-bottom mb-0 mt-1">
+					<thead>
+						<tr class="bg-light">
+							<th><span>Part Name</span></th>
+							<th><span>Condition</span></th>
+							<th><span>Disposition</span></th>
+							<th><span>##</span></th>
 							<cfif oneOfus is "1">
-								<td>#label#</td>
+								<th>
+									<span>Container</span>
+								</th>
 							</cfif>
 						</tr>
-						<cfif len(part_remarks) gt 0>
-						<tr class="small90">
-							<td colspan="5">
-								<span class="pl-3 d-block">
-									<span class="font-italic">Remarks:</span> #part_remarks#
-								</span>
-							</td>
-						</tr>
-						</cfif>
-					</cfloop>
-
-				</cfloop>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<!--- iterate through the main (not subsampled) parts --->
+						<cfquery name="mainParts" dbtype="query">
+							select * from distinctParts where sampled_from_obj_id is null order by part_name
+						</cfquery>
+						<cfset i=1>
+						<cfloop query="mainParts">
+							<tr <cfif mainParts.recordcount gt 1>class=""<cfelse></cfif>>
+								<td><span class="">#part_name#</span></td>
+								<td>#part_condition#</td>
+								<td>
+									#part_disposition#
+									<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+										<!--- look up whether this part is in an open loan --->
+										<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT
+												loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+											FROM 
+												specimen_part 
+												LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+												LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
+											WHERE
+												 specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+												and loan_status <> 'closed'
+										</cfquery>
+										<cfloop query="partonloan">
+											<cfif partonloan.loan_status EQ 'open' and mainParts.part_disposition EQ 'on loan'>
+												<!--- normal case --->
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+											<cfelse>
+												<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+											</cfif>
+										</cfloop>
+									</cfif>
+								</td>
+								<td>#lot_count#</td>
+								<cfif oneOfus is "1">
+									<td>#label#</td>
+								</cfif>
+							</tr>
+							<cfif len(part_remarks) gt 0>
+								<tr class="small90 border-bottom-0">
+									<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-1">
+										<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+									</td>
+								</tr>
+							</cfif>
+							<!--- for each part list the part attributes --->
+							<cfquery name="partAttributes" dbtype="query">
+								SELECT
+									attribute_type,
+									attribute_value,
+									attribute_units,
+									determined_date,
+									attribute_remark,
+									agent_name
+								FROM
+									getParts
+								WHERE
+									attribute_type is not null and
+									part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								GROUP BY
+									attribute_type,
+									attribute_value,
+									attribute_units,
+									determined_date,
+									attribute_remark,
+									agent_name
+							</cfquery>
+							<cfif partAttributes.recordcount gt 0>
+								<tr class="border-top-0">
+									<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
+										<cfloop query="partAttributes">
+											<div class="small90 pl-3" style="line-height: .9rem;">
+												#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+											<cfif len(attribute_units) gt 0>
+												#attribute_units# &nbsp;
+											</cfif>
+											<cfif len(determined_date) gt 0>
+												determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+											</cfif>
+											<cfif len(agent_name) gt 0>
+												determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+											</cfif>
+											<cfif len(attribute_remark) gt 0>
+												remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+											</cfif>
+											</div>
+										</cfloop>
+									</td>
+								</tr>
+							</cfif>
+							<!--- iterate through the subsampled parts for each part --->
+							<cfquery name="subsampleParts" dbtype="query">
+								select * from distinctParts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+							</cfquery>
+							<cfloop query="subsampleParts">
+								<tr>
+									<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+									<td>#part_condition#</td>
+									<td>
+										#part_disposition#
+										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<!--- look up whether this part is in an open loan --->
+											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT
+													loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+												FROM 
+													specimen_part 
+													LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+													LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
+												WHERE
+													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+													and loan_status <> 'closed'
+										</cfquery>
+										<cfloop query="partonloan">
+											<cfif partonloan.loan_status EQ 'open' and subsampleParts.part_disposition EQ 'on loan'>
+												<!--- normal case --->
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+											<cfelse>
+												<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+											</cfif>
+										</cfloop>
+									</cfif>
+								</td>
+									</td>
+									<td>#lot_count#</td>
+									<cfif oneOfus is "1">
+										<td>#label#</td>
+									</cfif>
+								</tr>
+								<cfif len(part_remarks) gt 0>
+									<tr class="small90">
+										<td colspan="5">
+											<span class="pl-3 d-block">
+												<span class="font-italic">Remarks:</span> #part_remarks#
+											</span>
+										</td>
+									</tr>
+								</cfif>
+								<!--- for each subsample part list any part attributes --->
+								<cfquery name="partAttributes" dbtype="query">
+									SELECT
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+									FROM
+										getParts
+									WHERE
+										attribute_type is not null and
+										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+									GROUP BY
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+								</cfquery>
+								<cfif partAttributes.recordcount gt 0>
+									<tr class="border-top-0">
+										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
+											<cfloop query="partAttributes">
+												<div class="small90 pl-3" style="line-height: .9rem;">
+													#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+												<cfif len(attribute_units) gt 0>
+													#attribute_units# &nbsp;
+												</cfif>
+												<cfif len(determined_date) gt 0>
+													determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+												</cfif>
+												<cfif len(agent_name) gt 0>
+													determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+												</cfif>
+												<cfif len(attribute_remark) gt 0>
+													remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+												</cfif>
+												</div>
+											</cfloop>
+										</td>
+									</tr>
+								</cfif>
+							</cfloop><!--- subsamples --->
+	
+						</cfloop><!--- parts --->
+					</tbody>
+				</table>
 			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getPartsThread"/>
 	<cfreturn getPartsThread.output>
 </cffunction>
+
+<!--- getPartCount obtain the number of parts for a cataloged item 
+  @param collection_object_id the collection_object_id for the cataloged item for which to return a part count 
+  @return a json structure containg the part count in ct
+--->
+<cffunction name="getPartCount" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				count(specimen_part.collection_object_id) ct
+			FROM
+				specimen_part
+			WHERE
+				specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> 
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="countParts">
+			<cfset row = StructNew()>
+			<cfset row["ct"] = "#countParts.ct#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cfunction>
 						
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
