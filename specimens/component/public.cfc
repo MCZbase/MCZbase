@@ -1136,6 +1136,7 @@ limitations under the License.
 
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getTransactionsThread">
 	<cfoutput>
 		<cftry>
@@ -1144,6 +1145,8 @@ limitations under the License.
 				<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
+			<!--- TODO: Accessions need major rework to reflect correct access control to accessions information and current code
+					including inherited limitations and restrictions --->
 			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					cataloged_item.collection_object_id as collection_object_id,
@@ -1173,14 +1176,24 @@ limitations under the License.
 					left join (select media_id,label_value from media_labels where media_label='description') media_labels on media.media_id=media_labels.media_id 
 				WHERE 
 					media_relations.media_relationship like '% accn' and
-					media_relations.related_primary_key = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+					media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 					MCZBASE.is_media_encumbered(media.media_id) < 1
 			</cfquery>
 				<ul class="list-group list-group-flush pl-0 pt-1">
 					<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
+						<cfquery name="getAccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								cataloged_item.accn_id,
+								accession.accession_number
+							FROM
+								cataloged_item
+								LEFT JOIN accession on cataloged_item.accn_id = accession.transaction_id
+							WHERE
+								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
 						<cfif oneOfUs is 1>
 							<a href="/transactions/Accession.cfm?action=edit&transaction_id=#isOne.accn_id#">#isOne.Accn_number#</a>
-							<cfelse>
+						<cfelse>
 							#isOne.accn_number#
 						</cfif>
 						<cfif accnMedia.recordcount gt 0>
