@@ -292,7 +292,7 @@ limitations under the License.
 																	margin:0;
 																}
 																##fixedCollection.jqx-widget-content,##fixedCollection.jqx-widget-content div {
-																	min-height: 14px;
+																	min-height: 13px;
 																}
 																##fixedCollection.jqx-fill-state-normal{
 																	font-size:11px;
