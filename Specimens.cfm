@@ -35,6 +35,7 @@ limitations under the License.
 	background: black;
 	z-index: 300;
 	color: white;
+	margin-top: 10rem;
 	text-align: center;
 	line-height: 90vh;
 }
@@ -69,14 +70,14 @@ limitations under the License.
 const splash = document.querySelector('.splash');
 document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
 
-const header = document.querySelector('#header');
+const body1 = document.querySelector('.default');
 window.onscroll = function(){
 var top = window.scrollY;
 console.log(top);
 	if(top>= 50){
-		header.classList.add('active')
+		body1.classList.add('active')
 	}else{
-		header.classList.remove('active');
+		body1.classList.remove('active');
 	}
 }
 </script>
