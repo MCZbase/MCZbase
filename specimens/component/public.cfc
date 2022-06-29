@@ -1145,7 +1145,7 @@ limitations under the License.
 			<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
-<cfif oneOfUs = 1>
+<cfif oneOfUs EQ 1>
 			<!--- TODO: Accessions need major rework to reflect correct access control to accessions information and current code
 					including inherited limitations and restrictions --->
 			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
