@@ -98,7 +98,7 @@ limitations under the License.
 	width: 100%;
 	height: 100vh;
 	background: black;
-	z-index: 300;
+	z-index: -10;
 	color: white;
 	text-align: center;
 	line-height: 90vh;
