@@ -16,6 +16,69 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<style>
+#fixedCollection.jqx-combobox-multi-item{
+		margin:0;
+	}
+#fixedCollection.jqx-widget-content,#fixedCollection.jqx-widget-content div {
+		min-height: 13px;
+	}
+#dropdownlistContentfixedCollection.jqx-fill-state-normal{
+		font-size:11px!important;
+	}
+.splash {
+	position:fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: black;
+	z-index: 300;
+	color: white;
+	text-align: center;
+	line-height: 90vh;
+}
+.splash.display-none{
+	position:fixed;
+	opacity:0;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: black;
+	z-index: 300;
+	color: white;
+	text-align: center;
+	line-height: 90vh;
+	transition: all 0.5s;
+}
+@keyframes fadeIn{
+	to {
+		opacity:1;
+	}
+}
+.fade-in {
+	opacity: 0;
+	animation: fadeIn 1s ease-in forwards; 
+}
+</style>
+<script>
+const splash = document.querySelector('.splash');
+document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
+
+const header = document.querySelector('.header');
+window.onscroll = function(){
+var top = window.scrollY;
+console.log(top);
+	if(top>= 50){
+		header.classList.add('active')
+	}else{
+		header.classList.remove('active');
+	}
+}
+</script>
+<div class="splash">
+<h1 class="fade-in">Welcome to MCZbase</h1></div>
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
 	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
@@ -287,17 +350,6 @@ limitations under the License.
 														<div name="collection" id="fixedCollection" class="w-100"></div>
 														<cfif not isdefined("collection")><cfset collection=""></cfif>
 														<cfset collection_array = ListToArray(collection)>
-															<style>
-																##fixedCollection.jqx-combobox-multi-item{
-																	margin:0;
-																}
-																##fixedCollection.jqx-widget-content,##fixedCollection.jqx-widget-content div {
-																	min-height: 13px;
-																}
-																##dropdownlistContentfixedCollection.jqx-fill-state-normal{
-																	font-size:11px!important;
-																}
-															</style>
 														<script>
 															function setFixedCollectionValues() {
 																$('##fixedCollection').jqxComboBox('clearSelection');
