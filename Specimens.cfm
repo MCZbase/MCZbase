@@ -294,7 +294,7 @@ limitations under the License.
 																##fixedCollection.jqx-widget-content,##fixedCollection.jqx-widget-content div {
 																	min-height: 13px;
 																}
-																##fixedCollection.jqx-fill-state-normal{
+																##dropdownlistContentfixedCollection.jqx-fill-state-normal{
 																	font-size:11px!important;
 																}
 															</style>
