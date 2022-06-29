@@ -2950,7 +2950,23 @@ limitations under the License.
 	};
 	
 	})( window );
-	</script>
+
+		
+		
+const splash = document.querySelector('.splash');
+document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
+
+const fixed = document.querySelector('.tabs');
+window.onscroll = function(){
+var top = window.scrollY;
+console.log(top);
+	if(top>= 50){
+		fixed.classList.add('active')
+	}else{
+		fixed.classList.remove('active');
+	}
+}
+</script>
 
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
