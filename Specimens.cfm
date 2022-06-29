@@ -16,56 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<style>
-/*#fixedCollection.jqx-combobox-multi-item{
-		margin:0;
-	}
-#fixedCollection.jqx-widget-content,#fixedCollection.jqx-widget-content div {
-		min-height: 13px;
-	}
-#dropdownlistContentfixedCollection.jqx-fill-state-normal{
-		font-size:11px!important;
-	}
-.splash {
-	position:fixed;
-	top: 0;
-	left: 0;
-	width: 25%;
-	height: 10rem;
-	background: black;
-	z-index: 300;
-	color: white;
-	text-align: center;
-	line-height: 90px;
-}
-.splash.display-none{
-	position:fixed;
-	opacity:0;
-	top: 0;
-	left: 0;
-	width: 25%;
-	height: 10rem;
-	background: black;
-	z-index: -100
-	color: white;
-	text-align: center;
-	line-height: 90px;
-	transition: all 0.5s;
-}
-@keyframes fadeIn{
-	to {
-		opacity:1;
-	}
-}
-.fade-in {
-	opacity: 0;
-	animation: fadeIn 1s ease-in forwards; 
-}*/
-</style>
 
-<!---<div class="splash">
-	<h1 class="fade-in">Welcome to MCZbase</h1>
-</div>--->
 
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
@@ -2951,21 +2902,6 @@ limitations under the License.
 	
 	})( window );
 
-		
-		
-//const splash = document.querySelector('.splash');
-//document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
-//
-//const fixed = document.querySelector('.tabs');
-//window.onscroll = function(){
-//var top = window.scrollY;
-//console.log(top);
-//	if(top>= 50){
-//		fixed.classList.add('active')
-//	}else{
-//		fixed.classList.remove('active');
-//	}
-//}
 </script>
 
 </cfoutput>
