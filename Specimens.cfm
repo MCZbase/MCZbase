@@ -30,7 +30,7 @@ limitations under the License.
 	position:fixed;
 	top: 0;
 	left: 0;
-	width: 100%;
+	width: 25%;
 	height: 10rem;
 	background: black;
 	z-index: 300;
@@ -46,7 +46,7 @@ limitations under the License.
 	width: 25%;
 	height: 10rem;
 	background: black;
-	z-index: -10;
+	z-index: -100
 	color: white;
 	text-align: center;
 	line-height: 90px;
