@@ -743,7 +743,7 @@ limitations under the License.
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
-														Collection&nbsp;&nbsp;
+														Events&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">(#CollButton#)</button>
 													</div>
 												</div>
@@ -838,7 +838,7 @@ limitations under the License.
 												</div>
 											</section>
 											<section class="col-12 search-header-basic py-1">
-												<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
 													</div>
@@ -895,7 +895,7 @@ limitations under the License.
 											</section>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<section class="col-12 py-1">
-													<div class="col-12 col-xl-1 px-1 px-md-2 float-left">
+													<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 														<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
 															Transactions&nbsp;&nbsp;
 														</div>
