@@ -205,12 +205,12 @@
 									<td style="width:54%; padding-left: 0.75rem;">
 										<cfif relm2.recordcount lte #maxMedia#>
 											<cfloop query="relm2">
-												<div class="border-light col-3 float-left mx-1 px-0 py-1 mb-1" style="width:112px;height: 175px">
+												<div class="border-light col-4 float-left mx-1 px-0 py-1 mb-1" style="width:112px;height: 175px">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm2.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning float-left col-1 border-left px-1 pt-2 border-right border-bottom border-top">
+															<cfset activeimg = "border-warning float-left col-2 border-left px-1 pt-2 border-right border-bottom border-top">
 														<cfelse>	
-															<cfset activeimg = "border-light float-left col-1 px-1 pt-2">
+															<cfset activeimg = "border-light float-left col-2 px-1 pt-2">
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#"> #mediablock# </div>
