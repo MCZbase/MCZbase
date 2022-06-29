@@ -16,6 +16,57 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
+
+<cfif not isdefined("action")>
+	<!--- set the default tab based on user preferences --->
+	<cfif isDefined("session.specimens_default_action") AND len(session.specimens_default_action) GT 0 >
+		<cfset action=session.specimens_default_action>
+	</cfif>
+	<cfif not isdefined("action") OR len(action) EQ 0 OR NOT ListContains("fixedSearch,keywordSearch,builderSearch",action)>
+		<cfset action="fixedSearch">
+	</cfif>
+</cfif>
+<cfswitch expression="#action#">
+	<!--- API note: action and method seem duplicative, action is required and used to determine
+			which tab to show, method invokes target backing method in form submission, but when 
+			invoking this page with execute=true method does not need to be included in the call
+			even though it will be included in the URI parameter list when clicking on the 
+			"Link to this search" link.
+	--->
+	<cfcase value="fixedSearch">
+		<cfset pageTitle = "Basic Specimen Search">
+		<cfif isdefined("execute")>
+			<cfset execute="fixed">
+		</cfif>
+	</cfcase>
+	<cfcase value="keywordSearch">
+		<cfset pageTitle = "Specimen Search by Keyword">
+		<cfif isdefined("execute")>
+			<cfset execute="keyword">
+		</cfif>
+	</cfcase>
+	<cfcase value="builderSearch">
+		<cfset pageTitle = "Specimen Search Builder">
+		<cfif isdefined("execute")>
+			<cfset execute="builder">
+		</cfif>
+	</cfcase>
+	<cfdefaultcase>
+		<cfset pageTitle = "Basic Specimen Search">
+		<cfif isdefined("execute")>
+			<cfset execute="fixed">
+		</cfif>
+	</cfdefaultcase>
+</cfswitch>
+<cfinclude template = "/shared/_header.cfm">
 <style>
 #fixedCollection.jqx-combobox-multi-item{
 		margin:0;
@@ -81,57 +132,6 @@ console.log(top);
 	}
 }
 </script>
-<cftry>
-	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-<cfcatch>
-	<cfset gitBranch = "unknown">
-</cfcatch>
-</cftry>
-
-<cfif not isdefined("action")>
-	<!--- set the default tab based on user preferences --->
-	<cfif isDefined("session.specimens_default_action") AND len(session.specimens_default_action) GT 0 >
-		<cfset action=session.specimens_default_action>
-	</cfif>
-	<cfif not isdefined("action") OR len(action) EQ 0 OR NOT ListContains("fixedSearch,keywordSearch,builderSearch",action)>
-		<cfset action="fixedSearch">
-	</cfif>
-</cfif>
-<cfswitch expression="#action#">
-	<!--- API note: action and method seem duplicative, action is required and used to determine
-			which tab to show, method invokes target backing method in form submission, but when 
-			invoking this page with execute=true method does not need to be included in the call
-			even though it will be included in the URI parameter list when clicking on the 
-			"Link to this search" link.
-	--->
-	<cfcase value="fixedSearch">
-		<cfset pageTitle = "Basic Specimen Search">
-		<cfif isdefined("execute")>
-			<cfset execute="fixed">
-		</cfif>
-	</cfcase>
-	<cfcase value="keywordSearch">
-		<cfset pageTitle = "Specimen Search by Keyword">
-		<cfif isdefined("execute")>
-			<cfset execute="keyword">
-		</cfif>
-	</cfcase>
-	<cfcase value="builderSearch">
-		<cfset pageTitle = "Specimen Search Builder">
-		<cfif isdefined("execute")>
-			<cfset execute="builder">
-		</cfif>
-	</cfcase>
-	<cfdefaultcase>
-		<cfset pageTitle = "Basic Specimen Search">
-		<cfif isdefined("execute")>
-			<cfset execute="fixed">
-		</cfif>
-	</cfdefaultcase>
-</cfswitch>
-<cfinclude template = "/shared/_header.cfm">
-
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
