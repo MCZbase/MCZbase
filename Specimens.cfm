@@ -116,19 +116,20 @@ limitations under the License.
 </style>
 
 <div class="splash">
-<h1 class="fade-in">Welcome to MCZbase</h1></div>
+	<h1 class="fade-in">Welcome to MCZbase</h1>
+</div>
 <script>
-const splash = document.querySelector('.splash');
+const splash = document.querySelector('#header');
 document.addEventListener('DOMContentLoaded', (e)=>{setTimeout(()=>{splash.classList.add('display-none');})},2000);
 
-const body1 = document.querySelector('.default');
+const header = document.querySelector('#header');
 window.onscroll = function(){
 var top = window.scrollY;
 console.log(top);
 	if(top>= 50){
-		body1.classList.add('active')
+		header.classList.add('active')
 	}else{
-		body1.classList.remove('active');
+		header.classList.remove('active');
 	}
 }
 </script>
