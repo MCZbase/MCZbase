@@ -308,8 +308,7 @@ limitations under the License.
 						<cfelse>
 							case 
 								when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-									(coll_obj_other_id_num.other_id_type = 'original identifier' or 
-									coll_obj_other_id_num.other_id_type = 'field number')
+									coll_obj_other_id_num.encumber_as_field_number = 1 
 								then 'Masked'
 								else coll_obj_other_id_num.display_value
 							end display_value,
