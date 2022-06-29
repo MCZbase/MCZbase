@@ -304,7 +304,7 @@ limitations under the License.
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							coll_obj_other_id_num.display_value
+							coll_obj_other_id_num.display_value, 
 						<cfelse>
 							case 
 								when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
