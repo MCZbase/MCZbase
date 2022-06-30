@@ -2164,15 +2164,9 @@ limitations under the License.
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-							var window_height = $.height();
-							var window_top_position = $window.scrollTop();
-							var window_bottom_position = (window_top_position + window_height);
-							var $element = $(this);
-							var element_height = $element.outerHeight();
-							var element_top_position = $element.offset().top;
-							var element_bottom_position = (element_top_position + element_height);
-								if ((element_bottom_position >= window_top_position) &&
-									(element_top_position <= window_bottom_position)) {
+
+				
+								if (document >= 1000){
 									$(document).scrollTop(480);
 								} else {
 									$(document).scrollTop(800);
