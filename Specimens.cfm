@@ -2266,6 +2266,7 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
+						$("##keywordsearchResultsGrid").jqxGrid('focus');
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
@@ -2369,7 +2370,6 @@ limitations under the License.
 				$('##builderactionFeedback').html('');
 				var debug = $("##builderSearchForm").serialize();
 				console.log(debug);
-				$('##buildersearchResultsGrid').jqxGrid('focus');
 				var search =
 				{
 					datatype: "json",
@@ -2440,6 +2440,7 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
+						$("##buildersearchResultsGrid").jqxGrid('focus');
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
