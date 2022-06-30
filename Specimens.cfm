@@ -1995,6 +1995,10 @@ limitations under the License.
 						/* Setup jqxgrid for fixed Search */
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
+				function () {
+					$("##fixedsearchResultsGrid").
+							jqxGrid('focus');
+					});
 				var uuid = getVersion4UUID();
 				$("##result_id_fixedSearch").val(uuid);
 	
@@ -2186,7 +2190,6 @@ limitations under the License.
 
 				$("##overlay").show();
 				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
-				$("##keywordsearchResultsGrid").jqxGrid('focus');
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
 				$("##keywordresultLink").html("");
@@ -2439,7 +2442,6 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##buildersearchResultsGrid").jqxGrid('selectrow', 0);
-						$("##buildersearchResultsGrid").jqxGrid('focus');
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
