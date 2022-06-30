@@ -993,6 +993,7 @@ limitations under the License.
 							<td>Remarks</td>
 						</tr>
 					</thead>
+					<tbody>
 					<cfloop query="attributes">
 						<tr>
 							<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
@@ -1011,7 +1012,8 @@ limitations under the License.
 							<td>#attribute_remark#</td>
 						</tr>
 					</cfloop>
-				</ul>
+					</tbody>
+				</table>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
