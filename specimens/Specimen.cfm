@@ -307,7 +307,7 @@ limitations under the License.
 </cfif>
 <cfset guid = "MCZ:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
 <cfif oneOfUs NEQ 1 AND Findnocase("mask parts", check.encumbranceDetail)>
-	<cfset partCount=#0#>
+	<cfset partCount="0">
 <cfelse>
 	<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
