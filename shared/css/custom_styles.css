@@ -3157,7 +3157,7 @@ ol.flowNone li a, ul.flowNone li a {
 	margin-top: -4px;
 }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 767px) {/*Test to see if this changes focus on phone so the whole page can be seen when cursor in input field*/
   input, select, textarea {
     font-size: 16px;
   }
