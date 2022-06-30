@@ -717,6 +717,7 @@ limitations under the License.
 								<tr <cfif mainParts.recordcount gt 1>class=""<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
+									<!--- TODO: Link out to history for part(s) --->
 									<td>
 										#part_disposition#
 										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
@@ -1026,7 +1027,7 @@ limitations under the License.
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
-									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#agentDeterminer_agent_id#'>#attributeDeterminer#</a>">
+									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									<cfif len(determination_method) gt 0>
 										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 									</cfif>
