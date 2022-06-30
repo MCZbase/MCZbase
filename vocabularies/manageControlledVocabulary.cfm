@@ -994,6 +994,7 @@
 					<th>ID Type</th>
 					<th>Description</th>
 					<th>Base URL</th>
+					<th>Mask As Field Number</th>
 					<th></th>
 				</tr>
 				<tr>
@@ -1005,6 +1006,12 @@
 					</td>
 					<td>
 						<input type="text" name="base_url" size="50">
+					</td>
+					<td>
+						<select name="encumber_as_field_num">
+							<option value="0">No</option>
+							<option value="1">Yes</option>
+						</select>
 					</td>
 					<td>
 						<input type="submit" 
@@ -1036,6 +1043,19 @@
 						<td>
 							<input type="text" name="base_url" size="60" value="#base_url#">
 						</td>				
+						<td>
+							<cfif encumber_as_field_num EQ "1">
+								<cfset select1 = "selected">
+								<cfset select0 = "">
+							<cfelse>
+								<cfset select1 = "">
+								<cfset select0 = "1">
+							</cfif>
+							<select name="encumber_as_field_num">
+								<option value="0" #select0#>No</option>
+								<option value="1" #select1#>Yes</option>
+							</select>
+						</td>
 						<td>
 							<input type="button" 
 								value="Save" 
@@ -1109,7 +1129,7 @@
 						<input type="hidden" name="tbl" value="cttaxon_relation">
 						<input type="hidden" name="origData" value="#taxon_relationship#">
 						<td>
-							<input type="text" name="other_id_type" value="#taxon_relationship#" size="50">
+							<input type="text" name="taxon_relationship" value="#taxon_relationship#" size="50">
 						</td>
 						<td>
 							<textarea name="description" rows="4" cols="40">#description#</textarea>
@@ -1619,7 +1639,8 @@
 			update ctcoll_other_id_type set 
 				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#other_id_type#" />,
 				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
-				BASE_URL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />
+				BASE_URL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />,
+				encumber_as_field_num = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumber_as_field_num#" />
 			where
 				OTHER_ID_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1787,11 +1808,13 @@
 			insert into ctcoll_other_id_type (
 				OTHER_ID_TYPE,
 				DESCRIPTION,
-				base_URL
+				base_URL,
+				encumber_as_field_num
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#base_url#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumber_as_field_num#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "cttaxon_relation">

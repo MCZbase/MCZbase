@@ -41,6 +41,20 @@ limitations under the License.
 	<cfthread name="getMediaThread#tn#">
 		<cfoutput>
 			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record and not one of us ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
 				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct 
 					media_id, auto_host, auto_path, auto_filename, media_uri, preview_uri, mime_type, media_type, media_descriptor 
@@ -60,7 +74,7 @@ limitations under the License.
 							LEFT JOIN media_relations on media.media_id = media_relations.media_id 
 						JOIN media_relations cmr on media.media_id = cmr.media_id
 					WHERE
-						MCZBASE.is_media_encumbered(media.media_id)  < 1 
+						MCZBASE.is_media_encumbered(media.media_id) < 1 
 						AND cmr.related_primary_key = <cfqueryparam value="#l_collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						<cfif l_relationship_type EQ 'shows'>
 							AND cmr.media_relationship = 'shows cataloged_item'
@@ -130,6 +144,20 @@ limitations under the License.
 	<cfthread name="getIdentificationsThread">
 		<cfoutput>
 			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record and not one of us ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      			SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
 				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						identification.scientific_name,
@@ -145,12 +173,12 @@ limitations under the License.
 						identification.publication_id,
 						stored_as_fg
 					FROM
-						identification,
-						(select * from formatted_publication where format_style='short') formatted_publication
+						identification
+						left join formatted_publication on identification.publication_id=formatted_publication.publication_id and format_style='short'
 					WHERE
-						identification.publication_id=formatted_publication.publication_id (+) and
 						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
+					ORDER BY 
+						accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
 				<cfset i=1>
 				<cfloop query="identification">
@@ -215,6 +243,11 @@ limitations under the License.
 							<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
 						</cfif>
 					</cfif>
+					<cfif len(formatted_publication) gt 0>
+						<div class="h6 mb-1">
+							sensu <a href="/publication/#publication_id#">#formatted_publication#</a>
+						</div>
+					</cfif>
 					<cfif not isdefined("metaDesc")>
 						<cfset metaDesc="">
 					</cfif>
@@ -256,7 +289,11 @@ limitations under the License.
 					<div class="form-row mx-0">
 						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #identification.agent_name#
 							<cfif len(made_date) gt 0>
-								<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
+								<cfif len(made_date) gt 8>
+									<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
+								<cfelse>
+									<span class="font-weight-lessbold">in</span> #dateformat(identification.made_date,"yyyy")#
+								</cfif>
 							</cfif>
 						</div>
 					</div>
@@ -284,21 +321,40 @@ limitations under the License.
 
 <!--- getOtherIdsHTML obtain a block of html listing other id numbers for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other id numbers
- @return html for viewing identifications for the specified cataloged item. 
+ @return html for viewing other identifiers for the specified cataloged item. 
 --->
 <cffunction name="getOtherIDsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getOtherIDsThread">
-			<cfoutput>
-				<cftry>
+
+	<cfthread name="getOtherIDsThread">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record and not one of us ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      			SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
 				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						case when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
-							coll_obj_other_id_num.other_id_type = 'original identifier'
-							then 'Masked'
-						else
-							coll_obj_other_id_num.display_value
-						end display_value,
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							coll_obj_other_id_num.display_value, 
+						<cfelse>
+							case 
+								when concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
+									ctcoll_other_id_type.encumber_as_field_num = 1 
+								then 'Masked'
+								else coll_obj_other_id_num.display_value
+							end display_value,
+						</cfif>
 						coll_obj_other_id_num.other_id_type,
 						case when base_url is not null then
 							ctcoll_other_id_type.base_url || coll_obj_other_id_num.display_value
@@ -328,224 +384,249 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</cfif>
-				<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-				<cfset queryError=cfcatch.queryError>
-				<cfelse>
-				<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
-			</cfoutput>
-		</cfthread>
-		<cfthread action="join" name="getOtherIDsThread" />
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getOtherIDsThread" />
 	<cfreturn getOtherIDsThread.output>
 </cffunction>
 					
+<!--- getCitationsHTML obtain a block of html listing citations for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the citations
+ @return html for viewing other citations for the specified cataloged item. 
+ @see getCitationMediaHTML for media linked to the citations (publication media).
+--->
 <cffunction name="getCitationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-		<cfthread name="getCitationsThread">
-			<cfoutput>
-				<cftry>
+	<cfthread name="getCitationsThread">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record and not one of us ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
 				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							citation.type_status,
-							citation.occurs_page_number,
-							citation.citation_page_uri,
-							citation.CITATION_REMARKS,
-							cited_taxa.scientific_name as cited_name,
-							cited_taxa.taxon_name_id as cited_name_id,
-							formatted_publication.formatted_publication,
-							formatted_publication.publication_id,
-							cited_taxa.taxon_status as cited_name_status
-						from
-							citation
-							left join taxonomy cited_taxa on citation.cited_taxon_name_id = cited_taxa.taxon_name_id
-							left join formatted_publication on citation.publication_id = formatted_publication.publication_id
-						where
-							format_style='short' and
-							citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						order by
-							substr(formatted_publication, - 4)
-					</cfquery>
-					<cfset i = 1>
-					<cfloop query="citations" group="formatted_publication">
-						<div class="d-block py-1 px-2 w-100 float-left small95">
-							<span class="d-inline"></span>
-							<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
-							<cfif len(occurs_page_number) gt 0>
-								Page
-								<cfif len(citation_page_uri) gt 0>
-									<a href ="#citation_page_uri#">#occurs_page_number#</a>,
-								<cfelse>
+					SELECT distinct
+						citation.type_status,
+						citation.occurs_page_number,
+						citation.citation_page_uri,
+						citation.CITATION_REMARKS,
+						cited_taxa.scientific_name as cited_name,
+						cited_taxa.taxon_name_id as cited_name_id,
+						formatted_publication.formatted_publication,
+						formatted_publication.publication_id,
+						publication.doi,
+						cited_taxa.taxon_status as cited_name_status
+					FROM
+						citation
+						left join taxonomy cited_taxa on citation.cited_taxon_name_id = cited_taxa.taxon_name_id
+						left join publication on citation.publication_id = publication.publication_id
+						left join formatted_publication on publication.publication_id = formatted_publication.publication_id and format_style='short'
+					WHERE
+						citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					ORDER BY
+						substr(formatted_publication, - 4)
+				</cfquery>
+				<cfset i = 1>
+				<cfloop query="citations" group="formatted_publication">
+					<div class="d-block py-1 px-2 w-100 float-left small95">
+						<span class="d-inline"></span>
+						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
+						<cfif len(occurs_page_number) gt 0>
+							Page
+							<cfif len(citation_page_uri) gt 0>
+								<a href ="#citation_page_uri#">#occurs_page_number#</a>,
+							<cfelse>
 								#occurs_page_number#,
-								</cfif>
 							</cfif>
-							<span class="font-weight-lessbold">#cited_name_status#</span> of 
-								<a href="/name/#cited_name#">
-									<i>#replace(cited_name," ","&nbsp;","all")#</i>
-								</a>
-								<cfif find("(ms)", #type_status#) NEQ 0>
-								<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
-									<cfif find(" ", #cited_name#) NEQ 0>
-									&nbsp;ssp. nov.
-									<cfelse>
-									&nbsp;sp. nov.
-									</cfif>
-								</cfif>
-								<span class="small font-italic">
-									<cfif len(citation_remarks) gt 0></cfif>
-									#CITATION_REMARKS#
-								</span>
-						</div>
-						<cfset i = i + 1>
-					</cfloop>
-					<cfcatch>
-						<cfif isDefined("cfcatch.queryError") >
-							<cfset queryError=cfcatch.queryError>
 						<cfelse>
-							<cfset queryError = ''>
+							<cfif len(citation_page_uri) gt 0>
+								<a href ="#citation_page_uri#">[link]</a>,
+							</cfif>
 						</cfif>
-						<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-						<cfcontent reset="yes">
-						<cfheader statusCode="500" statusText="#message#">
-							<div class="container">
-								<div class="row">
-									<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-										<h2>Internal Server Error.</h2>
-										<p>#message#</p>
-										<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-									</div>
-								</div>
-							</div>
-					</cfcatch>
-				</cftry>
-			</cfoutput>
-		</cfthread>
+						<span class="font-weight-lessbold">#type_status#</span> of 
+						<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#">
+							<i>#replace(cited_name," ","&nbsp;","all")#</i>
+						</a>
+						<cfif find("(ms)", #type_status#) NEQ 0>
+							<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
+							<cfif find(" ", #cited_name#) NEQ 0>
+								&nbsp;ssp. nov.
+							<cfelse>
+								&nbsp;sp. nov.
+							</cfif>
+						</cfif>
+						<cfif len(cited_name_status) GT 0>
+							<span class="font-weight-lessbold">[#cited_name_status#]</span>
+						</cfif>
+						<cfif len(#doi#) GT 0>
+							doi: <a target="_blank" href='https://doi.org/#doi#'>#doi#</a><br>
+						</cfif>
+						<span class="small font-italic">
+							<cfif len(citation_remarks) gt 0></cfif>
+							#CITATION_REMARKS#
+						</span>
+					</div>
+					<cfset i = i + 1>
+				</cfloop>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
 	<cfthread action="join" name="getCitationsThread" />
 	<cfreturn getCitationsThread.output>
+</cffunction>
+
+<!--- getCitationMediaHTML obtain a block of html listing media related to citations a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
+ @param get_count if equal to 'true', return just the count of the number of related media records, not the html (forces the count
+   to be the same query as the media record query).
+ @return html for viewing media for the specified cataloged item, or the integer count of media records if get_count
+   is specified as true. 
+ @see getCitationsHTML for list of citations.
+--->
+<cffunction name="getCitationMediaHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfargument name="get_count" type="string" required="no" default="">
+
+	<cfset l_get_count = arguments.get_count>
+	<cfset l_collection_object_id= arguments.collection_object_id>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getCitMediaThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record and not one of us ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct 
+						mr.media_id, 
+						m.media_uri, 
+						m.preview_uri, 
+						ml.label_value descr, 
+						m.media_type, 
+						m.mime_type
+					FROM
+						media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+					WHERE
+						mr.media_id = ml.media_id and
+						mr.media_id = m.media_id and
+						ml.media_label = 'description' and
+						MEDIA_RELATIONSHIP like '% publication' and
+						RELATED_PRIMARY_KEY = c.publication_id and
+						c.publication_id = fp.publication_id and
+						fp.format_style='short' and
+						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						MCZBASE.is_media_encumbered(m.media_id) < 1
+					ORDER by substr(formatted_publication, -4)
+				</cfquery>
+				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
+					#getImages.recordcount#
+				<cfelse>
+					<cfloop query="getImages">
+						<div class='col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left'>
+							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
+							<div id='mediaBlock#getImages.media_id#'>
+								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
+							</div>
+						</div>
+					</cfloop>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getCitMediaThread#tn#" />
+	<cfreturn cfthread["getCitMediaThread#tn#"].output>
 </cffunction>
 								
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getPartsThread">
-	<cfoutput>
-		<cftry>
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset oneOfUs = 1>
-	<cfelse>
-		<cfset oneOfUs = 0>
-	</cfif>
-			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					specimen_part.collection_object_id part_id,
-					Case
-						when #oneOfus#= 1
-						then pc.label
-						else null
-					End label,
-					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
-					sampled_from_obj_id,
-					coll_object.COLL_OBJ_DISPOSITION part_disposition,
-					coll_object.CONDITION part_condition,
-					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
-					coll_object_remarks part_remarks,
-					attribute_type,
-					attribute_value,
-					attribute_units,
-					determined_date,
-					attribute_remark,
-					agent_name
-				from
-					specimen_part
-					left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
-					left join coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
-					left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
-					left join container oc on coll_obj_cont_hist.container_id=oc.container_id
-					left join container pc on oc.parent_container_id=pc.container_id
-					left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
-					left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
-				where
-					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			</cfquery>
-			<cfquery name="parts" dbtype="query">
-				select
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				from
-					rparts
-				group by
-					part_id,
-					label,
-					part_name,
-					sampled_from_obj_id,
-					part_disposition,
-					part_condition,
-					lot_count,
-					part_remarks
-				order by
-					part_name
-			</cfquery>
-			<cfquery name="mPart" dbtype="query">
-				select * from parts where sampled_from_obj_id is null order by part_name
-			</cfquery>
-			<cfset ctPart.ct=''>
-			<cfquery name="ctPart" dbtype="query">
-				select count(*) as ct from parts
-			</cfquery>
-			<table class="table border-bottom mb-0 mt-1">
-				<thead>
-					<tr class="bg-light">
-						<th><span>Part Name</span></th>
-						<th><span>Condition</span></th>
-						<th><span>Disposition</span></th>
-						<th><span>##</span></th>
-						<cfif oneOfus is "1">
-							<th>
-								<span>Container</span>
-							</th>
-						</cfif>
-					</tr>
-				</thead>
-				<tbody>
-					<cfset i=1>
-					<cfloop query="mPart">
-					<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-						<td><span class="">#part_name#</span></td>
-						<td>#part_condition#</td>
-						<td>#part_disposition#</td>
-						<td>#lot_count#</td>
-						<cfif oneOfus is "1">
-							<td>#label#</td>
-						</cfif>
-					</tr>
-					<cfif len(part_remarks) gt 0>
-						<tr class="small90 border-bottom-0">
-							<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-1">
-								<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
-							</td>
-						</tr>
-					</cfif>
-					<cfquery name="patt" dbtype="query">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<!--- check for mask record, hide if mask record and not one of us ---->
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<!--- return text instead of throwing an exception if mask parts --->
+				<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+					<div>Masked</div>
+				<cfelse>
+					<!--- find out if any of this material is on loan --->
+					<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct loan_number, loan_type, loan_status, loan.transaction_id 
+						FROM
+							specimen_part 
+							left join loan_item on specimen_part.collection_object_id=loan_item.collection_object_id
+				 			left join loan on loan_item.transaction_id = loan.transaction_id
+						WHERE
+							loan_number is not null and
+							specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<!--- retrieve all the denormalized parts data in one query, then query those results to get normalized information to display --->
+					<cfquery name="getParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
+							specimen_part.collection_object_id part_id,
+							<cfif oneOfUs EQ 1>
+								pc.label, 
+							<cfelse>
+								null as label,
+							</cfif>
+							nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+							sampled_from_obj_id,
+							coll_object.COLL_OBJ_DISPOSITION part_disposition,
+							coll_object.CONDITION part_condition,
+							nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+							coll_object_remarks part_remarks,
 							attribute_type,
 							attribute_value,
 							attribute_units,
@@ -553,93 +634,314 @@ limitations under the License.
 							attribute_remark,
 							agent_name
 						from
-							rparts
+							specimen_part
+							left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
+							left join coll_object_remark on coll_object.collection_object_id=coll_object_remark.collection_object_id
+							left join coll_obj_cont_hist on coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id
+							left join container oc on coll_obj_cont_hist.container_id=oc.container_id
+							left join container pc on oc.parent_container_id=pc.container_id
+							left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
+							left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
 						where
-							attribute_type is not null and
-							part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<!---- obtain the distinct parts from the getParts query (collapsing duplicated rows from attributes) --->
+					<cfquery name="distinctParts" dbtype="query">
+						select
+							part_id,
+							label,
+							part_name,
+							sampled_from_obj_id,
+							part_disposition,
+							part_condition,
+							lot_count,
+							part_remarks
+						from
+							getParts
 						group by
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
+							part_id,
+							label,
+							part_name,
+							sampled_from_obj_id,
+							part_disposition,
+							part_condition,
+							lot_count,
+							part_remarks
+						order by
+							part_name
 					</cfquery>
-					<cfif patt.recordcount gt 0>
-						<tr class="border-top-0">
-							<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
-								<cfloop query="patt">
-									<div class="small90 pl-3" style="line-height: .9rem;">
-										#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
-									<cfif len(attribute_units) gt 0>
-										#attribute_units# &nbsp;
+					<table class="table border-bottom mb-0 mt-1">
+						<thead>
+							<tr class="bg-light">
+								<th><span>Part Name</span></th>
+								<th><span>Condition</span></th>
+								<th><span>Disposition</span></th>
+								<th><span>##</span></th>
+								<cfif oneOfus is "1">
+									<th>
+										<span>Container</span>
+									</th>
+								</cfif>
+							</tr>
+						</thead>
+						<tbody>
+							<!--- iterate through the main (not subsampled) parts --->
+							<cfquery name="mainParts" dbtype="query">
+								select * from distinctParts where sampled_from_obj_id is null order by part_name
+							</cfquery>
+							<cfset i=1>
+							<cfloop query="mainParts">
+								<tr <cfif mainParts.recordcount gt 1>class=""<cfelse></cfif>>
+									<td><span class="">#part_name#</span></td>
+									<td>#part_condition#</td>
+									<td>
+										#part_disposition#
+										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<!--- look up whether this part is in an open loan --->
+											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT
+													loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+												FROM 
+													specimen_part 
+													LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+													LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
+												WHERE
+													 specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+													and loan_status <> 'closed'
+											</cfquery>
+											<cfloop query="partonloan">
+												<cfif partonloan.loan_status EQ 'open' and mainParts.part_disposition EQ 'on loan'>
+													<!--- normal case --->
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+												<cfelse>
+													<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+												</cfif>
+											</cfloop>
+										</cfif>
+									</td>
+									<td>#lot_count#</td>
+									<cfif oneOfus is "1">
+										<td>#label#</td>
 									</cfif>
-									<cfif len(determined_date) gt 0>
-										determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+								</tr>
+								<cfif len(part_remarks) gt 0>
+									<tr class="small90 border-bottom-0">
+										<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-1">
+											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										</td>
+									</tr>
+								</cfif>
+								<!--- for each part list the part attributes --->
+								<cfquery name="partAttributes" dbtype="query">
+									SELECT
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+									FROM
+										getParts
+									WHERE
+										attribute_type is not null and
+										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+									GROUP BY
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+								</cfquery>
+								<cfif partAttributes.recordcount gt 0>
+									<tr class="border-top-0">
+										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
+											<cfloop query="partAttributes">
+												<div class="small90 pl-3" style="line-height: .9rem;">
+													#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+												<cfif len(attribute_units) gt 0>
+													#attribute_units# &nbsp;
+												</cfif>
+												<cfif len(determined_date) gt 0>
+													determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+												</cfif>
+												<cfif len(agent_name) gt 0>
+													determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+												</cfif>
+												<cfif len(attribute_remark) gt 0>
+													remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+												</cfif>
+												</div>
+											</cfloop>
+										</td>
+									</tr>
+								</cfif>
+								<!--- iterate through the subsampled parts for each part --->
+								<cfquery name="subsampleParts" dbtype="query">
+									select * from distinctParts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+								</cfquery>
+								<cfloop query="subsampleParts">
+									<tr>
+										<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+										<td>#part_condition#</td>
+										<td>
+											#part_disposition#
+											<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<!--- look up whether this part is in an open loan --->
+												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT
+														loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+													FROM 
+														specimen_part 
+														LEFT JOIN loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+														LEFT JOIN loan on loan_item.transaction_id = loan.transaction_id
+													WHERE
+														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+														and loan_status <> 'closed'
+											</cfquery>
+											<cfloop query="partonloan">
+												<cfif partonloan.loan_status EQ 'open' and subsampleParts.part_disposition EQ 'on loan'>
+													<!--- normal case --->
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+												<cfelse>
+													<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+												</cfif>
+											</cfloop>
+										</cfif>
+									</td>
+										</td>
+										<td>#lot_count#</td>
+										<cfif oneOfus is "1">
+											<td>#label#</td>
+										</cfif>
+									</tr>
+									<cfif len(part_remarks) gt 0>
+										<tr class="small90">
+											<td colspan="5">
+												<span class="pl-3 d-block">
+													<span class="font-italic">Remarks:</span> #part_remarks#
+												</span>
+											</td>
+										</tr>
 									</cfif>
-									<cfif len(agent_name) gt 0>
-										determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+									<!--- for each subsample part list any part attributes --->
+									<cfquery name="partAttributes" dbtype="query">
+										SELECT
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											attribute_remark,
+											agent_name
+										FROM
+											getParts
+										WHERE
+											attribute_type is not null and
+											part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+										GROUP BY
+											attribute_type,
+											attribute_value,
+											attribute_units,
+											determined_date,
+											attribute_remark,
+											agent_name
+									</cfquery>
+									<cfif partAttributes.recordcount gt 0>
+										<tr class="border-top-0">
+											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
+												<cfloop query="partAttributes">
+													<div class="small90 pl-3" style="line-height: .9rem;">
+														#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+													<cfif len(attribute_units) gt 0>
+														#attribute_units# &nbsp;
+													</cfif>
+													<cfif len(determined_date) gt 0>
+														determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+													</cfif>
+													<cfif len(agent_name) gt 0>
+														determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+													</cfif>
+													<cfif len(attribute_remark) gt 0>
+														remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+													</cfif>
+													</div>
+												</cfloop>
+											</td>
+										</tr>
 									</cfif>
-									<cfif len(attribute_remark) gt 0>
-										remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
-									</cfif>
-									</div>
-								</cfloop>
-							</td>
-						</tr>
-					</cfif>
-					<cfquery name="sPart" dbtype="query">
-						select * from parts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-					</cfquery>
-					<cfloop query="sPart">
-						<tr>
-							<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
-							<td>#part_condition#</td>
-							<td>#part_disposition#</td>
-							<td>#lot_count#</td>
-							<cfif oneOfus is "1">
-								<td>#label#</td>
-							</cfif>
-						</tr>
-						<cfif len(part_remarks) gt 0>
-						<tr class="small90">
-							<td colspan="5">
-								<span class="pl-3 d-block">
-									<span class="font-italic">Remarks:</span> #part_remarks#
-								</span>
-							</td>
-						</tr>
-						</cfif>
-					</cfloop>
-
-				</cfloop>
-				</tbody>
-			</table>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
+								</cfloop><!--- subsamples --->
+		
+							</cfloop><!--- parts --->
+						</tbody>
+					</table>
 				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getPartsThread"/>
 	<cfreturn getPartsThread.output>
+</cffunction>
+
+<!--- getPartCount obtain the number of parts for a cataloged item 
+  @param collection_object_id the collection_object_id for the cataloged item for which to return a part count 
+  @return a json structure containg the part count in ct
+--->
+<cffunction name="getPartCount" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
+		<!--- check for mask record, hide if mask record and not one of us ---->
+		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+			FROM DUAL
+		</cfquery>
+		<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+			<cfthrow message="Record Masked">
+		</cfif>
+			<div>Masked</div>
+		<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				count(specimen_part.collection_object_id) ct
+			FROM
+				specimen_part
+			WHERE
+				specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> 
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="countParts">
+			<cfset row = StructNew()>
+			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+				<cfset row["ct"] = "0">
+			<cfelse>
+				<cfset row["ct"] = "#countParts.ct#">
+			</cfif>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 						
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
@@ -647,6 +949,20 @@ limitations under the License.
 	<cfthread name="getAttributesThread">
 	<cfoutput>
 		<cftry>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<!--- check for mask record, hide if mask record ---->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
+			</cfif>
 			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					attributes.attribute_type,
@@ -841,6 +1157,21 @@ limitations under the License.
 	<cfthread name="getRelationsThread">
 	<cfoutput>
 		<cftry>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<!--- check for mask record, hide if mask record ---->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
+			</cfif>
+			<!--- TODO: use appropriate data source to allow access to relationships to records in other VPDs ---->
 			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct biol_indiv_relationship, related_coll_cde, related_collection, 
@@ -924,14 +1255,18 @@ limitations under the License.
 
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getTransactionsThread">
 	<cfoutput>
 		<cftry>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 				<cfset oneOfUs = 1>
-				<cfelse>
+			<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
+<cfif oneOfUs EQ 1>
+			<!--- TODO: Accessions need major rework to reflect correct access control to accessions information and current code
+					including inherited limitations and restrictions --->
 			<cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					cataloged_item.collection_object_id as collection_object_id,
@@ -961,14 +1296,24 @@ limitations under the License.
 					left join (select media_id,label_value from media_labels where media_label='description') media_labels on media.media_id=media_labels.media_id 
 				WHERE 
 					media_relations.media_relationship like '% accn' and
-					media_relations.related_primary_key = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+					media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 					MCZBASE.is_media_encumbered(media.media_id) < 1
 			</cfquery>
 				<ul class="list-group list-group-flush pl-0 pt-1">
 					<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
+						<cfquery name="getAccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								cataloged_item.accn_id,
+								accession.accession_number
+							FROM
+								cataloged_item
+								LEFT JOIN accession on cataloged_item.accn_id = accession.transaction_id
+							WHERE
+								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
 						<cfif oneOfUs is 1>
 							<a href="/transactions/Accession.cfm?action=edit&transaction_id=#isOne.accn_id#">#isOne.Accn_number#</a>
-							<cfelse>
+						<cfelse>
 							#isOne.accn_number#
 						</cfif>
 						<cfif accnMedia.recordcount gt 0>
@@ -1091,6 +1436,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</ul>
+</cfif><!--- end temporary oneOfUs=1 check, section needs complete rework --->
 			<cfcatch>
 				<cfif isDefined("cfcatch.queryError") >
 					<cfset queryError=cfcatch.queryError>
@@ -1121,6 +1467,20 @@ limitations under the License.
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfthread name="getLocalityThread">
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<!--- check for mask record, hide if mask record ---->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
+			</cfif>
 		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				media_id
@@ -1130,6 +1490,7 @@ limitations under the License.
 				RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isOne.locality_id#"> and
 				MEDIA_RELATIONSHIP like '% locality'
 		</cfquery>
+		<!--- TODO:  This must be in the enclosing page, not duplicated on each ajax reload from here --->
 		<script>
 		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
 		jQuery(document).ready(function() {
@@ -1254,7 +1615,6 @@ limitations under the License.
 					<cfelse>
 						<cfset oneOfUs = 0>
 					</cfif>
-					<!---<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm"></cfif>--->
 				</div>
 				<div class="col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
@@ -1408,6 +1768,20 @@ limitations under the License.
 				<div class="error"> Improper call. Aborting..... </div>
 				<cfabort>
 			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<!--- check for mask record, hide if mask record ---->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
+			</cfif>
 			<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					collector.agent_id,
@@ -1511,13 +1885,24 @@ limitations under the License.
 							
 <cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getRemarksThread">
-	<cfoutput>
-		<cftry>
-			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-				<div class="error"> Improper call. Aborting..... </div>
-				<cfabort>
-			</cfif>
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask parts, hide collection object remarks if mask parts ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      			SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
 				<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT  
 						coll_object_remarks
@@ -1531,7 +1916,11 @@ limitations under the License.
 				<cfif len(#object_rem.coll_object_remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
 						<li class="list-group-item pt-0 pb-1">
-							#object_rem.coll_object_remarks# 
+							<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+								Masked
+							<cfelse>
+								#object_rem.coll_object_remarks# 
+							</cfif>
 						</li>
 					</ul>
 				</cfif>
@@ -1571,6 +1960,20 @@ limitations under the License.
 			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 				<div class="error"> Improper call. Aborting..... </div>
 				<cfabort>
+			</cfif>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<!--- check for mask record, hide if mask record ---->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
 			</cfif>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 				<cfset oneOfUs = 1>
@@ -1662,6 +2065,20 @@ limitations under the License.
 	<cfthread name="getNamedGroupsThread">
 	<cfoutput>
 		<cftry>
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfset oneOfUs = 1>
+			<cfelse>
+				<cfset oneOfUs = 0>
+			</cfif>
+			<!--- check for mask record, hide if mask record ---->
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+				FROM DUAL
+			</cfquery>
+			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+				<cfthrow message="Record Masked">
+			</cfif>
 		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
 			SELECT DISTINCT collection_name, underscore_relation.underscore_collection_id
 			FROM
