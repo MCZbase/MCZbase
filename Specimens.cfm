@@ -2123,6 +2123,10 @@ limitations under the License.
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
+					$("##fixedsubmitbtn").on("click", function () {
+						$('##fixedsearchResultsGrid').jqxGrid('focus');
+					$(".menu_results").html("Grid focussed!");
+            });
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
