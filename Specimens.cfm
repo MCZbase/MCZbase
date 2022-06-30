@@ -2162,12 +2162,14 @@ limitations under the License.
 					},
 					initrowdetails: initRowDetails
 				});
-				var viewportheight = window.innerHeight;
+	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-								if (viewportheight <= 900){
-									$(viewportheight).scrollTop(300);
+
+				
+								if (document <= 900){
+									$(document).scrollTop(300);
 								} else {
-									$(viewportheight).scrollTop(480);
+									$(document).scrollTop(600);
 								}
 			
 					// add a link out to this search, serializing the form as http get parameters
