@@ -979,7 +979,7 @@ limitations under the License.
 									</form>
 								</div>
 								<!--- results for fixed search --->
-								<div class="container-fluid" id="fixedResults">
+								<div class="container-fluid fixedResults">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
@@ -2901,24 +2901,22 @@ limitations under the License.
 	})( window );
 
 </script>
-<script>
 /*Scroll to top when arrow up clicked BEGIN*/
 $(window).scroll(function() {
     var height = $(window).scrollTop();
     if (height > 100) {
-        $('##fixedResults').fadeIn();
+        $('#back2Top').fadeIn();
     } else {
-        $('##fixedResults').fadeOut();
+        $('#back2Top').fadeOut();
     }
 });
 $(document).ready(function() {
-    $("##fixedResults").onload(function(event) {
+    $("#back2Top").click(function(event) {
         event.preventDefault();
         $("html, body").animate({ scrollTop: 0 }, "slow");
         return false;
     });
 
 });
-</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
