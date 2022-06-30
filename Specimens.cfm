@@ -2089,7 +2089,7 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
-						$("##fixedsearchResultsGrid").jqxGrid('focus', 0);
+						$("##fixedsearchResultsGrid").jqxGrid('focus');
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
