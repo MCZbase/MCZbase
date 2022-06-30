@@ -571,12 +571,14 @@ function loadPartCount(collection_object_id,targetDivId) {
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
-			$("#" + targetDivId ).html(result);
+			console.log(result);
+			var count = result[0].ct;
+			$("#" + targetDivId ).html(count);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading part count");
 		},
-		dataType: "html"
+		dataType: "json"
 	});
 }
 

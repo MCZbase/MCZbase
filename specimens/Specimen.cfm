@@ -88,7 +88,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
+<cfif findNoCase('master',Session.gitBranch) GT 0>
 	<cfthrow message="Not for production use yet.">
 </cfif>
 
@@ -144,7 +144,6 @@ limitations under the License.
 </cfif>
 <cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-	<script type="text/javascript" src="/specimens/js/details.js"></script> 
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
@@ -306,17 +305,22 @@ limitations under the License.
 	<cfthrow message="Record masked.">
 </cfif>
 <cfset guid = "MCZ:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
-<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select
-		count(specimen_part.collection_object_id) ct
-	from
-		specimen_part
-	where
-		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalogedItem.collection_object_id#"> 
-</cfquery>
-<cfset partCount=#countParts.ct#>
+<cfif oneOfUs NEQ 1 AND Findnocase("mask parts", getCatalogedItem.encumbranceDetail)>
+	<cfset partCount="">
+<cfelse>
+	<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
+			count(specimen_part.collection_object_id) ct
+		FROM
+			specimen_part
+		WHERE
+			specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalogedItem.collection_object_id#"> 
+	</cfquery>
+	<cfset partCount=#countParts.ct#>
+</cfif>
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<script type="text/javascript" src="/specimens/js/details.js"></script> 
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
@@ -347,9 +351,16 @@ limitations under the License.
 		</script>
 		<script>
 			function reloadParts() { 
+				// reload the parts html block
 				loadParts(#collection_object_id#,'partsCardBody');
 				// Update part count
 				loadPartCount(#collection_object_id#,'partCountSpan');
+			}
+		</script>
+		<script>
+			function reloadAttributes() { 
+				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
+				loadAttributes(#collection_object_id#,'attributesCardBody');
 			}
 		</script>
 		<script>
@@ -511,7 +522,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
-								<cfif len(#blockcit#) gt 10>
+								<cfif len(trim(#blockcit#)) GT 0>
 									<div class="card-body py-1 mb-1 float-left w-100" id="citationsCardBody">
 										#blockcit#
 									</div>
@@ -563,7 +574,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
-								<cfif len(#blockotherid#) gt 60> 
+								<cfif len(trim(#blockotherid#)) GT 0> 
 									<div class="card-body py-1 mb-0 float-left" id="otherIDsCardBody">
 										#blockotherid# 
 									</div>
@@ -582,9 +593,12 @@ limitations under the License.
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
+										<cfif len(partCount) GT 0>
+											Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
+										<cfelse>
+											Parts <span class="text-dark"><span id="partCountSpan"></span></span>
+										</cfif>
 									</button>
-
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
 											Edit
@@ -607,12 +621,6 @@ limitations under the License.
 					<div class="accordion" id="accordionAttributes">
 						<div class="card mb-2 bg-light">
 							<div id="attributesDialog"></div>
-							<script>
-								function reloadAttributes() { 
-								// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the Other ID block.
-									loadAttributes(#collection_object_id#,'attributesCardBody');
-								}
-							</script>
 							<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAttributes">
 								<cfif len(#blockattributes#) gt 50> 
@@ -640,8 +648,8 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
-								<cfif len(#blockattributes#) gt 50>
-									<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
+								<cfif len(trim(#blockattributes#)) GT 0>
+									<div class="card-body py-1 mb-1 float-left w-100" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
@@ -689,7 +697,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
-									<cfif len(#blockrel#) gt 60>
+									<cfif len(trim(#blockrel#)) GT 0>
 										<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
 											#blockrel# 
 										</div>
