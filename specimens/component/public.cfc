@@ -676,7 +676,7 @@ limitations under the License.
 								<th><span>Part Name</span></th>
 								<th><span>Condition</span></th>
 								<th><span>Disposition</span></th>
-								<th><span>##</span></th>
+								<th><span>Count</span></th>
 								<cfif oneOfus is "1">
 									<th>
 										<span>Container</span>
@@ -984,37 +984,41 @@ limitations under the License.
 					ORDER BY
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
-				<table class="table table-responsive table-striped border mb-1 mx-1" aria-label="attributes">
-					<thead class="thead-light">
-						<tr>
-							<th>Attribute</th>
-							<th>Value</th>
-							<th>Determination</th>
-							<th>On</th>
-							<th>Remarks</th>
-						</tr>
-					</thead>
-					<tbody>
-					<cfloop query="attributes">
-						<tr>
-							<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
-							<td>#attribute_value#</td>
-							<cfset determination = "">
-							<cfif len(attributeDeterminer) gt 0>
-								<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
-								<cfif len(determination_method) gt 0>
-									<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
+				<cfif attributes.recordcount EQ 0>
+					None
+				<cfelse>
+					<table class="table table-responsive table-striped border mb-1 mx-1" aria-label="attributes">
+						<thead class="thead-light">
+							<tr>
+								<th>Attribute</th>
+								<th>Value</th>
+								<th>Determination</th>
+								<th>On</th>
+								<th>Remarks</th>
+							</tr>
+						</thead>
+						<tbody>
+						<cfloop query="attributes">
+							<tr>
+								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+								<td>#attribute_value#</td>
+								<cfset determination = "">
+								<cfif len(attributeDeterminer) gt 0>
+									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+									<cfif len(determination_method) gt 0>
+										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
+									</cfif>
 								</cfif>
-							</cfif>
-							<td>#determination#</td>
-							<td>
-								<cfif len(determined_date) gt 0>#dateformat(determined_date,'yyyy-mm-dd')#</cfif>
-							</td>
-							<td>#attribute_remark#</td>
-						</tr>
-					</cfloop>
-					</tbody>
-				</table>
+								<td>#determination#</td>
+								<td>
+									<cfif len(determined_date) gt 0>#dateformat(determined_date,'yyyy-mm-dd')#</cfif>
+								</td>
+								<td>#attribute_remark#</td>
+							</tr>
+						</cfloop>
+						</tbody>
+					</table>
+				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
@@ -1143,6 +1147,7 @@ limitations under the License.
 							</li>
 						</cfloop>
 						<li class="pb-1 list-group-item">
+<!--- TODO: This won't work if more than one collection is involved --->
 							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
 						</li>
 					</ul>
