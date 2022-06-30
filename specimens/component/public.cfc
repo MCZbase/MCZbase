@@ -984,13 +984,13 @@ limitations under the License.
 					ORDER BY
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
-				<table class="table table-striped border mb-1 mx-1" aria-label="attributes">
-					<thead>
+				<table class="table table-responsive table-striped border mb-1 mx-1" aria-label="attributes">
+					<thead class="thead-light">
 						<tr>
-							<td>Attribute</td>
-							<td>Value</td>
-							<td>Determination</td>
-							<td>Remarks</td>
+							<th>Attribute</th>
+							<th>Value</th>
+							<th>Determination</th>
+							<th>Remarks</th>
 						</tr>
 					</thead>
 					<tbody>
