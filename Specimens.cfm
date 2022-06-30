@@ -2164,7 +2164,30 @@ limitations under the License.
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-					$(document).scrollTop(480);
+						var $window = $(window);
+						function check_if_in_view() {
+							var window_height = $window.height();
+							var window_top_position = $window.scrollTop();
+							var window_bottom_position = (window_top_position + window_height);
+
+							$.each($animation_elements, function() {
+							var $element = $(this);
+							var element_height = $element.outerHeight();
+							var element_top_position = $element.offset().top;
+							var element_bottom_position = (element_top_position + element_height);
+
+							check to see if this current container is within viewport
+								if ((element_bottom_position >= window_top_position) &&
+									(element_top_position <= window_bottom_position)) {
+									$(document).scrollTop(480);
+								} else {
+									$(document).scrollTop(800);
+								}
+							});
+						}
+					
+					$window.on('scroll resize', check_if_in_view);
+					$window.trigger('scroll');
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					if (fixedSearchLoaded==0) { 
@@ -2938,34 +2961,7 @@ limitations under the License.
 	
 	})( window );
 </script>
-<script>
-	var $animation_elements = $('.fixedResults');
-	var $window = $(window);
 
-	function check_if_in_view() {
-		var window_height = $window.height();
-		var window_top_position = $window.scrollTop();
-		var window_bottom_position = (window_top_position + window_height);
-
-		$.each($animation_elements, function() {
-		var $element = $(this);
-		var element_height = $element.outerHeight();
-		var element_top_position = $element.offset().top;
-		var element_bottom_position = (element_top_position + element_height);
-
-		//check to see if this current container is within viewport
-			if ((element_bottom_position >= window_top_position) &&
-				(element_top_position <= window_bottom_position)) {
-				$element.addClass('in-view');
-			} else {
-				$element.removeClass('in-view');
-			}
-		});
-	}
-
-	$window.on('scroll resize', check_if_in_view);
-	$window.trigger('scroll');
-</script>
 
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
