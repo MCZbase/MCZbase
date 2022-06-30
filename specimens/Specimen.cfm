@@ -307,7 +307,7 @@ limitations under the License.
 </cfif>
 <cfset guid = "MCZ:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
 <cfif oneOfUs NEQ 1 AND Findnocase("mask parts", getCatalogedItem.encumbranceDetail)>
-	<cfset partCount="0">
+	<cfset partCount="">
 <cfelse>
 	<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
@@ -586,9 +586,12 @@ limitations under the License.
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
-										Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
+										<cfif len(partCount) GT 0>
+											Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
+										<cfelse>
+											Parts <span class="text-dark"><span id="partCountSpan"></span></span>
+										</cfif>
 									</button>
-
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPartsDialog(#collection_object_id#,'partsDialog','#guid#',reloadParts)">
 											Edit
