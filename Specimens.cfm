@@ -122,6 +122,43 @@ limitations under the License.
 </cfif>
 
 <cfoutput>
+<style>
+.animation-element {
+  position: relative;
+  width: 30%;
+  margin: 0% 1.33 2.66% 1.33%;
+  float: left;
+}
+.bounce-up .fixedResults {
+  opacity: 0;
+  -moz-transition: all 700ms ease-out;
+  -webkit-transition: all 700ms ease-out;
+  -o-transition: all 700ms ease-out;
+  transition: all 700ms ease-out;
+  -moz-transform: translate3d(0px, 200px, 0px);
+  -webkit-transform: translate3d(0px, 200px, 0px);
+  -o-transform: translate(0px, 200px);
+  -ms-transform: translate(0px, 200px);
+  transform: translate3d(0px, 200, 0px);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.bounce-up.in-view .fixedResults {
+  opacity: 1;
+  -moz-transform: translate3d(0px, 0px, 0px);
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  -o-transform: translate(0px, 0px);
+  -ms-transform: translate(0px, 0px);
+  transform: translate3d(0px, 0px, 0px);
+}
+@media screen and (max-width: 678px) {
+  .animation-element
+    width: 100%;
+    margin: 0px 0px 30px 0px;
+  }
+}
+	</style>
 	<!--- TODO: Replace with a native javascript UUID function when it becomes available --->
 	<script>
 	// From broofa's answer in https://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid
@@ -979,7 +1016,7 @@ limitations under the License.
 									</form>
 								</div>
 								<!--- results for fixed search --->
-								<div class="container-fluid fixedResults">
+								<div class="container-fluid">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
@@ -2008,7 +2045,7 @@ limitations under the License.
 				fixedSearchLoaded = 0;
 
 				$("##overlay").show();
-				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid focus" style="z-index: 1;"></div>');
+				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="fixedResults jqxGrid focus" style="z-index: 1;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
 				$('##fixedmanageButton').html('');
@@ -2899,7 +2936,34 @@ limitations under the License.
 	};
 	
 	})( window );
+</script>
+<script>
+	var $animation_elements = $('.animation-element');
+	var $window = $(window);
 
+	function check_if_in_view() {
+		var window_height = $window.height();
+		var window_top_position = $window.scrollTop();
+		var window_bottom_position = (window_top_position + window_height);
+
+		$.each($animation_elements, function() {
+		var $element = $(this);
+		var element_height = $element.outerHeight();
+		var element_top_position = $element.offset().top;
+		var element_bottom_position = (element_top_position + element_height);
+
+		//check to see if this current container is within viewport
+			if ((element_bottom_position >= window_top_position) &&
+				(element_top_position <= window_bottom_position)) {
+				$element.addClass('in-view');
+			} else {
+				$element.removeClass('in-view');
+			}
+		});
+	}
+
+	$window.on('scroll resize', check_if_in_view);
+	$window.trigger('scroll');
 </script>
 
 </cfoutput>
