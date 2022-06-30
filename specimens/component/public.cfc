@@ -966,7 +966,7 @@ limitations under the License.
 				<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						attributes.attribute_type,
-						ctattribute_type.attribute_description,
+						ctattribute_type.description as attribute_description,
 						attributes.attribute_value,
 						attributes.attribute_units,
 						attributes.attribute_remark,
