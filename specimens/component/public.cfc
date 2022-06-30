@@ -301,7 +301,7 @@ limitations under the License.
 						<cfset determinedBy = "">
 						<cfset detbysep = "">
 						<cfloop query="determiners">
-							<cfif len(determiners.agent_id) GT 0> 
+							<cfif len(determiners.agent_id) GT 0 AND determiners.agent_id NEQ "0"> 
 								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" >
 							<cfelse>
 								<cfset determinedBy="#determinedBy##detbysep##determiners.agent_name#" >
@@ -1027,7 +1027,11 @@ limitations under the License.
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
-									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+									<cfif attributeDeterminer_agent_id EQ "0">
+										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+									<cfels>
+										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+									</cfif>
 									<cfif len(determination_method) gt 0>
 										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 									</cfif>
