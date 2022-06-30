@@ -2165,11 +2165,11 @@ limitations under the License.
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
-				
-								if (document <= 900){
-									$(document).scrollTop(300);
+					var viewportheight = $(document).height();
+								if (viewportheight <= 900){
+									$(viewportheight).scrollTop(300);
 								} else {
-									$(document).scrollTop(480);
+									$(viewportheight).scrollTop(480);
 								}
 			
 					// add a link out to this search, serializing the form as http get parameters
