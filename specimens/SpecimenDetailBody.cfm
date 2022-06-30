@@ -47,7 +47,7 @@ limitations under the License.
 <cfif getCatalogedItem.recordcount GT 1>
 	<cfthrow message = "Error: multiple rows returned from query 'getCatalogedItem' for cataloged_item.collection_object_id = '#encodeForHtml(collection_object_id)#'">
 </cfif>
-<cfif getCatalogedItem.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
+<cfif getCatalogedItem.encumbranceDetail contains "mask record" and oneOfUs neq 1>
 	<!--- it shouldn't be possible to reach this check, as it is preceeded by a query on session.flattablename which has the same effect --->
 	<cfthrow message="Record masked.">
 </cfif>
