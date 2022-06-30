@@ -88,7 +88,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfif findNoCase('master',Session.gitBranch) EQ 0>
+<cfif findNoCase('master',Session.gitBranch) GT 0>
 	<cfthrow message="Not for production use yet.">
 </cfif>
 
