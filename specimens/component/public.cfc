@@ -599,7 +599,7 @@ limitations under the License.
 				</cfif>
 				<!--- return text instead of throwing an exception if mask parts --->
 				<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-					<div>Masked</div>
+					<div class="mt-1"></div><!--- Masked, return no data on parts --->
 				<cfelse>
 					<!--- find out if any of this material is on loan --->
 					<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -676,7 +676,7 @@ limitations under the License.
 								<th><span>Part Name</span></th>
 								<th><span>Condition</span></th>
 								<th><span>Disposition</span></th>
-								<th><span>##</span></th>
+								<th><span>Count</span></th>
 								<cfif oneOfus is "1">
 									<th>
 										<span>Container</span>
@@ -913,7 +913,6 @@ limitations under the License.
 		<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 			<cfthrow message="Record Masked">
 		</cfif>
-			<div>Masked</div>
 		<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				count(specimen_part.collection_object_id) ct
@@ -926,7 +925,7 @@ limitations under the License.
 		<cfloop query="countParts">
 			<cfset row = StructNew()>
 			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-				<cfset row["ct"] = "0">
+				<cfset row["ct"] = "">
 			<cfelse>
 				<cfset row["ct"] = "#countParts.ct#">
 			</cfif>
@@ -946,207 +945,86 @@ limitations under the License.
 						
 <cffunction name="getAttributesHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getAttributesThread">
-	<cfoutput>
-		<cftry>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-			<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<!--- check for mask record, hide if mask record ---->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-				FROM DUAL
-			</cfquery>
-			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-				<cfthrow message="Record Masked">
-			</cfif>
-			<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					attributes.attribute_type,
-					attributes.attribute_value,
-					attributes.attribute_units,
-					attributes.attribute_remark,
-					attributes.determination_method,
-					attributes.determined_date,
-					attribute_determiner.agent_name attributeDeterminer
-				FROM
-					attributes
-					left join preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id
-				WHERE
-					attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-				SELECT
-					rel.biol_indiv_relationship as biol_indiv_relationship,
-					collection as related_collection,
-					rel.related_coll_object_id as related_coll_object_id,
-					rcat.cat_num as related_cat_num,
-					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					biol_indiv_relations rel
-					left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
-					left join collection on collection.collection_id = rcat.collection_id
-					left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					and ctrel.rel_type <> 'functional'
-				UNION
-				SELECT
-					ctrel.inverse_relation as biol_indiv_relationship,
-					collection as related_collection,
-					irel.collection_object_id as related_coll_object_id,
-					rcat.cat_num as related_cat_num,
-					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					biol_indiv_relations irel
-					left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-					left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
-					left join collection on collection.collection_id = rcat.collection_id
-				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					and ctrel.rel_type <> 'functional'
-				)
-			</cfquery>
-			<cfquery name="sex" dbtype="query">
-				select * from attribute where attribute_type = 'sex'
-			</cfquery>
-			<ul class="list-group">
-				<cfloop query="sex">
-					<li class="list-group-item"><span class='d-inline font-weight-lessbold'>Sex: </span><span class='d-inline'>#attribute_value#</span>
-						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>Determiner: </span>#attributeDeterminer#">
-							<cfif len(determined_date) gt 0>
-								<cfset determination ="<span class='d-inline'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
-							</cfif>
-							<cfif len(determination_method) gt 0>
-								<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
-							</cfif>
-								#determination#
-						</cfif>
-						<cfif len(attribute_remark) gt 0>
-							<span class="d-inline font-weight-lessbold pl-1"> Remark:</span> <span class="d-inline">#attribute_remark#</span>
-						</cfif>
-					</li>
-				</cfloop>
-				<cfquery name="code" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 
-						collection_cde 
-					from 
-						cataloged_item 
-					where 
-						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-				</cfquery>
-				<cfif #code.collection_cde# is "Mamm">
-					<cfquery name="total_length" dbtype="query">
-						select * from attribute where attribute_type = 'total length'
-					</cfquery>
-					<cfquery name="tail_length" dbtype="query">
-						select * from attribute where attribute_type = 'tail length'
-					</cfquery>
-					<cfquery name="hf" dbtype="query">
-						select * from attribute where attribute_type = 'hind foot with claw'
-					</cfquery>
-					<cfquery name="efn" dbtype="query">
-						select * from attribute where attribute_type = 'ear from notch'
-					</cfquery>
-					<cfquery name="weight" dbtype="query">
-						select * from attribute where attribute_type = 'weight'
-					</cfquery>
-					<cfif
-						len(total_length.attribute_units) gt 0 OR
-						len(tail_length.attribute_units) gt 0 OR
-						len(hf.attribute_units) gt 0  OR
-						len(efn.attribute_units) gt 0  OR
-						len(weight.attribute_units) gt 0>
-						<!---semi-standard measurements --->
-						<span class="font-weight-lessbold pt-1 px-2 mb-0">Standard Measurements</span>
-						<table class="table table-striped border mb-1 mx-1" aria-label="Standard Measurements">
-						<tr>
-							<td><font size="-1">total length</font></td>
-							<td><font size="-1">tail length</font></td>
-							<td><font size="-1">hind foot</font></td>
-							<td><font size="-1">efn</font></td>
-							<td><font size="-1">weight</font></td>
-						</tr>
-						<tr>
-							<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
-							<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
-							<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
-							<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
-							<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
-						</tr>
-					</table>
-						<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-							<cfset determination = "<span class='text-capitalize font-weight-lessbold d-inline pl-1'> Determiner:</span> #attributeDeterminer#">
-							<cfif len(determined_date) gt 0>
-								<cfset determination = '<span class="text-capitalize d-inline">#determination#</span> on #dateformat(determined_date,"yyyy-mm-dd")#'>
-							</cfif>
-							<cfif len(determination_method) gt 0>
-								<cfset determination = '<span class="text-capitalize d-inline">#determination#</span>, #determination_method#'>
-							</cfif>
-							#determination#
-						</cfif>
-					</cfif>
-					<cfquery name="theRest" dbtype="query">
-						select * 
-						from 
-							attribute 
-						where 
-							attribute_type NOT IN (
-						'weight','sex','total length','tail length','hind foot with claw','ear from notch'
-						)
-					</cfquery>
-					<cfelse>
-					<!--- not Mamm --->
-					<cfquery name="theRest" dbtype="query">
-						select * from attribute where attribute_type NOT IN ('sex')
-					</cfquery>
-				</cfif>
-				<cfloop query="theRest">
-					<li class="list-group-item"><span class="text-capitalize d-inline font-weight-lessbold">#attribute_type#: </span>
-						#attribute_value#
-						<cfif len(attribute_units) gt 0>#attribute_units#</cfif>
-						<cfif len(attributeDeterminer) gt 0>
-							<cfset determination ='<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Determiner: </span>#attributeDeterminer#'>
-						<cfif len(determined_date) gt 0>
-							<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
-						</cfif>
-						<cfif len(determination_method) gt 0>
-							<cfset determination = '#determination#, <span class="text-capitalize d-inline font-weight-lessbold pl-1">Method:</span> #determination_method#'>
-						</cfif>
-							#determination#
-						</cfif>
-						<cfif len(attribute_remark) gt 0>
-							<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Remark: </span>#attribute_remark#
-						</cfif>
-					</li>
-				</cfloop>
-			</ul>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
 				<cfelse>
-					<cfset queryError = ''>
+					<cfset oneOfUs = 0>
 				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+				<!--- check for mask record, hide if mask record ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct
+						attributes.attribute_type,
+						ctattribute_type.description as attribute_description,
+						attributes.attribute_value,
+						attributes.attribute_units,
+						attributes.attribute_remark,
+						attributes.determination_method,
+						attributes.determined_date,
+						attribute_determiner.agent_name attributeDeterminer
+					FROM
+						attributes
+						left join preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id
+						LEFT JOIN ctattribute_type on attributes.attribute_type = ctattribute_type.attribute_type 
+						LEFT JOIN cataloged_item on attributes.collection_object_id = cataloged_item.collection_object_id
+					WHERE
+						attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+						AND (cataloged_item.collection_cde = ctattribute_type.collection_cde OR ctattribute_type.collection_cde is null)
+					ORDER BY
+						decode(attribute_type,'sex',0,1), attribute_type
+				</cfquery>
+				<cfif attributes.recordcount GT 0>
+					<table class="table table-responsive table-striped border mb-1 mx-1 w-100" aria-label="attributes">
+						<thead class="thead-light">
+							<tr>
+								<th>Attribute</th>
+								<th>Value</th>
+								<th>Determination</th>
+								<th>On</th>
+								<th>Remarks</th>
+							</tr>
+						</thead>
+						<tbody>
+						<cfloop query="attributes">
+							<tr>
+								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+								<td>#attribute_value#</td>
+								<cfset determination = "">
+								<cfif len(attributeDeterminer) gt 0>
+									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+									<cfif len(determination_method) gt 0>
+										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
+									</cfif>
+								</cfif>
+								<td>#determination#</td>
+								<td>
+									<cfif len(determined_date) gt 0>#dateformat(determined_date,'yyyy-mm-dd')#</cfif>
+								</td>
+								<td>#attribute_remark#</td>
+							</tr>
+						</cfloop>
+						</tbody>
+					</table>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getAttributesThread" />
 	<cfreturn getAttributesThread.output>
@@ -1154,100 +1032,132 @@ limitations under the License.
 						
 <cffunction name="getRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getRelationsThread">
-	<cfoutput>
-		<cftry>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-			<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<!--- check for mask record, hide if mask record ---->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-				FROM DUAL
-			</cfquery>
-			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-				<cfthrow message="Record Masked">
-			</cfif>
-			<!--- TODO: use appropriate data source to allow access to relationships to records in other VPDs ---->
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
-				distinct biol_indiv_relationship, related_coll_cde, related_collection, 
-				related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM 
-				(
-				SELECT
-					rel.biol_indiv_relationship as biol_indiv_relationship,
-					collection as related_collection,
-					rel.collection.collection_cde as related_coll_cde,
-					rel.related_coll_object_id as related_coll_object_id,
-					rcat.cat_num as related_cat_num,
-					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					biol_indiv_relations rel
-					left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
-					left join collection on collection.collection_id = rcat.collection_id
-					left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					and ctrel.rel_type <> 'functional'
-				UNION
-				SELECT
-					ctrel.inverse_relation as biol_indiv_relationship,
-					collection as related_collection,
-					ctrel.collection.collection_cde as related_coll_cde,
-					irel.collection_object_id as related_coll_object_id,
-					rcat.cat_num as related_cat_num,
-					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					biol_indiv_relations irel
-					left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-					left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
-					left join collection on collection.collection_id = rcat.collection_id
-				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					 and ctrel.rel_type <> 'functional'
-				)
-				ORDER BY 
-					related_cat_num
-		</cfquery>
-			<cfif len(relns.biol_indiv_relationship) gt 0 >
-				<ul class="list-group list-group-flush pt-1 float-left">
-					<cfloop query="relns">
-						<li class="list-group-item py-0"><span class="text-capitalize">#biol_indiv_relationship#</span> 
-							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#"> #related_collection# #related_cat_num# </a>
-							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-								(Remark: #biol_indiv_relation_remarks#)
-							</cfif>
-						</li>
-				
-					</cfloop>
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<!--- Use appropriate data source to allow access to relationships to records in other VPDs ---->
+				<cfif oneOfUs EQ 1>
+					<cfquery name="relns" datasource="uam_god">
+						SELECT 
+							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
+							related_coll_object_id, related_cat_num, biol_indiv_relation_remarks 
+						FROM 
+							(
+							SELECT
+								rel.biol_indiv_relationship as biol_indiv_relationship,
+								collection as related_collection,
+								rel.collection.collection_cde as related_coll_cde,
+								rel.related_coll_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations rel
+								left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+								left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+							WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+								and ctrel.rel_type <> 'functional'
+							UNION
+							SELECT
+								ctrel.inverse_relation as biol_indiv_relationship,
+								collection as related_collection,
+								ctrel.collection.collection_cde as related_coll_cde,
+								irel.collection_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations irel
+								left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+							WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								 and ctrel.rel_type <> 'functional'
+							)
+						ORDER BY 
+							related_cat_num
+					</cfquery>
+				<cfelse>
+					<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
+							related_coll_object_id, related_cat_num, biol_indiv_relation_remarks 
+						FROM 
+							(
+							SELECT
+								rel.biol_indiv_relationship as biol_indiv_relationship,
+								collection as related_collection,
+								rel.collection.collection_cde as related_coll_cde,
+								rel.related_coll_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations rel
+								left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+								left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+							WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+								and ctrel.rel_type <> 'functional'
+							UNION
+							SELECT
+								ctrel.inverse_relation as biol_indiv_relationship,
+								collection as related_collection,
+								ctrel.collection.collection_cde as related_coll_cde,
+								irel.collection_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations irel
+								left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+							WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								 and ctrel.rel_type <> 'functional'
+							)
+						ORDER BY 
+							related_cat_num
+					</cfquery>
+				</cfif>
+				<cfif len(relns.biol_indiv_relationship) gt 0 >
+					<ul class="list-group list-group-flush pt-1 float-left">
+						<cfloop query="relns">
+							<li class="list-group-item py-0"><span class="text-capitalize">#biol_indiv_relationship#</span> 
+								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
+									#related_collection# #related_cat_num# 
+								</a>
+								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+									(Remark: #biol_indiv_relation_remarks#)
+								</cfif>
+							</li>
+						</cfloop>
 						<li class="pb-1 list-group-item">
+<!--- TODO: This won't work if more than one collection is involved --->
 							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
 						</li>
-				</ul>
-			</cfif>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
+					</ul>
 				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert">
-									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</div>
-							</div>
-						</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getRelationsThread"/>
 	<cfreturn getRelationsThread.output>
