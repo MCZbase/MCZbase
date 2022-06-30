@@ -1020,7 +1020,6 @@ limitations under the License.
 				<cfset function_called = "#GetFunctionCalledName()#">
 				<h2 class='h3'>Error in #function_called#:</h2>
 				<div>#error_message#</div>
-				</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -1031,100 +1030,131 @@ limitations under the License.
 						
 <cffunction name="getRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getRelationsThread">
-	<cfoutput>
-		<cftry>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-			<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<!--- check for mask record, hide if mask record ---->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-				FROM DUAL
-			</cfquery>
-			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-				<cfthrow message="Record Masked">
-			</cfif>
-			<!--- TODO: use appropriate data source to allow access to relationships to records in other VPDs ---->
-			<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
-				distinct biol_indiv_relationship, related_coll_cde, related_collection, 
-				related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM 
-				(
-				SELECT
-					rel.biol_indiv_relationship as biol_indiv_relationship,
-					collection as related_collection,
-					rel.collection.collection_cde as related_coll_cde,
-					rel.related_coll_object_id as related_coll_object_id,
-					rcat.cat_num as related_cat_num,
-					rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					biol_indiv_relations rel
-					left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
-					left join collection on collection.collection_id = rcat.collection_id
-					left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-				WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-					and ctrel.rel_type <> 'functional'
-				UNION
-				SELECT
-					ctrel.inverse_relation as biol_indiv_relationship,
-					collection as related_collection,
-					ctrel.collection.collection_cde as related_coll_cde,
-					irel.collection_object_id as related_coll_object_id,
-					rcat.cat_num as related_cat_num,
-					irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-				FROM
-					biol_indiv_relations irel
-					left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-					left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
-					left join collection on collection.collection_id = rcat.collection_id
-				WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					 and ctrel.rel_type <> 'functional'
-				)
-				ORDER BY 
-					related_cat_num
-		</cfquery>
-			<cfif len(relns.biol_indiv_relationship) gt 0 >
-				<ul class="list-group list-group-flush pt-1 float-left">
-					<cfloop query="relns">
-						<li class="list-group-item py-0"><span class="text-capitalize">#biol_indiv_relationship#</span> 
-							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#"> #related_collection# #related_cat_num# </a>
-							<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-								(Remark: #biol_indiv_relation_remarks#)
-							</cfif>
-						</li>
-				
-					</cfloop>
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<!--- Use appropriate data source to allow access to relationships to records in other VPDs ---->
+				<cfif oneOfUs EQ 1>
+					<cfquery name="relns" datasource="uam_god">
+						SELECT 
+							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
+							related_coll_object_id, related_cat_num, biol_indiv_relation_remarks 
+						FROM 
+							(
+							SELECT
+								rel.biol_indiv_relationship as biol_indiv_relationship,
+								collection as related_collection,
+								rel.collection.collection_cde as related_coll_cde,
+								rel.related_coll_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations rel
+								left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+								left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+							WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+								and ctrel.rel_type <> 'functional'
+							UNION
+							SELECT
+								ctrel.inverse_relation as biol_indiv_relationship,
+								collection as related_collection,
+								ctrel.collection.collection_cde as related_coll_cde,
+								irel.collection_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations irel
+								left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+							WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								 and ctrel.rel_type <> 'functional'
+							)
+						ORDER BY 
+							related_cat_num
+					</cfquery>
+				<cfelse>
+					<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
+							related_coll_object_id, related_cat_num, biol_indiv_relation_remarks 
+						FROM 
+							(
+							SELECT
+								rel.biol_indiv_relationship as biol_indiv_relationship,
+								collection as related_collection,
+								rel.collection.collection_cde as related_coll_cde,
+								rel.related_coll_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations rel
+								left join cataloged_item rcat on rel.related_coll_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+								left join ctbiol_relations ctrel on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+							WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+								and ctrel.rel_type <> 'functional'
+							UNION
+							SELECT
+								ctrel.inverse_relation as biol_indiv_relationship,
+								collection as related_collection,
+								ctrel.collection.collection_cde as related_coll_cde,
+								irel.collection_object_id as related_coll_object_id,
+								rcat.cat_num as related_cat_num,
+								irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+							FROM
+								biol_indiv_relations irel
+								left join ctbiol_relations ctrel on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+								left join cataloged_item rcat on irel.collection_object_id = rcat.collection_object_id
+								left join collection on collection.collection_id = rcat.collection_id
+							WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								 and ctrel.rel_type <> 'functional'
+							)
+						ORDER BY 
+							related_cat_num
+					</cfquery>
+				</cfif>
+				<cfif len(relns.biol_indiv_relationship) gt 0 >
+					<ul class="list-group list-group-flush pt-1 float-left">
+						<cfloop query="relns">
+							<li class="list-group-item py-0"><span class="text-capitalize">#biol_indiv_relationship#</span> 
+								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
+									#related_collection# #related_cat_num# 
+								</a>
+								<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+									(Remark: #biol_indiv_relation_remarks#)
+								</cfif>
+							</li>
+						</cfloop>
 						<li class="pb-1 list-group-item">
 							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
 						</li>
-				</ul>
-			</cfif>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
+					</ul>
 				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert">
-									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</div>
-							</div>
-						</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getRelationsThread"/>
 	<cfreturn getRelationsThread.output>
