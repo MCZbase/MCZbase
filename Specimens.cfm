@@ -2162,10 +2162,8 @@ limitations under the License.
 					},
 					initrowdetails: initRowDetails
 				});
-	
+				var viewportheight = $(window).height ();
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-
-					var viewportheight = $(document).height();
 								if (viewportheight <= 900){
 									$(viewportheight).scrollTop(300);
 								} else {
