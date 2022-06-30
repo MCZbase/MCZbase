@@ -197,12 +197,12 @@ limitations under the License.
 						</div>
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
-							<div id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
-									<div class="collapse collapseStyle" id="collapseFixed">
+									<aside class="collapse collapseStyle" id="collapseFixed">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Basic Search Help</h2>
 											<p>
@@ -254,9 +254,9 @@ limitations under the License.
 												<dd>Click on (Any) to paste NOT NULL into the field, this will find records where there are any related media.</dd>
 											</dl>
 										</div>
-									</div>
+									</aside>
 								</div>
-								<section role="search" class="container-fluid px-0">
+								<div role="search" class="container-fluid px-0">
 									<form id="fixedSearchForm">
 										<cfif isdefined("session.BASICSRCHPREFS") and len(session.BASICSRCHPREFS) gt 0>
 											<cfset searchPrefList = session.BASICSRCHPREFS>
@@ -267,7 +267,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<section class="col-12 search-header-basic py-1">
+											<div class="col-12 search-header-basic py-1">
 												<cfif listFind(searchPrefList,"IDDetail") EQ 0>
 													<cfset IDDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -392,8 +392,8 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-											</section>
-											<section class="col-12 py-1">
+											</div>
+											<div class="col-12 py-1">
 													<cfif listFind(searchPrefList,"TaxaDetail") EQ 0>
 														<cfset TaxaDetailStyle="display:none;">
 														<cfset toggleTo = "1">
@@ -583,8 +583,8 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-											</section>
-											<section class="col-12 search-header-basic py-1">
+											</div>
+											<div class="col-12 search-header-basic py-1">
 												<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
 													<cfset GeogDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -721,8 +721,8 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-											</section>
-											<section class="col-12 py-1">
+											</div>
+											<div class="col-12 py-1">
 												<cfif listFind(searchPrefList,"CollDetail") EQ 0>
 													<cfset CollDetailStyle="display:none;">
 													<cfset toggleTo = "1">
@@ -827,8 +827,8 @@ limitations under the License.
 														</div>
 													</div>
 												</div>
-											</section>
-											<section class="col-12 search-header-basic py-1">
+											</div>
+											<div class="col-12 search-header-basic py-1">
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
@@ -883,9 +883,9 @@ limitations under the License.
 														</script>
 													</div>
 												</div>
-											</section>
+											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<section class="col-12 py-1">
+												<div class="col-12 py-1">
 													<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 														<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
 															Transactions&nbsp;&nbsp;
@@ -963,9 +963,9 @@ limitations under the License.
 															</cfif>
 														</div>
 													</div>
-												</section>
+												</div>
 											</cfif>
-											<section id="searchButtons">
+											<div id="searchButtons">
 												<div class="form-row px-4 my-1 pb-1">
 													<div class="col-12 px-5">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
@@ -973,13 +973,13 @@ limitations under the License.
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
 													</div>
 												</div>
-											</section>
+											</div>
 										</div><!--- end container-flex --->
 										<div class="menu_results"> </div>
 									</form>
-								</section>
+								</div>
 								<!--- results for fixed search --->
-								<section class="container-fluid">
+								<div class="container-fluid">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
@@ -1022,8 +1022,8 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</section>
-							</div><!--- end fixed search tab --->
+								</div>
+							</section><!--- end fixed search tab --->
 							<script type="text/javascript" language="javascript">
 							function toggleIDDetail(onOff) {
 								if (onOff==0) {
@@ -1127,12 +1127,12 @@ limitations under the License.
 							}
 						</script>
 							<!---Keyword Search/results tab panel--->
-							<div id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
+							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 								<div class="col-9 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
 													Search Help
 									</button>
-									<div class="collapse collapseStyle" id="collapseKeyword">
+									<aside class="collapse collapseStyle" id="collapseKeyword">
 										<div class="card card-body pl-4 py-3 pr-3">
 											<h2 class="headerSm">Keyword Search Help</h2>
 											<p>
@@ -1170,10 +1170,9 @@ limitations under the License.
 												<dt><span class="text-info font-weight-bold">_</span> </dt><dd> The underscore wildcard, matches exactly one character and allows for any character to takes its place.</dd>
 											</dl>
 										</div>
-									</div>
+									</aside>
 								</div>
-								<section role="search" class="container-fluid">
-								
+								<div role="search" class="container-fluid">
 									<form name= "keywordSearchForm" id="keywordSearchForm">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
@@ -1232,9 +1231,9 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
-								</section>
+								</div>
 								<!--- results for keyword search --->
-								<section class="container-fluid">
+								<div class="container-fluid">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
@@ -1277,11 +1276,11 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</section>
-							</div><!--- end keyword search/results panel --->
+								</div>
+							</section><!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
-							<div id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-								<section role="search" class="container-fluid">
+							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+								<div role="search" class="container-fluid">
 									<form id="builderSearchForm">
 										<script>
 											// bind autocomplete to text input/hidden input, and other actions on field selection
@@ -1643,9 +1642,9 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
-								</section>
+								</div>
 								<!--- results for search builder search --->
-								<section class="container-fluid">
+								<div class="container-fluid">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
@@ -1689,19 +1688,19 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-								</section>
-							</div><!--- end search builder tab --->
+								</div>
+							</section><!--- end search builder tab --->
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
 		<!--- 
-		<section>
+		<div>
 			<div class="col-12 col-md-6 mx-auto mb-3 pb-3">
 				<p class="blockquote small text-center">Collection records at the Museum of Comparative Zoology may contain language that reflect historical place or taxon names in its original form that are no longer acceptable or appropriate in an inclusive environment. While the MCZ is  preserving data in their original form in order to retain authenticity and facilitate research, we do not condone this language and are committed to address the problem of racial and other derogatory language present in our database.</p>
 			</div>
-		</section>
+		</div>
 		--->
 		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
 			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -5em; opacity: 1;">
