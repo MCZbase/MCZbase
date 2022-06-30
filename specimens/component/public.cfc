@@ -964,7 +964,7 @@ limitations under the License.
 					<cfthrow message="Record Masked">
 				</cfif>
 				<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+					SELECT distinct
 						attributes.attribute_type,
 						ctattribute_type.description as attribute_description,
 						attributes.attribute_value,
@@ -976,7 +976,8 @@ limitations under the License.
 					FROM
 						attributes
 						left join preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id
-						LEFT JOIN ctattribute_type on attributes.attribute_type = ctattribute_type.attribute_type
+						LEFT JOIN ctattribute_type on attributes.attribute_type = ctattribute_type.attribute_type and collection_object.collection_cde = ctattribute_type.collection_cde
+						LEFT JOIN cataloged_item on attributes.collection_object_id = cataloged_item.collection_object_id
 					WHERE
 						attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
