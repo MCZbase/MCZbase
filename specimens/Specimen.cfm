@@ -306,15 +306,19 @@ limitations under the License.
 	<cfthrow message="Record masked.">
 </cfif>
 <cfset guid = "MCZ:#getCatalogedItem.collection_cde#:#getCatalogedItem.cat_num#">
-<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select
-		count(specimen_part.collection_object_id) ct
-	from
-		specimen_part
-	where
-		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalogedItem.collection_object_id#"> 
-</cfquery>
-<cfset partCount=#countParts.ct#>
+<cfif oneOfUs NEQ 1 AND Findnocase("mask parts", check.encumbranceDetail)>
+	<cfset partCount=#0#>
+<cfelse>
+	<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
+			count(specimen_part.collection_object_id) ct
+		FROM
+			specimen_part
+		WHERE
+			specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getCatalogedItem.collection_object_id#"> 
+	</cfquery>
+	<cfset partCount=#countParts.ct#>
+</cfif>
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 		<!--- user can edit the specimen record --->

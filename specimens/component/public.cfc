@@ -599,7 +599,7 @@ limitations under the License.
 				</cfif>
 				<!--- return text instead of throwing an exception if mask parts --->
 				<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-					<div>Masked</div>
+					<div class="mt-1"></div><!--- Masked, return no data on parts --->
 				<cfelse>
 					<!--- find out if any of this material is on loan --->
 					<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -913,7 +913,6 @@ limitations under the License.
 		<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 			<cfthrow message="Record Masked">
 		</cfif>
-			<div>Masked</div>
 		<cfquery name="countParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				count(specimen_part.collection_object_id) ct
