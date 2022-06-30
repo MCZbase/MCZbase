@@ -995,7 +995,8 @@ limitations under the License.
 						attributes.attribute_remark,
 						attributes.determination_method,
 						attributes.determined_date,
-						attribute_determiner.agent_name attributeDeterminer
+						attribute_determiner.agent_name attributeDeterminer,
+						attribute_determiner.agent_id attributeDeterminer_agent_id
 					FROM
 						attributes
 						left join preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id
@@ -1025,7 +1026,7 @@ limitations under the License.
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
-									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#agentDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									<cfif len(determination_method) gt 0>
 										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 									</cfif>
