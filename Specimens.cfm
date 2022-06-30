@@ -2123,10 +2123,6 @@ limitations under the License.
 						rowdetailsheight:  1 // row details will be placed in popup dialog
 					},
 					initrowdetails: initRowDetails
-					$("##fixedsubmitbtn").on("click", function () {
-						$('##fixedsearchResultsGrid').jqxGrid('focus');
-					$(".menu_results").html("Grid focussed!");
-            });
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
@@ -2175,7 +2171,7 @@ limitations under the License.
 			/* Setup jqxgrid for keyword Search */
 			$('##keywordSearchForm').bind('submit', function(evt){ 
 				evt.preventDefault();
-				
+				$('##keywordSearchForm').jqxGrid('focus');
 				var uuid = getVersion4UUID();
 				$("##result_id_keywordSearch").val(uuid);
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -2526,6 +2522,7 @@ limitations under the License.
 				<cfswitch expression="#execute#">
 					<cfcase value="fixed">
 						$('##fixedSearchForm').submit();
+							$('#jqx').jqxGrid('focus');
 					</cfcase>
 					<cfcase value="keyword">
 						$('##keywordSearchForm').submit();
