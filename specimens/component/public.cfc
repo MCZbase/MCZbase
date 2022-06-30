@@ -162,7 +162,6 @@ limitations under the License.
 					SELECT
 						identification.scientific_name,
 						identification.collection_object_id,
-						concatidagent(identification.identification_id) agent_name,
 						made_date,
 						nature_of_id,
 						identification_remarks,
@@ -182,6 +181,18 @@ limitations under the License.
 				</cfquery>
 				<cfset i=1>
 				<cfloop query="identification">
+					<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							preferred_agent_name.agent_name,
+							identification_agent.agent_id
+						FROM
+							identification_agent
+							left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+						WHERE 
+							identification_agent.identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+						ORDER BY
+							identifier_order
+					</cfquery>
 					<cfset nameAsInIdentification = identification.scientific_name>
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
@@ -287,7 +298,17 @@ limitations under the License.
 						</div>
 					</cfif>
 					<div class="form-row mx-0">
-						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #identification.agent_name#
+						<cfset determinedBy = "">
+						<cfset detbysep = "">
+						<cfloop query="determiners">
+							<cfif len(determiners.agent_id) GT 0> 
+								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" >
+							<cfelse>
+								<cfset determinedBy="#determinedBy##detbysep##determiners.agent_name#" >
+							</cfif>
+							<cfset detbysep="; ">
+						</cfloop>
+						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #determinedBy#
 							<cfif len(made_date) gt 0>
 								<cfif len(made_date) gt 8>
 									<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
@@ -428,6 +449,7 @@ limitations under the License.
 						citation.citation_page_uri,
 						citation.CITATION_REMARKS,
 						cited_taxa.scientific_name as cited_name,
+						cited_taxa.author_text as cited_name_author_text,
 						cited_taxa.taxon_name_id as cited_name_id,
 						formatted_publication.formatted_publication,
 						formatted_publication.publication_id,
@@ -463,6 +485,7 @@ limitations under the License.
 						<span class="font-weight-lessbold">#type_status#</span> of 
 						<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#">
 							<i>#replace(cited_name," ","&nbsp;","all")#</i>
+							<span class="sm-caps font-weight-lessbold">#cited_name_author_text#</span>
 						</a>
 						<cfif find("(ms)", #type_status#) NEQ 0>
 							<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
