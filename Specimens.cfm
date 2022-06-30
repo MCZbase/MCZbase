@@ -2938,7 +2938,7 @@ limitations under the License.
 	})( window );
 </script>
 <script>
-	var $animation_elements = $('.animation-element');
+	var $animation_elements = $('.fixedResults');
 	var $window = $(window);
 
 	function check_if_in_view() {
