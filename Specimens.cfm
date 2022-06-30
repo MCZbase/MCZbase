@@ -2164,10 +2164,6 @@ limitations under the License.
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
-						var $animation_elements = $('.fixedResults');
-						var $window = $(window);
-
-						function check_if_in_view() {
 							var window_height = $window.height();
 							var window_top_position = $window.scrollTop();
 							var window_bottom_position = (window_top_position + window_height);
@@ -2186,9 +2182,6 @@ limitations under the License.
 									$(document).scrollTop(800);
 								}
 							});
-						}
-					$window.on('scroll resize', check_if_in_view);
-					$window.trigger('scroll');
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					if (fixedSearchLoaded==0) { 
