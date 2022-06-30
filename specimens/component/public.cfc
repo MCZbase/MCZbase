@@ -990,6 +990,7 @@ limitations under the License.
 							<th>Attribute</th>
 							<th>Value</th>
 							<th>Determination</th>
+							<th>On</th>
 							<th>Remarks</th>
 						</tr>
 					</thead>
@@ -1001,14 +1002,14 @@ limitations under the License.
 							<cfset determination = "">
 							<cfif len(attributeDeterminer) gt 0>
 								<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
-								<cfif len(determined_date) gt 0>
-									<cfset determination ="<span class='d-inline'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
-								</cfif>
 								<cfif len(determination_method) gt 0>
 									<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 								</cfif>
 							</cfif>
 							<td>#determination#</td>
+							<td>
+								<cfif len(determined_date) gt 0>#dateformat(determined_date,'yyyy-mm-dd')#</cfif>
+							</td>
 							<td>#attribute_remark#</td>
 						</tr>
 					</cfloop>
