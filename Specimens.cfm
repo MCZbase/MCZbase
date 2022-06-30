@@ -1995,10 +1995,7 @@ limitations under the License.
 						/* Setup jqxgrid for fixed Search */
 			$('##fixedSearchForm').bind('submit', function(evt){
 				evt.preventDefault();
-				function () {
-					$("##fixedsearchResultsGrid").
-							jqxGrid('focus');
-					});
+			
 				var uuid = getVersion4UUID();
 				$("##result_id_fixedSearch").val(uuid);
 	
@@ -2010,7 +2007,11 @@ limitations under the License.
 
 				fixedSearchLoaded = 0;
 
-				$("##overlay").show();
+				$("##overlay").show(
+						function () {
+							$("##fixedsearchResultsGrid").jqxGrid('focus');
+					});
+				);
 				
 	
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
