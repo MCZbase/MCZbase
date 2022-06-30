@@ -963,7 +963,7 @@ limitations under the License.
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
 				</cfif>
-				<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
 						attributes.attribute_type,
 						ctattribute_type.description as attribute_description,
@@ -980,55 +980,36 @@ limitations under the License.
 						LEFT JOIN cataloged_item on attributes.collection_object_id = cataloged_item.collection_object_id
 					WHERE
 						attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						AND (cataloged_item.collection_cde = ctattribute_type.collection_cde OR ctattribute_type.collection_cde is null)
+						AND (cataloged_item.collection_cde = ctattribute_type.collection_cde OR ctattribute_type.collection_cde is null)a
+					ORDER BY
+						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
-				<cfquery name="sex" dbtype="query">
-					SELECT * 
-					FROM attribute 
-					WHERE attribute_type = 'sex'
-				</cfquery>
-				<ul class="list-group">
-					<cfloop query="sex">
-						<li class="list-group-item"><span class="d-inline font-weight-lessbold" title="#attribute_description#">Sex: </span><span class="d-inline">#attribute_value#</span>
+				<table class="table table-striped border mb-1 mx-1" aria-label="attributes">
+					<thead>
+						<tr>
+							<td>Attribute</td>
+							<td>Value</td>
+							<td>Determination</td>
+							<td>Remarks</td>
+						</tr>
+					</thead>
+					<cfloop query="attributes">
+						<tr>
+							<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+							<td>#attribute_value#</td>
+							<cfset determination = "">
 							<cfif len(attributeDeterminer) gt 0>
-								<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>Determiner: </span>#attributeDeterminer#">
+								<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
 								<cfif len(determined_date) gt 0>
 									<cfset determination ="<span class='d-inline'>#determination#</span> on #dateformat(determined_date,'yyyy-mm-dd')#">
 								</cfif>
 								<cfif len(determination_method) gt 0>
 									<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 								</cfif>
-									#determination#
 							</cfif>
-							<cfif len(attribute_remark) gt 0>
-								<span class="d-inline font-weight-lessbold pl-1"> Remark:</span> <span class="d-inline">#attribute_remark#</span>
-							</cfif>
-						</li>
-					</cfloop>
-					<cfquery name="theRest" dbtype="query">
-						SELECT * 
-						FROM attribute 
-						WHERE attribute_type NOT IN ('sex')
-						ORDER BY attribute_type
-					</cfquery>
-					<cfloop query="theRest">
-						<li class="list-group-item"><span class="text-capitalize d-inline font-weight-lessbold" title="#attribute_description#">#attribute_type#: </span>
-							#attribute_value#
-							<cfif len(attribute_units) gt 0>#attribute_units#</cfif>
-							<cfif len(attributeDeterminer) gt 0>
-								<cfset determination ='<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Determiner: </span>#attributeDeterminer#'>
-							<cfif len(determined_date) gt 0>
-								<cfset determination = '#determination# on #dateformat(determined_date,"yyyy-mm-dd")#'>
-							</cfif>
-							<cfif len(determination_method) gt 0>
-								<cfset determination = '#determination#, <span class="text-capitalize d-inline font-weight-lessbold pl-1">Method:</span> #determination_method#'>
-							</cfif>
-								#determination#
-							</cfif>
-							<cfif len(attribute_remark) gt 0>
-								<span class="text-capitalize font-weight-lessbold d-inline pl-1"> Remark: </span>#attribute_remark#
-							</cfif>
-						</li>
+							<td>#determination#</td>
+							<td>#attribute_remark#</td>
+						</tr>
 					</cfloop>
 				</ul>
 			<cfcatch>
