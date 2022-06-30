@@ -2164,7 +2164,9 @@ limitations under the License.
 				});
 	
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
+						var $animation_elements = $('.fixedResults');
 						var $window = $(window);
+
 						function check_if_in_view() {
 							var window_height = $window.height();
 							var window_top_position = $window.scrollTop();
@@ -2185,7 +2187,6 @@ limitations under the License.
 								}
 							});
 						}
-					
 					$window.on('scroll resize', check_if_in_view);
 					$window.trigger('scroll');
 					// add a link out to this search, serializing the form as http get parameters
