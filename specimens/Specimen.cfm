@@ -648,8 +648,8 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
-								<cfif len(#blockattributes#) gt 50>
-									<div class="card-body py-1 mb-1 float-left" id="attributesCardBody">
+								<cfif len(#blockattributes#) GT 0>
+									<div class="card-body py-1 mb-1 float-left w-100" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
