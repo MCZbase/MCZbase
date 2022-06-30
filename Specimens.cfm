@@ -2166,7 +2166,7 @@ limitations under the License.
 				$("##fixedsearchResultsGrid").on("bindingcomplete", function(event) {
 
 				
-								if (document >= 1000){
+								if (document <= 900){
 									$(document).scrollTop(300);
 								} else {
 									$(document).scrollTop(800);
