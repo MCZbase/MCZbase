@@ -2167,7 +2167,7 @@ limitations under the License.
 
 				
 								if (document >= 1000){
-									$(document).scrollTop(480);
+									$(document).scrollTop(300);
 								} else {
 									$(document).scrollTop(800);
 								}
