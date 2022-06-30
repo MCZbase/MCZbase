@@ -2010,7 +2010,6 @@ limitations under the License.
 				
 	
 				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-				$('##fixedsearchResultsGrid').jqxGrid('focus');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
 				$('##fixedmanageButton').html('');
@@ -2090,6 +2089,7 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
+						$("##fixedsearchResultsGrid").jqxGrid('focus', 0);
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
