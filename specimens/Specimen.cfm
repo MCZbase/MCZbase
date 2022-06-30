@@ -144,7 +144,6 @@ limitations under the License.
 </cfif>
 <cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-	<script type="text/javascript" src="/specimens/js/details.js"></script> 
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
@@ -321,6 +320,7 @@ limitations under the License.
 </cfif>
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+		<script type="text/javascript" src="/specimens/js/details.js"></script> 
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
@@ -351,9 +351,16 @@ limitations under the License.
 		</script>
 		<script>
 			function reloadParts() { 
+				// reload the parts html block
 				loadParts(#collection_object_id#,'partsCardBody');
 				// Update part count
 				loadPartCount(#collection_object_id#,'partCountSpan');
+			}
+		</script>
+		<script>
+			function reloadAttributes() { 
+				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
+				loadAttributes(#collection_object_id#,'attributesCardBody');
 			}
 		</script>
 		<script>
@@ -614,12 +621,6 @@ limitations under the License.
 					<div class="accordion" id="accordionAttributes">
 						<div class="card mb-2 bg-light">
 							<div id="attributesDialog"></div>
-							<script>
-								function reloadAttributes() { 
-								// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the Other ID block.
-									loadAttributes(#collection_object_id#,'attributesCardBody');
-								}
-							</script>
 							<cfset blockattributes = getAttributesHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAttributes">
 								<cfif len(#blockattributes#) gt 50> 
