@@ -2174,7 +2174,6 @@ limitations under the License.
 							var element_top_position = $element.offset().top;
 							var element_bottom_position = (element_top_position + element_height);
 
-							check to see if this current container is within viewport
 								if ((element_bottom_position >= window_top_position) &&
 									(element_top_position <= window_bottom_position)) {
 									$(document).scrollTop(480);
@@ -2182,6 +2181,8 @@ limitations under the License.
 									$(document).scrollTop(800);
 								}
 							});
+					$window.on('scroll resize', check_if_in_view);
+					$window.trigger('scroll');
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					if (fixedSearchLoaded==0) { 
