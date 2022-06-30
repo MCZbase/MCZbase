@@ -2181,8 +2181,7 @@ limitations under the License.
 									$(document).scrollTop(800);
 								}
 							});
-					$window.on('scroll resize', check_if_in_view);
-					$window.trigger('scroll');
+			
 					// add a link out to this search, serializing the form as http get parameters
 					$('##fixedresultLink').html('<a href="/Specimens.cfm?execute=true&' + $('##fixedSearchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize() + '">Link to this search</a>');
 					if (fixedSearchLoaded==0) { 
