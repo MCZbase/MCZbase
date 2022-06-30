@@ -2369,7 +2369,7 @@ limitations under the License.
 				$('##builderactionFeedback').html('');
 				var debug = $("##builderSearchForm").serialize();
 				console.log(debug);
-		
+				$('##buildersearchResultsGrid').jqxGrid('focus');
 				var search =
 				{
 					datatype: "json",
