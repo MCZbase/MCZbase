@@ -2008,8 +2008,7 @@ limitations under the License.
 				fixedSearchLoaded = 0;
 
 				$("##overlay").show();
-				$("##fixedsearchResultsGrid").jqxGrid('focus');
-				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+				$("##fixedsearchResultsGrid").replaceWith('<div id="fixedsearchResultsGrid" class="jqxGrid" style="z-index: 1;top: 0;"></div>');
 				$('##fixedresultCount').html('');
 				$('##fixedresultLink').html('');
 				$('##fixedmanageButton').html('');
