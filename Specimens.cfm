@@ -2169,7 +2169,7 @@ limitations under the License.
 								if (document <= 900){
 									$(document).scrollTop(300);
 								} else {
-									$(document).scrollTop(800);
+									$(document).scrollTop(200);
 								}
 			
 					// add a link out to this search, serializing the form as http get parameters
