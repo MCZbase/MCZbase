@@ -162,7 +162,6 @@ limitations under the License.
 					SELECT
 						identification.scientific_name,
 						identification.collection_object_id,
-						concatidagent(identification.identification_id) agent_name,
 						made_date,
 						nature_of_id,
 						identification_remarks,
@@ -182,6 +181,18 @@ limitations under the License.
 				</cfquery>
 				<cfset i=1>
 				<cfloop query="identification">
+					<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT 
+							preferred_agent_name.agent_name,
+							identification_agent.agent_id
+						FROM
+							identification_agent
+							left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+						WHERE 
+							identification_agent.identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+						ORDER BY
+							identifier_order
+					</cfquery>
 					<cfset nameAsInIdentification = identification.scientific_name>
 					<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct
@@ -287,7 +298,17 @@ limitations under the License.
 						</div>
 					</cfif>
 					<div class="form-row mx-0">
-						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #identification.agent_name#
+						<cfset determinedBy = "">
+						<cfset detbysep = "">
+						<cfloop query="determiners">
+							<cfif len(determiners.agent_id) GT 0 AND determiners.agent_id NEQ "0"> 
+								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" >
+							<cfelse>
+								<cfset determinedBy="#determinedBy##detbysep##determiners.agent_name#" >
+							</cfif>
+							<cfset detbysep="; ">
+						</cfloop>
+						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #determinedBy#
 							<cfif len(made_date) gt 0>
 								<cfif len(made_date) gt 8>
 									<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
@@ -428,6 +449,7 @@ limitations under the License.
 						citation.citation_page_uri,
 						citation.CITATION_REMARKS,
 						cited_taxa.scientific_name as cited_name,
+						cited_taxa.author_text as cited_name_author_text,
 						cited_taxa.taxon_name_id as cited_name_id,
 						formatted_publication.formatted_publication,
 						formatted_publication.publication_id,
@@ -463,6 +485,7 @@ limitations under the License.
 						<span class="font-weight-lessbold">#type_status#</span> of 
 						<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#">
 							<i>#replace(cited_name," ","&nbsp;","all")#</i>
+							<span class="sm-caps font-weight-lessbold">#cited_name_author_text#</span>
 						</a>
 						<cfif find("(ms)", #type_status#) NEQ 0>
 							<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
@@ -694,6 +717,7 @@ limitations under the License.
 								<tr <cfif mainParts.recordcount gt 1>class=""<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
+									<!--- TODO: Link out to history for part(s) --->
 									<td>
 										#part_disposition#
 										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
@@ -972,7 +996,8 @@ limitations under the License.
 						attributes.attribute_remark,
 						attributes.determination_method,
 						attributes.determined_date,
-						attribute_determiner.agent_name attributeDeterminer
+						attribute_determiner.agent_name attributeDeterminer,
+						attribute_determiner.agent_id attributeDeterminer_agent_id
 					FROM
 						attributes
 						left join preferred_agent_name attribute_determiner on attributes.determined_by_agent_id = attribute_determiner.agent_id
@@ -1002,7 +1027,11 @@ limitations under the License.
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
-									<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+									<cfif attributeDeterminer_agent_id EQ "0">
+										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+									<cfelse>
+										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+									</cfif>
 									<cfif len(determination_method) gt 0>
 										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 									</cfif>
@@ -1052,6 +1081,7 @@ limitations under the License.
 				</cfif>
 				<!--- Use appropriate data source to allow access to relationships to records in other VPDs ---->
 				<cfif oneOfUs EQ 1>
+					<!--- if coldfusion_user, then the VPD may be involved and all cataloged items may not be visible, use a user that can see relationships across VPDs --->
 					<cfquery name="relns" datasource="uam_god">
 						SELECT 
 							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
@@ -1348,24 +1378,10 @@ limitations under the License.
 					</ul>
 </cfif><!--- end temporary oneOfUs=1 check, section needs complete rework --->
 			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 		</cftry>
 	</cfoutput>
@@ -1643,25 +1659,12 @@ limitations under the License.
 					</ul>
 
 				</div>
-					<cfcatch>
-						<cfif isDefined("cfcatch.queryError") >
-							<cfset queryError=cfcatch.queryError>
-						<cfelse>
-							<cfset queryError = ''>
-						</cfif>
-						<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-						<cfcontent reset="yes">
-						<cfheader statusCode="500" statusText="#message#">
-						<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</div>
-							</div>
-						</div>
-					</cfcatch>
+				<cfcatch>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<h2 class='h3'>Error in #function_called#:</h2>
+					<div>#error_message#</div>
+				</cfcatch>
 			</cftry>
 		</cfoutput> 
 	</cfthread>
@@ -1767,32 +1770,22 @@ limitations under the License.
 				</ul>
 				</cfif>
 			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert">
-									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</div>
-							</div>
-						</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getCollectorsThread"/>
 	<cfreturn getCollectorsThread.output>
 </cffunction>		
-							
+
+<!--- getRemarksHTML get a block of html containing collection object remarks for a specified cataloged item
+ @param collection_object_id for the cataloged item for which to return remarks.
+ @return a block of html with collection object remarks, or if none, whitespace only
+--->
 <cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
@@ -1804,7 +1797,7 @@ limitations under the License.
 				<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
-				<!--- check for mask parts, hide collection object remarks if mask parts ---->
+				<!--- check for mask record and prevent access, further check for mask parts below ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
       			SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
@@ -1818,14 +1811,14 @@ limitations under the License.
 						coll_object_remarks
 					FROM
 						cataloged_item
-						left join coll_object on coll_object.collection_object_id = cataloged_item.collection_object_id
-						left join coll_object_remark on cataloged_item.collection_object_id = coll_object_remark.collection_object_id
+						left join coll_object_remark on cataloged_item.collection_object_id = cataloged_item.collection_object_id
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfif len(#object_rem.coll_object_remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
 						<li class="list-group-item pt-0 pb-1">
+							<!--- check for mask parts, hide collection object remarks if mask parts ---->
 							<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 								Masked
 							<cfelse>
@@ -1835,27 +1828,13 @@ limitations under the License.
 					</ul>
 				</cfif>
 			<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-					<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getRemarksThread"/>
 	<cfreturn getRemarksThread.output>
