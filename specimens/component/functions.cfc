@@ -2739,8 +2739,8 @@ limitations under the License.
 												</tr>
 											</table>
 										</td>
-										<td class="px-2"><a href="/SpecimenDetailBody.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formpub#</a></td>
-										<td class="px-2"><i><a href="/TaxonomyDetails.cfm?taxon_name_id=#getCited.citSciName#" target="_mainFrame"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
+										<td class="px-2"><a href="/Specimens.cfm?action=search&publication_id=#publication_id#">#formpub#</a></td>
+										<td class="px-2"><i><a href="/taxonomy/Taxonomy.cfm?taxon_name_id=#getCited.citSciName#"><i>#replace(getCited.citSciName," ","&nbsp;","all")#</i></a></i>&nbsp;</td>
 										<td class="px-2"><i>#scientific_name#</i>&nbsp;</td>
 										<td class="px-2">#type_status#&nbsp;</td>
 										<td>
@@ -3385,7 +3385,8 @@ limitations under the License.
 						</cfquery>
 				<cfset i = 1>
 				<cfloop query="citations" group="formatted_publication">
-					<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/specimens/SpecimenDetailBody.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
+					<!--- TODO: Link to publication search --->
+					<div class="d-block py-1 px-2 w-100 float-left"> <span class="d-inline"></span> <a href="/Specimens.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>
 							Page
 							<cfif len(citation_page_uri) gt 0>
@@ -5917,8 +5918,6 @@ function showLLFormat(orig_units) {
 							<cfelse>
 							<cfset oneOfUs = 0>
 						</cfif>
-						<!---	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-				</cfif>---> 
 					</cfoutput>
 					<cfquery name="getLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT

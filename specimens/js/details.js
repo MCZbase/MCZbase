@@ -563,6 +563,22 @@ function loadParts(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 }
+function loadPartCount(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getPartCount",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading part count");
+		},
+		dataType: "html"
+	});
+}
 
 function openEditPartsDialog(collection_object_id,dialogId,guid,callback) {
 	var title = "Edit Parts for " + guid;

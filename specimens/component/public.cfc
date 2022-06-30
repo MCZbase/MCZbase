@@ -1615,7 +1615,6 @@ limitations under the License.
 					<cfelse>
 						<cfset oneOfUs = 0>
 					</cfif>
-					<!---<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm"></cfif>--->
 				</div>
 				<div class="col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
