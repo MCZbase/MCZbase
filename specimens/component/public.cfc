@@ -1052,6 +1052,7 @@ limitations under the License.
 				</cfif>
 				<!--- Use appropriate data source to allow access to relationships to records in other VPDs ---->
 				<cfif oneOfUs EQ 1>
+					<!--- if coldfusion_user, then the VPD may be involved and all cataloged items may not be visible, use a user that can see relationships across VPDs --->
 					<cfquery name="relns" datasource="uam_god">
 						SELECT 
 							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
@@ -1348,24 +1349,10 @@ limitations under the License.
 					</ul>
 </cfif><!--- end temporary oneOfUs=1 check, section needs complete rework --->
 			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
 		</cftry>
 	</cfoutput>
@@ -1643,25 +1630,12 @@ limitations under the License.
 					</ul>
 
 				</div>
-					<cfcatch>
-						<cfif isDefined("cfcatch.queryError") >
-							<cfset queryError=cfcatch.queryError>
-						<cfelse>
-							<cfset queryError = ''>
-						</cfif>
-						<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-						<cfcontent reset="yes">
-						<cfheader statusCode="500" statusText="#message#">
-						<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert"> <img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</div>
-							</div>
-						</div>
-					</cfcatch>
+				<cfcatch>
+					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+					<cfset function_called = "#GetFunctionCalledName()#">
+					<h2 class='h3'>Error in #function_called#:</h2>
+					<div>#error_message#</div>
+				</cfcatch>
 			</cftry>
 		</cfoutput> 
 	</cfthread>
@@ -1767,32 +1741,22 @@ limitations under the License.
 				</ul>
 				</cfif>
 			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") >
-					<cfset queryError=cfcatch.queryError>
-				<cfelse>
-					<cfset queryError = ''>
-				</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-							<div class="row">
-								<div class="alert alert-danger" role="alert">
-									<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-									<h2>Internal Server Error.</h2>
-									<p>#message#</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</div>
-							</div>
-						</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getCollectorsThread"/>
 	<cfreturn getCollectorsThread.output>
 </cffunction>		
-							
+
+<!--- getRemarksHTML get a block of html containing collection object remarks for a specified cataloged item
+ @param collection_object_id for the cataloged item for which to return remarks.
+ @return a block of html with collection object remarks, or if none, whitespace only
+--->
 <cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
@@ -1804,7 +1768,7 @@ limitations under the License.
 				<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
-				<!--- check for mask parts, hide collection object remarks if mask parts ---->
+				<!--- check for mask record and prevent access, further check for mask parts below ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
       			SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
@@ -1818,14 +1782,14 @@ limitations under the License.
 						coll_object_remarks
 					FROM
 						cataloged_item
-						left join coll_object on coll_object.collection_object_id = cataloged_item.collection_object_id
-						left join coll_object_remark on cataloged_item.collection_object_id = coll_object_remark.collection_object_id
+						left join coll_object_remark on cataloged_item.collection_object_id = cataloged_item.collection_object_id
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfif len(#object_rem.coll_object_remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
 						<li class="list-group-item pt-0 pb-1">
+							<!--- check for mask parts, hide collection object remarks if mask parts ---->
 							<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 								Masked
 							<cfelse>
@@ -1835,27 +1799,13 @@ limitations under the License.
 					</ul>
 				</cfif>
 			<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-					<cfelse>
-						<cfset queryError = ''>
-					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getRemarksThread"/>
 	<cfreturn getRemarksThread.output>
