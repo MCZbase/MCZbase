@@ -522,7 +522,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
-								<cfif len(#blockcit#) gt 10>
+								<cfif len(trim(#blockcit#)) GT 0>
 									<div class="card-body py-1 mb-1 float-left w-100" id="citationsCardBody">
 										#blockcit#
 									</div>
@@ -574,7 +574,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
-								<cfif len(#blockotherid#) gt 60> 
+								<cfif len(trim(#blockotherid#)) GT 0> 
 									<div class="card-body py-1 mb-0 float-left" id="otherIDsCardBody">
 										#blockotherid# 
 									</div>
@@ -697,7 +697,7 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
-									<cfif len(#blockrel#) gt 60>
+									<cfif len(trim(#blockrel#)) GT 0>
 										<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
 											#blockrel# 
 										</div>
