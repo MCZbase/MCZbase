@@ -925,7 +925,7 @@ limitations under the License.
 		<cfloop query="countParts">
 			<cfset row = StructNew()>
 			<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-				<cfset row["ct"] = "0">
+				<cfset row["ct"] = "">
 			<cfelse>
 				<cfset row["ct"] = "#countParts.ct#">
 			</cfif>
