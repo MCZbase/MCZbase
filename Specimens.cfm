@@ -2901,10 +2901,6 @@ limitations under the License.
 	})( window );
 
 </script>
-<script>
-$(##fixedSearchLoaded).load(function() {
-	document.scrollTop(100);
-});
-</script>
+
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">

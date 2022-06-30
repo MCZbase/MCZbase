@@ -2578,6 +2578,14 @@ input[disabled] {
 .mt5px {
 	margin-top: 5px!important;
 }
+.fixedResults {
+	animation-duration: .5s;
+	animation-name: slideup;
+}
+@keyframes slideup {
+	from {top: 700px;}
+	to {top:100px;}
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
