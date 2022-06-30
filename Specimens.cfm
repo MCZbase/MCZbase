@@ -2089,7 +2089,7 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##fixedsearchResultsGrid").jqxGrid('selectrow', 0);
-						$("##fixedsearchResultsGrid").jqxGrid('focus');
+						
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
@@ -2186,7 +2186,7 @@ limitations under the License.
 
 				$("##overlay").show();
 				$("##collapseKeyword").collapse("hide");  // hide the help text if it is visible.
-		
+				$("##keywordsearchResultsGrid").jqxGrid('focus');
 				$("##keywordsearchResultsGrid").replaceWith('<div id="keywordsearchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
 				$("##keywordresultCount").html("");
 				$("##keywordresultLink").html("");
@@ -2266,7 +2266,6 @@ limitations under the License.
 					showtoolbar: false,
 					ready: function () {
 						$("##keywordsearchResultsGrid").jqxGrid('selectrow', 0);
-						$("##keywordsearchResultsGrid").jqxGrid('focus');
 					},
 					rendergridrows: function () {
 						return dataAdapter.records;
