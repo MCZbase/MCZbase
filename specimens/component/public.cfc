@@ -980,7 +980,7 @@ limitations under the License.
 						LEFT JOIN cataloged_item on attributes.collection_object_id = cataloged_item.collection_object_id
 					WHERE
 						attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						AND (cataloged_item.collection_cde = ctattribute_type.collection_cde OR ctattribute_type.collection_cde is null)a
+						AND (cataloged_item.collection_cde = ctattribute_type.collection_cde OR ctattribute_type.collection_cde is null)
 					ORDER BY
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
