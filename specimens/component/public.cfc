@@ -210,7 +210,7 @@ limitations under the License.
 					</cfquery>
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-						<div class="list-group border-green m-2 pl-3 rounded pt-2 pb-0 h4 font-weight-normal">
+						<div class="list-group border-green m-2 pl-3 rounded pt-2 pb-1 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
 						<!---	Start of former Identifications --->
@@ -218,7 +218,7 @@ limitations under the License.
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
 						<cfif i EQ 2>
-						<div class="list-group border-transparent m-2 pl-3 rounded pt-2 pb-0 h4 font-weight-normal">
+						<div class="list-group border-transparent m-2 pl-3 rounded pt-2 pb-1 h4 font-weight-normal">
 							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
