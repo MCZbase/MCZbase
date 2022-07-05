@@ -218,10 +218,10 @@ limitations under the License.
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
 						<cfif i EQ 2>
-							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">#IDtitle#</div>
+							<div class="h6 px-3 font-italic mt-2 mb-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
-					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
+					<div class="h4 px-3 mb-0 mt-1 font-weight-lessbold d-inline-block">
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
@@ -255,7 +255,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<cfif len(formatted_publication) gt 0>
-						<div class="h6 mb-1">
+						<div class="h6 px-3 mb-1">
 							sensu <a href="/publication/#publication_id#">#formatted_publication#</a>
 						</div>
 					</cfif>
@@ -308,7 +308,8 @@ limitations under the License.
 							</cfif>
 							<cfset detbysep="; ">
 						</cfloop>
-						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #determinedBy#
+						<div class="small px-3 mr-2">
+							<span class="font-weight-lessbold">Determiner:</span> #determinedBy#
 							<cfif len(made_date) gt 0>
 								<cfif len(made_date) gt 8>
 									<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
