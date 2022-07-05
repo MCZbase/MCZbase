@@ -225,7 +225,7 @@ limitations under the License.
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
-								<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
+								<a href="/name/#getTaxa.scientific_name#" class="text-warning">#getTaxa.display_name# </a>
 								<cfif len(getTaxa.author_text) gt 0>
 									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 								</cfif>
