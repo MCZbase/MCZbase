@@ -695,7 +695,7 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md mb-0 mt-1">
+					<table class="table table-responsive-md my-1">
 						<thead class="thead-light">
 							<tr>
 								<th><span>Part Name</span></th>
