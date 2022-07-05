@@ -127,6 +127,8 @@ limitations under the License.
 		collecting_event.ended_date,
 		flattable.collecting_source,
 		flattable.depth_units,
+		flattable.maximum_elevation,
+		flattable.minimum_elevation,
 		flattable.max_depth,
 		flattable.min_depth,
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
