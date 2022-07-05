@@ -124,7 +124,7 @@ limitations under the License.
 		flattable.depth_units,
 		flattable.verbatim_coordinates,
 		flattble.max_depth,
-		flattable.min_depth
+		flattable.min_depth,
 	<!---above missing locality elements--->
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
 		flattable.verbatim_date,
