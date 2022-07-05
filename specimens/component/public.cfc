@@ -1264,7 +1264,7 @@ limitations under the License.
 								project
 								left join project_trans on project.project_id = project_trans.project_id
 							WHERE
-								project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+								project_trans.transaction_id = <cfqueryparam value="#getAccession.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 							GROUP BY project_name, project.project_id
 						</cfquery>
 						<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
