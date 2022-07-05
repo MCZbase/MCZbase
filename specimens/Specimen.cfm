@@ -108,7 +108,7 @@ limitations under the License.
 		flattable.higher_geog,
 		flattable.collectors,
 		flattable.spec_locality,
-	
+		flattable.geog_auth_rec_id,
 		flattable.continent_ocean,
 		flattable.sea,
 		flattable.country,
@@ -120,6 +120,9 @@ limitations under the License.
 		flattable.quad,
 		collecting_event.verbatim_locality,
 		flattable.locality_remarks,
+		flattable.verbatim_date,
+		collecting_event.BEGAN_DATE,
+		collecting_event.ended_date,
 		flattable.collecting_source,
 		flattable.depth_units,
 		collecting_event.verbatimcoordinates,
@@ -127,9 +130,7 @@ limitations under the License.
 		flattable.min_depth,
 	
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
-		flattable.verbatim_date,
-		collecting_event.BEGAN_DATE,
-		collecting_event.ended_date,
+
 		flattable.cited_as,
 		flattable.typestatuswords,
 		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
