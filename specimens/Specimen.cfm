@@ -123,6 +123,7 @@ limitations under the License.
 		collecting_event.collecting_method,
 		collecting_event.coll_event_remarks,
 		collecting_event.habitat_desc,
+		flattable.habitat,
 		flattable.locality_remarks,
 		flattable.verbatim_date,
 		collecting_event.BEGAN_DATE,
