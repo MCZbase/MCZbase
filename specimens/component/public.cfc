@@ -1230,7 +1230,7 @@ limitations under the License.
 						<cfquery name="getAccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
 								cataloged_item.accn_id,
-								accn.accession_number
+								accn.accn_number
 							FROM
 								cataloged_item
 								LEFT JOIN accn on cataloged_item.accn_id = accn.transaction_id
