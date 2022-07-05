@@ -107,7 +107,7 @@ limitations under the License.
 		flattable.higher_geog,
 		flattable.collectors,
 		flattable.spec_locality,
-	flattable.locality_id,flattable.geog_auth_rec_id,flattable.continent_ocean,flattable.sea,flattable.country,flattable.state_prov,flattable.feature,flattable.county,flattable.island_group,flattable.island,flattable.quad,collecting_event.verbatim_locality,collecting_event.verbatimcoordinates,collecting_event.collecting_method,collecting_event.coll_event_remarks,collecting_event.habitat_desc,flattable.habitat,flattable.locality_remarks,flattable.verbatim_date,collecting_event.BEGAN_DATE,collecting_event.ended_date,flattable.collecting_source,flattable.depth_units,flattable.maximum_elevation,flattable.minimum_elevation,flattable.max_depth,flattable.min_depth,accepted_lat_long.determined_date latLongDeterminedDate,latLongAgnt.agent_name latLongDeterminer,
+	flattable.locality_id,flattable.geog_auth_rec_id,flattable.continent_ocean,flattable.sea,flattable.country,flattable.state_prov,flattable.feature,flattable.county,flattable.island_group,flattable.island,flattable.quad,collecting_event.verbatim_locality,collecting_event.verbatimcoordinates,collecting_event.collecting_method,collecting_event.coll_event_remarks,collecting_event.habitat_desc,flattable.habitat,flattable.locality_remarks,flattable.verbatim_date,collecting_event.BEGAN_DATE,collecting_event.ended_date,flattable.collecting_source,flattable.depth_units,flattable.maximum_elevation,flattable.minimum_elevation,flattable.max_depth,flattable.min_depth,accepted_lat_long.determined_date latLongDeterminedDate,latLongAgnt.agent_name latLongDeterminer,accepted_lat_long.max_error_distance,accepted_lat_long.max_error_units,
 		
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
 		flattable.cited_as,
@@ -125,6 +125,7 @@ limitations under the License.
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
 		left join collection on flattable.collection_id = collection.collection_id
+		
 		left join collecting_event on flattable.collecting_event_id = collecting_event.collecting_event_id
 		left join accepted_lat_long on collecting_event.locality_id = accepted_lat_long.locality_id
 		left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
