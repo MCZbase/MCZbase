@@ -122,14 +122,14 @@ limitations under the License.
 		flattable.locality_remarks,
 		flattable.collecting_source,
 		flattable.depth_units,
-		flattable.verbatim_coordinates,
+		collecting_event.verbatim_coordinates,
 		flattable.max_depth,
 		flattable.min_depth,
 	<!---above missing locality elements--->
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
 		flattable.verbatim_date,
-		flattable.BEGAN_DATE,
-		flattable.ended_date,
+		collecting_event.BEGAN_DATE,
+		collecting_event.ended_date,
 		flattable.cited_as,
 		flattable.typestatuswords,
 		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
@@ -145,6 +145,7 @@ limitations under the License.
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
 		left join collection on flattable.collection_id = collection.collection_id
+		left join collecting_event on flattable.collecting_event_id = collecting_event.collecting_event_id
 	WHERE
 		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2 
