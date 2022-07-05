@@ -1204,7 +1204,7 @@ limitations under the License.
 			<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
-<cfif oneOfUs EQ 1>
+		<cfif oneOfUs EQ 1>
 			<!--- TODO: Accessions need major rework to reflect correct access control to accessions information and current code
 					including inherited limitations and restrictions --->
 
@@ -1238,7 +1238,7 @@ limitations under the License.
 								cataloged_item.collection_object_id = <cfqueryparam value="#c.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfif oneOfUs is 1>
-							<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getAccession.accn_id#">#getAccession.Accn_number#</a>
+							<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getAccession.accn_id#">#getAccession.accn_number#</a>
 						<cfelse>
 							#getAccession.accn_number#
 						</cfif>
@@ -1264,7 +1264,7 @@ limitations under the License.
 								project
 								left join project_trans on project.project_id = project_trans.project_id
 							WHERE
-								project_trans.transaction_id = <cfqueryparam value="#isOne.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+								project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 							GROUP BY project_name, project.project_id
 						</cfquery>
 						<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1276,7 +1276,7 @@ limitations under the License.
 								left join project on project_trans.project_id=project.project_id
 								left join specimen_part on specimen_part.collection_object_id = loan_item.collection_object_id
 							WHERE 
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#c.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							GROUP BY 
 								project_name, project.project_id
 						</cfquery>
@@ -1287,7 +1287,7 @@ limitations under the License.
 								loan_item
 								left join specimen_part on loan_item.collection_object_id=specimen_part.collection_object_id
 							WHERE 
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#c.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1298,7 +1298,7 @@ limitations under the License.
 								left join loan on loan_item.transaction_id = loan.transaction_id
 							WHERE
 								loan_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#c.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1307,7 +1307,7 @@ limitations under the License.
 								specimen_part 
 								left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 							WHERE
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#c.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1318,7 +1318,7 @@ limitations under the License.
 								left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 							where
 								deacc_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#c.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 							<cfif isProj.project_name gt 0>
@@ -1387,7 +1387,7 @@ limitations under the License.
 			<!--- check for mask record, hide if mask record ---->
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.collection_object_id#">) encumbranceDetail
 				FROM DUAL
 			</cfquery>
 			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
@@ -1399,7 +1399,7 @@ limitations under the License.
 			from
 				media_relations
 			where
-				RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isOne.locality_id#"> and
+				RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.locality_id#"> and
 				MEDIA_RELATIONSHIP like '% locality'
 		</cfquery>
 		<!--- TODO:  This must be in the enclosing page, not duplicated on each ajax reload from here --->
@@ -1512,11 +1512,11 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-					<cfif len(isOne.dec_lat) gt 0 and len(isOne.dec_long) gt 0>
-						<cfset coordinates="#isOne.dec_lat#,#isOne.dec_long#">
-						<input type="hidden" id="coordinates_#isOne.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#isOne.locality_id#" value="1196">
-						<div id="mapdiv_#isOne.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+					<cfif len(c.dec_lat) gt 0 and len(c.dec_long) gt 0>
+						<cfset coordinates="#c.dec_lat#,#c.dec_long#">
+						<input type="hidden" id="coordinates_#c.locality_id#" value="#coordinates#">
+						<input type="hidden" id="error_#c.locality_id#" value="1196">
+						<div id="mapdiv_#c.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 					</cfif>
 					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 						<div class="error"> Improper call. Aborting..... </div>
@@ -1530,117 +1530,117 @@ limitations under the License.
 				</div>
 				<div class="col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
-						<cfif len(isOne.continent_ocean) gt 0>
+						<cfif len(detail.continent_ocean) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.continent_ocean#</li>
+							<li class="list-group-item col-7 px-0">#detail.continent_ocean#</li>
 						</cfif>
-						<cfif len(isOne.sea) gt 0>
+						<cfif len(detail.sea) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.sea#</li>
+							<li class="list-group-item col-7 px-0">#detail.sea#</li>
 						</cfif>
-						<cfif len(isOne.country) gt 0>
+						<cfif len(detail.country) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.country#</li>
+							<li class="list-group-item col-7 px-0">#detail.country#</li>
 						</cfif>
-						<cfif len(isOne.state_prov) gt 0>
+						<cfif len(detail.state_prov) gt 0>
 							<li class="list-group-item col-5 px-0"><em>State:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.state_prov#</li>
+							<li class="list-group-item col-7 px-0">#detail.state_prov#</li>
 						</cfif>
-						<cfif len(isOne.feature) gt 0>
+						<cfif len(detail.feature) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.feature#</li>
+							<li class="list-group-item col-7 px-0">#detail.feature#</li>
 						</cfif>
-						<cfif len(isOne.county) gt 0>
+						<cfif len(detail.county) gt 0>
 							<li class="list-group-item col-5 px-0"><em>County:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.county#</li>
+							<li class="list-group-item col-7 px-0">#detail.county#</li>
 						</cfif>
-						<cfif len(isOne.island_group) gt 0>
+						<cfif len(detail.island_group) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.island_group#</li>
+							<li class="list-group-item col-7 px-0">#detail.island_group#</li>
 						</cfif>
-						<cfif len(isOne.island) gt 0>
+						<cfif len(detail.island) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.island#</li>
+							<li class="list-group-item col-7 px-0">#detail.island#</li>
 						</cfif>
-						<cfif len(isOne.quad) gt 0>
+						<cfif len(detail.quad) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-							<li class="list-group-item col-7 px-0">#isOne.quad#</li>
+							<li class="list-group-item col-7 px-0">#detail.quad#</li>
 						</cfif>
 					</ul>
 					<div class="w-100 float-left mx-2">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#isOne.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
+						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#detail.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
 					</div>
 					<div class="w-100 mx-2 float-left">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#isOne.locality_id#" title="See other specimens with this Locality">Locality</a></span>
+						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#detail.locality_id#" title="See other specimens with this Locality">Locality</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
-						<cfif len(isOne.spec_locality) gt 0>
+						<cfif len(detail.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="font-weight-lessbold my-0">Specific Locality: </span></li>
-							<li class="list-group-item col-7 px-0 last">#isOne.spec_locality#</li>
+							<li class="list-group-item col-7 px-0 last">#detail.spec_locality#</li>
 						</cfif>
-						<cfif len(isOne.verbatim_locality) gt 0>
+						<cfif len(detail.verbatim_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Locality: </span></li>
-							<li class="list-group-item col-7 px-0 ">#isOne.verbatim_locality#</li>
+							<li class="list-group-item col-7 px-0 ">#detail.verbatim_locality#</li>
 						</cfif>
-						<cfif len(isOne.locality_remarks) gt 0>
+						<cfif len(detail.locality_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Locality Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.locality_remarks#</li>
+							<li class="list-group-item col-7 px-0">#detail.locality_remarks#</li>
 						</cfif>
-						<cfif len(isOne.collecting_source) gt 0>
+						<cfif len(detail.collecting_source) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Source: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.collecting_source#</li>
+							<li class="list-group-item col-7 px-0">#detail.collecting_source#</li>
 						</cfif>
 						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-						<cfif len(isOne.began_date) gt 0 AND isOne.began_date eq #isOne.ended_date#>
+						<cfif len(detail.began_date) gt 0 AND detail.began_date eq #detail.ended_date#>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collected On: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.began_date#</li>
+							<li class="list-group-item col-7 px-0">#detail.began_date#</li>
 						</cfif>
-						<cfif len(isOne.began_date) gt 0 AND isOne.began_date neq #isOne.ended_date#>
+						<cfif len(detail.began_date) gt 0 AND detail.began_date neq #detail.ended_date#>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Began Date / Ended Date: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.began_date# / #isOne.ended_date#</li>
+							<li class="list-group-item col-7 px-0">#detail.began_date# / #detail.ended_date#</li>
 						</cfif>
-						<cfif len(isOne.verbatim_date) gt 0>
+						<cfif len(detail.verbatim_date) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Date: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.verbatim_date#</li>
+							<li class="list-group-item col-7 px-0">#detail.verbatim_date#</li>
 						</cfif>
-						<cfif len(isOne.verbatimcoordinates) gt 0>
+						<cfif len(detail.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.verbatimcoordinates#</li>
+							<li class="list-group-item col-7 px-0">#detail.verbatimcoordinates#</li>
 						</cfif>
-						<cfif len(isOne.collecting_method) gt 0>
+						<cfif len(detail.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.collecting_method#</li>
+							<li class="list-group-item col-7 px-0">#detail.collecting_method#</li>
 						</cfif>
-						<cfif len(isOne.max_depth) gt 0>
+						<cfif len(detail.max_depth) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Depth: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #isOne.min_depth# eq #isOne.max_depth#>#isOne.min_depth# #isOne.depth_units#<cfelse>#isOne.min_depth# - #isOne.max_depth# #isOne.depth_units#</cfif></li>
+							<li class="list-group-item col-7 px-0"><cfif #detail.min_depth# eq #detail.max_depth#>#isOne.min_depth# #detail.depth_units#<cfelse>#detail.min_depth# - #detail.max_depth# #detail.depth_units#</cfif></li>
 						</cfif>
-						<cfif len(isOne.maximum_elevation) gt 0>
+						<cfif len(detail.maximum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #isOne.minimum_elevation# eq #isOne.maximum_elevation#>#isOne.minimum_elevation# #isOne.orig_elev_units#<cfelse>#isOne.minimum_elevation# - #isOne.maximum_elevation# #isOne.orig_elev_units#</cfif></li>
+							<li class="list-group-item col-7 px-0"><cfif #detail.minimum_elevation# eq #detail.maximum_elevation#>#detail.minimum_elevation# #detail.orig_elev_units#<cfelse>#detail.minimum_elevation# - #detail.maximum_elevation# #detail.orig_elev_units#</cfif></li>
 						</cfif>
-						<cfif len(isOne.coll_event_remarks) gt 0>
+						<cfif len(detail.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.coll_event_remarks#</li>
+							<li class="list-group-item col-7 px-0">#detail.coll_event_remarks#</li>
 						</cfif>
-						<cfif len(isOne.habitat_desc) gt 0>
+						<cfif len(detail.habitat_desc) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Habitat Description: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.habitat_desc#</li>
+							<li class="list-group-item col-7 px-0">#detail.habitat_desc#</li>
 						</cfif>
-						<cfif len(isOne.habitat) gt 0>
+						<cfif len(detail.habitat) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Microhabitat: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.habitat#</li>
+							<li class="list-group-item col-7 px-0">#detail.habitat#</li>
 						</cfif>
-						<cfif len(isOne.dec_lat) gt 0>
-							<cfset dateDet = left(#isOne.latLongDeterminedDate#,10)>
-							<cfset dla = left(#isOne.dec_lat#,10)>
-							<cfset dlo = left(#isOne.dec_long#,10)>
+						<cfif len(detail.dec_lat) gt 0>
+							<cfset dateDet = left(#detail.latLongDeterminedDate#,10)>
+							<cfset dla = left(#detail.dec_lat#,10)>
+							<cfset dlo = left(#detail.dec_long#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #isOne.max_error_distance##isOne.max_error_units#) <span class="d-block small mb-0 pb-0"> #isOne.latLongDeterminer# on #dateDet# (Source: #isOne.lat_long_ref_source#)</span></li>
+							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #detail.max_error_distance##detail.max_error_units#) <span class="d-block small mb-0 pb-0"> #detail.latLongDeterminer# on #dateDet# (Source: #detail.lat_long_ref_source#)</span></li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#isOne.orig_lat_long_units# (datum: #isOne.datum#) </li>
+							<li class="list-group-item col-7 px-0">#detail.orig_lat_long_units# (datum: #detail.datum#) </li>
 						</cfif>
 					</ul>
 
