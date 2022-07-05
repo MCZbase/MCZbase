@@ -1252,9 +1252,9 @@ limitations under the License.
 								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfif oneOfUs is 1>
-							<a href="/transactions/Accession.cfm?action=edit&transaction_id=#isOne.accn_id#">#isOne.Accn_number#</a>
+							<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#">#one.Accn_number#</a>
 						<cfelse>
-							#isOne.accn_number#
+							#one.accn_number#
 						</cfif>
 						<cfif accnMedia.recordcount gt 0>
 							<cfloop query="accnMedia">
