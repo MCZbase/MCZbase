@@ -208,9 +208,10 @@ limitations under the License.
 						WHERE 
 							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
+					<div class="px-3">
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-						<div class="list-group border-green mb-2 mt-2 mx-2 rounded px-3 py-2 h4 font-weight-normal">
+						<div class="list-group border-green mb-2 mt-2 mx-2 rounded py-2 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
 						<!---	Start of former Identifications --->
@@ -221,11 +222,11 @@ limitations under the License.
 							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
-					<div class="h4 mb-0 mt-1 font-weight-lessbold text-danger d-inline-block">
+					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
-								<a href="/name/#getTaxa.scientific_name#" class="text-warning">#getTaxa.display_name# </a>
+								<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
 								<cfif len(getTaxa.author_text) gt 0>
 									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 								</cfif>
@@ -322,9 +323,7 @@ limitations under the License.
 					<cfif len(identification_remarks) gt 0>
 						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
 					</cfif>
-					<cfif identification.accepted_id_fg is 1>
-						</div>
-					</cfif>
+					</div>
 					<cfset i = i+1>
 				</cfloop>
 			<cfcatch>
