@@ -104,6 +104,7 @@ limitations under the License.
 		flattable.scientific_name,
 		flattable.full_taxon_name,
 		flattable.collecting_event_id,
+		flattable.locality_id,
 		flattable.higher_geog,
 		flattable.collectors,
 		flattable.spec_locality,

@@ -1242,8 +1242,7 @@ limitations under the License.
 						<cfelse>
 							#getAccession.accn_number#
 						</cfif>
-					<cfif oneOfUs is 1>
-						<cfif accnMedia.recordcount gt 0>
+						<cfif accnMedia.recordcount gt 0 and oneOfUs is 1>
 							<cfloop query="accnMedia">
 								<div class="m-2 d-inline"> 
 									<cfset mt = #media_type#>
@@ -1255,7 +1254,6 @@ limitations under the License.
 								</div>
 							</cfloop>
 						</cfif>
-					</cfif>
 					</li>
 						<!--------------------  Project / Usage ------------------------------------>	
 						
