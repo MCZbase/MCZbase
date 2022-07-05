@@ -319,9 +319,13 @@ limitations under the License.
 							</cfif>
 						</div>
 					</div>
-					<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #identification.nature_of_id# </div>
+					<div class="small px-3 mr-2">
+						<span class="font-weight-lessbold">Nature of ID:</span> #identification.nature_of_id# 
+					</div>
 					<cfif len(identification_remarks) gt 0>
-						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
+						<div class="small px-3">
+							<span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#
+						</div>
 					</cfif>
 					<cfif identification.accepted_id_fg is 1>
 						</div>
