@@ -219,7 +219,7 @@ limitations under the License.
 						<!--- no ul for previous idntifications --->
 						<cfif i EQ 2>
 						<div class="list-group border-transparent m-2 pl-3 rounded py-2 h4 font-weight-normal">
-							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">#IDtitle#</div>
+							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
 					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
