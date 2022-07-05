@@ -210,7 +210,7 @@ limitations under the License.
 					</cfquery>
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-						<div class="list-group border-green mx-1 mb-1 mt-2 pl-3 rounded py-1 h4 font-weight-normal">
+						<div class="list-group border-green mx-1 mb-2 mt-2 pl-3 rounded py-2 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
 						<!---	Start of former Identifications --->
