@@ -1204,7 +1204,7 @@ limitations under the License.
 			<cfelse>
 				<cfset oneOfUs = 0>
 			</cfif>
-		<cfif oneOfUs EQ 1>
+
 			<!--- TODO: Accessions need major rework to reflect correct access control to accessions information and current code
 					including inherited limitations and restrictions --->
 
@@ -1242,6 +1242,7 @@ limitations under the License.
 						<cfelse>
 							#getAccession.accn_number#
 						</cfif>
+					<cfif oneOfUs is 1>
 						<cfif accnMedia.recordcount gt 0>
 							<cfloop query="accnMedia">
 								<div class="m-2 d-inline"> 
@@ -1254,6 +1255,7 @@ limitations under the License.
 								</div>
 							</cfloop>
 						</cfif>
+					</cfif>
 					</li>
 						<!--------------------  Project / Usage ------------------------------------>	
 						
@@ -1362,7 +1364,6 @@ limitations under the License.
 							</cfif>
 						</cfif>
 					</ul>
-</cfif><!--- end temporary oneOfUs=1 check, section needs complete rework --->
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
