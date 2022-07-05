@@ -1510,6 +1510,15 @@ limitations under the License.
 		</script>
 		<cfoutput>
 			<cftry>
+				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+					<div class="error"> Improper call. Aborting..... </div>
+					<cfabort>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
 					<cfif len(detail.dec_lat) gt 0 and len(detail.dec_long) gt 0>
 						<cfset coordinates="#detail.dec_lat#,#detail.dec_long#">
@@ -1517,15 +1526,7 @@ limitations under the License.
 						<input type="hidden" id="error_#detail.locality_id#" value="1196">
 						<div id="mapdiv_#detail.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 					</cfif>
-					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-						<div class="error"> Improper call. Aborting..... </div>
-						<cfabort>
-					</cfif>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						<cfset oneOfUs = 1>
-					<cfelse>
-						<cfset oneOfUs = 0>
-					</cfif>
+				</div>
 				<div class="col-12 col-md-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
 						<cfif len(detail.continent_ocean) gt 0>
