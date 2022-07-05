@@ -1604,9 +1604,9 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Date: </span></li>
 							<li class="list-group-item col-7 px-0">#detail.verbatim_date#</li>
 						</cfif>
-						<cfif len(detail.verbatim_coordinates) gt 0>
+						<cfif len(detail.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.verbatim_coordinates#</li>
+							<li class="list-group-item col-7 px-0">#detail.verbatimcoordinates#</li>
 						</cfif>
 						<cfif len(detail.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>

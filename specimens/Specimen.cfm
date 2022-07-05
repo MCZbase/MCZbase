@@ -122,7 +122,7 @@ limitations under the License.
 		flattable.locality_remarks,
 		flattable.collecting_source,
 		flattable.depth_units,
-		collecting_event.verbatim_coordinates,
+		collecting_event.verbatimcoordinates,
 		flattable.max_depth,
 		flattable.min_depth,
 	<!---above missing locality elements--->
