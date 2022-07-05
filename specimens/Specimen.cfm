@@ -106,6 +106,7 @@ limitations under the License.
 		flattable.collecting_event_id,
 		flattable.locality_id,
 		flattable.higher_geog,
+		flattable.continent_ocean,
 		flattable.collectors,
 		flattable.spec_locality,
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
