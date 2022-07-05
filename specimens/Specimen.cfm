@@ -122,6 +122,7 @@ limitations under the License.
 		collecting_event.verbatimcoordinates,
 		collecting_event.collecting_method,
 		collecting_event.coll_event_remarks,
+		collecting_event.habitat_desc,
 		flattable.locality_remarks,
 		flattable.verbatim_date,
 		collecting_event.BEGAN_DATE,
