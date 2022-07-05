@@ -288,7 +288,7 @@ limitations under the License.
 								common_name order by common_name
 						</cfquery>
 						<cfif len(cName.common_name) gt 0>
-							<div class="font-weight-lessbold mb-1 mt-0 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+							<div class="font-weight-lessbold mb-1 mt-0 h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
 						</cfif>
 						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 					</cfloop>
