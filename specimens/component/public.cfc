@@ -1205,7 +1205,7 @@ limitations under the License.
 				<cfset oneOfUs = 0>
 			</cfif>
 
-			<!--- TODO: Accessions need major rework to reflect correct access control to accessions information and current code
+			<!--- TODO: check -- Accessions to reflect correct access control to accessions information and current code
 					including inherited limitations and restrictions --->
 
 			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
@@ -1386,7 +1386,7 @@ limitations under the License.
 			<!--- check for mask record, hide if mask record ---->
 			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.collection_object_id#">) encumbranceDetail
+					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 				FROM DUAL
 			</cfquery>
 			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
@@ -1398,7 +1398,7 @@ limitations under the License.
 			from
 				media_relations
 			where
-				RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#c.locality_id#"> and
+				RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#detail.locality_id#"> and
 				MEDIA_RELATIONSHIP like '% locality'
 		</cfquery>
 		<!--- TODO:  This must be in the enclosing page, not duplicated on each ajax reload from here --->
@@ -1511,11 +1511,11 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-					<cfif len(c.dec_lat) gt 0 and len(c.dec_long) gt 0>
-						<cfset coordinates="#c.dec_lat#,#c.dec_long#">
-						<input type="hidden" id="coordinates_#c.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#c.locality_id#" value="1196">
-						<div id="mapdiv_#c.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+					<cfif len(detail.dec_lat) gt 0 and len(detail.dec_long) gt 0>
+						<cfset coordinates="#detail.dec_lat#,#detail.dec_long#">
+						<input type="hidden" id="coordinates_#detail.locality_id#" value="#coordinates#">
+						<input type="hidden" id="error_#detail.locality_id#" value="1196">
+						<div id="mapdiv_#detail.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 					</cfif>
 					<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 						<div class="error"> Improper call. Aborting..... </div>
