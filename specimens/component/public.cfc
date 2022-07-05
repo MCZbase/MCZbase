@@ -1619,7 +1619,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(detail.maximum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #detail.minimum_elevation# eq #detail.maximum_elevation#>#detail.minimum_elevation# #detail.orig_elev_units#<cfelse>#detail.minimum_elevation# - #detail.maximum_elevation# #detail.orig_elev_units#</cfif></li>
+							<li class="list-group-item col-7 px-0"><cfif #detail.minimum_elevation# eq #detail.maximum_elevation#>#detail.min_elevation# #detail.orig_elev_units#<cfelse>#detail.min_elevation# - #detail.max_elevation# #detail.orig_elev_units#</cfif></li>
 						</cfif>
 						<cfif len(detail.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
