@@ -110,7 +110,7 @@ limitations under the License.
 					#getImages.recordcount#
 				<cfelse>
 					<cfif #getImages.recordcount# gt 8>
-						<p class='smaller w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
+						<p class='smaller mb-1 w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
 					</cfif>
 					<cfloop query="getImages">
 						<div class='col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left'>
