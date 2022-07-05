@@ -695,7 +695,7 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive table-striped mb-0 mt-1">
+					<table class="table table-responsive-md mb-0 mt-1">
 						<thead class="thead-light">
 							<tr>
 								<th><span>Part Name</span></th>
@@ -1012,7 +1012,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive table-striped my-1 w-100" aria-label="attributes">
+					<table class="table table-responsive-md my-1 w-100" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th>Attribute</th>
