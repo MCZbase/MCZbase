@@ -108,7 +108,7 @@ limitations under the License.
 		flattable.higher_geog,
 		flattable.collectors,
 		flattable.spec_locality,
-	<!---added missing elements for locality section--->
+	
 		flattable.continent_ocean,
 		flattable.sea,
 		flattable.country,
@@ -125,7 +125,7 @@ limitations under the License.
 		collecting_event.verbatimcoordinates,
 		flattable.max_depth,
 		flattable.min_depth,
-	<!---above missing locality elements--->
+	
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
 		flattable.verbatim_date,
 		collecting_event.BEGAN_DATE,
