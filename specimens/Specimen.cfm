@@ -385,6 +385,11 @@ limitations under the License.
 				loadLedger(#collection_object_id#,'ledgerCardBody');
 			}
 		</script>
+		<script>
+			function reloadLocality() { 
+				loadLocality(#collection_object_id#,'localityCardBody');
+			}
+		</script>
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
@@ -821,11 +826,6 @@ limitations under the License.
 					<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
 							<div id="localityDialog"></div>
-							<script>
-								function reloadLocality() { 
-									loadLocality(#collection_object_id#,'localityCardBody');
-								}
-							</script>
 							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingLocality">
 								<cfif len(#blocklocality#) gt 60>
