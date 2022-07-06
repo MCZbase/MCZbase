@@ -1020,7 +1020,6 @@ limitations under the License.
 								<th>Value</th>
 								<th>Determination</th>
 								<th>On</th>
-								<th>Remarks</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -1043,8 +1042,12 @@ limitations under the License.
 								<td>
 									<cfif len(determined_date) gt 0>#dateformat(determined_date,'yyyy-mm-dd')#</cfif>
 								</td>
-								<td>#attribute_remark#</td>
 							</tr>
+							<cfif len(attribute_remark)gt 0>
+								<tr>
+									<td><span class="font-italics">Remarks:</span> #attribute_remark#</td>
+								</tr>
+							</cfif>
 						</cfloop>
 						</tbody>
 					</table>
