@@ -213,12 +213,13 @@ limitations under the License.
 						<div class="list-group border-green mx-1 mb-2 mt-2 pl-3 rounded py-2 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
+						<div class="list-group border-transparent m-1 pl-3 rounded py-1 h4 font-weight-normal">
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
 						<cfif i EQ 2>
-						<div class="list-group border-transparent m-1 pl-3 rounded py-1 h4 font-weight-normal">
+						
 							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
