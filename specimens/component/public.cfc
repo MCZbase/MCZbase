@@ -326,7 +326,7 @@ limitations under the License.
 					</cfif>
 					</div>
 					<cfset i = i+1>
-					
+						</ul>
 				</cfloop>
 							
 			<cfcatch>
