@@ -327,11 +327,11 @@ limitations under the License.
 							<span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#
 						</div>
 					</cfif>
-			
+			</div>	
 						</div>
 					<cfset i = i+1>
 				</cfloop>
-							</div>	
+							
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
