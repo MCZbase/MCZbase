@@ -475,7 +475,7 @@ limitations under the License.
 			<div class="col-12 col-sm-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
 
 				<!---- column 2 the leftmost of the two right columns ---->
-				<div class="col-12 col-md-6 px-1 float-left"> 
+				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!----------------------------- identifications ----------------------------------> 
 					<div class="accordion" id="accordionB">
 						<div class="card mb-2 bg-light">
