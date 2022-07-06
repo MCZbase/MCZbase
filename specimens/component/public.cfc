@@ -1025,7 +1025,7 @@ limitations under the License.
 						<tbody>
 						<cfloop query="attributes">
 							<tr>
-								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+								<td style="max-width: 110px;"><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
