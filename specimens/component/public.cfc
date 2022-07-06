@@ -328,10 +328,10 @@ limitations under the License.
 						</div>
 					</cfif>
 			
-					
+						</div>
 					<cfset i = i+1>
 				</cfloop>
-								</div>
+							</div>	
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
