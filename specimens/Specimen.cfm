@@ -140,7 +140,7 @@ limitations under the License.
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
 <cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.typestatuswords#">
-<cfset pageTitle = "MCZbase Specimen Details #guid#">
+<cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
