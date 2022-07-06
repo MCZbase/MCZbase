@@ -1642,9 +1642,9 @@ limitations under the License.
 							<cfset dateDet = left(#detail.latLongDeterminedDate#,10)>
 							<cfset dla = left(#detail.dec_lat#,10)>
 							<cfset dlo = left(#detail.dec_long#,10)>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
+							<li class="list-group-item col-5 pl-0 pr-2 px-md-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
 							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #detail.max_error_distance##detail.max_error_units#) <span class="d-block small mb-0 pb-0"> #detail.latLongDeterminer# on #dateDet# (Source: #detail.lat_long_ref_source#)</span></li>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
+							<li class="list-group-item col-5 pl-0 pr-2 px-md-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
 							<li class="list-group-item col-7 px-0">#detail.orig_lat_long_units# (datum: #detail.datum#) </li>
 						</cfif>
 					</ul>
