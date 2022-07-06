@@ -360,7 +360,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      			SELECT 
+					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
@@ -470,7 +470,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i = 1>
 				<cfloop query="citations" group="formatted_publication">
-					<div class="d-block pt-1 pb-0 px-2 w-100 float-left small95">
+					<div class="d-block py-1 px-2 w-100 float-left small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>
@@ -1352,7 +1352,7 @@ limitations under the License.
 							</cfif>
 							<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 								<li class="list-group-item">
-									<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
+									<span class="font-weight-lessbold mb-0 d-inline-block">Deaccessions: </span>
 									<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 										<cfloop query="deaccessionList">
