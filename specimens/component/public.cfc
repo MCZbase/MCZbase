@@ -151,7 +151,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
+      			SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
@@ -210,46 +210,46 @@ limitations under the License.
 					</cfquery>
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-					<ul class="list-group border-green mx-1 mb-2 mt-2 pl-3 rounded py-2 h4 font-weight-normal">
-						<li class="d-inline-block my-0 h4 text-success">Current Identification</li>
+						<div class="list-group border-green mx-1 mb-2 mt-2 pl-3 rounded py-2 h4 font-weight-normal">
+						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
 						<cfif i EQ 2>
-							<div class="list-group border-transparent m-1 pl-3 rounded py-1 h4 font-weight-normal">
-								<li class="h6 font-italic my-0 text-success formerID">#IDtitle#</li>
+						<div class="list-group border-transparent m-1 pl-3 rounded py-1 h4 font-weight-normal">
+							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
-									<span class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
-										<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
-											<!--- simple formula with no added information just show name and link --->
-											<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
-												<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
-												<cfif len(getTaxa.author_text) gt 0>
-													<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
-												</cfif>
-												<cfset nameAsInTaxon = getTaxa.scientific_name>
-											</cfloop>
-										<cfelse>
-											<!--- interpret the taxon formula in identification --->
-											<cfset expandedVariables="#identification.taxa_formula#">
-											<cfset nameAsInTaxon="#identification.taxa_formula#">
-											<cfloop query="getTaxa">
-												<!--- replace each component of the formula with the name, in a hyperlink --->
-												<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
-												<cfif identification.taxa_formula NEQ "A x B">
-													<!--- include the authorship if not a hybrid --->
-													<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
-												</cfif>
-												<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
-												<cfset nameAsInTaxon=#replace(nameAsInTaxon,getTaxa.variable,getTaxa.scientific_name)#>
-												<cfset i=#i#+1>
-											</cfloop>
-											#expandedVariables#
-										</cfif>
-									</span>
+					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
+						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
+							<!--- simple formula with no added information just show name and link --->
+							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
+								<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
+								<cfif len(getTaxa.author_text) gt 0>
+									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
+								</cfif>
+								<cfset nameAsInTaxon = getTaxa.scientific_name>
+							</cfloop>
+						<cfelse>
+							<!--- interpret the taxon formula in identification --->
+							<cfset expandedVariables="#identification.taxa_formula#">
+							<cfset nameAsInTaxon="#identification.taxa_formula#">
+							<cfloop query="getTaxa">
+								<!--- replace each component of the formula with the name, in a hyperlink --->
+								<cfset thisLink='<a href="/name/#getTaxa.scientific_name#" class="d-inline">#getTaxa.display_name#</a>'>
+								<cfif identification.taxa_formula NEQ "A x B">
+									<!--- include the authorship if not a hybrid --->
+									<cfset thisLink= '#thisLink# <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>'>
+								</cfif>
+								<cfset expandedVariables=#replace(expandedVariables,getTaxa.variable,thisLink)#>
+								<cfset nameAsInTaxon=#replace(nameAsInTaxon,getTaxa.variable,getTaxa.scientific_name)#>
+								<cfset i=#i#+1>
+							</cfloop>
+							#expandedVariables#
+						</cfif>
+					</div>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<cfif stored_as_fg is 1>
 							<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
@@ -272,7 +272,7 @@ limitations under the License.
 							identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
 					<!--- show the distinct bits of the full classification for each name in the identification --->
-					<span class="h6 mb-1 text-dark"> #getHigher.distinct_higher# </span>
+					<div class="h6 mb-1 text-dark"> #getHigher.distinct_higher# </div>
 					<cfloop query="getTaxa">
 						<!--- get the list of common names for each taxon in the identification ---->
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
@@ -288,47 +288,47 @@ limitations under the License.
 								common_name order by common_name
 						</cfquery>
 						<cfif len(cName.common_name) gt 0>
-							<span class="font-weight-lessbold mb-1 mt-0 h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </span>
+							<div class="font-weight-lessbold mb-1 mt-0 h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
 						</cfif>
 						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 					</cfloop>
 					<cfif nameAsInTaxon NEQ nameAsInIdentification>
 						<!--- show the name preserving the original form used in the identification --->
 						<div class="form-row mx-0">
-							<div class="small mr-2">
-								<span class="font-weight-lessbold">Determined As:</span> #identification.scientific_name# 
-							</div>
+							<div class="small mr-2"><span class="font-weight-lessbold">Determined As:</span> #identification.scientific_name# </div>
 						</div>
 					</cfif>
-					<div class="form-row small mr-2 ml-0">
+					<div class="form-row mx-0">
 						<cfset determinedBy = "">
 						<cfset detbysep = "">
 						<cfloop query="determiners">
 							<cfif len(determiners.agent_id) GT 0 AND determiners.agent_id NEQ "0"> 
-								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>">
+								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" >
 							<cfelse>
 								<cfset determinedBy="#determinedBy##detbysep##determiners.agent_name#" >
 							</cfif>
 							<cfset detbysep="; ">
 						</cfloop>
-						<span class="font-weight-lessbold">Determiner:</span> #determinedBy#
-						<cfif len(made_date) gt 0>
-							<cfif len(made_date) gt 8>
-								<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
-							<cfelse>
-								<span class="font-weight-lessbold">in</span> #dateformat(identification.made_date,"yyyy")#
+						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #determinedBy#
+							<cfif len(made_date) gt 0>
+								<cfif len(made_date) gt 8>
+									<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
+								<cfelse>
+									<span class="font-weight-lessbold">in</span> #dateformat(identification.made_date,"yyyy")#
+								</cfif>
 							</cfif>
-						</cfif>
+						</div>
 					</div>
-					<span class="small mr-2 font-weight-lessbold">Nature of ID:</span> #identification.nature_of_id# 
+					<div class="small mr-2"><span class="font-weight-lessbold">Nature of ID:</span> #identification.nature_of_id# </div>
 					<cfif len(identification_remarks) gt 0>
-						<span class="small mr-2 font-weight-lessbold">Remarks:</span> #identification.identification_remarks#
+						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
 					</cfif>
-					</div>
+					
+					
+						</div>
+					
 					<cfset i = i+1>
-						</ul>
 				</cfloop>
-							
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
@@ -1529,7 +1529,7 @@ limitations under the License.
 						<div id="mapdiv_#detail.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 					</cfif>
 				</div>
-				<div class="col-12 col-md-7 px-0 float-left">
+				<div class="col-12 col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
 						<cfif len(detail.continent_ocean) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
