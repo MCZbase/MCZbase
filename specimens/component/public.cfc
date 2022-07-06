@@ -1530,7 +1530,7 @@ limitations under the License.
 						<cfset coordinates="#detail.dec_lat#,#detail.dec_long#">
 						<input type="hidden" id="coordinates_#detail.locality_id#" value="#coordinates#">
 						<input type="hidden" id="error_#detail.locality_id#" value="1196">
-						<div id="mapdiv_#detail.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+						<div id="mapdiv_#detail.locality_id#" class="tinymap w-100" style="height:180px;"></div>
 					</cfif>
 				</div>
 				<div class="col-12 col-md-7 px-0 float-left">
