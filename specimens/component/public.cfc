@@ -1045,7 +1045,7 @@ limitations under the License.
 							</tr>
 							<cfif len(attribute_remark)gt 0>
 								<tr>
-									<td colspan="4"><span class="font-italics pl-3 small90">Remarks:</span> #attribute_remark#</td>
+									<td colspan="4" class="inputHeight"><span class="font-italic pl-3 small90">Remarks:</span> #attribute_remark#</td>
 								</tr>
 							</cfif>
 						</cfloop>
