@@ -439,7 +439,7 @@ limitations under the License.
 			<cfset specimenMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows", get_count = 'true')>
 			<cfset specimenMediaCount = val(rereplace(specimenMediaCount,"[^0-9]","","all"))>
 			<cfif specimenMediaCount gt 0>
-				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 					<!-----------------------------Media----------------------------------> 
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
@@ -465,10 +465,10 @@ limitations under the License.
 					</div>
 				</div>
 				<!--- three column layout --->
-				<cfset twoThreeColumnClasses="col-md-9 col-lg-9 col-xl-10 float-left">
+				<cfset twoThreeColumnClasses="col-sm-9 col-md-9 col-lg-9 col-xl-10 float-left">
 			<cfelse>
 				<!--- two column layout --->
-				<cfset twoThreeColumnClasses="col-md-12 col-lg-12 col-xl-12 float-left">
+				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
 
 			<!----------------------------- two right columns ---------------------------------->
