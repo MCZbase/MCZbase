@@ -814,7 +814,7 @@ limitations under the License.
 				</div>
 
 				<!---  start of column three  (rightmost of the two right columns) --->
-				<div class="col-12 col-md-6 px-1 float-left"> 
+				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!--------------------locality and collecting event------------------------------>
 					<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
