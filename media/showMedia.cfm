@@ -164,28 +164,28 @@
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
-					<table class="search-box table table-responsive mediaTable mt-1 w-100">
-						<thead class="search-box-header mt-1 mediaTableHeader">
-							<tr class="text-white">
+					<div class="search-box table table-responsive mediaTable mt-1 w-100">
+						<div class="search-box-header mt-1 mediaTableHeader">
+							<div class="text-white">
 								<th class="border-top-0 border-right-0 border-left-0">Catalog&nbsp;Item</th>
 								<th class="border-top-0 border-right-0 border-left-0">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</th>
 								<th class="border-top-0 border-right-0 border-left-0">Scientific&nbsp;Name</th>
 								<th class="border-top-0 border-right-0 border-left-0">Location&nbsp;Data</th>
 								<th class="border-top-0 border-right-0 border-left-0">Image&nbsp;Thumbnail(s)</th>
-							</tr>
-						</thead>
-						<tbody>
+							</div>
+						</div>
+						<div>
 							<cfloop query="spec">
-								<tr>
-									<td style="width: 8%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></td>
+								<div>
+									<div style="width: 8%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
 									<cfif len(spec.typestatus) gt 0>
-										<td style="width: 12%">#spec.typestatus#</td>
+										<div style="width: 12%">#spec.typestatus#</div>
 										<cfelse>
-										<td>None</td>
+										<div style="width: 12%">None</div>
 									</cfif>
-									<td>#spec.name#</td>
-									<td style="width: 20%">#spec.geography#</td>
-									<td style="width: 60%; padding-left: 0.7rem;">
+									<div style="width: 10%">#spec.name#</div>
+									<div style="width: 20%">#spec.geography#</div>
+									<div style="width: 60%; padding-left: 0.7rem;">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light col-4 float-left mr-3 px-0 py-1 mb-0"> <!---style="width:112px;height: 175px">--->
@@ -206,11 +206,11 @@
 											</cfloop>
 										</cfif>
 										<div id="targetDiv"></div>
-									</td>
-								</tr>
+									</div>
+								</div>
 							</cfloop>
-						</tbody>
-					</table>
+						</div>
+					</div>
 					<cfelse>
 					<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
 				</cfif>
