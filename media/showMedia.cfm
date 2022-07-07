@@ -164,14 +164,14 @@
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
-					<div class="search-box table table-responsive mediaTable mt-1 w-100">
+					<div class="search-box mt-1 w-100">
 						<div class="search-box-header mt-1 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
-								<li class="border-top-0 border-right-0 border-left-0">Catalog&nbsp;Item</li>
-								<li class="border-top-0 border-right-0 border-left-0">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
-								<li class="border-top-0 border-right-0 border-left-0">Scientific&nbsp;Name</li>
-								<li class="border-top-0 border-right-0 border-left-0">Location&nbsp;Data</li>
-								<li class="border-top-0 border-right-0 border-left-0">Image&nbsp;Thumbnail(s)</li>
+								<li class="list-group-item border-top-0 border-right-0 border-left-0">Catalog&nbsp;Item</li>
+								<li class="list-group-item border-top-0 border-right-0 border-left-0">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
+								<li class="list-group-item border-top-0 border-right-0 border-left-0">Scientific&nbsp;Name</li>
+								<li class="list-group-item border-top-0 border-right-0 border-left-0">Location&nbsp;Data</li>
+								<li class="list-group-item border-top-0 border-right-0 border-left-0">Image&nbsp;Thumbnail(s)</li>
 							</ul>
 						</div>
 						<div>
