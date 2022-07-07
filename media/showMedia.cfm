@@ -165,7 +165,7 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
 					<div class="search-box mt-1 w-100">
-						<div class="search-box-header mt-1 mediaTableHeader">
+						<div class="search-box-header mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="list-group-item border-top-0 border-right-0 border-left-0">Catalog&nbsp;Item</li>
 								<li class="list-group-item border-top-0 border-right-0 border-left-0">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
@@ -177,15 +177,15 @@
 						<div>
 							<cfloop query="spec">
 								<div>
-									<div style="width: 8%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
+									<div class="col-1"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
 									<cfif len(spec.typestatus) gt 0>
-										<div style="width: 12%">#spec.typestatus#</div>
+										<div class="col-1">#spec.typestatus#</div>
 										<cfelse>
-										<div style="width: 12%">None</div>
+										<div class="col-1">None</div>
 									</cfif>
-									<div style="width: 10%">#spec.name#</div>
-									<div style="width: 20%">#spec.geography#</div>
-									<div style="width: 60%; padding-left: 0.7rem;">
+									<div class="col-1">#spec.name#</div>
+									<div class="col-2">#spec.geography#</div>
+									<div class="col-6">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light col-4 float-left mr-3 px-0 py-1 mb-0"> <!---style="width:112px;height: 175px">--->
