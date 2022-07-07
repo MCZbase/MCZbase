@@ -87,6 +87,9 @@ table td .small {
 .border-green {
 	border: 1px solid green !important;
 }
+.border-lt-gray {
+	border: 1px solid #dbe0e1;
+}
 .border-wide-green {
 	border: 2px solid green !important;
 }
