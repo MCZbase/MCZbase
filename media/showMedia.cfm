@@ -185,7 +185,7 @@
 									</cfif>
 									<div class="col-1 px-1 border-right small">#spec.name#</div>
 									<div class="col-1 px-1 border-right small">#spec.geography#</div>
-									<div class="col-8 px-1">
+									<div class="col-8 px-1 py-1">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light col-md-4 col-xl-3 p-1 float-left"> <!---style="width:112px;height: 175px">--->
