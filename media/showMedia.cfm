@@ -191,9 +191,9 @@
 												<div class="border-light col-md-4 col-xl-3 p-1 float-left"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 														<cfelse>	
-															<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
+															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
