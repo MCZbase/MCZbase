@@ -165,7 +165,7 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
 					<div class="search-box mt-1 w-100">
-						<div class="search-box-header mt-0 mediaTableHeader">
+						<div class="search-box-header px-2 mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
 								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
