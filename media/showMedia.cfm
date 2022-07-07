@@ -197,7 +197,7 @@
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-															<div class="col-5 bg-white px-1 pb-0 pt-2 float-left" style="height: 130px;"> #mediablock# </div>
+															<div class="col-5 bg-white px-1 pb-0 pt-2 float-left" style="min-height: 130px;"> #mediablock# </div>
 															<div class="col-7 bg-white px-2 py-2 small float-left" style="line-height: .88rem;">#title#</div>
 														</div>
 													</cfif>
