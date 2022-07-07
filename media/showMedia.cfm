@@ -193,12 +193,12 @@
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning float-left border-left p-1 border-right border-bottom border-top">
 														<cfelse>	
-															<cfset activeimg = "border-dark float-left p-1">
+															<cfset activeimg = "border-light float-left p-1">
 														</cfif>
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-															<div class="col-5 bg-white px-1 pb-1 pt-2 float-left"> #mediablock# </div>
-															<div class="float-left col-7 px-2 small">#title#</div>
+															<div class="col-5 bg-white px-1 pb-0 pt-2 float-left"> #mediablock# </div>
+															<div class="col-7 bg-white px-2 py-2 small float-left">#title#</div>
 														</div>
 													</cfif>
 													
