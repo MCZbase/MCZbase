@@ -182,19 +182,19 @@
 									<div class="col-3 p-2 border-right small">
 										<div class="row">
 											<cfif len(spec.typestatus) gt 0>
-												<h3>Type Status &amp; Citation</h3>
-												<div class="p-2">#spec.typestatus#</div>
+												<h3 class="h4">Type Status &amp; Citation</h3>
+												<div class="col-12 p-2">#spec.typestatus#</div>
 											<cfelse>
-												<div class="p-2">None</div>
+												<div class="col-12 p-2">None</div>
 											</cfif>
 										</div>
 										<div class="row">
-											<h3>Scientific Name</h3>
-											<div class="p-2">#spec.name#</div>
+											<h3 class="h4">Scientific Name</h3>
+											<div class="col-12 p-2">#spec.name#</div>
 										</div>
 										<div class="row">
-											<h3>Geography</h3>
-											<div class="p-2">#spec.geography#</div>
+											<h3 class="h4">Geography</h3>
+											<div class="col-12 p-2">#spec.geography#</div>
 										</div>
 									</div>
 									<div class="col-8 p-1">
