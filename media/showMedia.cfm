@@ -168,7 +168,7 @@
 						<div class="search-box-header mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
-								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
+								<li class="col-2 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
 								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
 								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>
 								<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
@@ -188,7 +188,7 @@
 									<div class="col-6 px-0">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-4 pr-2 float-left py-1 my-1"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-4 pl-0 pr-1 float-left py-1 my-1"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left p-1 border-right border-bottom border-top">
