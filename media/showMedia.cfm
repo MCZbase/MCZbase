@@ -179,7 +179,7 @@
 								<tr>
 									<td style="width: 9%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></td>
 									<cfif len(spec.typestatus) gt 0>
-										<td>#spec.typestatus#</td>
+										<td style="width: 10%">#spec.typestatus#</td>
 										<cfelse>
 										<td>None</td>
 									</cfif>
