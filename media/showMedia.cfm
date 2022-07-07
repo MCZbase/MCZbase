@@ -185,10 +185,10 @@
 									</cfif>
 									<div class="col-1 px-2 border-right small">#spec.name#</div>
 									<div class="col-1 px-2 border-right small">#spec.geography#</div>
-									<div class="col-6 px-2">
+									<div class="col-8 px-2">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-md-4 col-xl-5 p-1 float-left"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-md-4 col-xl-3 p-1 float-left"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left p-1 border-right border-bottom border-top">
