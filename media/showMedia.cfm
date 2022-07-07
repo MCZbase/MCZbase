@@ -177,14 +177,14 @@
 						<div>
 							<cfloop query="spec">
 								<div class="row mx-0 border-bottom border-gray">
-									<div class="col-1 px-1 small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
+									<div class="col-1 px-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
 									<cfif len(spec.typestatus) gt 0>
-										<div class="col-2 px-1 small">#spec.typestatus#</div>
+										<div class="col-2 px-2 border-right small">#spec.typestatus#</div>
 										<cfelse>
-										<div class="col-2 px-1 small">None</div>
+										<div class="col-2 px-2 border-right small">None</div>
 									</cfif>
-									<div class="col-1 px-1 small">#spec.name#</div>
-									<div class="col-1 px-1 small">#spec.geography#</div>
+									<div class="col-1 px-2 border-right small">#spec.name#</div>
+									<div class="col-1 px-2 border-right small">#spec.geography#</div>
 									<div class="col-6 px-0">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
