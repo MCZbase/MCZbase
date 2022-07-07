@@ -179,16 +179,16 @@
 								<div class="row mx-0 border-bottom border-gray">
 									<div class="col-1 px-1 small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
 									<cfif len(spec.typestatus) gt 0>
-										<div class="col-1 px-1 small">#spec.typestatus#</div>
+										<div class="col-2 px-1 small">#spec.typestatus#</div>
 										<cfelse>
-										<div class="col-1 px-1 small">None</div>
+										<div class="col-2 px-1 small">None</div>
 									</cfif>
 									<div class="col-1 px-1 small">#spec.name#</div>
 									<div class="col-1 px-1 small">#spec.geography#</div>
 									<div class="col-6 px-0">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-4 px-0 float-left py-1 mb-0"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-4 pr-2 float-left py-1 my-1"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left p-1 border-right border-bottom border-top">
