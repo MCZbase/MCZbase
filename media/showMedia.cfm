@@ -177,7 +177,7 @@
 						</div>
 						<div>
 							<cfloop query="spec">
-								<div class="row mx-0 border-bottom py-2 border-gray" style="border">
+								<div class="row mx-0 border-top py-2 border-gray" style="border">
 									<div class="col-1 py-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
 									<div class="col-3 py-2 border-right small">
 										<div class="row mx-0">
