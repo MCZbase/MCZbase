@@ -188,7 +188,7 @@
 									<td style="width:54%; padding-left: 0.7rem;">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-4 float-left mx-1 px-0 py-1 mb-1"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-4 float-left mr-2 px-0 py-1 mb-1"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left p-1 border-right border-bottom border-top">
