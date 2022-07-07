@@ -168,7 +168,7 @@
 						<div class="search-box-header px-2 mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
-								<li class="col-1 px-1 list-group-item">Details</li>
+								<li class="col-3 px-1 list-group-item">Details</li>
 <!---								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
 								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
 								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>--->
@@ -182,16 +182,19 @@
 									<div class="col-3 p-2 border-right small">
 										<div class="row">
 											<cfif len(spec.typestatus) gt 0>
-												<div class="p-2 border-right small">#spec.typestatus#</div>
+												<h3>Type Status &amp; Citation</h3>
+												<div class="p-2">#spec.typestatus#</div>
 											<cfelse>
-												<div class="p-2 border-right small">None</div>
+												<div class="p-2">None</div>
 											</cfif>
 										</div>
 										<div class="row">
-											<div class="p-2 border-right small">#spec.name#</div>
+											<h3>Scientific Name</h3>
+											<div class="p-2">#spec.name#</div>
 										</div>
 										<div class="row">
-												<div class="p-2 border-right small">#spec.geography#</div>
+											<h3>Geography</h3>
+											<div class="p-2">#spec.geography#</div>
 										</div>
 									</div>
 									<div class="col-8 p-1">
