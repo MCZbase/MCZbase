@@ -171,7 +171,7 @@
 								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
 								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
 								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>
-								<li class="col-1 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
+								<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
 							</ul>
 						</div>
 						<div>
