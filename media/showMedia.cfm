@@ -168,7 +168,7 @@
 						<div class="search-box-header mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
-								<li class="col-2 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
+								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
 								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
 								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>
 								<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
@@ -185,7 +185,7 @@
 									</cfif>
 									<div class="col-1 px-2 border-right small">#spec.name#</div>
 									<div class="col-1 px-2 border-right small">#spec.geography#</div>
-									<div class="col-6 px-0">
+									<div class="col-6 px-2">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light col-md-4 col-xl-5 pl-0 pr-1 float-left py-1 mb-1"> <!---style="width:112px;height: 175px">--->
