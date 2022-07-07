@@ -167,28 +167,28 @@
 					<div class="search-box mt-1 w-100">
 						<div class="search-box-header mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
-								<li class="list-group-item border-top-0 border-right-0 border-left-0">Catalog&nbsp;Item</li>
-								<li class="list-group-item border-top-0 border-right-0 border-left-0">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
-								<li class="list-group-item border-top-0 border-right-0 border-left-0">Scientific&nbsp;Name</li>
-								<li class="list-group-item border-top-0 border-right-0 border-left-0">Location&nbsp;Data</li>
-								<li class="list-group-item border-top-0 border-right-0 border-left-0">Image&nbsp;Thumbnail(s)</li>
+								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
+								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
+								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
+								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>
+								<li class="col-1 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
 							</ul>
 						</div>
 						<div>
 							<cfloop query="spec">
 								<div class="row mx-0 border-bottom border-gray">
-									<div class="col-1 small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
+									<div class="col-1 px-1 small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
 									<cfif len(spec.typestatus) gt 0>
-										<div class="col-1 small">#spec.typestatus#</div>
+										<div class="col-1 px-1 small">#spec.typestatus#</div>
 										<cfelse>
-										<div class="col-1 small">None</div>
+										<div class="col-1 px-1 small">None</div>
 									</cfif>
-									<div class="col-1 small">#spec.name#</div>
-									<div class="col-1 small">#spec.geography#</div>
-									<div class="col-7">
+									<div class="col-1 px-1 small">#spec.name#</div>
+									<div class="col-1 px-1 small">#spec.geography#</div>
+									<div class="col-6 px-1">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-3 float-left py-1 mb-0"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-4 float-left py-1 mb-0"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left p-1 border-right border-bottom border-top">
