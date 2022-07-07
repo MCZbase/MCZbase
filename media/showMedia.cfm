@@ -168,9 +168,10 @@
 						<div class="search-box-header px-2 mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
-								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
+								<li class="col-1 px-1 list-group-item">Details</li>
+<!---								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
 								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
-								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>
+								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>--->
 								<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
 							</ul>
 						</div>
@@ -178,13 +179,21 @@
 							<cfloop query="spec">
 								<div class="row mx-0 border-bottom border-gray" style="border">
 									<div class="col-1 p-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
-									<cfif len(spec.typestatus) gt 0>
-										<div class="col-1 p-2 border-right small">#spec.typestatus#</div>
-										<cfelse>
-										<div class="col-1 p-2 border-right small">None</div>
-									</cfif>
-									<div class="col-1 p-2 border-right small">#spec.name#</div>
-									<div class="col-1 p-2 border-right small">#spec.geography#</div>
+									<div class="col-3 p-2 border-right small">
+										<div class="row">
+											<cfif len(spec.typestatus) gt 0>
+												<div class="p-2 border-right small">#spec.typestatus#</div>
+											<cfelse>
+												<div class="p-2 border-right small">None</div>
+											</cfif>
+										</div>
+										<div class="row">
+											<div class="p-2 border-right small">#spec.name#</div>
+										</div>
+										<div class="row">
+												<div class="p-2 border-right small">#spec.geography#</div>
+										</div>
+									</div>
 									<div class="col-8 p-1">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
