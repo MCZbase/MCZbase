@@ -185,10 +185,10 @@
 									</cfif>
 									<td>#spec.name#</td>
 									<td style="min-width: 120px;">#spec.geography#</td>
-									<td style="width:54%; padding-left: 0.7rem;">
+									<td style="width:60%; padding-left: 0.7rem;">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-4 float-left mr-3 px-0 py-1 mb-1"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-4 float-left mr-3 px-0 py-1 mb-0"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left p-1 border-right border-bottom border-top">
@@ -198,7 +198,7 @@
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 															<div class="col-5 bg-white px-1 pb-0 pt-2 float-left"> #mediablock# </div>
-															<div class="col-7 bg-white px-2 py-2 small float-left">#title#</div>
+															<div class="col-7 bg-white px-2 py-2 small float-left" style="line-height: .88rem;">#title#</div>
 														</div>
 													</cfif>
 													
