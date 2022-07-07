@@ -179,13 +179,13 @@
 								<tr>
 									<td style="width: 8%;"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></td>
 									<cfif len(spec.typestatus) gt 0>
-										<td style="width: 10%">#spec.typestatus#</td>
+										<td style="width: 12%">#spec.typestatus#</td>
 										<cfelse>
 										<td>None</td>
 									</cfif>
 									<td>#spec.name#</td>
 									<td style="width: 20%">#spec.geography#</td>
-									<td style="width: 55%; padding-left: 0.7rem;">
+									<td style="width: 60%; padding-left: 0.7rem;">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
 												<div class="border-light col-4 float-left mr-3 px-0 py-1 mb-0"> <!---style="width:112px;height: 175px">--->
