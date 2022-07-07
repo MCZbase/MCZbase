@@ -28,7 +28,7 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<main class="container" id="content">
+	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
 			<cfloop query="media">
@@ -188,7 +188,7 @@
 									<td style="width:60%; padding-left: 0.7rem;">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-4 float-left mr-3 px-0 py-1 mb-0"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-3 float-left mr-3 px-0 py-1 mb-0"> <!---style="width:112px;height: 175px">--->
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left p-1 border-right border-bottom border-top">
