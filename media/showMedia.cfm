@@ -184,7 +184,7 @@
 										<td>None</td>
 									</cfif>
 									<td>#spec.name#</td>
-									<td style="min-width: 20%">#spec.geography#</td>
+									<td style="width: 20%">#spec.geography#</td>
 									<td style="width: 55%; padding-left: 0.7rem;">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
