@@ -171,14 +171,14 @@
 						<div class="search-box-header px-2 mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-md-none">s </span></span></li>
-								<li class="col-3 px-1 list-group-item d-none d-md-block"><span class="font-weight-lessbold">Details</span></li>
+								<li class="col-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
 								<li class="col-6 px-1 list-group-item d-none d-md-block"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
 							</ul>
 						</div>
 						<cfloop query="spec">
 							<div class="row mx-0 border-top py-2 border-gray" style="border">
-								<div class="col-12 col-md-1 py-2 border-right small90">
-									<a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#"><span class="d-inline d-lg-none">Catalog Number</span>#spec.guid#</a>
+								<div class="col-12 col-lg-1 py-2 border-right small90">
+									<span class="d-inline d-lg-none">Catalog Number</span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 								</div>
 								<div class="col-12 col-md-3 py-2 border-right small">
 									<div class="row mx-0">
