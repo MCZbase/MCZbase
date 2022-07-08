@@ -169,13 +169,14 @@
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
 								<li class="col-3 px-1 list-group-item">Details</li>
-<!---								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
-								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
-								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>--->
 								<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
 							</ul>
 						</div>
-						<div>
+						<divshow>
+							<cfset showTitleText = trim(title)>
+							<cfif len(showTitleText) GT 200>
+								<cfset showTitleText = "#left(showTitleText,200)#..." >
+							</cfif>
 							<cfloop query="spec">
 								<div class="row mx-0 border-top py-2 border-gray" style="border">
 									<div class="col-12 col-md-1 py-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
@@ -190,11 +191,11 @@
 											</cfif>
 										</div>
 										<div class="row mx-0">
-											<h3 class="h5 mb-0">Scientific Name</h3>
+											<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
 											<div class="col-12 pt-1 pb-2">#spec.name#</div>
 										</div>
 										<div class="row mx-0">
-											<h3 class="h5 mb-0">Geography</h3>
+											<h3 class="h5 mb-0">Location &amp; Time</h3>
 											<div class="col-12 pt-1 pb-2">#spec.geography#</div>
 										</div>
 									</div>
@@ -211,7 +212,7 @@
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textLinks",background_color="white")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 															<div class="col-5 bg-white px-1 float-left"> #mediablock# </div>
-															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#title#</div>
+															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#showTitleText#</div>
 														</div>
 													</cfif>
 													
