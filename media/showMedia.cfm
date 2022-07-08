@@ -341,7 +341,14 @@
 							</div>
 							<cfloop query="collecting_event">
 								<div class="row mx-0 border-top py-2 border-gray" style="border">
-									<div class="col-12 col-md-1 py-2 border-right small90"><a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.collecting_event_id#">#collecting_event.collecting_event_id#</a></div>
+									<div class="col-12 col-md-1 py-2 border-right small90">
+										<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.collecting_event_id#">
+											#collecting_event.collecting_event_id#</a>
+									</div>
+									<div class="col-12 col-md-1 py-2 border-right small90">
+										<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.locality_id#">
+											#collecting_event.locality_id#</a>
+									</div>
 									<div class="col-12 col-md-3 py-2 border-right small">
 										<div class="row mx-0">
 											<h3 class="h5 mb-0">Verbatim Date</h3>
