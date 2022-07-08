@@ -384,8 +384,8 @@
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Collecting&nbsp;Event</span></li>
 									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Locality&nbsp;ID</span></li>
-									<li class="col-3 px-1 list-group-item"><span class="font-weight-lessbold">Details</span></li>
-									<li class="col-7 px-1 list-group-item"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
+									<li class="col-4 px-1 list-group-item"><span class="font-weight-lessbold">Details</span></li>
+									<li class="col-6 px-1 list-group-item"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
 								</ul>
 							</div>
 							<cfloop query="collecting_event">
