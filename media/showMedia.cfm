@@ -268,7 +268,7 @@
 						<div class="col-12 px-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
-							media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
