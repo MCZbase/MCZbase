@@ -310,7 +310,7 @@
 											<cfif relm2.recordcount lte #maxMedia#>
 												<cfloop query="relm2">
 													<div class="border-light col-md-6 col-lg-4 col-xl-4 p-1 float-left"> 
-														<cfif len(collecting_event.collecting_event_id) gt 0>
+														<cfif len(accn.transaction_id) gt 0>
 															<cfif relm2.media_id eq '#media.media_id#'> 
 																<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
 															<cfelse>	
