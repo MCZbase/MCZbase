@@ -1156,7 +1156,7 @@ imgStyleClass=value
 	<cfargument name="size" type="string" required="no" default="600">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
-<!---	<cfargument name="background_class" type="string" required="no" default="bg-light">--->
+	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="grey">
 	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:100%">
 	<!--- argument scope isn't available within the cfthread, so creating explicit local variables to bring optional arguments into scope within the thread --->
