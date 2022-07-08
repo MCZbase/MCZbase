@@ -178,8 +178,8 @@
 						<div>
 							<cfloop query="spec">
 								<div class="row mx-0 border-top py-2 border-gray" style="border">
-									<div class="col-1 py-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
-									<div class="col-3 py-2 border-right small">
+									<div class="col-12 col-md-1 py-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
+									<div class="col-12 col-md-3 py-2 border-right small">
 										<div class="row mx-0">
 											<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
 											<cfif len(spec.typestatus) gt 0>
@@ -198,20 +198,20 @@
 											<div class="col-12 pt-1 pb-2">#spec.geography#</div>
 										</div>
 									</div>
-									<div class="col-8 p-1">
+									<div class="col-12 col-md-8 p-1">
 										<cfif relm.recordcount lte #maxMedia#>
 											<cfloop query="relm">
-												<div class="border-light col-md-5 col-lg-5 col-xl-3 p-1 float-left"> <!---style="width:112px;height: 175px">--->
+												<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 														<cfelse>	
 															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 														</cfif>
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",size='100',captionAs="textLinks")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 															<div class="col-5 bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
-															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>
+															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#title#</div>
 														</div>
 													</cfif>
 													
