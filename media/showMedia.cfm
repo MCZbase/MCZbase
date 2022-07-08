@@ -170,9 +170,9 @@
 					<div class="search-box mt-1 w-100">
 						<div class="search-box-header px-2 mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item</span></li>
-								<li class="col-3 px-1 list-group-item"><span class="font-weight-lessbold">Details</span></li>
-								<li class="col-6 px-1 list-group-item"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
+								<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-block d-md-none">s</span></span></li>
+								<li class="col-3 px-1 list-group-item d-none d-md-block"><span class="font-weight-lessbold">Details</span></li>
+								<li class="col-6 px-1 list-group-item d-none d-md-block"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
 							</ul>
 						</div>
 						<cfloop query="spec">
@@ -202,7 +202,7 @@
 								<div class="col-12 col-md-8 p-1">
 									<cfif relm.recordcount lte #maxMedia#>
 										<cfloop query="relm">
-											<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+											<div class="border-light col-12 col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 												<cfif len(media.media_id) gt 0>
 													<cfif relm.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -221,7 +221,7 @@
 										</cfloop>
 									<cfelse>
 										<cfloop query="relm">
-											<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+											<div class="border-light col-12 col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 												<cfif len(media.media_id) gt 0>
 													<cfif relm.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
