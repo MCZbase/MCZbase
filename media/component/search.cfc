@@ -1192,8 +1192,8 @@ imgStyleClass=value
 	<cfargument name="background_color" type="string" required="no" default="grey">
 	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:100%">
 	<cfif displayAs EQ "fixedSmallThumb">
-		<cfif size GT 75>
-			<cfset size = 75>
+		<cfif size GT 100>
+			<cfset size = 100>
 		</cfif>
 	</cfif>
 	<cfset output = "">
