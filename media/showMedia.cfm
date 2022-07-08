@@ -170,7 +170,7 @@
 					<div class="search-box mt-1 w-100">
 						<div class="search-box-header px-2 mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-md-none">s</span></span></li>
+								<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-md-none">s </span></span></li>
 								<li class="col-3 px-1 list-group-item d-none d-md-block"><span class="font-weight-lessbold">Details</span></li>
 								<li class="col-6 px-1 list-group-item d-none d-md-block"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
 							</ul>
