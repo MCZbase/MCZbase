@@ -33,12 +33,12 @@
 			<div class="col-12 pb-4">
 			<cfloop query="media">
 				<div class="row">
-					<div class="col-12 px-5 mt-4">
+					<div class="col-12 px-0 px-xl-5 mt-4">
 						<h1 class="h2 mt-4 pb-1 mb-3 pb-3 border-bottom"> Media Record
 							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
 						</h1>
 					</div>
-					<div class="col-12 px-5 mt-2 mb-2">
+					<div class="col-12 px-0 px-xl-5 mt-2 mb-2">
 						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							media_label,
