@@ -295,7 +295,7 @@
 										<div class="col-12 col-md-4 py-2 border-right small">
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Accession Type</h3>
-												<div class="col-12 pt-1 pb-2">#accn.accession_type#</div>
+												<div class="col-12 pt-1 pb-2">#accn.accn_type#</div>
 											</div>
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Accession Status</h3>
