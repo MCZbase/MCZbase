@@ -173,7 +173,6 @@
 							</ul>
 						</div>
 						<div>
-						
 							<cfloop query="spec">
 								<div class="row mx-0 border-top py-2 border-gray" style="border">
 									<div class="col-12 col-md-1 py-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
@@ -192,16 +191,12 @@
 											<div class="col-12 pt-1 pb-2">#spec.name#</div>
 										</div>
 										<div class="row mx-0">
-											<h3 class="h5 mb-0">Location &amp; Time</h3>
+											<h3 class="h5 mb-0">Location&nbsp;Data</h3>
 											<div class="col-12 pt-1 pb-2">#spec.geography#</div>
 										</div>
 									</div>
 									<div class="col-12 col-md-8 p-1">
 										<cfif relm.recordcount lte #maxMedia#>
-											<cfset showTitleText = trim(title)>
-											<cfif len(showTitleText) GT 200>
-												<cfset showTitleText = "#left(showTitleText,200)#..." >
-											</cfif>
 											<cfloop query="relm">
 												<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 													<cfif len(media.media_id) gt 0>
