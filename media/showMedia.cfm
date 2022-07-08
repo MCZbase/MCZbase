@@ -208,7 +208,7 @@
 														<cfelse>	
 															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 														</cfif>
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",size='100',captionAs="textLinks")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",size='100',captionAs="textLinks",background_color="white")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 															<div class="col-5 bg-white px-1 float-left"> #mediablock# </div>
 															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#title#</div>
