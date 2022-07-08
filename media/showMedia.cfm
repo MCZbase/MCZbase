@@ -177,10 +177,10 @@
 						</div>
 						<cfloop query="spec">
 							<div class="row mx-0 border-top py-2 border-gray" style="border">
-								<div class="col-12 col-lg-1 py-2 border-right small90">
+								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90">
 									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 								</div>
-								<div class="col-12 col-md-3 py-2 border-right small">
+								<div class="col-12 col-lg-3 col-xl-3 py-2 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
 										<cfif len(spec.typestatus) gt 0>
@@ -199,7 +199,7 @@
 										<div class="col-12 pt-1 pb-2">#spec.geography#</div>
 									</div>
 								</div>
-								<div class="col-12 col-md-8 p-1">
+								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfif relm.recordcount lte #maxMedia#>
 										<cfloop query="relm">
 											<div class="border-light col-12 col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
