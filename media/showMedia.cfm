@@ -284,15 +284,15 @@
 							</div>
 								<cfloop query="accn">
 									<div class="row mx-0 border-top py-2 border-gray" style="border">
-										<div class="col-12 col-md-1 py-2 border-right small90">
+										<div class="col-12 col-md-1 col-xl-1 py-2 border-right small90">
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
 												#accn.transaction_id#</a>
 										</div>
-										<div class="col-12 col-md-1 py-2 border-right small90">
+										<div class="col-12 col-md-1 col-xl-1 py-2 border-right small90">
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
 												#accn.accn_number#</a>
 										</div>
-										<div class="col-12 col-md-4 py-2 border-right small">
+										<div class="col-12 col-md-4 col-xl-3 py-2 border-right small">
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Accession Type</h3>
 												<div class="col-12 pt-1 pb-2">#accn.accn_type#</div>
@@ -306,7 +306,7 @@
 												<div class="col-12 pt-1 pb-2">#accn.received_agent#</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-6 p-1">
+										<div class="col-12 col-md-6 col-xl-8 p-1">
 											<cfif relm2.recordcount lte #maxMedia#>
 												<cfloop query="relm2">
 													<div class="border-light col-md-6 col-lg-4 col-xl-4 p-1 float-left"> 
