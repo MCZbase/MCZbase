@@ -94,13 +94,16 @@
 						
 							<h3 class="mx-2 h4 mb-1 mt-0 border-dark w-auto float-left">Metadata</h3>
 							<table class="table border-none">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th scope="col">Label</th>
 										<th scope="col">Value</th>
 									</tr>
 								</thead>
 								<tbody>
+									<tr>
+										<th scope="row"><span class="text-uppercase">MEDIA TYPE:</span></th><td> #media.media_type#</td>
+									</tr>
 									<cfloop query="labels">
 									<tr>
 										<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
@@ -210,7 +213,7 @@
 													<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 														<div class="col-5 bg-white px-1 float-left"> #mediablock# </div>
 														<cfset showTitleText1 = trim(title1)>
-															<cfif len(showTitleText1) gt 100><cfset showTitleText1 = "#left(showTitleText1,100)#..." ><cfelse><cfset showTitleText1 = "#showTitleText1#" ></cfif>
+															<cfif len(showTitleText1) gt 150><cfset showTitleText1 = "#left(showTitleText1,150)#..." ><cfelse><cfset showTitleText1 = "#showTitleText1#" ></cfif>
 														<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#showTitleText1#</div>
 													</div>
 												</cfif>
@@ -230,7 +233,7 @@
 															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 														</div>
 														<cfset showTitleText1 = trim(title1)>
-															<cfif len(title1) gt 100><cfset showTitleText = "#left(showTitleText1,100)#..." ></cfif>
+															<cfif len(title1) gt 150><cfset showTitleText = "#left(showTitleText1,150)#..." ></cfif>
 														<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#showTitleText1#</div>
 													</div>
 												</cfif>
