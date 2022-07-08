@@ -230,7 +230,10 @@
 													</cfif>
 													<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 														<div class="col-5 bg-white px-1 float-left">
-															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textLinks",background_color="white")>#mediablock#
+															<cfif relm.media_id eq '#media.media_id#'> <cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textLinks",background_color="white")>#mediablock#
+															<cfelse>
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
+															</cfif>
 														</div>
 														<cfset showTitleText1 = trim(title1)>
 															<cfif len(title1) gt 150><cfset showTitleText = "#left(showTitleText1,150)#..." ></cfif>
