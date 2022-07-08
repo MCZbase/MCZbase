@@ -340,8 +340,8 @@
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																</div>
 																<cfset showTitleText1 = trim(title1)>
-																<cfif len(showTitleText1) gt 100>
-																	<cfset showTitleText1 = "#left(showTitleText1,100)#..." >
+																<cfif len(showTitleText1) gt 170>
+																	<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
 																<cfelse>
 																	<cfset showTitleText1 = "#showTitleText1#" >
 																</cfif>
