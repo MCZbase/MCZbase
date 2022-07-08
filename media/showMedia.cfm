@@ -277,9 +277,9 @@
 							<div class="search-box-header px-2 mt-0 mediaTableHeader">
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession&nbsp;ID<span class="d-inline d-lg-none">s </span></span></li>
-									<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
+									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
 									<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
-									<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
+									<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
 								</ul>
 							</div>
 								<cfloop query="accn">
@@ -306,7 +306,7 @@
 												<div class="col-12 pt-1 pb-2">#accn.received_agent#</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-6 col-xl-8 p-1">
+										<div class="col-12 col-md-6 col-xl-7 p-1">
 											<cfif relm2.recordcount lte #maxMedia#>
 												<cfloop query="relm2">
 													<div class="border-light col-md-6 col-lg-4 col-xl-4 p-1 float-left"> 
