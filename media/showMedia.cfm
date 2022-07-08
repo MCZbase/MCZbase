@@ -134,7 +134,7 @@
 					</div>
 				</div>
 				<!---specimen records--->
-				<div class="row mx-0">
+				<div class="row mx-0 mb-3">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
@@ -167,9 +167,9 @@
 					<div class="search-box mt-1 w-100">
 						<div class="search-box-header px-2 mt-0 mediaTableHeader">
 							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
-								<li class="col-3 px-1 list-group-item">Details</li>
-								<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
+								<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item</span></li>
+								<li class="col-3 px-1 list-group-item"><span class="font-weight-lessbold">Details</span></li>
+								<li class="col-6 px-1 list-group-item"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
 							</ul>
 						</div>
 						<div>
