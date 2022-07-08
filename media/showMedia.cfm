@@ -175,7 +175,7 @@
 						<div>
 							<cfloop query="spec">
 								<div class="row mx-0 border-top py-2 border-gray" style="border">
-									<div class="col-12 col-md-1 py-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
+									<div class="col-12 col-md-1 py-2 border-right small95"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
 									<div class="col-12 col-md-3 py-2 border-right small">
 										<div class="row mx-0">
 											<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
@@ -205,7 +205,7 @@
 														<cfelse>	
 															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 														</cfif>
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="100",captionAs="textLinks",background_color="white")>
+														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
 														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 															<div class="col-5 bg-white px-1 float-left"> #mediablock# </div>
 															<cfset showTitleText1 = trim(title1)>
