@@ -363,7 +363,7 @@
 											<div class="col-12 pt-1 pb-2">#collecting_event.collecting_source#</div>
 										</div>
 									</div>
-									<div class="col-12 col-md-8 p-1">
+									<div class="col-12 col-md-7 p-1">
 										<cfif relm3.recordcount lte #maxMedia#>
 											<cfloop query="relm3">
 												<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
