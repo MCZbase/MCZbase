@@ -216,6 +216,26 @@
 													
 												</div>
 											</cfloop>
+										<cfelse>
+											<cfloop query="relm">
+												<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+													<cfif len(media.media_id) gt 0>
+														<cfif relm.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
+														</cfif>
+														
+														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
+															<div class="col-5 bg-white px-1 float-left"> Image </div>
+															<cfset showTitleText1 = trim(title1)>
+																<cfif len(title1) gt 100><cfset showTitleText = "#left(showTitleText1,100)#..." ></cfif>
+															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#showTitleText1#</div>
+														</div>
+													</cfif>
+													
+												</div>
+											</cfloop>
 										</cfif>
 										<div id="targetDiv"></div>
 									</div>
