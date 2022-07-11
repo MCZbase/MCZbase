@@ -292,11 +292,12 @@
 								<cfloop query="accn">
 									<div class="row mx-0 border-top py-0 border-gray">
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+											<span class="d-block">Transaction ID: </span>
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
 												#accn.transaction_id#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
+											<span class="d-block">Transaction ID: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
 												#accn.accn_number#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small">
