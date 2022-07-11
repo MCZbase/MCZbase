@@ -72,7 +72,7 @@
 						WHERE
 							media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					</cfquery>
-						<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
 						from media_relations
 							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
@@ -81,9 +81,8 @@
 							left join media media1 on media1.media_id = media_relations.media_id
 						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and (media_relationship = 'shows cataloged_item')
-						and identification.accepted_id_fg = 1
-							
-						</cfquery>
+						and identification.accepted_id_fg = 1		
+					</cfquery>
 						<cfif len(media.media_id) gt 0>
 						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-3 float-left mb-3 pt-3 pb-2">
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
@@ -215,7 +214,8 @@
 													</div>
 													<cfset showTitleText1 = trim(title1)>
 														<cfif len(title1) gt 150><cfset showTitleText = "#left(showTitleText1,150)#..." ></cfif>
-													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold">Media ID = #relm.media_id#</span>
+													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+														">Media ID = #relm.media_id#</span>
 														<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
 														#showTitleText1#
 													</div>
@@ -234,7 +234,8 @@
 				</div>
 				<!--- accn records --->
 				<div class="row mx-0">
-					<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfif media.media_id gt 0>
+						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
 								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,1 ,'preferred') as received_agent
 							from
@@ -245,7 +246,8 @@
 								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								and media_relations.media_relationship = 'documents accn'
 								and trans_agent.trans_agent_role = 'received from'
-					</cfquery>
+						</cfquery>
+					</cfif>
 					<cfif len(accn.transaction_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Accn Records with this Media</h1>
 						<div class="col-12 px-0">
@@ -256,7 +258,7 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
 						</cfquery>
-						<div class="search-box mt-1 w-100">
+						<div class="search-box mt-1 pb-0 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession&nbsp;ID<span class="d-inline d-lg-none">s </span></span></li>
@@ -267,27 +269,29 @@
 							</div>
 								<cfloop query="accn">
 									<div class="row mx-0 border-top py-0 border-gray">
-										<div class="col-12 col-md-1 col-xl-1 py-2 border-right small90">
+										<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
 												#accn.transaction_id#</a>
 										</div>
-										<div class="col-12 col-md-1 col-xl-1 py-2 border-right small90">
+										<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
 												#accn.accn_number#</a>
 										</div>
-										<div class="col-12 col-md-4 col-xl-1 py-2 border-right small">
+										<div class="col-12 col-md-4 col-xl-1 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Accession Type</h3>
-												<div class="col-12 pt-1 pb-2">#accn.accn_type#</div>
+												<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
 											</div>
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Accession Status</h3>
-												<div class="col-12 pt-1 pb-2">#accn.accn_status#</div>
+												<div class="col-12 pt-0 pb-1">#accn.accn_status#</div>
 											</div>
-											<div class="row mx-0">
-												<h3 class="h5 mb-0">Agents Involved</h3>
-												<div class="col-12 pt-1 pb-2">#accn.received_agent#</div>
-											</div>
+											<cfif len(accn.received_agent) gt 0>
+												<div class="row mx-0">
+													<h3 class="h5 mb-0">Agents Involved</h3>
+													<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
+												</div>
+											</cfif>
 										</div>
 										<div class="col-12 col-md-6 col-xl-9 p-1">
 											<cfloop query="relm2">
@@ -308,7 +312,8 @@
 															<cfelse>
 																<cfset showTitleText1 = "#showTitleText1#" >
 															</cfif>
-															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block">Media ID = #relm2.media_id#</span>
+															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relm2.media_id#</span>
+																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																#showTitleText1#
 															</div>
 														</div>
