@@ -261,7 +261,7 @@
 						</cfquery>
 					</cfif>
 					<cfif len(accn.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Accn Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Accession Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
@@ -273,7 +273,7 @@
 						<div class="search-box mt-1 pb-0 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
-									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession&nbsp;ID<span class="d-inline d-lg-none">s </span></span></li>
+									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline">IDs </span></span></li>
 									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
 									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
 									<li class="col-7 col-xl-9 px-1 list-group-item d-none d-lg-block">
@@ -318,7 +318,7 @@
 										</div>
 										<div class="col-12 col-md-6 col-xl-9 p-1">
 											<cfloop query="relm2">
-												<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+												<div class="border-light col-12 col-lg-4 col-xl-3 p-1 float-left"> 
 													<cfif len(accn.transaction_id) gt 0>
 														<cfif relm2.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
