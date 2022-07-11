@@ -1195,7 +1195,7 @@ imgStyleClass=value
 		<cfif size lte 200>
 			<cfset size = 75>
 		<cfelse>
-			<cfset sizeParameters='&width=300&height=auto'>
+			<cfset sizeParameters='&width="300"&height="auto"'>
 		</cfif>
 	</cfif>
 	<cfset output = "">
