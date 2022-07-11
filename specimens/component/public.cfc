@@ -1916,11 +1916,11 @@ limitations under the License.
 	<cfreturn getMetadataThread.output>
 </cffunction>
 							
-<!--- getMetaHTML get a block of html containing metadata about a cataloged item record 
- @param collection_object_id for the cataloged item for which to return metadata.
- @return a block of html with cataloged item record metadata, or if none, whitespace only
+<!--- getNamedGroupsHTML get a block of html containing a list of named groups that a cataloged item belongs to.
+ @param collection_object_id for the cataloged item for which to return named groups.
+ @return a block of html with cataloged item record groups, or if none, a list containing 'None'
 --->
-<cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
+<cffunction name="getNamedGroupsHTML" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
 	<cfthread name="getNamedGroupsThread">
@@ -1950,15 +1950,17 @@ limitations under the License.
 					WHERE
 						flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
-				<cfif named_groups.recordcount GT 0>
-					<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
-						<li class="list-group-item pt-0">
-							<cfloop query="named_groups">
+				<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+					<cfif named_groups.recordcount EQ 0>
+						<li class="list-group-item pt-0"> None </li>
+					<cfelse>
+						<cfloop query="named_groups">
+							<li class="list-group-item pt-0">
 								<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
-							</cfloop>
-						</li>
-					</ul>
-				</cfif>
+							</li>
+						</cfloop>
+					</cfif>
+				</ul>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
