@@ -99,8 +99,8 @@ table td .small {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
-.border-bottom-teal {
-	border-bottom: 2px solid #3E6f7d;
+.border-top-teal {
+	border-top: 2px solid #3E6f7d;
 }
 .border-bottom-ltblue {
 	border-bottom: 2px solid #b8d7f8;
