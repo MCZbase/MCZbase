@@ -872,7 +872,7 @@ limitations under the License.
 									</form>
 								</section>
 								<!--- results for fixed search --->
-								<section class="container-fluid">
+								<section class="container-fluid" id="fixedSearchResultsSection">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-5">
@@ -1026,7 +1026,7 @@ limitations under the License.
 									</form>
 								</section>
 								<!--- results for keyword search --->
-								<section class="container-fluid">
+								<section class="container-fluid" id="keywordSearchResultsSection">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-5">
@@ -1438,7 +1438,7 @@ limitations under the License.
 									</form>
 								</section>
 								<!--- results for search builder search --->
-								<section class="container-fluid">
+								<section class="container-fluid" id="builderSearchResultsSection">
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-5">
@@ -2586,6 +2586,7 @@ limitations under the License.
 				console.log(#session.specimens_pin_guid#);
 				setPinColumnState(gridId,'GUID',true);
 			</cfif>
+			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
 		}
 
 	</script>
