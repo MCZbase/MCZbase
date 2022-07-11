@@ -138,7 +138,7 @@
 					</div>
 				</div>
 				<!---specimen records--->
-				<div class="row mx-0 mb-3">
+				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
