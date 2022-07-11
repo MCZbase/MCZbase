@@ -85,7 +85,7 @@
 					</cfquery>
 						<cfif len(media.media_id) gt 0>
 						<div class="rounded border bg-light col-12 col-xl-3 float-left mb-3 pt-3 pb-2">
-							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textFull",background_color="white")>
+							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="fixedSmallThumb",captionAs="textFull",background_color="white")>
 							<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
 						</cfif>
@@ -327,7 +327,7 @@
 														</cfif>
 														<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
 															<div class="col-5 bg-white px-1 float-left">
-																<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="85",captionAs="textLinks",background_color="white")>#mediablock#
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 															</div>
 															<cfset showTitleText1 = trim(title1)>
 															<cfif len(showTitleText1) gt 170>
