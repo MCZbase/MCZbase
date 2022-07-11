@@ -34,7 +34,7 @@
 			<cfloop query="media">
 				<div class="row mx-0">
 					<div class="col-12 px-0 px-xl-5 mt-3">
-						<h1 class="h2 mt-4 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	<span class="h3 px-2 mt-0">(Media ID = #media.media_id#)</span>
+						<h1 class="h2 mt-4 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	<span class="h4 px-2 mt-0">(Media ID = #media.media_id#)</span>
 							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
 						</h1>
 					</div>
