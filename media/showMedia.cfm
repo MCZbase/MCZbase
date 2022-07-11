@@ -318,7 +318,7 @@
 										</div>
 										<div class="col-12 col-md-6 col-xl-9 p-1">
 											<cfloop query="relm2">
-												<div class="border-light col-12 col-lg-4 col-xl-3 p-1 float-left"> 
+												<div class="border-light col-12 col-lg-6 col-xl-3 p-1 float-left"> 
 													<cfif len(accn.transaction_id) gt 0>
 														<cfif relm2.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
