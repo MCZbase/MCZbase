@@ -329,59 +329,42 @@ limitations under the License.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
 				loadMedia(#collection_object_id#,'specimenMediaCardBody');
 			}
-		</script>
-		<script>
 			function reloadIdentifications() { 
 				// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
 				loadIdentifications(#collection_object_id#,'identificationsCardBody');
 			}
-		</script>
-		<script>
 			function reloadCitations() { 
 				// replace the citations block via ajax.
 				loadCitations(#collection_object_id#,'citationsCardBody');
 				// replace the citation media block via ajax.
-				loadCitationMedia(#collection_object_id#,'citationMediaBlock')'
+				loadCitationMedia(#collection_object_id#,'citationMediaBlock');
 			}
-		</script>
-		<script>
 			function reloadOtherIDs() { 
 				// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other Identifiers block.
 				loadOtherIDs(#collection_object_id#,'otherIDsCardBody');
 			}
-		</script>
-		<script>
 			function reloadParts() { 
 				// reload the parts html block
 				loadParts(#collection_object_id#,'partsCardBody');
 				// Update part count
 				loadPartCount(#collection_object_id#,'partCountSpan');
 			}
-		</script>
-		<script>
 			function reloadAttributes() { 
 				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
 				loadAttributes(#collection_object_id#,'attributesCardBody');
 			}
-		</script>
-		<script>
 			function reloadRemarks() { 
 				loadRemarks(#collection_object_id#,'remarksCardBody');
 			}
-		</script>
-		<script>
 			function reloadMeta() { 
 				loadMeta(#collection_object_id#,'metaCardBody');
 			}
-		</script>
-		<script>
+
 			function reloadLedger() { 
 				// replace the ledger/field notes block via ajax.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type documents.
 				loadLedger(#collection_object_id#,'ledgerCardBody');
 			}
-		</script>
-		<script>
 			function reloadNamedGroups() { 
 				loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
 			}
