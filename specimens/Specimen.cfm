@@ -92,6 +92,13 @@ limitations under the License.
 	<cfthrow message="Not for production use yet.">
 </cfif>
 
+<!--- Check to see if the user is logged in and has the role coldfusion_user, granted to internal users --->
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+<cfelse>
+	<cfset oneOfUs = 0>
+</cfif>
+
 <!--- (2) Look up summary and type information on the specimen --->
 <!---  TODO: Refactor this to obtain live data --->
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -272,12 +279,6 @@ limitations under the License.
 
 <!--- (4) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
 
-<!--- TODO: Refactor these checks to earlier in the page --->
-<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<cfset oneOfUs = 1>
-	<cfelse>
-	<cfset oneOfUs = 0>
-</cfif>
 <!--- Include the templates that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
@@ -366,6 +367,11 @@ limitations under the License.
 		<script>
 			function reloadRemarks() { 
 				loadRemarks(#collection_object_id#,'remarksCardBody');
+			}
+		</script>
+		<script>
+			function reloadMeta() { 
+				loadMeta(#collection_object_id#,'metaCardBody');
 			}
 		</script>
 		<script>
@@ -762,11 +768,6 @@ limitations under the License.
 						<div class="accordion" id="accordionMeta">
 							<div class="card mb-2 bg-light">
 								<div id="metaDialog"></div>
-								<script>
-									function reloadMeta() { 
-										loadMeta(#collection_object_id#,'metaCardBody');
-									}
-								</script>
 								<cfset blockmeta = getMetaHTML(collection_object_id = "#collection_object_id#")>
 								<div class="card-header" id="headingMeta">
 									<cfif len(#blockmeta#) gt 0> 

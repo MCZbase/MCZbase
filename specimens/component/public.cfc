@@ -1800,7 +1800,9 @@ limitations under the License.
 				</cfif>
 				<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT  
-						coll_object_remarks
+						coll_object_remark.coll_object_remarks,
+						coll_object_remark.disposition_remarks,
+						coll_object_remark.associated_species
 					FROM
 						cataloged_item
 						left join coll_object_remark on cataloged_item.collection_object_id = cataloged_item.collection_object_id
@@ -1809,14 +1811,20 @@ limitations under the License.
 				</cfquery>
 				<cfif len(#object_rem.coll_object_remarks#) gt 0>
 					<ul class="list-group pl-0 pt-0">
-						<li class="list-group-item pt-0 pb-1">
-							<!--- check for mask parts, hide collection object remarks if mask parts ---->
-							<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-								Masked
-							<cfelse>
-								#object_rem.coll_object_remarks# 
+						<!--- check for mask parts, hide collection object remarks if mask parts ---->
+						<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+							<li class="list-group-item pt-0 pb-1">Masked</li>
+						<cfelse>
+							<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								<cfif len(object_rem.disposition_remarks) gt 0 >
+									<li class="list-group-item pt-0">Disposition Remarks: #meta.disposition_remarks#</li>
+								</cfif>
 							</cfif>
-						</li>
+							<cfif len(object_rem.associated_species) gt 0 >
+								<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
+							</cfif>
+						</cfif>
 					</ul>
 				</cfif>
 			<cfcatch>
@@ -1832,47 +1840,39 @@ limitations under the License.
 	<cfreturn getRemarksThread.output>
 </cffunction>
 
-							
+<!--- getMetaHTML get a block of html containing metadata about a cataloged item record 
+ @param collection_object_id for the cataloged item for which to return metadata.
+ @return a block of html with cataloged item record metadata, or if none, whitespace only
+--->
 <cffunction name="getMetaHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getMetadataThread">
-	<cfoutput>
-		<cftry>
-			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-				<div class="error"> Improper call. Aborting..... </div>
-				<cfabort>
-			</cfif>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-			<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<!--- check for mask record, hide if mask record ---->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-				FROM DUAL
-			</cfquery>
-			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-				<cfthrow message="Record Masked">
-			</cfif>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
+		<cfoutput>
+			<cftry>
+				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+					<div class="error"> Improper call. Aborting..... </div>
+					<cfabort>
+				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
 				<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
 				<cfquery name="meta" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
-						cataloged_item.collection_object_id as collection_object_id,
-						cataloged_item.cat_num,
 						coll_object.coll_object_entered_date,
 						coll_object.last_edit_date,
-						collection.collection_cde,
 						coll_object.flags,
-						coll_object_remark.habitat, 
-						coll_object_remark.associated_species, 
-						coll_object_remark.disposition_remarks, 
-						coll_object_remark.coll_object_remarks,
 						enteredPerson.agent_name EnteredBy,
 						editedPerson.agent_name EditedBy,
 						concatencumbrances(cataloged_item.collection_object_id) concatenatedEncumbrances,
@@ -1880,62 +1880,34 @@ limitations under the License.
 					FROM
 						cataloged_item
 						left join collection on cataloged_item.collection_id = collection.collection_id
-						left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-						left join coll_object_remark on coll_object.collection_object_id = coll_object_remark.collection_object_id
-						left join coll_object on coll_object.collection_object_id = coll_object_remark.collection_object_id
 						left join preferred_agent_name enteredPerson on coll_object.entered_person_id = enteredPerson.agent_id
 						left join preferred_agent_name editedPerson on coll_object.last_edited_person_id = editedPerson.agent_id
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-					<ul class="list-group pl-0 pt-0">
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
-								<li class="list-group-item pt-0"> <span class="my-0 d-inline font-weight-lessbold">Entered By:</span> #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
-								<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Last Edited By:</span> #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
-							</cfif>
-							<cfif len(#meta.flags#) is not 0>
-								<li class="list-group-item"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
-							</cfif>
-							<cfif len(#meta.encumbranceDetail#) is not 0>
-								<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
-							</cfif>
+				<ul class="list-group pl-0 pt-0">
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
+							<li class="list-group-item pt-0"> <span class="my-0 d-inline font-weight-lessbold">Entered By:</span> #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
+							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Last Edited By:</span> #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
 						</cfif>
-					</ul>
-					<ul class="list-group list-group-flush p-0">
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfif len(meta.disposition_remarks) gt 0 >
-								<li class="list-group-item pt-0">Disposition Remarks: #meta.disposition_remarks#</li>
-							</cfif>
+						<cfif len(#meta.flags#) is not 0>
+							<li class="list-group-item"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
 						</cfif>
-						<cfif len(meta.associated_species) gt 0 >
-							<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
+						<cfif len(#meta.encumbranceDetail#) is not 0>
+							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
-					</ul>
-			<cfcatch>
-					<cfif isDefined("cfcatch.queryError") >
-						<cfset queryError=cfcatch.queryError>
-					<cfelse>
-						<cfset queryError = ''>
 					</cfif>
-					<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-					<cfcontent reset="yes">
-					<cfheader statusCode="500" statusText="#message#">
-					<div class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h2>Internal Server Error.</h2>
-								<p>#message#</p>
-								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-							</div>
-						</div>
-					</div>
+				</ul>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getMetadataThread"/>
 	<cfreturn getMetadataThread.output>
