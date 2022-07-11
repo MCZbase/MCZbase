@@ -558,24 +558,16 @@ limitations under the License.
 				</cfif>
 				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct 
-						mr.media_id, 
-						m.media_uri, 
-						m.preview_uri, 
-						ml.label_value descr, 
-						m.media_type, 
-						m.mime_type
+						media_relations.media_id, formatted_publication
 					FROM
-						media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+						citation 
+						left join publication on citation.publication_id = publication.publication_id
+						left join formatted_publication on publication.publication_id = formatted_publication.publication_id and format_style='short'
+						left join media_relations on publication.publication_id = media_relations.related_primary_key
 					WHERE
-						mr.media_id = ml.media_id and
-						mr.media_id = m.media_id and
-						ml.media_label = 'description' and
 						MEDIA_RELATIONSHIP like '% publication' and
-						RELATED_PRIMARY_KEY = c.publication_id and
-						c.publication_id = fp.publication_id and
-						fp.format_style='short' and
-						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
-						MCZBASE.is_media_encumbered(m.media_id) < 1
+						citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						MCZBASE.is_media_encumbered(media_relations.media_id) < 1
 					ORDER by substr(formatted_publication, -4)
 				</cfquery>
 				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
