@@ -1830,7 +1830,6 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</ul>
-				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
