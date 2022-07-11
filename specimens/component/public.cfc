@@ -563,7 +563,7 @@ limitations under the License.
 						left join media_relations on publication.publication_id = media_relations.related_primary_key
 					WHERE
 						MEDIA_RELATIONSHIP like '% publication' and
-						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MCZBASE.is_media_encumbered(media_relations.media_id) < 1
 					ORDER by substr(formatted_publication, -4)
 				</cfquery>
