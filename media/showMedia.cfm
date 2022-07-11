@@ -8,7 +8,7 @@
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 
-<cfset maxMedia = 5>
+
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
@@ -200,7 +200,7 @@
 									</div>
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
-									<cfif relm.recordcount lte #maxMedia#>
+		<!---							<cfif relm.recordcount lte #maxMedia#>
 										<cfloop query="relm">
 											<div class="border-light col-12 col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 												<cfif len(media.media_id) gt 0>
@@ -219,7 +219,7 @@
 												</cfif>
 											</div>
 										</cfloop>
-									<cfelse>
+									<cfelse>--->
 										<cfloop query="relm">
 											<div class="border-light col-12 col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 												<cfif len(media.media_id) gt 0>
@@ -239,7 +239,7 @@
 												</cfif>
 											</div>
 										</cfloop>
-									</cfif>
+								<!---	</cfif>--->
 									<div id="targetDiv"></div>
 								</div>
 							</div>
