@@ -1809,23 +1809,27 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfif len(#object_rem.coll_object_remarks#) gt 0>
-					<ul class="list-group pl-0 pt-0">
-						<!--- check for mask parts, hide collection object remarks if mask parts ---->
-						<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-							<li class="list-group-item pt-0 pb-1">Masked</li>
-						<cfelse>
+				<ul class="list-group pl-0 pt-0">
+					<!--- check for mask parts, hide collection object remarks if mask parts ---->
+					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+						<li class="list-group-item pt-0 pb-1">Masked</li>
+					<cfelse>
+						<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
+							<li class="small90 list-group-item font-italic"> None </li>
+						</cfif>
+						<cfif len(#object_rem.coll_object_remarks#) gt 0>
 							<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-								<cfif len(object_rem.disposition_remarks) gt 0 >
-									<li class="list-group-item pt-0">Disposition Remarks: #meta.disposition_remarks#</li>
-								</cfif>
-							</cfif>
-							<cfif len(object_rem.associated_species) gt 0 >
-								<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
+						</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+							<cfif len(object_rem.disposition_remarks) gt 0 >
+								<li class="list-group-item pt-0">Disposition Remarks: #meta.disposition_remarks#</li>
 							</cfif>
 						</cfif>
-					</ul>
+						<cfif len(object_rem.associated_species) gt 0 >
+							<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
+						</cfif>
+					</cfif>
+				</ul>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1913,69 +1917,60 @@ limitations under the License.
 	<cfreturn getMetadataThread.output>
 </cffunction>
 							
+<!--- getMetaHTML get a block of html containing metadata about a cataloged item record 
+ @param collection_object_id for the cataloged item for which to return metadata.
+ @return a block of html with cataloged item record metadata, or if none, whitespace only
+--->
 <cffunction name="getNamedGroups" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_object_id" type="string" required="yes">
+
 	<cfthread name="getNamedGroupsThread">
-	<cfoutput>
-		<cftry>
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-			<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<!--- check for mask record, hide if mask record ---->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-				FROM DUAL
-			</cfquery>
-			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-				<cfthrow message="Record Masked">
-			</cfif>
-		<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
-			SELECT DISTINCT collection_name, underscore_relation.underscore_collection_id
-			FROM
-				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on underscore_relation.collection_object_id = flat.collection_object_id
-			WHERE flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		</cfquery>
-			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
-				<cfif named_groups.recordcount eq 1>
-					<li class="list-group-item pt-0">
-						<cfloop query="named_groups">
-							<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
-						</cfloop>
-					</li>
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
 				</cfif>
-			</ul>
+				<!--- check for mask record, hide if mask record ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
+					SELECT DISTINCT 
+						collection_name, underscore_relation.underscore_collection_id
+					FROM
+						underscore_collection
+						left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+						left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on underscore_relation.collection_object_id = flat.collection_object_id
+					WHERE
+						flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfif named_groups.recordcount GT 0>
+					<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+						<li class="list-group-item pt-0">
+							<cfloop query="named_groups">
+								<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
+							</cfloop>
+						</li>
+					</ul>
+				</cfif>
 			<cfcatch>
-			<cfif isDefined("cfcatch.queryError") >
-				<cfset queryError=cfcatch.queryError>
-			<cfelse>
-				<cfset queryError = ''>
-			</cfif>
-				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfcontent reset="yes">
-				<cfheader statusCode="500" statusText="#message#">
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
 			</cfcatch>
-		</cftry>
-	</cfoutput>
+			</cftry>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getNamedGroupsThread"/>
 	<cfreturn getNamedGroupsThread.output>
 </cffunction>	
-							
 
 </cfcomponent>
->

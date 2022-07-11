@@ -381,6 +381,11 @@ limitations under the License.
 				loadLedger(#collection_object_id#,'ledgerCardBody');
 			}
 		</script>
+		<script>
+			function reloadNamedGroups() { 
+				loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
+			}
+		</script>
 		<!--- controls for editing record --->
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
@@ -726,40 +731,21 @@ limitations under the License.
 							<div id="RemarksDialog"></div>
 							<cfset blockRemarks = getRemarksHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingRemarks">
-								<cfif len(#blockRemarks#) gt 50>
-									<h3 class="h5 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
-											Collection Object Remarks
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
-												Edit
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h5 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
-											Collection Object Remarks
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
-												Add
-											</a>
-										</cfif>
-									</h3>
-								</cfif>
+								<h3 class="h5 my-0">
+									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="RemarksPane" data-toggle="collapse" data-target="##RemarksPane">
+										Collection Object Remarks
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRemarksDialog(#collection_object_id#,'RemarksDialog','#guid#',reloadRemarks)">
+											Edit
+										</a>
+									</cfif>
+								</h3>
 							</div>
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
-								<cfif len(trim(blockRemarks)) gt 0>
-									<div class="card-body py-1 my-1 float-left" id="remarksCardBody">
-										#blockRemarks#
-									</div>
-								<cfelse>
-									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
-								</cfif>
+								<div class="card-body py-1 my-1 float-left" id="remarksCardBody">
+									#blockRemarks#
+								</div>
 							</div>
 						</div>
 					</div>
@@ -770,40 +756,21 @@ limitations under the License.
 								<div id="metaDialog"></div>
 								<cfset blockmeta = getMetaHTML(collection_object_id = "#collection_object_id#")>
 								<div class="card-header" id="headingMeta">
-									<cfif len(#blockmeta#) gt 0> 
-										<h3 class="h5 my-0">
-											<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
-												Metadata
-											</button>
-											<cfif listcontainsnocase(session.roles,"manage_specimens")>
-												<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
-													Edit
-												</a>
-											</cfif>
-										</h3>
-									<cfelse>
-										<h3 class="h5 my-0">
-											<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
-												Metadata
-											</button>
-											<cfif listcontainsnocase(session.roles,"manage_specimens")>
-												<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
-													Add
-												</a>
-											</cfif>
-										</h3>
-									</cfif>
+									<h3 class="h5 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="MetaPane" data-toggle="collapse" data-target="##MetaPane">
+											Metadata
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditMetaDialog(#collection_object_id#,'metaDialog','#guid#',reloadMeta)">
+												Edit
+											</a>
+										</cfif>
+									</h3>
 								</div>
 								<div id="MetaPane" class="collapse show" aria-labelledby="headingMeta" data-parent="##accordionMeta">
-									<cfif len(#blockmeta#) gt 0>
-										<div class="card-body py-1 my-1 float-left" id="metaCardBody">
-											#blockmeta#
-										</div>
-									<cfelse>
-										<ul class="pl-3 py-0 mb-0">
-											<li class="list-group-item small90 font-italic">None</li>
-										</ul>
-									</cfif>
+									<div class="card-body py-1 my-1 float-left" id="metaCardBody">
+										#blockmeta#
+									</div>
 								</div>
 							</div>
 						</div>
@@ -970,11 +937,6 @@ limitations under the License.
 					<div class="accordion" id="accordionNamedGroups">
 						<div class="card mb-2 bg-light">
 							<div id="NamedGroupsDialog"></div>
-							<script>
-								function reloadNamedGroups() { 
-									loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
-								}
-							</script>
 							<div class="card-header" id="headingNamedGroups">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
@@ -988,18 +950,10 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
-								<cfif #block# gt 0>
-									<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
-										<cfset block = getNamedGroups(collection_object_id = "#collection_object_id#")>
-										#block#
-									</div>
-								<cfelse>
-									<ul class="pl-2 list-group py-0 mb-0">
-										<li class="small90 list-group-item font-italic">
-											None
-										</li>
-									</ul>	
-								</cfif>
+								<cfset namedGroupBlock = getNamedGroups(collection_object_id = "#collection_object_id#")>
+								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
+									#namedGroupBlock#
+								</div>
 							</div>
 						</div>
 					</div>
