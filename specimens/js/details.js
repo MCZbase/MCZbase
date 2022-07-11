@@ -49,7 +49,7 @@ function loadNamedGroups(collection_object_id,targetDivId) {
 		dataType: "json",
 		url: "/specimens/component/public.cfc",
 		data: { 
-			method : "getNamedGroups",
+			method : "getNamedGroupsHTML",
 			collection_object_id : collection_object_id,
 			returnformat : "json",
 			queryformat : 'column'
