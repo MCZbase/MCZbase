@@ -8,7 +8,7 @@
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 
-<cfset maxMedia = 8>
+<cfset maxMedia = 4>
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
