@@ -275,8 +275,8 @@
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession&nbsp;ID<span class="d-inline d-lg-none">s </span></span></li>
 									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
-									<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
-									<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
+									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
+									<li class="col-7 col-xl-9 px-1 list-group-item d-none d-lg-block">
 										<span class="font-weight-lessbold">		
 											<cfif relm2.recordcount GT 2>
 												<cfset plural = "s">
@@ -291,15 +291,15 @@
 							</div>
 								<cfloop query="accn">
 									<div class="row mx-0 border-top py-0 border-gray">
-										<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
+										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
 												#accn.transaction_id#</a>
 										</div>
-										<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
+										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
 												#accn.accn_number#</a>
 										</div>
-										<div class="col-12 col-md-4 col-xl-1 pt-2 pb-1 border-right small">
+										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Accession Type</h3>
 												<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
