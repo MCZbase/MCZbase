@@ -356,10 +356,10 @@
 								</div>
 							</cfloop>
 						</div>
+						</div>
 					<cfelse>
 						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Accessions</h3>
 					</cfif>
-					</div>
 				</div>
 				<!--- collecting event records --->
 				<div class="row mx-0">
@@ -451,10 +451,10 @@
 								</div>
 							</cfloop>
 						</div>
+						</div>
 					<cfelse>
 						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Collecting Events</h3>
 					</cfif>
-					</div>
 				</div>
 													
 													
