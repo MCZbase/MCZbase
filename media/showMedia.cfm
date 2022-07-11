@@ -176,7 +176,7 @@
 							</ul>
 						</div>
 						<cfloop query="spec">
-							<div class="row mx-0 border-top py-0 border-gray" style="border">
+							<div class="row mx-0 border-top py-0 border-bottom-gray">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90">
 									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 								</div>
