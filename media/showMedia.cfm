@@ -644,7 +644,7 @@
 						from loan 
 							left join media_relations on media_relations.related_primary_key = loan.transaction_id
 						where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-							and (media_relations.media_relationship = 'documents loan');
+							and (media_relations.media_relationship = 'documents loan')
 					</cfquery>
 					<cfif len(loan.transaction_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Loan Records with this Media</h1>
