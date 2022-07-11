@@ -215,7 +215,7 @@
 													</div>
 													<cfset showTitleText1 = trim(title1)>
 														<cfif len(title1) gt 150><cfset showTitleText = "#left(showTitleText1,150)#..." ></cfif>
-													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#showTitleText1#</div>
+													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;"><span class="d-block">Media ID = #relm.media_id#</span>#showTitleText1#</div>
 												</div>
 											</cfif>
 										</div>
@@ -254,7 +254,7 @@
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
 						</cfquery>
 						<div class="search-box mt-1 w-100">
-							<div class="search-box-header px-2 mt-0 mediaTableHeader">
+							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession&nbsp;ID<span class="d-inline d-lg-none">s </span></span></li>
 									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
@@ -287,52 +287,31 @@
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-xl-9 p-1">
-											<cfif relm2.recordcount lte #maxMedia#>
-												<cfloop query="relm2">
-													<div class="border-light col-md-6 col-lg-4 col-xl-4 p-1 float-left"> 
-														<cfif len(accn.transaction_id) gt 0>
-															<cfif relm2.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
-															<cfelse>	
-																<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
-															</cfif>
-															<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
-															<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
-																<div class="col-5 bg-white px-1 float-left"> #mediablock# </div>
-																<cfset showTitleText1 = trim(title1)>
-																	<cfif len(showTitleText1) gt 170><cfset showTitleText1 = "#left(showTitleText1,170)#..." ><cfelse><cfset showTitleText1 = "#showTitleText1#" ></cfif>
-																<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block">Media ID = #relm2.media_id#</span>#showTitleText1#</div>
-															</div>
+											<cfloop query="relm2">
+												<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+													<cfif len(accn.transaction_id) gt 0>
+														<cfif relm2.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
 														</cfif>
-													</div>
-												</cfloop>
-											<cfelse>
-												<cfloop query="relm2">
-													<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
-														<cfif len(accn.transaction_id) gt 0>
-															<cfif relm2.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
-															<cfelse>	
-																<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
-															</cfif>
-															<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
-																<div class="col-5 bg-white px-1 float-left">
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="85",captionAs="textLinks",background_color="white")>#mediablock#
-																</div>
-																<cfset showTitleText1 = trim(title1)>
-																<cfif len(showTitleText1) gt 170>
-																	<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
-																<cfelse>
-																	<cfset showTitleText1 = "#showTitleText1#" >
-																</cfif>
-																<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
-																	#showTitleText1#
-																</div>
+														<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
+															<div class="col-5 bg-white px-1 float-left">
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="85",captionAs="textLinks",background_color="white")>#mediablock#
 															</div>
-														</cfif>
-													</div>
-												</cfloop>
-											</cfif>
+															<cfset showTitleText1 = trim(title1)>
+															<cfif len(showTitleText1) gt 170>
+																<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+															<cfelse>
+																<cfset showTitleText1 = "#showTitleText1#" >
+															</cfif>
+															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block">Media ID = #relm2.media_id#</span>
+																#showTitleText1#
+															</div>
+														</div>
+													</cfif>
+												</div>
+											</cfloop>
 										<div id="targetDiv"></div>
 										</div>
 									</div>
