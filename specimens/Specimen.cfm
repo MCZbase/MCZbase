@@ -532,6 +532,10 @@ limitations under the License.
 									</ul>
 								</cfif>
 								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
+								<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
+									<!--- error, display the resulting error message --->
+									#citationMediaCount#
+								</cfif>
 								<cfif citationMediaCount gt 0>
 									<div class="float-left d-inline">
 										<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
