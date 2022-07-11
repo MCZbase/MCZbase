@@ -452,9 +452,10 @@
 								</div>
 							</cfloop>
 						</div>
-				<cfelse>
-					<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Collecting Events</h3>
-				</cfif>
+					<cfelse>
+						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Collecting Events</h3>
+					</cfif>
+					</div>
 				</div>
 													
 													
