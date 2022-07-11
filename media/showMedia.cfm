@@ -371,7 +371,7 @@
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event.collecting_event_id#">
 						</cfquery>
 						<div class="search-box mt-1 w-100">
-							<div class="search-box-header px-2 mt-0 mediaTableHeader">
+							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Collecting&nbsp;Event</span></li>
 									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Locality&nbsp;ID</span></li>
@@ -380,7 +380,7 @@
 								</ul>
 							</div>
 							<cfloop query="collecting_event">
-								<div class="row mx-0 border-top py-2 border-gray" style="border">
+								<div class="row mx-0 border-top py-2 border-gray">
 									<div class="col-12 col-md-1 py-2 border-right small90">
 										<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.collecting_event_id#">
 											#collecting_event.collecting_event_id#</a>
@@ -404,57 +404,36 @@
 										</div>
 									</div>
 									<div class="col-12 col-md-6 p-1">
-										<cfif relm3.recordcount lte #maxMedia#>
-											<cfloop query="relm3">
-												<div class="border-light col-md-6 col-lg-4 col-xl-4 p-1 float-left"> 
-													<cfif len(collecting_event.collecting_event_id) gt 0>
-														<cfif relm3.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-														<cfelse>	
-															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
-														</cfif>
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
-														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-															<div class="col-5 bg-white px-1 float-left"> #mediablock# </div>
-															<cfset showTitleText1 = trim(title1)>
-																<cfif len(showTitleText1) gt 100><cfset showTitleText1 = "#left(showTitleText1,100)#..." ><cfelse><cfset showTitleText1 = "#showTitleText1#" ></cfif>
-															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">#showTitleText1#</div>
-														</div>
+										<cfloop query="relm3">
+											<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+												<cfif len(collecting_event.collecting_event_id) gt 0>
+													<cfif relm3.media_id eq '#media.media_id#'> 
+														<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+													<cfelse>	
+														<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 													</cfif>
-												</div>
-											</cfloop>
-										<cfelse>
-											<cfloop query="relm3">
-												<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
-													<cfif len(collecting_event.collecting_event_id) gt 0>
-														<cfif relm3.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-														<cfelse>	
-															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
-														</cfif>
-														<div class="#activeimg#" id="mediaBlock#relm3.media_id#">
-															<div class="col-5 bg-white px-1 float-left">
-																<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
-															</div>
-															<cfset showTitleText1 = trim(title1)>
-															<cfif len(showTitleText1) gt 100>
-																<cfset showTitleText1 = "#left(showTitleText1,100)#..." >
-															<cfelse>
-																<cfset showTitleText1 = "#showTitleText1#" >
-															</cfif>
-															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">
-																#showTitleText1#
-															</div>
+													<div class="#activeimg#" id="mediaBlock#relm3.media_id#">
+														<div class="col-5 bg-white px-1 float-left">
+															<cfset mediablock= getMediaBlockHtml(media_id="#relm3.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 														</div>
-													</cfif>
-												</div>
-											</cfloop>
-										</cfif>
-									<div id="targetDiv"></div>
+														<cfset showTitleText1 = trim(title1)>
+														<cfif len(showTitleText1) gt 100>
+															<cfset showTitleText1 = "#left(showTitleText1,100)#..." >
+														<cfelse>
+															<cfset showTitleText1 = "#showTitleText1#" >
+														</cfif>
+														<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">
+															#showTitleText1#
+														</div>
+													</div>
+												</cfif>
+											</div>
+										</cfloop>
+										<div id="targetDiv"></div>
+									</div>
 								</div>
-							</div>
-						</cfloop>
-					</div>
+							</cfloop>
+						</div>
 				<cfelse>
 					<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Collecting Events</h3>
 				</cfif>
@@ -477,44 +456,75 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
 						</cfquery>
-							<table class="search-box table table-responsive mt-1 w-100">
-								<thead class="search-box-header mt-1">
-									<tr class="text-white">
-										<th>Permit&nbsp;ID</th>
-										<th>Issued&nbsp;Date</th>
-										<th>Permit&nbsp;Number</th>
-										<th>Permit&nbsp;Type</th>
-										<th>Permit&nbsp;Remarks</th>
-										<th>Image Thumbnail(s)</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>#permit.permit_id#</td>
-										<td>#permit.issued_date#</td>
-										<td>#permit.permit_num#</td>
-										<td>#permit.permit_type#</td>
-										<td>#permit.permit_remarks#</td>
-										<td style="width:57%; padding-left: .5rem;">
-											<cfloop query="relm4">
-												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 202px">
+						<div class="search-box mt-1 w-100">
+							<div class="search-box-header px-2 mt-0">
+								<ul class="list-group list-group-horizontal text-white">
+									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit&nbsp;ID</span></li>
+									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Issued&nbsp;Date</span></li>
+									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit Number</span></li>	
+									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit Type</span></li>
+									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit Remarks</span></li>
+									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Issued&nbsp;Date</span></li>
+									<li class="col-6 px-1 list-group-item"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
+								</ul>
+							</div>
+							<cfloop query="collecting_event">
+								<div class="row mx-0 border-top py-2 border-gray">
+									<div class="col-12 col-md-1 py-2 border-right small90">
+										<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.collecting_event_id#">
+											#collecting_event.collecting_event_id#</a>
+									</div>
+									<div class="col-12 col-md-1 py-2 border-right small90">
+										<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.locality_id#">
+											#collecting_event.locality_id#</a>
+									</div>
+									<div class="col-12 col-md-4 py-2 border-right small">
+										<div class="row mx-0">
+											<h3 class="h5 mb-0">Verbatim Date</h3>
+											<div class="col-12 pt-1 pb-2">#collecting_event.verbatim_date#</div>
+										</div>
+										<div class="row mx-0">
+											<h3 class="h5 mb-0">Verbatim Locality</h3>
+											<div class="col-12 pt-1 pb-2">#collecting_event.verbatim_locality#</div>
+										</div>
+										<div class="row mx-0">
+											<h3 class="h5 mb-0">Collecting Source</h3>
+											<div class="col-12 pt-1 pb-2">#collecting_event.collecting_source#</div>
+										</div>
+									</div>
+									<div class="col-12 col-md-6 p-1">
+										<cfloop query="relm4">
+											<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 												<cfif len(permit.permit_id) gt 0>
 													<cfif relm4.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left pt-2 border-right border-bottom border-top px-1">
+														<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 													<cfelse>	
-														<cfset activeimg = "border-light pt-2">
+														<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
-													<div class="float-left #activeimg#" id="mediaBlock#relm4.media_id#"> #mediablock# </div>
+													<div class="#activeimg#" id="mediaBlock#relm4.media_id#">
+														<div class="col-5 bg-white px-1 float-left">
+															<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
+														</div>
+														<cfset showTitleText1 = trim(title1)>
+														<cfif len(showTitleText1) gt 100>
+															<cfset showTitleText1 = "#left(showTitleText1,100)#..." >
+														<cfelse>
+															<cfset showTitleText1 = "#showTitleText1#" >
+														</cfif>
+														<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">
+															#showTitleText1#
+														</div>
+													</div>
 												</cfif>
-												</div>
-											</cfloop>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+											</div>
+										</cfloop>
+										<div id="targetDiv"></div>
+									</div>
+								</div>
+							</cfloop>
 						</div>
-					<cfelse>						
+					<cfelse>
+						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Permits</h3>
 					</cfif>
 				</div>
 				<!---Borrow records--->			
