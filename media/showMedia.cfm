@@ -20,6 +20,7 @@
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
 				, 'Unrelated image') mrstr
 		From
