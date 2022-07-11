@@ -167,7 +167,7 @@
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
-					<div class="search-box mt-1 w-100">
+					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-lg-none">s </span></span></li>
