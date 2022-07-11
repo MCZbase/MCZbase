@@ -1194,7 +1194,8 @@ imgStyleClass=value
 	<cfif displayAs EQ "fixedSmallThumb">
 		<cfif size lte 200>
 			<cfset size = 75>
-		<cfelse size eq #size#
+		<cfelse>
+			<cfset size = #size#>
 		</cfif>
 	</cfif>
 	<cfset output = "">
