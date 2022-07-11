@@ -658,6 +658,7 @@
 							<table class="search-box table table-responsive mt-1 w-100">
 								<thead class="search-box-header mt-1">
 									<tr class="text-white">
+										<th>Transaction ID</th>
 										<th>Loan&nbsp;Number</th>
 										<th>Loan&nbsp;Type</th>
 										<th>Loan&nbsp;Status</th>
