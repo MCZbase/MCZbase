@@ -166,6 +166,7 @@
 						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+						order by media.media_id
 					</cfquery>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
