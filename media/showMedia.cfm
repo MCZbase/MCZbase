@@ -358,7 +358,6 @@
 						</div>
 					<cfelse>
 						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Accessions</h3>
-					
 					</cfif>
 					</div>
 				</div>
@@ -559,10 +558,11 @@
 										</div>
 									</div>
 								</cfloop>
-						</div>
-					<cfelse>
+							</div>
+						<cfelse>
 							<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Permit</h3>
-					</cfif>
+						</cfif>
+					</div>
 				</div>
 
 				<!---Borrow records--->			
