@@ -444,28 +444,37 @@
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 					<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select permit.permit_id, permit.issued_date, permit.permit_num, permit.permit_type, permit.permit_remarks
+						select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date, media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title  
 						from permit
 							left join media_relations on media_relations.related_primary_key = permit.permit_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 					</cfquery>
 					</cfif>
-					<cfif len(accn.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Accession Records with this Media</h1>
+					<cfif len(permit.permit_id) gt 0>
+						<h1 class="h3 w-100 my-0 px-2">Permit Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
-						from media_relations
-							 left join media on media_relations.media_id = media.media_id
-						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
+							select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+							from media_relations
+							 	left join media on media_relations.media_id = media.media_id
+							where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
 						</cfquery>
 						<div class="search-box mt-1 pb-0 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
-									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Permit<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> Numbers </span></span></li>
-									<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Transaction&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
-									<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
+									<li class="col-2 col-xl-1  px-1 list-group-item">
+										<span class="font-weight-lessbold">Permit<span class="d-inline d-lg-none">s </span>
+										<span class="d-none d-lg-inline"> Numbers </span></span>
+									</li>
+									<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">Transaction&nbsp;ID
+											<span class="d-inline d-lg-none">s </span>
+										</span>
+									</li>
+									<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">Details</span>
+									</li>
 									<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 										<span class="font-weight-lessbold">		
 											<cfif relm4.recordcount GT 2>
@@ -479,20 +488,12 @@
 									</li>
 								</ul>
 							</div>
-											
-											<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit&nbsp;ID</span></li>
-									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Issued&nbsp;Date</span></li>
-									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit Number</span></li>	
-									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit Type</span></li>
-									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Permit Remarks</span></li>
-									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Issued&nbsp;Date</span></li>
-									<li class="col-6 px-1 list-group-item"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span>
 								<cfloop query="permit">
 									<div class="row mx-0 border-top py-0 border-gray">
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Transaction ID: </span>
-											<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.transaction_id#">
-												#permit.transaction_id#</a>
+											<span class="d-block d-md-none">Permit ID: </span>
+											<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_id#">
+												#permit.permit_id#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 											<span class="d-block d-md-none">Permit Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_num#">
@@ -507,17 +508,11 @@
 												<h3 class="h5 mb-0">Permit Status</h3>
 												<div class="col-12 pt-0 pb-1">#permit.permit_status#</div>
 											</div>
-											<cfif len(accn.received_agent) gt 0>
-												<div class="row mx-0">
-													<h3 class="h5 mb-0">Agents Involved</h3>
-													<div class="col-12 pt-0 pb-1">#permit.received_agent#</div>
-												</div>
-											</cfif>
 										</div>
 										<div class="col-12 col-md-6 col-xl-8 p-1">
 											<cfloop query="relm4">
 												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
-													<cfif len(permit.transaction_id) gt 0>
+													<cfif len(permit.permit_id) gt 0>
 														<cfif relm4.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
 														<cfelse>	
