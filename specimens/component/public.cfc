@@ -555,7 +555,7 @@ limitations under the License.
 				</cfif>
 				<cfquery name="getImages" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct 
-						media_relations.media_id
+						media_relations.media_id, formatted_publication
 					FROM
 						citation 
 						left join publication on citation.publication_id = publication.publication_id
