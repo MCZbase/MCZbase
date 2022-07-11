@@ -175,7 +175,7 @@
 						and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 				</cfquery>
 					<cfif len(spec.pk) gt 0><a href="##">Specimens</a></cfif>
-					<cfif len(accb.transaction_id) gt 0><a href="##">Accessions</a></cfif>
+					<cfif len(accn.transaction_id) gt 0><a href="##">Accessions</a></cfif>
 					<cfif len(collecting_events.collecting_event_id) gt 0><a href="##">Collecting Events</a></cfif>
 					<cfif len(locality.locality_id) gt 0><a href="##">Localities</a></cfif>
 					<cfif len(permit.permit_id) gt 0><a href="##">Permits</a></cfif>
