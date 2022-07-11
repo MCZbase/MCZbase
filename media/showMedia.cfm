@@ -639,12 +639,12 @@
 				</div>
 				<!---Loan records--->			
 				<div class="row mx-0">
-					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select *
+					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">		
+						select distinct transaction_id,loan_type,loan_status,loan_number,loan_instructions,loan_description,media_relationship,media_id
 						from loan 
 							left join media_relations on media_relations.related_primary_key = loan.transaction_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'documents loan')
+						where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and (media_relations.media_relationship = 'documents loan');
 					</cfquery>
 					<cfif len(loan.transaction_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Loan Records with this Media</h1>
@@ -674,7 +674,7 @@
 										<td>#loan.loan_type#</td>
 										<td>#loan.loan_status#</td>
 										<td>#loan.loan_description#</td>
-										<td>#loan.instructions#</td>
+										<td>#loan.loan_instructions#</td>
 										<td style="width:57%; padding-left: 0.5rem;">
 											<cfloop query="relm7">
 												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 202px">
