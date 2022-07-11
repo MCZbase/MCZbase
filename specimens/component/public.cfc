@@ -559,6 +559,7 @@ limitations under the License.
 					FROM
 						citation 
 						left join publication on citation.publication_id = publication.publication_id
+						left join formatted_publication on publication.publication_id = formatted_publication.publication_id and format_style='short'
 						left join media_relations on publication.publication_id = media_relations.related_primary_key
 					WHERE
 						MEDIA_RELATIONSHIP like '% publication' and
