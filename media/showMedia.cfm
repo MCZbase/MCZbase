@@ -274,9 +274,9 @@
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline">IDs </span></span></li>
-									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
-									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
-									<li class="col-7 col-xl-9 px-1 list-group-item d-none d-lg-block">
+									<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
+									<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
+									<li class="col-6 col-xl-9 px-1 list-group-item d-none d-lg-block">
 										<span class="font-weight-lessbold">		
 											<cfif relm2.recordcount GT 2>
 												<cfset plural = "s">
@@ -292,12 +292,12 @@
 								<cfloop query="accn">
 									<div class="row mx-0 border-top py-0 border-gray">
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block">Transaction ID: </span>
+											<span class="d-block d-md-none">Transaction ID: </span>
 											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
 												#accn.transaction_id#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block">Accession Number: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
+											<span class="d-block d-md-none">Accession Number: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
 												#accn.accn_number#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small">
