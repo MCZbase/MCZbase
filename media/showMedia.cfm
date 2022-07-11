@@ -300,7 +300,7 @@
 											<span class="d-block d-md-none">Accession Number: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
 												#accn.accn_number#</a>
 										</div>
-										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small">
+										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Accession Type</h3>
 												<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
@@ -316,7 +316,7 @@
 												</div>
 											</cfif>
 										</div>
-										<div class="col-12 col-md-6 col-xl-9 p-1">
+										<div class="col-12 col-md-6 col-xl-8 p-1">
 											<cfloop query="relm2">
 												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 													<cfif len(accn.transaction_id) gt 0>
