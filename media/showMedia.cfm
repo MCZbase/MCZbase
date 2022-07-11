@@ -274,9 +274,15 @@
 						<div class="search-box mt-1 pb-0 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
-									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span></li>
-									<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accn&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
-									<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
+									<li class="col-2 col-xl-1  px-1 list-group-item">
+										<span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span>
+									</li>
+									<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">Accn&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
+									</li>
+									<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">Details</span>
+									</li>
 									<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 										<span class="font-weight-lessbold">		
 											<cfif relm2.recordcount GT 2>
@@ -290,67 +296,68 @@
 									</li>
 								</ul>
 							</div>
-								<cfloop query="accn">
-									<div class="row mx-0 border-top py-0 border-gray">
-										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Transaction ID: </span>
-											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
-												#accn.transaction_id#</a>
-										</div>
-										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Accession Number: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
-												#accn.accn_number#</a>
-										</div>
-										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
-											<div class="row mx-0">
-												<h3 class="h5 mb-0">Accession Type</h3>
-												<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
-											</div>
-											<div class="row mx-0">
-												<h3 class="h5 mb-0">Accession Status</h3>
-												<div class="col-12 pt-0 pb-1">#accn.accn_status#</div>
-											</div>
-											<cfif len(accn.received_agent) gt 0>
-												<div class="row mx-0">
-													<h3 class="h5 mb-0">Agents Involved</h3>
-													<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
-												</div>
-											</cfif>
-										</div>
-										<div class="col-12 col-md-6 col-xl-8 p-1">
-											<cfloop query="relm2">
-												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
-													<cfif len(accn.transaction_id) gt 0>
-														<cfif relm2.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
-														<cfelse>	
-															<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
-														</cfif>
-														<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
-															<div class="col-5 bg-white px-1 float-left">
-																<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
-															</div>
-															<cfset showTitleText1 = trim(title1)>
-															<cfif len(showTitleText1) gt 170>
-																<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
-															<cfelse>
-																<cfset showTitleText1 = "#showTitleText1#" >
-															</cfif>
-															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relm2.media_id#</span>
-																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
-																#showTitleText1#
-															</div>
-														</div>
-													</cfif>
-												</div>
-											</cfloop>
-										<div id="targetDiv"></div>
-										</div>
+							<cfloop query="accn">
+								<div class="row mx-0 border-top py-0 border-gray">
+									<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+										<span class="d-block d-md-none">Transaction ID: </span>
+										<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
+											#accn.transaction_id#</a>
 									</div>
-								</cfloop>
+									<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+										<span class="d-block d-md-none">Accession Number: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
+											#accn.accn_number#</a>
+									</div>
+									<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+										<div class="row mx-0">
+											<h3 class="h5 mb-0">Accession Type</h3>
+											<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
+										</div>
+										<div class="row mx-0">
+											<h3 class="h5 mb-0">Accession Status</h3>
+											<div class="col-12 pt-0 pb-1">#accn.accn_status#</div>
+										</div>
+										<cfif len(accn.received_agent) gt 0>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Agents Involved</h3>
+												<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
+											</div>
+										</cfif>
+									</div>
+									<div class="col-12 col-md-6 col-xl-8 p-1">
+										<cfloop query="relm2">
+											<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+												<cfif len(accn.transaction_id) gt 0>
+													<cfif relm2.media_id eq '#media.media_id#'> 
+														<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+													<cfelse>	
+														<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
+													</cfif>
+													<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
+														<div class="col-5 bg-white px-1 float-left">
+															<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+														</div>
+														<cfset showTitleText1 = trim(title1)>
+														<cfif len(showTitleText1) gt 170>
+															<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+														<cfelse>
+															<cfset showTitleText1 = "#showTitleText1#" >
+														</cfif>
+														<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
+															<span class="d-block font-weight-lessbold">Media ID = #relm2.media_id#</span>
+															<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
+															#showTitleText1#
+														</div>
+													</div>
+												</cfif>
+											</div>
+										</cfloop>
+										<div id="targetDiv"></div>
+									</div>
+								</div>
+							</cfloop>
 						</div>
 					<cfelse>
-							<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Accessions</h3>
+						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Accessions</h3>
 					</cfif>
 				</div>
 				<!--- collecting event records --->
@@ -374,10 +381,18 @@
 						<div class="search-box mt-1 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
-									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Collecting&nbsp;Event</span></li>
-									<li class="col-1 px-1 list-group-item"><span class="font-weight-lessbold">Locality&nbsp;ID</span></li>
-									<li class="col-4 px-1 list-group-item"><span class="font-weight-lessbold">Details</span></li>
-									<li class="col-6 px-1 list-group-item"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
+									<li class="col-1 px-1 list-group-item">
+										<span class="font-weight-lessbold">Collecting&nbsp;Event</span>
+									</li>
+									<li class="col-1 px-1 list-group-item">
+										<span class="font-weight-lessbold">Locality&nbsp;ID</span>
+									</li>
+									<li class="col-4 px-1 list-group-item">
+										<span class="font-weight-lessbold">Details</span>
+									</li>
+									<li class="col-6 px-1 list-group-item">
+										<span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span>
+									</li>
 								</ul>
 							</div>
 							<cfloop query="collecting_event">
