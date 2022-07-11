@@ -640,10 +640,10 @@
 				<!---Loan records--->			
 				<div class="row mx-0">
 					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">		
-						select distinct transaction_id,loan_type,loan_status,loan_number,loan_instructions,loan_description,media_relationship,media_id
+						select distinct loan.transaction_id,loan.loan_type,loan.loan_status,loan.loan_number,loan.loan_instructions,loan.loan_description,memedia_relations.media_relationship,media_relations.media_id
 						from loan 
 							left join media_relations on media_relations.related_primary_key = loan.transaction_id
-						where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							and (media_relations.media_relationship = 'documents loan');
 					</cfquery>
 					<cfif len(loan.transaction_id) gt 0>
