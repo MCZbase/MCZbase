@@ -174,11 +174,11 @@
 					where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 				</cfquery>
-					<cfif len(spec.pk) gt 0><a href="##">Specimens</a></cfif>
-					<cfif len(accn.transaction_id) gt 0><a href="##">Accessions</a></cfif>
-					<cfif len(collecting_events.collecting_event_id) gt 0><a href="##">Collecting Events</a></cfif>
-					<cfif len(locality.locality_id) gt 0><a href="##">Localities</a></cfif>
-					<cfif len(permit.permit_id) gt 0><a href="##">Permits</a></cfif>
+					<cfif len(spec.guid) gt 0><a href="##">Specimens</a><cfelse></cfif>
+					<cfif len(accn.transaction_id) gt 0><a href="##">Accessions</a><cfelse></cfif>
+					<cfif len(collecting_events.collecting_event_id) gt 0><a href="##">Collecting Events</a><cfelse></cfif>
+					<cfif len(locality.locality_id) gt 0><a href="##">Localities</a><cfelse></cfif>
+					<cfif len(permit.permit_id) gt 0><a href="##">Permits</a><cfelse></cfif>
 				<!---specimen records--->
 				<div class="row mx-0 mb-3">
 
