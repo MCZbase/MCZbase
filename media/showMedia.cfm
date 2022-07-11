@@ -276,7 +276,17 @@
 									<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Accession&nbsp;ID<span class="d-inline d-lg-none">s </span></span></li>
 									<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Accession&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
 									<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
-									<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span></li>
+									<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">		
+											<cfif relm.recordcount GT 2>
+												<cfset plural = "s">
+											<cfelse>
+												<cfset plural = "">
+											</cfif>
+											<cfset IDtitle = "Image Thumbnail#plural#">
+											#IDtitle#
+										</span>
+									</li>
 								</ul>
 							</div>
 								<cfloop query="accn">
