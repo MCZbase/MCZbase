@@ -1515,7 +1515,7 @@ limitations under the License.
 					<cfset microhabitat = "#microhabitat##sep##microhabitatlookup.habitat#">
 					<cfset sep = ";">
 				</cfloop>
-				<cfquery name="coordinates"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="coordlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						<cfif maskCoordinates>
 							'' as lat_long_id,
@@ -1621,7 +1621,7 @@ limitations under the License.
 					});
 				</script>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-					<cfif len(loc_collevent.dec_lat) gt 0 and len(loc_collevent.dec_long) gt 0>
+					<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
 						<cfset coordinates="#loc_collevent.dec_lat#,#loc_collevent.dec_long#">
 						<!--- coordinates_* referenced in localityMapSetup --->
 						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
@@ -1739,14 +1739,14 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Microhabitat: </span></li>
 							<li class="list-group-item col-7 px-0">#microhabitat#</li>
 						</cfif>
-						<cfif len(coordinates.dec_lat) gt 0>
+						<cfif len(coordlookup.dec_lat) gt 0>
 							<cfset dateDet = left(#loc_collevent.latLongDeterminedDate#,10)>
-							<cfset dla = left(#coordinates.dec_lat#,10)>
-							<cfset dlo = left(#coordinates.dec_long#,10)>
+							<cfset dla = left(#coordlookup.dec_lat#,10)>
+							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordinates.max_error_distance##coordinates.max_error_units#) <span class="d-block small mb-0 pb-0"> #coordinates.latLongDeterminer# on #dateDet# (Source: #coordinates.lat_long_ref_source#)</span></li>
+							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #coordlookup.latLongDeterminer# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#coordinates.orig_lat_long_units# (datum: #coordinates.datum#) </li>
+							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units# (datum: #coordlookup.datum#) </li>
 						</cfif>
 					</ul>
 				</div>
