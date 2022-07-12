@@ -86,20 +86,18 @@
 								and (media_relationship = 'shows cataloged_item')
 							and identification.accepted_id_fg = 1		
 						</cfquery>
-						<cfif len(media.media_id) gt 0 and #mediaRelations.media_relationship# eq 'documents borrow'>
+						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-3 pt-3 pb-2">
-								<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="fixedSmallThumb",captionAs="textFull",background_color="white")>
-								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+								<cfif #mediaRelations.media_relationship# eq 'documents borrow'>
+									<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="fixedSmallThumb",captionAs="textFull",background_color="white")>
+									<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+								<cfelse>
+									<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull",background_color="white")>
+									<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+								</cfif>
 							</div>
-						<cfelse>
-							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-3 pt-3 pb-2">
-								<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull",background_color="white")>
-								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-							</div>
-						</cfif>
-
+						</cfif>			
 						<div class="float-left col-12 px-0 col-xl-8 pl-xl-4">
-						
 							<h3 class="mx-2 h4 mb-1 mt-0 border-dark w-auto float-left">Metadata</h3>
 							<table class="table border-none">
 								<thead class="thead-light">
