@@ -1622,7 +1622,7 @@ limitations under the License.
 				</script>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
 					<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
-						<cfset coordinates="#loc_collevent.dec_lat#,#loc_collevent.dec_long#">
+						<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
 						<!--- coordinates_* referenced in localityMapSetup --->
 						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
 						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
