@@ -17,7 +17,7 @@
 			MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 			MCZBASE.get_media_credit(media.media_id) as credit, 
 			mczbase.get_media_descriptor(media_id) as alttag,
-			nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') as cataloged_item ||
+			nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
