@@ -1442,7 +1442,7 @@ limitations under the License.
 						collecting_event.verbatim_depth,
 						locality.maximum_elevation,
 						locality.minimum_elevation,
-						locality.original_elev_units,
+						locality.orig_elev_units,
 						<cfif maskCoordinates>
 							'' as township,
 							'' as township_direction,
