@@ -87,7 +87,7 @@
 							and identification.accepted_id_fg = 1		
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
-						<div class="rounded border bg-light col-12 col-md-6 col-xl-4 float-left mb-3 pt-3 pb-2">
+						<div class="rounded border bg-light col-12 col-md-6 col-xl-3 float-left mb-3 pt-3 pb-2">
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull",background_color="white")>
 							<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
@@ -562,7 +562,7 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Permit</h3>
+						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Permits</h3>
 					</cfif>
 				</div>
 
