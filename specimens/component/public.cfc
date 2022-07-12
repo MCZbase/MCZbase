@@ -1637,19 +1637,24 @@ limitations under the License.
 				<div class="col-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
 						<cfif len(loc_collevent.continent_ocean) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
+							<cfif find('Ocean',loc_collevent.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
+							<li class="list-group-item col-5 px-0"><em>#colabel#:</em></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.continent_ocean#</li>
 						</cfif>
 						<cfif len(loc_collevent.sea) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.sea#</li>
 						</cfif>
+						<cfif len(loc_collevent.water_feature) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Water Feature:</em></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.water_feature#</li>
+						</cfif>
 						<cfif len(loc_collevent.country) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Country:</em></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.country#</li>
 						</cfif>
 						<cfif len(loc_collevent.state_prov) gt 0>
-							<li class="list-group-item col-5 px-0"><em>State:</em></li>
+							<li class="list-group-item col-5 px-0"><em>State/Province:</em></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.state_prov#</li>
 						</cfif>
 						<cfif len(loc_collevent.feature) gt 0>
@@ -1674,7 +1679,7 @@ limitations under the License.
 						</cfif>
 					</ul>
 					<div class="w-100 float-left mx-2">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#loc_collevent.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
+						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&action=fixedSearch&higher_geog==#loc_collevent.higher_geog#" title="See other specimens with this Higher Geography">Specimens with same Higher Geography</a></span>
 					</div>
 					<div class="w-100 mx-2 float-left">
 						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#loc_collevent.locality_id#" title="See other specimens with this Locality">Locality</a></span>
@@ -1745,10 +1750,13 @@ limitations under the License.
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
 							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #coordlookup.lat_long_determined_by# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span>#coordlookup.datum#</li>
+
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
+							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units#</li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimcoordinates# (datum: #loc_collevent.verbatimsrs#) </li>
+							<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
+							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units#<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span></li>
 						</cfif>
 					</ul>
 				</div>
