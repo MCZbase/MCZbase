@@ -1542,7 +1542,7 @@ limitations under the License.
 							'' as determined_date,
 							'' as verified_by_agent_id,
 							'' as lat_long_ref_source,
-							'' as lat_mong_remarks,
+							'' as lat_long_remarks,
 							'' as nearest_named_place,
 							'' as lat_long_for_nnp_fg,
 							'' as field_verified_fg,
