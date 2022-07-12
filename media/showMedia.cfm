@@ -697,7 +697,7 @@
 						where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							and (media_relations.media_relationship = 'documents loan')
 					</cfquery>
-					<cfif len(loan.loan_id) gt 0>
+					<cfif len(loan.transaction_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Loan Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
