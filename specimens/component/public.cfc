@@ -2005,6 +2005,9 @@ limitations under the License.
 							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
 					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
+					</cfif>
 				</ul>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
