@@ -1740,7 +1740,7 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#microhabitat#</li>
 						</cfif>
 						<cfif len(coordlookup.dec_lat) gt 0>
-							<cfset dateDet = left(#loc_collevent.latLongDeterminedDate#,10)>
+							<cfset dateDet = left(#coordlookup.determined_date#,10)>
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
