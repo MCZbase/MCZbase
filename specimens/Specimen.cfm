@@ -360,6 +360,9 @@ limitations under the License.
 				loadMeta(#collection_object_id#,'metaCardBody');
 			}
 
+			function reloadLocality() { 
+				loadLocality(#collection_object_id#,'localityCardBody');
+			}
 			function reloadLedger() { 
 				// replace the ledger/field notes block via ajax.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type documents.
@@ -766,47 +769,23 @@ limitations under the License.
 					<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
 							<div id="localityDialog"></div>
-							<script>
-								function reloadLocality() { 
-									loadLocality(#collection_object_id#,'localityCardBody');
-								}
-							</script>
-							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingLocality">
-								<cfif len(#blocklocality#) gt 60>
-									<h3 class="h5 my-0">
-										<button type="button" data-toggle="collapse" aria-expanded="true" data-target="##LocalityPane" aria-controls="LocalityPane" class="headerLnk w-100 h-100 text-left">
-											Location and Collecting Event
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">
-												Edit
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h5 my-0">
-										<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" aria-controls="LocalityPane" data-target="##LocalityPane">
-											Location and Collecting Event
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">
-												Add
-											</a>
-										</cfif>
-									</h3>
-								</cfif>
+								<h3 class="h5 my-0">
+									<button type="button" data-toggle="collapse" aria-expanded="true" data-target="##LocalityPane" aria-controls="LocalityPane" class="headerLnk w-100 h-100 text-left">
+										Location and Collecting Event
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditLocalityDialog(#collection_object_id#,'localityDialog','#guid#',reloadLocality)">
+											Edit
+										</a>
+									</cfif>
+								</h3>
 							</div>
+							<cfset blocklocality = getLocalityHTML(collection_object_id = "#collection_object_id#")>
 							<div id="LocalityPane" class="collapse show" aria-labelledby="headingLocality" data-parent="##accordionLocality">
-								<cfif len(#blocklocality#) gt 60> 
-									<div class="card-body px-0 py-1 mb-1 float-left" id="localityCardBody">
-										#blocklocality# 
-									</div>
-								<cfelse>
-									<ul class="pl-2 mb-0 list-group py-0">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
-								</cfif>
+								<div class="card-body px-0 py-1 mb-1 float-left" id="localityCardBody">
+									#blocklocality# 
+								</div>
 							</div>
 						</div>
 					</div>
