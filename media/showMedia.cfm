@@ -7,9 +7,10 @@
 <cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-
+<cfset maxMedia = 4>
 
 <cfoutput>
+	
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
 			media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -214,7 +215,7 @@
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm">
-										<div class="border-light col-12 col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(media.media_id) gt 0>
 												<cfif relm.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
