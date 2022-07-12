@@ -1748,7 +1748,7 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span>#coordlookup.datum#</li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
 							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units#</li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_coordinates# (datum: #loc_collevent.verbatimsrs#) </li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimcoordinates# (datum: #loc_collevent.verbatimsrs#) </li>
 						</cfif>
 					</ul>
 				</div>
