@@ -22,7 +22,7 @@
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
-		MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents loan') ||
+				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents loan') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
 				, 'Unrelated image') mrstr
 		From
@@ -136,12 +136,8 @@
 								</tbody>
 							</table>
 								
-										
-								<cfif len(mediaRelations.media_id) gt 0>
-									some button	
-								</cfif>
-							<cfloop query="mediaRelations">
-								#mediaRelations.media_relationship#
+							<cfloop query="media">
+								#media.mrstr#
 							</cfloop>
 						</div>
 					</div>
