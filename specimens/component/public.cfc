@@ -1401,226 +1401,225 @@ limitations under the License.
 			<cfthrow message="Record Masked">
 		</cfif>
 		<cfoutput>
-
-			<cfset maskCoordinates = false>
-			<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail)>
-				<cfset maskCoordinates = true>
-			</cfif>
-			<cfquery name="loc_collevent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					collecting_event.collecting_event_id, 
-					locality.locality_id,
-					geog_auth_rec.geog_auth_rec_id,
-					collecting_event.collecting_time,
-					collecting_event.date_began_date,
-					collecting_event.date_ended_date,
-					collecting_event.verbatim_date,
-					collecting_event.began_date,
-					collecting_event.ended_date,
-					collecting_event.startdayofyear,
-					collecting_event.enddayofyear,
-					collecting_event.verbatim_locality,
-					collecting_event.coll_event_remarks,
-					collecting_event.valid_distribution_fg,
-					collecting_event.collecting_source,
-					collecting_event.collecting_method,
-					collecting_event.habitat_desc,
-					collecting_event.date_determined_by_agent_id,
-					collecting_event.fish_field_number,
-					<cfif maskCoordinates>
-						'[Masked]' as verbatimcoordinates,
-						'' as verbatimlatitude,
-						'' as verbatimlongitude,
-						'' as verbatimsrs,
-					<cfelse>
-						collecting_event.verbatimcoordinates,
-						collecting_event.verbatimlatitude,
-						collecting_event.verbatimlongitude,
-						collecting_event.verbatimsrs,
-					</cfif>
-					collecting_event.verbatim_elevation,
-					collecting_event.verbatim_depth,
-					locality.maximum_elevation,
-					locality.minimum_elevation,
-					locality.original_elev_units,
-					<cfif maskCoordinates>
-						'' as township,
-						'' as township_direction,
-						'' as range,
-						'' as range_direction,
-						'' as section,
-						'' as section_part,
-					<cfelse>
-						locality.township,
-						locality.township_direction,
-						locality.range,
-						locality.range_direction,
-						locality.section,
-						locality.section_part,
-					</cfif>
-					locality.spec_locality,
-					locality.locality_remarks,
-					locality.legacy_spec_locality_fg,
-					locality.depth_units,
-					locality.min_depth,
-					locality.max_depth,
-					<cfif maskCoordinates>
-						'' as nogeorefbecause,
-						'' as georef_updated_date,
-						'' as georef_by,
-					<cfelse>
-						locality.nogeorefbecause,
-						locality.georef_updated_date,
-						locality, georef_by,
-					</cfif>
-					locality.sovereign_nation,
-					locality.curated_fg,
-					geog_auth_rec.continent_ocean,
-					geog_auth_rec.country,
-					geog_auth_rec.state_prov,
-					geog_auth_rec.county,
-					geog_auth_rec.island_group,
-					geog_auth_rec.island,
-					geog_auth_rec.quad,
-					geog_auth_rec.feature,
-					geog_auth_rec.sea,
-					geog_auth_rec.valid_catalog_term_fg,
-					geog_auth_rec.source_authority,
-					geog_auth_rec.higher_geog,
-					geog_auth_rec.ocean_region,
-					geog_auth_rec.ocean_subregion,
-					geog_auth_rec.water_feature,
-					geog_auth_rec.wkt_polygon,
-					geog_auth_rec.highergeographyid_guid_type,
-					geog_auth_rec.highergeographyid
-				FROM cataloged_item
-					left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-					left join locality on cataloged_item.locality_id = locality.locality_id
-					left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-				WHERE
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-			</cfquery>
-			<!--- field coll_object_remark.habitat is labeled microhabitat --->
-			<cfquery name="microhabitatlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					habitat
-				FROM
-					coll_object_remark
-				WHERE	
-					collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> 
-			</cfquery>
-			<cfset microhabitat = "">
-			<cfset sep = "">
-			<cfloop query="microhabitatlookup">
-				<cfset microhabitat = "#microhabitat##sep##microhabitatlookup.habitat#">
-				<cfset sep = ";">
-			</cfloop>
-			<cfquery name="coordinates"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					<cfif maskCoordinates>
-						'' as lat_long_id,
-						'' as accepted_lat_long_fg,
-						'[Masked]' as dec_lat,
-						'[Masked]' as dec_long,
-						'' as datum,
-						'' as max_error_distance,
-						'' as max_error_units,
-						'' as original_lat_long_units,
-						'' as lat_deg,
-						'' as deg_lat_min,
-						'' as lat_sec,
-						'' as lat_dir,
-						'' as long_deg,
-						'' as dec_long_min,
-						'' as long_min,
-						'' as long_sec,
-						'' as long_dir,
-						'' as utm_zone,
-						'' as utm_ew,
-						'' as utm_ns,
-						'' as determined_by_agent_id,
-						'' as determined_date,
-						'' as verified_by_agent_id,
-						'' as lat_long_ref_source,
-						'' as lat_mong_remarks,
-						'' as nearest_named_place,
-						'' as lat_long_for_nnp_fg,
-						'' as field_verified_fg,
-						'' as extent,
-						'' as gpsaccuracy,
-						'' as georefmethod,
-						'' as verificationstatus,
-						'' as spatialfit,
-						'' as geolocate_score,
-						'' as geolocate_precision,
-						'' as geolocate_numresults,
-						'' as geolocate_parsepattern,
-						'' as error_polygon
-					<cfelse>
-						lat_long_id,
-						accepted_lat_long_fg,
-						dec_lat,
-						dec_long,
-						datum,
-						max_error_distance,
-						max_error_units,
-						original_lat_long_units,
-						lat_deg,
-						deg_lat_min,
-						lat_sec,
-						lat_dir,
-						long_deg,
-						dec_long_min,
-						long_min,
-						long_sec,
-						long_dir,
-						utm_zone,
-						utm_ew,
-						utm_ns,
-						determined_by_agent_id,
-						determined_date,
-						verified_by_agent_id,
-						lat_long_ref_source,
-						lat_mong_remarks,
-						nearest_named_place,
-						lat_long_for_nnp_fg,
-						field_verified_fg,
-						extent,
-						gpsaccuracy,
-						georefmethod,
-						verificationstatus,
-						spatialfit,
-						geolocate_score,
-						geolocate_precision,
-						geolocate_numresults,
-						geolocate_parsepattern,
-						error_polygon
-					</cfif>
-				FROM
-					lat_long
-				WHERE
-					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="loc_collevent.locality_id">
-					<cfif maskCoordinates>
-						and recnum < 2
-					</cfif>
-				ORDER BY
-					accepted_lat_long_fg desc, determined_date asc
-			</cfquery>
-			<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					media_id
-				from
-					media_relations
-				where
-					RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
-					MEDIA_RELATIONSHIP like '% locality'
-			</cfquery>
-			<script>
-				jQuery(document).ready(function() {
-					localityMapSetup();
-				});
-			</script>
 			<cftry>
+				<cfset maskCoordinates = false>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail)>
+					<cfset maskCoordinates = true>
+				</cfif>
+				<cfquery name="loc_collevent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						collecting_event.collecting_event_id, 
+						locality.locality_id,
+						geog_auth_rec.geog_auth_rec_id,
+						collecting_event.collecting_time,
+						collecting_event.date_began_date,
+						collecting_event.date_ended_date,
+						collecting_event.verbatim_date,
+						collecting_event.began_date,
+						collecting_event.ended_date,
+						collecting_event.startdayofyear,
+						collecting_event.enddayofyear,
+						collecting_event.verbatim_locality,
+						collecting_event.coll_event_remarks,
+						collecting_event.valid_distribution_fg,
+						collecting_event.collecting_source,
+						collecting_event.collecting_method,
+						collecting_event.habitat_desc,
+						collecting_event.date_determined_by_agent_id,
+						collecting_event.fish_field_number,
+						<cfif maskCoordinates>
+							'[Masked]' as verbatimcoordinates,
+							'' as verbatimlatitude,
+							'' as verbatimlongitude,
+							'' as verbatimsrs,
+						<cfelse>
+							collecting_event.verbatimcoordinates,
+							collecting_event.verbatimlatitude,
+							collecting_event.verbatimlongitude,
+							collecting_event.verbatimsrs,
+						</cfif>
+						collecting_event.verbatim_elevation,
+						collecting_event.verbatim_depth,
+						locality.maximum_elevation,
+						locality.minimum_elevation,
+						locality.original_elev_units,
+						<cfif maskCoordinates>
+							'' as township,
+							'' as township_direction,
+							'' as range,
+							'' as range_direction,
+							'' as section,
+							'' as section_part,
+						<cfelse>
+							locality.township,
+							locality.township_direction,
+							locality.range,
+							locality.range_direction,
+							locality.section,
+							locality.section_part,
+						</cfif>
+						locality.spec_locality,
+						locality.locality_remarks,
+						locality.legacy_spec_locality_fg,
+						locality.depth_units,
+						locality.min_depth,
+						locality.max_depth,
+						<cfif maskCoordinates>
+							'' as nogeorefbecause,
+							'' as georef_updated_date,
+							'' as georef_by,
+						<cfelse>
+							locality.nogeorefbecause,
+							locality.georef_updated_date,
+							locality, georef_by,
+						</cfif>
+						locality.sovereign_nation,
+						locality.curated_fg,
+						geog_auth_rec.continent_ocean,
+						geog_auth_rec.country,
+						geog_auth_rec.state_prov,
+						geog_auth_rec.county,
+						geog_auth_rec.island_group,
+						geog_auth_rec.island,
+						geog_auth_rec.quad,
+						geog_auth_rec.feature,
+						geog_auth_rec.sea,
+						geog_auth_rec.valid_catalog_term_fg,
+						geog_auth_rec.source_authority,
+						geog_auth_rec.higher_geog,
+						geog_auth_rec.ocean_region,
+						geog_auth_rec.ocean_subregion,
+						geog_auth_rec.water_feature,
+						geog_auth_rec.wkt_polygon,
+						geog_auth_rec.highergeographyid_guid_type,
+						geog_auth_rec.highergeographyid
+					FROM cataloged_item
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join locality on cataloged_item.locality_id = locality.locality_id
+						left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<!--- field coll_object_remark.habitat is labeled microhabitat --->
+				<cfquery name="microhabitatlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						habitat
+					FROM
+						coll_object_remark
+					WHERE	
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> 
+				</cfquery>
+				<cfset microhabitat = "">
+				<cfset sep = "">
+				<cfloop query="microhabitatlookup">
+					<cfset microhabitat = "#microhabitat##sep##microhabitatlookup.habitat#">
+					<cfset sep = ";">
+				</cfloop>
+				<cfquery name="coordinates"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						<cfif maskCoordinates>
+							'' as lat_long_id,
+							'' as accepted_lat_long_fg,
+							'[Masked]' as dec_lat,
+							'[Masked]' as dec_long,
+							'' as datum,
+							'' as max_error_distance,
+							'' as max_error_units,
+							'' as original_lat_long_units,
+							'' as lat_deg,
+							'' as deg_lat_min,
+							'' as lat_sec,
+							'' as lat_dir,
+							'' as long_deg,
+							'' as dec_long_min,
+							'' as long_min,
+							'' as long_sec,
+							'' as long_dir,
+							'' as utm_zone,
+							'' as utm_ew,
+							'' as utm_ns,
+							'' as determined_by_agent_id,
+							'' as determined_date,
+							'' as verified_by_agent_id,
+							'' as lat_long_ref_source,
+							'' as lat_mong_remarks,
+							'' as nearest_named_place,
+							'' as lat_long_for_nnp_fg,
+							'' as field_verified_fg,
+							'' as extent,
+							'' as gpsaccuracy,
+							'' as georefmethod,
+							'' as verificationstatus,
+							'' as spatialfit,
+							'' as geolocate_score,
+							'' as geolocate_precision,
+							'' as geolocate_numresults,
+							'' as geolocate_parsepattern,
+							'' as error_polygon
+						<cfelse>
+							lat_long_id,
+							accepted_lat_long_fg,
+							dec_lat,
+							dec_long,
+							datum,
+							max_error_distance,
+							max_error_units,
+							original_lat_long_units,
+							lat_deg,
+							deg_lat_min,
+							lat_sec,
+							lat_dir,
+							long_deg,
+							dec_long_min,
+							long_min,
+							long_sec,
+							long_dir,
+							utm_zone,
+							utm_ew,
+							utm_ns,
+							determined_by_agent_id,
+							determined_date,
+							verified_by_agent_id,
+							lat_long_ref_source,
+							lat_mong_remarks,
+							nearest_named_place,
+							lat_long_for_nnp_fg,
+							field_verified_fg,
+							extent,
+							gpsaccuracy,
+							georefmethod,
+							verificationstatus,
+							spatialfit,
+							geolocate_score,
+							geolocate_precision,
+							geolocate_numresults,
+							geolocate_parsepattern,
+							error_polygon
+						</cfif>
+					FROM
+						lat_long
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="loc_collevent.locality_id">
+						<cfif maskCoordinates>
+							and recnum < 2
+						</cfif>
+					ORDER BY
+						accepted_lat_long_fg desc, determined_date asc
+				</cfquery>
+				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_id
+					from
+						media_relations
+					where
+						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
+						MEDIA_RELATIONSHIP like '% locality'
+				</cfquery>
+				<script>
+					jQuery(document).ready(function() {
+						localityMapSetup();
+					});
+				</script>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
 					<cfif len(loc_collevent.dec_lat) gt 0 and len(loc_collevent.dec_long) gt 0>
 						<cfset coordinates="#loc_collevent.dec_lat#,#loc_collevent.dec_long#">
