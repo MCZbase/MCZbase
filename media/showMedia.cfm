@@ -74,17 +74,17 @@
 						WHERE
 							media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					</cfquery>
-					<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
-						from media_relations
-							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
-							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-							left join media media1 on media1.media_id = media_relations.media_id
-						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relationship = 'shows cataloged_item')
-						and identification.accepted_id_fg = 1		
-					</cfquery>
+						<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+							select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
+							from media_relations
+								left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
+								left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+								left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+								left join media media1 on media1.media_id = media_relations.media_id
+							where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								and (media_relationship = 'shows cataloged_item')
+							and identification.accepted_id_fg = 1		
+						</cfquery>
 						<cfif len(media.media_id) gt 0>
 						<div class="rounded border bg-light col-12 col-xl-4 float-left mb-3 pt-3 pb-2">
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull",background_color="white")>
@@ -175,7 +175,6 @@
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-2 col-xl-1  px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-lg-none">s </span></span></li>
 								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
-						
 								<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
 									<span class="font-weight-lessbold">		
 										<cfif relm.recordcount GT 2>
@@ -215,7 +214,7 @@
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm">
-										<div class="border-light col-12 col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
+										<div class="border-light col-12 col-md-6 col-lg-4 col-xl-4 p-1 float-left"> 
 											<cfif len(media.media_id) gt 0>
 												<cfif relm.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
