@@ -1538,9 +1538,9 @@ limitations under the License.
 							'' as utm_zone,
 							'' as utm_ew,
 							'' as utm_ns,
-							'' as determined_by_agent_id,
+							'' as lat_long_determined_by,
 							'' as determined_date,
-							'' as verified_by_agent_id,
+							'' as lat_long_verified_by,
 							'' as lat_long_ref_source,
 							'' as lat_long_remarks,
 							'' as nearest_named_place,
@@ -1577,9 +1577,9 @@ limitations under the License.
 							utm_zone,
 							utm_ew,
 							utm_ns,
-							determined_by_agent_id,
+							MCZBASE.get_agentnameoftype(determined_by_agent_id) lat_long_determined_by,
 							determined_date,
-							verified_by_agent_id,
+							MCZBASE.get_agent_nameoftype(verified_by_agent_id) lat_long_verified_by,
 							lat_long_ref_source,
 							lat_long_remarks,
 							nearest_named_place,
@@ -1744,9 +1744,11 @@ limitations under the License.
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #coordlookup.latLongDeterminer# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
+							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #coordlookup.lat_long_determined_by# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span>#coordlookup.datum#</li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units# (datum: #coordlookup.datum#) </li>
+							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_coordinates# (datum: #loc_collevent.verbatimsrs#) </li>
 						</cfif>
 					</ul>
 				</div>
