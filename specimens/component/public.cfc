@@ -1581,7 +1581,7 @@ limitations under the License.
 							determined_date,
 							verified_by_agent_id,
 							lat_long_ref_source,
-							lat_mong_remarks,
+							lat_long_remarks,
 							nearest_named_place,
 							lat_long_for_nnp_fg,
 							field_verified_fg,
