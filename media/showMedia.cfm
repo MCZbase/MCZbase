@@ -737,7 +737,7 @@
 							</table>
 						</div>
 					<cfelse>
-						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Deaccession</h3>
+						<h3 class="h6 mt-3 w-100 px-5 font-italic">Not associated with Deaccession</h3>
 					</cfif>
 				</div>
 				<!---Loan records--->			
