@@ -567,7 +567,7 @@
 				</div>
 
 				<!---Borrow records--->			
-				<div class="row mx-0">
+				<div class="row mx-0 mt-3">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
 						from borrow 
