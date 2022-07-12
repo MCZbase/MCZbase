@@ -1735,7 +1735,7 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Habitat Description: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.habitat_desc#</li>
 						</cfif>
-						<cfif len(loc_collevent.habitat) gt 0>
+						<cfif len(microhabitat) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Microhabitat: </span></li>
 							<li class="list-group-item col-7 px-0">#microhabitat#</li>
 						</cfif>
