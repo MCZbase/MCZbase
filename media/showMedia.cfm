@@ -792,7 +792,7 @@
 													<cfelse>	
 														<cfset activeimg = "border-light px-1">
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm7.media_id#",displayAs="thumb",size='100',captionAs="textMid")>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm7.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
 													<div class="float-left #activeimg#" id="mediaBlock#relm7.media_id#"> #mediablock# </div>
 												</cfif>
 												</div>
