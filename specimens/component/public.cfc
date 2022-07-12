@@ -1579,7 +1579,7 @@ limitations under the License.
 							utm_ns,
 							MCZBASE.get_agentnameoftype(determined_by_agent_id) lat_long_determined_by,
 							determined_date,
-							MCZBASE.get_agent_nameoftype(verified_by_agent_id) lat_long_verified_by,
+							MCZBASE.get_agentnameoftype(verified_by_agent_id) lat_long_verified_by,
 							lat_long_ref_source,
 							lat_long_remarks,
 							nearest_named_place,
