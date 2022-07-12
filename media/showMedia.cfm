@@ -358,7 +358,7 @@
 						</div>
 						</div>
 					<cfelse>
-						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Accessions</h3>
+						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Accessions</h3>
 					</cfif>
 				</div>
 				<!--- collecting event records --->
