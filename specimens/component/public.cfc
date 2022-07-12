@@ -1599,7 +1599,7 @@ limitations under the License.
 					FROM
 						lat_long
 					WHERE
-						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="loc_collevent.locality_id">
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
 						<cfif maskCoordinates>
 							and recnum < 2
 						</cfif>
