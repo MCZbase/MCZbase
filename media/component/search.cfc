@@ -1185,7 +1185,7 @@ imgStyleClass=value
   --->
 <cffunction name="getMediaBlockHtmlUnthreaded" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
-	<cfargument name="size" type="string" required="no" default="600">
+	<cfargument name="size" type="string" required="no" default="500">
 	<cfargument name="displayAs" type="string" required="no" default="full">
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
