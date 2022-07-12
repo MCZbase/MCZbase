@@ -1438,8 +1438,8 @@ limitations under the License.
 							collecting_event.verbatimlongitude,
 							collecting_event.verbatimsrs,
 						</cfif>
-						collecting_event.verbatim_elevation,
-						collecting_event.verbatim_depth,
+						collecting_event.verbatimelevation,
+						collecting_event.verbatimdepth,
 						locality.maximum_elevation,
 						locality.minimum_elevation,
 						locality.orig_elev_units,
