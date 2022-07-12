@@ -86,7 +86,7 @@
 							and identification.accepted_id_fg = 1		
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
-						<div class="rounded border bg-light col-12 col-xl-4 float-left mb-3 pt-3 pb-2">
+						<div class="rounded border bg-light col-12 col-md-6 col-xl-4 float-left mb-3 pt-3 pb-2">
 							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull",background_color="white")>
 							<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
@@ -696,7 +696,7 @@
 						where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							and (media_relations.media_relationship = 'documents loan')
 					</cfquery>
-					<cfif len(loan.transaction_id) gt 0>
+					<cfif len(loan.loan_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Loan Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
