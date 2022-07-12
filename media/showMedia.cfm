@@ -135,10 +135,9 @@
 									</cfif>
 								</tbody>
 							</table>
-							<cfset i=1>		
+								
 							<cfloop query="mediaRelations">
-								#media_relationship#_#i#
-								<cfset i = i+1>		
+								#mediaRelations.media_relationship#
 							</cfloop>
 						</div>
 					</div>
