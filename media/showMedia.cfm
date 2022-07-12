@@ -701,110 +701,89 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
 						</cfquery>
-							<table class="search-box table table-responsive mt-1 w-100">
-								<thead class="search-box-header mt-1">
-									<tr class="text-white">
-										<th>Deaccession&nbsp;Number</th>
-										<th>Deaccesion&nbsp;Type</th>
-										<th>Deaccession&nbsp;Status</th>
-										<th>Deaccession&nbsp;Reason</th>
-										<th>Method</th>
-										<th>Image&nbsp;Thumbnail(s)</th>
-										
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>#deaccession.transaction_id#</td>
-										<td>#deaccession.deacc_number#</td>
-										<td>#deaccession.deacc_type#</td>
-										<td>#deaccession.deacc_status#</td>
-										<td>#deaccession.deacc_reason#</td>
-										<td>#deaccession.method#</td>
-										<td style="width:57%; padding-left: 0.5rem;">
+						<div class="search-box mt-1 pb-0 w-100">
+							<div class="search-box-header px-2 mt-0">
+								<ul class="list-group list-group-horizontal text-white">
+									<li class="col-2 col-xl-1  px-1 list-group-item">
+										<span class="font-weight-lessbold">Deaccession
+											<span class="d-inline d-lg-none">s </span>
+											<span class="d-none d-lg-inline"> IDs </span>
+										</span>
+									</li>
+									<li>Details</li>
+									<li>Image&nbsp;Thumbnail(s)</li>
+								</ul>
+							</div>
+							<cfloop query="deaccession">
+								<div class="row mx-0 border-top py-0 border-gray">
+									<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+										<span class="d-block d-md-none">Deaccession Number: </span>
+										<a href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.deacc_number#">
+											#deaccession.deacc_number#</a>
+									</div>
+									<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+											<span class="d-block d-md-none">MCZ Trans. ##: </span><a href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.transaction_id#">
+												#deaccession.transaction_id#</a>
+									</div>
+										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Type</h3>
+												<div class="col-12 pt-0 pb-1">#deaccession.deacc_type#</div>
+											</div>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Status</h3>
+												<div class="col-12 pt-0 pb-1">#deaccession.deacc_status#</div>
+											</div>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Reason</h3>
+												<div class="col-12 pt-0 pb-1">#deaccession.deacc_reason#</div>
+											</div>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Method</h3>
+												<div class="col-12 pt-0 pb-1">#deaccession.method#</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-8 p-1">
 											<cfloop query="relm6">
-												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 202px">
-												<cfif len(deaccession.transaction_id) gt 0>
-													<cfif relm6.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right px-1 border-bottom border-top">
-													<cfelse>	
-														<cfset activeimg = "border-light px-1">
+												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+													<cfif len(deaccession.transaction_id) gt 0>
+														<cfif relm6.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
+														</cfif>
+														<div class="#activeimg#" id="mediaBlock#relm6.media_id#">
+															<div class="col-5 bg-white px-1 float-left">
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
+																	#mediablock#
+															</div>
+															<cfset showTitleText1 = trim(title1)>
+															<cfif len(showTitleText1) gt 170>
+																<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+															<cfelse>
+																<cfset showTitleText1 = "#showTitleText1#" >
+															</cfif>
+															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
+																<span class="d-block font-weight-lessbold">Media ID = #relm6.media_id#</span>
+																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
+																#showTitleText1#
+															</div>
+														</div>
 													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="thumb",size='100',captionAs="textMid")>
-													<div class="float-left #activeimg#" id="mediaBlock#relm6.media_id#"> #mediablock# </div>
-												</cfif>
 												</div>
 											</cfloop>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+											<div id="targetDiv"></div>
+										</div>
+									</div>
+								</cfloop>
+							</div>
 						</div>
 					<cfelse>
 						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Deaccession</h3>
 					</cfif>
 				</div>
-				<!---Loan records--->			
-				<div class="row mx-0">
-					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">		
-						select distinct loan.transaction_id,loan.loan_type,loan.loan_status,loan.loan_number,loan.loan_instructions,loan.loan_description,media_relations.media_relationship,media_relations.media_id
-						from loan 
-							left join media_relations on media_relations.related_primary_key = loan.transaction_id
-						where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-							and (media_relations.media_relationship = 'documents loan')
-					</cfquery>
-					<cfif len(loan.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Loan Records with this Media</h1>
-						<div class="col-12 px-0">
-						<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
-						from media_relations
-							 left join media on media_relations.media_id = media.media_id
-						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan.transaction_id#">
-						</cfquery>
-							<table class="search-box table table-responsive mt-1 w-100">
-								<thead class="search-box-header mt-1">
-									<tr class="text-white">
-										<th>Transaction ID</th>
-										<th>Loan&nbsp;Number</th>
-										<th>Loan&nbsp;Type</th>
-										<th>Loan&nbsp;Status</th>
-										<th>Loan&nbsp;Description</th>
-										<th>Loan&nbsp;Instructions</th>
-										<th>Image&nbsp;Thumbnail(s)</th>
-										
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>#loan.transaction_id#</td>
-										<td>#loan.loan_number#</td>
-										<td>#loan.loan_type#</td>
-										<td>#loan.loan_status#</td>
-										<td>#loan.loan_description#</td>
-										<td>#loan.loan_instructions#</td>
-										<td style="width:57%; padding-left: 0.5rem;">
-											<cfloop query="relm7">
-												<div class="border-light float-left mx-1 px-0 py-1" style="width:112px;height: 202px">
-												<cfif len(loan.transaction_id) gt 0>
-													<cfif relm7.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning border-left border-right px-1 border-bottom border-top">
-													<cfelse>	
-														<cfset activeimg = "border-light px-1">
-													</cfif>
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm7.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
-													<div class="float-left #activeimg#" id="mediaBlock#relm7.media_id#"> #mediablock# </div>
-												</cfif>
-												</div>
-											</cfloop>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					<cfelse>
-					</cfif>
-				</div>
+						
+			
 			</cfloop>
 			</div>
 		</div>
