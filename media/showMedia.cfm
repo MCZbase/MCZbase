@@ -594,7 +594,7 @@
 											</span>
 										</li>
 										<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
-											<span class="font-weight-lessbold">MCZbase Transaction Number
+											<span class="font-weight-lessbold">MCZ Trans. Number
 												<span class="d-inline d-lg-none">s </span>
 											</span>
 										</li>
