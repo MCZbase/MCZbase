@@ -569,7 +569,7 @@
 				<!---Borrow records--->			
 				<div class="row mx-0">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
+						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status,MCZBASE.get_media_title(media.media_id) as title1
 						from borrow 
 							left join media_relations on media_relations.related_primary_key = borrow.transaction_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
@@ -653,7 +653,7 @@
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>
 																	#mediablock#
 															</div>
-															<!---<cfset showTitleText1 = trim(title1)>
+															<cfset showTitleText1 = trim(title1)>
 															<cfif len(showTitleText1) gt 170>
 																<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
 															<cfelse>
@@ -663,7 +663,7 @@
 																<span class="d-block font-weight-lessbold">Media ID = #relm5.media_id#</span>
 																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																#showTitleText1#
-															</div>--->
+															</div>
 														</div>
 													</cfif>
 												</div>
