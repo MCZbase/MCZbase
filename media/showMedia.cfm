@@ -569,10 +569,10 @@
 				<!---Borrow records--->			
 				<div class="row mx-0">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select borrow.transaction_id, borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
+						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
 						from borrow 
 							left join media_relations on media_relations.related_primary_key = borrow.transaction_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							and media_relations.media_relationship = 'documents borrow'
 					</cfquery>
 					<cfif len(borrow.transaction_id) gt 0>
@@ -588,7 +588,7 @@
 								<div class="search-box-header px-2 mt-0">
 									<ul class="list-group list-group-horizontal text-white">
 										<li class="col-2 col-xl-1  px-1 list-group-item">
-											<span class="font-weight-lessbold">Lender's Number<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span>
+											<span class="font-weight-lessbold">Lender Number<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span>
 										</li>
 										<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 											<span class="font-weight-lessbold">MCZbase Transaction Number<span class="d-inline d-lg-none">s </span></span>
@@ -612,12 +612,12 @@
 								<cfloop query="borrow">
 									<div class="row mx-0 border-top py-0 border-gray">
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Lender's Number: </span>
+											<span class="d-block d-md-none">Lender Number: </span>
 											<a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.lenders_trans_num_cde#">
 												#borrow.lenders_trans_num_cde#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">MCZbase Transaction Number: </span><a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/borrow.transaction_id#">
+											<span class="d-block d-md-none">MCZbase Transaction Number: </span><a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.transaction_id#">
 												#borrow.transaction_id#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
@@ -672,6 +672,9 @@
 						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Borrow</h3>
 					</cfif>
 				</div>
+													
+													
+													
 				<!---Deaccession records--->			
 				<div class="row mx-0">
 					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
