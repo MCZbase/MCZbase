@@ -1471,7 +1471,7 @@ limitations under the License.
 						<cfelse>
 							locality.nogeorefbecause,
 							locality.georef_updated_date,
-							locality, georef_by,
+							locality.georef_by,
 						</cfif>
 						locality.sovereign_nation,
 						locality.curated_fg,
