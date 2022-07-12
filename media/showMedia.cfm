@@ -137,7 +137,7 @@
 							</table>
 								
 										
-								<cfif len(mediaRelations.medi_id) gt 0>
+								<cfif len(mediaRelations.media_id) gt 0>
 									some button	
 								</cfif>
 							<cfloop query="mediaRelations">
