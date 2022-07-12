@@ -242,7 +242,7 @@
 						</cfloop>
 					</div>
 				<cfelse>
-					<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Specimen Records</h3>
+					<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
 				<!--- accn records --->
@@ -453,7 +453,7 @@
 						</div>
 						</div>
 					<cfelse>
-						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Collecting Events</h3>
+						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Collecting Events</h3>
 					</cfif>
 				</div>
 													
@@ -561,7 +561,7 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Permit</h3>
+						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Permit</h3>
 					</cfif>
 				</div>
 
@@ -623,7 +623,7 @@
 							</table>
 						</div>
 					<cfelse>
-						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Borrow</h3>
+						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Borrow</h3>
 					</cfif>
 				</div>
 				<!---Deaccession records--->			
@@ -684,7 +684,7 @@
 							</table>
 						</div>
 					<cfelse>
-						<h3 class="h4 mt-3 w-100 px-2 font-italic">Not associated with Deaccession</h3>
+						<h3 class="h4 mt-3 w-100 px-5 font-italic">Not associated with Deaccession</h3>
 					</cfif>
 				</div>
 				<!---Loan records--->			
