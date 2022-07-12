@@ -569,7 +569,7 @@
 				<!---Borrow records--->			
 				<div class="row mx-0">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status,MCZBASE.get_media_title(media.media_id) as title1
+						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
 						from borrow 
 							left join media_relations on media_relations.related_primary_key = borrow.transaction_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
@@ -579,7 +579,7 @@
 						<h1 class="h3 w-100 my-0 px-2">Borrow Records with this Media</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
 								from media_relations
 									left join media on media_relations.media_id = media.media_id
 								where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow.transaction_id#">
