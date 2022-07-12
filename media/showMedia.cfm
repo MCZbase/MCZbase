@@ -135,7 +135,11 @@
 									</cfif>
 								</tbody>
 							</table>
-								something
+								
+										
+								<cfif len(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') gt 0>
+									some button	
+								</cfif>
 							<cfloop query="mediaRelations">
 								#mediaRelations.media_relationship#
 							</cfloop>
