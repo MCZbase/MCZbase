@@ -88,7 +88,7 @@
 						</cfquery>
 						<cfif len(media.media_id) gt 0>
 						<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-3 pt-3 pb-2">
-							<cfif #mediaRelations.media_relationship# eq 'documents borrow' OR #mediaRelations.media_relationship# eq 'documents accn'>
+							<cfif #mediaRelations.media_relationship# eq 'documents borrow'>
 								<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
 								#mediablock# This one
 							<cfelse>
