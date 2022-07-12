@@ -1495,7 +1495,7 @@ limitations under the License.
 						geog_auth_rec.highergeographyid
 					FROM cataloged_item
 						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-						left join locality on cataloged_item.locality_id = locality.locality_id
+						left join locality on collecting_event.locality_id = locality.locality_id
 						left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 					WHERE
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
