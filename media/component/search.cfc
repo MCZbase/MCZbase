@@ -1418,7 +1418,7 @@ imgStyleClass=value
 </cffunction>
 
 <!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc showMore is not working-- Michelle--->				
-<cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
+<!---<cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
 		<cfoutput>
@@ -1433,7 +1433,7 @@ imgStyleClass=value
 				<cfif specimen_recs.recordcount GT 0>
 					<!---The specimen record query "specimen_recs" will give us the collection_object_id based on the media_id that is passed through 
 						in arguments. It will loop through the media_relations to output to the media_id for now.(as a test). --->
-					<cfloop query="specimen_recs">
+					<!---<cfloop query="specimen_recs">
 						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_relations_result">
 							select distinct media.media_id, preview_uri, media.media_uri,
 								get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -1465,7 +1465,7 @@ imgStyleClass=value
 	</cfthread>
 	<cfthread action="join" name="showMoreMediaThread" />
 	<cfreturn cfthread["showMoreMediaThread"].output>
-</cffunction>
+</cffunction>--->
 
 <cffunction name="getMediaRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
