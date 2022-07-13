@@ -138,8 +138,8 @@
 							</table>
 							<div class="row mx-0">
 								<h4 class="h5 px-2 pt-1">Shown on: </h4>
-								<ul class="list-group list-group-horizontal"><a class="link-color" href="##catalogitem">Cataloged Items</a>
-								<a class="link-color" href="##accessionlink">Accessions</a></ul>
+								<ul class="list-group list-group-horizontal"><a class="link-color px-1" href="##catalogitem">Cataloged Items</a>
+								<a class="link-color px-1" href="##accessionlink">Accessions</a></ul>
 							</div>
 <!---							<cfloop query="media">
 								#media.mrstr#
