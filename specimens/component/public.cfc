@@ -1375,269 +1375,379 @@ limitations under the License.
 						
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getLocalityThread">
-			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-				<cfset oneOfUs = 1>
-			<cfelse>
-				<cfset oneOfUs = 0>
-			</cfif>
-			<!--- check for mask record, hide if mask record ---->
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
-				FROM DUAL
-			</cfquery>
-			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
-				<cfthrow message="Record Masked">
-			</cfif>
-		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select
-				media_id
-			from
-				media_relations
-			where
-				RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#detail.locality_id#"> and
-				MEDIA_RELATIONSHIP like '% locality'
-		</cfquery>
-		<!--- TODO:  This must be in the enclosing page, not duplicated on each ajax reload from here --->
-		<script>
-		/*map customization and polygon functionality commented  out for now. This will be useful as we implement more features -bkh*/
-		jQuery(document).ready(function() {
-			mapsYo();
-		});
-			function mapsYo(){
-				$("input[id^='coordinates_']").each(function(e){
-					var locid=this.id.split('_')[1];
-					var coords=this.value;
-					var bounds = new google.maps.LatLngBounds();
-					var polygonArray = [];
-					var ptsArray=[];
-					var lat=coords.split(',')[0];
-					var lng=coords.split(',')[1];
-					var errorm=$("#error_" + locid).val();
-					var mapOptions = {
-						zoom: 1,
-						center: new google.maps.LatLng(lat, lng),
-						mapTypeId: google.maps.MapTypeId.ROADMAP,
-						panControl: true,
-						scaleControl: false,
-						controlSize: 20,
-						fullscreenControl: true,
-						zoomControl: true
-					};
-					var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
 
-					var center=new google.maps.LatLng(lat,lng);
-					var marker = new google.maps.Marker({
-						position: center,
-						map: map,
-						zIndex: 10
-					});
-					bounds.extend(center);
-					if (parseInt(errorm)>0){
-						var circleoptn = {
-							strokeColor: '#FF0000',
-							strokeOpacity: 0.8,
-							strokeWeight: 2,
-							fillColor: '#FF0000',
-							fillOpacity: 0.15,
-							map: map,
-							center: center,
-							radius: parseInt(errorm),
-							zIndex:-99
-						};
-						crcl = new google.maps.Circle(circleoptn);
-						bounds.union(crcl.getBounds());
-					}
-					// WKT can be big and slow, so async fetch
-					$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
-						  if (wkt.length>0){
-							var regex = /\(([^()]+)\)/g;
-							var Rings = [];
-							var results;
-							while( results = regex.exec(wkt) ) {
-								Rings.push( results[1] );
-							}
-							for(var i=0;i<Rings.length;i++){
-								// for every polygon in the WKT, create an array
-								var lary=[];
-								var da=Rings[i].split(",");
-								for(var j=0;j<da.length;j++){
-									// push the coordinate pairs to the array as LatLngs
-									var xy = da[j].trim().split(" ");
-									var pt=new google.maps.LatLng(xy[1],xy[0]);
-									lary.push(pt);
-									//console.log(lary);
-									bounds.extend(pt);
-								}
-								// now push the single-polygon array to the array of arrays (of polygons)
-								ptsArray.push(lary);
-							}
-							var poly = new google.maps.Polygon({
-								paths: ptsArray,
-								strokeColor: '#1E90FF',
-								strokeOpacity: 0.8,
-								strokeWeight: 2,
-								fillColor: '#1E90FF',
-								fillOpacity: 0.35
-							});
-							poly.setMap(map);
-							polygonArray.push(poly);
-							// END this block build WKT
-							} else {
-								$("#mapdiv_" + locid).addClass('noWKT');
-							}
-							if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-							   var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
-							   var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
-							   bounds.extend(extendPoint1);
-							   bounds.extend(extendPoint2);
-							}
-							map.fitBounds(bounds);
-							for(var a=0; a<polygonArray.length; a++){
-								if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
-									$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
-								} else {
-									$("#mapdiv_" + locid).addClass('niceGeoSPatData');
-								}
-							}
-						});
-						map.fitBounds(bounds);
-				});
-			}
-		</script>
+	<cfthread name="getLocalityThread">
+		<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+			<cfset oneOfUs = 1>
+		<cfelse>
+			<cfset oneOfUs = 0>
+		</cfif>
+		<!--- check for mask record, hide if mask record ---->
+		<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+			FROM DUAL
+		</cfquery>
+		<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+			<cfthrow message="Record Masked">
+		</cfif>
 		<cfoutput>
 			<cftry>
-				<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-					<div class="error"> Improper call. Aborting..... </div>
-					<cfabort>
+				<cfset maskCoordinates = false>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail)>
+					<cfset maskCoordinates = true>
 				</cfif>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<cfset oneOfUs = 1>
-				<cfelse>
-					<cfset oneOfUs = 0>
-				</cfif>
+				<cfquery name="loc_collevent"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						collecting_event.collecting_event_id, 
+						locality.locality_id,
+						geog_auth_rec.geog_auth_rec_id,
+						collecting_event.collecting_time,
+						collecting_event.date_began_date,
+						collecting_event.date_ended_date,
+						collecting_event.verbatim_date,
+						collecting_event.began_date,
+						collecting_event.ended_date,
+						collecting_event.startdayofyear,
+						collecting_event.enddayofyear,
+						collecting_event.verbatim_locality,
+						collecting_event.coll_event_remarks,
+						collecting_event.valid_distribution_fg,
+						collecting_event.collecting_source,
+						collecting_event.collecting_method,
+						collecting_event.habitat_desc,
+						collecting_event.date_determined_by_agent_id,
+						collecting_event.fish_field_number,
+						<cfif maskCoordinates>
+							'[Masked]' as verbatimcoordinates,
+							'' as verbatimlatitude,
+							'' as verbatimlongitude,
+							'' as verbatimsrs,
+						<cfelse>
+							collecting_event.verbatimcoordinates,
+							collecting_event.verbatimlatitude,
+							collecting_event.verbatimlongitude,
+							collecting_event.verbatimsrs,
+						</cfif>
+						collecting_event.verbatimelevation,
+						collecting_event.verbatimdepth,
+						locality.maximum_elevation,
+						locality.minimum_elevation,
+						locality.orig_elev_units,
+						<cfif maskCoordinates>
+							'' as township,
+							'' as township_direction,
+							'' as range,
+							'' as range_direction,
+							'' as section,
+							'' as section_part,
+						<cfelse>
+							locality.township,
+							locality.township_direction,
+							locality.range,
+							locality.range_direction,
+							locality.section,
+							locality.section_part,
+						</cfif>
+						locality.spec_locality,
+						locality.locality_remarks,
+						locality.legacy_spec_locality_fg,
+						locality.depth_units,
+						locality.min_depth,
+						locality.max_depth,
+						<cfif maskCoordinates>
+							'' as nogeorefbecause,
+							'' as georef_updated_date,
+							'' as georef_by,
+						<cfelse>
+							locality.nogeorefbecause,
+							locality.georef_updated_date,
+							locality.georef_by,
+						</cfif>
+						locality.sovereign_nation,
+						locality.curated_fg,
+						geog_auth_rec.continent_ocean,
+						geog_auth_rec.country,
+						geog_auth_rec.state_prov,
+						geog_auth_rec.county,
+						geog_auth_rec.island_group,
+						geog_auth_rec.island,
+						geog_auth_rec.quad,
+						geog_auth_rec.feature,
+						geog_auth_rec.sea,
+						geog_auth_rec.valid_catalog_term_fg,
+						geog_auth_rec.source_authority,
+						geog_auth_rec.higher_geog,
+						geog_auth_rec.ocean_region,
+						geog_auth_rec.ocean_subregion,
+						geog_auth_rec.water_feature,
+						geog_auth_rec.wkt_polygon,
+						geog_auth_rec.highergeographyid_guid_type,
+						geog_auth_rec.highergeographyid
+					FROM cataloged_item
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join locality on collecting_event.locality_id = locality.locality_id
+						left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<!--- field coll_object_remark.habitat is labeled microhabitat --->
+				<cfquery name="microhabitatlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						habitat
+					FROM
+						coll_object_remark
+					WHERE	
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#"> 
+				</cfquery>
+				<cfset microhabitat = "">
+				<cfset sep = "">
+				<cfloop query="microhabitatlookup">
+					<cfset microhabitat = "#microhabitat##sep##microhabitatlookup.habitat#">
+					<cfset sep = ";">
+				</cfloop>
+				<cfquery name="coordlookup"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						<cfif maskCoordinates>
+							'' as lat_long_id,
+							'' as accepted_lat_long_fg,
+							'[Masked]' as dec_lat,
+							'[Masked]' as dec_long,
+							'' as datum,
+							'' as max_error_distance,
+							'' as max_error_units,
+							'' as orig_lat_long_units,
+							'' as lat_deg,
+							'' as dec_lat_min,
+							'' as lat_sec,
+							'' as lat_dir,
+							'' as long_deg,
+							'' as dec_long_min,
+							'' as long_min,
+							'' as long_sec,
+							'' as long_dir,
+							'' as utm_zone,
+							'' as utm_ew,
+							'' as utm_ns,
+							'' as lat_long_determined_by,
+							'' as determined_date,
+							'' as lat_long_verified_by,
+							'' as lat_long_ref_source,
+							'' as lat_long_remarks,
+							'' as nearest_named_place,
+							'' as lat_long_for_nnp_fg,
+							'' as field_verified_fg,
+							'' as extent,
+							'' as gpsaccuracy,
+							'' as georefmethod,
+							'' as verificationstatus,
+							'' as spatialfit,
+							'' as geolocate_score,
+							'' as geolocate_precision,
+							'' as geolocate_numresults,
+							'' as geolocate_parsepattern,
+							'' as error_polygon
+						<cfelse>
+							lat_long_id,
+							accepted_lat_long_fg,
+							dec_lat,
+							dec_long,
+							datum,
+							max_error_distance,
+							max_error_units,
+							orig_lat_long_units,
+							lat_deg,
+							dec_lat_min,
+							lat_sec,
+							lat_dir,
+							long_deg,
+							dec_long_min,
+							long_min,
+							long_sec,
+							long_dir,
+							utm_zone,
+							utm_ew,
+							utm_ns,
+							MCZBASE.get_agentnameoftype(determined_by_agent_id) lat_long_determined_by,
+							determined_date,
+							MCZBASE.get_agentnameoftype(verified_by_agent_id) lat_long_verified_by,
+							lat_long_ref_source,
+							lat_long_remarks,
+							nearest_named_place,
+							lat_long_for_nnp_fg,
+							field_verified_fg,
+							extent,
+							gpsaccuracy,
+							georefmethod,
+							verificationstatus,
+							spatialfit,
+							geolocate_score,
+							geolocate_precision,
+							geolocate_numresults,
+							geolocate_parsepattern,
+							error_polygon
+						</cfif>
+					FROM
+						lat_long
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
+						<cfif maskCoordinates>
+							and recnum < 2
+						</cfif>
+					ORDER BY
+						accepted_lat_long_fg desc, determined_date asc
+				</cfquery>
+				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_id
+					from
+						media_relations
+					where
+						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
+						MEDIA_RELATIONSHIP like '% locality'
+				</cfquery>
+				<script>
+					jQuery(document).ready(function() {
+						localityMapSetup();
+					});
+				</script>
 				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-					<cfif len(detail.dec_lat) gt 0 and len(detail.dec_long) gt 0>
-						<cfset coordinates="#detail.dec_lat#,#detail.dec_long#">
-						<input type="hidden" id="coordinates_#detail.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#detail.locality_id#" value="1196">
-						<div id="mapdiv_#detail.locality_id#" class="tinymap w-100" style="height:180px;"></div>
+					<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
+						<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
+						<!--- coordinates_* referenced in localityMapSetup --->
+						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
+						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
+						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<cfset oneOfUs = 1>
+					<cfelse>
+						<cfset oneOfUs = 0>
 					</cfif>
 				</div>
 				<div class="col-12 col-md-7 px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
-						<cfif len(detail.continent_ocean) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Continent or Ocean:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.continent_ocean#</li>
+						<cfif len(loc_collevent.continent_ocean) gt 0>
+							<cfif find('Ocean',loc_collevent.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
+							<li class="list-group-item col-5 px-0"><em>#colabel#:</em></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.continent_ocean#</li>
 						</cfif>
-						<cfif len(detail.sea) gt 0>
+						<cfif len(loc_collevent.sea) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.sea#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.sea#</li>
 						</cfif>
-						<cfif len(detail.country) gt 0>
+						<cfif len(loc_collevent.water_feature) gt 0>
+							<li class="list-group-item col-5 px-0"><em>Water Feature:</em></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.water_feature#</li>
+						</cfif>
+						<cfif len(loc_collevent.country) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.country#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.country#</li>
 						</cfif>
-						<cfif len(detail.state_prov) gt 0>
-							<li class="list-group-item col-5 px-0"><em>State:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.state_prov#</li>
+						<cfif len(loc_collevent.state_prov) gt 0>
+							<li class="list-group-item col-5 px-0"><em>State/Province:</em></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.state_prov#</li>
 						</cfif>
-						<cfif len(detail.feature) gt 0>
+						<cfif len(loc_collevent.feature) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.feature#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.feature#</li>
 						</cfif>
-						<cfif len(detail.county) gt 0>
+						<cfif len(loc_collevent.county) gt 0>
 							<li class="list-group-item col-5 px-0"><em>County:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.county#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.county#</li>
 						</cfif>
-						<cfif len(detail.island_group) gt 0>
+						<cfif len(loc_collevent.island_group) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.island_group#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.island_group#</li>
 						</cfif>
-						<cfif len(detail.island) gt 0>
+						<cfif len(loc_collevent.island) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.island#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.island#</li>
 						</cfif>
-						<cfif len(detail.quad) gt 0>
+						<cfif len(loc_collevent.quad) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-							<li class="list-group-item col-7 px-0">#detail.quad#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.quad#</li>
 						</cfif>
 					</ul>
 					<div class="w-100 float-left mx-2">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?geog_auth_rec_id=#detail.geog_auth_rec_id#" title="See other specimens with this Higher Geography">Higher Geography</a></span>
+						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&action=fixedSearch&higher_geog==#loc_collevent.higher_geog#" title="See other specimens with this Higher Geography">Specimens with same Higher Geography</a></span>
 					</div>
 					<div class="w-100 mx-2 float-left">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#detail.locality_id#" title="See other specimens with this Locality">Locality</a></span>
+						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#loc_collevent.locality_id#" title="See other specimens with this Locality">Locality</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
-					<ul class="sd list-unstyled bg-light row mx-0 px-3 pt-1 pb-0 mb-0 border-top">
-						<cfif len(detail.spec_locality) gt 0>
+					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
+						<cfif len(loc_collevent.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="font-weight-lessbold my-0">Specific Locality: </span></li>
-							<li class="list-group-item col-7 px-0 last">#detail.spec_locality#</li>
+							<li class="list-group-item col-7 px-0 last">#loc_collevent.spec_locality#</li>
 						</cfif>
-						<cfif len(detail.verbatim_locality) gt 0>
+						<cfif len(loc_collevent.verbatim_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Locality: </span></li>
-							<li class="list-group-item col-7 px-0 ">#detail.verbatim_locality#</li>
+							<li class="list-group-item col-7 px-0 ">#loc_collevent.verbatim_locality#</li>
 						</cfif>
-						<cfif len(detail.locality_remarks) gt 0>
+						<cfif len(loc_collevent.locality_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Locality Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.locality_remarks#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.locality_remarks#</li>
 						</cfif>
-						<cfif len(detail.collecting_source) gt 0>
+						<cfif len(loc_collevent.collecting_source) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Source: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.collecting_source#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_source#</li>
 						</cfif>
 						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-						<cfif len(detail.began_date) gt 0 AND detail.began_date eq #detail.ended_date#>
+						<cfif len(loc_collevent.began_date) gt 0 AND loc_collevent.began_date eq #loc_collevent.ended_date#>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collected On: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.began_date#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.began_date#</li>
 						</cfif>
-						<cfif len(detail.began_date) gt 0 AND detail.began_date neq #detail.ended_date#>
+						<cfif len(loc_collevent.began_date) gt 0 AND loc_collevent.began_date neq #loc_collevent.ended_date#>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Began Date / Ended Date: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.began_date# / #detail.ended_date#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.began_date# / #loc_collevent.ended_date#</li>
 						</cfif>
-						<cfif len(detail.verbatim_date) gt 0>
+						<cfif len(loc_collevent.verbatim_date) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Date: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.verbatim_date#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_date#</li>
 						</cfif>
-						<cfif len(detail.verbatimcoordinates) gt 0>
+						<cfif len(loc_collevent.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.verbatimcoordinates#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimcoordinates#</li>
 						</cfif>
-						<cfif len(detail.collecting_method) gt 0>
+						<cfif len(loc_collevent.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.collecting_method#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_method#</li>
 						</cfif>
-						<cfif len(detail.max_depth) gt 0>
+						<cfif len(loc_collevent.max_depth) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Depth: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #detail.min_depth# eq #detail.max_depth#>#detail.min_depth# #detail.depth_units#<cfelse>#detail.min_depth# - #detail.max_depth# #detail.depth_units#</cfif></li>
+							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.min_depth# eq #loc_collevent.max_depth#>#loc_collevent.min_depth# #loc_collevent.depth_units#<cfelse>#loc_collevent.min_depth# - #loc_collevent.max_depth# #loc_collevent.depth_units#</cfif></li>
 						</cfif>
-						<cfif len(detail.maximum_elevation) gt 0>
+						<cfif len(loc_collevent.maximum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #detail.minimum_elevation# eq #detail.maximum_elevation#>#detail.minimum_elevation# #detail.orig_elev_units#<cfelse>#detail.minimum_elevation# - #detail.maximum_elevation# #detail.orig_elev_units#</cfif></li>
+							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.minimum_elevation# eq #loc_collevent.maximum_elevation#>#loc_collevent.minimum_elevation# #loc_collevent.orig_elev_units#<cfelse>#loc_collevent.minimum_elevation# - #loc_collevent.maximum_elevation# #loc_collevent.orig_elev_units#</cfif></li>
 						</cfif>
-						<cfif len(detail.coll_event_remarks) gt 0>
+						<cfif len(loc_collevent.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.coll_event_remarks#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.coll_event_remarks#</li>
 						</cfif>
-						<cfif len(detail.habitat_desc) gt 0>
+						<cfif len(loc_collevent.habitat_desc) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Habitat Description: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.habitat_desc#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.habitat_desc#</li>
 						</cfif>
-						<cfif len(detail.habitat) gt 0>
+						<cfif len(microhabitat) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Microhabitat: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.habitat#</li>
+							<li class="list-group-item col-7 px-0">#microhabitat#</li>
 						</cfif>
-						<cfif len(detail.dec_lat) gt 0>
-							<cfset dateDet = left(#detail.latLongDeterminedDate#,10)>
-							<cfset dla = left(#detail.dec_lat#,10)>
-							<cfset dlo = left(#detail.dec_long#,10)>
-							<li class="list-group-item col-5 pl-0 pr-2 px-md-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #detail.max_error_distance##detail.max_error_units#) <span class="d-block small mb-0 pb-0"> #detail.latLongDeterminer# on #dateDet# (Source: #detail.lat_long_ref_source#)</span></li>
-							<li class="list-group-item col-5 pl-0 pr-2 px-md-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<li class="list-group-item col-7 px-0">#detail.orig_lat_long_units# (datum: #detail.datum#) </li>
+						<cfif len(coordlookup.dec_lat) gt 0>
+							<cfset dateDet = left(#coordlookup.determined_date#,10)>
+							<cfset dla = left(#coordlookup.dec_lat#,10)>
+							<cfset dlo = left(#coordlookup.dec_long#,10)>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
+							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #coordlookup.lat_long_determined_by# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
+
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
+							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
+							<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
+							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units#<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span></li>
 						</cfif>
 					</ul>
 				</div>
@@ -1716,6 +1826,9 @@ limitations under the License.
 					coll_order
 			</cfquery>
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+				<cfif colls.recordcount EQ 0 AND preps.recordcount EQ 0>
+					<li class="small90 list-group-item font-italic">None</li>
+				</cfif>
 				<cfif colls.recordcount gt 0>
 					<cfif colls.recordcount eq 1>
 						<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Collector:&nbsp;</span>
@@ -1891,6 +2004,9 @@ limitations under the License.
 						<cfif len(#meta.encumbranceDetail#) is not 0>
 							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
+					</cfif>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
 					</cfif>
 				</ul>
 			<cfcatch>
