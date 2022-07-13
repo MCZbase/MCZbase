@@ -1856,7 +1856,7 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.coll_event_remarks#</li>
 						</cfif>
-						<cfif len(loc_coll_event.fish_field_number) gt 0>
+						<cfif len(loc_collevent.fish_field_number) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Ich. Field Number: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.fish_field_number#</li>
 						</cfif>
