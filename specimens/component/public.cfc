@@ -1657,7 +1657,7 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><em>Ocean Region:</em></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.ocean_region#</li>
 						</cfif>
-						<cfif len(loc_collevent.ocean_region) gt 0>
+						<cfif len(loc_collevent.ocean_subregion) gt 0>
 							<li class="list-group-item col-5 px-0"><em>Ocean Subregion:</em></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.ocean_subregion#</li>
 						</cfif>
@@ -1761,7 +1761,7 @@ limitations under the License.
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<cfset warn301="">
-							<cfif cordlookup.max_error_distance EQ "301" AND coordlookup.max_error_units EQ "m">
+							<cfif coordlookup.max_error_distance EQ "301" AND coordlookup.max_error_units EQ "m">
 								<cfset warn301=" [Note: a coordinate uncertainty of 301m is given by biogeomancer and geolocate when unable to determine an uncertainty]">
 							</cfif>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
