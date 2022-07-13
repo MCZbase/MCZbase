@@ -1627,6 +1627,24 @@ limitations under the License.
 						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
 						MEDIA_RELATIONSHIP like '% locality'
 				</cfquery>
+				<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						geology_attributes.geology_attribute,
+						geo_att_value,
+						geo_att_determiner_id,
+						MCZBASE.get_agentnameoftype(geo_att_determiner_id) determiner,
+						geo_att_determined_date,
+						geo_att_determined_method,
+						geo_att_remark,
+						previous_values
+					FROM
+						geology_attributes
+						left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
+					WHERE
+						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
+					ORDER BY
+						ctgeology_attributes.type, ctgeology_attributes.ordinal
+				</cfquery>
 				<script>
 					jQuery(document).ready(function() {
 						localityMapSetup();
@@ -1744,6 +1762,21 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Elevation: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimelevation#</li>
 						</cfif>
+						<cfif geology.recordcount GT 0> 
+							<cfloop query="geology">
+							<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">#geology.geology_attribute#: </span></li>
+								<cfset geo_determiner = geology.determiner>
+								<cfif geology.geo_att_determiner_id NEQ "0">
+									<cfset geo_determiner = "<a href='/agents/agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
+								</cfif>
+								<cfset geology_previous = "">
+								<cfif len(geology.previous_values) GT 0 AND oneOfUs EQ 1>
+									<cfset geology_previous = " [previously: #geology.previous_values#]">
+								</cfif>
+								<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner# on #geology.geo_att_determined_date# (Method: #geology.geo_att_determined_method#) #geology.geo_att_remark##geology_previous#</span></li>
+							</cfloop>
+						</cfif>
 						<cfif len(loc_collevent.habitat_desc) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Habitat Description: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.habitat_desc#</li>
@@ -1765,7 +1798,11 @@ limitations under the License.
 								<cfset warn301=" [Note: a coordinate uncertainty of 301m is given by biogeomancer and geolocate when unable to determine an uncertainty]">
 							</cfif>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
-							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> <a href="/agents/Agent.cfm?agent_id=#coordlookup.determined_by_agent_id#">#coordlookup.lat_long_determined_by#</a> on #dateDet# (Source: #coordlookup.lat_long_ref_source#)#warn301#</span></li>
+							<cfset georef_determiner= coordlookup.lat_long_determined_by>
+							<cfif coordlookup.determined_by_agent_id NEQ "0">
+								<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
+							</cfif>
+							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #georef_determiner# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)#warn301#</span></li>
 
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
 							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
