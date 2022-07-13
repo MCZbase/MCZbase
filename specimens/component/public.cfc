@@ -1764,17 +1764,18 @@ limitations under the License.
 						</cfif>
 						<cfif geology.recordcount GT 0> 
 							<cfloop query="geology">
-							<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">#geology.geology_attribute#: </span></li>
-								<cfset geo_determiner = geology.determiner>
-								<cfif geology.geo_att_determiner_id NEQ "0">
-									<cfset geo_determiner = "<a href='/agents/agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
+								<cfif len(geology.geo_att_value) GT 0>
+									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">#geology.geology_attribute#: </span></li>
+									<cfset geo_determiner = geology.determiner>
+									<cfif geology.geo_att_determiner_id NEQ "0">
+										<cfset geo_determiner = "<a href='/agents/agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
+									</cfif>
+									<cfset geology_previous = "">
+									<cfif len(geology.previous_values) GT 0 AND oneOfUs EQ 1>
+										<cfset geology_previous = " [previously: #geology.previous_values#]">
+									</cfif>
+									<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner# on #geology.geo_att_determined_date# (Method: #geology.geo_att_determined_method#) #geology.geo_att_remark##geology_previous#</span></li>
 								</cfif>
-								<cfset geology_previous = "">
-								<cfif len(geology.previous_values) GT 0 AND oneOfUs EQ 1>
-									<cfset geology_previous = " [previously: #geology.previous_values#]">
-								</cfif>
-								<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner# on #geology.geo_att_determined_date# (Method: #geology.geo_att_determined_method#) #geology.geo_att_remark##geology_previous#</span></li>
 							</cfloop>
 						</cfif>
 						<cfif len(loc_collevent.habitat_desc) gt 0>
