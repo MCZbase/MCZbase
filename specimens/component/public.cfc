@@ -1734,7 +1734,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(loc_collevent.township) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">PLSS: </span></li>
-							<cfif REFind("^[0-9]+$",loc_collevent.section)><cfset s="S"><cfelse><cfset s=""></cfif>
+							<cfif REFind("^[0-9]+$",loc_collevent.section)><cfset sec="S"><cfelse><cfset sec=""></cfif>
 							<li class="list-group-item col-7 px-0">#loc_collevent.section_part# #sec##loc_collevent.section# T#loc_collevent.township##ucase(loc_collevent.township_direction)#R#loc_collevent.range##ucase(loc_collevent.range_direction)# </li>
 						</cfif>
 						<cfif len(loc_collevent.collecting_method) gt 0>
