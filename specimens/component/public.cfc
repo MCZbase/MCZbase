@@ -1873,7 +1873,7 @@ limitations under the License.
 								coll_event_number
 								left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
 							WHERE
-								collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_colevent.collecting_event_id#"> 
+								collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> 
 						</cfquery>
 						<cfif collEventNumbers.recordcount gt 0>
 							<cfloop query="collEventNumbers">
