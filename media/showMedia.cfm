@@ -136,10 +136,14 @@
 									</cfif>
 								</tbody>
 							</table>
-								
-							<cfloop query="media">
+							<div class="row mx-0">
+								<h4>Shown on: </h4>
+								<ul class="list-group list-group-horizontal"><li class="list-group-item"><a class="">Cataloged Items</a></li>
+								<li class="list-group-item"><a class="">Accessions</a></li></ul>
+							
+<!---							<cfloop query="media">
 								#media.mrstr#
-							</cfloop>
+							</cfloop>--->
 						</div>
 					</div>
 				</div>
