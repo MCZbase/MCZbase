@@ -1633,7 +1633,7 @@ limitations under the License.
 					from
 						media_relations
 					where
-						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc-collevent.collecting_event_id#"> and
+						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
 						MEDIA_RELATIONSHIP like '% collecting_event'
 				</cfquery>
 				<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
