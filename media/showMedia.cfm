@@ -137,9 +137,9 @@
 								</tbody>
 							</table>
 							<div class="row mx-0">
-								<h4 class="px-2 pt-1">Shown on: </h4>
-								<ul class="list-group list-group-horizontal"><li class="list-group-item"><a class="infoLink">Cataloged Items</a></li>
-								<li class="list-group-item"><a class="infoLink">Accessions</a></li></ul>
+								<h4 class="h5 px-2 pt-1">Shown on: </h4>
+								<ul class="list-group list-group-horizontal"><li class="list-group-item"><a class="link-color">Cataloged Items</a></li>
+								<li class="list-group-item"><a class="link-color">Accessions</a></li></ul>
 							
 <!---							<cfloop query="media">
 								#media.mrstr#
