@@ -1627,12 +1627,25 @@ limitations under the License.
 						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
 						MEDIA_RELATIONSHIP like '% locality'
 				</cfquery>
+				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_id
+					from
+						media_relations
+					where
+						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc-collevent.collecting_event_id#"> and
+						MEDIA_RELATIONSHIP like '% collecting_event'
+				</cfquery>
 				<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						geology_attributes.geology_attribute,
 						geo_att_value,
 						geo_att_determiner_id,
-						MCZBASE.get_agentnameoftype(geo_att_determiner_id) determiner,
+						case 
+							when geo_att_determiner_id is null then '[No Agent]'
+							else MCZBASE.get_agentnameoftype(geo_att_determiner_id) 
+							end
+						as determiner
 						geo_att_determined_date,
 						geo_att_determined_method,
 						geo_att_remark,
@@ -1803,14 +1816,19 @@ limitations under the License.
 							<cfif coordlookup.determined_by_agent_id NEQ "0">
 								<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
 							</cfif>
-							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #georef_determiner# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)#warn301#</span></li>
-
+							<li class="list-group-item col-7 px-0">
+								#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
+								<span class="d-block small mb-0 pb-0"> #georef_determiner# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)#warn301#</span>
+							</li>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
 							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
 
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
 							<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
-							<li class="list-group-item col-7 px-0">#coordlookup.orig_lat_long_units#<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span></li>
+							<li class="list-group-item col-7 px-0">
+								#coordlookup.orig_lat_long_units#
+								<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
+							</li>
 						</cfif>
 						<cfif len(loc_collevent.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
@@ -1837,6 +1855,38 @@ limitations under the License.
 						<cfif len(loc_collevent.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.coll_event_remarks#</li>
+						</cfif>
+						<cfif len(loc_coll_event.fish_field_number) gt 0>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Ich. Field Number: </span></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.fish_field_number#</li>
+						</cfif>
+						<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								coll_event_number, number_series, 
+								case 
+									when collector_agent_id is null then '[No Agent]'
+									else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') 
+								end
+								as collector_agent_name,
+								collector_agent_id
+							FROM
+								coll_event_number
+								left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+							WHERE
+								collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_colevent.collecting_event_id#"> 
+						</cfquery>
+						<cfif collEventNumbers.recordcount gt 0>
+							<cfloop query="collEventNumbers">
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event/Field Number: </span></li>
+								<cfset num_determiner= collEventNumbers.collector_agent_name>
+								<cfif len(collEventNumbers.collector_agent_id) GT 0 AND collEventNumbers.collector_agent_id NEQ "0">
+									<cfset num_determiner = "<a href='/agents/agent.cfm?agent_id=#collEventNumbers.collector_agent_id#'>#num_determiner#</a>">
+								</cfif>
+								<li class="list-group-item col-7 px-0">
+									#collEventNumbers.coll_event_number# 
+									<span class="d-block small mb-0 pb-0"> (#collEventNumbers.number_series# of #num_determiner#)</span>
+								</li>
+							</cfloop>
 						</cfif>
 					</ul>
 				</div>
