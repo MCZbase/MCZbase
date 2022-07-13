@@ -1645,7 +1645,7 @@ limitations under the License.
 							when geo_att_determiner_id is null then '[No Agent]'
 							else MCZBASE.get_agentnameoftype(geo_att_determiner_id) 
 							end
-						as determiner
+						as determiner,
 						geo_att_determined_date,
 						geo_att_determined_method,
 						geo_att_remark,
