@@ -1732,6 +1732,10 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimcoordinates#</li>
 						</cfif>
+						<cfif len(loc_collevent.township) gt 0>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">PLSS: </span></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.section_part# #loc_collevent.section# T#loc_collevent.township##loc_collevent.township_direction#R#loc_collevent.range##loc_collevent.range_direction# </li>
+						</cfif>
 						<cfif len(loc_collevent.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_method#</li>
@@ -1740,9 +1744,17 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Depth: </span></li>
 							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.min_depth# eq #loc_collevent.max_depth#>#loc_collevent.min_depth# #loc_collevent.depth_units#<cfelse>#loc_collevent.min_depth# - #loc_collevent.max_depth# #loc_collevent.depth_units#</cfif></li>
 						</cfif>
-						<cfif len(loc_collevent.maximum_elevation) gt 0>
+						<cfif len(loc_collevent.verbatim_depth) gt 0>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Depth: </span></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_depth#</li>
+						</cfif>
+						<cfif len(loc_collevent.minimum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
 							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.minimum_elevation# eq #loc_collevent.maximum_elevation#>#loc_collevent.minimum_elevation# #loc_collevent.orig_elev_units#<cfelse>#loc_collevent.minimum_elevation# - #loc_collevent.maximum_elevation# #loc_collevent.orig_elev_units#</cfif></li>
+						</cfif>
+						<cfif len(loc_collevent.verbatim_elevation) gt 0>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Elevation: </span></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_elevation#</li>
 						</cfif>
 						<cfif len(loc_collevent.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
@@ -1760,7 +1772,7 @@ limitations under the License.
 							<cfset dateDet = left(#coordlookup.determined_date#,10)>
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
 							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> <a href="/agents/Agent.cfm?agent_id=#coordlookup.determined_by_agent_id#">#coordlookup.lat_long_determined_by#</a> on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
 
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
