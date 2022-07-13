@@ -1744,17 +1744,17 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Depth: </span></li>
 							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.min_depth# eq #loc_collevent.max_depth#>#loc_collevent.min_depth# #loc_collevent.depth_units#<cfelse>#loc_collevent.min_depth# - #loc_collevent.max_depth# #loc_collevent.depth_units#</cfif></li>
 						</cfif>
-						<cfif len(loc_collevent.verbatim_depth) gt 0>
+						<cfif len(loc_collevent.verbatimdepth) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Depth: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_depth#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimdepth#</li>
 						</cfif>
 						<cfif len(loc_collevent.minimum_elevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Elevation: </span></li>
 							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.minimum_elevation# eq #loc_collevent.maximum_elevation#>#loc_collevent.minimum_elevation# #loc_collevent.orig_elev_units#<cfelse>#loc_collevent.minimum_elevation# - #loc_collevent.maximum_elevation# #loc_collevent.orig_elev_units#</cfif></li>
 						</cfif>
-						<cfif len(loc_collevent.verbatim_elevation) gt 0>
+						<cfif len(loc_collevent.verbatimelevation) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Elevation: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_elevation#</li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimelevation#</li>
 						</cfif>
 						<cfif len(loc_collevent.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
