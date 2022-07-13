@@ -1382,6 +1382,13 @@ limitations under the License.
 	<cfreturn getTransactionsThread.output>
 </cffunction>
 						
+<!--- getLocalityHTML get a block of html containing collecting event, locality, and higher
+ geography information for a specified cataloged item
+ @param collection_object_id for the cataloged item for which to return spatial/temporal information.
+ @return a block of html with the spatial/temporal information or an error message, the case
+   of no information is not handled, as the chain of foreign key constraints from cataloged item
+   to geog_auth_rec all have not null constraints.
+--->
 <cffunction name="getLocalityHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
@@ -1425,6 +1432,7 @@ limitations under the License.
 						collecting_event.collecting_source,
 						collecting_event.collecting_method,
 						collecting_event.habitat_desc,
+						MCZBASE.get_agentnameoftype(collecting_event.date_determined_by_agent_id) as date_determiner,
 						collecting_event.date_determined_by_agent_id,
 						collecting_event.fish_field_number,
 						<cfif maskCoordinates>
@@ -1539,8 +1547,10 @@ limitations under the License.
 							'' as utm_ew,
 							'' as utm_ns,
 							'' as lat_long_determined_by,
+							'' as determined_by_agent_id,
 							'' as determined_date,
 							'' as lat_long_verified_by,
+							'' as verified_by_agent_id,
 							'' as lat_long_ref_source,
 							'' as lat_long_remarks,
 							'' as nearest_named_place,
@@ -1578,8 +1588,10 @@ limitations under the License.
 							utm_ew,
 							utm_ns,
 							MCZBASE.get_agentnameoftype(determined_by_agent_id) lat_long_determined_by,
+							determined_by_agent_id,
 							determined_date,
 							MCZBASE.get_agentnameoftype(verified_by_agent_id) lat_long_verified_by,
+							verified_by_agent_id,
 							lat_long_ref_source,
 							lat_long_remarks,
 							nearest_named_place,
@@ -1749,7 +1761,7 @@ limitations under the License.
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Decimal Latitude, Longitude: </span></li>
-							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> #coordlookup.lat_long_determined_by# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
+							<li class="list-group-item col-7 px-0">#dla#, #dlo# (error: #coordlookup.max_error_distance##coordlookup.max_error_units#) <span class="d-block small mb-0 pb-0"> <a href="/agents/Agent.cfm?agent_id=#coordlookup.determined_by_agent_id#">#coordlookup.lat_long_determined_by#</a> on #dateDet# (Source: #coordlookup.lat_long_ref_source#)</span></li>
 
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
 							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
