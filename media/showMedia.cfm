@@ -138,8 +138,8 @@
 							</table>
 							<div class="row mx-0">
 								<h4 class="h5 px-2 pt-1">Shown on: </h4>
-								<ul class="list-group list-group-horizontal"><li class="list-group-item"><a class="link-color">Cataloged Items</a></li>
-								<li class="list-group-item"><a class="link-color">Accessions</a></li></ul>
+								<ul class="list-group list-group-horizontal"><li class="list-group-item"><a class="link-color" href="##catalogitem">Cataloged Items</a></li>
+								<li class="list-group-item"><a class="link-color" href="##accessionlink">Accessions</a></li></ul>
 							
 <!---							<cfloop query="media">
 								#media.mrstr#
@@ -199,7 +199,7 @@
 						</div>
 						<cfloop query="spec">
 							<div class="row mx-0 py-0 border-top-teal">
-								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90">
+								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="catalogitem"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
