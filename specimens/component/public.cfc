@@ -1899,10 +1899,10 @@ limitations under the License.
 									</li>
 									<script>
 										function toggleUnacceptedGeorefs() { 
-											$('.unacceptedGeoferenceLI').toggle();
+											$('.unacceptedGeoreferenceLI').toggle();
 										}
 										jQuery(document).ready(function() {
-											$('.unacceptedGeoferenceLI').hide();
+											$('.unacceptedGeoreferenceLI').hide();
 										});
 									</script>
 									<cfset i = 0>
