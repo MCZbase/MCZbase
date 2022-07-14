@@ -841,7 +841,7 @@
 					</cfif>
 				</div>
 						
-				<!---agent  people records--->
+				<!---agent records--->
 				
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -856,7 +856,7 @@
 						AND agent_name.agent_name_type = 'preferred'
 					ORDER BY agent_name.agent_id
 				</cfquery>
-				<cfif len(agents.agent_id) gt 0>
+				<cfif media_relations.media_relationship contains 'agent'>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri, media_relations.media_relationship,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -890,7 +890,7 @@
 								</li>
 							</ul>
 						</div>
-						<cfif relm8.media_relationship neq 'created by agent'>
+					
 						<cfloop query="relm8">
 							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
@@ -926,6 +926,7 @@
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm8">
+											<cfif relm8.media_relationship eq 'shows handwriting of agent' OR relm8.media_relationship eq 'shows agent'>
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(agentName.agent_id) gt 0>
 												<cfif relm8.media_id eq '#media.media_id#'> 
