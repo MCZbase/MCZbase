@@ -813,7 +813,7 @@
 					WHERE (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'created by agent' OR media_relations.media_relationship = 'shows handwriting of agent')
 						AND media.auto_host = 'mczbase.mcz.harvard.edu'
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						AND agent.agent_name_type = 'preferred'
+						AND agent_name.agent_name_type = 'preferred'
 					ORDER BY agent_id
 				</cfquery>
 				<cfif len(agents.agent_id) gt 0 and media_relations.media_relationship)>
