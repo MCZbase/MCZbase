@@ -825,15 +825,7 @@
 						AND (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'shows handwriting of agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-					<cfquery name="agentsName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
-						FROM agent_name
-							left join agent on agent.agent_id = agent_name.agent_id
-							left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-						WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
-						AND agent_name.agent_name_id = agent.preferred_agent_name_id
-						ORDER BY agent_id
-					</cfquery>
+
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
@@ -859,6 +851,15 @@
 							</ul>
 						</div>
 						<cfloop query="relm8">
+												<cfquery name="agentsName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
+						FROM agent_name
+							left join agent on agent.agent_id = agent_name.agent_id
+							left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+						WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
+						AND agent_name.agent_name_id = agent.preferred_agent_name_id
+						ORDER BY agent_id
+					</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90">
 									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agentsName.agent_id#">#agentsName.agent_id#</a>
