@@ -824,6 +824,7 @@
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
 						AND media_relations.media_relationship like '%agent%'
+						and media_relations.media_relationship <> 'created by agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
