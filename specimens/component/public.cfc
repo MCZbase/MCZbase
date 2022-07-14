@@ -1666,26 +1666,25 @@ limitations under the License.
 					ORDER BY
 						ctgeology_attributes.type, ctgeology_attributes.ordinal
 				</cfquery>
-				<script>
-					jQuery(document).ready(function() {
-						localityMapSetup();
-					});
-				</script>
-				<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-					<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
-						<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
-						<!--- coordinates_* referenced in localityMapSetup --->
-						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
-						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
-						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
-					</cfif>
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						<cfset oneOfUs = 1>
-					<cfelse>
-						<cfset oneOfUs = 0>
-					</cfif>
-				</div>
-				<div class="col-7 px-0 float-left">
+				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
+					<cfset leftOfMapClass = "col-7">
+					<script>
+						jQuery(document).ready(function() {
+							localityMapSetup();
+						});
+					</script>
+					<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
+							<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
+							<!--- coordinates_* referenced in localityMapSetup --->
+							<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
+							<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
+							<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+						</cfif>
+					</div>
+				<cfelse>
+					<cfset leftOfMapClass = "col-12">
+				</cfif>
+				<div class="#leftOfMapClass# px-0 float-left">
 					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
 						<cfif len(loc_collevent.continent_ocean) gt 0>
 							<cfif find('Ocean',loc_collevent.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
