@@ -2174,7 +2174,7 @@ limitations under the License.
 					<cfthrow message="Record Masked">
 				</cfif>
 				<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT  
+					SELECT
 						coll_object_remark.coll_object_remarks,
 						coll_object_remark.disposition_remarks,
 						coll_object_remark.associated_species
@@ -2189,20 +2189,22 @@ limitations under the License.
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item pt-0 pb-1">Masked</li>
 					<cfelse>
-						<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
-							<li class="small90 list-group-item font-italic"> None </li>
-						</cfif>
-						<cfif len(#object_rem.coll_object_remarks#) gt 0>
-							<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
-						</cfif>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfif len(object_rem.disposition_remarks) gt 0 >
-								<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
+						<cfloop query="object_rem">
+							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
+								<li class="small90 list-group-item font-italic"> None </li>
 							</cfif>
-						</cfif>
-						<cfif len(object_rem.associated_species) gt 0 >
-							<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
-						</cfif>
+							<cfif len(#object_rem.coll_object_remarks#) gt 0>
+								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								<cfif len(object_rem.disposition_remarks) gt 0 >
+									<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
+								</cfif>
+							</cfif>
+							<cfif len(object_rem.associated_species) gt 0 >
+								<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
+							</cfif>
+						</cfloop>
 					</cfif>
 				</ul>
 			<cfcatch>
