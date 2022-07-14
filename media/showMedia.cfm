@@ -151,14 +151,11 @@
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
-										<a class="link-color px-1" href="##catalogitem">#media_rel.media_relationship#</a>
+										<a class="link-color px-1" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a>
 									</cfloop>
 									</li>
 								</ul>
 							</div>
-<!---							<cfloop query="media">
-								#media.mrstr#
-							</cfloop>--->
 						</div>
 					</div>
 				</div>
@@ -368,7 +365,7 @@
 															<cfset showTitleText1 = "#showTitleText1#" >
 														</cfif>
 														<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
-															<span class="d-block font-weight-lessbold">Media ID = #relm2.media_id#</span>
+															<span class="d-block font-weight-lessbold">media/#relm2.media_id#</span>
 															<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 															#showTitleText1#
 														</div>
@@ -816,7 +813,7 @@
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
 				</cfquery>
-				<cfif len(agents.agent_id) gt 0>
+				<cfif len(agents.agent_id) gt 0><a name="agentName"></a>
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 		
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -890,7 +887,7 @@
 													<cfset showTitleText1 = trim(title1)>
 														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
 													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-														">Media ID = #relm8.media_id#</span>
+														">media/#relm8.media_id#</span>
 														#showTitleText1#
 													</div>
 												</div>
