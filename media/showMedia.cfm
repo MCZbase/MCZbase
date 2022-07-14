@@ -367,7 +367,7 @@
 															<cfset showTitleText1 = "#showTitleText1#" >
 														</cfif>
 														<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
-															<span class="d-block font-weight-lessbold">Media ID: media/#relm2.media_id#</span>
+															<span class="d-block font-weight-lessbold">media/#relm2.media_id#</span>
 															<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 															#showTitleText1#
 														</div>
@@ -889,7 +889,7 @@
 													<cfset showTitleText1 = trim(title1)>
 														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
 													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-														">Media ID: media/#relm8.media_id#</span>
+														">media/#relm8.media_id#</span>
 														#showTitleText1#
 													</div>
 												</div>
