@@ -1419,8 +1419,8 @@ limitations under the License.
 						locality.locality_id,
 						geog_auth_rec.geog_auth_rec_id,
 						collecting_event.collecting_time,
-						collecting_event.date_began_date,
-						collecting_event.date_ended_date,
+						to_char(collecting_event.date_began_date,'yyyy-mm-dd') date_began_date,
+						to_char(collecting_event.date_ended_date,'yyyy-mm-dd') date_ended_date,
 						collecting_event.verbatim_date,
 						collecting_event.began_date,
 						collecting_event.ended_date,
@@ -1478,7 +1478,7 @@ limitations under the License.
 							'' as georef_by,
 						<cfelse>
 							locality.nogeorefbecause,
-							locality.georef_updated_date,
+							to_char(locality.georef_updated_date,'yyyy-mm-dd') georef_updated_date,
 							locality.georef_by,
 						</cfif>
 						locality.sovereign_nation,
@@ -1593,7 +1593,7 @@ limitations under the License.
 								end
 							as lat_long_determined_by,
 							determined_by_agent_id,
-							determined_date,
+							to_char(determined_date,'yyyy-mm-dd') determined_date,
 							case 
 								when verified_by_agent_id is null then ''
 								else MCZBASE.get_agentnameoftype(verified_by_agent_id) 
@@ -1654,7 +1654,7 @@ limitations under the License.
 							else MCZBASE.get_agentnameoftype(geo_att_determiner_id) 
 							end
 						as determiner,
-						geo_att_determined_date,
+						to_char(geo_att_determined_date,'yyyy-mm-dd') geo_att_determined_date,
 						geo_att_determined_method,
 						geo_att_remark,
 						previous_values
@@ -1813,7 +1813,7 @@ limitations under the License.
 						</cfif>
 						<cfif len(coordlookup.dec_lat) gt 0>
 							<!--- georeference and metadata --->
-							<cfset dateDet = left(#coordlookup.determined_date#,10)>
+							<cfset dateDet = coordlookup.determined_date>
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<cfset warn301="">
@@ -1922,7 +1922,7 @@ limitations under the License.
 											<cfif len(georef_determiner) GT 0>
 												<cfset georef_determiner = "By: #georef_determiner#">
 											</cfif>
-											<cfset dateDet = left(#coordlookup.determined_date#,10)>
+											<cfset dateDet = coordlookup.determined_date>
 											<cfif len(dateDet) GT 0>
 												<cfset dateDet = " on #dateDet#">
 											</cfif>
