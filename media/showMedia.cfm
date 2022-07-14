@@ -856,12 +856,12 @@
 								FROM agent_name
 									left join agent on agent.agent_id = agent_name.agent_id
 									left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-								WHERE media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								WHERE media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
 								ORDER BY agent_id
 							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agentName.agent_id#</a>
+									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agentName.agent_id#">#agentName.agent_id#</a>
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
