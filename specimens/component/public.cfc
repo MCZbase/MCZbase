@@ -1895,11 +1895,16 @@ limitations under the License.
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
 									<li class="list-group-item col-7 px-0">
 										#coordlookup.recordcount - 1#
-										<button onclick="toggleUnacceptedGeorefs();" class="btn btn-xs small py-0 ml-1 btn-secondary">Show/Hide</button>
+										<button onclick="toggleUnacceptedGeorefs();" class="btn btn-xs small py-0 ml-1 btn-secondary" id="unaccGeoToggleButton">Show</button>
 									</li>
 									<script>
 										function toggleUnacceptedGeorefs() { 
 											$('.unacceptedGeoreferenceLI').toggle();
+											if ($('.unacceptedGeoreferenceLI').is(':visible')) { 
+												$('##unaccGeoToggleButton').html("Hide");
+											} else {
+												$('##unaccGeoToggleButton').html("Show");
+											}
 										}
 										jQuery(document).ready(function() {
 											$('.unacceptedGeoreferenceLI').hide();
