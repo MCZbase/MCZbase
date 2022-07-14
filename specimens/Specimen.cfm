@@ -323,8 +323,9 @@ limitations under the License.
 	<cfset partCount=#countParts.ct#>
 </cfif>
 <cfoutput>
+	<!--- TODO: Split details.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
+	<script type="text/javascript" src="/specimens/js/details.js"></script> 
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-		<script type="text/javascript" src="/specimens/js/details.js"></script> 
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
