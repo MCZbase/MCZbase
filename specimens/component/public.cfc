@@ -1674,12 +1674,11 @@ limitations under the License.
 						});
 					</script>
 					<div class="col-12 col-md-5 pl-md-0 mb-1 float-right">
-							<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
-							<!--- coordinates_* referenced in localityMapSetup --->
-							<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
-							<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
-							<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
-						</cfif>
+						<cfset coordinates="#coordlookup.dec_lat#,#coordlookup.dec_long#">
+						<!--- coordinates_* referenced in localityMapSetup --->
+						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
+						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
+						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
 					</div>
 				<cfelse>
 					<cfset leftOfMapClass = "col-12">
