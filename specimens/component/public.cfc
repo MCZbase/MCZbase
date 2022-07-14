@@ -1852,6 +1852,10 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Date: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_date#</li>
 						</cfif>
+						<cfif len(loc_collevent.collecting_time) gt 0>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Time Collected: </span></li>
+							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_time#</li>
+						</cfif>
 						<cfif len(loc_collevent.coll_event_remarks) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Event Remarks: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.coll_event_remarks#</li>
