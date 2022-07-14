@@ -2197,11 +2197,11 @@ limitations under the License.
 						</cfif>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 							<cfif len(object_rem.disposition_remarks) gt 0 >
-								<li class="list-group-item pt-0">Disposition Remarks: #meta.disposition_remarks#</li>
+								<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
 							</cfif>
 						</cfif>
 						<cfif len(object_rem.associated_species) gt 0 >
-							<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
+							<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
 						</cfif>
 					</cfif>
 				</ul>
