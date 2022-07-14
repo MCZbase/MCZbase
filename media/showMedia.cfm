@@ -817,7 +817,7 @@
 						AND agent_name.agent_name_type = 'preferred'
 					ORDER BY agent_name.agent_id
 				</cfquery>
-				<cfif agents.media_relationship eq 'created by agent' OR agents.media_relationship eq 'shows agent'>
+				<cfif agents.media_relationship neq 'created by agent'>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
