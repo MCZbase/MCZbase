@@ -1860,6 +1860,7 @@ limitations under the License.
 									<cfif len(coordlookup.lat_long_verified_by) GT 0>
 										<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference verified by: </span></li>
 										<li class="list-group-item col-7 px-0">#georef-verifier#</li>
+									</cfif>
 								</cfif>
 								<cfif coordlookup.recordcount GT 1>
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
