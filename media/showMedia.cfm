@@ -849,7 +849,7 @@
 								</li>
 							</ul>
 						</div>
-						<cfloop query="showsAgent">
+						<cfloop query="relm8">
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
