@@ -32,6 +32,18 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct 
+			media_relationship, case when media_relationship = 'shows cataloged_item' then 'specimen record' else 'unknown relationship' end as 'media_rel_list'
+		From
+			media_relations
+		WHERE 
+			media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media.media_id#" list="yes">
+		ORDER BY media_relationship
+	</cfquery>
+	<cfloop query="media_rel">
+		#media_rel_list#
+	</cfloop>
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
