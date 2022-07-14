@@ -1895,9 +1895,16 @@ limitations under the License.
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
 									<li class="list-group-item col-7 px-0">
 										#coordlookup.recordcount - 1#
-										<button onclick="">Show</button>
+										<button onclick="toggleUnacceptedGeorefs();" class="btn btn-xs small btn-secondary">Show/Hide</button>
 									</li>
-									<!--- TODO: Show/hide button for unnaccepted georeferences --->
+									<script>
+										function toggleUnacceptedGeorefs() { 
+											$('.unacceptedGeofefLI').toggle();
+										}
+										jQuery(document).ready(function() {
+											$('.unacceptedGeofefLI').hide();
+										});
+									</script>
 									<cfset i = 0>
 									<cfloop query="coordlookup">
 										<cfset i = i+1>
