@@ -805,7 +805,7 @@
 				<!---agent records--->
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_name.agent_id, media_relations.media_relationship
+					SELECT agent_name.agent_id, media_relations.media_relationship, agent_name.agent_name_type
 					FROM agent_name
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
@@ -813,9 +813,10 @@
 					WHERE (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'created by agent' OR media_relations.media_relationship = 'shows handwriting of agent')
 						AND media.auto_host = 'mczbase.mcz.harvard.edu'
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						AND agent.agent_name_type = 'preferred'
 					ORDER BY agent_id
 				</cfquery>
-				<cfif len(agents.agent_id) gt 0>
+				<cfif len(agents.agent_id) gt 0 and media_relations.media_relationship)>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
