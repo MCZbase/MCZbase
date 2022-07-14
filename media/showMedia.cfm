@@ -269,6 +269,7 @@
 					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
+										
 				<!--- accn records --->
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
@@ -802,7 +803,108 @@
 					</cfif>
 				</div>
 						
-			
+				<!---agent records--->
+				<div class="row mx-0">
+				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT DISTINCT collector.agent_id
+					FROM collector
+						left join media_relations on collector.agent_id = media_relations.related_primary_key
+						left join media on media_relations.media_id = media.media_id
+					WHERE collector.collector_role = 'c'
+						AND media_relations.media_relationship = 'shows agent'
+						AND media.auto_host = 'mczbase.mcz.harvard.edu'
+						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					ORDER BY agent_id
+				</cfquery>
+				<cfif len(agents.guid) gt 0>
+					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
+					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct media.media_id, preview_uri, media.media_uri,
+							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
+						FROM media_relations
+							 left join media on media_relations.media_id = media.media_id
+						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+						AND MCZBASE.is_media_encumbered(media.media_id) < 1
+					</cfquery>
+					<div class="search-box mt-1 pb-0 w-100">
+						<div class="search-box-header px-2 mt-0">
+							<ul class="list-group list-group-horizontal text-white">
+								<li class="col-2 col-xl-1  px-1 list-group-item">
+									<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
+								</li>
+								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+									<span class="font-weight-lessbold">Details</span>
+								</li>
+								<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
+									<span class="font-weight-lessbold">		
+										<cfif relm.recordcount GT 2>
+											<cfset plural = "s">
+										<cfelse>
+											<cfset plural = "">
+										</cfif>
+										<cfset IDtitle = "Other Media">
+										#IDtitle#
+									</span>
+								</li>
+							</ul>
+						</div>
+						<cfloop query="spec">
+							<div class="row mx-0 py-0 border-top-teal">
+								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="catalogitem"></a>
+									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+								</div>
+								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
+									<div class="row mx-0">
+										<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
+										<cfif len(spec.typestatus) gt 0>
+
+											<div class="col-12 pt-0 pb-1">#spec.typestatus#</div>
+										<cfelse>
+											<div class="col-12 pt-0 pb-1">None</div>
+										</cfif>
+									</div>
+									<div class="row mx-0">
+										<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
+										<div class="col-12 pt-0 pb-1">#spec.name#</div>
+									</div>
+									<div class="row mx-0">
+										<h3 class="h5 mb-0">Location&nbsp;Data</h3>
+										<div class="col-12 pt-0 pb-1">#spec.geography#</div>
+									</div>
+								</div>
+								<div class="col-12 col-lg-7 col-xl-8 p-1">
+									<cfloop query="relm">
+										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+											<cfif len(media.media_id) gt 0>
+												<cfif relm.media_id eq '#media.media_id#'> 
+													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+												<cfelse>	
+													<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
+												</cfif>
+												<div class="#activeimg#" id="mediaBlock#relm.media_id#">
+													<div class="col-5 bg-white px-1 float-left">
+														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
+													</div>
+													<cfset showTitleText1 = trim(title1)>
+														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
+													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+														">Media ID = #relm.media_id#</span>
+														<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
+														#showTitleText1#
+													</div>
+												</div>
+											</cfif>
+										</div>
+									</cfloop>
+									<div id="targetDiv"></div>
+								</div>
+							</div>
+						</cfloop>
+					</div>
+				<cfelse>
+					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Specimen Records</h3>
+				</cfif>
+				</div>
 			</cfloop>
 			</div>
 		</div>
