@@ -885,7 +885,7 @@
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm8">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-											<cfif len(agentName.agent_id) gt 0>
+											<cfif len(agents.agent_id) gt 0>
 												<cfif relm8.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 												<cfelse>	
