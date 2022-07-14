@@ -806,7 +806,7 @@
 				<!---agent records--->
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_name.agent_id
+					SELECT agent_name.agent_id, agent_name.agent_name
 					FROM agent_name
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 						left join media on media_relations.media_id = media.media_id
