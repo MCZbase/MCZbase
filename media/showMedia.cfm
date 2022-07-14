@@ -12,7 +12,7 @@
 <cfoutput>
 	
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-<!---		select distinct 
+		select distinct 
 			media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 			MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 			MCZBASE.get_media_credit(media.media_id) as credit, 
@@ -30,48 +30,9 @@
 			media
 		WHERE 
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
-			AND MCZBASE.is_media_encumbered(media_id)  < 1 --->
-
-		SELECT distinct
-				media.media_id as media_id,
-				media_type, mime_type, 
-				media_uri, preview_uri,
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					decode(mask_media_fg,0,'public',1,'hidden',null,'public','error') as mask_media_fg,
-				</cfif>
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
-				MCZBASE.is_media_encumbered(media.media_id) as hide_media,
-				MCZBASE.get_media_credit(media.media_id) as credit,
-				MCZBASE.get_media_owner(media.media_id) as owner,
-				MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
-				auto_protocol as protocol,
-				auto_host as host,
-				auto_path as path,
-				auto_filename as filename,
-				auto_extension as extension,
-				MCZBASE.get_media_creator(media.media_id) as creator,
-				MCZBASE.get_media_relations_string(media.media_id) as relations,
-				MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
-				MCZBASE.get_medialabel(media.media_id,'description') as description,
-				MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
-				MCZBASE.get_medialabel(media.media_id,'subject') as subject,
-				MCZBASE.get_medialabel(media.media_id,'original filename') as original_filename,
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					MCZBASE.get_medialabel(media.media_id,'internal remarks') as internal_remarks,
-				</cfif>
-				MCZBASE.get_medialabel(media.media_id,'remarks') as remarks,
-				MCZBASE.get_medialabel(media.media_id,'spectrometer') as spectrometer,
-				MCZBASE.get_medialabel(media.media_id,'light source') as light_source,
-				MCZBASE.get_medialabel(media.media_id,'spectrometer reading location') as spectrometer_reading_location,
-				MCZBASE.get_medialabel(media.media_id,'height') as height,
-				MCZBASE.get_medialabel(media.media_id,'width') as width,
-				MCZBASE.get_media_descriptor(media.media_id) as ac_description
-			FROM 
-				media
-				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-<!---	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 
 			media_relationship
 		From
@@ -79,7 +40,7 @@
 		WHERE 
 			media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 		ORDER BY media_relationship
-	</cfquery>--->
+	</cfquery>
 
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
@@ -841,7 +802,7 @@
 					</cfif>
 				</div>
 						
-				<!---agent records--->
+				<!---agent  people records--->
 				
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -856,9 +817,9 @@
 						AND agent_name.agent_name_type = 'preferred'
 					ORDER BY agent_name.agent_id
 				</cfquery>
-				<cfif media_relations.media_relationship contains 'agent'>
+				<cfif len(agents.agent_id) gt 0>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct media.media_id, preview_uri, media.media_uri, media_relations.media_relationship,
+						SELECT distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
@@ -890,7 +851,6 @@
 								</li>
 							</ul>
 						</div>
-					
 						<cfloop query="relm8">
 							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
@@ -926,7 +886,6 @@
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm8">
-											<cfif relm8.media_relationship eq 'shows handwriting of agent' OR relm8.media_relationship eq 'shows agent'>
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(agentName.agent_id) gt 0>
 												<cfif relm8.media_id eq '#media.media_id#'> 
@@ -953,7 +912,6 @@
 							</div>
 						
 						</cfloop>
-						</cfif>
 					</div>
 				<cfelse>
 					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
