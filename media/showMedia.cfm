@@ -920,7 +920,7 @@
 			<!---agent handwriting records--->							
 			<div class="row mx-0">
 				<cfquery name="agents_hw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT distinct agent_name.agent_id
+					SELECT distinct agent_name.agent_id, media_relations.media_relationship, agent_name.agent_name_type
 					FROM agent_name
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
