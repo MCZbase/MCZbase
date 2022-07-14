@@ -811,7 +811,7 @@
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 						left join media on media_relations.media_id = media.media_id
-					WHERE media_relations.media_relationshiplike '%agent%'
+					WHERE media_relations.media_relationship like '%agent%'
 						AND media.auto_host = 'mczbase.mcz.harvard.edu'
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						AND agent_name.agent_name_type = 'preferred'
