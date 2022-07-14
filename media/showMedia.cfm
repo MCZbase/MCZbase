@@ -822,7 +822,7 @@
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-						AND media_relations.media_relationship = 'shows agent'
+						AND (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'shows handwriting of agent')
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 <!---					<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
