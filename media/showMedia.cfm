@@ -825,17 +825,7 @@
 						AND (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'shows handwriting of agent')
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-<!---					<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
-					FROM agent_name
-						left join agent on agent.agent_id = agent_name.agent_id
-						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-						left join media on media_relations.media_id = media.media_id
-					WHERE (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'created by agent' OR media_relations.media_relationship = 'shows handwriting of agent')
-						AND media.auto_host = 'mczbase.mcz.harvard.edu'
-						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					ORDER BY agent_id
-				</cfquery>--->
+		
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
@@ -861,7 +851,14 @@
 							</ul>
 						</div>
 						<cfloop query="relm8">
-							<cfloop query="agents">
+							<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT agent_name.agent_id, agent_name.agent_name,agent.biography, agent.agent_type
+								FROM agent_name
+									left join agent on agent.agent_id = agent_name.agent_id
+									left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+								WHERE media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								ORDER BY agent_id
+							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
@@ -911,7 +908,7 @@
 									<div id="targetDiv"></div>
 								</div>
 							</div>
-							</cfloop>
+						
 						</cfloop>
 					</div>
 				<cfelse>
