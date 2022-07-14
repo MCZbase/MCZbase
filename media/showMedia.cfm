@@ -805,7 +805,7 @@
 				<!---agent records--->
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
+					SELECT agent_name.agent_id
 					FROM agent_name
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
@@ -822,15 +822,16 @@
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-						AND media_relations.media_relationship = 'shows agent'
+						AND (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'shows handwriting of agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 					<cfquery name="agentsName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
+						SELECT distinct agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
 						FROM agent_name
 							left join agent on agent.agent_id = agent_name.agent_id
 							left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 						WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
+						AND agent_name.agent_name_id = agent.preferred_agent_name_id
 						ORDER BY agent_id
 					</cfquery>
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
