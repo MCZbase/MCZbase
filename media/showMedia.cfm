@@ -852,11 +852,12 @@
 						</div>
 						<cfloop query="relm8">
 							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT agent_name.agent_id, agent_name.agent_name,agent.biography, agent.agent_type
+								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
 								FROM agent_name
 									left join agent on agent.agent_id = agent_name.agent_id
 									left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-								WHERE media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
+								WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
+								and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
 								ORDER BY agent_id
 							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
