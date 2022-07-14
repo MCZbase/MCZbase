@@ -173,7 +173,7 @@
 						and (media_relations.media_relationship = 'shows cataloged_item')
 				</cfquery>
 				<cfif len(spec.guid) gt 0>
-					<h1 class="h3 w-100 my-0 px-2">Specimen Records with this Media</h1>
+					
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -191,6 +191,8 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
+					<h1 class="h3 w-100 my-0 px-2">Specimen Records with this Media</h1>
+					<a name="shows%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
@@ -813,9 +815,7 @@
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
 				</cfquery>
-				<cfif len(agents.agent_id) gt 0><a name="agentName"></a>
-					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
-		
+				<cfif len(agents.agent_id) gt 0>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -825,6 +825,8 @@
 						AND media_relations.media_relationship = 'shows agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
+					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
+					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
