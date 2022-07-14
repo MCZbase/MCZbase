@@ -1804,24 +1804,41 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#loc_collevent.locality_remarks#</li>
 						</cfif>
 						<cfif len(coordlookup.dec_lat) gt 0>
+							<!--- georeference and metadata --->
 							<cfset dateDet = left(#coordlookup.determined_date#,10)>
 							<cfset dla = left(#coordlookup.dec_lat#,10)>
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<cfset warn301="">
 							<cfif coordlookup.max_error_distance EQ "301" AND coordlookup.max_error_units EQ "m">
-								<cfset warn301=" [Note: a coordinate uncertainty of 301m is given by biogeomancer and geolocate when unable to determine an uncertainty]">
+								<cfset warn301="<span class='d-block small mb-0 pb-0'>[Note: a coordinate uncertainty of 301m is given by biogeomancer and geolocate when unable to determine an uncertainty] </span>">
 							</cfif>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
 							<cfset georef_determiner= coordlookup.lat_long_determined_by>
 							<cfif coordlookup.determined_by_agent_id NEQ "0">
 								<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
 							</cfif>
+							<cfif len(georef_determiner) GT 0>
+								<cfset georef_determiner = "By: #georef_determiner#">
+							</cfif>
+							<cfif len(dateDet) GT 0>
+								<cfset dateDet = " on #dateDet#">
+							</cfif>
+							<cfset georef_source=coordlookup.lat_long_ref_source>
+							<cfif len(georef_source) GT 0>
+								<cfset georef_source = " (Source: #georef_source#)">
+							</cfif>
 							<li class="list-group-item col-7 px-0">
 								#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
-								<span class="d-block small mb-0 pb-0"> #georef_determiner# on #dateDet# (Source: #coordlookup.lat_long_ref_source#)#warn301#</span>
+								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source##warn301#</span>
 							</li>
+
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
 							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+
+							<cfif len(coordlookup.utm_zone) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">UTM Coordinates: </span></li>
+								<li class="list-group-item col-7 px-0">#coordlookup.utm_zone# #coordlookup.utm_ew# #coordlookup.utm_ns#</li>
+							</cfif>
 
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
 							<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
@@ -1829,6 +1846,26 @@ limitations under the License.
 								#coordlookup.orig_lat_long_units#
 								<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
 							</li>
+	
+							<cfif oneOfUs EQ 1>
+								<cfif len(coordlookup.verificationstatus) GT 0>
+									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verification Status: </span></li>
+									<li class="list-group-item col-7 px-0">#coordlookup.verificationstatus#</li>
+								</cfif>
+								<cfif len(coordlookup.lat_long_verified_by GT 0>
+									<cfset georef_determiner = coordlookup.lat_long_verified_by>
+									<cfif coordlookup.verified_by_agent_id NEQ "0">
+										<cfset georef_verifier = "<a href='/agents/agent.cfm?agent_id=#coordlookup.verified_by_agent_id#'>#georef_determiner#</a>">
+									</cfif>
+									<cfif len(coordlookup.lat_long_verified_by) GT 0>
+										<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference verified by: </span></li>
+										<li class="list-group-item col-7 px-0">#georef-verifier#</li>
+								</cfif>
+								<cfif coordlookup.recordcount GT 1>
+									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
+									<li class="list-group-item col-7 px-0">#coordlookup.recordcount - 1#</li>
+								</cfif>
+							</cfif>
 						</cfif>
 						<cfif len(loc_collevent.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
