@@ -1169,7 +1169,7 @@ limitations under the License.
 						<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
 							SELECT flat.guid
 							FROM
-								<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on underscore_relation.collection_object_id = flat.collection_object_id
+								<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 							WHERE
 								flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
