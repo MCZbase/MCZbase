@@ -811,7 +811,7 @@
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 						left join media on media_relations.media_id = media.media_id
-					WHERE (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'created by agent' OR media_relations.media_relationship = 'shows handwriting of agent')
+					WHERE media_relations.media_relationshiplike '%agent%'
 						AND media.auto_host = 'mczbase.mcz.harvard.edu'
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						AND agent_name.agent_name_type = 'preferred'
@@ -824,7 +824,7 @@
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-						AND (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'shows handwriting of agent')
+						AND media_relations.media_relationshiplike '%agent%'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
