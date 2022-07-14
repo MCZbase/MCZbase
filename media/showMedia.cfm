@@ -33,7 +33,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct 
+		select 
 			media_relationship, 
 			media_id,
 			CASE
