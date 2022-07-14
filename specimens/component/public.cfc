@@ -1917,6 +1917,10 @@ limitations under the License.
 											</li>
 											<cfset dla = left(#coordlookup.dec_lat#,10)>
 											<cfset dlo = left(#coordlookup.dec_long#,10)>
+											<cfset georef_determiner= coordlookup.lat_long_determined_by>
+											<cfif coordlookup.determined_by_agent_id NEQ "0">
+												<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
+											</cfif>
 											<cfif len(georef_determiner) GT 0>
 												<cfset georef_determiner = "By: #georef_determiner#">
 											</cfif>
