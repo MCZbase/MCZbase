@@ -815,6 +815,7 @@
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
 				</cfquery>
+					#agents.agent_id#
 				<cfif len(agents.agent_id) gt 0>
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
