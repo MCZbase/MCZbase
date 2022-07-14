@@ -367,7 +367,7 @@
 															<cfset showTitleText1 = "#showTitleText1#" >
 														</cfif>
 														<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
-															<span class="d-block font-weight-lessbold">media/#relm2.media_id#</span>
+															<span class="d-block font-weight-lessbold">Media ID: media/#relm2.media_id#</span>
 															<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 															#showTitleText1#
 														</div>
@@ -810,7 +810,7 @@
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 						left join media on media_relations.media_id = media.media_id
-					WHERE (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'created by agent')
+					WHERE (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'created by agent' OR media_relations.media_relationship = 'shows handwriting of agent')
 						AND media.auto_host = 'mczbase.mcz.harvard.edu'
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
@@ -825,6 +825,17 @@
 						AND media_relations.media_relationship = 'shows agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
+<!---					<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
+					FROM agent_name
+						left join agent on agent.agent_id = agent_name.agent_id
+						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+						left join media on media_relations.media_id = media.media_id
+					WHERE (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'created by agent' OR media_relations.media_relationship = 'shows handwriting of agent')
+						AND media.auto_host = 'mczbase.mcz.harvard.edu'
+						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					ORDER BY agent_id
+				</cfquery>--->
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
@@ -889,7 +900,7 @@
 													<cfset showTitleText1 = trim(title1)>
 														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
 													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-														">media/#relm8.media_id#</span>
+														">Media ID: media/#relm8.media_id#</span>
 														#showTitleText1#
 													</div>
 												</div>
