@@ -1051,6 +1051,11 @@ limitations under the License.
 	<cfreturn getAttributesThread.output>
 </cffunction>			
 						
+<!--- getRelationsHTML get a block of html containing relationships of a cataloged item record to
+  other cataloged items.  
+ @param collection_object_id for the cataloged item for which to return relationships
+ @return a block of html with cataloged item record relationships, or if none, html with the word None.
+--->
 <cffunction name="getRelationsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
@@ -1959,6 +1964,50 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						</cfif>
+						<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								collector.agent_id,
+								collector.coll_order,
+								MCZBASE.get_agentnameoftype(collector.agent_id) collector_name
+							FROM
+								collector
+							WHERE
+								collector.collector_role='c' and
+								collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							ORDER BY
+								coll_order
+						</cfquery>
+						<cfif colls.recordcount EQ 0>
+							<li class="list-group-item col-5 px-0">Collectors:</li>
+							<li class="list-group-item col-7 px-0">
+								None
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Add </a>
+								</cfif>
+							</li>
+						<cfelse>
+							<li class="list-group-item col-5 px-0">
+								<span class="my-0 font-weight-lessbold">Collectors: </span>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
+								</cfif>
+							</li>
+							<cfif oneOfUs EQ 0 AND Findnocase("mask collector", check.encumbranceDetail)>
+								<li class="list-group-item col-7 px-0">[Masked]</li>
+							<cfelse>
+								<cfset collectors = "">
+								<cfset sep="">
+								<cfloop query="colls">
+									<cfif #colls.agent_id# NEQ "0">
+										<cfset collectors="#collectors##sep#<a href='/agents/Agent.cfm?agent_id=#colls.agent_id#'>#colls.collector_name#</a>">
+									<cfelse>
+										<cfset collectors="#collectors##sep##colls.collector_name#">
+									</cfif>
+									<cfset sep="; ">
+								</cfloop>
+								<li class="list-group-item col-7 px-0">#collectors#</li>
+							</cfif>
+						</cfif>
 						<cfif len(loc_collevent.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collecting Method: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_method#</li>
@@ -2036,9 +2085,14 @@ limitations under the License.
 	<cfreturn getLocalityThread.output>
 </cffunction>
 							
-<cffunction name="getCollectorsHTML" returntype="string" access="remote" returnformat="plain">
+<!--- getPreparatorsHTML get a block of html containing preparators for the specified cataloged item
+ @param collection_object_id for the cataloged item for which to return preparators.
+ @return a block of html with collection object preparators, or if none, html with the text None
+--->
+<cffunction name="getPreparatorsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
-	<cfthread name="getCollectorsThread">
+
+	<cfthread name="getPreparatorsThread">
 	<cfoutput>
 		<cftry>
 			<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
@@ -2059,25 +2113,6 @@ limitations under the License.
 			<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 				<cfthrow message="Record Masked">
 			</cfif>
-			<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
-					collector.agent_id,
-					collector.coll_order,
-					case when
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
-					else
-						preferred_agent_name.agent_name
-					end collectors
-				FROM
-					collector,
-					preferred_agent_name
-				WHERE
-					collector.collector_role='c' and
-					collector.agent_id=preferred_agent_name.agent_id and
-					collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-				ORDER BY
-					coll_order
-			</cfquery>
 			<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					collector.agent_id,
@@ -2098,25 +2133,8 @@ limitations under the License.
 					coll_order
 			</cfquery>
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
-				<cfif colls.recordcount EQ 0 AND preps.recordcount EQ 0>
+				<cfif preps.recordcount EQ 0>
 					<li class="small90 list-group-item font-italic">None</li>
-				</cfif>
-				<cfif colls.recordcount gt 0>
-					<cfif colls.recordcount eq 1>
-						<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Collector:&nbsp;</span>
-							<cfloop query="colls">
-								<cfif #colls.collectors# neq '[no agent data]'>
-									<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#"></cfif>#colls.collectors#<cfif #colls.collectors# neq '[no agent data]'></a>
-								</cfif>
-							</cfloop>
-						</li>
-					<cfelse>
-						<li class="list-group-item pt-0"><span class="font-weight-lessbold my-0 d-inline">Collectors:&nbsp;</span>
-							<cfloop query="colls">
-								<a href="/agents/Agent.cfm?agent_id=#colls.agent_id#">#colls.collectors#</a><span class="sd">,</span>
-							</cfloop>
-						</li>
-					</cfif>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
@@ -2145,13 +2163,13 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getCollectorsThread"/>
-	<cfreturn getCollectorsThread.output>
+	<cfthread action="join" name="getPreparatorsThread"/>
+	<cfreturn getPreparatorsThread.output>
 </cffunction>		
 
 <!--- getRemarksHTML get a block of html containing collection object remarks for a specified cataloged item
  @param collection_object_id for the cataloged item for which to return remarks.
- @return a block of html with collection object remarks, or if none, whitespace only
+ @return a block of html with collection object remarks, or if none, html with the text None
 --->
 <cffunction name="getRemarksHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
