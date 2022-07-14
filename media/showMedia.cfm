@@ -815,8 +815,6 @@
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
 				</cfquery>
-				<cfif len(agents.agent_id) gt 0>
-					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -826,7 +824,18 @@
 						AND media_relations.media_relationship = 'shows agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-					
+				<cfif len(relm8.agent_id) gt 0>
+					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
+		
+					<cfquery name="showsAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct media.media_id, preview_uri, media.media_uri,
+							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
+						FROM media_relations
+							 left join media on media_relations.media_id = media.media_id
+						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.agent_id#">
+						AND media_relations.media_relationship = 'shows agent'
+						AND MCZBASE.is_media_encumbered(media.media_id) < 1
+					</cfquery>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
@@ -849,7 +858,7 @@
 								</li>
 							</ul>
 						</div>
-						<cfloop query="agents">
+						<cfloop query="showsAgent">
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
@@ -859,14 +868,14 @@
 										<h3 class="h5 mb-0">Agent Name </h3>
 										<cfif len(spec.typestatus) gt 0>
 
-											<div class="col-12 pt-0 pb-1">#agents.agent_id#</div>
+											<div class="col-12 pt-0 pb-1">#agents.agent_name#</div>
 										<cfelse>
 											<div class="col-12 pt-0 pb-1">None</div>
 										</cfif>
 									</div>
 									<div class="row mx-0">
-										<h3 class="h5 mb-0">Agent</h3>
-										<div class="col-12 pt-0 pb-1">#agents.agent_id#</div>
+										<h3 class="h5 mb-0">Agent Relationship</h3>
+										<div class="col-12 pt-0 pb-1">#relm8.media_relationship#</div>
 									</div>
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Agent</h3>
