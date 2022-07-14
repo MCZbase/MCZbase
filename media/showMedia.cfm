@@ -863,12 +863,12 @@
 						<cfloop query="relm8">
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
+									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Agent Name </h3>
-										<cfif len(spec.typestatus) gt 0>
+										<cfif len(agents.agent_name) gt 0>
 
 											<div class="col-12 pt-0 pb-1">#agents.agent_name#</div>
 										<cfelse>
