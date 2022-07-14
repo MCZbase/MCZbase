@@ -806,12 +806,11 @@
 				<!---agent records--->
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT collector.agent_id
-					FROM collector
-						left join media_relations on collector.agent_id = media_relations.related_primary_key
+					SELECT agent_name.agent_id
+					FROM agent_name
+						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 						left join media on media_relations.media_id = media.media_id
-					WHERE collector.collector_role = 'c'
-						AND media_relations.media_relationship = 'shows agent'
+					WHERE media_relations.media_relationship = 'shows agent'
 						AND media.auto_host = 'mczbase.mcz.harvard.edu'
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
