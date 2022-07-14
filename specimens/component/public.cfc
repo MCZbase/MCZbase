@@ -1166,8 +1166,15 @@ limitations under the License.
 								</cfif>
 							</li>
 						</cfloop>
+						<cfquery name="lookupGuid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
+							SELECT flat.guid
+							FROM
+								<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on underscore_relation.collection_object_id = flat.collection_object_id
+							WHERE
+								flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						</cfquery>
 						<li class="pb-1 list-group-item">
-							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#collection_object_id#">(Specimens List)</a>
+							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#lookupGuid.guid#&searchId1=#collection_object_id#">(Specimens List)</a>
 						</li>
 					</ul>
 				<cfelse>
