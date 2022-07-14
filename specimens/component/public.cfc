@@ -1587,10 +1587,18 @@ limitations under the License.
 							utm_zone,
 							utm_ew,
 							utm_ns,
-							MCZBASE.get_agentnameoftype(determined_by_agent_id) lat_long_determined_by,
+							case 
+								when determined_by_agent_id is null then ''
+								else MCZBASE.get_agentnameoftype(determined_by_agent_id) 
+								end
+							as lat_long_determined_by,
 							determined_by_agent_id,
 							determined_date,
-							MCZBASE.get_agentnameoftype(verified_by_agent_id) lat_long_verified_by,
+							case 
+								when verified_by_agent_id is null then ''
+								else MCZBASE.get_agentnameoftype(verified_by_agent_id) 
+								end
+							as lat_long_verified_by,
 							verified_by_agent_id,
 							lat_long_ref_source,
 							lat_long_remarks,
@@ -1849,7 +1857,7 @@ limitations under the License.
 	
 							<cfif oneOfUs EQ 1>
 								<cfif len(coordlookup.verificationstatus) GT 0>
-									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verification Status: </span></li>
+									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference Verification Status: </span></li>
 									<li class="list-group-item col-7 px-0">#coordlookup.verificationstatus#</li>
 								</cfif>
 								<cfif len(coordlookup.lat_long_verified_by) GT 0>
