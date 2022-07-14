@@ -191,7 +191,7 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Specimen Records with this Media</h1>
+					<h1 class="h3 w-100 my-0 px-2">Specimen Records related to this media object</h1>
 					<a name="shows%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
@@ -367,7 +367,7 @@
 															<cfset showTitleText1 = "#showTitleText1#" >
 														</cfif>
 														<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
-															<span class="d-block font-weight-lessbold">media/#relm2.media_id#</span>
+															<span class="d-block font-weight-lessbold">Media ID: media/#relm2.media_id#</span>
 															<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 															#showTitleText1#
 														</div>
@@ -416,7 +416,7 @@
 										<span class="font-weight-lessbold">Details</span>
 									</li>
 									<li class="col-6 px-1 list-group-item">
-										<span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span>
+										<span class="font-weight-lessbold">Other Media</span>
 									</li>
 								</ul>
 							</div>
@@ -889,7 +889,7 @@
 													<cfset showTitleText1 = trim(title1)>
 														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
 													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-														">media/#relm8.media_id#</span>
+														">Media ID: media/#relm8.media_id#</span>
 														#showTitleText1#
 													</div>
 												</div>
