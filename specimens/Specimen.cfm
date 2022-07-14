@@ -357,6 +357,9 @@ limitations under the License.
 				// invoke specimen/component/public.cfc function getAttributesHTML via ajax and repopulate the attributes block.
 				loadAttributes(#collection_object_id#,'attributesCardBody');
 			}
+			function reloadRelations() { 
+				loadRelations(#collection_object_id#,'relationsCardBody');
+			}
 			function reloadRemarks() { 
 				loadRemarks(#collection_object_id#,'remarksCardBody');
 			}
@@ -373,7 +376,7 @@ limitations under the License.
 				loadLedger(#collection_object_id#,'ledgerCardBody');
 			}
 			function reloadNamedGroups() { 
-				loadNamedGroups(#collection_object_id#,'NamedGroupsCardBody');
+				loadNamedGroups(#collection_object_id#,'namedGroupsCardBody');
 			}
 		</script>
 		<!--- controls for editing record --->
@@ -666,55 +669,29 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------------------------ relationships  ------------------------------------->
-					<cfif #oneOfUs# eq 0>
-						<div class="accordion" id="accordionRelations">
-							<div class="card mb-2 bg-light">
-								<div id="relationsDialog"></div>
-								<script>
-									function reloadRelations() { 
-										loadRelations(#collection_object_id#,'RelationsCardBody');
-									}
-								</script>
-								<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
-								<div class="card-header" id="headingRelations">
-									<cfif len(#blockrel#) gt 15> 
-										<h3 class="h5 my-0">
-											<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
-												Relationships
-											</button>
-											<cfif listcontainsnocase(session.roles,"manage_specimens")>
-												<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
-													Edit
-												</a>
-											</cfif>
-										</h3>
-									<cfelse>
-										<h3 class="h5 my-0">
-											<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
-												Relationships
-											</button>
-											<cfif listcontainsnocase(session.roles,"manage_specimens")>
-												<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
-													Add
-												</a>
-											</cfif>
-										</h3>
+					<div class="accordion" id="accordionRelations">
+						<div class="card mb-2 bg-light">
+							<div id="relationsDialog"></div>
+							<div class="card-header" id="headingRelations">
+								<h3 class="h5 my-0">
+									<button type="button" class="headerLnk w-100 h-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##RelationsPane">
+										Relationships
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditRelationsDialog(#collection_object_id#,'relationsDialog','#guid#',reloadRelations)">
+											Edit
+										</a>
 									</cfif>
-								</div>
-								<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
-									<cfif len(trim(#blockrel#)) GT 0>
-										<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
-											#blockrel# 
-										</div>
-									<cfelse>
-										<ul class="pl-2 py-0 list-group mb-0">
-											<li class="list-group-item small90 font-italic">None</li>
-										</ul>
-									</cfif>
+								</h3>
+							</div>
+							<cfset blockrel = getRelationsHTML(collection_object_id = "#collection_object_id#")>
+							<div id="RelationsPane" class="collapse show" aria-labelledby="headingRelations" data-parent="##accordionRelations">
+								<div class="card-body py-1 mb-1 float-left" id="relationsCardBody">
+									#blockrel# 
 								</div>
 							</div>
 						</div>
-					</cfif>
+					</div>
 					<!------------ coll object remarks ----------------------------------------->
 					<div class="accordion" id="accordionRemarks">
 						<div class="card mb-2 bg-light">
@@ -917,7 +894,7 @@ limitations under the License.
 							</div>
 							<div id="NamedGroupsPane" class="collapse show" aria-labelledby="headingNamedGroups" data-parent="##accordionNamedGroups">
 								<cfset namedGroupBlock = getNamedGroupsHTML(collection_object_id = "#collection_object_id#")>
-								<div class="card-body py-1 mb-1 float-left" id="NamedGroupsCardBody">
+								<div class="card-body py-1 mb-1 float-left" id="namedGroupsCardBody">
 									#namedGroupBlock#
 								</div>
 							</div>
@@ -935,7 +912,7 @@ limitations under the License.
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
 			<section class="row" id="QCSection">
-				<div class="col-12 px-2">
+				<div class="col-12 px-2 border bg-light rounded mt-2">
 					<!---  Include the TDWG BDQ TG2 test integration --->
 					<script type='text/javascript' language="javascript" src='/dataquality/js/bdq_quality_control.js'></script>
 					<script>
@@ -945,7 +922,7 @@ limitations under the License.
 							loadEventQC(#collection_object_id#, "", "EventDQDiv");
 						}
 					</script>
-					<input type="button" value="QC" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
+					<input type="button" value="Run Quality Control Tests" class="btn btn-secondary btn-xs" onClick=" runTests(); ">
 					<!---  Scientific Name tests --->
 					<div id="NameDQDiv"></div>
 					<!---  Spatial tests --->
