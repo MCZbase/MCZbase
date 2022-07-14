@@ -1852,7 +1852,7 @@ limitations under the License.
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verification Status: </span></li>
 									<li class="list-group-item col-7 px-0">#coordlookup.verificationstatus#</li>
 								</cfif>
-								<cfif len(coordlookup.lat_long_verified_by GT 0>
+								<cfif len(coordlookup.lat_long_verified_by) GT 0>
 									<cfset georef_determiner = coordlookup.lat_long_verified_by>
 									<cfif coordlookup.verified_by_agent_id NEQ "0">
 										<cfset georef_verifier = "<a href='/agents/agent.cfm?agent_id=#coordlookup.verified_by_agent_id#'>#georef_determiner#</a>">
