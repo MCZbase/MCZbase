@@ -34,16 +34,14 @@
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 
-			case when MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') then 'cataloged item' end as 'cataloged_item'
+			media_relationship
 		From
 			media_relations
 		WHERE 
 			media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 		ORDER BY media_relationship
 	</cfquery>
-	<cfloop query="media_rel">
-		#media_rel.media_relationship#
-	</cfloop>
+
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
@@ -150,8 +148,13 @@
 							</table>
 							<div class="row mx-0">
 								<h4 class="h5 px-2 pt-0">Shown on: </h4>
-								<ul class="list-group list-group-horizontal"><a class="link-color px-1" href="##catalogitem">Cataloged Items</a>
-								<!---<a class="link-color px-1" href="##accessionlink">Accessions</a>---></ul>
+								<ul class="list-group list-group-horizontal">
+									<li class="list-unstyled">
+									<cfloop query="media_rel">
+										<a class="link-color px-1" href="##catalogitem">#media_rel.media_relationship#</a>
+									</cfloop>
+									</li>
+								</ul>
 							</div>
 <!---							<cfloop query="media">
 								#media.mrstr#
