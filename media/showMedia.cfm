@@ -815,24 +815,15 @@
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
 				</cfquery>
+				<cfif len(agents.agent_id) gt 0>
+					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
+		
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-						AND media_relations.media_relationship = 'shows agent'
-						AND MCZBASE.is_media_encumbered(media.media_id) < 1
-					</cfquery>
-				<cfif len(relm8.agent_id) gt 0>
-					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
-		
-					<cfquery name="showsAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct media.media_id, preview_uri, media.media_uri,
-							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
-						FROM media_relations
-							 left join media on media_relations.media_id = media.media_id
-						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.agent_id#">
 						AND media_relations.media_relationship = 'shows agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
