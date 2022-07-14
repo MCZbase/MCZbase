@@ -1080,7 +1080,7 @@ limitations under the License.
 				<!--- Use appropriate data source to allow access to relationships to records in other VPDs ---->
 				<cfif oneOfUs EQ 1>
 					<!--- if coldfusion_user, then the VPD may be involved and all cataloged items may not be visible, use a user that can see relationships across VPDs --->
-					<cfquery name="relns" datasource="uam_god">
+					<cfquery name="relns" datasource="cf_dbuser">
 						SELECT 
 							distinct biol_indiv_relationship, related_coll_cde, related_collection, 
 							related_coll_object_id, related_cat_num, biol_indiv_relation_remarks 
@@ -2165,13 +2165,13 @@ limitations under the License.
 					<cfthrow message="Record Masked">
 				</cfif>
 				<cfquery name="object_rem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT  
+					SELECT
 						coll_object_remark.coll_object_remarks,
 						coll_object_remark.disposition_remarks,
 						coll_object_remark.associated_species
 					FROM
 						cataloged_item
-						left join coll_object_remark on cataloged_item.collection_object_id = cataloged_item.collection_object_id
+						left join coll_object_remark on cataloged_item.collection_object_id = coll_object_remark.collection_object_id
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
@@ -2180,20 +2180,22 @@ limitations under the License.
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item pt-0 pb-1">Masked</li>
 					<cfelse>
-						<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
-							<li class="small90 list-group-item font-italic"> None </li>
-						</cfif>
-						<cfif len(#object_rem.coll_object_remarks#) gt 0>
-							<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
-						</cfif>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-							<cfif len(object_rem.disposition_remarks) gt 0 >
-								<li class="list-group-item pt-0">Disposition Remarks: #meta.disposition_remarks#</li>
+						<cfloop query="object_rem">
+							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
+								<li class="small90 list-group-item font-italic"> None </li>
 							</cfif>
-						</cfif>
-						<cfif len(object_rem.associated_species) gt 0 >
-							<li class="list-group-item pt-0">Associated Species: #meta.associated_species#</li>
-						</cfif>
+							<cfif len(#object_rem.coll_object_remarks#) gt 0>
+								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								<cfif len(object_rem.disposition_remarks) gt 0 >
+									<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
+								</cfif>
+							</cfif>
+							<cfif len(object_rem.associated_species) gt 0 >
+								<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
+							</cfif>
+						</cfloop>
 					</cfif>
 				</ul>
 			<cfcatch>
