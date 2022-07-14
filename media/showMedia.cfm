@@ -34,7 +34,7 @@
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 
-			media_relationship
+			case when MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') then 'cataloged item' end as 'cataloged_item'
 		From
 			media_relations
 		WHERE 
