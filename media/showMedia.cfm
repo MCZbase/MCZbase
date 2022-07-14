@@ -851,7 +851,7 @@
 							</ul>
 						</div>
 						<cfloop query="relm8">
-							<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT agent_name.agent_id, agent_name.agent_name,agent.biography, agent.agent_type
 								FROM agent_name
 									left join agent on agent.agent_id = agent_name.agent_id
@@ -861,31 +861,31 @@
 							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
+									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agentName.agent_id#</a>
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Agent Name </h3>
 										<cfif len(agents.agent_name) gt 0>
 
-											<div class="col-12 pt-0 pb-1">#agents.agent_name#</div>
+											<div class="col-12 pt-0 pb-1">#agentName.agent_name#</div>
 										<cfelse>
 											<div class="col-12 pt-0 pb-1">None</div>
 										</cfif>
 									</div>
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Agent Relationship</h3>
-										<div class="col-12 pt-0 pb-1">#agents.media_relationship#</div>
+										<div class="col-12 pt-0 pb-1">#agentName.media_relationship#</div>
 									</div>
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Agent Type</h3>
-										<div class="col-12 pt-0 pb-1">#agents.agent_type#</div>
+										<div class="col-12 pt-0 pb-1">#agentName.agent_type#</div>
 									</div>
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm8">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-											<cfif len(agents.agent_id) gt 0>
+											<cfif len(agentName.agent_id) gt 0>
 												<cfif relm8.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 												<cfelse>	
