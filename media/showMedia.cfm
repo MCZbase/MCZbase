@@ -815,7 +815,6 @@
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
 				</cfquery>
-					#agents.agent_id#
 				<cfif len(agents.agent_id) gt 0>
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -824,8 +823,10 @@
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+						AND media_relations.media_relationship = 'shows agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
+					
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
@@ -855,7 +856,7 @@
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
-										<h3 class="h5 mb-0">Agent </h3>
+										<h3 class="h5 mb-0">Agent Name </h3>
 										<cfif len(spec.typestatus) gt 0>
 
 											<div class="col-12 pt-0 pb-1">#agents.agent_id#</div>
