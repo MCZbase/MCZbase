@@ -803,6 +803,7 @@
 				</div>
 						
 				<!---agent records--->
+				
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT agent_name.agent_id, media_relations.media_relationship, agent_name.agent_name_type
@@ -826,7 +827,6 @@
 						AND (media_relations.media_relationship = 'shows agent' OR media_relations.media_relationship = 'shows handwriting of agent')
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-		
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
@@ -914,7 +914,7 @@
 						</cfloop>
 					</div>
 				<cfelse>
-					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Specimen Records</h3>
+					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
 				</div>
 			</cfloop>
