@@ -819,7 +819,7 @@
 				</cfquery>
 				<cfif len(agents.agent_id) gt 0>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct media.media_id, preview_uri, media.media_uri,
+						SELECT distinct media.media_id, preview_uri, media.media_uri, media_relations.media_relationship,
 							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
