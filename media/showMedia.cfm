@@ -806,7 +806,7 @@
 				<!---agent records--->
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT DISTINCT collector.agent_id
+					SELECT collector.agent_id
 					FROM collector
 						left join media_relations on collector.agent_id = media_relations.related_primary_key
 						left join media on media_relations.media_id = media.media_id
@@ -816,7 +816,7 @@
 						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					ORDER BY agent_id
 				</cfquery>
-				<cfif len(agents.guid) gt 0>
+				<cfif len(agents.agent_id) gt 0>
 					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
