@@ -1667,7 +1667,7 @@ limitations under the License.
 						ctgeology_attributes.type, ctgeology_attributes.ordinal
 				</cfquery>
 				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
-					<cfset leftOfMapClass = "col-7">
+					<cfset leftOfMapClass = "col-12 col-md-7">
 					<script>
 						jQuery(document).ready(function() {
 							localityMapSetup();
