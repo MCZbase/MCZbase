@@ -1893,38 +1893,45 @@ limitations under the License.
 								</cfif>
 								<cfif coordlookup.recordcount GT 1>
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
-									<li class="list-group-item col-7 px-0">#coordlookup.recordcount - 1#</li>
+									<li class="list-group-item col-7 px-0">
+										#coordlookup.recordcount - 1#
+										<button onclick="">Show</button>
+									</li>
 									<!--- TODO: Show/hide button for unnaccepted georeferences --->
-									<div id="additionalGeoreferencesDiv">
-										<cfset i = 0>
-										<cfloop query="coordlookup">
-											<cfset i = i+1>
-											<cfif i GT 1>
-												<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted: </span></li>
-												<cfset dla = left(#coordlookup.dec_lat#,10)>
-												<cfset dlo = left(#coordlookup.dec_long#,10)>
-												<cfif len(georef_determiner) GT 0>
-													<cfset georef_determiner = "By: #georef_determiner#">
-												</cfif>
-												<cfset dateDet = left(#coordlookup.determined_date#,10)>
-												<cfif len(dateDet) GT 0>
-													<cfset dateDet = " on #dateDet#">
-												</cfif>
-												<cfset georef_source=coordlookup.lat_long_ref_source>
-												<cfif len(georef_source) GT 0>
-													<cfset georef_source = " (Source: #georef_source#)">
-												</cfif>
-												<li class="list-group-item col-7 px-0">
-													#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
-													<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source##warn301#</span>
-												</li>
-												<cfif len(coordlookup.geolocate_score) GT 0>
-													<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Geo-Locate Metadata: </span></li>
-													<li class="list-group-item col-7 px-0">Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#</li>
-												</cfif>
+									<cfset i = 0>
+									<cfloop query="coordlookup">
+										<cfset i = i+1>
+										<cfif i GT 1>
+											<li class="list-group-item col-5 px-0 unacceptedGeoreferenceLI">
+												<span class="my-0 font-weight-lessbold">Unaccepted: </span>
+											</li>
+											<cfset dla = left(#coordlookup.dec_lat#,10)>
+											<cfset dlo = left(#coordlookup.dec_long#,10)>
+											<cfif len(georef_determiner) GT 0>
+												<cfset georef_determiner = "By: #georef_determiner#">
 											</cfif>
-										</cfloop>
-									</div>
+											<cfset dateDet = left(#coordlookup.determined_date#,10)>
+											<cfif len(dateDet) GT 0>
+												<cfset dateDet = " on #dateDet#">
+											</cfif>
+											<cfset georef_source=coordlookup.lat_long_ref_source>
+											<cfif len(georef_source) GT 0>
+												<cfset georef_source = " (Source: #georef_source#)">
+											</cfif>
+											<li class="list-group-item col-7 px-0 unacceptedGeoreferenceLI">
+												#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
+												<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source##warn301#</span>
+											</li>
+											<cfif len(coordlookup.geolocate_score) GT 0>
+												<li class="list-group-item col-5 px-0 unacceptedGeoreferenceLI">
+													<span class="my-0 font-weight-lessbold">Geo-Locate Metadata: </span>
+												</li>
+												<li class="list-group-item col-7 px-0 unacceptedGeoreferenceLI">
+													Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#
+												</li>
+											</cfif>
+										</cfif>
+									</cfloop>
 								</cfif>
 							</cfif>
 						</cfif>
