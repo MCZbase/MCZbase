@@ -920,7 +920,7 @@
 			<!---agent handwriting records--->							
 			<div class="row mx-0">
 				<cfquery name="agents_hw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_name.agent_id, media_relations.media_relationship, agent_name.agent_name_type
+					SELECT distinct agent_name.agent_id, media_relations.media_relationship, agent_name.agent_name_type
 					FROM agent_name
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
@@ -941,7 +941,7 @@
 						AND media_relations.media_relationship = 'shows handwriting of agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
+					<h1 class="h3 w-100 mt-3 px-2">Agent Handwriting related to this Media Object</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
