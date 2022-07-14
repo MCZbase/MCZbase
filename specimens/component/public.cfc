@@ -1167,9 +1167,12 @@ limitations under the License.
 							</li>
 						</cfloop>
 						<li class="pb-1 list-group-item">
-<!--- TODO: This won't work if more than one collection is involved --->
-							<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#valuelist(relns.related_cat_num)#">(Specimens List)</a>
+							<a href="https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#collection_object_id#">(Specimens List)</a>
 						</li>
+					</ul>
+				<cfelse>
+					<ul class="list-group list-group-flush pt-1 float-left">
+						<li class="list-group-item small90 font-italic">None</li>
 					</ul>
 				</cfif>
 			<cfcatch>
