@@ -34,11 +34,15 @@
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
-			media_relationship, case when media_relationship = 'shows cataloged_item' then 'specimen record' else 'unknown relationship' end as 'media_rel_list'
+			media_relationship, 
+			media_id,
+			CASE
+				WHEN media_relationship = 'shows cataloged_item' THEN 'specimen record' ELSE 'unknown relationship' 
+			END AS 'media_rel_list'
 		From
 			media_relations
 		WHERE 
-			media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media.media_id#" list="yes">
+			media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 		ORDER BY media_relationship
 	</cfquery>
 	<cfloop query="media_rel">
