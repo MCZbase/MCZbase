@@ -1848,6 +1848,19 @@ limitations under the License.
 								<li class="list-group-item col-7 px-0">#coordlookup.utm_zone# #coordlookup.utm_ew# #coordlookup.utm_ns#</li>
 							</cfif>
 
+							<cfif len(coordlookup.extent) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Extent: </span></li>
+								<li class="list-group-item col-7 px-0">#coordlookup.extent#</li>
+							</cfif>
+							<cfif len(coordlookup.gpsaccuracy) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">GNSS/GPS Accuracy: </span></li>
+								<li class="list-group-item col-7 px-0">#coordlookup.gpsaccuracy#</li>
+							</cfif>
+							<cfif len(coordlookup.spatialfit) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Spatial Fit: </span></li>
+								<li class="list-group-item col-7 px-0">#coordlookup.spatialfit#</li>
+							</cfif>
+
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
 							<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
 							<li class="list-group-item col-7 px-0">
@@ -1856,6 +1869,10 @@ limitations under the License.
 							</li>
 	
 							<cfif oneOfUs EQ 1>
+								<cfif len(coordlookup.error_polygon) GT 0>
+									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Has Error Polygon: </span></li>
+									<li class="list-group-item col-7 px-0">Yes (see map)</li>
+								</cfif>
 								<cfif len(coordlookup.verificationstatus) GT 0>
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference Verification Status: </span></li>
 									<li class="list-group-item col-7 px-0">#coordlookup.verificationstatus#</li>
@@ -1870,9 +1887,44 @@ limitations under the License.
 										<li class="list-group-item col-7 px-0">#georef_verifier#</li>
 									</cfif>
 								</cfif>
+								<cfif len(coordlookup.geolocate_score) GT 0>
+									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Geo-Locate Metadata: </span></li>
+									<li class="list-group-item col-7 px-0">Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#</li>
+								</cfif>
 								<cfif coordlookup.recordcount GT 1>
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
 									<li class="list-group-item col-7 px-0">#coordlookup.recordcount - 1#</li>
+									<!--- TODO: Show/hide button for unnaccepted georeferences --->
+									<div id="additionalGeoreferencesDiv">
+										<cfset i = 0>
+										<cfloop query="coordlookup">
+											<cfset i = i+1>
+											<cfif i GT 1>
+												<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted: </span></li>
+												<cfset dla = left(#coordlookup.dec_lat#,10)>
+												<cfset dlo = left(#coordlookup.dec_long#,10)>
+												<cfif len(georef_determiner) GT 0>
+													<cfset georef_determiner = "By: #georef_determiner#">
+												</cfif>
+												<cfset dateDet = left(#coordlookup.determined_date#,10)>
+												<cfif len(dateDet) GT 0>
+													<cfset dateDet = " on #dateDet#">
+												</cfif>
+												<cfset georef_source=coordlookup.lat_long_ref_source>
+												<cfif len(georef_source) GT 0>
+													<cfset georef_source = " (Source: #georef_source#)">
+												</cfif>
+												<li class="list-group-item col-7 px-0">
+													#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
+													<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source##warn301#</span>
+												</li>
+												<cfif len(coordlookup.geolocate_score) GT 0>
+													<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Geo-Locate Metadata: </span></li>
+													<li class="list-group-item col-7 px-0">Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#</li>
+												</cfif>
+											</cfif>
+										</cfloop>
+									</div>
 								</cfif>
 							</cfif>
 						</cfif>
