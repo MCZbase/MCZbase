@@ -34,11 +34,7 @@
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select 
-			media_relationship, 
-			media_id,
-			CASE
-				WHEN media_relationship = 'shows cataloged_item' THEN 'specimen record' ELSE 'unknown relationship' 
-			END AS 'media_rel_list'
+			media_relationship
 		From
 			media_relations
 		WHERE 
@@ -46,7 +42,7 @@
 		ORDER BY media_relationship
 	</cfquery>
 	<cfloop query="media_rel">
-		#media_rel_list#
+		#media_rel.media_relationship#
 	</cfloop>
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
