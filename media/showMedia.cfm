@@ -805,7 +805,7 @@
 				<!---agent records--->
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT agent_name.agent_id, agent_name.agent_name,media_relations.media_relationship, agent.biography, agent.agent_type
+					SELECT agent_name.agent_id
 					FROM agent_name
 						left join agent on agent.agent_id = agent_name.agent_id
 						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
@@ -866,7 +866,7 @@
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Agent Name </h3>
-										<cfif len(agents.agent_name) gt 0>
+										<cfif len(agentName.agent_name) gt 0>
 
 											<div class="col-12 pt-0 pb-1">#agentName.agent_name#</div>
 										<cfelse>
@@ -885,7 +885,7 @@
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm8">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-											<cfif len(agents.agent_id) gt 0>
+											<cfif len(agentName.agent_id) gt 0>
 												<cfif relm8.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 												<cfelse>	
