@@ -854,7 +854,7 @@
 								</li>
 							</ul>
 						</div>
-						<cfloop query="relm8">
+					
 							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
 								FROM agent_name
@@ -888,7 +888,7 @@
 									</div>
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
-							
+									<cfloop query="relm8">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(agentName.agent_id) gt 0>
 												<cfif relm8.media_id eq '#media.media_id#'> 
@@ -909,7 +909,7 @@
 												</div>
 											</cfif>
 										</div>
-							
+									</cfloop>
 									<div id="targetDiv"></div>
 								</div>
 							</div>
