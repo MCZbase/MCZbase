@@ -370,10 +370,16 @@ limitations under the License.
 			function reloadLocality() { 
 				loadLocality(#collection_object_id#,'localityCardBody');
 			}
+			function reloadPreparators() { 
+				loadPreparators(#collection_object_id#,'collectorsCardBody');
+			}
 			function reloadLedger() { 
 				// replace the ledger/field notes block via ajax.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type documents.
 				loadLedger(#collection_object_id#,'ledgerCardBody');
+			}
+			function reloadTransactions() { 
+				loadTransactions(#collection_object_id#,'transactionsCardBody');
 			}
 			function reloadNamedGroups() { 
 				loadNamedGroups(#collection_object_id#,'namedGroupsCardBody');
@@ -750,6 +756,7 @@ limitations under the License.
 					<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
 							<div id="localityDialog"></div>
+							<div id="collectorsDialog"></div>
 							<div class="card-header" id="headingLocality">
 								<h3 class="h5 my-0">
 									<button type="button" data-toggle="collapse" aria-expanded="true" data-target="##LocalityPane" aria-controls="LocalityPane" class="headerLnk w-100 h-100 text-left">
@@ -770,50 +777,26 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!------------------- Collectors and Preparators ---------------------------->
-					<div class="accordion" id="accordionCollectors">
+					<!------------------- Preparators ---------------------------->
+					<div class="accordion" id="accordionPreparators">
 						<div class="card mb-2 bg-light">
-							<div id="collectorsDialog"></div>
-							<script>
-								function reloadCollectors() { 
-									loadCollectors(#collection_object_id#,'collectorsCardBody');
-								}
-							</script>
-							<cfset blockcollectors = getCollectorsHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="headingCollectors">
-								<cfif len(#blockcollectors#) gt 5>
-									<h3 class="h5 my-0">
-										<button type="button" data-toggle="collapse" class="w-100 h-100 headerLnk text-left" aria-controls="CollectorsPane" aria-expanded="true" data-target="##CollectorsPane">
-											Collectors and Preparators
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
-												Edit
-											</a>
-										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h5 my-0">
-										<button class="headerLnk w-100 h-100 text-left" aria-expanded="true" type="button" aria-controls="CollectorsPane" data-toggle="collapse" data-target="##CollectorsPane">
-											Collectors and Preparators
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadCollectors)">
-												Add
-											</a>
-										</cfif>
-									</h3>
-								</cfif>
-							</div>
-							<div id="CollectorsPane" class="collapse show" aria-labelledby="headingCollectors" data-parent="##accordionCollectors">
-								<div class="card-body py-1 mb-1 float-left" id="collectorsCardBody">
-									<cfif len(#blockcollectors#) gt 60> 
-										#blockcollectors# 
-									<cfelse>
-										<ul class="pl-2 list-group py-0 mb-0">
-											<li class="small90 list-group-item font-italic">None</li>
-										</ul>
+							<div id="preparatorsDialog"></div>
+							<cfset blockpreparators = getPreparatorsHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingPreparators">
+								<h3 class="h5 my-0">
+									<button type="button" data-toggle="collapse" class="w-100 h-100 headerLnk text-left" aria-controls="PreparatorsPane" aria-expanded="true" data-target="##PreparatorsPane">
+										Preparators
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditPreparatorsDialog(#collection_object_id#,'preparatorsDialog','#guid#',reloadPreparators)">
+											Edit
+										</a>
 									</cfif>
+								</h3>
+							</div>
+							<div id="PreparatorsPane" class="collapse show" aria-labelledby="headingPreparators" data-parent="##accordionPreparators">
+								<div class="card-body py-1 mb-1 float-left" id="collectorsCardBody">
+									#blockpreparators# 
 								</div>
 							</div>
 						</div>
@@ -851,11 +834,6 @@ limitations under the License.
 					<div class="accordion" id="accordionTransactions">
 						<div class="card mb-2 bg-light">
 							<div id="transactionsDialog"></div>
-							<script>
-								function reloadTransactions() { 
-									loadTransactions(#collection_object_id#,'transactionsCardBody');
-								}
-							</script>
 							<div class="card-header" id="headingTransactions">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="TransactionsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##TransactionsPane">
@@ -883,7 +861,7 @@ limitations under the License.
 							<div class="card-header" id="headingNamedGroups">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="NamedGroupsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##NamedGroupsPane">
-										Named Groups
+										Featured Collections (Named Groups)
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditNamedGroupsDialog(#collection_object_id#,'NamedGroupsDialog','#GUID#',reloadNamedGroups)">

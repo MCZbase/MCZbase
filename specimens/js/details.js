@@ -838,11 +838,11 @@ function openEditTransactionsDialog(collection_object_id,dialogId,guid,callback)
 	});
 };
 
-function loadCollectors(collection_object_id,targetDivId) { 
+function loadPreparators(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
-			method : "getCollectorsHTML",
+			method : "getPreparatorsHTML",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
@@ -855,20 +855,41 @@ function loadCollectors(collection_object_id,targetDivId) {
 	});
 }
 
-function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
-	var title = "Edit Collectors and Preparators for " + guid;
+function openEditPreparatorsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Preparators for " + guid;
 	createSpecimenEditDialog(dialogId,title,callback);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getEditCollectorsHTML",
+			target : "preparators",
 			collection_object_id: collection_object_id,
 		},
 		success: function (result) {
 			$("#" + dialogId + "_div").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"opening edit Collectors and Preparators dialog");
+			handleFail(jqXHR,textStatus,error,"opening edit Preparators dialog");
+		},
+		dataType: "html"
+	});
+};
+
+function openEditCollectorsDialog(collection_object_id,dialogId,guid,callback) {
+	var title = "Edit Collectors for " + guid;
+	createSpecimenEditDialog(dialogId,title,callback);
+	jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getEditCollectorsHTML",
+			target : "collectors",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + dialogId + "_div").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"opening edit Collectors dialog");
 		},
 		dataType: "html"
 	});
