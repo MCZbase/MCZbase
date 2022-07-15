@@ -1432,7 +1432,12 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<cfif NOT hasContent>
-						<li class="small90 list-group-item font-italic">None</li>
+						<cfif oneOfUs IS 1>
+							<!--- we shoudn't actually get here, as all cataloged items have an accession --->
+							<li class="small90 list-group-item font-italic">None</li>
+						<cfelse>
+							<li class="small90 list-group-item font-italic">[Masked]</li>
+						</cfif>
 					</cfif>
 				</ul>
 			<cfcatch>
