@@ -1230,6 +1230,7 @@ limitations under the License.
 							<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
 									cataloged_item.accn_id,
+									cataloged_item.collection_cde catitem_coll_cde,
 									accn.accn_number,
 									accn_type,
 									accn_status,
@@ -1243,9 +1244,11 @@ limitations under the License.
 									cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 							</cfquery>
 						<cfelse>
+							<!--- internal user may be constrained by a VPD, use a datasource that can look accross VPDs to get the accession number --->
 							<cfquery name="lookupAccn" datasource="cf_dbuser">
 								SELECT
 									'' as accn_id,
+									cataloged_item.collection_cde catitem_coll_cde,
 									accn.accn_number,
 									'' as accn_type,
 									'' as accn_status,
@@ -1275,7 +1278,8 @@ limitations under the License.
 								trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupAccn.accn_id#">
 					  	</cfquery>
 						<cfset accnDept = "">
-						<cfif NOT lookupAccn.collection_cde IS accnCollection.collection_cde>
+						<cfif NOT lookupAccn.catitem_coll_cde IS accnCollection.collection_cde>
+							<!--- accession is in a different department than the cataloged item --->
 							<cfset accnDept = "(#accnCollection.collection_cde#)">
 						</cfif>
 						<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
