@@ -968,8 +968,8 @@
 								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
-								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.shortCit#">#citation.shortCit#</a>
+								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
+									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.shortCit#">#citation1.shortCit#</a>
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
@@ -993,7 +993,7 @@
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm10">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-											<cfif len(citation.publication_id) gt 0>
+											<cfif len(citation1.publication_id) gt 0>
 												<cfif relm10.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 												<cfelse>	
