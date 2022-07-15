@@ -1299,6 +1299,7 @@ limitations under the License.
 								media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 								MCZBASE.is_media_encumbered(media.media_id) < 1
 						</cfquery>
+						<cfset hasContent = true>
 						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
 							<cfif len(lookupAccn.accn_id) GT 0>
 								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#">#lookupAccn.accn_number#</a>
@@ -1307,7 +1308,6 @@ limitations under the License.
 								#lookupAccn.accn_number#
 							</cfif>
 							<cfif accnMedia.recordcount gt 0>
-								<cfset hasContent = true>
 								<cfloop query="accnMedia">
 									<div class="m-2 d-inline"> 
 										<cfset mt = #media_type#>
