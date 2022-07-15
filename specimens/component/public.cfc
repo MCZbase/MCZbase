@@ -1365,7 +1365,7 @@ limitations under the License.
 						</cfloop>
 					</cfif>
 					<!--- Usage ---->
-					<cfif oneOfUs is 1>
+					<cfif oneOfUs IS 1>
 						<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
 								loan_item.collection_object_id 
@@ -1424,7 +1424,7 @@ limitations under the License.
 							<cfset hasContent = true>
 							<li class="list-group-item">
 								<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
-								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
+								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_mainFrame">Deaccessions that include parts from cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="deaccessionList">
 										<ul class="d-block">
@@ -1432,6 +1432,32 @@ limitations under the License.
 										</ul>
 									</cfloop>
 								</cfif>
+							</li>
+						</cfif>
+					<cfelse>
+						<cfquery name="deaccessionCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								count(specimen_part.collection_object_id) parts,
+								count(deacc_item.collection_object_id) deaccessionedParts
+							FROM
+								specimen_part 
+								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+							WHERE
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							GROUP BY
+								specimen_part.derived_from_cat_item
+						</cfquery>
+						<cfif deaccessionCount.deaccessionedParts GT 0>
+							<cfset hasContent = true>
+							<li class="list-group-item">
+								<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
+								<ul class="d-block">
+									<cfif deaccessionCount.parts EQ deaccesionCount.deaccessionedParts>
+										<li class="d-block"> Deaccessioned </li>
+									<cfelse>
+										<li class="d-block"> Some Parts have been Deaccessioned </li>
+									</cfif>
+								</ul>
 							</li>
 						</cfif>
 					</cfif>
