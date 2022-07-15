@@ -33,7 +33,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select distinct
 			media_relationship
 		From
 			media_relations
@@ -385,6 +385,7 @@
 						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Accessions</h3>
 					</cfif>
 				</div>
+				
 				<!--- collecting event records --->
 				<div class="row mx-0">
 					<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -480,8 +481,7 @@
 						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Collecting Events</h3>
 					</cfif>
 				</div>
-													
-													
+																					
 				<!--- permit records --->
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
@@ -800,10 +800,7 @@
 					<cfelse>
 						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Deaccession</h3>
 					</cfif>
-				</div>
-				
-
-													
+				</div>								
 													
 				<!---agent records created by--->
 				<div class="row mx-0">
