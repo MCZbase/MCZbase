@@ -963,7 +963,7 @@
 						</div>
 						<cfloop query="relm10">
 							<cfquery name="citation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct publication.publication_id, getShortCitation(pubs.publication_id) as shortCit
+								SELECT distinct publication.publication_id, getShortCitation(#pubs.publication_id#) as shortCit
 								FROM publication
 								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 							</cfquery>
