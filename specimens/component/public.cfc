@@ -105,6 +105,8 @@ limitations under the License.
 						AND cataloged_item.collection_object_id = <cfqueryparam value="#l_collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfif>
 					)
+				ORDER BY
+					length(media_descriptor) asc
 				</cfquery>
 				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
 					#getImages.recordcount#
