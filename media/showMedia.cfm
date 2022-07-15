@@ -878,7 +878,7 @@
 											SELECT distinct media_relationship from media_relations WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
 											and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 										</cfquery>
-										<cfloop query="agentRels">#agentRels.media_relationship#<span class="comma">, </span></cfloop>
+										<cfloop query="agentRels">#agentRels.media_relationship#<span class="comma1">, </span></cfloop>
 										</cfloop>
 									</div>
 								</div>
