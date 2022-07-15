@@ -1008,7 +1008,7 @@
 									</cfif>
 								</div>
 								<div class="col-12 col-lg-7 col-xl-7 p-1">
-									<div class="d-inline d-lg-none font-weight-lessbold float-left">Media </div>
+									<div class="col-12 h5 d-lg-none font-weight-lessbold float-left">Media </div>
 									<cfloop query="relm10">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif citation1.recordcount lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(citation1.publication_id) gt 0>
