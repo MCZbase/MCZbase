@@ -977,7 +977,7 @@
 										<h3 class="h5 mb-0">Citation </h3>
 										<cfif len(citation1.publication_id) gt 0>
 
-											<div class="col-12 pt-0 pb-1">#citation1.formated_publication#</div>
+											<div class="col-12 pt-0 pb-1">#citation1.formatted_publication#</div>
 										<cfelse>
 											<div class="col-12 pt-0 pb-1">None</div>
 										</cfif>
