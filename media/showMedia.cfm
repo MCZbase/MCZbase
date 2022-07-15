@@ -994,7 +994,7 @@
 									</div>
 									<div class="row mx-0">
 										<h3 class="h5 mb-1">Occurs on Specimen</h3>
-										<div class="d-block">
+										<div class="col-12 pt-0 pb-1">
 											<cfloop query="citationSpecList">
 												<span class="">#citationSpecList.cat_num# &nbsp; </span>
 											</cfloop>
