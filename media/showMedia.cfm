@@ -993,9 +993,9 @@
 										</cfif>
 									</div>
 									<div class="row mx-0">
-										<h3 class="h5 mb-0">Occurs on</h3>
+										<h3 class="h5 mb-0">Occurs on Specimen</h3>
 										<cfloop query="citationSpecList">
-											<div class="col-12 pt-0 pb-1">#citationSpecList.cat_num#</div>
+											<span class="">#citationSpecList.cat_num#, </span>
 										</cfloop>
 									</div>
 									<div class="row mx-0">
