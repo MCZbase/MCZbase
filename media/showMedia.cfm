@@ -942,13 +942,13 @@
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-2 col-xl-1  px-1 list-group-item">
+								<li class="col-2 col-xl-1 px-1 list-group-item">
 									<span class="font-weight-lessbold">Publication&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
 								</li>
-								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+								<li class="col-3 col-xl-4 px-1 list-group-item d-none d-lg-block">
 									<span class="font-weight-lessbold">Details</span>
 								</li>
-								<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
+								<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
 									<span class="font-weight-lessbold">		
 										<cfif relm10.recordcount GT 2>
 											<cfset plural = "s">
@@ -1009,7 +1009,7 @@
 								</div>
 								<div class="col-12 col-lg-7 col-xl-7 p-1">
 									<cfloop query="relm10">
-										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+										<div class="border-light col-12 col-md-6 col-lg-4 <cfif citation1.recordcount lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(citation1.publication_id) gt 0>
 												<cfif relm10.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
