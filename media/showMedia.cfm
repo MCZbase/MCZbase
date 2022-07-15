@@ -996,7 +996,7 @@
 										<h3 class="h5 mb-1">Occurs on Specimen</h3>
 										<div class="col-12 pt-0 pb-1">
 											<cfloop query="citationSpecList">
-												<span class="text-nowrap">#citationSpecList.cat_num#<span class="comma1">, </span> </span>
+												<div class="text-nowrap comma1 d-inline">#citationSpecList.cat_num#<span>,  </span></div>
 											</cfloop>
 										</div>
 									</div>
