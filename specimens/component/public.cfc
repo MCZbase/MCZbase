@@ -1200,6 +1200,11 @@ limitations under the License.
 	<cfreturn getRelationsThread.output>
 </cffunction>
 
+<!--- getTransactionsHTML get a block of html containing information about transactions for a cataloged
+  item suitable to the current user's access rights.
+ @param collection_object_id for the cataloged item for which to return transaction information
+ @return a block of html with transactions information, or if none are visible, html with the word Masked.
+--->
 <cffunction name="getTransactionsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 
@@ -2426,17 +2431,22 @@ limitations under the License.
 				</cfif>
 				<cfquery name="named_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="named_groups">
 					SELECT DISTINCT 
-						collection_name, underscore_relation.underscore_collection_id
+						collection_name, underscore_relation.underscore_collection_id, mask_fg
 					FROM
 						underscore_collection
 						left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 						left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on underscore_relation.collection_object_id = flat.collection_object_id
 					WHERE
 						flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
+							-- all groups
+						<cfelse>
+							and mask_fg = 0
+						</cfif>
 				</cfquery>
 				<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="list-group-item pt-0"> None </li>
+						<li class="list-group-item small90 font-italic">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
 							<li class="list-group-item pt-0">
