@@ -905,7 +905,7 @@
 											</cfif>
 											<div class="#activeimg#" id="mediaBlock#relm8.media_id#">
 												<div class="col-5 bg-white px-1 float-left">
-													<cfset mediablock= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")><cfif len(mediablock) gt 0>#mediablock#<cfelse>No media on file</cfif>
+													<cfset mediablock= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")><cfif relm8.recordcount gt 0>#mediablock#<cfelse>No media on file</cfif>
 												</div>
 												<cfset showTitleText1 = trim(title1)>
 													<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
