@@ -186,12 +186,12 @@
 						from media_relations
 							 left join media on media_relations.media_id = media.media_id
 							 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-						where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+						where (media_relationshiplikr '%cataloged_item%' or media_relationship = 'shows agent')
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Specimen Records (relationship = shows cataloged_item)</h1>
+					<h1 class="h3 w-100 my-0 px-2">Specimen Records</h1>
 					<a name="shows%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
