@@ -147,7 +147,7 @@
 								</tbody>
 							</table>
 							<div class="row mx-0">
-								<h4 class="h5 px-2 pt-0">Shown on records with relationships: </h4>
+								<h4 class="h5 px-2 pt-0">Shown on records with relationship(s): </h4>
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
@@ -191,7 +191,7 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Specimen Records related to this media object</h1>
+					<h1 class="h3 w-100 my-0 px-2">Specimen Records (relationship = shows cataloged_item)</h1>
 					<a name="shows%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
@@ -827,7 +827,7 @@
 						and media_relations.media_relationship <> 'created by agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Agents related to this Media Object</h1>
+					<h1 class="h3 w-100 my-0 px-2">Agents (relationship = created by agent)</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
