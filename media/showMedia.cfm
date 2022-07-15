@@ -147,7 +147,7 @@
 								</tbody>
 							</table>
 							<div class="row mx-0">
-								<h4 class="h5 px-2 pt-0">Shown on: </h4>
+								<h4 class="h5 px-2 pt-0">Shown on records with relationships: </h4>
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
