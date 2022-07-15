@@ -934,7 +934,7 @@
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
-						AND media_relations.media_relationship like '%agent%'
+						AND media_relations.media_relationship like '%publication%'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 					<h1 class="h3 w-100 my-0 px-2">Publications related to this Media Object</h1>
