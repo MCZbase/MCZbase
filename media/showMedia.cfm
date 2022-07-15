@@ -879,7 +879,7 @@
 											AND rownum < 4
 											
 										</cfquery>
-										#relm8.media_relationship#<span class="comma1">, </span>
+										#agentRels.media_relationship#<span class="comma1">, </span>
 										</cfloop>
 									</div>
 								</div>
