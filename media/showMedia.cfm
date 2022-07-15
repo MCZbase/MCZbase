@@ -832,7 +832,7 @@
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 			
-					<h1 class="h3 w-100 my-0 px-2">Agents (relationship = created by agent, shows handwriting of agent, shows agent)</h1>
+					<h1 class="h3 w-100 mt-3 mb-0 px-2">Agents (relationship = created by agent, shows handwriting of agent, shows agent)</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
