@@ -982,7 +982,7 @@
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.publication_id#">#citation1.publication_id#</a>
 								</div>
-								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
+								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-2 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Citation </h3>
 										<cfif len(citation1.publication_id) gt 0>
@@ -996,7 +996,7 @@
 										<h3 class="h5 mb-1">Occurs on Specimen</h3>
 										<div class="d-block">
 											<cfloop query="citationSpecList">
-												<span class="">#citationSpecList.cat_num#, &nbsp; </span>
+												<span class="">#citationSpecList.cat_num# &nbsp; </span>
 											</cfloop>
 										</div>
 									</div>
