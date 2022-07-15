@@ -1810,7 +1810,10 @@ tr.line-top:first-child {
 .card-body li.list-group-item span.sd:last-child {
 	display:none;
 }
-span.comma:last-child {
+span.comma1 {
+	display:inline;
+}
+span.comma1:last-child {
 	display:none;
 }
 input#readMore_check_id {
