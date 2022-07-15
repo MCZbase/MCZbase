@@ -963,7 +963,7 @@
 						</div>
 						<cfloop query="relm10">
 							<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct publication.publication_id,formatted_publication
+								SELECT distinct publication.publication_id,formatted_publication, citation_remarks
 								FROM publication
                                 left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
 								left join citation on citation.publication_id = publication.publication_id
@@ -993,10 +993,12 @@
 										</cfif>
 									</div>
 									<div class="row mx-0">
-										<h3 class="h5 mb-0">Occurs on Specimen</h3>
-										<cfloop query="citationSpecList">
-											<span class="">#citationSpecList.cat_num#, </span>
-										</cfloop>
+										<h3 class="h5 mb-1">Occurs on Specimen</h3>
+										<div class="d-block">
+											<cfloop query="citationSpecList">
+												<span class="">#citationSpecList.cat_num#, &nbsp; </span>
+											</cfloop>
+										</div>
 									</div>
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Citation Remarks</h3>
