@@ -1222,7 +1222,7 @@ limitations under the License.
 							FROM
 								cataloged_item
 								left join accn on cataloged_item.accn_id = accn.transaction_id
-								left join trans on accn.accn_id = trans.transaction_id
+								left join trans on accn.transaction_id = trans.transaction_id
 							WHERE 
 								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
