@@ -985,17 +985,17 @@
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Citation </h3>
-										<cfif len(citationSpecList.cat_num) gt 0>
+										<cfif len(citation1.publication_id) gt 0>
 
-											<div class="col-12 pt-0 pb-1">#citationSpecList.cat_num#</div>
+											<div class="col-12 pt-0 pb-1">#citation1.formatted_publication#</div>
 										<cfelse>
 											<div class="col-12 pt-0 pb-1">None</div>
 										</cfif>
 									</div>
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Occurs on</h3>
-										<cfloop query="citation1">
-											<div class="col-12 pt-0 pb-1">#citation1.occurs_page_number#</div>
+										<cfloop query="citationSpecList">
+											<div class="col-12 pt-0 pb-1">#citationSpecList.cat_num#</div>
 										</cfloop>
 									</div>
 									<div class="row mx-0">
