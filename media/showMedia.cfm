@@ -969,7 +969,7 @@
 							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#agentName.agent_id#">#citation.publication_id#</a>
+									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation.shortCit#">#citation.shortCit#</a>
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
