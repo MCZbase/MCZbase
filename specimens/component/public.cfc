@@ -1324,8 +1324,9 @@ limitations under the License.
 						FROM
 							project
 							join project_trans on project.project_id = project_trans.project_id
+							join cataloged_item on project_trans.transaction_id = cataloged_item.accn_id
 						WHERE
-							project_trans.transaction_id = <cfqueryparam value="#isOne.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+							cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						GROUP BY project_name, project.project_id
 					</cfquery>
 					<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1337,7 +1338,7 @@ limitations under the License.
 							join project on project_trans.project_id=project.project_id
 							join specimen_part on specimen_part.collection_object_id = loan_item.collection_object_id
 						WHERE 
-							specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						GROUP BY 
 							project_name, project.project_id
 					</cfquery>
@@ -1368,7 +1369,7 @@ limitations under the License.
 								loan_item
 								join specimen_part on loan_item.collection_object_id=specimen_part.collection_object_id
 							WHERE 
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1379,7 +1380,7 @@ limitations under the License.
 								join loan on loan_item.transaction_id = loan.transaction_id
 							WHERE
 								loan_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1388,7 +1389,7 @@ limitations under the License.
 								specimen_part 
 								join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
 							WHERE
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT 
@@ -1399,7 +1400,7 @@ limitations under the License.
 								join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 							WHERE
 								deacc_number is not null AND
-								specimen_part.derived_from_cat_item = <cfqueryparam value="#isOne.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+								specimen_part.derived_from_cat_item = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
 						<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 							<cfset hasContent = true>
