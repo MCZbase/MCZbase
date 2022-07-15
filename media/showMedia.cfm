@@ -876,7 +876,7 @@
 										<cfquery name="agentRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT media_relationship from media_relations WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
 										</cfquery>
-										<cfloop query="agentRels">#agentRels.media_relationship#</cfloop><span class="comma">, </span></div>
+										<cfloop query="agentRels">#agentRels.media_relationship#<span class="comma">, </span></cfloop></div>
 								</div>
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Type</h3>
