@@ -879,7 +879,7 @@
 											AND rownum < 4
 											
 										</cfquery>
-										<cfloop query="agentRels">#agentRels.media_relationship#<span class="comma1">, </span></cfloop>
+										#agentRels.media_relationship#<span class="comma1">, </span>
 										</cfloop>
 									</div>
 								</div>
