@@ -872,7 +872,11 @@
 								</div>
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Relationship</h3>
-									<div class="col-12 pt-0 pb-1">#agents.media_relationship#</div>
+									<div class="col-12 pt-0 pb-1">
+										<cfquery name="agentRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											SELECT media_relationship from media_relations where WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+										</cfquery>
+										<cfloop query="agentRels">#agentRels.media_relationship#</cfloop></div>
 								</div>
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Type</h3>
