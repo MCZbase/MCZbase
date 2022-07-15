@@ -2078,7 +2078,11 @@ limitations under the License.
 							</li>
 						<cfelse>
 							<li class="list-group-item col-5 px-0">
-								<span class="my-0 font-weight-lessbold">Collectors: </span>
+								<cfset plural="s">
+								<cfif colls.recordcount EQ 1>
+									<cfset plural = "">
+								</cfif>
+								<span class="my-0 font-weight-lessbold">Collector#plural#: </span>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
 									<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
 								</cfif>
