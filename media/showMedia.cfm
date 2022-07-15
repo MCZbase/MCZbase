@@ -870,19 +870,16 @@
 										<div class="col-12 pt-0 pb-1">None</div>
 									</cfif>
 								</div>
-								<!---<div class="row mx-0">
+								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Relationship</h3>
 									<div class="col-12 pt-0 pb-1">
-										
-										<cfquery name="agentRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<!---		<cfquery name="agentRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT distinct media_relationship from media_relations WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">					
 											AND rownum < 4
-											
-										</cfquery>
-										#agentRels.media_relationship#<span class="comma1">, </span>
-								
+										</cfquery>--->
+										#agents.media_relationship#<span class="comma1">, </span>
 									</div>
-								</div>--->
+								</div>
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Type</h3>
 									<div class="col-12 pt-0 pb-1">#agents.agent_name_type#</div>
