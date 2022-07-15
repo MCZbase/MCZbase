@@ -1452,7 +1452,7 @@ limitations under the License.
 							<li class="list-group-item">
 								<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
 								<ul class="d-block">
-									<cfif deaccessionCount.parts EQ deaccesionCount.deaccessionedParts>
+									<cfif deaccessionCount.parts EQ deaccessionCount.deaccessionedParts>
 										<li class="d-block"> Deaccessioned </li>
 									<cfelse>
 										<li class="d-block"> Some Parts have been Deaccessioned </li>
