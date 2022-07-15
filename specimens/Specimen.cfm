@@ -375,6 +375,9 @@ limitations under the License.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type documents.
 				loadLedger(#collection_object_id#,'ledgerCardBody');
 			}
+			function reloadTransactions() { 
+				loadTransactions(#collection_object_id#,'transactionsCardBody');
+			}
 			function reloadNamedGroups() { 
 				loadNamedGroups(#collection_object_id#,'namedGroupsCardBody');
 			}
@@ -828,11 +831,6 @@ limitations under the License.
 					<div class="accordion" id="accordionTransactions">
 						<div class="card mb-2 bg-light">
 							<div id="transactionsDialog"></div>
-							<script>
-								function reloadTransactions() { 
-									loadTransactions(#collection_object_id#,'transactionsCardBody');
-								}
-							</script>
 							<div class="card-header" id="headingTransactions">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="TransactionsPane" class="w-100 h-100 text-left headerLnk" aria-expanded="true" data-toggle="collapse" data-target="##TransactionsPane">
