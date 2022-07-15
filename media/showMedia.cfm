@@ -870,7 +870,7 @@
 										<div class="col-12 pt-0 pb-1">None</div>
 									</cfif>
 								</div>
-								<div class="row mx-0">
+								<!---<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Relationship</h3>
 									<div class="col-12 pt-0 pb-1">
 										
@@ -882,7 +882,7 @@
 										#agentRels.media_relationship#<span class="comma1">, </span>
 								
 									</div>
-								</div>
+								</div>--->
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Type</h3>
 									<div class="col-12 pt-0 pb-1">#agents.agent_name_type#</div>
