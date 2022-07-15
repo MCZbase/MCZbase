@@ -1225,7 +1225,7 @@ limitations under the License.
 								left join trans on accn.accn_id = trans.transaction_id
 							WHERE 
 								cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-						<cfquery>
+						</cfquery>
 						<cfif checkAccn.accnVpdVisible EQ 1>
 							<cfquery name="lookupAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT
@@ -1295,27 +1295,27 @@ limitations under the License.
 								media_relations.related_primary_key = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> and
 								MCZBASE.is_media_encumbered(media.media_id) < 1
 						</cfquery>
-							<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
-								<cfif len(lookupAccn.accn_id) GT 0>
-									<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#">#lookupAccn.accn_number#</a>
-									#lookupAccn.accn_type# (#lookupAccn.accn_status#) Received: #lookupAccn.received_date# From: #lookupAccn.received_from#
-								<cfelse>
-									#lookupAccn.accn_number#
-								</cfif>
-								<cfif accnMedia.recordcount gt 0>
-									<cfset hasContent = true>
-									<cfloop query="accnMedia">
-										<div class="m-2 d-inline"> 
-											<cfset mt = #media_type#>
-											<a href="/media/#media_id#">
-												<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
-											</a>
-											<span class="small d-block">#media_type# (#mime_type#)</span>
-											<span class="small d-block">#descr#</span> 
-										</div>
-									</cfloop>
-								</cfif>
-							</li>
+						<li class="list-group-item pt-0"><span class="font-weight-lessbold mb-0 d-inline-block">Accession:</span>
+							<cfif len(lookupAccn.accn_id) GT 0>
+								<a href="/transactions/Accession.cfm?action=edit&transaction_id=#lookupAccn.accn_id#">#lookupAccn.accn_number#</a>
+								#lookupAccn.accn_type# (#lookupAccn.accn_status#) Received: #lookupAccn.received_date# From: #lookupAccn.received_from#
+							<cfelse>
+								#lookupAccn.accn_number#
+							</cfif>
+							<cfif accnMedia.recordcount gt 0>
+								<cfset hasContent = true>
+								<cfloop query="accnMedia">
+									<div class="m-2 d-inline"> 
+										<cfset mt = #media_type#>
+										<a href="/media/#media_id#">
+											<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
+										</a>
+										<span class="small d-block">#media_type# (#mime_type#)</span>
+										<span class="small d-block">#descr#</span> 
+									</div>
+								</cfloop>
+							</cfif>
+						</li>
 					</cfif>
 					<!--------------------  Projects ------------------------------------>	
 					<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
