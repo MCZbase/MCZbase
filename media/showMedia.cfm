@@ -876,7 +876,7 @@
 								</div>
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Type</h3>
-									<div class="col-12 pt-0 pb-1">#agents.agent_type#</div>
+									<div class="col-12 pt-0 pb-1">#agents.agent_name_type#</div>
 								</div>
 							</div>
 							<div class="col-12 col-lg-7 col-xl-8 p-1">
