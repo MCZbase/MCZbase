@@ -993,7 +993,7 @@
 										</cfif>
 									</div>
 									<div class="row mx-0">
-										<h3 class="h5 mb-1">Occurs on Specimen</h3>
+										<h3 class="h5 mb-1">Catalog Numbers Cited</h3>
 										<div class="col-12 pt-0 pb-1 comma1 d-inline">
 											<cfloop query="citationSpecList">
 												 #citationSpecList.cat_num#<span>, </span>
