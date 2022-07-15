@@ -982,7 +982,7 @@
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.publication_id#">#citation1.publication_id#</a>
 								</div>
-								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-2 border-right small">
+								<div class="col-12 col-lg-3 col-xl-4 pt-2 pb-2 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Citation </h3>
 										<cfif len(citation1.publication_id) gt 0>
@@ -1007,7 +1007,7 @@
 									</div>
 									</cfif>
 								</div>
-								<div class="col-12 col-lg-7 col-xl-8 p-1">
+								<div class="col-12 col-lg-7 col-xl-7 p-1">
 									<cfloop query="relm10">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(citation1.publication_id) gt 0>
