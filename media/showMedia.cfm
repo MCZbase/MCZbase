@@ -831,6 +831,15 @@
 						and media_relations.media_relationship <> 'created by agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
+					<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
+						FROM agent_name
+							left join agent on agent.agent_id = agent_name.agent_id
+							left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+						WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
+						and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
+						ORDER BY agent_id
+					</cfquery>
 					<h1 class="h3 w-100 my-0 px-2">Agents (relationship = created by agent, shows handwriting of agent, shows agent)</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
@@ -855,18 +864,7 @@
 								</li>
 							</ul>
 						</div>
-							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
-								FROM agent_name
-									left join agent on agent.agent_id = agent_name.agent_id
-									left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-								WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
-								and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
-								ORDER BY agent_id
-							</cfquery>
-						<cfloop query="relm8">
-					
-							<div class="row mx-0 py-0 border-top-teal">
+						<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
 								</div>
@@ -890,7 +888,7 @@
 									</div>
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
-							
+									<cfloop query="relm8">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(agentName.agent_id) gt 0>
 												<cfif relm8.media_id eq '#media.media_id#'> 
@@ -911,12 +909,10 @@
 												</div>
 											</cfif>
 										</div>
-							
+								</cfloop>
 									<div id="targetDiv"></div>
 								</div>
 							</div>
-						
-						</cfloop>
 					</div>
 				<cfelse>
 					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
