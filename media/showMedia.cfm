@@ -819,6 +819,7 @@
 						AND agent_name.agent_name_type = 'preferred'
 					ORDER BY agent_name.agent_id
 				</cfquery>
+				<cfloop query="agents">
 				<cfif len(agents.agent_id) gt 0>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
@@ -854,7 +855,7 @@
 								</li>
 							</ul>
 						</div>
-												<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
 								FROM agent_name
 									left join agent on agent.agent_id = agent_name.agent_id
@@ -920,6 +921,7 @@
 				<cfelse>
 					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
+				</cfloop>
 				</div>
 										
 				<!---publication records--->
