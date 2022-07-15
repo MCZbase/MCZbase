@@ -875,7 +875,11 @@
 									<div class="col-12 pt-0 pb-1">
 										<cfloop query="relm8">
 										<cfquery name="agentRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											 select media_relationship from agent_name,media_relations where agent_name_id = media_relations_id and agent_id = '#agents.agent_id#' and agent_name_type = 'preferred'
+											SELECT distinct media_relationship 
+											from media_relations 
+											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+											and relm8.media_id = media_relations.media_id
+											AND rownum < 4
 										</cfquery>
 											#agentRels.media_relationship#<span class="comma1">, </span>
 										</cfloop>
