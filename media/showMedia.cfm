@@ -962,19 +962,19 @@
 							</ul>
 						</div>
 						<cfloop query="relm10">
-							<cfquery name="citation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct publication.publication_id, getShortCitation(#pubs.publication_id#) as shortCit
 								FROM publication
 								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation.shortCit#">#citation.shortCit#</a>
+									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.shortCit#">#citation.shortCit#</a>
 								</div>
 								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Citation </h3>
-										<cfif len(citation.publication) gt 0>
+										<cfif len(citation1.publication_id) gt 0>
 
 											<div class="col-12 pt-0 pb-1">test</div>
 										<cfelse>
