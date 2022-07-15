@@ -875,7 +875,7 @@
 									<div class="col-12 pt-0 pb-1">
 										<cfloop query="relm8">
 										<cfquery name="agentRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											 select * from agent_name,media_relations where agent_name_id = media_relations_id and agent_id = '#agents.agent_id#' and agent_name_type = 'preferred'
+											 select media_relationship from agent_name,media_relations where agent_name_id = media_relations_id and agent_id = '#agents.agent_id#' and agent_name_type = 'preferred'
 										</cfquery>
 											#agentRels.media_relationship#<span class="comma1">, </span>
 										</cfloop>
