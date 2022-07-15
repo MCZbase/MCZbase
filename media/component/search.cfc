@@ -1225,6 +1225,7 @@ imgStyleClass=value
 				WHERE 
 					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				ORDER BY LENGTH(media.title) desc
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfloop query="media">
