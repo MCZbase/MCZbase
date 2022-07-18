@@ -175,6 +175,13 @@
 						and (media_relations.media_relationship like '%cataloged_item%')
 				order by guid
 				</cfquery>
+				<cfquery name="speccount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(flat.collection_object_id) ct	
+					from media_relations
+					left join flat on related_primary_key = collection_object_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and (media_relations.media_relationship like '%cataloged_item%')
+				</cfquery>
 				<cfif len(spec.guid) gt 0>
 					
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -194,7 +201,7 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Specimen Records</h1>
+					<h1 class="h3 w-100 my-0 px-2">Specimen Records (#speccount.recordcount#)</h1>
 					<a name="shows%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
