@@ -754,6 +754,34 @@ limitations under the License.
 									</div>
 								</div>
 						
+														<div class="col-12">
+														<label for="fixedCollection" class="data-entry-label small">Collection</label>
+														<div name="collection" id="fixedCollection" class="w-100"></div>
+														<cfif not isdefined("collection")><cfset collection=""></cfif>
+														<cfset collection_array = ListToArray(collection)>
+														<script>
+															function setFixedCollectionValues() {
+																$('##fixedCollection').jqxComboBox('clearSelection');
+																<cfloop query="ctCollection">
+																	<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+																		$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
+																	</cfif>
+																</cfloop>
+															};
+															$(document).ready(function () {
+																var collectionsource = [
+																	<cfset comma="">
+																	<cfloop query="ctCollection">
+																		#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+																		<cfset comma=",">
+																	</cfloop>
+																];
+																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
+																setFixedCollectionValues();
+															});
+														</script> 
+													</div>		
+											
 							</form>
 						</div>
 					</div><!--- search box --->
