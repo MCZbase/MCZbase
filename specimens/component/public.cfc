@@ -409,7 +409,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
+					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
