@@ -202,7 +202,7 @@
 						order by media.media_id
 					</cfquery>
 					<h1 class="h3 w-100 my-0 px-2">Cataloged Items (#speccount.ct#)</h1>
-					<a name="shows%20cataloged_item"></a>
+					<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
