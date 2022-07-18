@@ -753,35 +753,43 @@ limitations under the License.
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
 									</div>
 								</div>
-						
-														<div class="col-12">
-														<label for="fixedCollection" class="data-entry-label small">Collection</label>
-														<div name="collection" id="fixedCollection" class="w-100"></div>
-														<cfif not isdefined("collection")><cfset collection=""></cfif>
-														<cfset collection_array = ListToArray(collection)>
-														<script>
-															function setFixedCollectionValues() {
-																$('##fixedCollection').jqxComboBox('clearSelection');
-																<cfloop query="ctCollection">
-																	<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
-																		$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
-																	</cfif>
-																</cfloop>
-															};
-															$(document).ready(function () {
-																var collectionsource = [
-																	<cfset comma="">
-																	<cfloop query="ctCollection">
-																		#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
-																		<cfset comma=",">
-																	</cfloop>
-																];
-																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
-																setFixedCollectionValues();
-															});
-														</script> 
-													</div>		
-											
+						<!---test below--->
+								<cfquery name="ctCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT
+										collection_cde,
+										collection,
+										collection_id
+									FROM
+										collection
+									ORDER BY collection.collection
+								</cfquery>
+								<div class="col-12">
+									<label for="fixedCollection" class="data-entry-label small">Collection</label>
+									<div name="collection" id="fixedCollection" class="w-100"></div>
+									<cfif not isdefined("collection")><cfset collection=""></cfif>
+									<cfset collection_array = ListToArray(collection)>
+									<script>
+										function setFixedCollectionValues() {
+											$('##fixedCollection').jqxComboBox('clearSelection');
+											<cfloop query="ctCollection">
+												<cfif ArrayContains(collection_array, ctCollection.collection_cde)>
+													$("##fixedCollection").jqxComboBox("selectItem","#ctCollection.collection_cde#");
+												</cfif>
+											</cfloop>
+										};
+										$(document).ready(function () {
+											var collectionsource = [
+												<cfset comma="">
+												<cfloop query="ctCollection">
+													#comma#{name:"#ctCollection.collection#",cde:"#ctCollection.collection_cde#"}
+													<cfset comma=",">
+												</cfloop>
+											];
+											$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
+											setFixedCollectionValues();
+										});
+									</script> 
+								</div>		
 							</form>
 						</div>
 					</div><!--- search box --->
