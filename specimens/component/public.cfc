@@ -2081,9 +2081,12 @@ limitations under the License.
 							SELECT
 								collector.agent_id,
 								collector.coll_order,
-								MCZBASE.get_agentnameoftype(collector.agent_id) collector_name
+								MCZBASE.get_agentnameoftype(collector.agent_id) collector_name,
+								agent.agentguid_guid_type,
+								agent.agentguid
 							FROM
 								collector
+								join agent on collector.agent_id = agent.agent_id
 							WHERE
 								collector.collector_role='c' and
 								collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -2116,7 +2119,22 @@ limitations under the License.
 								<cfset sep="">
 								<cfloop query="colls">
 									<cfif #colls.agent_id# NEQ "0">
-										<cfset collectors="#collectors##sep#<a href='/agents/Agent.cfm?agent_id=#colls.agent_id#'>#colls.collector_name#</a>">
+										<cfset agentLinkOut = "">
+										<cfif len(colls.agentguid) GT 0>
+											<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select resolver_regex, resolver_replacement
+										   	from ctguid_type
+											   where 
+													guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#colls.agentguid_guid_type#">
+											</cfquery>
+											<cfif len(ctguid_type_agent.resolver_regex) GT 0 >
+												<cfset link = REReplace(colls.agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement)>
+											<cfelse>
+												<cfset link = colls.agentguid>
+											</cfif>
+											<cfset agentLinkOut = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
+										</cfif>
+										<cfset collectors="#collectors##sep#<a href='/agents/Agent.cfm?agent_id=#colls.agent_id#'>#colls.collector_name#</a>#agentLinkOut#"> <!--- " --->
 									<cfelse>
 										<cfset collectors="#collectors##sep##colls.collector_name#">
 									</cfif>
