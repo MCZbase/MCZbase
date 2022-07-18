@@ -697,7 +697,7 @@
 															<cfelse>
 																<cfset showTitleText1 = "#showTitleText1#" >
 															</cfif>
-															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relm4.media_id#</span>
+															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relm11.media_id#</span>
 																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																#showTitleText1#
 															</div>
