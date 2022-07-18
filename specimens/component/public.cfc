@@ -348,7 +348,7 @@ limitations under the License.
 						<cfloop query="determiners">
 							<cfif len(determiners.agent_id) GT 0 AND determiners.agent_id NEQ "0"> 
 								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" > <!--- " --->
-								<cfif len(determiners.agent_guid) gt 0>
+								<cfif len(determiners.agentguid) gt 0>
 									<cfset link = getGuidLink(guid=#determiners.agentguid#,guid_type=#determiners.agentguid_guid_type#)>
 									<cfset determinedBy ="#determinedBy#<span>#link#</span>" > <!--- " --->
 								</cfif>
