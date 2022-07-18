@@ -153,7 +153,7 @@
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
-										<a class="link-color px-1" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a>
+										<a class="link-color px-1" href="###relations.mr_value#">#relations.mr_value#</a>
 									</cfloop>
 									</li>
 								</ul>
