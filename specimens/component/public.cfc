@@ -1898,7 +1898,7 @@ limitations under the License.
 						<cfif len(loc_collevent.highergeographyid) gt 0>
 							<cfset geogLink = getGuidLink(guid=#loc_collevent.highergeographyid#,guid_type=#loc_collevent.highergeographyid_guid_type#)>
 							<li class="list-group-item col-7 px-0">
-								#loc_colevent.highergeographyid# #geogLink#
+								#loc_collevent.highergeographyid# #geogLink#
 							</li>
 						</cfif>
 					</ul>
