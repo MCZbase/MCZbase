@@ -2029,11 +2029,11 @@ limitations under the License.
 								<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
 									<cfset originalForm = "">
 									<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
-										<cfset originalForm = "#lat_deg#&deg; #lat_min#&prime; #lat_sec#&Prime; #lat_dir#">
-										<cfset originalForm = "#originalForm##long_deg#&deg; #long_min#&prime; #long_sec#&Prime; #long_dir#">
+										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookuplat_sec#&Prime; #coordlookup.lat_dir#">
+										<cfset originalForm = "#originalForm##coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookuplong_sec#&Prime; #coordlookup.long_dir#">
 									<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
-										<cfset originalForm = "#lat_deg#&deg; #dec_lat_min#&prime; #lat_dir#">
-										<cfset originalForm = "#originalForm##long_deg#&deg; #dec_long_min#&prime; #long_dir#">
+										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.dec_lat_min#&prime; #coordlookup.lat_dir#">
+										<cfset originalForm = "#originalForm##coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
 									</cfif>
 									<cfif len(originalForm) GT 0>
 										<span class="d-block small mb-0 pb-0"(#originalForm#)</span>
