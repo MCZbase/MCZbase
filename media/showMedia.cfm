@@ -87,7 +87,7 @@
 							left join media source_media on media_relations.media_id = source_media.media_id
 						WHERE
 							media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					</cfquery>#mediaRelations.source_media_id#
+					</cfquery>
 						<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 							select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
 							from media_relations
@@ -153,7 +153,7 @@
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
-										<a class="link-color px-1" href="###relations.mr_value#">#relations.mr_value#</a>
+										<a class="link-color px-1" href="##media_rel.media_relationship#">#media_rel.media_relationship#</a>
 									</cfloop>
 									</li>
 								</ul>
