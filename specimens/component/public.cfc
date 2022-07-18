@@ -1850,13 +1850,15 @@ limitations under the License.
 						</cfif>
 						<cfif len(loc_collevent.highergeographyid) gt 0>
 							<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+								select resolver_regex, resolver_replacement
 						   	from ctguid_type
-							   where applies_to like '%geog_auth_rec.highergeographyid%'
+							   where 
+									applies_to like '%geog_auth_rec.highergeographyid%'
+									and guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#"
 							</cfquery>
 							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID)</em></li>
-							<cfif len(regex) GT 0 >
-								<cfset link = REReplace(geogDetails.highergeographyid,regex,replacement)>
+							<cfif len(ctguid_type_highergeography.resolver_regex) GT 0 >
+								<cfset link = REReplace(geogDetails.highergeographyid,ctguid_type_highergeography.resolver_regex,ctguid_type_highergeography.resolver_replacement)>
 							<cfelse>
 								<cfset link = geogDetails.highergeographyid>
 							</cfif>
