@@ -32,6 +32,9 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+
+
+	<main class="container-fluid" id="content">
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct
 			media_relationship
@@ -42,8 +45,6 @@
 			and media_relations.media_relationship <> 'created by agent'
 		ORDER BY media_relationship
 	</cfquery>
-
-	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
 			<cfloop query="media">
@@ -152,7 +153,7 @@
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
-										<a class="link-color px-1" href="###media.media_relationship#">#media.media_relationship#</a>
+										<a class="link-color px-1" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a>
 									</cfloop>
 									</li>
 								</ul>
