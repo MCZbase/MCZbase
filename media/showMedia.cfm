@@ -623,7 +623,7 @@
 					<cfif len(loan.transaction_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Loans</h1>
 						<div class="col-12 px-0">
-							<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 								from media_relations
 									left join media on media_relations.media_id = media.media_id
@@ -646,7 +646,7 @@
 										</li>
 										<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 											<span class="font-weight-lessbold">		
-												<cfif relm4.recordcount GT 2>
+												<cfif relm11.recordcount GT 2>
 													<cfset plural = "s">
 												<cfelse>
 													<cfset plural = "">
@@ -661,11 +661,11 @@
 									<div class="row mx-0 border-top py-0 border-gray">
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 											<span class="d-block d-md-none">Transaction ID: </span>
-											<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#loan.transaction_id#">
+											<a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
 												#loan.transaction_id#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Loan Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.loan_number#">
+											<span class="d-block d-md-none">Loan Number: </span><a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.loan_number#">
 												#loan.loan_number#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
@@ -679,17 +679,17 @@
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-xl-8 p-1">
-											<cfloop query="relm4">
+											<cfloop query="relm11">
 												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 													<cfif len(loan.transaction_id) gt 0>
-														<cfif relm4.media_id eq '#media.media_id#'> 
+														<cfif relm11.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
 														<cfelse>	
 															<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
 														</cfif>
-														<div class="#activeimg#" id="mediaBlock#relm4.media_id#">
+														<div class="#activeimg#" id="mediaBlock#relm11.media_id#">
 															<div class="col-5 bg-white px-1 float-left">
-																<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 															</div>
 															<cfset showTitleText1 = trim(title1)>
 															<cfif len(showTitleText1) gt 170>
