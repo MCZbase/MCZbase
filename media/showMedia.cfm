@@ -202,7 +202,8 @@
 						order by media.media_id
 					</cfquery>
 					<h1 class="h3 w-100 my-0 px-2">Cataloged Items (#speccount.ct#)</h1>
-					<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
+					<a name="shows%20cataloged_item"></a>
+					<a name="ledger%20entry%20for%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
@@ -281,6 +282,7 @@
 										
 				<!--- accn records --->
 				<div class="row mx-0">
+					
 					<cfif media.media_id gt 0>
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
@@ -293,6 +295,13 @@
 								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								and media_relations.media_relationship = 'documents accn'
 								and trans_agent.trans_agent_role = 'received from'
+						</cfquery>
+						<cfquery name="accncount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select count(accn.transaction_id) ct
+							from media_relations
+							left join accn on related_primary_key = transaction_id
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+								and (media_relations.media_relationship like '%accn%')
 						</cfquery>
 					</cfif>
 					<cfif len(accn.transaction_id) gt 0>
