@@ -858,10 +858,13 @@
 								<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
 							</div>
 							<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
+								<cfquery name="list_agentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT distinct media_relations.media_relationship
+									FROM relm8.media_relations
+								</cfquery>
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Name </h3>
 									<cfif len(agents.agent_name) gt 0>
-
 										<div class="col-12 pt-0 pb-1">#agents.agent_name#</div>
 									<cfelse>
 										<div class="col-12 pt-0 pb-1">None</div>
@@ -870,7 +873,7 @@
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Relationship</h3>
 									<div class="col-12 pt-0 pb-1">
-										<cfloop query="relm8">#relm8.media_relationship# <span class="comma1">, </span></cfloop>
+										<cfloop query="list_agentRel">#list_agentRel.media_relationship#<span class="comma1">, </span></cfloop>
 									</div>
 								</div>
 								<div class="row mx-0">
