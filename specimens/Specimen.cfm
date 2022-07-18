@@ -144,7 +144,7 @@ limitations under the License.
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
 <cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.typestatuswords#">
-<cfset pageTitle = "MCZbase Specimen Details #guid#">
+<cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
@@ -438,7 +438,7 @@ limitations under the License.
 			<cfset specimenMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows", get_count = 'true')>
 			<cfset specimenMediaCount = val(rereplace(specimenMediaCount,"[^0-9]","","all"))>
 			<cfif specimenMediaCount gt 0>
-				<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 					<!-----------------------------Media----------------------------------> 
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
@@ -464,17 +464,17 @@ limitations under the License.
 					</div>
 				</div>
 				<!--- three column layout --->
-				<cfset twoThreeColumnClasses="col-md-9 col-lg-9 col-xl-10 float-left">
+				<cfset twoThreeColumnClasses="col-sm-9 col-md-9 col-lg-9 col-xl-10 float-left">
 			<cfelse>
 				<!--- two column layout --->
-				<cfset twoThreeColumnClasses="col-md-12 col-lg-12 col-xl-12 float-left">
+				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
 			</cfif>
 
 			<!----------------------------- two right columns ---------------------------------->
-			<div class="col-12 col-sm-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
+			<div class="col-12 mb-2 clearfix px-0 #twoThreeColumnClasses#">
 
 				<!---- column 2 the leftmost of the two right columns ---->
-				<div class="col-12 col-md-6 px-1 float-left"> 
+				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!----------------------------- identifications ----------------------------------> 
 					<div class="accordion" id="accordionB">
 						<div class="card mb-2 bg-light">
@@ -748,7 +748,7 @@ limitations under the License.
 				</div>
 
 				<!---  start of column three  (rightmost of the two right columns) --->
-				<div class="col-12 col-md-6 px-1 float-left"> 
+				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!--------------------locality and collecting event------------------------------>
 					<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
