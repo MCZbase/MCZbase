@@ -860,9 +860,9 @@
 							<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Name </h3>
-									<cfif len(agentName.agent_name) gt 0>
+									<cfif len(agents.agent_name) gt 0>
 
-										<div class="col-12 pt-0 pb-1">#agentName.agent_name#</div>
+										<div class="col-12 pt-0 pb-1">#agents.agent_name#</div>
 									<cfelse>
 										<div class="col-12 pt-0 pb-1">None</div>
 									</cfif>
@@ -870,12 +870,12 @@
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Relationship</h3>
 									<div class="col-12 pt-0 pb-1">
-										#agentName.media_relationship#<span class="comma1"> </span>
+										#agents.media_relationship#<span class="comma1"> </span>
 									</div>
 								</div>
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Type</h3>
-									<div class="col-12 pt-0 pb-1">#agentName.agent_name_type#</div>
+									<div class="col-12 pt-0 pb-1">#agents.agent_name_type#</div>
 								</div>
 							</div>
 							<div class="col-12 col-lg-7 col-xl-8 p-1">
