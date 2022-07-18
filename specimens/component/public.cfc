@@ -2002,9 +2002,9 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">
 								#dla#, #dlo# 
 								<cfif coordlookup.max_error_distance EQ "0">
-									(error radius: Unknown) 
+									(Error radius: Unknown) 
 								<cfelse>
-									(error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
+									(Error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
 								</cfif>
 								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source#</span>#warn301#
 							</li>
