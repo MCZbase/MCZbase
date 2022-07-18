@@ -221,7 +221,8 @@ limitations under the License.
 							preferred_agent_name.agent_name,
 							identification_agent.agent_id,
 							agent.agentguid,
-							agent.agentguid_guid_type
+							agent.agentguid_guid_type,
+							identifier_order
 						FROM
 							identification_agent
 							left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
