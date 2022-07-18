@@ -2023,12 +2023,30 @@ limitations under the License.
 								<li class="list-group-item col-7 px-0">#coordlookup.spatialfit#</li>
 							</cfif>
 
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Entered As: </span></li>
 							<li class="list-group-item col-7 px-0">
 								#coordlookup.orig_lat_long_units#
-								<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
+								<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
+									<cfset originalForm = "">
+									<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
+										<cfset originalForm = "#lat_deg#&deg; #lat_min#&prime; #lat_sec#&Prime; #lat_dir#">
+										<cfset originalForm = "#originalForm##long_deg#&deg; #long_min#&prime; #long_sec#&Prime; #long_dir#">
+									<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
+										<cfset originalForm = "#lat_deg#&deg; #dec_lat_min#&prime; #lat_dir#">
+										<cfset originalForm = "#originalForm##long_deg#&deg; #dec_long_min#&prime; #long_dir#">
+									</cfif>
+									<cfif len(originalForm) GT 0>
+										<span class="d-block small mb-0 pb-0"(#originalForm#)</span>
+									</cfif>
+								</cfif>
 							</li>
+							<cfif len(loc_collevent.verbatimcoordinates) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
+								<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
+								<li class="list-group-item col-7 px-0">
+									<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
+								</li>
+							</cfif>
 	
 							<cfif oneOfUs EQ 1>
 								<cfif len(coordlookup.error_polygon) GT 0>
