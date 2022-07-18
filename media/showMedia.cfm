@@ -886,6 +886,7 @@
 										left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 									WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
 									and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
+									and media_relations.media_relationship <> 'created by agent'
 									ORDER BY agent_id
 								</cfquery>
 									<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
