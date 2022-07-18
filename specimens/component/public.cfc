@@ -1843,8 +1843,26 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#loc_collevent.quad#</li>
 						</cfif>
 						<cfif loc_collevent.country NEQ loc_collevent.sovereign_nation AND len(loc_collevent.sovereign_nation) GT 0 >
-							<li class="list-group-item col-5 px-0"><em>Sovereign Nation:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.sovereign_nation#</li>
+							<cfif loc_collevent.country NEQ "United States" AND loc_collevent.sovereign_nation NEQ "United States of America">
+								<li class="list-group-item col-5 px-0"><em>Sovereign Nation:</em></li>
+								<li class="list-group-item col-7 px-0">#loc_collevent.sovereign_nation#</li>
+							</cfif>
+						</cfif>
+						<cfif len(loc_collevent.highergeographyid) gt 0>
+							<cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+						   	from ctguid_type
+							   where applies_to like '%geog_auth_rec.highergeographyid%'
+							</cfquery>
+							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID)</em></li>
+							<cfif len(regex) GT 0 >
+								<cfset link = REReplace(geogDetails.highergeographyid,regex,replacement)>
+							<cfelse>
+								<cfset link = geogDetails.highergeographyid>
+							</cfif>
+							<li class="list-group-item col-7 px-0">
+								<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#geogDetails.highergeographyid#</a>
+							</li>
 						</cfif>
 					</ul>
 					<div class="w-100 float-left mx-2">
