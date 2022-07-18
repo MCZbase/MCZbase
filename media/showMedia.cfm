@@ -1177,7 +1177,13 @@
 						AND media_relations.media_relationship like '%publication%'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-					<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Publications</h1>
+					<cfquery name="pub-count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select count(pubs.publication_id) ct
+						from media_relations
+							left join publication on media_relations.related_primary_key = publication.pubication_id
+						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					</cfquery>
+					<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Publications (#pub-count.ct#)</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
