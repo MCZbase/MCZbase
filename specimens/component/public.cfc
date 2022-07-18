@@ -33,21 +33,22 @@ limitations under the License.
 	<cfargument name="guid_type" type="string" required="no">
 	
 	<cfset returnValue = "">
-		<cfif len(guid) GT 0 and len(guid_type) GT 0>
-			<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select resolver_regex, resolver_replacement
-				from ctguid_type
-				where 
-				guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#">
-			</cfquery>
-			<cfif ctguid_type.recordcount GT 0>
-				<cfif len(ctguid_type.resolver_regex) GT 0 >
-					<cfset link = REReplace(guid,ctguid_type.resolver_regex,ctguid_type.resolver_replacement)>
-				<cfelse>
-					<cfset link = guid>
-				</cfif>
-				<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
+	<cfif len(guid) GT 0 and len(guid_type) GT 0>
+		<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select resolver_regex, resolver_replacement
+			from ctguid_type
+			where 
+			guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#">
+		</cfquery>
+		<cfif ctguid_type.recordcount GT 0>
+			<cfif len(ctguid_type.resolver_regex) GT 0 >
+				<cfset link = REReplace(guid,ctguid_type.resolver_regex,ctguid_type.resolver_replacement)>
+			<cfelse>
+				<cfset link = guid>
+			</cfif>
+			<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
 		</cfif>
+	</cfif>
 	<cfreturn returnValue>
 </cffunction>
 
