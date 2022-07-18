@@ -504,7 +504,7 @@
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 					<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date, media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title  
+						select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title  
 						from permit
 							left join media_relations on media_relations.related_primary_key = permit.permit_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -512,7 +512,7 @@
 					</cfquery>
 					</cfif>
 					<cfif len(permit.permit_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Permit Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Related Permits</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
