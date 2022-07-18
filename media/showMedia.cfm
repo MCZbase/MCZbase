@@ -824,7 +824,6 @@
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-						AND media_relations.media_relationship like '%agent%'
 						and media_relations.media_relationship <> 'created by agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
@@ -893,7 +892,7 @@
 									and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
 									ORDER BY agent_id
 								</cfquery>
-									<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+									<div class="border-light col-12 col-md-6 col-lg-4 <cfif #media.agentName.recordcount# lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 										<cfif len(agentName.agent_id) gt 0>
 											<cfif relm8.media_id eq '#media.media_id#'> 
 												<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
