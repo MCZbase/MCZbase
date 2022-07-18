@@ -620,7 +620,7 @@
 					</cfquery>
 					</cfif>
 					<cfif len(loan.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Loans</h1>
+						<h1 class="h3 w-100 my-0 px-2">Related Loans</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -659,13 +659,13 @@
 								<cfloop query="loan">
 									<div class="row mx-0 border-top py-0 border-gray">
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Transaction ID: </span>
+											<span class="d-block d-md-none">Loan Number: </span>
 											<a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
-												#loan.transaction_id#</a>
+												#loan.loan_number#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Loan Number: </span><a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.loan_number#">
-												#loan.loan_number#</a>
+											<span class="d-block d-md-none">Transaction ID: </span><a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
+												#loan.transaction_id#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
