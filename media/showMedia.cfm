@@ -239,7 +239,7 @@
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
 									<cfloop query="relm">
-										<div class="border-light col-12 col-md-6 col-lg-4 <cfif len(media.media_id) lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+										<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(media.media_id) gt 0>
 												<cfif relm.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -896,7 +896,7 @@
 									and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
 									ORDER BY agent_id
 								</cfquery>--->
-									<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+									<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 										<cfif len(agents.agent_id) gt 0>
 											<cfif relm8.media_id eq '#media.media_id#'> 
 												<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -1019,7 +1019,7 @@
 								<div class="col-12 col-lg-7 col-xl-7 p-1">
 									<div class="col-12 h5 d-lg-none mb-0 font-weight-lessbold float-left">Media </div>
 									<cfloop query="relm10">
-										<div class="border-light col-12 col-md-6 col-lg-4 <cfif citation1.recordcount lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+										<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm10.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(citation1.publication_id) gt 0>
 												<cfif relm10.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
