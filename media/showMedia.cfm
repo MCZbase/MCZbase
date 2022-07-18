@@ -201,7 +201,7 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Cataloged Items (#speccount.ct#)</h1>
+					<h1 class="h3 w-100 my-0 px-2">Related Cataloged Items (#speccount.ct#)</h1>
 					<a name="shows%20cataloged_item"></a>
 					<a name="ledger%20entry%20for%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
@@ -716,6 +716,113 @@
 					</cfif>
 				</div>
 
+				<!--- collecting event records --->
+				<div class="row mx-0">
+					<cfif media.media_id gt 0>
+					<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select collecting_event.collecting_event_id
+						from collecting_event
+							left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
+						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and (media_relations.media_relationship = 'shows collecting_event')
+					</cfquery>
+					</cfif>
+					<cfif len(loan.transaction_id) gt 0>
+						<h1 class="h3 w-100 my-0 px-2">Collecting Event</h1>
+						<div class="col-12 px-0">
+							<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+								from media_relations
+									left join media on media_relations.media_id = media.media_id
+								where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event.collecting_event_id#">
+							</cfquery>
+							<div class="search-box mt-1 pb-0 w-100">
+								<div class="search-box-header px-2 mt-0">
+									<ul class="list-group list-group-horizontal text-white">
+										<li class="col-2 col-xl-1  px-1 list-group-item">
+											<span class="font-weight-lessbold">Loan<span class="d-inline d-lg-none">s </span>
+											<span class="d-none d-lg-inline"> Numbers </span></span>
+										</li>
+										<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">Transaction&nbsp;ID
+												<span class="d-inline d-lg-none">s </span>
+											</span>
+										</li>
+										<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">Details</span>
+										</li>
+										<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">		
+												<cfif relm11.recordcount GT 2>
+													<cfset plural = "s">
+												<cfelse>
+													<cfset plural = "">
+												</cfif>
+												<cfset IDtitle = "Image Thumbnail#plural#">
+												#IDtitle#
+											</span>
+										</li>
+									</ul>
+								</div>
+								<cfloop query="loan">
+									<div class="row mx-0 border-top py-0 border-gray">
+										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+											<span class="d-block d-md-none">Transaction ID: </span>
+											<a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
+												#loan.transaction_id#</a>
+										</div>
+										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+											<span class="d-block d-md-none">Loan Number: </span><a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.loan_number#">
+												#loan.loan_number#</a>
+										</div>
+										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Loan Type</h3>
+												<div class="col-12 pt-0 pb-1">#loan.loan_type#</div>
+											</div>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Loan Status</h3>
+												<div class="col-12 pt-0 pb-1">#loan.loan_status#</div>
+											</div>
+										</div>
+										<div class="col-12 col-md-6 col-xl-8 p-1">
+											<cfloop query="relm11">
+												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+													<cfif len(loan.transaction_id) gt 0>
+														<cfif relm11.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
+														</cfif>
+														<div class="#activeimg#" id="mediaBlock#relm11.media_id#">
+															<div class="col-5 bg-white px-1 float-left">
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+															</div>
+															<cfset showTitleText1 = trim(title1)>
+															<cfif len(showTitleText1) gt 170>
+																<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+															<cfelse>
+																<cfset showTitleText1 = "#showTitleText1#" >
+															</cfif>
+															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relm11.media_id#</span>
+																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
+																#showTitleText1#
+															</div>
+														</div>
+													</cfif>
+												</div>
+											</cfloop>
+											<div id="targetDiv"></div>
+										</div>
+									</div>
+								</cfloop>
+							</div>
+						</div>
+					<cfelse>
+						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
+					</cfif>
+				</div>
+													
 				<!---Borrow records--->			
 				<div class="row mx-0 mt-3">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -726,7 +833,7 @@
 							and media_relations.media_relationship = 'documents borrow'
 					</cfquery>
 					<cfif len(borrow.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Borrow Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Related Borrows</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -839,7 +946,7 @@
 							and (media_relations.media_relationship = 'documents deaccession')
 					</cfquery>
 					<cfif len(deaccession.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Deaccession Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Related Deaccessions</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -1071,7 +1178,7 @@
 						AND media_relations.media_relationship like '%publication%'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-					<h1 class="h3 w-100 mt-3 mb-0 px-2">Publications related to this Media Object</h1>
+					<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Publications</h1>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
