@@ -869,10 +869,6 @@
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Relationship</h3>
 									<div class="col-12 pt-0 pb-1">
-								<!---		<cfquery name="agentRels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT distinct media_relationship from media_relations WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">					
-											AND rownum < 4
-										</cfquery>--->
 										#agents.media_relationship#<span class="comma1"> </span>
 									</div>
 								</div>
@@ -892,7 +888,7 @@
 									and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
 									ORDER BY agent_id
 								</cfquery>
-									<div class="border-light col-12 col-md-6 col-lg-4 <cfif #agentName.recordcount# lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> #agentName.recordcount#
+									<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lte #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 										<cfif len(agentName.agent_id) gt 0>
 											<cfif relm8.media_id eq '#media.media_id#'> 
 												<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
