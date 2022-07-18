@@ -824,7 +824,7 @@
 						FROM media_relations
 							 left join media on media_relations.media_id = media.media_id
 						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-						and media_relations.media_relationship <> 'created by agent'
+						and media_relations.media_relationship != 'created by agent'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 			
