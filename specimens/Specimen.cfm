@@ -114,9 +114,10 @@ limitations under the License.
 		flattable.higher_geog,
 		flattable.collectors,
 		flattable.spec_locality,
-<!---added--->	flattable.locality_id,flattable.geog_auth_rec_id,flattable.continent_ocean,flattable.sea,flattable.country,flattable.state_prov,flattable.feature,flattable.county,flattable.island_group,flattable.island,flattable.quad,collecting_event.verbatim_locality,collecting_event.verbatimcoordinates,collecting_event.collecting_method,collecting_event.coll_event_remarks,collecting_event.habitat_desc,flattable.habitat,flattable.locality_remarks,flattable.verbatim_date,collecting_event.BEGAN_DATE,collecting_event.ended_date,flattable.collecting_source,flattable.depth_units,flattable.maximum_elevation,flattable.minimum_elevation,flattable.max_depth,flattable.min_depth,accepted_lat_long.determined_date latLongDeterminedDate,latLongAgnt.agent_name latLongDeterminer,accepted_lat_long.max_error_distance,accepted_lat_long.max_error_units,flattable.lat_long_ref_source,flattable.orig_lat_long_units,flattable.datum,flattable.orig_elev_units,
-<!---end addition--->		
 		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
+		flattable.verbatim_date,
+		flattable.BEGAN_DATE,
+		flattable.ended_date,
 		flattable.cited_as,
 		flattable.typestatuswords,
 		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
@@ -132,10 +133,6 @@ limitations under the License.
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
 		left join collection on flattable.collection_id = collection.collection_id
-		<!---added below--->
-		left join collecting_event on flattable.collecting_event_id = collecting_event.collecting_event_id
-		left join accepted_lat_long on collecting_event.locality_id = accepted_lat_long.locality_id
-		left join preferred_agent_name latLongAgnt on accepted_lat_long.determined_by_agent_id = latLongAgnt.agent_id
 	WHERE
 		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2 
@@ -147,7 +144,7 @@ limitations under the License.
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
 <cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.typestatuswords#">
-<cfset pageTitle = "#guid# specimen details">
+<cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>

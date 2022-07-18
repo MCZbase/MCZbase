@@ -20,6 +20,39 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+<!--- getGuidLink given an guid and guid type, return html for a link out to that guid, if
+  either guid or guid_guid_type are not supplied or if the the guid_guid_type is not recognized
+  in ctguid_type, then returns an empty string.
+	@param guid the guid to provide as a link
+	@param guid_guid_type the type of  guid, used to apply a replacement pattern to convert the
+     guid in stored form into a resolvable link.
+   @return html for link to a resource specified by a guid.
+--->
+<cffunction name="getGuidLink" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="guid" type="string" required="no">
+	<cfargument name="guid_type" type="string" required="no">
+	
+	<cfset returnValue = "">
+	<cfif len(guid) GT 0 and len(guid_type) GT 0>
+		<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select resolver_regex, resolver_replacement
+			from ctguid_type
+			where 
+			guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#">
+		</cfquery>
+		<cfif ctguid_type.recordcount GT 0>
+			<cfif len(ctguid_type.resolver_regex) GT 0 >
+				<cfset link = REReplace(guid,ctguid_type.resolver_regex,ctguid_type.resolver_replacement)>
+			<cfelse>
+				<cfset link = guid>
+			</cfif>
+			<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
+		</cfif>
+	</cfif>
+	<cfreturn returnValue>
+</cffunction>
+
+
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
  @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'documents' for
@@ -184,12 +217,16 @@ limitations under the License.
 				<cfset i=1>
 				<cfloop query="identification">
 					<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT 
+						SELECT distinct
 							preferred_agent_name.agent_name,
-							identification_agent.agent_id
+							identification_agent.agent_id,
+							agent.agentguid,
+							agent.agentguid_guid_type,
+							identifier_order
 						FROM
 							identification_agent
 							left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+							left join agent on identification_agent.agent_id = agent.agent_id
 						WHERE 
 							identification_agent.identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
@@ -203,7 +240,9 @@ limitations under the License.
 							display_name,
 							scientific_name,
 							author_text,
-							full_taxon_name 
+							full_taxon_name,
+							taxonomy.taxonid,
+							taxonomy.taxonid_guid_type
 						FROM 
 							identification_taxonomy
 							JOIN taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
@@ -232,6 +271,10 @@ limitations under the License.
 								<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
 								<cfif len(getTaxa.author_text) gt 0>
 									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
+								</cfif>
+								<cfif len(getTaxa.taxonid) gt 0>
+									<cfset link = getGuidLink(guid=#getTaxa.taxonid#,guid_type=#getTaxa.taxonid_guid_type#)>
+									<span>#link#</span>
 								</cfif>
 								<cfset nameAsInTaxon = getTaxa.scientific_name>
 							</cfloop>
@@ -306,7 +349,11 @@ limitations under the License.
 						<cfset detbysep = "">
 						<cfloop query="determiners">
 							<cfif len(determiners.agent_id) GT 0 AND determiners.agent_id NEQ "0"> 
-								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" >
+								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" > <!--- " --->
+								<cfif len(determiners.agentguid) gt 0>
+									<cfset link = getGuidLink(guid=#determiners.agentguid#,guid_type=#determiners.agentguid_guid_type#)>
+									<cfset determinedBy ="#determinedBy#<span>#link#</span>" > <!--- " --->
+								</cfif>
 							<cfelse>
 								<cfset determinedBy="#determinedBy##detbysep##determiners.agent_name#" >
 							</cfif>
@@ -1652,6 +1699,7 @@ limitations under the License.
 							'' as orig_lat_long_units,
 							'' as lat_deg,
 							'' as dec_lat_min,
+							'' as lat_min,
 							'' as lat_sec,
 							'' as lat_dir,
 							'' as long_deg,
@@ -1693,12 +1741,13 @@ limitations under the License.
 							orig_lat_long_units,
 							lat_deg,
 							dec_lat_min,
-							lat_sec,
+							lat_min,
+							cast(lat_sec as INTEGER) lat_sec,
 							lat_dir,
 							long_deg,
 							dec_long_min,
 							long_min,
-							long_sec,
+							cast(long_sec as INTEGER) long_sec,
 							long_dir,
 							utm_zone,
 							utm_ew,
@@ -1851,8 +1900,17 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">#loc_collevent.quad#</li>
 						</cfif>
 						<cfif loc_collevent.country NEQ loc_collevent.sovereign_nation AND len(loc_collevent.sovereign_nation) GT 0 >
-							<li class="list-group-item col-5 px-0"><em>Sovereign Nation:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.sovereign_nation#</li>
+							<cfif loc_collevent.country NEQ "United States" AND loc_collevent.sovereign_nation NEQ "United States of America">
+								<li class="list-group-item col-5 px-0"><em>Sovereign Nation:</em></li>
+								<li class="list-group-item col-7 px-0">#loc_collevent.sovereign_nation#</li>
+							</cfif>
+						</cfif>
+						<cfif len(loc_collevent.highergeographyid) gt 0>
+							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID:</em></li>
+							<cfset geogLink = getGuidLink(guid=#loc_collevent.highergeographyid#,guid_type=#loc_collevent.highergeographyid_guid_type#)>
+							<li class="list-group-item col-7 px-0">
+								#loc_collevent.highergeographyid# #geogLink#
+							</li>
 						</cfif>
 					</ul>
 					<div class="w-100 float-left mx-2">
@@ -1932,7 +1990,7 @@ limitations under the License.
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<cfset warn301="">
 							<cfif coordlookup.max_error_distance EQ "301" AND coordlookup.max_error_units EQ "m">
-								<cfset warn301="<span class='d-block small mb-0 pb-0'>[Note: a coordinate uncertainty of 301m is given by biogeomancer and geolocate when unable to determine an uncertainty] </span>">
+								<cfset warn301="<span class='d-block small mb-0 pb-0'>[Note: a coordinate uncertainty of 301m is given by Biogeomancer and GeoLocate when unable to determine an uncertainty] </span>">
 							</cfif>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
 							<cfset georef_determiner= coordlookup.lat_long_determined_by>
@@ -1950,8 +2008,15 @@ limitations under the License.
 								<cfset georef_source = " (Source: #georef_source#)">
 							</cfif>
 							<li class="list-group-item col-7 px-0">
-								#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
-								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source##warn301#</span>
+								#dla#, #dlo# 
+								<cfif coordlookup.max_error_distance EQ "0">
+									(Error radius: Unknown) 
+								<cfelseif len(coordlookup.max_error_distance) EQ 0>
+									(Error radius: Not Specified) 
+								<cfelse>
+									(Error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
+								</cfif>
+								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source#</span>#warn301#
 							</li>
 
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
@@ -1975,12 +2040,30 @@ limitations under the License.
 								<li class="list-group-item col-7 px-0">#coordlookup.spatialfit#</li>
 							</cfif>
 
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Originally Recorded as: </span></li>
-							<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
+							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Entered As: </span></li>
 							<li class="list-group-item col-7 px-0">
 								#coordlookup.orig_lat_long_units#
-								<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
+								<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
+									<cfset originalForm = "">
+									<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
+										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookup.lat_sec#&Prime; #coordlookup.lat_dir#">
+										<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookup.long_sec#&Prime; #coordlookup.long_dir#">
+									<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
+										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.dec_lat_min#&prime; #coordlookup.lat_dir#">
+										<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
+									</cfif>
+									<cfif len(originalForm) GT 0>
+										<span class="d-block small mb-0 pb-0">(#originalForm#)</span>
+									</cfif>
+								</cfif>
 							</li>
+							<cfif len(loc_collevent.verbatimcoordinates) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
+								<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
+								<li class="list-group-item col-7 px-0">
+									<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
+								</li>
+							</cfif>
 	
 							<cfif oneOfUs EQ 1>
 								<cfif len(coordlookup.error_polygon) GT 0>
@@ -2069,9 +2152,12 @@ limitations under the License.
 							SELECT
 								collector.agent_id,
 								collector.coll_order,
-								MCZBASE.get_agentnameoftype(collector.agent_id) collector_name
+								MCZBASE.get_agentnameoftype(collector.agent_id) collector_name,
+								agent.agentguid_guid_type,
+								agent.agentguid
 							FROM
 								collector
+								join agent on collector.agent_id = agent.agent_id
 							WHERE
 								collector.collector_role='c' and
 								collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -2104,7 +2190,11 @@ limitations under the License.
 								<cfset sep="">
 								<cfloop query="colls">
 									<cfif #colls.agent_id# NEQ "0">
-										<cfset collectors="#collectors##sep#<a href='/agents/Agent.cfm?agent_id=#colls.agent_id#'>#colls.collector_name#</a>">
+										<cfset agentLinkOut = "">
+										<cfif len(colls.agentguid) GT 0>
+											<cfset agentLinkOut = getGuidLink(guid=#colls.agentguid#,guid_type=#colls.agentguid_guid_type#)>
+										</cfif>
+										<cfset collectors="#collectors##sep#<a href='/agents/Agent.cfm?agent_id=#colls.agent_id#'>#colls.collector_name#</a>#agentLinkOut#"> <!--- " --->
 									<cfelse>
 										<cfset collectors="#collectors##sep##colls.collector_name#">
 									</cfif>
