@@ -145,10 +145,10 @@ limitations under the License.
 					#getImages.recordcount#
 				<cfelse>
 					<cfif #getImages.recordcount# gt 8>
-						<p class='smaller w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
+						<p class='smaller mb-1 w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
 					</cfif>
 					<cfloop query="getImages">
-						<div class='col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left'>
+						<div class='col-12 px-1 col-lg-6 mb-1 px-md-1 pt-1 float-left'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
@@ -251,15 +251,17 @@ limitations under the License.
 					</cfquery>
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-						<ul class="list-group border-green mb-2 mt-2 mx-2 rounded px-3 py-2 h4 font-weight-normal">
+						<div class="list-group border-green mx-1 mb-2 mt-2 pl-3 rounded py-2 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
 					<cfelse>
+						<div class="list-group border-transparent m-1 pl-3 rounded py-1 h4 font-weight-normal">
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
 						<cfif i EQ 2>
-							<div class="h6 pl-3 font-italic mt-2 mb-0 text-success formerID">#IDtitle#</div>
+						
+							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
 					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
@@ -300,7 +302,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 					<cfif len(formatted_publication) gt 0>
-						<div class="h6 mb-1">
+						<div class="h6 px-3 mb-1">
 							sensu <a href="/publication/#publication_id#">#formatted_publication#</a>
 						</div>
 					</cfif>
@@ -332,7 +334,7 @@ limitations under the License.
 								common_name order by common_name
 						</cfquery>
 						<cfif len(cName.common_name) gt 0>
-							<div class="font-weight-lessbold mb-1 mt-0 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+							<div class="font-weight-lessbold mb-1 mt-0 h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
 						</cfif>
 						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 					</cfloop>
@@ -371,9 +373,10 @@ limitations under the License.
 					<cfif len(identification_remarks) gt 0>
 						<div class="small"><span class="font-weight-lessbold">Remarks:</span> #identification.identification_remarks#</div>
 					</cfif>
-					<cfif identification.accepted_id_fg is 1>
-						</ul>
-					</cfif>
+					
+					
+						</div>
+					
 					<cfset i = i+1>
 				</cfloop>
 			<cfcatch>
@@ -406,7 +409,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      			SELECT 
+					SELECT
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
@@ -620,7 +623,7 @@ limitations under the License.
 					#getImages.recordcount#
 				<cfelse>
 					<cfloop query="getImages">
-						<div class='col-12 px-1 col-md-6 mb-1 px-md-1 pt-1 float-left'>
+						<div class='col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
@@ -734,10 +737,10 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table border-bottom mb-0 mt-1">
-						<thead>
-							<tr class="bg-light">
-								<th><span>Part Name</span></th>
+					<table class="table table-responsive-md w-100 my-1">
+						<thead class="thead-light">
+							<tr>
+								<th><span>Part</span></th>
 								<th><span>Condition</span></th>
 								<th><span>Disposition</span></th>
 								<th><span>Count</span></th>
@@ -791,8 +794,8 @@ limitations under the License.
 									</cfif>
 								</tr>
 								<cfif len(part_remarks) gt 0>
-									<tr class="small90 border-bottom-0">
-										<td colspan="5" class="border-bottom-0 mb-0 pt-1 pb-1">
+									<tr class="small90">
+										<td colspan="5" class="mb-0 pt-1 pb-1">
 											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 										</td>
 									</tr>
@@ -1051,14 +1054,13 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive table-striped border mb-1 mx-1 w-100" aria-label="attributes">
+					<table class="table table-responsive-md my-1 w-100" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th>Attribute</th>
 								<th>Value</th>
 								<th>Determination</th>
 								<th>On</th>
-								<th>Remarks</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -1081,8 +1083,12 @@ limitations under the License.
 								<td>
 									<cfif len(determined_date) gt 0>#dateformat(determined_date,'yyyy-mm-dd')#</cfif>
 								</td>
-								<td>#attribute_remark#</td>
 							</tr>
+							<cfif len(attribute_remark)gt 0>
+								<tr>
+									<td colspan="4" class="inputHeight"><span class="font-italic pl-3 small90">Remarks:</span> #attribute_remark#</td>
+								</tr>
+							</cfif>
 						</cfloop>
 						</tbody>
 					</table>
