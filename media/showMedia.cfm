@@ -726,7 +726,7 @@
 							and (media_relations.media_relationship = 'shows collecting_event')
 					</cfquery>
 					</cfif>
-					<cfif len(loan.collecting_event_id) gt 0>
+					<cfif len(collecting_event.collecting_event_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Collecting Event</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
