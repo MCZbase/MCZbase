@@ -2003,7 +2003,7 @@ limitations under the License.
 								#dla#, #dlo# 
 								<cfif coordlookup.max_error_distance EQ "0">
 									(Error radius: Unknown) 
-								<cfif len(coordlookup.max_error_distance) EQ 0>
+								<cfelseif len(coordlookup.max_error_distance) EQ 0>
 									(Error radius: Not Specified) 
 								<cfelse>
 									(Error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
