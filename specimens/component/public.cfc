@@ -217,12 +217,15 @@ limitations under the License.
 				<cfset i=1>
 				<cfloop query="identification">
 					<cfquery name="determiners" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT 
+						SELECT distinct
 							preferred_agent_name.agent_name,
-							identification_agent.agent_id
+							identification_agent.agent_id,
+							agent.agent_guid,
+							agent.agent_guid_guid_type
 						FROM
 							identification_agent
 							left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
+							left join agent on identification_agent.agent_id = agent.agent_id
 						WHERE 
 							identification_agent.identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 						ORDER BY
@@ -343,7 +346,11 @@ limitations under the License.
 						<cfset detbysep = "">
 						<cfloop query="determiners">
 							<cfif len(determiners.agent_id) GT 0 AND determiners.agent_id NEQ "0"> 
-								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" >
+								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" > <!--- " --->
+								<cfif len(determiners.agent_guid) gt 0>
+									<cfset link = getGuidLink(guid=#determiners.agent_guid#,guid_type=#determiners.agent_guid_guid_type#)>
+									<cfset determinedBy ="#determinedBy##<span>#link#</span>">  <!--- " --->
+								</cfif>
 							<cfelse>
 								<cfset determinedBy="#determinedBy##detbysep##determiners.agent_name#" >
 							</cfif>
