@@ -1856,7 +1856,7 @@ limitations under the License.
 									applies_to like '%geog_auth_rec.highergeographyid%'
 									and guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loc_collevent.highergeographyid_guid_type#">
 							</cfquery>
-							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID)</em></li>
+							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID:</em></li>
 							<cfif len(ctguid_type_highergeography.resolver_regex) GT 0 >
 								<cfset link = REReplace(loc_collevent.highergeographyid,ctguid_type_highergeography.resolver_regex,ctguid_type_highergeography.resolver_replacement)>
 							<cfelse>
