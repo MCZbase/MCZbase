@@ -349,7 +349,7 @@ limitations under the License.
 								<cfset determinedBy="#determinedBy##detbysep#<a href='/agents/Agent.cfm?agent_id=#determiners.agent_id#'>#determiners.agent_name#</a>" > <!--- " --->
 								<cfif len(determiners.agent_guid) gt 0>
 									<cfset link = getGuidLink(guid=#determiners.agent_guid#,guid_type=#determiners.agent_guid_guid_type#)>
-									<cfset determinedBy ="#determinedBy##<span>#link#</span>">  <!--- " --->
+									<cfset determinedBy ="#determinedBy#<span>#link#</span>" > <!--- " --->
 								</cfif>
 							<cfelse>
 								<cfset determinedBy="#determinedBy##detbysep##determiners.agent_name#" >
