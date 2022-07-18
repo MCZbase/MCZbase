@@ -282,7 +282,6 @@
 										
 				<!--- accn records --->
 				<div class="row mx-0">
-					
 					<cfif media.media_id gt 0>
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
@@ -305,7 +304,7 @@
 						</cfquery>
 					</cfif>
 					<cfif len(accn.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Documents Accession (#accncount.ct#)</h1>
+						<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Accessions (#accncount.ct#)</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
@@ -727,7 +726,7 @@
 							and (media_relations.media_relationship = 'shows collecting_event')
 					</cfquery>
 					</cfif>
-					<cfif len(loan.transaction_id) gt 0>
+					<cfif len(loan.collecting_event_id) gt 0>
 						<h1 class="h3 w-100 my-0 px-2">Collecting Event</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm12" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -740,11 +739,11 @@
 								<div class="search-box-header px-2 mt-0">
 									<ul class="list-group list-group-horizontal text-white">
 										<li class="col-2 col-xl-1  px-1 list-group-item">
-											<span class="font-weight-lessbold">Loan<span class="d-inline d-lg-none">s </span>
+											<span class="font-weight-lessbold">Collecting Event<span class="d-inline d-lg-none">s </span>
 											<span class="d-none d-lg-inline"> Numbers </span></span>
 										</li>
 										<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
-											<span class="font-weight-lessbold">Transaction&nbsp;ID
+											<span class="font-weight-lessbold">Collecting Event&nbsp;ID
 												<span class="d-inline d-lg-none">s </span>
 											</span>
 										</li>
@@ -1063,7 +1062,7 @@
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 			
-					<h1 class="h3 w-100 mt-3 mb-0 px-2">Agent (#agents.agent_name#)</h1>
+					<h1 class="h3 w-100 mt-3 mb-0 px-2">Relted Agents (#agents.agent_name#)</h1>
 					<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
