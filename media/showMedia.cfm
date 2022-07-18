@@ -871,7 +871,7 @@
 								<cfquery name="list_agentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT distinct media_relationship
 									FROM media_relations 
-									WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
+									WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.media_id#">
 								</cfquery>
 									<h3 class="h5 mb-0">Agent Relationship</h3>
 									<div class="col-12 pt-0 pb-1">
