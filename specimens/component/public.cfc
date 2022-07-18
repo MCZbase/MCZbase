@@ -49,7 +49,7 @@ limitations under the License.
 				<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
 		</cfif>
 	<cfreturn returnValue>
-</cfif>
+</cffunction>
 
 
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
