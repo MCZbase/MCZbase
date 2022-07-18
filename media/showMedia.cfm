@@ -173,6 +173,7 @@
 					left join flat on related_primary_key = collection_object_id
 				where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						and (media_relations.media_relationship like '%cataloged_item%')
+				order by guid
 				</cfquery>
 				<cfif len(spec.guid) gt 0>
 					
