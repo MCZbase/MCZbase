@@ -1854,7 +1854,7 @@ limitations under the License.
 						   	from ctguid_type
 							   where 
 									applies_to like '%geog_auth_rec.highergeographyid%'
-									and guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#"
+									and guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">
 							</cfquery>
 							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID)</em></li>
 							<cfif len(ctguid_type_highergeography.resolver_regex) GT 0 >
