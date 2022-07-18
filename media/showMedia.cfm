@@ -305,7 +305,7 @@
 						</cfquery>
 					</cfif>
 					<cfif len(accn.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Accession Records with this Media</h1>
+						<h1 class="h3 w-100 my-0 px-2">Documents Accession (#accncount.ct#)</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
