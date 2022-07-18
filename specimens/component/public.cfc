@@ -1734,12 +1734,12 @@ limitations under the License.
 							lat_deg,
 							dec_lat_min,
 							lat_min,
-							lat_sec,
+							cast(lat_sec as INTEGER) lat_sec,
 							lat_dir,
 							long_deg,
 							dec_long_min,
 							long_min,
-							long_sec,
+							cast(long_sec as INTEGER) long_sec,
 							long_dir,
 							utm_zone,
 							utm_ew,
@@ -2038,7 +2038,7 @@ limitations under the License.
 										<cfset originalForm = "#originalForm##coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
 									</cfif>
 									<cfif len(originalForm) GT 0>
-										<span class="d-block small mb-0 pb-0"(#originalForm#)</span>
+										<span class="d-block small mb-0 pb-0">(#originalForm#)</span>
 									</cfif>
 								</cfif>
 							</li>
