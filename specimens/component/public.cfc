@@ -20,6 +20,38 @@ limitations under the License.
 	<cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 </cfif>
 
+<!--- getGuidLink given an guid and guid type, return html for a link out to that guid, if
+  either guid or guid_guid_type are not supplied or if the the guid_guid_type is not recognized
+  in ctguid_type, then returns an empty string.
+	@param guid the guid to provide as a link
+	@param guid_guid_type the type of  guid, used to apply a replacement pattern to convert the
+     guid in stored form into a resolvable link.
+   @return html for link to a resource specified by a guid.
+--->
+<cffunction name="getGuidLink" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="guid" type="string" required="no">
+	<cfargument name="guid_type" type="string" required="no">
+	
+	<cfset returnValue = "">
+		<cfif len(guid) GT 0 and len(guid_type) GT 0>
+			<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select resolver_regex, resolver_replacement
+				from ctguid_type
+				where 
+				guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid_type#">
+			</cfquery>
+			<cfif ctguid_type.recordcount GT 0>
+				<cfif len(ctguid_type.resolver_regex) GT 0 >
+					<cfset link = REReplace(guid,ctguid_type.resolver_regex,ctguid_type.resolver_replacement)>
+				<cfelse>
+					<cfset link = guid>
+				</cfif>
+				<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
+		</cfif>
+	<cfreturn returnValue>
+</cfif>
+
+
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
  @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'documents' for
@@ -203,7 +235,9 @@ limitations under the License.
 							display_name,
 							scientific_name,
 							author_text,
-							full_taxon_name 
+							full_taxon_name,
+							taxonomy.taxonid,
+							taxonomy.taxonid_guid_type
 						FROM 
 							identification_taxonomy
 							JOIN taxonomy on identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id
@@ -230,6 +264,10 @@ limitations under the License.
 								<a href="/name/#getTaxa.scientific_name#">#getTaxa.display_name# </a>
 								<cfif len(getTaxa.author_text) gt 0>
 									<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
+								</cfif>
+								<cfif len(getTaxa.taxonid) gt 0>
+									<cfset link = getGuidLink(guid=#getTaxa.taxonid#,guid_type=#getTaxa.taxonid_guid_type#)>
+									<span>#link#</span>
 								</cfif>
 								<cfset nameAsInTaxon = getTaxa.scientific_name>
 							</cfloop>
