@@ -343,8 +343,13 @@ limitations under the License.
 																		<cfset comma=",">
 																	</cfloop>
 																];
-																$("##fixedCollection").jqxComboBox({ source: collectionsource, displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
+																$("##fixedCollection").jqxComboBox({ source: collectionsource, selectedIndex:0,displayMember:"name", valueMember:"cde", multiSelect: true, height: '21px', width: '100%' });
 																setFixedCollectionValues();
+																$('##jqxcombobox').bind('select', function(event) {
+																	var args = event.args;
+																	var item = $('##jqxcombobox').jqxComboBox('getItem',args.index);
+																	alert('Selected: ' + item.label);
+																});
 															});
 														</script> 
 													</div>
