@@ -1982,7 +1982,7 @@ limitations under the License.
 							<cfset dlo = left(#coordlookup.dec_long#,10)>
 							<cfset warn301="">
 							<cfif coordlookup.max_error_distance EQ "301" AND coordlookup.max_error_units EQ "m">
-								<cfset warn301="<span class='d-block small mb-0 pb-0'>[Note: a coordinate uncertainty of 301m is given by biogeomancer and geolocate when unable to determine an uncertainty] </span>">
+								<cfset warn301="<span class='d-block small mb-0 pb-0'>[Note: a coordinate uncertainty of 301m is given by Biogeomancer and GeoLocate when unable to determine an uncertainty] </span>">
 							</cfif>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
 							<cfset georef_determiner= coordlookup.lat_long_determined_by>
@@ -2000,8 +2000,13 @@ limitations under the License.
 								<cfset georef_source = " (Source: #georef_source#)">
 							</cfif>
 							<li class="list-group-item col-7 px-0">
-								#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
-								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source##warn301#</span>
+								#dla#, #dlo# 
+								<cfif coordlookup.max_error_distance EQ "0">
+									(error radius: Unknown) 
+								<cfelse>
+									(error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
+								</cfif>
+								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source#</span>#warn301#
 							</li>
 
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
