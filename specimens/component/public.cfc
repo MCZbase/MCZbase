@@ -1854,16 +1854,16 @@ limitations under the License.
 						   	from ctguid_type
 							   where 
 									applies_to like '%geog_auth_rec.highergeographyid%'
-									and guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">
+									and guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loc_collevent.highergeographyid_guid_type#">
 							</cfquery>
 							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID)</em></li>
 							<cfif len(ctguid_type_highergeography.resolver_regex) GT 0 >
-								<cfset link = REReplace(geogDetails.highergeographyid,ctguid_type_highergeography.resolver_regex,ctguid_type_highergeography.resolver_replacement)>
+								<cfset link = REReplace(loc_collevent.highergeographyid,ctguid_type_highergeography.resolver_regex,ctguid_type_highergeography.resolver_replacement)>
 							<cfelse>
-								<cfset link = geogDetails.highergeographyid>
+								<cfset link = loc_collevent.highergeographyid>
 							</cfif>
 							<li class="list-group-item col-7 px-0">
-								<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#geogDetails.highergeographyid#</a>
+								<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#loc_collevent.highergeographyid#</a>
 							</li>
 						</cfif>
 					</ul>
