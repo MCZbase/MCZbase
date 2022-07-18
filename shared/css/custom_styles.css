@@ -1814,10 +1814,10 @@ tr.line-top:first-child {
 	display:inline;
 }
 .comma1 span:last-child {
-	display:none;
+	display:none!important;
 }
 input#readMore_check_id {
-	display: none;
+	display: none!important;
 }
 .jqx-grid-load {
 	background-image: url("../../images/spinner_712_sm.gif");
