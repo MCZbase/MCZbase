@@ -220,8 +220,8 @@ limitations under the License.
 						SELECT distinct
 							preferred_agent_name.agent_name,
 							identification_agent.agent_id,
-							agent.agent_guid,
-							agent.agent_guid_guid_type
+							agent.agentguid,
+							agent.agentguid_guid_type
 						FROM
 							identification_agent
 							left join preferred_agent_name on identification_agent.agent_id = preferred_agent_name.agent_id
