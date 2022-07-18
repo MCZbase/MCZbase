@@ -657,31 +657,31 @@
 										</li>
 									</ul>
 								</div>
-								<cfloop query="permit">
+								<cfloop query="loam">
 									<div class="row mx-0 border-top py-0 border-gray">
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Permit ID: </span>
-											<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_id#">
-												#permit.permit_id#</a>
+											<span class="d-block d-md-none">Transaction ID: </span>
+											<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#loan.transaction_id#">
+												#loan.transaction_id#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Permit Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_num#">
-												#permit.permit_num#</a>
+											<span class="d-block d-md-none">Loan Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.loan_number#">
+												#loan.loan_number#</a>
 										</div>
 										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
-												<h3 class="h5 mb-0">Permit Type</h3>
-												<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
+												<h3 class="h5 mb-0">Loan Type</h3>
+												<div class="col-12 pt-0 pb-1">#loan.loan_type#</div>
 											</div>
 											<div class="row mx-0">
-												<h3 class="h5 mb-0">Permit Status</h3>
-												<div class="col-12 pt-0 pb-1">#permit.permit_status#</div>
+												<h3 class="h5 mb-0">Loan Status</h3>
+												<div class="col-12 pt-0 pb-1">#loan.loan_status#</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-xl-8 p-1">
 											<cfloop query="relm4">
 												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
-													<cfif len(permit.permit_id) gt 0>
+													<cfif len(loan.transaction_id) gt 0>
 														<cfif relm4.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
 														<cfelse>	
