@@ -2031,8 +2031,8 @@ limitations under the License.
 								<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
 									<cfset originalForm = "">
 									<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
-										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookuplat_sec#&Prime; #coordlookup.lat_dir#">
-										<cfset originalForm = "#originalForm##coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookuplong_sec#&Prime; #coordlookup.long_dir#">
+										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookup.lat_sec#&Prime; #coordlookup.lat_dir#">
+										<cfset originalForm = "#originalForm##coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookup.long_sec#&Prime; #coordlookup.long_dir#">
 									<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
 										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.dec_lat_min#&prime; #coordlookup.lat_dir#">
 										<cfset originalForm = "#originalForm##coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
