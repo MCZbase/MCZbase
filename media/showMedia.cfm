@@ -52,7 +52,7 @@
 						<h1 class="h2 mt-2 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	
 							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
 						</h1>
-						<div class="h4 px-0 mt-0">Media ID = #media.media_id#</div>
+						<div class="h4 px-0 mt-0">Media ID = media/#media.media_id#</div>
 					</div>
 					<div class="col-12 px-0 px-xl-5 mt-2 mb-2">
 						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -152,7 +152,7 @@
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
-										<a class="link-color px-1" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a>
+										<a class="link-color px-1" href="###media.media_relationship#">#media.media_relationship#</a>
 									</cfloop>
 									</li>
 								</ul>
