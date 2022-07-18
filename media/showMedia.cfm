@@ -870,7 +870,7 @@
 								<div class="row mx-0">
 									<h3 class="h5 mb-0">Agent Relationship</h3>
 									<div class="col-12 pt-0 pb-1">
-										<cfif relm8.media_relationship>#relm8.media_relationship#<span class="comma1"> </span></cfif>
+										<cfloop query="relm8">#relm8.media_relationship#<span class="comma1"> </span></cfloop>
 									</div>
 								</div>
 								<div class="row mx-0">
