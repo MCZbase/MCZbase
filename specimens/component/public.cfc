@@ -771,7 +771,6 @@ limitations under the License.
 							<cfquery name="mainParts" dbtype="query">
 								select * from distinctParts where sampled_from_obj_id is null order by part_name
 							</cfquery>
-							<cfif>
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
@@ -803,7 +802,7 @@ limitations under the License.
 												</cfif>
 											</cfloop>
 										</cfif>
-										<cfif deaccList.recordcount GT 0 AND manageTransactions IS "1">
+										<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
 											<!--- look up whether this part has been deaccessioned --->
 											<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
@@ -816,7 +815,7 @@ limitations under the License.
 													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 											</cfquery>
 											<cfif partdeacc.recordcount>
-												<cfif deaccList.recordcount EQ mainParts.recordcount>
+												<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 													<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
 													<span>Deacc.</span>
 												<cfelse>
@@ -920,7 +919,7 @@ limitations under the License.
 													</cfif>
 												</cfloop>
 											</cfif>
-											<cfif deaccList.recordcount GT 0 AND manageTransactions IS "1">
+											<cfif deaccessionList.recordcount GT 0 AND manageTransactions IS "1">
 												<!--- look up whether this part has been deaccessioned --->
 												<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
@@ -933,7 +932,7 @@ limitations under the License.
 														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 												</cfquery>
 												<cfif partdeacc.recordcount>
-													<cfif deaccList.recordcount EQ mainParts.recordcount>
+													<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 														<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
 														<span>Deacc.</span>
 													<cfelse>
