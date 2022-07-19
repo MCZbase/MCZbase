@@ -685,7 +685,7 @@ limitations under the License.
 					</cfquery>
 					<!--- find out if any of this material has been deaccessioned --->
 					<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct deacc_number, deaccession.transaction_id 
+						SELECT distinct deacc_number, deaccession.transaction_id, specimen_part.collection_object_id
 						FROM
 							specimen_part 
 							left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
@@ -871,7 +871,7 @@ limitations under the License.
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#
-											<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
 												<!--- look up whether this part is in an open loan --->
 												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
@@ -894,7 +894,7 @@ limitations under the License.
 													</cfif>
 												</cfloop>
 											</cfif>
-											<cfif deaccList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<cfif deaccList.recordcount GT 0 AND manageTransactions IS "1">
 												<!--- look up whether this part has been deaccessioned --->
 												<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
@@ -906,12 +906,18 @@ limitations under the License.
 													WHERE
 														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 												</cfquery>
-												<cfif partdeacc.recordcount GT 0>
-													<span>Deaccession:
-													<cfloop query="partdeacc">
-														<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
-													</cfloop>
-													</span>
+												<cfif partdeacc.recordcount>
+													<cfif deaccList.recordcount EQ mainParts.recordcount>
+														<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
+														<span>Deacc.</span>
+													<cfelse>
+														<!--- when not all parts have been deaccessioned, link to the deaccession --->
+														<span>Deacc:
+															<cfloop query="partdeacc">
+																<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
+															</cfloop>
+														</span>
+													</cfif>
 												</cfif>
 											</cfif>
 										</td>
