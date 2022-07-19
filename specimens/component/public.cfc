@@ -1947,12 +1947,12 @@ limitations under the License.
 										<cfset geoOnDate=" on #geology.geo_att_determined_date#">
 									<cfelse>
 										<cfset geoOnDate="">
-									<cfif>
+									</cfif>
 									<cfif len(geology.geo_att_determined_method) GT 0>
 										<cfset geoMethod=" (Method: #geology.geo_att_determined_method#)">
 									<cfelse>
 										<cfset geoMethod="">
-									<cfif>
+									</cfif>
 									<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner##geoOnDate##geoMethod# #geology.geo_att_remark##geology_previous#</span></li>
 								</cfif>
 							</cfloop>
