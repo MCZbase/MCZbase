@@ -771,7 +771,6 @@ limitations under the License.
 							<cfquery name="mainParts" dbtype="query">
 								select * from distinctParts where sampled_from_obj_id is null order by part_name
 							</cfquery>
-							<cfif>
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
