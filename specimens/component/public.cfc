@@ -826,18 +826,18 @@ limitations under the License.
 										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
 												<div class="small90 pl-3" style="line-height: .9rem;">
-													#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+													#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 												<cfif len(attribute_units) gt 0>
 													#attribute_units# &nbsp;
 												</cfif>
 												<cfif len(determined_date) gt 0>
-													determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+													determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 												</cfif>
 												<cfif len(agent_name) gt 0>
-													determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+													determined by=<span class="">#agent_name#</span> &nbsp;
 												</cfif>
 												<cfif len(attribute_remark) gt 0>
-													remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+													remark=<span class="">#attribute_remark#</span> &nbsp;
 												</cfif>
 												</div>
 											</cfloop>
@@ -920,18 +920,18 @@ limitations under the License.
 											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
 													<div class="small90 pl-3" style="line-height: .9rem;">
-														#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 													<cfif len(attribute_units) gt 0>
 														#attribute_units# &nbsp;
 													</cfif>
 													<cfif len(determined_date) gt 0>
-														determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+														determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 													</cfif>
 													<cfif len(agent_name) gt 0>
-														determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+														determined by=<span class="">#agent_name#</span> &nbsp;
 													</cfif>
 													<cfif len(attribute_remark) gt 0>
-														remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+														remark=<span class="f">#attribute_remark#</span> &nbsp;
 													</cfif>
 													</div>
 												</cfloop>
@@ -1065,17 +1065,17 @@ limitations under the License.
 						<tbody>
 						<cfloop query="attributes">
 							<tr>
-								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
-										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+										<cfset determination ="<span class='d-inline  pl-1'>By: </span>#attributeDeterminer#">
 									<cfelse>
-										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+										<cfset determination ="<span class='d-inline pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
+										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline '>Method: </span> #determination_method#">
 									</cfif>
 								</cfif>
 								<td>#determination#</td>
@@ -1370,7 +1370,7 @@ limitations under the License.
 								<cfloop query="accnMedia">
 									<div class="m-2 d-inline"> 
 										<div id='accMediaBlock#accnMedia.media_id#'>
-											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="accnMedia.media_id#",size="350",captionAs="textCaption")>
+											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#accnMedia.media_id#",size="350",captionAs="textCaption")>
 										</div>
 									</div>
 								</cfloop>
@@ -1780,7 +1780,7 @@ limitations under the License.
 					WHERE
 						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
 						<cfif maskCoordinates>
-							and recnum < 2
+							and rownum < 2
 						</cfif>
 					ORDER BY
 						accepted_lat_long_fg desc, determined_date asc
@@ -1807,7 +1807,8 @@ limitations under the License.
 					ORDER BY
 						ctgeology_attributes.type, ctgeology_attributes.ordinal
 				</cfquery>
-				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
+				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0 AND coordlookup.dec_lat NEQ "[Masked]">
+					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
 					<script>
 						jQuery(document).ready(function() {
@@ -1936,14 +1937,27 @@ limitations under the License.
 								<cfif len(geology.geo_att_value) GT 0>
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">#geology.geology_attribute#: </span></li>
 									<cfset geo_determiner = geology.determiner>
-									<cfif geology.geo_att_determiner_id NEQ "0">
+									<cfif geology.geo_att_determiner_id NEQ "0" AND len(geology.geo_att_determiner_id) GT 0>
 										<cfset geo_determiner = "<a href='/agents/agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
+									</cfif>
+									<cfif len(geo_determiner) GT 0>
+										<cfset geo_determiner = "By: #geo_determiner#">
 									</cfif>
 									<cfset geology_previous = "">
 									<cfif len(geology.previous_values) GT 0 AND oneOfUs EQ 1>
 										<cfset geology_previous = " [previously: #geology.previous_values#]">
 									</cfif>
-									<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner# on #geology.geo_att_determined_date# (Method: #geology.geo_att_determined_method#) #geology.geo_att_remark##geology_previous#</span></li>
+									<cfif len(geology.geo_att_determined_date) GT 0>
+										<cfset geoOnDate=" on #geology.geo_att_determined_date#">
+									<cfelse>
+										<cfset geoOnDate="">
+									</cfif>
+									<cfif len(geology.geo_att_determined_method) GT 0>
+										<cfset geoMethod=" (Method: #geology.geo_att_determined_method#)">
+									<cfelse>
+										<cfset geoMethod="">
+									</cfif>
+									<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner##geoOnDate##geoMethod# #geology.geo_att_remark##geology_previous#</span></li>
 								</cfif>
 							</cfloop>
 						</cfif>
@@ -1970,7 +1984,7 @@ limitations under the License.
 							</cfif>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
 							<cfset georef_determiner= coordlookup.lat_long_determined_by>
-							<cfif coordlookup.determined_by_agent_id NEQ "0">
+							<cfif coordlookup.determined_by_agent_id NEQ "0" and len(coordlookup.determined_by_agent_id) GT 0>
 								<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
 							</cfif>
 							<cfif len(georef_determiner) GT 0>
@@ -1985,7 +1999,9 @@ limitations under the License.
 							</cfif>
 							<li class="list-group-item col-7 px-0">
 								#dla#, #dlo# 
-								<cfif coordlookup.max_error_distance EQ "0">
+								<cfif dla EQ "[Masked]">
+									<!--- don't display Not Specified for error radius --->
+								<cfelseif coordlookup.max_error_distance EQ "0">
 									(Error radius: Unknown) 
 								<cfelseif len(coordlookup.max_error_distance) EQ 0>
 									(Error radius: Not Specified) 
@@ -1995,8 +2011,10 @@ limitations under the License.
 								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source#</span>#warn301#
 							</li>
 
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
-							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+							<cfif len(coordlookup.datum) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
+								<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+							</cfif>
 
 							<cfif len(coordlookup.utm_zone) GT 0>
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">UTM Coordinates: </span></li>
@@ -2016,28 +2034,30 @@ limitations under the License.
 								<li class="list-group-item col-7 px-0">#coordlookup.spatialfit#</li>
 							</cfif>
 
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Entered As: </span></li>
-							<li class="list-group-item col-7 px-0">
-								#coordlookup.orig_lat_long_units#
-								<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
-									<cfset originalForm = "">
-									<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
-										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookup.lat_sec#&Prime; #coordlookup.lat_dir#">
-										<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookup.long_sec#&Prime; #coordlookup.long_dir#">
-									<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
-										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.dec_lat_min#&prime; #coordlookup.lat_dir#">
-										<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
-									</cfif>
-									<cfif len(originalForm) GT 0>
-										<span class="d-block small mb-0 pb-0">(#originalForm#)</span>
-									</cfif>
+							<cfif len(coordlookup.orig_lat_long_units) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Entered As: </span></li>
+								<li class="list-group-item col-7 px-0">
+									#coordlookup.orig_lat_long_units#
+									<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
+										<cfset originalForm = "">
+										<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
+											<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookup.lat_sec#&Prime; #coordlookup.lat_dir#">
+											<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookup.long_sec#&Prime; #coordlookup.long_dir#">
+										<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
+											<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.dec_lat_min#&prime; #coordlookup.lat_dir#">
+											<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
+										</cfif>
+										<cfif len(originalForm) GT 0>
+											<span class="d-block small mb-0 pb-0">(#originalForm#)</span>
+										</cfif>
 								</cfif>
-							</li>
+								</li>
+							</cfif>
 							<cfif len(loc_collevent.verbatimcoordinates) GT 0>
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
 								<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
 								<li class="list-group-item col-7 px-0">
-									<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
+									<span class="d-block small mb-0 pb-0">#loc_collevent.verbatimcoordinates# #verbsrs#</span>
 								</li>
 							</cfif>
 	
@@ -2266,7 +2286,7 @@ limitations under the License.
 						<cfloop query="localityMedia">
 							<div class="m-2 d-inline"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="localityMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
 							</div>
 						</cfloop>
@@ -2275,7 +2295,7 @@ limitations under the License.
 						<cfloop query="collEventMedia">
 							<div class="m-2 d-inline"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="collEventMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
 							</div>
 						</cfloop>
