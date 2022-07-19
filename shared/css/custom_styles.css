@@ -2567,7 +2567,7 @@ input[disabled] {
 	margin-top: 5px!important;
 }
 tr.line-top-sdparts {
-	border-top: 2px solid aliceblue;
+	border-top: 2px solid #007bff40;
 }
 /*tr.line-top-sdparts:first-child {
 	border-top: 1px solid transparent;
