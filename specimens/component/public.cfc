@@ -449,7 +449,7 @@ limitations under the License.
 							<li class="list-group-item pb-0 mb-0 pt-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external mb-0" href="#link#"> #display_value#</a>
+								<a class="external pl-1 mb-0" href="#link#"> #display_value#</a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
@@ -522,8 +522,7 @@ limitations under the License.
 					<div class="d-block py-1 px-2 w-100 float-left small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
-						<cfif len(occurs_page_number) gt 0>
-							Page
+						<cfif len(occurs_page_number) gt 0>page&nbsp;
 							<cfif len(citation_page_uri) gt 0>
 								<a href ="#citation_page_uri#">#occurs_page_number#</a>,
 							<cfelse>
@@ -537,7 +536,7 @@ limitations under the License.
 						<span class="font-weight-lessbold">#type_status#</span> of 
 						<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#">
 							<i>#replace(cited_name," ","&nbsp;","all")#</i>
-							<span class="sm-caps font-weight-lessbold">#cited_name_author_text#</span>
+							<span class="sm-caps">#cited_name_author_text#</span>
 						</a>
 						<cfif find("(ms)", #type_status#) NEQ 0>
 							<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
@@ -758,7 +757,7 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<tr <cfif mainParts.recordcount gt 1>class=""<cfelse></cfif>>
+								<tr <cfif mainParts.recordcount gt 1>class="line-top"<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
