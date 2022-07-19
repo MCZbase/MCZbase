@@ -1065,17 +1065,17 @@ limitations under the License.
 						<tbody>
 						<cfloop query="attributes">
 							<tr>
-								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
-										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
+										<cfset determination ="<span class='d-inline  pl-1'>By: </span>#attributeDeterminer#">
 									<cfelse>
-										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+										<cfset determination ="<span class='d-inline  pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
+										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline '>Method: </span> #determination_method#">
 									</cfif>
 								</cfif>
 								<td>#determination#</td>
