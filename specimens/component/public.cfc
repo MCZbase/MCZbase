@@ -1066,7 +1066,7 @@ limitations under the License.
 						<cfloop query="attributes">
 							<tr>
 								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
-								<td>#attribute_value#</td>
+								<td style = "width: 40%;">#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
