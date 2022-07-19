@@ -1283,13 +1283,14 @@ tr.pairs td {
 }
 form.keyword {
 	margin: 20px 0;
-}table.sdtable td {
-	border: 1px solid transparent;
 }
 table.sdtable td {
-	border-top: 1px solid #e9ecef;
+	border: 1px solid transparent;
 }
-table.sdtable td:first-child {
+table.sdtable tr.sdtablerow {
+	border-top: 2px solid #ddd;
+}
+table.sdtable tr.sdtablerow :first-child {
 	border-top: 2px solid transparent;
 }
 table#pairs {
