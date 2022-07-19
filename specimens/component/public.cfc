@@ -737,7 +737,7 @@ limitations under the License.
 							part_name
 					</cfquery>
 					<table class="table table-responsive-md w-100 my-1 parts">
-						<thead class="thead-light">
+						<thead class="grad1">
 							<tr>
 								<th><span>Part</span></th>
 								<th><span>Condition</span></th>
