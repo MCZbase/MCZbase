@@ -758,7 +758,7 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdtablerow"<cfelse></cfif>>
-									<td><span class="">#part_name#</span></td>
+									<td><span class="line-top-sdtablerow">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
 									<td>
