@@ -1943,7 +1943,17 @@ limitations under the License.
 									<cfif len(geology.previous_values) GT 0 AND oneOfUs EQ 1>
 										<cfset geology_previous = " [previously: #geology.previous_values#]">
 									</cfif>
-									<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner# on #geology.geo_att_determined_date# (Method: #geology.geo_att_determined_method#) #geology.geo_att_remark##geology_previous#</span></li>
+									<cfif len(geology.geo_att_determined_date) GT 0>
+										<cfset geoOnDate=" on #geology.geo_att_determined_date#">
+									<cfelse>
+										<cfset geoOnDate="">
+									<cfif>
+									<cfif len(geology.geo_att_determined_method) GT 0>
+										<cfset geoMethod=" (Method: #geology.geo_att_determined_method#)">
+									<cfelse>
+										<cfset geoMethod="">
+									<cfif>
+									<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner##geoOnDate##geoMethod# #geology.geo_att_remark##geology_previous#</span></li>
 								</cfif>
 							</cfloop>
 						</cfif>
