@@ -449,7 +449,7 @@ limitations under the License.
 							<li class="list-group-item pb-0 mb-0 pt-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external pl-1 mb-0" href="#link#"> #display_value#</a>
+								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15"></a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
@@ -460,7 +460,7 @@ limitations under the License.
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
-				<h2 class='h3'>Error in #function_called#:</h2>
+				<h2 class="h3">Error in #function_called#:</h2>
 				<div>#error_message#</div>
 			</cfcatch>
 			</cftry>
