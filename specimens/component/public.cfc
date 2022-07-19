@@ -736,7 +736,7 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md w-100 my-1 parts">
+					<table class="table table-responsive-md w-100 my-1 sdtable">
 						<thead class="grad1">
 							<tr>
 								<th><span>Part</span></th>
@@ -757,7 +757,7 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
+								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdtablerow"<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
@@ -1053,8 +1053,8 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive-md my-1 w-100" aria-label="attributes">
-						<thead class="thead-light">
+					<table class="table table-responsive-md sdtables my-1 w-100" aria-label="attributes">
+						<thead class="grad1">
 							<tr>
 								<th>Attribute</th>
 								<th>Value</th>
