@@ -1283,6 +1283,17 @@ tr.pairs td {
 }
 form.keyword {
 	margin: 20px 0;
+}table.sdtable td {
+	border: 1px solid transparent;
+}
+table.sdtable tr {
+	border: 1px solid #e9ecef;
+}
+tr.line-top-sdtablerow{
+	border-top: 2px solid #ddd;
+}
+tr.line-top-sdtablerow:first-child {
+	border-top: 2px solid transparent;
 }
 table#pairs {
 	width: 100%;
@@ -1297,18 +1308,7 @@ table#pairs, th, td {
 	vertical-align: top;
 	border-top: 1px solid #dee2e6;
 }
-table.sdtable td {
-	border: 1px solid transparent;
-}
-table.sdtable tr {
-	border: 1px solid #e9ecef;
-}
-tr.line-top-sdtablerow{
-	border-top: 2px solid #ddd;
-}
-tr.line-top-sdtablerow:first-child {
-	border-top: 2px solid transparent;
-}
+
 .grad1 {
   height: auto;
   background-color: white; /* For browsers that do not support gradients */
