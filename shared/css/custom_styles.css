@@ -2566,6 +2566,12 @@ input[disabled] {
 .mt5px {
 	margin-top: 5px!important;
 }
+tr.line-top-sdparts {
+	border-top: 1px solid #ccc;
+}
+tr.line-top-sdparts:first-child {
+	border-top: 1px solid transparent;
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
