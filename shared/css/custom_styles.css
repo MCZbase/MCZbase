@@ -1286,13 +1286,10 @@ form.keyword {
 }table.sdtable td {
 	border: 1px solid transparent;
 }
-table.sdtable tr {
-	border: 1px solid #e9ecef;
+table.sdtable td {
+	border-top: 1px solid #e9ecef;
 }
-tr.line-top-sdtablerow{
-	border-top: 2px solid #ddd;
-}
-tr.line-top-sdtablerow:first-child {
+table.sdtable td:first-child {
 	border-top: 2px solid transparent;
 }
 table#pairs {
