@@ -817,10 +817,10 @@ limitations under the License.
 											<cfif partdeacc.recordcount>
 												<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 													<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
-													<span>Deacc.</span>
+													<span>In Deaccession.</span>
 												<cfelse>
 													<!--- when not all parts have been deaccessioned, link to the deaccession --->
-													<span>Deacc:
+													<span>In Deacc:
 														<cfloop query="partdeacc">
 															<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
 														</cfloop>
@@ -934,7 +934,7 @@ limitations under the License.
 												<cfif partdeacc.recordcount>
 													<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 														<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
-														<span>Deacc.</span>
+														<span>In Deaccession</span>
 													<cfelse>
 														<!--- when not all parts have been deaccessioned, link to the deaccession --->
 														<span>Deacc:
