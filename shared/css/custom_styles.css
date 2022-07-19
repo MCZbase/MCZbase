@@ -2567,11 +2567,11 @@ input[disabled] {
 	margin-top: 5px!important;
 }
 tr.line-top-sdparts {
-	border-top: 1px solid #ccc;
+	border-top: 2px solid aliceblue;
 }
-tr.line-top-sdparts:first-child {
+/*tr.line-top-sdparts:first-child {
 	border-top: 1px solid transparent;
-}
+}*/
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
