@@ -1369,12 +1369,9 @@ limitations under the License.
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">
 									<div class="m-2 d-inline"> 
-										<cfset mt = #media_type#>
-										<a href="/media/#media_id#">
-											<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
-										</a>
-										<span class="small d-block">#media_type# (#mime_type#)</span>
-										<span class="small d-block">#descr#</span> 
+										<div id='accMediaBlock#accnMedia.media_id#'>
+											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="accnMedia.media_id#",size="350",captionAs="textCaption")>
+										</div>
 									</div>
 								</cfloop>
 							</cfif>
@@ -1787,24 +1784,6 @@ limitations under the License.
 						</cfif>
 					ORDER BY
 						accepted_lat_long_fg desc, determined_date asc
-				</cfquery>
-				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						media_id
-					from
-						media_relations
-					where
-						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
-						MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
-				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						media_id
-					from
-						media_relations
-					where
-						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
-						MEDIA_RELATIONSHIP like '% collecting_event'
 				</cfquery>
 				<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
@@ -2264,12 +2243,50 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</div>
-				<cfcatch>
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<h2 class='h3'>Error in #function_called#:</h2>
-					<div>#error_message#</div>
-				</cfcatch>
+				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_id
+					from
+						media_relations
+					where
+						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
+						MEDIA_RELATIONSHIP like '% locality'
+				</cfquery>
+				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_id
+					from
+						media_relations
+					where
+						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
+						MEDIA_RELATIONSHIP like '% collecting_event'
+				</cfquery>
+				<div class="col-12 float-left px-0">
+					<cfif localityMedia.recordcount gt 0>
+						<cfloop query="localityMedia">
+							<div class="m-2 d-inline"> 
+								<div id='locMediaBlock#localityMedia.media_id#'>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="localityMedia.media_id#",size="350",captionAs="textCaption")>
+								</div>
+							</div>
+						</cfloop>
+					</cfif>
+					<cfif collEventMedia.recordcount gt 0>
+						<cfloop query="collEventMedia">
+							<div class="m-2 d-inline"> 
+								<div id='ceMediaBlock#collEventMedia.media_id#'>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="collEventMedia.media_id#",size="350",captionAs="textCaption")>
+								</div>
+							</div>
+						</cfloop>
+					</cfif>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
 			</cftry>
 		</cfoutput> 
 	</cfthread>
