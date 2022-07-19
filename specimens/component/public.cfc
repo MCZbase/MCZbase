@@ -826,18 +826,18 @@ limitations under the License.
 										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
 												<div class="small90 pl-3" style="line-height: .9rem;">
-													#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+													#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 												<cfif len(attribute_units) gt 0>
 													#attribute_units# &nbsp;
 												</cfif>
 												<cfif len(determined_date) gt 0>
-													determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+													determined date=<span class="d">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 												</cfif>
 												<cfif len(agent_name) gt 0>
-													determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+													determined by=<span class="">#agent_name#</span> &nbsp;
 												</cfif>
 												<cfif len(attribute_remark) gt 0>
-													remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+													remark=<span class="">#attribute_remark#</span> &nbsp;
 												</cfif>
 												</div>
 											</cfloop>
@@ -920,18 +920,18 @@ limitations under the License.
 											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
 													<div class="small90 pl-3" style="line-height: .9rem;">
-														#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
+														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 													<cfif len(attribute_units) gt 0>
 														#attribute_units# &nbsp;
 													</cfif>
 													<cfif len(determined_date) gt 0>
-														determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+														determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 													</cfif>
 													<cfif len(agent_name) gt 0>
-														determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
+														determined by=<span class="">#agent_name#</span> &nbsp;
 													</cfif>
 													<cfif len(attribute_remark) gt 0>
-														remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
+														remark=<span class="">#attribute_remark#</span> &nbsp;
 													</cfif>
 													</div>
 												</cfloop>
