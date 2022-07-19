@@ -1780,7 +1780,7 @@ limitations under the License.
 					WHERE
 						locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#">
 						<cfif maskCoordinates>
-							and recnum < 2
+							and rownum < 2
 						</cfif>
 					ORDER BY
 						accepted_lat_long_fg desc, determined_date asc
