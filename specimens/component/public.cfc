@@ -1936,8 +1936,11 @@ limitations under the License.
 								<cfif len(geology.geo_att_value) GT 0>
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">#geology.geology_attribute#: </span></li>
 									<cfset geo_determiner = geology.determiner>
-									<cfif geology.geo_att_determiner_id NEQ "0">
+									<cfif geology.geo_att_determiner_id NEQ "0" AND len(geology.geo_att_determiner_id) GT 0>
 										<cfset geo_determiner = "<a href='/agents/agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
+									</cfif>
+									<cfif len(geo_determiner) GT 0>
+										<cfset geo_determiner = "By: #geo_determiner#">
 									</cfif>
 									<cfset geology_previous = "">
 									<cfif len(geology.previous_values) GT 0 AND oneOfUs EQ 1>
@@ -1980,7 +1983,7 @@ limitations under the License.
 							</cfif>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Georeference: </span></li>
 							<cfset georef_determiner= coordlookup.lat_long_determined_by>
-							<cfif coordlookup.determined_by_agent_id NEQ "0">
+							<cfif coordlookup.determined_by_agent_id NEQ "0" and len(coordlookup.determined_by_agent_id) GT 0>
 								<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
 							</cfif>
 							<cfif len(georef_determiner) GT 0>
