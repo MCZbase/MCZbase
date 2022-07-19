@@ -1298,7 +1298,7 @@ table#pairs, th, td {
 	border-top: 1px solid #dee2e6;
 }
 table.parts, th, td {
-	border: 1px solid #f8f9fa;;
+	border: 1px solid #e9ecef;;
 }
 
 /* Sortable class for tables, used with /lib/misc/sorttable.js */
@@ -1641,7 +1641,7 @@ tr.line-top:first-child {
 	border-top: 2px solid transparent;
 }
 tr.line-top-sdparts {
-	border-top: 2px solid #6c757d;
+	border-top: 2px solid #ddd;
 }
 tr.line-top-sdparts:first-child {
 	border-top: 2px solid transparent;
