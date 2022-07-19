@@ -803,6 +803,32 @@ limitations under the License.
 												</cfif>
 											</cfloop>
 										</cfif>
+										<cfif deaccList.recordcount GT 0 AND manageTransactions IS "1">
+											<!--- look up whether this part has been deaccessioned --->
+											<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT
+													deacc_number, deacc_type
+												FROM 
+													specimen_part 
+													LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+													LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
+												WHERE
+													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+											</cfquery>
+											<cfif partdeacc.recordcount>
+												<cfif deaccList.recordcount EQ mainParts.recordcount>
+													<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
+													<span>Deacc.</span>
+												<cfelse>
+													<!--- when not all parts have been deaccessioned, link to the deaccession --->
+													<span>Deacc:
+														<cfloop query="partdeacc">
+															<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
+														</cfloop>
+													</span>
+												</cfif>
+											</cfif>
+										</cfif>
 									</td>
 									<td>#lot_count#</td>
 									<cfif oneOfus is "1">
