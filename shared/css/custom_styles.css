@@ -1287,10 +1287,10 @@ form.keyword {
 table.sdtable td {
 	border: 1px solid transparent;
 }
-table.sdtable tr.sdtablerow {
+table.sdtable tr.line-top-sdtablerow {
 	border-top: 2px solid #ddd;
 }
-table.sdtable tr.sdtablerow :first-child {
+table.sdtable tr.line-top-sdtablerow :first-child {
 	border-top: 2px solid transparent;
 }
 table#pairs {
