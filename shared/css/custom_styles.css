@@ -1297,7 +1297,7 @@ table#pairs, th, td {
 	vertical-align: top;
 	border-top: 1px solid #dee2e6;
 }
-table.sdtable, th, td {
+table.sdtable tr {
 	border: 1px solid #e9ecef;;
 }
 
