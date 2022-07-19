@@ -813,15 +813,15 @@ limitations under the License.
 													LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
 													LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 												WHERE
-													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 											</cfquery>
 											<cfif partdeacc.recordcount>
 												<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 													<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
-													<span>Deacc.</span>
+													<span class="d-block small mb-0 pb-0">In Deaccession.</span>
 												<cfelse>
 													<!--- when not all parts have been deaccessioned, link to the deaccession --->
-													<span>Deacc:
+													<span class="d-block small mb-0 pb-0">In Deacc:
 														<cfloop query="partdeacc">
 															<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
 														</cfloop>
@@ -935,10 +935,10 @@ limitations under the License.
 												<cfif partdeacc.recordcount>
 													<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 														<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
-														<span>Deacc.</span>
+														<span class="d-block small mb-0 pb-0">In Deaccession</span>
 													<cfelse>
 														<!--- when not all parts have been deaccessioned, link to the deaccession --->
-														<span>Deacc:
+														<span class="d-block small mb-0 pb-0">Deacc:
 															<cfloop query="partdeacc">
 																<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
 															</cfloop>
