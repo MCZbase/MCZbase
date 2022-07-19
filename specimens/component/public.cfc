@@ -812,7 +812,7 @@ limitations under the License.
 													LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
 													LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 												WHERE
-													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 											</cfquery>
 											<cfif partdeacc.recordcount>
 												<cfif deaccessionList.recordcount EQ mainParts.recordcount>
