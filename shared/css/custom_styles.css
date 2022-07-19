@@ -1649,7 +1649,7 @@ tr.line-top-sdparts:first-child {
 .grad1 {
   height: auto;
   background-color: white; /* For browsers that do not support gradients */
-  background-image: linear-gradient(grey, white);
+  background-image: linear-gradient(#f8f9fa, white);
 }
 .loginButtons {
 	padding: .2rem .5rem;
