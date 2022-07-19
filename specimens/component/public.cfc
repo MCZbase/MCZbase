@@ -1807,7 +1807,8 @@ limitations under the License.
 					ORDER BY
 						ctgeology_attributes.type, ctgeology_attributes.ordinal
 				</cfquery>
-				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0>
+				<cfif len(coordlookup.dec_lat) gt 0 and len(coordlookup.dec_long) gt 0 AND coordlookup.dec_lat NEQ "[Masked]">
+					<!--- include map --->
 					<cfset leftOfMapClass = "col-12 col-md-7">
 					<script>
 						jQuery(document).ready(function() {
@@ -1998,7 +1999,9 @@ limitations under the License.
 							</cfif>
 							<li class="list-group-item col-7 px-0">
 								#dla#, #dlo# 
-								<cfif coordlookup.max_error_distance EQ "0">
+								<cfif dla EQ "[Masked]">
+									<!--- don't display Not Specified for error radius --->
+								<cfelseif coordlookup.max_error_distance EQ "0">
 									(Error radius: Unknown) 
 								<cfelseif len(coordlookup.max_error_distance) EQ 0>
 									(Error radius: Not Specified) 
