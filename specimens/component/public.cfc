@@ -144,17 +144,18 @@ limitations under the License.
 				<cfif isDefined("l_get_count") AND l_get_count EQ "true">
 					#getImages.recordcount#
 				<cfelse>
-					<cfif #getImages.recordcount# gt 8>
-						<p class='smaller mb-1 w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
-					</cfif>
+				
 					<cfloop query="getImages">
-						<div class='col-12 px-1 col-lg-6 mb-1 px-md-1 pt-1 float-left'>
+						<div class='col-12 px-1 col-lg-6 mb-1 px-md-1 py-1 float-left'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
 							</div>
 						</div>
 					</cfloop>
+					<cfif #getImages.recordcount# gt 8>
+						<p class='smaller mb-1 w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
+					</cfif>
 				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
