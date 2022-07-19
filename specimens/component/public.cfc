@@ -1370,7 +1370,7 @@ limitations under the License.
 								<cfloop query="accnMedia">
 									<div class="m-2 d-inline"> 
 										<div id='accMediaBlock#accnMedia.media_id#'>
-											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="accnMedia.media_id#",size="350",captionAs="textCaption")>
+											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#accnMedia.media_id#",size="350",captionAs="textCaption")>
 										</div>
 									</div>
 								</cfloop>
