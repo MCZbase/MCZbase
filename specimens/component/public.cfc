@@ -1370,7 +1370,7 @@ limitations under the License.
 								<cfloop query="accnMedia">
 									<div class="m-2 d-inline"> 
 										<div id='accMediaBlock#accnMedia.media_id#'>
-											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="accnMedia.media_id#",size="350",captionAs="textCaption")>
+											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#accnMedia.media_id#",size="350",captionAs="textCaption")>
 										</div>
 									</div>
 								</cfloop>
@@ -2266,7 +2266,7 @@ limitations under the License.
 						<cfloop query="localityMedia">
 							<div class="m-2 d-inline"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="localityMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
 							</div>
 						</cfloop>
@@ -2275,7 +2275,7 @@ limitations under the License.
 						<cfloop query="collEventMedia">
 							<div class="m-2 d-inline"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="collEventMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
 							</div>
 						</cfloop>
