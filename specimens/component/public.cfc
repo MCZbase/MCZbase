@@ -654,6 +654,11 @@ limitations under the License.
 				<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
+					<cfset manageTransactions = 1>
+				<cfelse>
+					<cfset manageTransactions = 0>
+				</cfif>
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
@@ -676,6 +681,17 @@ limitations under the License.
 				 			left join loan on loan_item.transaction_id = loan.transaction_id
 						WHERE
 							loan_number is not null and
+							specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					</cfquery>
+					<!--- find out if any of this material has been deaccessioned --->
+					<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct deacc_number, deaccession.transaction_id 
+						FROM
+							specimen_part 
+							left join deacc_item on specimen_part.collection_object_id=deacc_item.collection_object_id
+				 			left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+						WHERE
+							deacc_number is not null and
 							specimen_part.derived_from_cat_item=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
 					<!--- retrieve all the denormalized parts data in one query, then query those results to get normalized information to display --->
@@ -755,6 +771,7 @@ limitations under the License.
 							<cfquery name="mainParts" dbtype="query">
 								select * from distinctParts where sampled_from_obj_id is null order by part_name
 							</cfquery>
+							<cfif>
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
@@ -763,7 +780,7 @@ limitations under the License.
 									<!--- TODO: Link out to history for part(s) --->
 									<td>
 										#part_disposition#
-										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+										<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
 											<!--- look up whether this part is in an open loan --->
 											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
@@ -866,18 +883,38 @@ limitations under the License.
 													WHERE
 														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 														and loan_status <> 'closed'
-											</cfquery>
-											<cfloop query="partonloan">
-												<cfif partonloan.loan_status EQ 'open' and subsampleParts.part_disposition EQ 'on loan'>
-													<!--- normal case --->
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
-												<cfelse>
-													<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
-													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+												</cfquery>
+												<cfloop query="partonloan">
+													<cfif partonloan.loan_status EQ 'open' and subsampleParts.part_disposition EQ 'on loan'>
+														<!--- normal case --->
+														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+													<cfelse>
+														<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+													</cfif>
+												</cfloop>
+											</cfif>
+											<cfif deaccList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<!--- look up whether this part has been deaccessioned --->
+												<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT
+														deacc_number, deacc_type
+													FROM 
+														specimen_part 
+														LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+														LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
+													WHERE
+														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+												</cfquery>
+												<cfif partdeacc.recordcount GT 0>
+													<span>Deaccession:
+													<cfloop query="partdeacc">
+														<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
+													</cfloop>
+													</span>
 												</cfif>
-											</cfloop>
-										</cfif>
-									</td>
+											</cfif>
+										</td>
 										</td>
 										<td>#lot_count#</td>
 										<cfif oneOfus is "1">
