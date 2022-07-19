@@ -736,7 +736,7 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md w-100 my-1">
+					<table class="table table-responsive-md w-100 my-1 parts">
 						<thead class="thead-light">
 							<tr>
 								<th><span>Part</span></th>

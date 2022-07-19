@@ -1297,6 +1297,10 @@ table#pairs, th, td {
 	vertical-align: top;
 	border-top: 1px solid #dee2e6;
 }
+table.parts, th, td {
+	border: 1px solid #f8f9fa;;
+}
+
 /* Sortable class for tables, used with /lib/misc/sorttable.js */
 .sortable {
 	margin: 2px;
