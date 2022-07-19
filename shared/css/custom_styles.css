@@ -1297,10 +1297,6 @@ table#pairs, th, td {
 	vertical-align: top;
 	border-top: 1px solid #dee2e6;
 }
-/*table.parts, th, td {
-	border: 1px solid #e9ecef;;
-}*/
-
 /* Sortable class for tables, used with /lib/misc/sorttable.js */
 .sortable {
 	margin: 2px;
@@ -1639,17 +1635,6 @@ tr.line-top {
 }
 tr.line-top:first-child {
 	border-top: 2px solid transparent;
-}
-tr.line-top-sdtablerow{
-	border-top: 2px solid #ddd;
-}
-tr.line-top-sdtablerow:first-child {
-	border-top: 2px solid transparent;
-}
-.grad1 {
-  height: auto;
-  background-color: white; /* For browsers that do not support gradients */
-  background-image: linear-gradient(#ddd, white);
 }
 .loginButtons {
 	padding: .2rem .5rem;
