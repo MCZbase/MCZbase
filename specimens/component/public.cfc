@@ -2008,8 +2008,10 @@ limitations under the License.
 								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source#</span>#warn301#
 							</li>
 
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
-							<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+							<cfif len(coordlookup.datum) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Datum: </span></li>
+								<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+							</cfif>
 
 							<cfif len(coordlookup.utm_zone) GT 0>
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">UTM Coordinates: </span></li>
@@ -2029,28 +2031,30 @@ limitations under the License.
 								<li class="list-group-item col-7 px-0">#coordlookup.spatialfit#</li>
 							</cfif>
 
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Entered As: </span></li>
-							<li class="list-group-item col-7 px-0">
-								#coordlookup.orig_lat_long_units#
-								<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
-									<cfset originalForm = "">
-									<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
-										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookup.lat_sec#&Prime; #coordlookup.lat_dir#">
-										<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookup.long_sec#&Prime; #coordlookup.long_dir#">
-									<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
-										<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.dec_lat_min#&prime; #coordlookup.lat_dir#">
-										<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
-									</cfif>
-									<cfif len(originalForm) GT 0>
-										<span class="d-block small mb-0 pb-0">(#originalForm#)</span>
-									</cfif>
+							<cfif len(coordlookup.orig_lat_long_units) GT 0>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Coordinates Entered As: </span></li>
+								<li class="list-group-item col-7 px-0">
+									#coordlookup.orig_lat_long_units#
+									<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
+										<cfset originalForm = "">
+										<cfif coordlookup.orig_lat_long_units EQ "deg. min. sec.">
+											<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.lat_min#&prime; #coordlookup.lat_sec#&Prime; #coordlookup.lat_dir#">
+											<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.long_min#&prime; #coordlookup.long_sec#&Prime; #coordlookup.long_dir#">
+										<cfelseif coordlookup.orig_lat_long_units EQ "degrees dec. minutes">
+											<cfset originalForm = "#coordlookup.lat_deg#&deg; #coordlookup.dec_lat_min#&prime; #coordlookup.lat_dir#">
+											<cfset originalForm = "#originalForm#&nbsp; #coordlookup.long_deg#&deg; #coordlookup.dec_long_min#&prime; #coordlookup.long_dir#">
+										</cfif>
+										<cfif len(originalForm) GT 0>
+											<span class="d-block small mb-0 pb-0">(#originalForm#)</span>
+										</cfif>
 								</cfif>
-							</li>
+								</li>
+							</cfif>
 							<cfif len(loc_collevent.verbatimcoordinates) GT 0>
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Verbatim Coordinates: </span></li>
 								<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
 								<li class="list-group-item col-7 px-0">
-									<span class="d-block small mb-0 pb-0"#loc_collevent.verbatimcoordinates# #verbsrs#</span>
+									<span class="d-block small mb-0 pb-0">#loc_collevent.verbatimcoordinates# #verbsrs#</span>
 								</li>
 							</cfif>
 	
