@@ -544,7 +544,7 @@ limitations under the License.
 									#citationMediaCount#
 								</cfif>
 								<cfif citationMediaCount gt 0>
-									<div class="float-left d-inline">
+									<div class="">
 										<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
 										<div id="citationMediaBlock" class="px-2">
 											#citationMediaBlock#
