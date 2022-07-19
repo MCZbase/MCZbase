@@ -1286,6 +1286,7 @@ form.keyword {
 }
 table.sdtable td {
 	border: 1px solid transparent;
+	padding: 0.25rem .75rem;
 }
 table.sdtable tr.line-top-sdtablerow {
 	border-top: 2px solid #ddd;
