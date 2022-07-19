@@ -449,7 +449,7 @@ limitations under the License.
 							<li class="list-group-item pb-0 mb-0 pt-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external mb-0" href="#link#"> #display_value#</a>
+								<a class="external pl-1 mb-0" href="#link#"> #display_value#</a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
@@ -522,8 +522,7 @@ limitations under the License.
 					<div class="d-block py-1 px-2 w-100 float-left small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
-						<cfif len(occurs_page_number) gt 0>
-							Page
+						<cfif len(occurs_page_number) gt 0>page&nbsp;
 							<cfif len(citation_page_uri) gt 0>
 								<a href ="#citation_page_uri#">#occurs_page_number#</a>,
 							<cfelse>
@@ -537,7 +536,7 @@ limitations under the License.
 						<span class="font-weight-lessbold">#type_status#</span> of 
 						<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#">
 							<i>#replace(cited_name," ","&nbsp;","all")#</i>
-							<span class="sm-caps font-weight-lessbold">#cited_name_author_text#</span>
+							<span class="sm-caps">#cited_name_author_text#</span>
 						</a>
 						<cfif find("(ms)", #type_status#) NEQ 0>
 							<!--- Type status with (ms) is used to mark to be published types, for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.as appropriate to the name of the parent taxon of the new name --->
@@ -758,7 +757,7 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<tr <cfif mainParts.recordcount gt 1>class=""<cfelse></cfif>>
+								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
@@ -851,7 +850,7 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+										<td><span class="d-inline-block pl-3">&##8268; #part_name# <span class="font-italic">subsample</span></span></td>
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#
@@ -1370,12 +1369,9 @@ limitations under the License.
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">
 									<div class="m-2 d-inline"> 
-										<cfset mt = #media_type#>
-										<a href="/media/#media_id#">
-											<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block border rounded" width="100" alt="#descr#">Media Details
-										</a>
-										<span class="small d-block">#media_type# (#mime_type#)</span>
-										<span class="small d-block">#descr#</span> 
+										<div id='accMediaBlock#accnMedia.media_id#'>
+											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="accnMedia.media_id#",size="350",captionAs="textCaption")>
+										</div>
 									</div>
 								</cfloop>
 							</cfif>
@@ -1788,24 +1784,6 @@ limitations under the License.
 						</cfif>
 					ORDER BY
 						accepted_lat_long_fg desc, determined_date asc
-				</cfquery>
-				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						media_id
-					from
-						media_relations
-					where
-						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
-						MEDIA_RELATIONSHIP like '% locality'
-				</cfquery>
-				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select
-						media_id
-					from
-						media_relations
-					where
-						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
-						MEDIA_RELATIONSHIP like '% collecting_event'
 				</cfquery>
 				<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
@@ -2265,12 +2243,50 @@ limitations under the License.
 						</cfif>
 					</ul>
 				</div>
-				<cfcatch>
-					<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-					<cfset function_called = "#GetFunctionCalledName()#">
-					<h2 class='h3'>Error in #function_called#:</h2>
-					<div>#error_message#</div>
-				</cfcatch>
+				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_id
+					from
+						media_relations
+					where
+						RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.locality_id#"> and
+						MEDIA_RELATIONSHIP like '% locality'
+				</cfquery>
+				<cfquery name="collEventMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media_id
+					from
+						media_relations
+					where
+						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
+						MEDIA_RELATIONSHIP like '% collecting_event'
+				</cfquery>
+				<div class="col-12 float-left px-0">
+					<cfif localityMedia.recordcount gt 0>
+						<cfloop query="localityMedia">
+							<div class="m-2 d-inline"> 
+								<div id='locMediaBlock#localityMedia.media_id#'>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="localityMedia.media_id#",size="350",captionAs="textCaption")>
+								</div>
+							</div>
+						</cfloop>
+					</cfif>
+					<cfif collEventMedia.recordcount gt 0>
+						<cfloop query="collEventMedia">
+							<div class="m-2 d-inline"> 
+								<div id='ceMediaBlock#collEventMedia.media_id#'>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="collEventMedia.media_id#",size="350",captionAs="textCaption")>
+								</div>
+							</div>
+						</cfloop>
+					</cfif>
+				</div>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
 			</cftry>
 		</cfoutput> 
 	</cfthread>
