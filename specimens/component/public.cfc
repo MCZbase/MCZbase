@@ -736,8 +736,8 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md w-100 my-1 sdtable">
-						<thead class="grad1">
+					<table class="table table-responsive-md w-100 my-1">
+						<thead class="thead-light">
 							<tr>
 								<th><span>Part</span></th>
 								<th><span>Condition</span></th>
@@ -757,8 +757,8 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdtablerow"<cfelse></cfif>>
-									<td><span class="line-top-sdtablerow">#part_name#</span></td>
+								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
+									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
 									<td>
@@ -826,18 +826,18 @@ limitations under the License.
 										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
 												<div class="small90 pl-3" style="line-height: .9rem;">
-													#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
+													#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
 												<cfif len(attribute_units) gt 0>
 													#attribute_units# &nbsp;
 												</cfif>
 												<cfif len(determined_date) gt 0>
-													determined date=<span class="d">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+													determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 												</cfif>
 												<cfif len(agent_name) gt 0>
-													determined by=<span class="">#agent_name#</span> &nbsp;
+													determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
 												</cfif>
 												<cfif len(attribute_remark) gt 0>
-													remark=<span class="">#attribute_remark#</span> &nbsp;
+													remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
 												</cfif>
 												</div>
 											</cfloop>
@@ -920,18 +920,18 @@ limitations under the License.
 											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
 													<div class="small90 pl-3" style="line-height: .9rem;">
-														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
+														#attribute_type#=<span class="font-weight-lessbold">#attribute_value#</span> &nbsp;
 													<cfif len(attribute_units) gt 0>
 														#attribute_units# &nbsp;
 													</cfif>
 													<cfif len(determined_date) gt 0>
-														determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
+														determined date=<span class="font-weight-lessbold">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 													</cfif>
 													<cfif len(agent_name) gt 0>
-														determined by=<span class="">#agent_name#</span> &nbsp;
+														determined by=<span class="font-weight-lessbold">#agent_name#</span> &nbsp;
 													</cfif>
 													<cfif len(attribute_remark) gt 0>
-														remark=<span class="">#attribute_remark#</span> &nbsp;
+														remark=<span class="font-weight-lessbold">#attribute_remark#</span> &nbsp;
 													</cfif>
 													</div>
 												</cfloop>
@@ -1053,8 +1053,8 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive-md sdtables my-1 w-100" aria-label="attributes">
-						<thead class="grad1">
+					<table class="table table-responsive-md my-1 w-100" aria-label="attributes">
+						<thead class="thead-light">
 							<tr>
 								<th>Attribute</th>
 								<th>Value</th>
@@ -1065,17 +1065,17 @@ limitations under the License.
 						<tbody>
 						<cfloop query="attributes">
 							<tr>
-								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
-								<td style = "width: 40%;">#attribute_value#</td>
+								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
-										<cfset determination ="<span class='d-inline  pl-1'>By: </span>#attributeDeterminer#">
+										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span>#attributeDeterminer#">
 									<cfelse>
-										<cfset determination ="<span class='d-inline  pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+										<cfset determination ="<span class='d-inline font-weight-lessbold pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline '>Method: </span> #determination_method#">
+										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 									</cfif>
 								</cfif>
 								<td>#determination#</td>
