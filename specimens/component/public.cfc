@@ -757,7 +757,7 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<tr <cfif mainParts.recordcount gt 1>class="line-top"<cfelse></cfif>>
+								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
@@ -850,7 +850,7 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
+										<td><i class="fa fa-level-down"></i><span class="d-inline-block pl-3"><i class="level-down"></i>#part_name# <span class="font-italic">subsample</span></span></td>
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#

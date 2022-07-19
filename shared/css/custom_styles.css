@@ -1636,6 +1636,12 @@ tr.line-top {
 tr.line-top:first-child {
 	border-top: 2px solid transparent;
 }
+tr.line-top-sdparts {
+	border-top: 2px solid #6c757d;
+}
+tr.line-top-sdparts:first-child {
+	border-top: 2px solid transparent;
+}
 .loginButtons {
 	padding: .2rem .5rem;
 	font-size: .78rem;
