@@ -2552,7 +2552,7 @@ limitations under the License.
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
-								<li class="small90 list-group-item font-italic pt-0 pb-1"> None </li>
+								<li class="small90 list-group-item font-italic pb-1">None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
 								<li class="list-group-item pt-0">#object_rem.coll_object_remarks#</li>
@@ -2696,12 +2696,12 @@ limitations under the License.
 							and mask_fg = 0
 						</cfif>
 				</cfquery>
-				<ul class="list-group">
+				<ul class="list-group py-1">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="small90 list-group-item font-italic pt-0 pb-1">None</li>
+						<li class="small90 list-group-item font-italic pb-1">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
-							<li class="list-group-item pt-0 pb-1">
+							<li class="list-group-item">
 								<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
 							</li>
 						</cfloop>
