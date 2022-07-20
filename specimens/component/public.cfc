@@ -150,10 +150,10 @@ limitations under the License.
 					<cfloop query="getImages">
 						<cfif l_relationship_type EQ "shows">
 							<!--- two column specimen media --->
-							<cfset enclosingClass = "col-12 px-1 col-lg-6 mb-1 px-md-1 py-1 float-left">
+							<cfset enclosingClass = "col-12 px-1 col-sm-6 col-lg-6 mb-1 px-md-1 py-1 float-left">
 						<cfelse>
 							<!--- three column for other media types --->
-							<cfset enclosingClass = "col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left">
+							<cfset enclosingClass = "col-12 px-2 col-sm-6 col-lg-6 col-xl-4 mb-1 px-md-2 pt-1 float-left">
 						</cfif>
 						<div class='#enclosingClass#'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
