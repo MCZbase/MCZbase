@@ -775,10 +775,10 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
-									<td class="pb-0"><span class="">#part_name#</span></td>
-									<td class="pb-0">#part_condition#</td>
+									<td class="py-0"><span class="">#part_name#</span></td>
+									<td class="py-0">#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
-									<td class="pb-0">
+									<td class="py-0">
 										#part_disposition#
 										<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
 											<!--- look up whether this part is in an open loan --->
@@ -830,14 +830,14 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</td>
-									<td class="pb-0">#lot_count#</td>
+									<td class="py-0">#lot_count#</td>
 									<cfif oneOfus is "1">
 										<td class="pb-0">#label#</td>
 									</cfif>
 								</tr>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
-										<td colspan="5" class="mb-0 pt-0 pb-0">
+										<td colspan="5" class="mb-0 py-0">
 											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 										</td>
 									</tr>
