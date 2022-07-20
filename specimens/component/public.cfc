@@ -2434,20 +2434,20 @@ limitations under the License.
 				ORDER BY
 					coll_order
 			</cfquery>
-			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+			<ul class="list-group">
 				<cfif preps.recordcount EQ 0>
-					<li class="small90 list-group-item mb-0 pb-0 font-italic">None</li>
+					<li class="small90 list-group-item pt-0 pb-1 font-italic">None</li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
-						<li class="list-group-item pt-0">
+						<li class="list-group-item pt-0 pb-1">
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
 							</cfloop>
 						</li>
 					<cfelse>
-						<li class="list-group-item pt-0">
+						<li class="list-group-item pt-0 pb-1">
 							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
@@ -2511,7 +2511,7 @@ limitations under the License.
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
-								<li class="small90 list-group-item font-italic"> None </li>
+								<li class="small90 list-group-item font-italic pt-0 pb-1"> None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
 								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
@@ -2586,21 +2586,21 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul class="list-group pl-0 pt-0">
+				<ul class="list-group">
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
-							<li class="list-group-item pt-0"> <span class="my-0 d-inline font-weight-lessbold">Entered By:</span> #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
-							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Last Edited By:</span> #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
+							<li class="list-group-item pt-0 pb-1"> <span class="my-0 d-inline font-weight-lessbold">Entered By:</span> #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Last Edited By:</span> #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
 						</cfif>
 						<cfif len(#meta.flags#) is not 0>
-							<li class="list-group-item"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
 						</cfif>
 						<cfif len(#meta.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
 					</cfif>
 				</ul>
 			<cfcatch>
@@ -2655,12 +2655,12 @@ limitations under the License.
 							and mask_fg = 0
 						</cfif>
 				</cfquery>
-				<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+				<ul class="list-group">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="list-group-item small90 mb-0 pb-0 font-italic">None</li>
+						<li class="small90 list-group-item font-italic pt-0 pb-1">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
-							<li class="list-group-item pt-0">
+							<li class="list-group-item pt-0 pb-1">
 								<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
 							</li>
 						</cfloop>
