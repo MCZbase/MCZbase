@@ -1127,7 +1127,7 @@ limitations under the License.
 							<tr>
 								<th>Attribute</th>
 								<th>Value</th>
-								<th>Determination</th>
+								<th>Determination By</th>
 								<th>On</th>
 							</tr>
 						</thead>
