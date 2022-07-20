@@ -2470,18 +2470,18 @@ limitations under the License.
 			</cfquery>
 			<ul class="list-group">
 				<cfif preps.recordcount EQ 0>
-					<li class="small90 list-group-item pt-0 pb-1 font-italic">None</li>
+					<li class="small90 list-group-item pt-0 font-italic">None</li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
-						<li class="list-group-item pt-0 pb-1">
+						<li class="list-group-item pt-0">
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
 							</cfloop>
 						</li>
 					<cfelse>
-						<li class="list-group-item pt-0 pb-1">
+						<li class="list-group-item pt-0">
 							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
@@ -2541,22 +2541,22 @@ limitations under the License.
 				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-						<li class="list-group-item pt-0 pb-1">Masked</li>
+						<li class="list-group-item pt-0">Masked</li>
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
 								<li class="small90 list-group-item font-italic pt-0 pb-1"> None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
-								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
+								<li class="list-group-item pt-0">#object_rem.coll_object_remarks#</li>
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
-									<li class="list-group-item pt-0 pb-1">Disposition Remarks: #object_rem.disposition_remarks#</li>
+									<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
 								</cfif>
 							</cfif>
 							<cfif len(object_rem.associated_species) gt 0 >
-								<li class="list-group-item pt-0 pb-1">Associated Species: #object_rem.associated_species#</li>
+								<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
 							</cfif>
 						</cfloop>
 					</cfif>
