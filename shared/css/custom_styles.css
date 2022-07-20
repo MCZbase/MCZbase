@@ -176,6 +176,9 @@ h1.h4 {
 span.caps {
 	text-transform: capitalize;
 }
+.line-height-sm {
+	line-height: .9rem;
+}
 #resultLink a {
 	padding: .15rem .25rem;
 	outline: 0;
