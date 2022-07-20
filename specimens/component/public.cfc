@@ -558,7 +558,7 @@ limitations under the License.
 							<span class="font-weight-lessbold">[#cited_name_status#]</span>
 						</cfif>
 						<cfif len(#doi#) GT 0>
-							doi: <a target="_blank" href='https://doi.org/#doi#'>#doi#</a><br>
+							doi: <a target="_blank" href="https://doi.org/#doi#">#doi# <img src="/shared/images/linked_data.png" height="15" width="15"></a><br>
 						</cfif>
 						<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0></cfif>
