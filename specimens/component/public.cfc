@@ -893,7 +893,7 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td><span class="d-inline-block pl-3">&##8268; <span class="font-italic">Subsample:</span> #part_name#</span></td>
+										<td><span class="d-inline-block pl-3"><span class="font-weight-bold " style="font-size: 17px;">&##172;</span> <span class="font-italic">Subsample:</span> #part_name#</span></td>
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#
