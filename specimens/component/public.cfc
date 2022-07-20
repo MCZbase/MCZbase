@@ -1593,7 +1593,7 @@ limitations under the License.
 						<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 							<cfset hasContent = true>
 							<li class="list-group-item">
-								<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
+								<span class="font-weight-lessbold mb-1 d-inline-block float-left">Deaccessions: </span>
 								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_mainFrame">Deaccessions that include parts from cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="deaccessionList">
@@ -1620,7 +1620,7 @@ limitations under the License.
 						<cfif deaccessionCount.deaccessionedParts GT 0>
 							<cfset hasContent = true>
 							<li class="list-group-item">
-								<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
+								<span class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">Deaccessions: </span>
 								<ul class="d-block">
 									<cfif deaccessionCount.parts EQ deaccessionCount.deaccessionedParts>
 										<li class="d-block"> Deaccessioned </li>
