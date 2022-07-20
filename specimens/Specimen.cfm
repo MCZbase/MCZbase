@@ -821,7 +821,7 @@ limitations under the License.
 								<cfif ledgerMediaCount gt 0> 
 									<div class="card-body" id="ledgerCardBody">
 										<cfset ledgerBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents")>
-										<div class="col-12 px-1 mb-1 px-md-1 pt-1 float-left">
+										<div class="col-12 px-2 mb-1 px-md-2 pt-1 float-left">
 											#ledgerBlock# 
 										</div>
 									</div>
