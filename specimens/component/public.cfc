@@ -2436,7 +2436,7 @@ limitations under the License.
 			</cfquery>
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 				<cfif preps.recordcount EQ 0>
-					<li class="small90 list-group-item font-italic">None</li>
+					<li class="small90 list-group-item mb-0 pb-0 font-italic">None</li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
