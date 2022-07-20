@@ -756,12 +756,12 @@ limitations under the License.
 					<table class="table table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">
 							<tr>
-								<th><span>Part</span></th>
-								<th><span>Condition</span></th>
-								<th><span>Disposition</span></th>
-								<th><span>Count</span></th>
+								<th class="py-0"><span>Part</span></th>
+								<th class="py-0"><span>Condition</span></th>
+								<th class="py-0"><span>Disposition</span></th>
+								<th class="py-0"><span>Count</span></th>
 								<cfif oneOfus is "1">
-									<th>
+									<th class="py-0">
 										<span>Container</span>
 									</th>
 								</cfif>
@@ -893,7 +893,7 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td><span class="d-inline-block pl-3">&##8268; <span class="font-italic">Subsample:</span> #part_name#</span></td>
+										<td><span class="d-inline-block pl-3"><span class="font-weight-bold " style="font-size: 17px;">&##172;</span> <span class="font-italic">Subsample:</span> #part_name#</span></td>
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#
@@ -1125,10 +1125,10 @@ limitations under the License.
 					<table class="table table-responsive-md w-100 tablesection my-1" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
-								<th>Attribute</th>
-								<th>Value</th>
-								<th>Determination By</th>
-								<th>On</th>
+								<th class="py-0">Attribute</th>
+								<th class="py-0">Value</th>
+								<th class="py-0">Determination By</th>
+								<th class="py-0">On</th>
 							</tr>
 						</thead>
 						<tbody>
