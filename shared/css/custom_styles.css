@@ -2566,17 +2566,11 @@ input[disabled] {
 .mt5px {
 	margin-top: 5px!important;
 }
-/*tr.line-top-sdparts {
-	border-top: 2px solid #007bff40;
-}*/
-/*tr.line-top-sdparts:first-child {
-	border-top: 1px solid transparent;
-}*/
 table.tablesection td {
 	border: 1px solid transparent;
 }
-.line-top-sd {
-	border-top: 1px solid #ccc;
+tr.line-top-sd {
+	border-top: 2px solid #ccc!important;
 }
 /****************end all screen styles*********************/
 /**********************************************************/
