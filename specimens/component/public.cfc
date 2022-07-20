@@ -194,7 +194,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      			SELECT 
+					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
@@ -267,7 +267,7 @@ limitations under the License.
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
-						<cfif i EQ 2>
+						<cfif i gt 1>
 						
 							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
@@ -454,7 +454,7 @@ limitations under the License.
 				<cfif len(oid.other_id_type) gt 0>
 					<ul class="list-group pl-0 py-1">
 						<cfloop query="oid">
-							<li class="list-group-item pt-0">
+							<li class="list-group-item pt-0 pb-1">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
 								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15"></a>
