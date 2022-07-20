@@ -775,10 +775,10 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
-									<td><span class="">#part_name#</span></td>
-									<td>#part_condition#</td>
+									<td class="py-1"><span class="">#part_name#</span></td>
+									<td class="py-1">#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
-									<td>
+									<td class="py-1">
 										#part_disposition#
 										<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
 											<!--- look up whether this part is in an open loan --->
@@ -830,15 +830,15 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</td>
-									<td>#lot_count#</td>
+									<td class="py-1">#lot_count#</td>
 									<cfif oneOfus is "1">
-										<td>#label#</td>
+										<td class="pb-0">#label#</td>
 									</cfif>
 								</tr>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
-										<td colspan="5" class="mb-0 pt-0 pb-0">
-											<span class="pl-3 d-block pb-1"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<td colspan="5" class="mb-0 py-0">
+											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 										</td>
 									</tr>
 								</cfif>
@@ -893,13 +893,13 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td>
+										<td class="py-1">
 											<span class="d-inline-block pl-3">
 											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
 											<span class="font-italic">Subsample:</span> #part_name#</span>
 										</td>
-										<td>#part_condition#</td>
-										<td>
+										<td class="py-1">#part_condition#</td>
+										<td class="py-1">
 											#part_disposition#
 											<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
 												<!--- look up whether this part is in an open loan --->
@@ -952,14 +952,14 @@ limitations under the License.
 											</cfif>
 										</td>
 										</td>
-										<td>#lot_count#</td>
+										<td class="py-1">#lot_count#</td>
 										<cfif oneOfus is "1">
-											<td>#label#</td>
+											<td class="py-1">#label#</td>
 										</cfif>
 									</tr>
 									<cfif len(part_remarks) gt 0>
 										<tr class="small90">
-											<td colspan="5">
+											<td colspan="5" class="pt-1">
 												<span class="pl-3 d-block pb-1">
 													<span class="font-italic">Remarks:</span> #part_remarks#
 												</span>
