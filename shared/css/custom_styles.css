@@ -22,7 +22,6 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	line-height: 1.02;
 	font-weight: 450;
 }
-
 .small90 {
 	font-size: 89%
 }
@@ -96,6 +95,7 @@ table td .small {
 .border-bottom-black {
 	border-bottom: 8px solid black;
 }
+
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
@@ -2566,12 +2566,18 @@ input[disabled] {
 .mt5px {
 	margin-top: 5px!important;
 }
-tr.line-top-sdparts {
+/*tr.line-top-sdparts {
 	border-top: 2px solid #007bff40;
-}
+}*/
 /*tr.line-top-sdparts:first-child {
 	border-top: 1px solid transparent;
 }*/
+table.tablesection td {
+	border: 1px solid transparent;
+}
+table.tablesection tr {
+	border-top: 1px solid #555;
+}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
