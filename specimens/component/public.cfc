@@ -445,7 +445,7 @@ limitations under the License.
 						display_value
 				</cfquery>
 				<cfif len(oid.other_id_type) gt 0>
-					<ul class="list-group py-1">
+					<ul class="list-group pl-2">
 						<cfloop query="oid">
 							<li class="list-group-item pt-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
@@ -1287,7 +1287,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<ul class="list-group list-group-flush pt-1 float-left">
+					<ul class="list-group pl-2">
 						<cfloop query="relns">
 							<li class="list-group-item py-0"><span class="text-capitalize">#biol_indiv_relationship#</span> 
 								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
@@ -1310,7 +1310,7 @@ limitations under the License.
 						</li>
 					</ul>
 				<cfelse>
-					<ul class="pl-2 list-group py-0 mb-0">
+					<ul class="pl-2 list-group">
 						<li class="small90 list-group-item font-italic">None</li>
 					</ul>
 				</cfif>
@@ -1345,7 +1345,7 @@ limitations under the License.
 				</cfif>
 	
 				<cfset hasContent = false>
-				<ul class="list-group list-group-flush pl-0 pt-1">
+				<ul class="list-group pl-2">
 					<!--- Accession for the cataloged item, display internally only --->
 					<cfif oneOfUs is 1>
 						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
