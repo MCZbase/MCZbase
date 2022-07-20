@@ -2507,7 +2507,7 @@ limitations under the License.
 				<ul class="list-group pl-0 pt-0">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-						<li class="list-group-item pt-0 pb-1">Masked</li>
+						<li class="list-group-item pt-0 pb-0 mb-0">Masked</li>
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
@@ -2657,7 +2657,7 @@ limitations under the License.
 				</cfquery>
 				<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="list-group-item small90 font-italic">None</li>
+						<li class="list-group-item small90 mb-0 pb-0 font-italic">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
 							<li class="list-group-item pt-0">
