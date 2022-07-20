@@ -1171,6 +1171,7 @@ imgStyleClass=value
 	<cfthread name="mediaWidgetThread#tn#" threadName="mediaWidgetThread#tn#">
 		<cfoutput>
 			<cfset output = getMediaBlockHtmlUnthreaded(media_id="#l_media_id#",displayAs="#l_displayAs#",size="#l_size#",styles="#l_styles#",captionAs="#l_captionAs#",background_class="#l_background_class#",background_color="#l_background_color#")>
+				
 			#output#
 		</cfoutput>
 	</cfthread>
@@ -1191,8 +1192,8 @@ imgStyleClass=value
 	<cfargument name="background_color" type="string" required="no" default="grey">
 	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:100%">
 	<cfif displayAs EQ "fixedSmallThumb">
-		<cfif size GT 100>
-			<cfset size = 100>
+		<cfif size lte 200>
+			<cfset size = 75>
 		</cfif>
 	</cfif>
 	<cfset output = "">
@@ -1224,6 +1225,7 @@ imgStyleClass=value
 				WHERE 
 					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				ORDER BY LENGTH(MCZBASE.get_media_title(media.media_id)) DESC
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfloop query="media">
@@ -1242,7 +1244,7 @@ imgStyleClass=value
 						<cfelseif #displayAs# EQ "thumb">
 							<cfset displayImage = preview_uri>
 							<cfset hw = 'width="auto" height="auto"'>
-							<cfset styles = "max-width:150px;max-height:87px;">
+							<cfset styles = "max-width:100px;max-height:95px;">
 						<cfelse>
 							<cfif host EQ "mczbase.mcz.harvard.edu">
 								<cfset sizeParameters='&width=#size#&height=#size#'>
@@ -1271,7 +1273,7 @@ imgStyleClass=value
 									<cfif #media_uri# CONTAINS "nrs">
 										<cfset hw = 'width="95" height="auto"'>
 									<cfelse>
-										<cfset hw = 'width="95" height="120"'>
+										<cfset hw = 'width="80" height="100"'>
 									</cfif>
 								</cfif>
 							</cfif>
@@ -1319,14 +1321,14 @@ imgStyleClass=value
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">
 						<!--- textLinks is used when only the links are desired under the thumbnail--->
-						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0 mt-1">'>
+						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0">'>
 						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 smaller col-12">'>
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
 						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
 						<cfif NOT isDisplayable>
-							<cfif listcontainsnocase(session.roles,"manage_publications")> #media_type# (#mime_type#)</cfif>
+							<cfif listcontainsnocase(session.roles,"manage_publications")> <span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 							<cfelse>
 								<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
@@ -1335,14 +1337,14 @@ imgStyleClass=value
 							<cfset output='#output#</p>'>
 						<cfset output='#output#</div>'>
 					<cfelse>
-						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0 mt-1">'>
+						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0">'>
 						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 smaller col-12">'>
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
 							<cfset output='#output#<span class="d-inline">(<a href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
 						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
 						<cfif NOT isDisplayable>
-							<cfif listcontainsnocase(session.roles,"manage_publications")>#media_type# (#mime_type#)</cfif>
+							<cfif listcontainsnocase(session.roles,"manage_publications")><span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 						<cfelse>
 							<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
@@ -1417,54 +1419,7 @@ imgStyleClass=value
 </cffunction>
 
 <!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc showMore is not working-- Michelle--->				
-<cffunction name="showMoreMedia" access="remote" returntype="string" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
-	<cfthread name="showMoreMediaThread" threadName="showMoreMediaThread">
-		<cfoutput>
-			<cftry>
-				<cfquery name="specimen_recs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimen_recs_result">
-					select distinct collection_object_id as pk
-					from media_relations
-						join flat_text on related_primary_key = collection_object_id
-					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'shows cataloged_item')
-				</cfquery>
-				<cfif specimen_recs.recordcount GT 0>
-					<!---The specimen record query "specimen_recs" will give us the collection_object_id based on the media_id that is passed through 
-						in arguments. It will loop through the media_relations to output to the media_id for now.(as a test). --->
-					<cfloop query="specimen_recs">
-						<cfquery name="media_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_relations_result">
-							select distinct media.media_id, preview_uri, media.media_uri,
-								get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-								media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-								CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-									ctmedia_license.uri as license_uri,
-									mczbase.get_media_credit(media.media_id) as credit,
-									MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-							from media_relations
-								 left join media on media_relations.media_id = media.media_id
-								 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-							where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-								AND related_primary_key = <cfqueryparam value=#specimen_recs.pk# CFSQLType="CF_SQL_DECIMAL">
-								AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-								AND rownum = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="1">
-						</cfquery>
-						#media_relations.media_id#
-					</cfloop>
-				</cfif>
-			<cfcatch>
-				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-				<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-				<cfset function_called = "#GetFunctionCalledName()#">
-				<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
-				<cfabort>
-			</cfcatch>
-			</cftry>
-		</cfoutput>
-	</cfthread>
-	<cfthread action="join" name="showMoreMediaThread" />
-	<cfreturn cfthread["showMoreMediaThread"].output>
-</cffunction>
+
 
 <cffunction name="getMediaRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
