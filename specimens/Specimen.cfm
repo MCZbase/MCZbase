@@ -590,9 +590,11 @@ limitations under the License.
 										#blockotherid# 
 									</div>
 								<cfelse>
-									<ul class="list-group pl-2">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
+									<div class="card-body" id="otherIDsCardBody">
+										<ul class="list-group pl-2">
+											<li class="small90 list-group-item font-italic">None</li>
+										</ul>
+									</div>
 								</cfif>
 							</div>
 						</div>

@@ -2545,7 +2545,7 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul class="list-group py-1">
+				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item pt-0">Masked</li>
