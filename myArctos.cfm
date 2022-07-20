@@ -166,7 +166,7 @@
 					<ul>
 						<cfloop query="flatstatus">
 							<cfset flattext = "">
-							<cfif int(flatstatus.ct) GT 1><cfset flattext = " manually excluded"></cfif>
+							<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
 							<li>#flatstatus.stale_flag# #flatstatus.ct##flattext#</li>
 						</cfloop>
 					<ul>
