@@ -728,7 +728,7 @@ limitations under the License.
 							left join container pc on oc.parent_container_id=pc.container_id
 							left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
 							left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
-							left join agent on specimen_part_attribute_determined_by_agent_id = agent.agent_id
+							left join agent on specimen_part_attribute.determined_by_agent_id = agent.agent_id
 						where
 							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
