@@ -133,36 +133,50 @@
 		where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getPrefs.user_id#">
 	</cfquery>
 	<cfoutput query="getPrefs" group="user_id">
-		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-			<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
-    		<div style="width:70em; margin:0 auto; overflow: hidden;">
-        		<div style="width: 33em; float: left; margin-right: 2.2em;">
-					<h2>Server Settings</h2>
-					<ul>
-						<li>Application.protocol: #Application.protocol#</li>
-						<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
-							<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
-						</cfif>
-						<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
-						<li>Application.serverrole: #Application.serverrole# </li>
-						<cfif NOT isdefined("Session.gitBranch")>
-							<cftry>
-								<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-								<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-							<cfcatch>
-								<cfset gitBranch = "unknown">
-							</cfcatch>
-							</cftry>
-							<cfset Session.gitBranch = gitBranch>
-						</cfif>
-						<li>Session.gitbranch: #Session.gitbranch# </li>
-					</ul>
-				</div>		
-			</div>		
-		</cfif>
     <div style="width:70em; margin:0 auto;padding-bottom: 3em;overflow: hidden;">
         <div style="width: 33em; float: left; margin-right: 2.2em;padding-top: 2em;">
-	<h2>Welcome back, <b>#encodeForHtml(getPrefs.username)#</b>!</h2>
+				<h2>Welcome back, <b>#encodeForHtml(getPrefs.username)#</b>!</h2>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+					<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
+		    		<div style="width:70em; margin:0 auto; overflow: hidden;">
+		        		<div style="width: 33em; float: left; margin-right: 2.2em;">
+							<h2>Server Settings</h2>
+							<ul>
+								<li>Application.protocol: #Application.protocol#</li>
+								<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
+									<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
+								</cfif>
+								<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
+								<li>Application.serverrole: #Application.serverrole# </li>
+								<cfif NOT isdefined("Session.gitBranch")>
+									<cftry>
+										<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+										<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+									<cfcatch>
+										<cfset gitBranch = "unknown">
+									</cfcatch>
+									</cftry>
+									<cfset Session.gitBranch = gitBranch>
+								</cfif>
+								<li>Session.gitbranch: #Session.gitbranch# </li>
+							</ul>
+							<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT count(*) ct, stale_flag 
+								FROM flat
+								GROUP BY stale_flag
+							</cfquery>
+							<h2>FLAT Table</h2>
+							<ul>
+								<cfloop query="flatstatus">
+									<cfset flattext = "">
+									<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
+									<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
+								</cfloop>
+							<ul>
+						</div>		
+					</div>		
+					<h2>Manage your profile</h2>
+				</cfif>
 
 	<ul class="geol_hier" style="padding:0;width:430px;margin: 0;">
 		<li>

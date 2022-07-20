@@ -445,9 +445,9 @@ limitations under the License.
 						display_value
 				</cfquery>
 				<cfif len(oid.other_id_type) gt 0>
-					<ul class="list-group pt-1 pb-1 mb-0">
+					<ul class="list-group pl-2 py-1">
 						<cfloop query="oid">
-							<li class="list-group-item pb-0 mb-0 pt-0">
+							<li class="list-group-item pt-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
 								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15"></a>
@@ -753,15 +753,15 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md w-100 my-1">
+					<table class="table table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">
 							<tr>
-								<th><span>Part</span></th>
-								<th><span>Condition</span></th>
-								<th><span>Disposition</span></th>
-								<th><span>Count</span></th>
+								<th class="py-0"><span>Part</span></th>
+								<th class="py-0"><span>Condition</span></th>
+								<th class="py-0"><span>Disposition</span></th>
+								<th class="py-0"><span>Count</span></th>
 								<cfif oneOfus is "1">
-									<th>
+									<th class="py-0">
 										<span>Container</span>
 									</th>
 								</cfif>
@@ -774,7 +774,7 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
+								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
@@ -807,15 +807,15 @@ limitations under the License.
 											<!--- look up whether this part has been deaccessioned --->
 											<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
-													deacc_number, deacc_type
+													deacc_number, deacc_type, deaccession.transaction_id
 												FROM 
 													specimen_part 
-													LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
-													LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
+													JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+													JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 												WHERE
 													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 											</cfquery>
-											<cfif partdeacc.recordcount>
+											<cfif partdeacc.recordcount GT 0>
 												<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 													<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
 													<span class="d-block small mb-0 pb-0">In Deaccession.</span>
@@ -837,8 +837,8 @@ limitations under the License.
 								</tr>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
-										<td colspan="5" class="mb-0 pt-1 pb-1">
-											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<td colspan="5" class="mb-0 pt-1 pb-0">
+											<span class="pl-3 d-block pb-1" style="border-bottom: 1px solid ##ccc;"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 										</td>
 									</tr>
 								</cfif>
@@ -868,7 +868,7 @@ limitations under the License.
 									<tr class="border-top-0">
 										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
-												<div class="small90 pl-3" style="line-height: .9rem;">
+												<div class="small90 pl-3 line-height-sm">
 													#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 												<cfif len(attribute_units) gt 0>
 													#attribute_units# &nbsp;
@@ -893,7 +893,11 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td><span class="d-inline-block pl-3">&##8268; #part_name# <span class="font-italic">subsample</span></span></td>
+										<td>
+											<span class="d-inline-block pl-3">
+											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
+											<span class="font-italic">Subsample:</span> #part_name#</span>
+										</td>
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#
@@ -924,11 +928,11 @@ limitations under the License.
 												<!--- look up whether this part has been deaccessioned --->
 												<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													SELECT
-														deacc_number, deacc_type
+														deacc_number, deacc_type, deaccession.transaction_id
 													FROM 
 														specimen_part 
-														LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
-														LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
+														JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+														JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 													WHERE
 														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 												</cfquery>
@@ -956,7 +960,7 @@ limitations under the License.
 									<cfif len(part_remarks) gt 0>
 										<tr class="small90">
 											<td colspan="5">
-												<span class="pl-3 d-block">
+												<span class="pl-3 d-block pb-1" style="border-bottom: 1px solid ##ccc;">
 													<span class="font-italic">Remarks:</span> #part_remarks#
 												</span>
 											</td>
@@ -988,7 +992,7 @@ limitations under the License.
 										<tr class="border-top-0">
 											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
-													<div class="small90 pl-3" style="line-height: .9rem;">
+													<div class="small90 pl-3 line-height-sm">
 														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 													<cfif len(attribute_units) gt 0>
 														#attribute_units# &nbsp;
@@ -1122,26 +1126,26 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive-md my-1 w-100" aria-label="attributes">
+					<table class="table table-responsive-md w-100 tablesection my-1" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
-								<th>Attribute</th>
-								<th>Value</th>
-								<th>Determination</th>
-								<th>On</th>
+								<th class="py-0">Attribute</th>
+								<th class="py-0">Value</th>
+								<th class="py-0">Determination By</th>
+								<th class="py-0">On</th>
 							</tr>
 						</thead>
 						<tbody>
 						<cfloop query="attributes">
-							<tr>
+							<tr <cfif attributes.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
-								<td>#attribute_value#</td>
+								<td style="width: 40%;">#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
-										<cfset determination ="<span class='d-inline  pl-1'>By: </span>#attributeDeterminer#">
+										<cfset determination ="#attributeDeterminer#">
 									<cfelse>
-										<cfset determination ="<span class='d-inline pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+										<cfset determination ="<a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
 										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline '>Method: </span> #determination_method#">
@@ -1283,7 +1287,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<ul class="list-group list-group-flush pt-1 float-left">
+					<ul class="list-group pl-2">
 						<cfloop query="relns">
 							<li class="list-group-item py-0"><span class="text-capitalize">#biol_indiv_relationship#</span> 
 								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
@@ -1306,8 +1310,8 @@ limitations under the License.
 						</li>
 					</ul>
 				<cfelse>
-					<ul class="list-group list-group-flush pt-1 float-left">
-						<li class="list-group-item small90 font-italic">None</li>
+					<ul class="pl-2 list-group">
+						<li class="small90 list-group-item font-italic">None</li>
 					</ul>
 				</cfif>
 			<cfcatch>
@@ -1341,7 +1345,7 @@ limitations under the License.
 				</cfif>
 	
 				<cfset hasContent = false>
-				<ul class="list-group list-group-flush pl-0 pt-1">
+				<ul class="list-group pl-2">
 					<!--- Accession for the cataloged item, display internally only --->
 					<cfif oneOfUs is 1>
 						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2430,20 +2434,20 @@ limitations under the License.
 				ORDER BY
 					coll_order
 			</cfquery>
-			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+			<ul class="list-group">
 				<cfif preps.recordcount EQ 0>
-					<li class="small90 list-group-item font-italic">None</li>
+					<li class="small90 list-group-item pt-0 pb-1 font-italic">None</li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
-						<li class="list-group-item pt-0">
+						<li class="list-group-item pt-0 pb-1">
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
 							</cfloop>
 						</li>
 					<cfelse>
-						<li class="list-group-item pt-0">
+						<li class="list-group-item pt-0 pb-1">
 							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
@@ -2500,25 +2504,25 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul class="list-group pl-0 pt-0">
+				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item pt-0 pb-1">Masked</li>
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
-								<li class="small90 list-group-item font-italic"> None </li>
+								<li class="small90 list-group-item font-italic pt-0 pb-1"> None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
 								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
-									<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
+									<li class="list-group-item pt-0 pb-1">Disposition Remarks: #object_rem.disposition_remarks#</li>
 								</cfif>
 							</cfif>
 							<cfif len(object_rem.associated_species) gt 0 >
-								<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
+								<li class="list-group-item pt-0 pb-1">Associated Species: #object_rem.associated_species#</li>
 							</cfif>
 						</cfloop>
 					</cfif>
@@ -2582,21 +2586,21 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul class="list-group pl-0 pt-0">
+				<ul class="list-group">
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 						<cfif #meta.EditedBy# is not "unknown" OR len(#meta.last_edit_date#) is not 0>
-							<li class="list-group-item pt-0"> <span class="my-0 d-inline font-weight-lessbold">Entered By:</span> #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
-							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Last Edited By:</span> #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
+							<li class="list-group-item pt-0 pb-1"> <span class="my-0 d-inline font-weight-lessbold">Entered By:</span> #meta.EnteredBy# on #dateformat(meta.coll_object_entered_date,"yyyy-mm-dd")# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Last Edited By:</span> #meta.EditedBy# on #dateformat(meta.last_edit_date,"yyyy-mm-dd")# </li>
 						</cfif>
 						<cfif len(#meta.flags#) is not 0>
-							<li class="list-group-item"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Missing (flags):</span> #isOne.flags# </li>
 						</cfif>
 						<cfif len(#meta.encumbranceDetail#) is not 0>
-							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">Encumbrances:</span> #replace(meta.encumbranceDetail,";","<br>","all")# </li>
 						</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-							<li class="list-group-item pt-0"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
+							<li class="list-group-item pt-0 pb-1"><span class="my-0 d-inline font-weight-lessbold">collection_object_id:</span> #collection_object_id# </li>
 					</cfif>
 				</ul>
 			<cfcatch>
@@ -2651,12 +2655,12 @@ limitations under the License.
 							and mask_fg = 0
 						</cfif>
 				</cfquery>
-				<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
+				<ul class="list-group">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="list-group-item small90 font-italic">None</li>
+						<li class="small90 list-group-item font-italic pt-0 pb-1">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
-							<li class="list-group-item pt-0">
+							<li class="list-group-item pt-0 pb-1">
 								<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
 							</li>
 						</cfloop>
