@@ -452,7 +452,7 @@ limitations under the License.
 						display_value
 				</cfquery>
 				<cfif len(oid.other_id_type) gt 0>
-					<ul class="list-group pl-2 py-1">
+					<ul class="list-group pl-0 py-1">
 						<cfloop query="oid">
 							<li class="list-group-item pt-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
