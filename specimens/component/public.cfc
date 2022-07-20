@@ -1344,7 +1344,7 @@ limitations under the License.
 						</li>
 					</ul>
 				<cfelse>
-					<ul class="pl-2 list-group">
+					<ul class="pl-0 list-group">
 						<li class="small90 list-group-item font-italic">None</li>
 					</ul>
 				</cfif>
