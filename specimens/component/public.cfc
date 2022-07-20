@@ -826,7 +826,6 @@ limitations under the License.
 															<a href="/transactions/Deaccession.cfm?action=edit&transaction_id=#partdeacc.transaction_id#">#partdeacc.deacc_number#</a> (#partdeacc.deacc_type#)
 														</cfloop>
 													</span>
-													</cfif>
 												</cfif>
 											</cfif>
 										</cfif>
