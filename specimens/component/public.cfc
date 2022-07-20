@@ -807,7 +807,7 @@ limitations under the License.
 											<!--- look up whether this part has been deaccessioned --->
 											<cfquery name="partdeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT
-													deacc_number, deacc_type
+													deacc_number, deacc_type, deaccession.transaction_id
 												FROM 
 													specimen_part 
 													LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
