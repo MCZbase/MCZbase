@@ -753,7 +753,7 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md w-100 my-1">
+					<table class="table table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">
 							<tr>
 								<th><span>Part</span></th>
@@ -774,7 +774,7 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
-								<tr <cfif mainParts.recordcount gt 1>class="line-top-sdparts"<cfelse></cfif>>
+								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 									<td><span class="">#part_name#</span></td>
 									<td>#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
