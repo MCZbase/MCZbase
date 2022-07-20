@@ -618,7 +618,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-								<div class="card-body" id="partsCardBody">
+								<div class="card-body px-3" id="partsCardBody">
 									<p class="smaller py-0 mb-0 text-center w-100">
 										<cfif #partCount# gt 5>double-click part header to see all #partCount#</cfif>
 									</p>
@@ -664,7 +664,7 @@ limitations under the License.
 										#blockattributes#
 									</div>
 								<cfelse>
-									<div class="card-body" id="attributesCardBody">
+									<div class="card-body px-3" id="attributesCardBody">
 										<ul class="list-group pl-2">
 											<li class="small90 list-group-item font-italic">None</li>
 										</ul>
