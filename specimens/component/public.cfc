@@ -148,7 +148,14 @@ limitations under the License.
 						<p class='smaller mb-1 w-100 text-center'> double-click header to see all #getImages.recordcount#</p>
 					</cfif>
 					<cfloop query="getImages">
-						<div class='col-12 px-1 col-lg-6 mb-1 px-md-1 py-1 float-left'>
+						<cfif l_relationship_type EQ "shows">
+							<!--- two column specimen media --->
+							<cfset enclosingClass = "col-12 px-1 col-lg-6 mb-1 px-md-1 py-1 float-left">
+						<cfelse>
+							<!--- three column for other media types --->
+							<cfset enclosingClass = "col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left">
+						</cfif>
+						<div class='#enclosingClass#'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
@@ -445,7 +452,7 @@ limitations under the License.
 						display_value
 				</cfquery>
 				<cfif len(oid.other_id_type) gt 0>
-					<ul class="list-group pl-2 py-1">
+					<ul class="list-group pl-0 py-1">
 						<cfloop query="oid">
 							<li class="list-group-item pt-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
@@ -520,7 +527,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i = 1>
 				<cfloop query="citations" group="formatted_publication">
-					<div class="d-block py-1 px-2 w-100 float-left small95">
+					<div class="d-block list-group py-1 px-2 w-100 float-left small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>page&nbsp;
@@ -551,7 +558,7 @@ limitations under the License.
 							<span class="font-weight-lessbold">[#cited_name_status#]</span>
 						</cfif>
 						<cfif len(#doi#) GT 0>
-							doi: <a target="_blank" href='https://doi.org/#doi#'>#doi#</a><br>
+							doi: <a target="_blank" href="https://doi.org/#doi#">#doi# <img src="/shared/images/linked_data.png" height="15" width="15"></a><br>
 						</cfif>
 						<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0></cfif>
@@ -771,7 +778,7 @@ limitations under the License.
 								</cfif>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="bg-white">
 							<!--- iterate through the main (not subsampled) parts --->
 							<cfquery name="mainParts" dbtype="query">
 								select * from distinctParts where sampled_from_obj_id is null order by part_name
@@ -1169,7 +1176,7 @@ limitations under the License.
 								<th class="py-0">On</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="bg-white">
 						<cfloop query="attributes">
 							<tr <cfif attributes.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
@@ -1323,7 +1330,7 @@ limitations under the License.
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
 					<ul class="list-group pl-2">
 						<cfloop query="relns">
-							<li class="list-group-item py-0"><span class="text-capitalize">#biol_indiv_relationship#</span> 
+							<li class="list-group-item"><span class="text-capitalize">#biol_indiv_relationship#</span> 
 								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
 									#related_collection# #related_cat_num# 
 								</a>
@@ -1344,7 +1351,7 @@ limitations under the License.
 						</li>
 					</ul>
 				<cfelse>
-					<ul class="pl-2 list-group">
+					<ul class="pl-0 list-group">
 						<li class="small90 list-group-item font-italic">None</li>
 					</ul>
 				</cfif>
@@ -1475,7 +1482,7 @@ limitations under the License.
 							</cfif>
 							<cfif accnMedia.recordcount gt 0>
 								<cfloop query="accnMedia">
-									<div class="m-2 d-inline"> 
+									<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
 										<div id='accMediaBlock#accnMedia.media_id#'>
 											<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#accnMedia.media_id#",size="350",captionAs="textCaption")>
 										</div>
@@ -2391,7 +2398,7 @@ limitations under the License.
 				<div class="col-12 float-left px-0">
 					<cfif localityMedia.recordcount gt 0>
 						<cfloop query="localityMedia">
-							<div class="m-2 d-inline float-left"> 
+							<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
@@ -2400,7 +2407,7 @@ limitations under the License.
 					</cfif>
 					<cfif collEventMedia.recordcount gt 0>
 						<cfloop query="collEventMedia">
-							<div class="m-2 d-inline float-left"> 
+							<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
@@ -2470,18 +2477,18 @@ limitations under the License.
 			</cfquery>
 			<ul class="list-group">
 				<cfif preps.recordcount EQ 0>
-					<li class="small90 list-group-item pt-0 pb-1 font-italic">None</li>
+					<li class="small90 list-group-item pt-0 font-italic">None</li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
-						<li class="list-group-item pt-0 pb-1">
+						<li class="list-group-item pt-0">
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
 							</cfloop>
 						</li>
 					<cfelse>
-						<li class="list-group-item pt-0 pb-1">
+						<li class="list-group-item pt-0">
 							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
 							<cfloop query="preps">
 								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
@@ -2541,22 +2548,22 @@ limitations under the License.
 				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-						<li class="list-group-item pt-0 pb-1">Masked</li>
+						<li class="list-group-item pt-0">Masked</li>
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
 								<li class="small90 list-group-item font-italic pt-0 pb-1"> None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
-								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
+								<li class="list-group-item pt-0">#object_rem.coll_object_remarks#</li>
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
-									<li class="list-group-item pt-0 pb-1">Disposition Remarks: #object_rem.disposition_remarks#</li>
+									<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
 								</cfif>
 							</cfif>
 							<cfif len(object_rem.associated_species) gt 0 >
-								<li class="list-group-item pt-0 pb-1">Associated Species: #object_rem.associated_species#</li>
+								<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
 							</cfif>
 						</cfloop>
 					</cfif>
