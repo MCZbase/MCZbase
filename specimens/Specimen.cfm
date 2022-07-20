@@ -825,7 +825,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<div class="card-body" id="ledgerCardBody">
-										<ul class="pl-2 list-group">
+										<ul class="list-group">
 											<li class="small90 list-group-item font-italic">None</li>
 										</ul>
 									</div>
