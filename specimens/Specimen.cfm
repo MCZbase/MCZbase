@@ -534,9 +534,11 @@ limitations under the License.
 										#blockcit#
 									</div>
 								<cfelse>
-									<ul class="list-group pl-2">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
+									<div class="card-body pt-2" id="citationsCardBody">
+										<ul class="list-group">
+											<li class="small90 list-group-item font-italic">None</li>
+										</ul>
+									</div>
 								</cfif>
 								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
 								<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
