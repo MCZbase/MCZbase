@@ -2555,7 +2555,7 @@ limitations under the License.
 								<li class="small90 list-group-item font-italic pt-0">None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
-								<li class="list-group-item pt-0">#object_rem.coll_object_remarks#</li>
+								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
