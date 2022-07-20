@@ -778,7 +778,7 @@ limitations under the License.
 								</cfif>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="bg-white">
 							<!--- iterate through the main (not subsampled) parts --->
 							<cfquery name="mainParts" dbtype="query">
 								select * from distinctParts where sampled_from_obj_id is null order by part_name
@@ -1176,7 +1176,7 @@ limitations under the License.
 								<th class="py-0">On</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="bg-white">
 						<cfloop query="attributes">
 							<tr <cfif attributes.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
