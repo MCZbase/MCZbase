@@ -764,7 +764,7 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md w-100 tablesection my-1">
+					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">
 							<tr>
 								<th class="py-0"><span>Part</span></th>
@@ -1167,7 +1167,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive-md w-100 tablesection my-1" aria-label="attributes">
+					<table class="table px-1 table-responsive-md w-100 tablesection my-1" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th class="py-0">Attribute</th>
@@ -2527,7 +2527,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record and prevent access, further check for mask parts below ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      			SELECT 
+					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>

@@ -622,7 +622,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-								<div class="card-body px-3" id="partsCardBody">
+								<div class="card-body px-1" id="partsCardBody">
 									<p class="smaller py-0 mb-0 text-center w-100">
 										<cfif #partCount# gt 5>double-click part header to see all #partCount#</cfif>
 									</p>
@@ -664,7 +664,7 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-3" id="attributesCardBody">
+									<div class="card-body px-1" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
@@ -884,7 +884,6 @@ limitations under the License.
 						</div>
 					</div>
 				</div> <!--- end of column 3 --->
-
 			</div><!--- end of column to hold the two right colums (the two colums if no media) --->
 		</div><!--- end row --->
 	</div><!--- end container-fluid --->
