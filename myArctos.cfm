@@ -157,6 +157,19 @@
 						</cfif>
 						<li>Session.gitbranch: #Session.gitbranch# </li>
 					</ul>
+					<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT count(*) ct, stale_flag 
+						FROM flat
+						GROUP BY stale_flag
+					</cfquery>
+					<h2>FLAT Table</h2>
+					<ul>
+						<cfloop query="flatstatus">
+							<cfset flattext = "">
+							<cfif flatstatus.gt GT 1><cfset flattext = " manually excluded"></cfif>
+							<li>#flatstatus.stale_flag# #flatstatus.ct##flattext#</li>
+						</cfloop>
+					<ul>
 				</div>		
 			</div>		
 		</cfif>
