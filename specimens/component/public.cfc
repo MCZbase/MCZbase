@@ -838,8 +838,8 @@ limitations under the License.
 								</tr>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
-										<td colspan="5" class="mb-0 pt-1 pb-1">
-											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+										<td colspan="5" class="mb-0 pt-1 pb-0">
+											<span class="pl-3 d-block pb-1" style="border-bottom: 1px solid ##ccc;"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 										</td>
 									</tr>
 								</cfif>
@@ -869,7 +869,7 @@ limitations under the License.
 									<tr class="border-top-0">
 										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 											<cfloop query="partAttributes">
-												<div class="small90 pl-3" style="line-height: .9rem;">
+												<div class="small90 pl-3 line-height-sm">
 													#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 												<cfif len(attribute_units) gt 0>
 													#attribute_units# &nbsp;
@@ -894,7 +894,11 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td><span class="d-inline-block pl-3"><span class="font-weight-bold " style="font-size: 17px;">&##172;</span> <span class="font-italic">Subsample:</span> #part_name#</span></td>
+										<td>
+											<span class="d-inline-block pl-3">
+											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
+											<span class="font-italic">Subsample:</span> #part_name#</span>
+										</td>
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#
@@ -957,7 +961,7 @@ limitations under the License.
 									<cfif len(part_remarks) gt 0>
 										<tr class="small90">
 											<td colspan="5">
-												<span class="pl-3 d-block">
+												<span class="pl-3 d-block pb-1" style="border-bottom: 1px solid ##ccc;">
 													<span class="font-italic">Remarks:</span> #part_remarks#
 												</span>
 											</td>
@@ -989,7 +993,7 @@ limitations under the License.
 										<tr class="border-top-0">
 											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
-													<div class="small90 pl-3" style="line-height: .9rem;">
+													<div class="small90 pl-3 line-height-sm">
 														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 													<cfif len(attribute_units) gt 0>
 														#attribute_units# &nbsp;
@@ -1307,8 +1311,8 @@ limitations under the License.
 						</li>
 					</ul>
 				<cfelse>
-					<ul class="list-group list-group-flush pt-1 float-left">
-						<li class="list-group-item small90 font-italic">None</li>
+					<ul class="pl-2 list-group py-0 mb-0">
+						<li class="small90 list-group-item font-italic">None</li>
 					</ul>
 				</cfif>
 			<cfcatch>
@@ -2433,7 +2437,7 @@ limitations under the License.
 			</cfquery>
 			<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 				<cfif preps.recordcount EQ 0>
-					<li class="small90 list-group-item font-italic">None</li>
+					<li class="small90 list-group-item mb-0 pb-0 font-italic">None</li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
 					<cfif preps.recordcount eq 1>
@@ -2501,7 +2505,7 @@ limitations under the License.
 					WHERE
 						cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<ul class="list-group pl-0 pt-0">
+				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
 						<li class="list-group-item pt-0 pb-1">Masked</li>
@@ -2515,11 +2519,11 @@ limitations under the License.
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
-									<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
+									<li class="list-group-item pt-0 pb-1">Disposition Remarks: #object_rem.disposition_remarks#</li>
 								</cfif>
 							</cfif>
 							<cfif len(object_rem.associated_species) gt 0 >
-								<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
+								<li class="list-group-item pt-0 pb-1">Associated Species: #object_rem.associated_species#</li>
 							</cfif>
 						</cfloop>
 					</cfif>
@@ -2654,7 +2658,7 @@ limitations under the License.
 				</cfquery>
 				<ul class="list-unstyled list-group form-row px-1 pt-1 mb-0">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="list-group-item small90 font-italic">None</li>
+						<li class="list-group-item small90 mb-0 pb-0 font-italic">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
 							<li class="list-group-item pt-0">
