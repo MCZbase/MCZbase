@@ -810,12 +810,12 @@ limitations under the License.
 													deacc_number, deacc_type, deaccession.transaction_id
 												FROM 
 													specimen_part 
-													LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
-													LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
+													JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+													JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 												WHERE
 													specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 											</cfquery>
-											<cfif partdeacc.recordcount>
+											<cfif partdeacc.recordcount GT 0>
 												<cfif deaccessionList.recordcount EQ mainParts.recordcount>
 													<!--- just mark all parts as deaccessioned, deaccession number will be in Transaction section --->
 													<span class="d-block small mb-0 pb-0">In Deaccession.</span>
@@ -931,8 +931,8 @@ limitations under the License.
 														deacc_number, deacc_type, deaccession.transaction_id
 													FROM 
 														specimen_part 
-														LEFT JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
-														LEFT JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
+														JOIN deacc_item on specimen_part.collection_object_id = deacc_item.collection_object_id
+														JOIN deaccession on deacc_item.transaction_id = deaccession.transaction_id
 													WHERE
 														specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
 												</cfquery>
