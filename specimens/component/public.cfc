@@ -893,7 +893,11 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="subsampleParts">
 									<tr>
-										<td><span class="d-inline-block pl-3"><span class="font-weight-bold " style="font-size: 17px;">&##172;</span> <span class="font-italic">Subsample:</span> #part_name#</span></td>
+										<td>
+											<span class="d-inline-block pl-3">
+											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
+											<span class="font-italic">Subsample:</span> #part_name#</span>
+										</td>
 										<td>#part_condition#</td>
 										<td>
 											#part_disposition#
@@ -956,7 +960,7 @@ limitations under the License.
 									<cfif len(part_remarks) gt 0>
 										<tr class="small90">
 											<td colspan="5">
-												<span class="pl-3 d-block">
+												<span class="pl-3 d-block pb-1" style="border-bottom: 1px solid #ccc;">
 													<span class="font-italic">Remarks:</span> #part_remarks#
 												</span>
 											</td>
@@ -988,7 +992,7 @@ limitations under the License.
 										<tr class="border-top-0">
 											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
-													<div class="small90 pl-3" style="line-height: .9rem;">
+													<div class="small90 pl-3 line-height-sm">
 														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 													<cfif len(attribute_units) gt 0>
 														#attribute_units# &nbsp;
