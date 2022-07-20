@@ -1328,7 +1328,7 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<ul class="list-group p-2">
+					<ul class="list-group py-1 pl-0">
 						<cfloop query="relns">
 							<li class="list-group-item pt-0 pb-1"><span class="text-capitalize">#biol_indiv_relationship#</span> 
 								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
