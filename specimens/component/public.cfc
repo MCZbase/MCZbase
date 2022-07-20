@@ -1367,6 +1367,7 @@ limitations under the License.
 									accn_type,
 									accn_status,
 									received_date,
+									to_char(received_date,'yyyy-mm-dd') received_date,
 									concattransagent(trans.transaction_id,'received from') received_from
 								FROM
 									cataloged_item
