@@ -715,7 +715,10 @@ limitations under the License.
 							attribute_units,
 							determined_date,
 							attribute_remark,
-							agent_name
+							agent_name,
+							agent.agent_id,
+							agentguid,
+							agentguid_guid_type
 						from
 							specimen_part
 							left join coll_object on specimen_part.collection_object_id=coll_object.collection_object_id
@@ -725,6 +728,7 @@ limitations under the License.
 							left join container pc on oc.parent_container_id=pc.container_id
 							left join specimen_part_attribute on specimen_part.collection_object_id=specimen_part_attribute.collection_object_id
 							left join preferred_agent_name on specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id
+							left join agent on specimen_part_attribute_determined_by_agent_id = agent.agent_id
 						where
 							specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					</cfquery>
@@ -850,7 +854,10 @@ limitations under the License.
 										attribute_units,
 										determined_date,
 										attribute_remark,
-										agent_name
+										agent_name,
+										agent_id,
+										agentguid,
+										agentguid_guid_type
 									FROM
 										getParts
 									WHERE
@@ -862,7 +869,10 @@ limitations under the License.
 										attribute_units,
 										determined_date,
 										attribute_remark,
-										agent_name
+										agent_name,
+										agent_id,
+										agentguid,
+										agentguid_guid_type
 								</cfquery>
 								<cfif partAttributes.recordcount gt 0>
 									<tr class="border-top-0">
@@ -877,7 +887,16 @@ limitations under the License.
 													determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 												</cfif>
 												<cfif len(agent_name) gt 0>
-													determined by=<span class="">#agent_name#</span> &nbsp;
+													<cfif #agent_id# NEQ "0">
+														<cfset agentLinkOut = "">
+														<cfif len(agentguid) GT 0>
+															<cfset agentLinkOut = getGuidLink(guid=#agentguid#,guid_type=#agentguid_guid_type#)>
+														</cfif>
+														<cfset attDeterminer="<a href='/agents/Agent.cfm?agent_id=#agent_id#'>#agent_name#</a>#agentLinkOut#"> <!--- " --->
+													<cfelse>
+														<cfset attDeterminer="#agent_name#">
+													</cfif>
+													determined by=<span class="">#attDeterminer#</span> &nbsp;
 												</cfif>
 												<cfif len(attribute_remark) gt 0>
 													remark=<span class="">#attribute_remark#</span> &nbsp;
@@ -974,7 +993,10 @@ limitations under the License.
 											attribute_units,
 											determined_date,
 											attribute_remark,
-											agent_name
+											agent_name,
+											agent_id,
+											agentguid,
+											agentguid_guid_type
 										FROM
 											getParts
 										WHERE
@@ -986,7 +1008,10 @@ limitations under the License.
 											attribute_units,
 											determined_date,
 											attribute_remark,
-											agent_name
+											agent_name,
+											agent_id,
+											agentguid,
+											agentguid_guid_type
 									</cfquery>
 									<cfif partAttributes.recordcount gt 0>
 										<tr class="border-top-0">
@@ -1001,7 +1026,16 @@ limitations under the License.
 														determined date=<span class="">#dateformat(determined_date,"yyyy-mm-dd")#</span> &nbsp;
 													</cfif>
 													<cfif len(agent_name) gt 0>
-														determined by=<span class="">#agent_name#</span> &nbsp;
+														<cfif #agent_id# NEQ "0">
+															<cfset agentLinkOut = "">
+															<cfif len(agentguid) GT 0>
+																<cfset agentLinkOut = getGuidLink(guid=#agentguid#,guid_type=#agentguid_guid_type#)>
+															</cfif>
+															<cfset attDeterminer="<a href='/agents/Agent.cfm?agent_id=#agent_id#'>#agent_name#</a>#agentLinkOut#"> <!--- " --->
+														<cfelse>
+															<cfset attDeterminer="#agent_name#">
+														</cfif>
+														determined by=<span class="">#attDeterminer#</span> &nbsp;
 													</cfif>
 													<cfif len(attribute_remark) gt 0>
 														remark=<span class="f">#attribute_remark#</span> &nbsp;
