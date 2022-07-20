@@ -664,9 +664,11 @@ limitations under the License.
 										#blockattributes#
 									</div>
 								<cfelse>
-									<ul class="list-group pl-2">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
+									<div class="card-body" id="attributesCardBody">
+										<ul class="list-group pl-2">
+											<li class="small90 list-group-item font-italic">None</li>
+										</ul>
+									</div>
 								</cfif>
 							</div>
 						</div>
@@ -820,9 +822,11 @@ limitations under the License.
 										</div>
 									</div>
 								<cfelse>
-									<ul class="list-group-flush list-group">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
+									<div class="card-body" id="ledgerCardBody">
+										<ul class="pl-2 list-group">
+											<li class="small90 list-group-item font-italic">None</li>
+										</ul>
+									</div>
 								</cfif>
 							</div>
 						</div>
