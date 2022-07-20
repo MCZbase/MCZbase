@@ -174,8 +174,8 @@
 								</cfloop>
 							<ul>
 						</div>		
-						<h2>Manage your profile</h2>
 					</div>		
+					<h2>Manage your profile</h2>
 				</cfif>
 
 	<ul class="geol_hier" style="padding:0;width:430px;margin: 0;">
