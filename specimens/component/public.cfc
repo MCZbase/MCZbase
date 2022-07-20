@@ -1328,9 +1328,9 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<ul class="list-group pl-2">
+					<ul class="list-group p-2">
 						<cfloop query="relns">
-							<li class="list-group-item"><span class="text-capitalize">#biol_indiv_relationship#</span> 
+							<li class="list-group-item pt-0 pb-1"><span class="text-capitalize">#biol_indiv_relationship#</span> 
 								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
 									#related_collection# #related_cat_num# 
 								</a>
@@ -1346,7 +1346,7 @@ limitations under the License.
 							WHERE
 								flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
-						<li class="pb-1 list-group-item">
+						<li class="pb-1 pt-0 list-group-item">
 							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#lookupGuid.guid#&searchId1=#collection_object_id#">List of Related Specimens</a>
 						</li>
 					</ul>
@@ -1579,7 +1579,7 @@ limitations under the License.
 						<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 							<cfset hasContent = true>
 							<li class="list-group-item pt-0">
-								<span class="font-weight-lessbold mb-0 d-inline-block">Loan History:</span>
+								<span class="font-weight-lessbold mb-0 d-inline-block float-left pr-1">Loan History:</span>
 								<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="loanList">
