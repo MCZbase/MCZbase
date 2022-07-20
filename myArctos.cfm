@@ -174,6 +174,7 @@
 								</cfloop>
 							<ul>
 						</div>		
+						<h2>Manage your profile</h2>
 					</div>		
 				</cfif>
 
