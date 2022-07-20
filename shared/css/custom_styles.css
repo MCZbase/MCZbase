@@ -2575,8 +2575,8 @@ input[disabled] {
 table.tablesection td {
 	border: 1px solid transparent;
 }
-table.tablesection tr {
-	border-top: 1px solid #555;
+.line-top-sd {
+	border-top: 1px solid #ccc;
 }
 /****************end all screen styles*********************/
 /**********************************************************/
