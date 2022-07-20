@@ -2598,6 +2598,12 @@ input[disabled] {
 	from {top: 700px;}
 	to {top:100px;}
 }
+tr.line-top-sdparts {
+	border-top: 2px solid #007bff40;
+}
+/*tr.line-top-sdparts:first-child {
+	border-top: 1px solid transparent;
+}*/
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
