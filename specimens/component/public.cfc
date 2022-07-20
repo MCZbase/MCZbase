@@ -2696,7 +2696,7 @@ limitations under the License.
 							and mask_fg = 0
 						</cfif>
 				</cfquery>
-				<ul class="list-group py-1">
+				<ul class="list-group">
 					<cfif named_groups.recordcount EQ 0>
 						<li class="small90 list-group-item font-italic pt-0">None</li>
 					<cfelse>
