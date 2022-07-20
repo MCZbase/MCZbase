@@ -534,7 +534,7 @@ limitations under the License.
 										#blockcit#
 									</div>
 								<cfelse>
-									<ul class="pl-2 list-group py-0 mb-0">
+									<ul class="list-group-flush list-group">
 										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
@@ -590,7 +590,7 @@ limitations under the License.
 										#blockotherid# 
 									</div>
 								<cfelse>
-									<ul class="pl-2 list-group py-0 mb-0">
+									<ul class="list-group-flush list-group">
 										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
@@ -664,7 +664,7 @@ limitations under the License.
 										#blockattributes#
 									</div>
 								<cfelse>
-									<ul class="pl-2 list-group py-0 mb-0">
+									<ul class="list-group-flush list-group">
 										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
@@ -820,7 +820,7 @@ limitations under the License.
 										</div>
 									</div>
 								<cfelse>
-									<ul class="pl-2 list-group py-0 mb-0">
+									<ul class="list-group-flush list-group">
 										<li class="small90 list-group-item font-italic">None</li>
 									</ul>
 								</cfif>
