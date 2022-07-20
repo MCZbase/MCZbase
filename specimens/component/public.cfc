@@ -2393,7 +2393,7 @@ limitations under the License.
 						<cfloop query="localityMedia">
 							<div class="m-2 d-inline float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="150",captionAs="textCaption")>
 								</div>
 							</div>
 						</cfloop>
@@ -2402,7 +2402,7 @@ limitations under the License.
 						<cfloop query="collEventMedia">
 							<div class="m-2 d-inline float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="150",captionAs="textCaption")>
 								</div>
 							</div>
 						</cfloop>
