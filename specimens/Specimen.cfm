@@ -591,7 +591,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<div class="card-body" id="otherIDsCardBody">
-										<ul class="list-group pl-2">
+										<ul class="list-group pl-2 py-1">
 											<li class="small90 list-group-item font-italic">None</li>
 										</ul>
 									</div>
