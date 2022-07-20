@@ -2391,7 +2391,7 @@ limitations under the License.
 				<div class="col-12 float-left px-0">
 					<cfif localityMedia.recordcount gt 0>
 						<cfloop query="localityMedia">
-							<div class="m-2 d-inline float-left"> 
+							<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="150",captionAs="textCaption")>
 								</div>
@@ -2400,7 +2400,7 @@ limitations under the License.
 					</cfif>
 					<cfif collEventMedia.recordcount gt 0>
 						<cfloop query="collEventMedia">
-							<div class="m-2 d-inline float-left"> 
+							<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="150",captionAs="textCaption")>
 								</div>
