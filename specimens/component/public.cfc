@@ -260,7 +260,7 @@ limitations under the License.
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
 						<div class="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
-						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
+						<div class="d-inline-block my-0 h5 text-success">Current Identification</div>
 					<cfelse>
 						<div class="list-group border-transparent rounded m-1 p-1 h4 font-weight-normal">
 						<!---	Start of former Identifications --->
@@ -269,7 +269,7 @@ limitations under the License.
 						<!--- no ul for previous idntifications --->
 						<cfif i gt 1>
 						
-							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
+							<div class="h6 my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
 					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
