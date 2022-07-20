@@ -630,7 +630,7 @@ limitations under the License.
 					#getImages.recordcount#
 				<cfelse>
 					<cfloop query="getImages">
-						<div class='col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left'>
+						<div class='col-12 px-2 col-lg-6 col-xl-4 mb-1 px-md-2 pt-1 float-left'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
