@@ -838,7 +838,7 @@ limitations under the License.
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
 										<td colspan="5" class="mb-0 pt-1 pb-0">
-											<span class="pl-3 d-block" style="border-bottom: 1px solid ##ccc;"><span class="font-italic">Remarks:</span> #part_remarks#</span>
+											<span class="pl-3 d-block pb-1" style="border-bottom: 1px solid ##ccc;"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 										</td>
 									</tr>
 								</cfif>
