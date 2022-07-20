@@ -1386,7 +1386,7 @@ limitations under the License.
 				</cfif>
 	
 				<cfset hasContent = false>
-				<ul class="list-group pl-2">
+				<ul class="list-group pl-0">
 					<!--- Accession for the cataloged item, display internally only --->
 					<cfif oneOfUs is 1>
 						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
