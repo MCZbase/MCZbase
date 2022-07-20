@@ -1122,7 +1122,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive-md my-1 w-100" aria-label="attributes">
+					<table class="table table-responsive-md m-0 w-100" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th>Attribute</th>
