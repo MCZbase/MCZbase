@@ -1122,7 +1122,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive-md m-0 w-100 tablesection" aria-label="attributes">
+					<table class="table table-responsive-md w-100 tablesection my-1" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th>Attribute</th>
@@ -1139,9 +1139,9 @@ limitations under the License.
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
-										<cfset determination ="<span class='d-inline  pl-1'>By: </span>#attributeDeterminer#">
+										<cfset determination ="#attributeDeterminer#">
 									<cfelse>
-										<cfset determination ="<span class='d-inline pl-1'>By: </span><a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+										<cfset determination ="<a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
 										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline '>Method: </span> #determination_method#">
