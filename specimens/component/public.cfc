@@ -1310,8 +1310,8 @@ limitations under the License.
 						</li>
 					</ul>
 				<cfelse>
-					<ul class="list-group list-group-flush pt-1 float-left">
-						<li class="list-group-item small90 font-italic">None</li>
+					<ul class="pl-2 list-group py-0 mb-0">
+						<li class="small90 list-group-item font-italic">None</li>
 					</ul>
 				</cfif>
 			<cfcatch>
