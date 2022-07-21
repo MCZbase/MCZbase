@@ -31,6 +31,9 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .font-weight-lessbold {
 	font-weight: 500;
 }
+.text-muted {
+	color: #6a737b;
+}
 a {
 	cursor: pointer;
 }
@@ -231,8 +234,11 @@ div:focus, div > span:focus {
 	width: 0;
 	overflow: hidden;
 }
+a {
+	color:#006ee3;
+}
 .link-color {
-	color: #007bff;
+	color: #006ee3;
 }
 .brackets {
 	width: 5px;
@@ -326,7 +332,7 @@ button#showRelatedDataBtn.btn-xs {
 	font-size: .875rem;
 	line-height: 1.15rem;
 	border-radius: .2rem;
-	color: #007bff;
+	color: #006ee3;
 }
 .btn-outline-primary {
 	background-color: white;
@@ -754,7 +760,7 @@ body.modal-open {
 	display: block;
 	font-size: 1.1rem;
 	font-weight: 400;
-	color: #007bff;
+	color: #006ee3;
 }
 .cbp-spmenu a:hover {
 	cursor: pointer;
@@ -2031,12 +2037,12 @@ div[aria-hidden='false'] {
 a.btn-outline-primary {
 	background-color: white;
 	padding-bottom: .05rem;
-	color: #007bff;
+	color: #006ee3;
 	text-decoration: none;
 	font-size: .785rem;
 }
 a.btn-outline-primary:hover, a.btn-outline-primary:not(:disabled):not(.disabled):active {
-	background-color: #007bff;
+	background-color: #006ee3;
 	text-decoration: none;
 	color: white !important;
 	padding-bottom: .05rem;
