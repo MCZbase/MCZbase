@@ -153,7 +153,7 @@ limitations under the License.
 							<cfset enclosingClass = "col-12 px-1 col-lg-6 mb-1 px-md-1 py-1 float-left">
 						<cfelse>
 							<!--- three column for other media types --->
-							<cfset enclosingClass = "col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left">
+							<cfset enclosingClass = "col-12 px-2 col-sm-6 col-lg-6 col-xl-4 mb-1 px-md-2 pt-1 float-left">
 						</cfif>
 						<div class='#enclosingClass#'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
@@ -194,7 +194,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      			SELECT 
+					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
@@ -259,17 +259,17 @@ limitations under the License.
 					</cfquery>
 					<cfif identification.accepted_id_fg is 1>
 						<!---	Start for current Identification, enclose in green bordered block. --->
-						<div class="list-group border-green mx-1 mb-2 mt-2 pl-3 rounded py-2 h4 font-weight-normal">
-						<div class="d-inline-block my-0 h4 text-success">Current Identification</div>
+						<div class="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
+						<div class="d-inline-block my-0 h5 text-success">Current Identification</div>
 					<cfelse>
-						<div class="list-group border-transparent m-1 pl-3 rounded py-1 h4 font-weight-normal">
+						<div class="list-group border-transparent rounded m-1 p-1 h4 font-weight-normal">
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous idntifications --->
-						<cfif i EQ 2>
+						<cfif i gt 1>
 						
-							<div class="h6 font-italic my-0 text-success formerID">#IDtitle#</div>
+							<div class="h6 my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
 					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
@@ -454,7 +454,7 @@ limitations under the License.
 				<cfif len(oid.other_id_type) gt 0>
 					<ul class="list-group pl-0 py-1">
 						<cfloop query="oid">
-							<li class="list-group-item pt-0">
+							<li class="list-group-item py-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
 								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15"></a>
@@ -527,7 +527,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i = 1>
 				<cfloop query="citations" group="formatted_publication">
-					<div class="d-block list-group py-1 px-2 w-100 float-left small95">
+					<div class="d-block list-group pt-0 pb-1 px-2 w-100 mb-0 float-left small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>page&nbsp;
@@ -630,7 +630,7 @@ limitations under the License.
 					#getImages.recordcount#
 				<cfelse>
 					<cfloop query="getImages">
-						<div class='col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left'>
+						<div class='col-12 col-sm-6 px-2 col-lg-6 col-xl-4 mb-1 px-md-2 pt-1 float-left'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 							<div id='mediaBlock#getImages.media_id#'>
 								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
@@ -764,7 +764,7 @@ limitations under the License.
 						order by
 							part_name
 					</cfquery>
-					<table class="table table-responsive-md w-100 tablesection my-1">
+					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">
 							<tr>
 								<th class="py-0"><span>Part</span></th>
@@ -1167,7 +1167,7 @@ limitations under the License.
 						decode(attribute_type,'sex',0,1), attribute_type
 				</cfquery>
 				<cfif attributes.recordcount GT 0>
-					<table class="table table-responsive-md w-100 tablesection my-1" aria-label="attributes">
+					<table class="table px-1 table-responsive-md w-100 tablesection my-1" aria-label="attributes">
 						<thead class="thead-light">
 							<tr>
 								<th class="py-0">Attribute</th>
@@ -1328,9 +1328,9 @@ limitations under the License.
 					</cfquery>
 				</cfif>
 				<cfif len(relns.biol_indiv_relationship) gt 0 >
-					<ul class="list-group pl-2">
+					<ul class="list-group">
 						<cfloop query="relns">
-							<li class="list-group-item"><span class="text-capitalize">#biol_indiv_relationship#</span> 
+							<li class="list-group-item pt-0 pb-1"><span class="text-capitalize">#biol_indiv_relationship#</span> 
 								<a href="/Specimens.cfm?execute=true&action=fixedSearch&collection=#relns.related_coll_cde#&cat_num=#relns.related_cat_num#">
 									#related_collection# #related_cat_num# 
 								</a>
@@ -1346,13 +1346,13 @@ limitations under the License.
 							WHERE
 								flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
-						<li class="pb-1 list-group-item">
+						<li class="pb-1 pt-0 list-group-item">
 							<a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=BIOL_INDIV_RELATIONS%3ARELATED_COLL_OBJECT_ID&searchText1=#lookupGuid.guid#&searchId1=#collection_object_id#">List of Related Specimens</a>
 						</li>
 					</ul>
 				<cfelse>
 					<ul class="pl-0 list-group">
-						<li class="small90 list-group-item font-italic">None</li>
+						<li class="small90 list-group-item pt-0 font-italic">None</li>
 					</ul>
 				</cfif>
 			<cfcatch>
@@ -1386,7 +1386,7 @@ limitations under the License.
 				</cfif>
 	
 				<cfset hasContent = false>
-				<ul class="list-group pl-2">
+				<ul class="list-group pl-0">
 					<!--- Accession for the cataloged item, display internally only --->
 					<cfif oneOfUs is 1>
 						<cfquery name="checkAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1579,7 +1579,7 @@ limitations under the License.
 						<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 							<cfset hasContent = true>
 							<li class="list-group-item pt-0">
-								<span class="font-weight-lessbold mb-0 d-inline-block">Loan History:</span>
+								<span class="font-weight-lessbold mb-0 d-inline-block float-left pr-1">Loan History:</span>
 								<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="loanList">
@@ -1593,7 +1593,7 @@ limitations under the License.
 						<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 							<cfset hasContent = true>
 							<li class="list-group-item">
-								<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
+								<span class="font-weight-lessbold mb-1 d-inline-block float-left">Deaccessions: </span>
 								<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#" target="_mainFrame">Deaccessions that include parts from cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 									<cfloop query="deaccessionList">
@@ -1620,7 +1620,7 @@ limitations under the License.
 						<cfif deaccessionCount.deaccessionedParts GT 0>
 							<cfset hasContent = true>
 							<li class="list-group-item">
-								<span class="font-weight-lessbold mb-1 d-inline-block">Deaccessions: </span>
+								<span class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">Deaccessions: </span>
 								<ul class="d-block">
 									<cfif deaccessionCount.parts EQ deaccessionCount.deaccessionedParts>
 										<li class="d-block"> Deaccessioned </li>
@@ -1634,9 +1634,9 @@ limitations under the License.
 					<cfif NOT hasContent>
 						<cfif oneOfUs IS 1>
 							<!--- we shoudn't actually get here, as all cataloged items have an accession --->
-							<li class="small90 list-group-item font-italic">None</li>
+							<li class="small90 list-group-item pt-0 font-italic">None</li>
 						<cfelse>
-							<li class="small90 list-group-item font-italic">[Masked]</li>
+							<li class="small90 list-group-item pt-0 font-italic">[Masked]</li>
 						</cfif>
 					</cfif>
 				</ul>
@@ -1940,7 +1940,7 @@ limitations under the License.
 					<cfset leftOfMapClass = "col-12">
 				</cfif>
 				<div class="#leftOfMapClass# px-0 float-left">
-					<ul class="sd list-unstyled row mx-0 px-3 py-1 mb-0">
+					<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
 						<cfif len(loc_collevent.continent_ocean) gt 0>
 							<cfif find('Ocean',loc_collevent.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
 							<li class="list-group-item col-5 px-0"><em>#colabel#:</em></li>
@@ -2004,15 +2004,15 @@ limitations under the License.
 							</li>
 						</cfif>
 					</ul>
-					<div class="w-100 float-left mx-2">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&action=fixedSearch&higher_geog==#loc_collevent.higher_geog#" title="See other specimens with this Higher Geography">Specimens with same Higher Geography</a></span>
+					<div class="w-100 float-left">
+						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&action=fixedSearch&higher_geog==#loc_collevent.higher_geog#" title="See other specimens with this Higher Geography">Specimens with same Higher Geography</a></span>
 					</div>
-					<div class="w-100 mx-2 float-left">
-						<span class="mx-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
+					<div class="w-100 float-left">
+						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
-					<ul class="sd list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
+					<ul class="sd list-unstyled bg-light row mx-0 px-2 py-1 mb-0 border-top">
 						<cfif len(loc_collevent.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="font-weight-lessbold my-0">Specific Locality: </span></li>
 							<li class="list-group-item col-7 px-0 last">#loc_collevent.spec_locality#</li>
@@ -2527,7 +2527,7 @@ limitations under the License.
 				</cfif>
 				<!--- check for mask record and prevent access, further check for mask parts below ---->
 				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-      			SELECT 
+					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
@@ -2552,18 +2552,18 @@ limitations under the License.
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
-								<li class="small90 list-group-item font-italic pt-0 pb-1"> None </li>
+								<li class="small90 list-group-item font-italic pt-0">None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
-								<li class="list-group-item pt-0">#object_rem.coll_object_remarks#</li>
+								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
-									<li class="list-group-item pt-0">Disposition Remarks: #object_rem.disposition_remarks#</li>
+									<li class="list-group-item pt-0 pb-1">Disposition Remarks: #object_rem.disposition_remarks#</li>
 								</cfif>
 							</cfif>
 							<cfif len(object_rem.associated_species) gt 0 >
-								<li class="list-group-item pt-0">Associated Species: #object_rem.associated_species#</li>
+								<li class="list-group-item pt-0 pb-1">Associated Species: #object_rem.associated_species#</li>
 							</cfif>
 						</cfloop>
 					</cfif>
@@ -2698,10 +2698,10 @@ limitations under the License.
 				</cfquery>
 				<ul class="list-group">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="small90 list-group-item font-italic pt-0 pb-1">None</li>
+						<li class="small90 list-group-item font-italic pt-0">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
-							<li class="list-group-item pt-0 pb-1">
+							<li class="list-group-item">
 								<a href= "/grouping/showNamedCollection.cfm?underscore_collection_id=#named_groups.underscore_collection_id#">#named_groups.collection_name#</a>
 							</li>
 						</cfloop>

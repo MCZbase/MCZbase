@@ -475,7 +475,7 @@ limitations under the License.
 
 				<!---- column 2 the leftmost of the two right columns ---->
 				<div class="col-12 col-lg-6 px-1 float-left"> 
-					<!----------------------------- identifications ----------------------------------> 
+					<!------------------------------------ identifications ------------------------------------>
 					<div class="accordion" id="accordionB">
 						<div class="card mb-2 bg-light">
 							<div id="identificationsDialog"></div>
@@ -513,7 +513,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!----------------------------- Citations ----------------------------------> 
+					<!------------------------------------ Citations ------------------------------------------>
 					<div class="accordion" id="accordionCitations">
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>
@@ -530,13 +530,15 @@ limitations under the License.
 							</div>
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 								<cfif len(trim(#blockcit#)) GT 0>
-									<div class="card-body" id="citationsCardBody">
+									<div class="card-body pt-2" id="citationsCardBody">
 										#blockcit#
 									</div>
 								<cfelse>
-									<ul class="list-group pl-2">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
+									<div class="card-body pt-2" id="citationsCardBody">
+										<ul class="list-group">
+											<li class="small90 list-group-item font-italic">None</li>
+										</ul>
+									</div>
 								</cfif>
 								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
 								<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
@@ -590,14 +592,16 @@ limitations under the License.
 										#blockotherid# 
 									</div>
 								<cfelse>
-									<ul class="list-group pl-2">
-										<li class="small90 list-group-item font-italic">None</li>
-									</ul>
+									<div class="card-body" id="otherIDsCardBody">
+										<ul class="list-group">
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
+										</ul>
+									</div>
 								</cfif>
 							</div>
 						</div>
 					</div>
-					<!------------------------------------ parts ---------------------------------->
+					<!------------------------------------ parts ---------------------------------------------->
 					<div class="accordion" id="accordionParts">
 						<div class="card mb-2 bg-light">
 							<div id="partsDialog"></div>
@@ -618,7 +622,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-								<div class="card-body px-3" id="partsCardBody">
+								<div class="card-body px-1" id="partsCardBody">
 									<p class="smaller py-0 mb-0 text-center w-100">
 										<cfif #partCount# gt 5>double-click part header to see all #partCount#</cfif>
 									</p>
@@ -628,7 +632,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!------------ attributes ----------------------------------------->
+					<!------------------------------------ attributes ----------------------------------------->
 					<div class="accordion" id="accordionAttributes">
 						<div class="card mb-2 bg-light">
 							<div id="attributesDialog"></div>
@@ -660,7 +664,7 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-3" id="attributesCardBody">
+									<div class="card-body px-1" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
@@ -697,7 +701,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!------------ coll object remarks ----------------------------------------->
+					<!------------------------------------ coll object remarks -------------------------------->
 					<div class="accordion" id="accordionRemarks">
 						<div class="card mb-2 bg-light">
 							<div id="RemarksDialog"></div>
@@ -721,7 +725,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!------------ Meta Data----------------------------------------->
+					<!------------------------------------ Meta Data------------------------------------------->
 					<cfif #oneOfUs# eq 1>
 						<div class="accordion" id="accordionMeta">
 							<div class="card mb-2 bg-light">
@@ -749,9 +753,9 @@ limitations under the License.
 					</cfif>
 				</div>
 
-				<!---  start of column three  (rightmost of the two right columns) --->
+				<!----- start of column 3 (rightmost of the two right columns) --->
 				<div class="col-12 col-lg-6 px-1 float-left"> 
-					<!--------------------locality and collecting event------------------------------>
+					<!-------------------.locality and collecting event----------------->
 					<div class="accordion" id="accordionLocality">
 						<div class="card mb-2 bg-light">
 							<div id="localityDialog"></div>
@@ -776,7 +780,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!------------------- Preparators ---------------------------->
+					<!------------------- Preparators ---------------------------------->
 					<div class="accordion" id="accordionPreparators">
 						<div class="card mb-2 bg-light">
 							<div id="preparatorsDialog"></div>
@@ -800,7 +804,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!-----------------------------Ledger--------------------------------> 
+					<!------------------- Ledger---------------------------------------->
 					<cfset ledgerMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents", get_count = 'true')>
 					<cfset ledgerMediaCount = val(rereplace(ledgerMediaCount,"[^0-9]","","all"))>
 					<div class="accordion" id="accordionLedger">
@@ -817,21 +821,21 @@ limitations under the License.
 								<cfif ledgerMediaCount gt 0> 
 									<div class="card-body" id="ledgerCardBody">
 										<cfset ledgerBlock = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "documents")>
-										<div class="col-12 px-1 mb-1 px-md-1 pt-1 float-left">
+										<div class="col-12 px-2 mb-1 px-md-2 pt-1 float-left">
 											#ledgerBlock# 
 										</div>
 									</div>
 								<cfelse>
 									<div class="card-body" id="ledgerCardBody">
-										<ul class="pl-2 list-group">
-											<li class="small90 list-group-item font-italic">None</li>
+										<ul class="list-group">
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
 							</div>
 						</div>
 					</div>
-					<!------------------------------ tranactions  --------------------------------->
+					<!------------------- tranactions  --------------------------------->
 					<div class="accordion" id="accordionTransactions">
 						<div class="card mb-2 bg-light">
 							<div id="transactionsDialog"></div>
@@ -855,7 +859,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<!------------------------------ named groups  --------------------------------->
+					<!------------------- named groups  -------------------------------->
 					<div class="accordion" id="accordionNamedGroups">
 						<div class="card mb-2 bg-light">
 							<div id="NamedGroupsDialog"></div>
@@ -880,7 +884,6 @@ limitations under the License.
 						</div>
 					</div>
 				</div> <!--- end of column 3 --->
-
 			</div><!--- end of column to hold the two right colums (the two colums if no media) --->
 		</div><!--- end row --->
 	</div><!--- end container-fluid --->
