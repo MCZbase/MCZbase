@@ -536,7 +536,7 @@ limitations under the License.
 								<cfelse>
 									<div class="card-body" id="citationsCardBody">
 										<ul class="list-group">
-											<li class="small90 list-group-item font-italic">None</li>
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
