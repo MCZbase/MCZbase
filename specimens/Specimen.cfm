@@ -531,7 +531,9 @@ limitations under the License.
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 								<cfif len(trim(#blockcit#)) GT 0>
 									<div class="card-body" id="citationsCardBody">
+										<div class="float-left">
 										#blockcit#
+										</div>
 									</div>
 								<cfelse>
 									<div class="card-body" id="citationsCardBody">
