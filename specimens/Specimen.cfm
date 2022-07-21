@@ -740,7 +740,7 @@ limitations under the License.
 										Collection Object Annotations
 									</button>
                 				<cfif len(session.username) gt 0>
-                  				<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotation('collection_object_id=#collection_object_id#')">
+                  				<a href="##" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotation('collection_object_id=#collection_object_id#')">
 											Report Bad Data
 										</a>
 									</cfif>
