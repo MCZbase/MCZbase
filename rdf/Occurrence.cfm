@@ -242,11 +242,11 @@
   "dwc:day":"#day#",
   "dwc:month":"#month#",
   "dwc:year":"#year#",
-  "dwc:decimalLatitude":"#dec_lat#"'
-  "dwc:decimalLongitude":"#dec_long#"'
-  "dwc:geodeticDatum":"#geodeticdatum#"'
-  "dwc:coordinateUncertaintyInMeters":"#coordinateuncertaintyinmeters#"'
-  "dwciri:georeferencedBy "#georeferencedbyid#"'
+  "dwc:decimalLatitude":"#dec_lat#",
+  "dwc:decimalLongitude":"#dec_long#",
+  "dwc:geodeticDatum":"#geodeticdatum#",
+  "dwc:coordinateUncertaintyInMeters":"#coordinateuncertaintyinmeters#",
+  "dwciri:georeferencedBy "#georeferencedbyid#",
 <cfif basisofrecord IS "FossilSpecimen">  "dwc:group":"#geol_group#",
   "dwc:formation":"#formation#",
   "dwc:member":"#member#",
