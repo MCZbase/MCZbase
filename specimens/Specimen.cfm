@@ -740,6 +740,28 @@ limitations under the License.
 										Collection Object Annotations
 									</button>
                 				<cfif len(session.username) gt 0>
+										<!--- TODO: Update this function and place in appropriate library file. --->
+										<script>
+											function openAnnotation(q) {
+												var bgDiv = document.createElement('div');
+												bgDiv.id = 'bgDiv';
+												bgDiv.className = 'bgDiv';
+												bgDiv.setAttribute('onclick','closeAnnotation()');
+												document.body.appendChild(bgDiv);
+												
+												var theDiv = document.createElement('div');
+												theDiv.id = 'annotateDiv';
+												theDiv.className = 'annotateBox';
+												theDiv.innerHTML='';
+												theDiv.src = "";
+												document.body.appendChild(theDiv);
+												var guts = "/info/annotate.cfm?q=" + q;
+												jQuery('#annotateDiv').load(guts,{},function(){
+													viewport.init("#annotateDiv");
+													viewport.init("#bgDiv");
+												});
+											}
+										</script>
                   				<a href="##" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotation('collection_object_id=#collection_object_id#')">
 											Report Bad Data
 										</a>
