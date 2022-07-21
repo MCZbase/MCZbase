@@ -2581,6 +2581,86 @@ limitations under the License.
 	<cfreturn getRemarksThread.output>
 </cffunction>
 
+
+<!--- getAnnotationsHTML get a block of html containing annotations for a specified cataloged item.
+ @param collection_object_id for the cataloged item for which to return annotations.
+ @return a block of html with collection object annotations, or if none, html with the text None
+--->
+<cffunction name="getAnnotationsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getAnnotationsThread">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record and prevent access, further check for mask parts below ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						annotation_id,
+						to_char(annotate_date,'yyyy-mm-dd') annotate_date,
+						cf_username,
+						annotation,
+						reviewer_agent_id,
+						MCZBASE.get_agentnameoftype(reviewer_agent_id) reviewer,
+						reviewed_fg,
+						reviewer_comment,
+						state, 
+						resolution
+					FROM 
+						annotation
+					WHERE
+						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					ORDER BY 
+						annotate_date
+				</cfquery>
+				<ul class="list-group">
+					<!--- check for mask parts, hide collection object remarks if mask parts ---->
+					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+						<li class="list-group-item">Masked</li>
+					<cfelse>
+						<cfif annotations.recordcount EQ 0>
+							<li class="small90 list-group-item font-italic pt-0">None </li>
+						</cfif>
+						<cfloop query="annotations">
+							<cfif len(#annotation#) gt 0>
+								<li class="list-group-item py-1">
+									#annotation#
+									<span class="d-block small mb-0 pb-0">#state# (#annotate_date#)</span>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+										<cfif reviewed_fg EQ "1">
+											<span class="d-block small mb-0 pb-0">#resolution# #reviwer# #reviewer_comment#</span>
+										</cfif>
+									</cfif>
+								</li>
+							</cfif>
+						</cfloop>
+					</cfif>
+				</ul>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getAnnotationsThread"/>
+	<cfreturn getAnnotationsThread.output>
+</cffunction>
+
 <!--- getMetaHTML get a block of html containing metadata about a cataloged item record 
  @param collection_object_id for the cataloged item for which to return metadata.
  @return a block of html with cataloged item record metadata, or if none, whitespace only
