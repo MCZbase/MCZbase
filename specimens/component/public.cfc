@@ -527,7 +527,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i = 1>
 				<cfloop query="citations" group="formatted_publication">
-					<div class="d-block list-group pt-0 pb-1 px-2 w-100 mb-0 float-left small95">
+					<div class="list-group pt-0 d-block pb-1 px-2 w-100 mb-0 small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>page&nbsp;
@@ -1173,14 +1173,14 @@ limitations under the License.
 								<th class="py-0">Attribute</th>
 								<th class="py-0">Value</th>
 								<th class="py-0">Determination By</th>
-								<th class="py-0">On</th>
+								<th class="py-0" style="min-width: 93px;">On</th>
 							</tr>
 						</thead>
 						<tbody class="bg-white">
 						<cfloop query="attributes">
 							<tr <cfif attributes.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
-								<td style="width: 40%;">#attribute_value#</td>
+								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
