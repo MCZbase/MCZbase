@@ -1,14 +1,16 @@
 <cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
+	<cftry>
+   	<cfset accept = GetHttpRequestData().Headers['accept'] >
+	<cfcatch>
+   	<cfset accept = "application/rdf+xml">
+	</cfcatch>
+<cfelse>
+	<cfset accept = deliver>
 </cfif>
 <cfif NOT isdefined("guid")>
    <cfset guid="MCZ:IP:100000">
 </cfif>
-<cftry>
-   <cfset accept = GetHttpRequestData().Headers['accept'] >
-<cfcatch>
-   <cfset accept = "application/rdf+xml">
-</cfcatch>
 </cftry>
 <cfset done = false>
 <cfloop list='#accept#' delimiters=',' index='a'>
