@@ -306,7 +306,7 @@ limitations under the License.
 					</div>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<cfif stored_as_fg is 1>
-							<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
+							<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 						</cfif>
 					</cfif>
 					<cfif len(formatted_publication) gt 0>
@@ -1172,7 +1172,7 @@ limitations under the License.
 							<tr>
 								<th class="py-0">Attribute</th>
 								<th class="py-0">Value</th>
-								<th class="py-0">Determination By</th>
+								<th class="py-0">Determination</th>
 								<th class="py-0" style="min-width: 93px;">On</th>
 							</tr>
 						</thead>
@@ -1189,7 +1189,7 @@ limitations under the License.
 										<cfset determination ="<a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline '>Method: </span> #determination_method#">
+										<cfset determination = "<span class='d-inline font-weight-lessbold'>By: </span> <span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 									</cfif>
 								</cfif>
 								<td>#determination#</td>
