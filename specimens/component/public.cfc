@@ -2619,7 +2619,7 @@ limitations under the License.
 						state, 
 						resolution
 					FROM 
-						annotation
+						annotations
 					WHERE
 						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY 
