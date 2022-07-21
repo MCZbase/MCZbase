@@ -8,6 +8,11 @@
 	</cftry>
 <cfelse>
 	<cfset accept = deliver>
+	<cfif accept = "json" or accept="json-ld">
+   	<cfset accept = "application/ld+json">
+	<cfelse accept = "turtle">
+   	<cfset accept = "text/turtle">
+	</cfif>
 </cfif>
 <cfif NOT isdefined("guid")>
    <cfset guid="MCZ:IP:100000">
