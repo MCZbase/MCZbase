@@ -204,6 +204,7 @@ limitations under the License.
 						<h1 class="col-12 col-md-6 mb-0 h4">#collection_heading#&nbsp;#cat_num#</h1>
 						<div class="float-right col-12 ml-auto col-md-6 my-2 w-auto">
 							occurrenceId: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+							<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 						</div>
 					</div>
 					<div class="row mx-0">
@@ -530,13 +531,13 @@ limitations under the License.
 							</div>
 							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 								<cfif len(trim(#blockcit#)) GT 0>
-									<div class="card-body pt-2" id="citationsCardBody">
+									<div class="card-body pt-2 pb-1" id="citationsCardBody">
 										#blockcit#
 									</div>
 								<cfelse>
-									<div class="card-body pt-2" id="citationsCardBody">
+									<div class="card-body" id="citationsCardBody">
 										<ul class="list-group">
-											<li class="small90 list-group-item font-italic">None</li>
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>

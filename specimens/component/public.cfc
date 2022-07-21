@@ -306,7 +306,7 @@ limitations under the License.
 					</div>
 					<cfif listcontainsnocase(session.roles,"manage_specimens")>
 						<cfif stored_as_fg is 1>
-							<span class="bg-gray float-right rounded p-1 font-weight-lessbold">STORED AS</span>
+							<span class="bg-gray float-right rounded p-1 text-muted font-weight-lessbold">STORED AS</span>
 						</cfif>
 					</cfif>
 					<cfif len(formatted_publication) gt 0>
@@ -527,7 +527,7 @@ limitations under the License.
 				</cfquery>
 				<cfset i = 1>
 				<cfloop query="citations" group="formatted_publication">
-					<div class="d-block list-group pt-0 pb-1 px-2 w-100 mb-0 float-left small95">
+					<div class="list-group pt-0 d-block pb-1 px-2 w-100 mb-0 small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>page&nbsp;
@@ -786,7 +786,7 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
-									<td class="py-1"><span class="">#part_name#</span></td>
+									<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
 									<td class="py-1">#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
 									<td class="py-1">
@@ -848,7 +848,7 @@ limitations under the License.
 								</tr>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
-										<td colspan="5" class="mb-0 py-0">
+										<td colspan="5" class="mb-0 pb-1 pt-0">
 											<span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span>
 										</td>
 									</tr>
@@ -1172,24 +1172,24 @@ limitations under the License.
 							<tr>
 								<th class="py-0">Attribute</th>
 								<th class="py-0">Value</th>
-								<th class="py-0">Determination By</th>
-								<th class="py-0">On</th>
+								<th class="py-0">Determination</th>
+								<th class="py-0" style="min-width: 93px;">On</th>
 							</tr>
 						</thead>
 						<tbody class="bg-white">
 						<cfloop query="attributes">
 							<tr <cfif attributes.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
-								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
-								<td style="width: 40%;">#attribute_value#</td>
+								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
+								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
 										<cfset determination ="#attributeDeterminer#">
 									<cfelse>
-										<cfset determination ="<a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+										<cfset determination ="<span class='d-inline font-weight-lessbold'>By: </span> <a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
-										<cfset determination = "<span class='d-inline'>#determination#</span>, <span class='d-inline '>Method: </span> #determination_method#">
+										<cfset determination = " <span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
 									</cfif>
 								</cfif>
 								<td>#determination#</td>
@@ -2548,22 +2548,22 @@ limitations under the License.
 				<ul class="list-group">
 					<!--- check for mask parts, hide collection object remarks if mask parts ---->
 					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
-						<li class="list-group-item pt-0">Masked</li>
+						<li class="list-group-item">Masked</li>
 					<cfelse>
 						<cfloop query="object_rem">
 							<cfif len(#object_rem.coll_object_remarks#) EQ 0 AND len(object_rem.disposition_remarks) EQ 0 AND len(object_rem.associated_species) EQ 0>
 								<li class="small90 list-group-item font-italic pt-0">None </li>
 							</cfif>
 							<cfif len(#object_rem.coll_object_remarks#) gt 0>
-								<li class="list-group-item pt-0 pb-1">#object_rem.coll_object_remarks#</li>
+								<li class="list-group-item py-1">#object_rem.coll_object_remarks#</li>
 							</cfif>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 								<cfif len(object_rem.disposition_remarks) gt 0 >
-									<li class="list-group-item pt-0 pb-1">Disposition Remarks: #object_rem.disposition_remarks#</li>
+									<li class="list-group-item py-1">Disposition Remarks: #object_rem.disposition_remarks#</li>
 								</cfif>
 							</cfif>
 							<cfif len(object_rem.associated_species) gt 0 >
-								<li class="list-group-item pt-0 pb-1">Associated Species: #object_rem.associated_species#</li>
+								<li class="list-group-item py-1">Associated Species: #object_rem.associated_species#</li>
 							</cfif>
 						</cfloop>
 					</cfif>

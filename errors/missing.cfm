@@ -1,4 +1,5 @@
 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+	<!--- TODO: Extract parameters from cgi.redirect_query_string, not being populated by apache/mod_jk though mod_jk is configured to do so --->
 	<cfset rdurl=cgi.REDIRECT_URL>
 	<cfif rdurl contains chr(195) & chr(151)>
 		<cfset rdurl=replace(rdurl,chr(195) & chr(151),chr(215))>
@@ -15,20 +16,48 @@
 
 		<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
 		<!--- default to human readable web page --->
-		<cfset deliver = "text/html">
-		<cfset done = false>
-		<cfloop list='#accept#' delimiters=',' index='a'>
-			<cfif NOT done>
-				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-					<cfset deliver = a>
-					<cfset done = true>
-				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-					<!--- use text/html for human readable delivery, actual is xhtml --->
-					<cfset deliver = 'text/html'>
-					<cfset done = true>
+		<cfif NOT isDefined("deliver")>
+			<cfset deliver = "text/html">
+			<cfset done = false>
+			<cfloop list='#accept#' delimiters=',' index='a'>
+				<cfif NOT done>
+					<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
+						<cfset deliver = a>
+						<cfset done = true>
+					<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
+						<!--- use text/html for human readable delivery, actual is xhtml --->
+						<cfset deliver = 'text/html'>
+						<cfset done = true>
+					</cfif>
 				</cfif>
+			</cfloop>
+			<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
+			<cfif refind('/json$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/json$","")>
+	   		<cfset deliver = "application/ld+json">
+			<cfelseif refind('/json-ld$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/json-ld$","")>
+	   		<cfset deliver = "application/ld+json">
+			<cfelseif refind('/turtle$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/turtle$","")>
+	   		<cfset deliver = "text/turtle">
+			<cfelseif refind('/trdf$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/rdf$","")>
+	   		<cfset deliver = "application/xhtml+xml">
 			</cfif>
-		</cfloop>
+		<cfelse>
+			<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
+			<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
+			<cfif deliver IS "json" OR deliver IS "json-ld">
+	   		<cfset deliver = "application/ld+json">
+			<cfelseif deliver IS "turtle">
+ 			  	<cfset deliver = "text/turtle">
+			<cfelseif deliver IS "rdf">
+	   		<cfset deliver = "application/xhtml+xml">
+			<cfelse>
+				<cfset deliver = "text/html">
+			</cfif>
+		</cfif>
 
 		<cfif deliver NEQ "text/html">
 			<cftry>
@@ -51,8 +80,13 @@
 						<cfheader statuscode="301" statustext="Moved permanently">
 						<cfheader name="Location" value="/guid/#guid#">
 					</cfif>
-					<!---- WARNING: Production URI, do not change to redesign yet, that is the block above --->
-					<cfinclude template="/SpecimenDetail.cfm">
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<!--- logged in users see the old specimen details page, this allows editing --->
+						<cfinclude template="/SpecimenDetail.cfm">
+					<cfelse>
+						<!--- not logged in sees the redesigned specimen details page, editing not enabled for them and not working there yet --->
+						<cfinclude template="/specimens/Specimen.cfm">
+					</cfif>
 				<cfcatch>
 						<cfinclude template="/errors/404.cfm">
 				</cfcatch>
