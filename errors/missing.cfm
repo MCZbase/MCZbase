@@ -32,7 +32,7 @@
 			</cfloop>
 		<cfelse>
 			<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
-			<cfif deliver IS "json" OR accept IS "json-ld">
+			<cfif deliver IS "json" OR deliver IS "json-ld">
 	   		<cfset deliver = "application/ld+json">
 			<cfelseif deliver IS "turtle">
  			  	<cfset deliver = "text/turtle">
