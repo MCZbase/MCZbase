@@ -205,7 +205,7 @@ limitations under the License.
 						<div class="float-right col-12 ml-auto col-md-6 my-2 w-auto">
 							occurrenceId: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 							<!--- <a href="/guid/#GUID#?deliver=json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a> --->
-							<a href="/rdf/Occurrence.cfm?guid=##&deliver=json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+							<a href="/rdf/Occurrence.cfm?guid=#GUID#&deliver=json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 						</div>
 					</div>
 					<div class="row mx-0">
