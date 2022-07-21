@@ -71,7 +71,7 @@
 <cfif began_date EQ ended_date OR len(ended_date) EQ 0>
 	<cfset eventDate = began_date>
 <cfelse>
-	<cfset eventDate = "#began_date/ended_date#"
+	<cfset eventDate = "#began_date/ended_date#">
 </cfif>
 
 <cfloop query=occur>
