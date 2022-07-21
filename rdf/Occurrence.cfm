@@ -196,7 +196,7 @@
   "dwc:latestepochorhighestseries":"#latestepochorhighestseries#",
   "dwc:earliestageorloweststage":"#earliestageorloweststage#",
   "dwc:latestageorhigheststage":"#latestageorhigheststage#",
-  "dwc:recordedBy":"#collectors#"
+</cfif>  "dwc:recordedBy":"#collectors#"
 }
 </cfoutput>
 </cfif><!--- JSON-LD --->
