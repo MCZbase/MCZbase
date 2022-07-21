@@ -10,7 +10,7 @@
 	<cfset accept = deliver>
 	<cfif accept IS "json" OR accept IS "json-ld">
    	<cfset accept = "application/ld+json">
-	<cfelse accept IS "turtle">
+	<cfelseif accept IS "turtle">
    	<cfset accept = "text/turtle">
 	</cfif>
 </cfif>
