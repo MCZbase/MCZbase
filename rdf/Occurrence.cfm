@@ -44,13 +44,20 @@
 
 <cfquery name="occur" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT distinct 
+		collection_object_id,
 		cat_num, collection_cde, guid, 
 		basisofrecord,	
 		country, state_prov, county, spec_locality,
+		highergeographyid,
 		trim(scientific_name || ' ' || author_text) as scientific_name,
+		taxonid,
+		scientificnameid,
+		identifiedby,
+		identifiedbyid,
 		REPLACE(REPLACE(typestatusplain,'<i>'),'</i>') AS typestatus,
 		author_text,
 		collectors,
+		recordedbyid,
     	(case when began_date > '1700-01-01' then began_date else '' end) as began_date,
     	(case when began_date > '1700-01-01' then ended_date else '' end) as ended_date,
 		(case when began_date > '1700-01-01' then regexp_substr(began_date, '([0-9]{4})',1,1,'i',1) else '' end) as year,
@@ -69,6 +76,11 @@
 		EARLIESTAGEORLOWESTSTAGE,
 		LATESTAGEORHIGHESTSTAGE,
 		LITHOSTRATIGRAPHICTERMS,
+		dec_lat,
+		dec_long,
+		datum as geodeticdatum,
+		coordinateuncertaintyinmeters,
+		georeferencedbyid,
 		last_edit_date
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif>
 	WHERE guid = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#guid#">
@@ -82,6 +94,19 @@
 </cfif>
 
 <cfloop query=occur>
+<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT 
+		agentguid
+	FROM
+		collector
+		left join agent on collector.agent_id = agent.agent_id
+	WHERE
+		collector.collection_object_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#occur.collection_object_id#">
+		and collector.collector_role = 'c'
+		and agentguid is not null
+	ORDER BY 
+		collector.coll_order
+</cfquery>
 <cfif deliver IS 'application/rdf+xml'>
 <cfoutput><rdf:RDF
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns##"
@@ -98,15 +123,25 @@
    <dcterms:rightsHolder>President and Fellows of Harvard College</dcterms:rightsHolder>
    <dwc:scientificName>#scientific_name#</dwc:scientificName>
    <dwc:scientificNameAuthorship>#author_text#</dwc:scientificNameAuthorship>
+   <dwc:taxonID>#taxonid#</dwc:taxonID>
+   <dwc:scientificNameID>#scientificnameid#</dwc:scientificNameID>
+   <dwc:identifiedBy>#identifiedby#</dwc:identifiedBy>
+   <dwciri:identifiedBy>#identifiedbyid#</dwciri:identifiedBy>
 <cfif len(typestatus) GT 0>   <dwc:typeStatus>#typestatus#</dwc:typeStatus>
 </cfif>   <dwc:country>#country#</dwc:country>
    <dwc:stateProvince>#state_prov#</dwc:stateProvince>
    <dwc:locality>#spec_locality#</dwc:locality>
-   <dwc:recordedBy>#collectors#</dwc:recordedBy>
-   <dwc:eventDate>#eventDate#</dwc:eventDate>
+   <dwc:recordedBy>#collectors#</dwc:recordedBy><cfif colls.recordcount GT 0><cfloop query="colls">
+   <dwciri:recordedBy>#colls.agentguid#</dwciri:recordedBy>
+</cfloop></cfif>   <dwc:eventDate>#eventDate#</dwc:eventDate>
    <dwc:day>#day#</dwc:day>
    <dwc:month>#month#</dwc:month>
    <dwc:year>#year#</dwc:year>
+   <dwc:decimalLatitude>#dec_lat#</dwc:decimalLatitude>
+   <dwc:decimalLongitude>#dec_long#</dwc:decimalLongitude>
+   <dwc:geodeticDatum>#geodeticdatum#</dwc:geodeticDatum>
+   <dwc:coordinateUncertaintyInMeters>#coordinateuncertaintyinmeters#</dwc:coordinateUncertaintyInMeters>
+   <dwciri:georeferencedBy>#georeferencedbyid#</dwciri:georeferencedBy>
 <cfif basisofrecord IS "FossilSpecimen">   <dwc:group>#geol_group#</dwc:group>
    <dwc:formation>#formation#</dwc:formation>
    <dwc:member>#member#</dwc:member>
@@ -141,14 +176,25 @@
    dcterms:modified "#last_edit_date#"^^xsd:date ;
    dwc:scientificName "#scientific_name#";
    dwc:scientificNameAuthorship "#author_text#";
+   dwc:taxonID "#taxonid#";
+   dwc:scientificNameID "#scientificnameid#";
+   dwc:identifiedBy "#identifiedby#";
+   dwciri:identifiedBy "#identifiedbyid#";
 <cfif len(typestatus) GT 0>   dwc:typeStatus "#typeStatus#";
 </cfif>   dwc:country "#country#";
    dwc:stateProvince "#state_prov#";
    dwc:locality "#spec_locality#";
-   dwc:eventDate "#eventDate#";
+   dwc:recordedBy "#collectors#";<cfif colls.recordcount GT 0><cfloop query="colls">
+   dwciri:recordedBy> "#colls.agentguid#";
+</cfloop></cfif>   dwc:eventDate "#eventDate#";
    dwc:day "#day#";
    dwc:month "#month#";
    dwc:year "#year#";
+   dwc:decimalLatitude "#dec_lat#";
+   dwc:decimalLongitude "#dec_long#";
+   dwc:geodeticDatum "#geodeticdatum#";
+   dwc:coordinateUncertaintyInMeters "#coordinateuncertaintyinmeters#";
+   dwciri:georeferencedBy "#georeferencedbyid#";
 <cfif basisofrecord IS "FossilSpecimen">   dwc:group "#geol_group#";
    dwc:formation "#formation#";
    dwc:member "#member#";
@@ -182,14 +228,25 @@
   "dcterms:modified":"#last_edit_date#",
   "dwc:scientificName":"#scientific_name#",
   "dwc:scientificNameAuthorship":"#author_text#",
+  "dwc:taxonID":"#taxonid#",
+  "dwc:scientificNameID":"#scientificnameid#",
+  "dwc:identifiedBy":"#identifiedby#",
+  "dwciri:identifiedBy":"#identifiedbyid#",
 <cfif len(typestatus) GT 0>  "dwc:typeStatus":"#typestatus#",
 </cfif> "dwc:country":"#country#",
   "dwc:stateProvince":"#state_prov#",
   "dwc:locality":"#spec_locality#",
-  "dwc:eventDate":"#eventDate#",
+  "dwc:recordedBy":"#collectors#",<cfif colls.recordcount GT 0><cfloop query="colls">
+  "dwciri:recordedBy":"#colls.agentguid#",
+</cfloop></cfif>  "dwc:eventDate":"#eventDate#",
   "dwc:day":"#day#",
   "dwc:month":"#month#",
   "dwc:year":"#year#",
+  "dwc:decimalLatitude":"#dec_lat#",
+  "dwc:decimalLongitude":"#dec_long#",
+  "dwc:geodeticDatum":"#geodeticdatum#",
+  "dwc:coordinateUncertaintyInMeters":"#coordinateuncertaintyinmeters#",
+  "dwciri:georeferencedBy":"#georeferencedbyid#",
 <cfif basisofrecord IS "FossilSpecimen">  "dwc:group":"#geol_group#",
   "dwc:formation":"#formation#",
   "dwc:member":"#member#",
