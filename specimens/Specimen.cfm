@@ -449,7 +449,7 @@ limitations under the License.
 							<div id="mediaDialog"></div>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h5 my-0 text-dark">
-									<button type="button" aria-label="mediaPane" aria-pressed= "false" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
+									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
 										<span class="text-dark">(#specimenMediaCount#)</span>
 									</button>
