@@ -484,7 +484,7 @@ limitations under the License.
 							<div class="card-header" id="heading1">
 								<cfif len(#blockident#) gt 10> 
 									<h3 class="h5 my-0" tabindex="0">
-										<button type="button" role="button" class="headerLnk text-left w-100" href="##" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
+										<button type="button" role="button" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 											Identifications
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
