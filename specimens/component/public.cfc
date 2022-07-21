@@ -2639,7 +2639,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										#annotation#
 									<cfelse>
-										#rereplace("^.* reported:",annotation,"[Masked] reported:")#
+										#rereplace(annotation,"^.* reported:","[Masked] reported:")#
 									</cfif>
 									<span class="d-block small mb-0 pb-0">#state# (#annotate_date#)</span>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>

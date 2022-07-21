@@ -739,6 +739,11 @@ limitations under the License.
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="AnnotationsPane" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
 										Collection Object Annotations
 									</button>
+                				<cfif len(session.username) gt 0>
+                  				<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onclick="openAnnotation('collection_object_id=#collection_object_id#')">
+											Report Bad Data
+										</a>
+									</cfif>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
 										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
 											Edit
