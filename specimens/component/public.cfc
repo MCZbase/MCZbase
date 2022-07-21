@@ -1179,7 +1179,7 @@ limitations under the License.
 						<tbody class="bg-white">
 						<cfloop query="attributes">
 							<tr <cfif attributes.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
-								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
+								<td><span class="font-weight-lessbold" title="#attribute_description#">#attribute_type#</span></td>
 								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
