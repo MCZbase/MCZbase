@@ -361,6 +361,9 @@ limitations under the License.
 			function reloadRemarks() { 
 				loadRemarks(#collection_object_id#,'remarksCardBody');
 			}
+			function reloadAnnotations() { 
+				loadAnnotations(#collection_object_id#,'annotationsCardBody');
+			}
 			function reloadMeta() { 
 				loadMeta(#collection_object_id#,'metaCardBody');
 			}
@@ -722,6 +725,30 @@ limitations under the License.
 							<div id="RemarksPane" class="collapse show" aria-labelledby="headingRemarks" data-parent="##accordionRemarks">
 								<div class="card-body" id="remarksCardBody">
 									#blockRemarks#
+								</div>
+							</div>
+						</div>
+					</div>
+					<!------------------------------------ annotations -------------------------------->
+					<div class="accordion" id="accordionAnnotations">
+						<div class="card mb-2 bg-light">
+							<div id="AnnotationsDialog"></div>
+							<cfset blockAnnotations = getAnnotationsHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingAnnotations">
+								<h3 class="h5 my-0">
+									<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
+										Collection Object Annotations
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditAnnotationsDialog(#collection_object_id#,'AnnotationsDialog','#guid#',reloadAnnotations)">
+											Edit
+										</a>
+									</cfif>
+								</h3>
+							</div>
+							<div id="AnnotationsPane" class="collapse show" aria-labelledby="headingAnnotations" data-parent="##accordionAnnotations">
+								<div class="card-body" id="annotationsCardBody">
+									#blockAnnotations#
 								</div>
 							</div>
 						</div>
