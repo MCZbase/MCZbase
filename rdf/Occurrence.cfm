@@ -131,7 +131,7 @@
 </cfif>   <dwc:country>#country#</dwc:country>
    <dwc:stateProvince>#state_prov#</dwc:stateProvince>
    <dwc:locality>#spec_locality#</dwc:locality>
-   <dwc:recordedBy>#collectors#</dwc:recordedBy><cfif collectors.recordcount GT 0><cfloop query="colls">
+   <dwc:recordedBy>#collectors#</dwc:recordedBy><cfif colls.recordcount GT 0><cfloop query="colls">
    <dwciri:recordedBy>#colls.agentguid#</dwciri:recordedBy>
 </cfloop></cfif>   <dwc:eventDate>#eventDate#</dwc:eventDate>
    <dwc:day>#day#</dwc:day>
@@ -184,7 +184,7 @@
 </cfif>   dwc:country "#country#";
    dwc:stateProvince "#state_prov#";
    dwc:locality "#spec_locality#";
-   dwc:recordedBy "#collectors#";<cfif collectors.recordcount GT 0><cfloop query="colls">
+   dwc:recordedBy "#collectors#";<cfif colls.recordcount GT 0><cfloop query="colls">
    dwciri:recordedBy> "#colls.agentguid#";
 </cfloop></cfif>   dwc:eventDate "#eventDate#";
    dwc:day "#day#";
@@ -236,7 +236,7 @@
 </cfif> "dwc:country":"#country#",
   "dwc:stateProvince":"#state_prov#",
   "dwc:locality":"#spec_locality#",
-  "dwc:recordedBy":"#collectors#",<cfif collectors.recordcount GT 0><cfloop query="colls">
+  "dwc:recordedBy":"#collectors#",<cfif colls.recordcount GT 0><cfloop query="colls">
   "dwciri:recordedBy":"#colls.agentguid#",
 </cfloop></cfif>  "dwc:eventDate":"#eventDate#",
   "dwc:day":"#day#",
