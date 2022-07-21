@@ -80,8 +80,13 @@
 						<cfheader statuscode="301" statustext="Moved permanently">
 						<cfheader name="Location" value="/guid/#guid#">
 					</cfif>
-					<!---- WARNING: Production URI, do not change to redesign yet, that is the block above --->
-					<cfinclude template="/SpecimenDetail.cfm">
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+						<!--- logged in users see the old specimen details page, this allows editing --->
+						<cfinclude template="/SpecimenDetail.cfm">
+					<cfelse>
+						<!--- not logged in sees the redesigned specimen details page, editing not enabled for them and not working there yet --->
+						<cfinclude template="/specimens/Specimen.cfm">
+					</cfif>
 				<cfcatch>
 						<cfinclude template="/errors/404.cfm">
 				</cfcatch>
