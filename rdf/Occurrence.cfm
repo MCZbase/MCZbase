@@ -246,7 +246,7 @@
   "dwc:decimalLongitude":"#dec_long#",
   "dwc:geodeticDatum":"#geodeticdatum#",
   "dwc:coordinateUncertaintyInMeters":"#coordinateuncertaintyinmeters#",
-  "dwciri:georeferencedBy "#georeferencedbyid#",
+  "dwciri:georeferencedBy":"#georeferencedbyid#",
 <cfif basisofrecord IS "FossilSpecimen">  "dwc:group":"#geol_group#",
   "dwc:formation":"#formation#",
   "dwc:member":"#member#",
