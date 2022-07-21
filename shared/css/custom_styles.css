@@ -485,6 +485,9 @@ span.data-entry-addon {
 .text-success {
 	color: #1e5d16 !important;
 }
+.btn-outline-success {
+	border-color: #1e5d16 !important;
+}
 .btn-danger {
 	background-color: #f8d7da;
 	background: #f8d7da;
