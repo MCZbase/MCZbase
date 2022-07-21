@@ -15,20 +15,33 @@
 
 		<!--- Content negotiation, pick highest priority content type that we can deliver from the http accept header list --->
 		<!--- default to human readable web page --->
-		<cfset deliver = "text/html">
-		<cfset done = false>
-		<cfloop list='#accept#' delimiters=',' index='a'>
-			<cfif NOT done>
-				<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
-					<cfset deliver = a>
-					<cfset done = true>
-				<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
-					<!--- use text/html for human readable delivery, actual is xhtml --->
-					<cfset deliver = 'text/html'>
-					<cfset done = true>
+		<cfif NOT isDefined("deliver")>
+			<cfset deliver = "text/html">
+			<cfset done = false>
+			<cfloop list='#accept#' delimiters=',' index='a'>
+				<cfif NOT done>
+					<cfif a IS 'text/turtle' OR a IS 'application/rdf+xml' OR a IS 'application/ld+json'>
+						<cfset deliver = a>
+						<cfset done = true>
+					<cfelseif a IS 'text/html' OR a IS 'text/xml' OR a IS 'application/xml' OR a IS 'application/xhtml+xml'> 
+						<!--- use text/html for human readable delivery, actual is xhtml --->
+						<cfset deliver = 'text/html'>
+						<cfset done = true>
+					</cfif>
 				</cfif>
+			</cfloop>
+		<cfelse>
+			<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
+			<cfif deliver IS "json" OR accept IS "json-ld">
+	   		<cfset deliver = "application/ld+json">
+			<cfelseif deliver IS "turtle">
+ 			  	<cfset deliver = "text/turtle">
+			<cfelseif deliver IS "rdf">
+	   		<cfset deliver = "application/ld+json">
+			<cfelse>
+				<cfset deliver = "text/html">
 			</cfif>
-		</cfloop>
+		</cfif>
 
 		<cfif deliver NEQ "text/html">
 			<cftry>
