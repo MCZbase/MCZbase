@@ -449,7 +449,7 @@ limitations under the License.
 							<div id="mediaDialog"></div>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h5 my-0 text-dark">
-									<button type="button" role="button" aria-label="mediaPane" class="headerLnk text-left h-100 w-100" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
+									<button type="button" aria-label="mediaPane" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
 										<span class="text-dark">(#specimenMediaCount#)</span>
 									</button>
@@ -487,7 +487,7 @@ limitations under the License.
 							<div class="card-header" id="heading1">
 								<cfif len(#blockident#) gt 10> 
 									<h3 class="h5 my-0" tabindex="0">
-										<button type="button" role="button" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
+										<button type="button" aria-label="identificationPane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
 											Identifications
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -524,7 +524,7 @@ limitations under the License.
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCitations">
 								<h3 class="h5 my-0 text-dark">
-									<button type="button" role="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
+									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citationsPane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
 										Citations
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -568,7 +568,7 @@ limitations under the License.
 							<div class="card-header" id="headingOtherID">
 								<cfif len(#blockotherid#) gt 1> 
 									<h3 class="h5 my-0">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+										<button type="button" aria-label="OtherIDsPane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 											Other Identifiers
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -611,7 +611,7 @@ limitations under the License.
 							<div id="partsDialog"></div>
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
+									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-label="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
 										<cfif len(partCount) GT 0>
 											Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
 										<cfelse>
@@ -644,7 +644,7 @@ limitations under the License.
 							<div class="card-header" id="headingAttributes">
 								<cfif len(#blockattributes#) gt 50> 
 									<h3 class="h5 my-0">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
+										<button type="button" aria-label="AttributesPane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
 											Attributes
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -655,7 +655,7 @@ limitations under the License.
 									</h3>
 								<cfelse>
 									<h3 class="h5 my-0">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="AttributesPane" aria-controls="AttributesPane" data-toggle="collapse" data-target="##AttributesPane">
 											Attributes
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
