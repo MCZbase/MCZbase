@@ -1,4 +1,5 @@
 <cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+	<!--- TODO: Extract parameters from cgi.redirect_query_string, not being populated by apache/mod_jk though mod_jk is configured to do so --->
 	<cfset rdurl=cgi.REDIRECT_URL>
 	<cfif rdurl contains chr(195) & chr(151)>
 		<cfset rdurl=replace(rdurl,chr(195) & chr(151),chr(215))>
@@ -31,6 +32,7 @@
 				</cfif>
 			</cfloop>
 		<cfelse>
+			<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
 			<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
 			<cfif deliver IS "json" OR deliver IS "json-ld">
 	   		<cfset deliver = "application/ld+json">
