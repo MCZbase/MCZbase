@@ -1929,7 +1929,6 @@ button[tabindex="-1"]:focus {
 	box-shadow: none;
 }
 .headerLnk {
-	color: #036ee0;
 	color: #555!important;
 	text-decoration: none;
 	padding: 0 .5rem;
