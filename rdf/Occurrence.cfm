@@ -212,10 +212,10 @@
 </cfoutput>
 </cfif><!--- Turtle --->
 <cfif deliver IS 'application/ld+json'>
-<cfoutput>
-{
+<cfoutput>{
   "@context": { 
      "dwc": "http://rs.tdwg.org/dwc/terms/",
+     "dwciri": "http://rs.tdwg.org/dwc/iri/",
      "dcterms": "http://purl.org/dc/terms/"
   },
   "@id": "https://mczbase.mcz.harvard.edu/guid/#guid#",
