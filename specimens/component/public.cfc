@@ -1173,14 +1173,14 @@ limitations under the License.
 								<th class="py-0">Attribute</th>
 								<th class="py-0">Value</th>
 								<th class="py-0">Determination By</th>
-								<th class="py-0">On</th>
+								<th class="py-0" style="min-width: 93px;">On</th>
 							</tr>
 						</thead>
 						<tbody class="bg-white">
 						<cfloop query="attributes">
 							<tr <cfif attributes.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 								<td><span class="" title="#attribute_description#">#attribute_type#</span></td>
-								<td style="width: 40%;">#attribute_value#</td>
+								<td>#attribute_value#</td>
 								<cfset determination = "">
 								<cfif len(attributeDeterminer) gt 0>
 									<cfif attributeDeterminer_agent_id EQ "0">
