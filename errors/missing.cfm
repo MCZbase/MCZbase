@@ -31,6 +31,20 @@
 					</cfif>
 				</cfif>
 			</cfloop>
+			<!--- allow path terminator /{json|json-ld|turtle|rdf} to override accept header. --->
+			<cfif refind('/json$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/json$","")>
+	   		<cfset deliver = "application/ld+json">
+			<cfelseif refind('/json-ld$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/json-ld$","")>
+	   		<cfset deliver = "application/ld+json">
+			<cfelseif refind('/turtle$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/turtle$","")>
+	   		<cfset deliver = "text/turtle">
+			<cfelseif refind('/trdf$',rdurl) GT 0>
+				<cfset rdurl = rereplace(rdurl,"/rdf$","")>
+	   		<cfset deliver = "application/xhtml+xml">
+			</cfif>
 		<cfelse>
 			<!--- NOTE: apache 404 redirect is not passing parameters or cgi.redirect_query_string, so this block is not entered --->
 			<!--- allow url parameter deliver={json/json-ld/turtle/rdf} to override accept header. --->
@@ -39,7 +53,7 @@
 			<cfelseif deliver IS "turtle">
  			  	<cfset deliver = "text/turtle">
 			<cfelseif deliver IS "rdf">
-	   		<cfset deliver = "application/ld+json">
+	   		<cfset deliver = "application/xhtml+xml">
 			<cfelse>
 				<cfset deliver = "text/html">
 			</cfif>
