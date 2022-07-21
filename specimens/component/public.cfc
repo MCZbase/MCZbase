@@ -2636,7 +2636,11 @@ limitations under the License.
 						<cfloop query="annotations">
 							<cfif len(#annotation#) gt 0>
 								<li class="list-group-item py-1">
-									#annotation#
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+										#annotation#
+									<cfelse>
+										#rereplace("^.* reported:",annotation,"[Masked] reported:")#
+									</cfif>
 									<span class="d-block small mb-0 pb-0">#state# (#annotate_date#)</span>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										<cfif reviewed_fg EQ "1">
