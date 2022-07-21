@@ -786,7 +786,7 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
-									<td class="py-1"><span class="">#part_name#</span></td>
+									<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
 									<td class="py-1">#part_condition#</td>
 									<!--- TODO: Link out to history for part(s) --->
 									<td class="py-1">
