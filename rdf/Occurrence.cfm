@@ -5,13 +5,13 @@
 	<cfcatch>
    	<cfset accept = "application/rdf+xml">
 	</cfcatch>
+	</cftry>
 <cfelse>
 	<cfset accept = deliver>
 </cfif>
 <cfif NOT isdefined("guid")>
    <cfset guid="MCZ:IP:100000">
 </cfif>
-</cftry>
 <cfset done = false>
 <cfloop list='#accept#' delimiters=',' index='a'>
    <cfif NOT done>
