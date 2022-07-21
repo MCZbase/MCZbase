@@ -32,7 +32,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	font-weight: 500;
 }
 .text-muted {
-	color: #6a737b;
+	color: #6a737b!important;
 }
 a {
 	cursor: pointer;
