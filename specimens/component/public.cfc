@@ -1186,7 +1186,7 @@ limitations under the License.
 									<cfif attributeDeterminer_agent_id EQ "0">
 										<cfset determination ="#attributeDeterminer#">
 									<cfelse>
-										<cfset determination ="<a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
+										<cfset determination ="<span class='d-inline font-weight-lessbold'>By: </span> <a href='/agents/Agent.cfm?agent_id=#attributeDeterminer_agent_id#'>#attributeDeterminer#</a>">
 									</cfif>
 									<cfif len(determination_method) gt 0>
 										<cfset determination = "<span class='d-inline font-weight-lessbold'>By: </span> <span class='d-inline'>#determination#</span>, <span class='d-inline font-weight-lessbold'>Method: </span> #determination_method#">
