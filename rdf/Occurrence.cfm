@@ -1,4 +1,4 @@
-<cfif notdefined("deliver")>
+<cfif NOT isDefined("deliver")>
 	<cfset deliver = 'application/rdf+xml'>
 </cfif>
 <cfif NOT isdefined("guid")>
