@@ -486,7 +486,7 @@ limitations under the License.
 							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingID">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="identificationsPane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
+									<button type="button" role="button" aria-label="identifications" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
 										Identifications
 									</button>
 									<cfif len(#blockident#) gt 10> 
@@ -561,29 +561,24 @@ limitations under the License.
 							<div id="otherIDsDialog"></div>
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingOtherID">
-								<cfif len(#blockotherid#) gt 1> 
-									<h3 class="h5 my-0">
-										<button type="button" aria-label="OtherIDsPane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
-											Other Identifiers
-										</button>
+								<h3 class="h5 my-0">
+									<button type="button" aria-label="OtherIDsPane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+										Other Identifiers
+									</button>
+									<cfif len(#blockotherid#) gt 1> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="##" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
 												Edit
 											</a>
 										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h5 my-0">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" aria-controls="OtherIDsPane" aria-expanded="true" data-toggle="collapse" data-target="##OtherIDsPane">
-											Other Identifiers
-										</button>
+									<cfelse>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="##" class="btn btn-xs small py-0 anchorFocus" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
 												Add
 											</a>
 										</cfif>
-									</h3>
-								</cfif>
+									</cfif>
+								</h3>
 							</div>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 								<cfif len(trim(#blockotherid#)) GT 0> 
