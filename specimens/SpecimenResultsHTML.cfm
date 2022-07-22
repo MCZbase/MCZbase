@@ -188,7 +188,14 @@
 	</cfquery>
 	<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 		SELECT
-			guid, scientific_name, country 
+			guid, 
+			get_scientific_name_auths(flatTableName.collection_object_id) scientific_name, 
+			continent_ocean,
+			country,
+			spec_locality,
+			ISO_BEGAN_DATE,
+			iso_ended_date,
+			collectors
 		FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 			join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
 		WHERE
@@ -206,15 +213,31 @@
 							<tr>
 								<th> GUID </th>
 								<th> Scientific Name </th>
+								<th> Continent/Ocean</th>
 								<th> Country </th>
+								<th> Locality </th>
+								<th> Date </th>
+								<th> Collectors </th>
 							</tr>
 						</thead>
 						<tbody>
 							<cfloop query="search">
+								<cfif iso_began_date EQ iso_ended_date OR len(iso_ended_date) EQ 0>
+									<cfset eventDate = iso_began_date>
+								<cfelse>
+									<cfset eventDate = "#iso_began_date#/#iso_ended_date#">
+								</cfif>
 								<tr>
-									<td><a href="/guid/#guid#">#guid#</a></td>
+									<td>
+										<a href="/guid/#guid#" aria-label="specimen details for #guid#">#guid#</a>
+										<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD" aria-label="Specimen details as RDF in a JSON-LD serialization"></a>
+									</td>
 									<td>#scientific_name#</td>
+									<td>#continent_ocean#</td>
 									<td>#country#</td>
+									<td>#spec_locality#</td>
+									<td>#eventDate#</td>
+									<td>#collectors#</td>
 								</tr>
 							</cfloop>
 						</tbody>
