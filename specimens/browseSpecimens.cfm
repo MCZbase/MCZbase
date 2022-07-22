@@ -82,7 +82,11 @@ limitations under the License.
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
 </cfif>
 <cfif target EQ "noscript">
+	<!--- setup for delivery of links and page for users without javascript --->
 	<cfset specimenSearch="/specimens/SpecimenResultsHTML.cfm?">
+	<cfif action EQ "browsefeatured">
+		<cfset action = "browsetypes">
+	</cfif.
 </cfif>
 
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
@@ -245,7 +249,10 @@ limitations under the License.
 						</cfswitch>
 						<!-- Nav tabs -->
 						<div class="tab-headers tabList px-0 px-md-3" role="tablist" aria-label="browse specimens">
-							<button class="col-12 px-1 col-sm-3 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #featuredTabActive#" id="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of <br>Cataloged Items</button>
+							<cfif target NEQ "noscript">
+								<!--- don't show links to named groups if noscript, page and links need scripts --->
+								<button class="col-12 px-1 col-sm-3 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #featuredTabActive#" id="1" role="tab" aria-controls="featuredPanel" #featuredTabAria# aria-label="Browse Featured Collections">Featured Collections of <br>Cataloged Items</button>
+							</cfif>
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #primarytypesTabActive#" id="2" role="tab" aria-controls="primarytypesPanel" #primarytypesTabAria# aria-label="Browse Primary Types">Primary <br>Types</button>
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 text-truncate my-md-0 #highergeoTabActive#" id="3" role="tab" aria-controls="highergeoPanel" #highergeoTabAria# aria-label="Browse Higher Geography">Higher <br>Geography</button>
 							<button class="col-12 px-1 col-sm-2 px-sm-2 col-xl-auto px-xl-5 my-1 my-md-0 #islandTabActive#" id="3" role="tab" aria-controls="islandPanel" #islandTabAria# aria-label="Browse Specimens by Islands and Island Groups">Islands<br>&nbsp;&nbsp;</button>
@@ -253,35 +260,38 @@ limitations under the License.
 						</div>
 						<!-- Tab panes -->
 						<div class="tab-content flex-wrap d-flex">
-							<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
-								<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
-								<cfloop query="namedGroups">
-									<cfif len(#namedGroups.collection_name#)gt 0>
-										<div class="col-12 col-sm-6 col-md-6 col-xl-4 px-1 float-left my-1">
-											<div class="border rounded bg-white p-2 col-12 float-right" style="height:117px;">
-												<div class="row mx-0">
-													<div class="col text-truncate1 float-right px-2 mt-md-1">
-													<cfset showTitleText = trim(collection_name)>
-														<h3 class="h5 mb-1">
-															<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
-															#showTitleText#
-															</a>
-														</h3>
-														<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
-														<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+							<cfif target NEQ "noscript">
+								<!--- don't show links to named groups if noscript, page and links need scripts --->
+								<div id="featuredPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="col-12 px-0 mx-0 #featuredTabActive# unfocus"  #featuredTabShow#>
+									<h2 class="px-2 h3">MCZ Featured Collections of Cataloged Items</h2>
+									<cfloop query="namedGroups">
+										<cfif len(#namedGroups.collection_name#)gt 0>
+											<div class="col-12 col-sm-6 col-md-6 col-xl-4 px-1 float-left my-1">
+												<div class="border rounded bg-white p-2 col-12 float-right" style="height:117px;">
+													<div class="row mx-0">
+														<div class="col text-truncate1 float-right px-2 mt-md-1">
+														<cfset showTitleText = trim(collection_name)>
+															<h3 class="h5 mb-1">
+																<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#namedGroups.underscore_collection_id#">
+																#showTitleText#
+																</a>
+															</h3>
+															<p class="mb-1 small">Includes #namedGroups.ct# Cataloged Items</p>
+															<p class="font-italic text-capitalize mb-0 small">Collection Type: #namedGroups.underscore_collection_type#</p>
+														</div>
+														<cfif len(namedGroups.displayed_media_id) gt 0>
+															<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
+																<div class="float-right" id="mediaBlock#namedGroups.displayed_media_id#">
+																	#mediablock#
+																</div>
+														</cfif>
 													</div>
-													<cfif len(namedGroups.displayed_media_id) gt 0>
-														<cfset mediablock= getMediaBlockHtml(media_id="#namedGroups.displayed_media_id#",displayAs="fixedSmallThumb",background_color="white",size="100",captionAs="textNone")>
-															<div class="float-right" id="mediaBlock#namedGroups.displayed_media_id#">
-																#mediablock#
-															</div>
-													</cfif>
 												</div>
 											</div>
-										</div>
-									</cfif>
-								</cfloop>
-							</div>
+										</cfif>
+									</cfloop>
+								</div>
+							</cfif>
 							<div id="primarytypesPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="col-12 px-0 mx-0 #primarytypesTabActive# unfocus"  #primarytypesTabShow#>
 								<h3 class="px-2">Primary Types</h3>			
 								<div class="col-12 float-left float-left px-0 mt-1 mb-1">

@@ -102,6 +102,16 @@
 					<input id="country" type="text" name="country" class="data-entry-input" value="#encodeForHtml(country)#">
 				</div>
 				<div class="col-12 col-md-4">
+					<cfif not isdefined("island_group")><cfset island_group=""></cfif>
+					<label for="island_group" class="data-entry-label">Island Group</label>
+					<input id="island_group" type="text" name="island_group" class="data-entry-input" value="#encodeForHtml(island_group)#">
+				</div>
+				<div class="col-12 col-md-4">
+					<cfif not isdefined("island")><cfset island=""></cfif>
+					<label for="island" class="data-entry-label">Island</label>
+					<input id="island" type="text" name="island" class="data-entry-input" value="#encodeForHtml(island)#">
+				</div>
+				<div class="col-12 col-md-4">
 					<cfif not isdefined("spec_locality")><cfset spec_locality=""></cfif>
 					<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 					<input id="spec_locality" type="text" name="spec_locality" class="data-entry-input" value="#encodeForHtml(spec_locality)#">

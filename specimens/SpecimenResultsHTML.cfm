@@ -122,6 +122,20 @@
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+		<cfif isDefined("island_group") AND len(island) GT 0>
+			<cfset field = '"field": "island_group"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("island") AND len(island) GT 0>
+			<cfset field = '"field": "island"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
 		<cfif isDefined("spec_locality") AND len(spec_locality) GT 0>
 			<cfset field = '"field": "spec_locality"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#spec_locality#",separator="#separator#",nestDepth="#nest#")>
@@ -222,10 +236,10 @@
 						</thead>
 						<tbody>
 							<cfloop query="search">
-								<cfif iso_began_date EQ iso_ended_date OR len(iso_ended_date) EQ 0>
-									<cfset eventDate = iso_began_date>
+								<cfif search.iso_began_date EQ search.iso_ended_date OR len(search.iso_ended_date) EQ 0>
+									<cfset eventDate = search.iso_began_date>
 								<cfelse>
-									<cfset eventDate = "#iso_began_date#/#iso_ended_date#">
+									<cfset eventDate = "#search.iso_began_date#/#search.iso_ended_date#">
 								</cfif>
 								<tr>
 									<td>
