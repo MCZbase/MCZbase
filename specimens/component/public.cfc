@@ -46,7 +46,7 @@ limitations under the License.
 			<cfelse>
 				<cfset link = guid>
 			</cfif>
-			<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
+			<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15' alt='linked data icon'></a>" > <!--- " --->
 		</cfif>
 	</cfif>
 	<cfreturn returnValue>
