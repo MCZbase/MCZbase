@@ -1934,7 +1934,7 @@ limitations under the License.
 						<!--- coordinates_* referenced in localityMapSetup --->
 						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
 						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
-						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;" aria-label="Google Map of specimen collection location"></div>
 					</div>
 				<cfelse>
 					<cfset leftOfMapClass = "col-12">
