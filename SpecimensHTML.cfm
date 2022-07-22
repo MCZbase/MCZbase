@@ -71,7 +71,7 @@
 						<option value="any primary">Any Primary Type</option>
 						<option value="any type">Any Type</option>
 						<cfloop query="ctTypeStatus">
-							<cfif type_status = ctTypeStatus.type_status_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<cfif type_status EQ ctTypeStatus.type_status_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 							<option value="#ctTypeStatus.type_status_val#" #selected#>#ctTypeStatus.type_status_val#</option>
 						</cfloop>
 					</select>

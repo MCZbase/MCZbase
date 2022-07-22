@@ -1,12 +1,16 @@
 <cfset pageTitle="Minimal Specimen Results">
-<cfinclude "/shared/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 
 <cftry>
-	<cfif not isDefined("result_id" OR len(result_id) EQ 0> 
+	<cfif not isDefined("result_id") OR len(result_id) EQ 0> 
 		<!--- new search --->
-		<cfinclude "/specimens/component/search.cfc" runOnce="true">
+		<cfinclude template="/specimens/component/search.cfc" runOnce="true">
 	
-		<cfset search_json = "">
+		<cfset search_json = "[">
+		<cfset separator = "">
+		<cfset join = ''>
+
+		<cfset nest = 1>
 	
 		<cfif isDefined("collection") AND len(collection) GT 0>
 			<cfset field = '"field": "collection_cde"'>
@@ -147,7 +151,17 @@
 			<cfset nest = nest + 1>
 		</cfif>
 	
-		<cfif search_json EQ "">
+		<cfset search_json = "#search_json#]">
+		<cfif isdefined("debug") AND len(debug) GT 0>
+			<cfoutput>
+				<cfdump var="#search_json#">
+				<cfdump var="#session.dbuser#">
+			</cfoutput>
+		</cfif>
+		<cfif NOT IsJSON(search_json)>
+			<cfthrow message="Unable to construct valid json for query.">
+		</cfif>
+		<cfif search_json IS "[]">
 			<cfthrow message="You must provide some search parameters.">
 		</cfif>
 	
@@ -219,4 +233,4 @@
 </cfcatch>
 </cftry>
 
-<cfinclude "/shared/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
