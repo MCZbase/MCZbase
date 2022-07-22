@@ -279,7 +279,7 @@ limitations under the License.
 							<cfloop query="continent_islands">
 								<h4 class="w-100 my-2">
 									#continent_islands.continent_ocean# &nbsp;&nbsp;
-									<a class="float-right" href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
+									<a href="#specimenSearch#&higher_geog=#continent_islands.continent_ocean#" target="_blank"></a>
 								</h4>
 								<div class="w-100 pb-2 px-4" id="continent_islands_#j#">
 									<cfquery name="island_groups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" >
@@ -296,7 +296,7 @@ limitations under the License.
 									<cfloop query="island_groups">
 										<h4 class="w-100 my-1">
 											#island_groups.island_group# &nbsp;&nbsp;
-											<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
+											<a href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
 										</h4>
 										<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
 											SELECT sum(coll_obj_count) ct, island
