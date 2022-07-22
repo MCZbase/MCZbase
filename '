@@ -352,8 +352,8 @@ button#showRelatedDataBtn.btn-xs {
 	border: 1px solid hsl(0, 0%, 62%);
 }
 .btn-outline-success {
-	color: #18780b;
-	border-color: #18780b;
+	color: #28a745;
+	border-color: #28a745;
 }
 .date-field-forms {
 	padding: .4rem .8rem .5rem .8rem;
@@ -493,9 +493,7 @@ span.data-entry-addon {
 }
 .text-success {
 	color: #1e5d16 !important;
-	color: #18780b !important;
 }
-
 .btn-danger {
 	background-color: #f8d7da;
 	background: #f8d7da;
@@ -1949,7 +1947,8 @@ button[tabindex="-1"]:focus {
 	box-shadow: none;
 }
 .headerLnk {
-	color: #212529 !important;
+	color: #036ee0;
+	color: #555!important;
 	text-decoration: none;
 	padding: 0 .5rem;
 }

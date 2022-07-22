@@ -46,7 +46,7 @@ limitations under the License.
 			<cfelse>
 				<cfset link = guid>
 			</cfif>
-			<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15'></a>" > <!--- " --->
+			<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15' alt='linked data icon'></a>" > <!--- " --->
 		</cfif>
 	</cfif>
 	<cfreturn returnValue>
@@ -457,7 +457,7 @@ limitations under the License.
 							<li class="list-group-item py-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15"></a>
+								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
@@ -558,7 +558,7 @@ limitations under the License.
 							<span class="font-weight-lessbold">[#cited_name_status#]</span>
 						</cfif>
 						<cfif len(#doi#) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#doi#">#doi# <img src="/shared/images/linked_data.png" height="15" width="15"></a><br>
+							doi: <a target="_blank" href="https://doi.org/#doi#">#doi# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a><br>
 						</cfif>
 						<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0></cfif>
@@ -1934,7 +1934,7 @@ limitations under the License.
 						<!--- coordinates_* referenced in localityMapSetup --->
 						<input type="hidden" id="coordinates_#loc_collevent.locality_id#" value="#coordinates#">
 						<input type="hidden" id="error_#loc_collevent.locality_id#" value="1196">
-						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;"></div>
+						<div id="mapdiv_#loc_collevent.locality_id#" class="tinymap" style="width:100%;height:180px;" aria-label="Google Map of specimen collection location"></div>
 					</div>
 				<cfelse>
 					<cfset leftOfMapClass = "col-12">
@@ -2010,6 +2010,13 @@ limitations under the License.
 					<div class="w-100 float-left">
 						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
 					</div>
+					<cfif len(coordlookup.dec_lat) GT 0>
+						<div class="w-100 float-left">
+							<span class="px-2 float-left pt-0 pb-1">
+							<a class="small90" href="/bnhmMaps/bnhmMapData.cfm?collection_object_id=#collection_object_id#" title="Plot location in Berkeley Mapper">Show in BerkeleyMapper</a>
+							</span>
+						</div>
+					</cfif>
 				</div>
 				<div class="col-12 float-left px-0">
 					<ul class="sd list-unstyled bg-light row mx-0 px-2 py-1 mb-0 border-top">
@@ -2202,7 +2209,7 @@ limitations under the License.
 									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
 									<li class="list-group-item col-7 px-0">
 										#coordlookup.recordcount - 1#
-										<button onclick="toggleUnacceptedGeorefs();" class="btn btn-xs small py-0 ml-1 btn-secondary" id="unaccGeoToggleButton">Show</button>
+										<button onclick="toggleUnacceptedGeorefs();" role="button" class="btn btn-xs small py-0 ml-1 btn-secondary" id="unaccGeoToggleButton">Show</button>
 									</li>
 									<script>
 										function toggleUnacceptedGeorefs() { 
@@ -2398,7 +2405,7 @@ limitations under the License.
 				<div class="col-12 float-left px-0">
 					<cfif localityMedia.recordcount gt 0>
 						<cfloop query="localityMedia">
-							<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
+							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-2 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
@@ -2407,7 +2414,7 @@ limitations under the License.
 					</cfif>
 					<cfif collEventMedia.recordcount gt 0>
 						<cfloop query="collEventMedia">
-							<div class="col-12 px-1 col-lg-6 col-xl-4 mb-1 px-md-1 pt-1 float-left"> 
+							<div class="col-6 col-sm-3 px-1 col-lg-3 col-xl-2 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
@@ -2579,6 +2586,90 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getRemarksThread"/>
 	<cfreturn getRemarksThread.output>
+</cffunction>
+
+
+<!--- getAnnotationsHTML get a block of html containing annotations for a specified cataloged item.
+ @param collection_object_id for the cataloged item for which to return annotations.
+ @return a block of html with collection object annotations, or if none, html with the text None
+--->
+<cffunction name="getAnnotationsHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfthread name="getAnnotationsThread">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record and prevent access, further check for mask parts below ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						annotation_id,
+						to_char(annotate_date,'yyyy-mm-dd') annotate_date,
+						cf_username,
+						annotation,
+						reviewer_agent_id,
+						MCZBASE.get_agentnameoftype(reviewer_agent_id) reviewer,
+						reviewed_fg,
+						reviewer_comment,
+						state, 
+						resolution
+					FROM 
+						annotations
+					WHERE
+						collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					ORDER BY 
+						annotate_date
+				</cfquery>
+				<ul class="list-group">
+					<!--- check for mask parts, hide collection object remarks if mask parts ---->
+					<cfif oneofus EQ 0 AND Findnocase("mask parts", check.encumbranceDetail)>
+						<li class="list-group-item">Masked</li>
+					<cfelse>
+						<cfif annotations.recordcount EQ 0>
+							<li class="small90 list-group-item font-italic pt-0">None </li>
+						</cfif>
+						<cfloop query="annotations">
+							<cfif len(#annotation#) gt 0>
+								<li class="list-group-item py-1">
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+										#annotation#
+									<cfelse>
+										#rereplace(annotation,"^.* reported:","[Masked] reported:")#
+									</cfif>
+									<span class="d-block small mb-0 pb-0">#state# (#annotate_date#)</span>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+										<cfif reviewed_fg EQ "1">
+											<span class="d-block small mb-0 pb-0">#resolution# #reviwer# #reviewer_comment#</span>
+										</cfif>
+									</cfif>
+								</li>
+							</cfif>
+						</cfloop>
+					</cfif>
+				</ul>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getAnnotationsThread"/>
+	<cfreturn getAnnotationsThread.output>
 </cffunction>
 
 <!--- getMetaHTML get a block of html containing metadata about a cataloged item record 

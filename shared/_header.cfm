@@ -207,7 +207,7 @@ limitations under the License.
 <!--- End workaround ---> 
 
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-<header id="header" role="heading" class="border-bottom">
+<header id="header" role="heading" aria-level="1" class="border-bottom">
 	<div class="branding clearfix bg-black">
 		<div class="branding-left justify-content-start"> <a href="http://www.harvard.edu/" aria-label="link to Harvard website"> <img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> <span class="d-inline-block parent">Harvard University</span> </a> </div>
 		<div class="branding-right justify-content-end"> <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> </div>
@@ -233,8 +233,8 @@ limitations under the License.
 		
 				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
 					<ul class="navbar-nav mx-auto">
-						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-						<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
+						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/specimens/browseSpecimens.cfm?target=noscript">Browse Data</a></li>
 						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 						<cfif isdefined("session.username") and len(#session.username#) gt 0>
 							<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
@@ -292,8 +292,8 @@ limitations under the License.
 				<ul class="navbar-nav nav-fill mr-auto">
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 					<li class="nav-item dropdown"> 
-						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
-						<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
+						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
+						<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown1">
 							<li> 	
 								<a class="dropdown-item " href="/Specimens.cfm">Specimens</a>
 								<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens (old)</a>
@@ -327,8 +327,8 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 						<li class="nav-item dropdown"> 
-							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown" style="min-width: 14em; border-radius: .2rem;">
+							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Browse</a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown2" style="min-width: 14em; border-radius: .2rem;">
 								<li> 	
 									<a class="dropdown-item" href="/specimens/browseSpecimens.cfm">Browse Specimens</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
