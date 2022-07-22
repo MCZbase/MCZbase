@@ -269,7 +269,7 @@
 						<cfset textseparator = " and ">
 					</cfloop>
 					<div>
-						Link to this search:<a href="/SpecimensHTML.cfm?#linkParams#">#linkText#</a>
+						Link to this Search: <a href="/SpecimensHTML.cfm?#linkParams#">#linkText#</a>
 					</div>
 					<table class="table table-responsive table-striped d-lg-table">
 						<thead class="thead-light">
