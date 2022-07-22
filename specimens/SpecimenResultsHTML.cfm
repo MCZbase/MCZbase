@@ -126,6 +126,13 @@
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+		<cfif isDefined("continent_ocean") AND len(continent_ocean) GT 0>
+			<cfset field = '"field": "continent_ocean"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#continent_ocean#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
 		<cfif isDefined("country") AND len(country) GT 0>
 			<cfset field = '"field": "country"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#country#",separator="#separator#",nestDepth="#nest#")>

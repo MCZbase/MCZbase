@@ -76,17 +76,17 @@
 						</cfloop>
 					</select>
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-4">
 					<cfif not isdefined("any_taxa_term")><cfset any_taxa_term=""></cfif>
 					<label for="any_taxa_term" class="data-entry-label">Any Taxonomic Element</label>
 					<input id="any_taxa_term" type="text" name="any_taxa_term" class="data-entry-input" value="#encodeForHtml(any_taxa_term)#">
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-4">
 					<cfif not isdefined("phylum")><cfset phylum=""></cfif>
 					<label for="phylum" class="data-entry-label">Phylum</label>
 					<input id="phylum" type="text" name="phylum" class="data-entry-input" value="#encodeForHtml(phylum)#">
 				</div>
-				<div class="col-12 col-md-3">
+				<div class="col-12 col-md-4">
 					<cfif not isdefined("family")><cfset family=""></cfif>
 					<label for="family" class="data-entry-label">Family</label>
 					<input id="family" type="text" name="family" class="data-entry-input" value="#encodeForHtml(family)#">
@@ -95,6 +95,11 @@
 					<cfif not isdefined("any_geography")><cfset any_geography=""></cfif>
 					<label for="any_geography" class="data-entry-label">Any Geographic Element</label>
 					<input id="any_geography" type="text" name="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
+				</div>
+				<div class="col-12 col-md-4">
+					<cfif not isdefined("continent_ocean")><cfset continent_ocean=""></cfif>
+					<label for="continent_ocean" class="data-entry-label">Continent/Ocean</label>
+					<input id="continent_ocean" type="text" name="continent_ocean" class="data-entry-input" value="#encodeForHtml(continent_ocean)#">
 				</div>
 				<div class="col-12 col-md-4">
 					<cfif not isdefined("country")><cfset country=""></cfif>
