@@ -263,7 +263,7 @@
 					<cfloop collection="#parameters#" item="key">
 						<cfset value = structFind(parameters,key)>
 						<cfset linkParams= "#linkParams##separator##encodeforurl(key)#=#encodeforurl(value)#">
-						<cfset separator = "&"
+						<cfset separator = "&">
 						<cfset linkText= "#linkText# #encodeforhtml(key)#:#encodeforhtml(value)#">
 					</cfloop>
 					<div>
