@@ -85,7 +85,7 @@ limitations under the License.
 	<!--- setup for delivery of links and page for users without javascript --->
 	<cfset specimenSearch="/specimens/SpecimenResultsHTML.cfm?">
 	<cfif action EQ "browsefeatured">
-		<cfset action = "browsetypes">
+		<cfset action = "browseprimarytypes">
 	</cfif>
 </cfif>
 
