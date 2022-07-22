@@ -457,7 +457,7 @@ limitations under the License.
 							<li class="list-group-item py-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15"></a>
+								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
@@ -558,7 +558,7 @@ limitations under the License.
 							<span class="font-weight-lessbold">[#cited_name_status#]</span>
 						</cfif>
 						<cfif len(#doi#) GT 0>
-							doi: <a target="_blank" href="https://doi.org/#doi#">#doi# <img src="/shared/images/linked_data.png" height="15" width="15"></a><br>
+							doi: <a target="_blank" href="https://doi.org/#doi#">#doi# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a><br>
 						</cfif>
 						<span class="small font-italic">
 							<cfif len(citation_remarks) gt 0></cfif>
