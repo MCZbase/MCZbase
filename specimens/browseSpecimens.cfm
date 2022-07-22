@@ -86,7 +86,7 @@ limitations under the License.
 	<cfset specimenSearch="/specimens/SpecimenResultsHTML.cfm?">
 	<cfif action EQ "browsefeatured">
 		<cfset action = "browsetypes">
-	</cfif.
+	</cfif>
 </cfif>
 
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
