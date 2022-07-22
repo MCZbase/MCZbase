@@ -673,7 +673,7 @@ limitations under the License.
 									</div>
 								<cfelse>
 									<div class="card-body px-3" id="attributesCardBody">
-										<ul class="list-group pl-2">
+										<ul class="list-group">
 											<li class="small90 list-group-item font-italic">None</li>
 										</ul>
 									</div>
