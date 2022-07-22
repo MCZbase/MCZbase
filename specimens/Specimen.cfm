@@ -486,7 +486,7 @@ limitations under the License.
 							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingID">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="identifications" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
+									<button type="button" role="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
 										Identifications
 									</button>
 									<cfif len(#blockident#) gt 10> 
@@ -519,7 +519,7 @@ limitations under the License.
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingCitations">
 								<h3 class="h5 my-0 text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citationsPane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
+									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
 										Citations
 									</button>
 									<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -562,7 +562,7 @@ limitations under the License.
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingOtherID">
 								<h3 class="h5 my-0">
-									<button type="button" aria-label="OtherIDsPane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 										Other Identifiers
 									</button>
 									<cfif len(#blockotherid#) gt 1> 
