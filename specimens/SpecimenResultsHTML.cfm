@@ -152,7 +152,7 @@
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
-		<cfif isDefined("island_group") AND len(island) GT 0>
+		<cfif isDefined("island_group") AND len(island_group) GT 0>
 			<cfset StructInsert(parameters,"island_group",island_group)>
 			<cfset field = '"field": "island_group"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#",nestDepth="#nest#")>
