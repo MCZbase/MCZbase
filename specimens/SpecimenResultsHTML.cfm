@@ -1,10 +1,10 @@
 <cfset pageTitle="Minimal Specimen Results">
-<cfinclude "/shared/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 
 <cftry>
 	<cfif not isDefined("result_id" OR len(result_id) EQ 0> 
 		<!--- new search --->
-		<cfinclude "/specimens/component/search.cfc" runOnce="true">
+		<cfinclude template="/specimens/component/search.cfc" runOnce="true">
 	
 		<cfset search_json = "">
 	
@@ -219,4 +219,4 @@
 </cfcatch>
 </cftry>
 
-<cfinclude "/shared/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
