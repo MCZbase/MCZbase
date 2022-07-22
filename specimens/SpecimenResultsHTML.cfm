@@ -2,7 +2,7 @@
 <cfinclude template="/shared/_header.cfm">
 
 <cftry>
-	<cfif not isDefined("result_id" OR len(result_id) EQ 0> 
+	<cfif not isDefined("result_id") OR len(result_id) EQ 0> 
 		<!--- new search --->
 		<cfinclude template="/specimens/component/search.cfc" runOnce="true">
 	
