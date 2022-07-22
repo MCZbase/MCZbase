@@ -263,7 +263,7 @@ limitations under the License.
 											<div class="form-row mb-2">
 												<div class="col-12 col-md-3">
 													<label for="fixedCollection" class="data-entry-label">Collection</label>
-													<div name="collection" id="fixedCollection" class="w-100" aria-label="type collection or select from dropdown"></div>
+													<div name="collection" id="fixedCollection" class="w-100"></div>
 													<cfif not isdefined("collection")><cfset collection=""></cfif>
 													<cfset collection_array = ListToArray(collection)>
 													<script>
@@ -291,7 +291,7 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("cat_num")><cfset cat_num=""></cfif>
 													<label for="catalogNum" class="data-entry-label">Catalog Number</label>
-													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="Examples: 1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
+													<input id="catalogNum" type="text" name="cat_num" class="data-entry-input" placeholder="1,1-4,A-1,R1-4" value="#encodeForHtml(cat_num)#">
 												</div>
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_type")><cfset other_id_type=""></cfif>
@@ -323,7 +323,7 @@ limitations under the License.
 												<div class="col-12 col-md-3">
 													<cfif not isdefined("other_id_number")><cfset other_id_number=""></cfif>
 													<label for="other_id_number" class="data-entry-label">Other ID Numbers</label>
-													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="Examples: 10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
+													<input type="text" class="data-entry-input" id="other_id_number" name="other_id_number" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number)#">
 												</div>
 											</div>
 											<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -359,7 +359,7 @@ limitations under the License.
 													<div class="col-12 col-md-3">
 														<cfif not isdefined("other_id_number_1")><cfset other_id_number_1=""></cfif>
 														<label for="other_id_number_1" class="data-entry-label">Other ID Numbers</label>
-														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="Examples: 10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
+														<input type="text" class="data-entry-input" id="other_id_number_1" name="other_id_number_1" placeholder="10,20-30,=BT-782" value="#encodeForHtml(other_id_number_1)#">
 													</div>
 													<div class="col-12 col-md-6">
 														<label for="other_id_controls_note" class="data-entry-label">Note (fields to left): </label>
