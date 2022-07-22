@@ -260,11 +260,13 @@
 					<cfset linkParams="">
 					<cfset linkText="">
 					<cfset separator="">
+					<cfset textseparator="">
 					<cfloop collection="#parameters#" item="key">
 						<cfset value = structFind(parameters,key)>
 						<cfset linkParams= "#linkParams##separator##encodeforurl(key)#=#encodeforurl(value)#">
 						<cfset separator = "&">
-						<cfset linkText= "#linkText# #encodeforhtml(key)#:#encodeforhtml(value)#">
+						<cfset linkText= "#linkText##textseparator##encodeforhtml(key)#=#encodeforhtml(value)#">
+						<cfset textseparator = " and ">
 					</cfloop>
 					<div>
 						Link to this search:<a href="/SpecimensHTML.cfm?#linkParams#">#linkText#</a>
