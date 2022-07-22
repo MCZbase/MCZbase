@@ -157,6 +157,8 @@ limitations under the License.
 				<div class="container-fluid mt-0">
 					<p class="text-dark mt-0 px-0 px-md-3 text-justified">The Museum of Comparative Zoology (MCZ) contains over 21-million specimens in ten research collections that comprise one of the world&apos;s richest and most varied resources for studying the diversity of life. The museum serves as the primary repository for zoological specimens collected by past and present Harvard faculty-curators, staff, and associates conducting research around the world. The public can see a small percentage of our holdings on display at the Harvard Museum of Natural History, but visitors can also browse MCZ specimens and metadata online via these catagories.</p>
 					<cfif target EQ "noscript">
+						<!--- browse data without javascript support --->
+						<!--- just list all the linkable data, not including javascript dependent named group pages --->
 						<h3 class="px-2">Primary Types</h3>			
 						<div class="col-12 float-left float-left px-0 mt-1 mb-1">
 							<ul class="list-group list-group-horizontal d-flex flex-wrap px-1">
@@ -184,6 +186,21 @@ limitations under the License.
 									<cfset continent = "[No Continent Value]">
 									<cfset continentLookup = "NULL">
 								</cfif>
+								<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+									SELECT sum(coll_obj_count) ct, country
+									FROM 
+										cf_geog_cat_item_counts 
+									WHERE
+										target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+										AND
+										<cfif len(continents.continent_ocean) EQ 0>
+											continent_ocean IS NULL
+										<cfelse> 
+											continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+										</cfif>
+									GROUP BY country
+									ORDER BY country
+								</cfquery>
 								<h4 class="w-100 my-1">
 									#continent# 
 								</h4>
@@ -257,6 +274,7 @@ limitations under the License.
 							</cfloop>
 						</div>
 					<cfelse>
+						<!--- browse data with javascript support, use script dependent cards in tabbed card interface --->
 						<div class="tabs card-header tab-card-header px-2 pt-3">
 							<cfswitch expression="#action#">
 								<cfcase value="browsefeatured">
@@ -435,6 +453,21 @@ limitations under the License.
 												<cfset continentLookup = "NULL">
 											</cfif>
 											<!--- TODO: Support continent in specimen search API --->
+											<cfquery name="countries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+												SELECT sum(coll_obj_count) ct, country
+												FROM 
+													cf_geog_cat_item_counts 
+												WHERE
+													target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+													AND
+													<cfif len(continents.continent_ocean) EQ 0>
+														continent_ocean IS NULL
+													<cfelse> 
+														continent_ocean = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#continents.continent_ocean#">
+													</cfif>
+												GROUP BY country
+												ORDER BY country
+											</cfquery>
 											<div class="my-2 w-100">
 												<h4 class="collapsebar w-100 my-1">
 													<button type="button" class="border rounded headerLnk py-1 text-left w-100" data-toggle="collapse" data-target="##cont-ocean_#i#" aria-expanded="false" aria-controls="cont-ocean_#i#">#continent# <a href="#specimenSearch#&higher_geog=#continents.continent_ocean#" target="_blank" class="float-right">(#continents.ct# records) </a>
