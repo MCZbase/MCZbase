@@ -449,7 +449,7 @@ limitations under the License.
 							<div id="mediaDialog"></div>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h5 my-0 text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
+									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane" title="media">
 										Media
 										<span class="text-dark">(#specimenMediaCount#)</span>
 									</button>
@@ -480,36 +480,31 @@ limitations under the License.
 				<!---- column 2 the leftmost of the two right columns ---->
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 					<!------------------------------------ identifications ------------------------------------>
-					<div class="accordion" id="accordionB">
+					<div class="accordion" id="accordionID">
 						<div class="card mb-2 bg-light">
 							<div id="identificationsDialog"></div>
 							<cfset blockident = getIdentificationsHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="heading1">
-								<cfif len(#blockident#) gt 10> 
-									<h3 class="h5 my-0" tabindex="0">
-										<button type="button" role="button" aria-label="identificationPane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
-											Identifications
-										</button>
+							<div class="card-header" id="headingID">
+								<h3 class="h5 my-0">
+									<button type="button" role="button" aria-label="identificationsPane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationsPane">
+										Identifications
+									</button>
+									<cfif len(#blockident#) gt 10> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Edit
 											</a>
 										</cfif>
-									</h3>
-								<cfelse>
-									<h3 class="h5 my-0" tabindex="0">
-										<button type="button" role="button" class="headerLnk text-left w-100 h-100" data-toggle="collapse" data-target="##identificationsPane" aria-expanded="true" aria-controls="identificationPane">
-											Identifications
-										</button>
+									<cfelse>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="##" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">
 												Add
 											</a>
 										</cfif>
-									</h3>
-								</cfif>
+									</cfif>
+								</h3>
 							</div>
-							<div id="identificationsPane" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
+							<div id="identificationsPane" class="collapse show" aria-labelledby="headingID" data-parent="##accordionID">
 								<div class="card-body" id="identificationsCardBody">
 									#blockident#
 									<div id="identificationHTML"></div>
