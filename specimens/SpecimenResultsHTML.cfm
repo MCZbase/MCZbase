@@ -259,7 +259,7 @@
 					<h3 class="h3">Search Results (#count.ct#)</h3>
 					<cfset linkParams="">
 					<cfset linkText="">
-					<cfset separator="".
+					<cfset separator="">
 					<cfloop collection="#parameters#" item="key">
 						<cfset value = structFind(parameters,key)>
 						<cfset linkParams= "#linkParams##separator##urlencode(key)#=#urlencode(value)#">
