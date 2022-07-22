@@ -2010,7 +2010,7 @@ limitations under the License.
 					<div class="w-100 float-left">
 						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/SpecimenResults.cfm?locality_id=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
 					</div>
-					<cfif len(dec_lat) GT 0>
+					<cfif len(coordlookup.dec_lat) GT 0>
 						<div class="w-100 float-left">
 							<span class="px-2 float-left pt-0 pb-1">
 							<a class="small90" href="/bnhmMaps/bnhmMapData.cfm?collection_object_id=#collection_object_id#" title="Plot location in Berkeley Mapper">BerkeleyMapper</a>
