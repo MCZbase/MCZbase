@@ -160,6 +160,9 @@
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+		<cfif isDefined("islands") AND len(islands) GT 0>
+			<cfset island=islands>
+		</cfif>
 		<cfif isDefined("island") AND len(island) GT 0>
 			<cfset StructInsert(parameters,"island",island)>
 			<cfset field = '"field": "island"'>
