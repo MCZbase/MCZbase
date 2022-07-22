@@ -294,64 +294,65 @@ limitations under the License.
 									</cfquery>
 									<cfset k=1>
 									<cfloop query="island_groups">
-									<h4 class="w-100 my-1">
-										#island_groups.island_group# &nbsp;&nbsp;
-										<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
-									</h4>
-									<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
-										SELECT sum(coll_obj_count) ct, island
-										FROM 
-											cf_geog_cat_item_counts 
-										WHERE
-											target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
-											AND
-											<cfif len(island_groups.island_group) EQ 0>
-												island_group IS NULL
-											<cfelse> 
-												island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+										<h4 class="w-100 my-1">
+											#island_groups.island_group# &nbsp;&nbsp;
+											<a class="float-right" href="#specimenSearch#&higher_geog=#island_groups.island_group#" target="_blank">(#island_groups.ct#)</a>
+										</h4>
+										<cfquery name="islands" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#CreateTimespan(24,0,0,0)#">
+											SELECT sum(coll_obj_count) ct, island
+											FROM 
+												cf_geog_cat_item_counts 
+											WHERE
+												target_table = <cfif ucase(session.flatTableName) EQ "FLAT"> 'FLAT' <cfelse> 'FILTERED_FLAT' </cfif> 
+												AND
+												<cfif len(island_groups.island_group) EQ 0>
+													island_group IS NULL
+												<cfelse> 
+													island_group = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#island_groups.island_group#">
+												</cfif>
+											GROUP BY island
+											ORDER BY island
+										</cfquery>
+										<div class="w-100" id="islandsgroup_#j#_#k#">
+											<cfif island_groups.recordCount gte 151> 
+												<cfset islandValues = "flowXL">
+											<cfelseif islands.recordCount gte 101 and islands.recordCount lte 150> 
+												<cfset islandValues = "flowLg">
+											<cfelseif islands.recordCount gte 91 and islands.recordCount lte 100>
+											<cfset islandValues = "flowMd">
+											<cfelseif islands.recordCount gte 53 and islands.recordCount lte 90>
+												<cfset islandValues = "flowSm">
+											<cfelseif islands.recordCount gte 33 and islands.recordCount lte 52>
+												<cfset islandValues = "flowXS">
+											<cfelseif islands.recordCount gte 12 and islands.recordCount lte 32>
+												<cfset islandValues = "flowXXS">
+											<cfelse>	
+												<cfset islandValues = "flowNone">
 											</cfif>
-										GROUP BY island
-										ORDER BY island
-									</cfquery>
-									<div class="w-100" id="islandsgroup_#j#_#k#">
-										<cfif island_groups.recordCount gte 151> 
-											<cfset islandValues = "flowXL">
-										<cfelseif islands.recordCount gte 101 and islands.recordCount lte 150> 
-											<cfset islandValues = "flowLg">
-										<cfelseif islands.recordCount gte 91 and islands.recordCount lte 100>
-										<cfset islandValues = "flowMd">
-										<cfelseif islands.recordCount gte 53 and islands.recordCount lte 90>
-											<cfset islandValues = "flowSm">
-										<cfelseif islands.recordCount gte 33 and islands.recordCount lte 52>
-											<cfset islandValues = "flowXS">
-										<cfelseif islands.recordCount gte 12 and islands.recordCount lte 32>
-											<cfset islandValues = "flowXXS">
-										<cfelse>	
-											<cfset islandValues = "flowNone">
-										</cfif>
-										<ol class="#islandValues# px-0 px-md-2 mx-1">
-											<cfset i=1>
-											<cfloop query="islands">
-												<cfset group = island_groups.island_group>
-												<cfset groupLookup = island_groups.island_group>
-												<cfif len(group) EQ 0> 
-													<cfset group = "[No Island Group]">
-													<cfset groupLookup = "NULL">
-												</cfif>
-												<cfset islandVal = islands.island>
-												<cfset islandLookup = islands.island>
-												<cfif len(islandVal) EQ 0> 
-													<cfset islandVal = "[No Island Value]">
-													<cfset islandLookup = "NULL">
-												</cfif>
-												<li class="border-white"><a href = "#specimenSearch#&island_group=#groupLookup#&islands=#islandLookup#" target="_blank">#islandVal#</a> (#islands.ct#)</li>
-												<cfset i=i+1>
-											</cfloop>
-										</ol>
-									</div>
-									<cfset k=k+1>
-								</cfloop>
-								<cfset j=j+1>
+											<ol class="#islandValues# px-0 px-md-2 mx-1">
+												<cfset i=1>
+												<cfloop query="islands">
+													<cfset group = island_groups.island_group>
+													<cfset groupLookup = island_groups.island_group>
+													<cfif len(group) EQ 0> 
+														<cfset group = "[No Island Group]">
+														<cfset groupLookup = "NULL">
+													</cfif>
+													<cfset islandVal = islands.island>
+													<cfset islandLookup = islands.island>
+													<cfif len(islandVal) EQ 0> 
+														<cfset islandVal = "[No Island Value]">
+														<cfset islandLookup = "NULL">
+													</cfif>
+													<li class="border-white"><a href = "#specimenSearch#&island_group=#groupLookup#&islands=#islandLookup#" target="_blank">#islandVal#</a> (#islands.ct#)</li>
+													<cfset i=i+1>
+												</cfloop>
+											</ol>
+										</div>
+										<cfset k=k+1>
+									</cfloop>
+									<cfset j=j+1>
+								</div>
 							</cfloop>
 						</div>
 						<h3 class="px-2">Browse by Higher Taxonomy</h3>
