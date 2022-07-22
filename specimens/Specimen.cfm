@@ -601,7 +601,7 @@ limitations under the License.
 							<div id="partsDialog"></div>
 							<div class="card-header" id="headingParts">
 								<h3 class="h5 my-0">
-									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-label="PartsPane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
+									<button type="button" class="headerLnk text-left w-100 h-100" aria-controls="PartsPane" aria-label="Parts Pane" aria-expanded="true" data-toggle="collapse" data-target="##PartsPane">
 										<cfif len(partCount) GT 0>
 											Parts <span class="text-dark">(<span id="partCountSpan">#partCount#</span>)</span>
 										<cfelse>

@@ -1929,7 +1929,7 @@ button[tabindex="-1"]:focus {
 	box-shadow: none;
 }
 .headerLnk {
-	color: #555!important;
+	color: #212529 !important;
 	text-decoration: none;
 	padding: 0 .5rem;
 }
