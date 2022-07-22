@@ -449,7 +449,7 @@ limitations under the License.
 							<div id="mediaDialog"></div>
 							<div class="card-header" id="headingMedia">
 								<h3 class="h5 my-0 text-dark">
-									<button type="button" aria-label="mediaPane" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
+									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="mediaPane" data-toggle="collapse" data-target="##mediaPane" aria-expanded="true" aria-controls="mediaPane">
 										Media
 										<span class="text-dark">(#specimenMediaCount#)</span>
 									</button>
@@ -668,13 +668,13 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-1" id="attributesCardBody">
+									<div class="card-body" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
-									<div class="card-body px-3" id="attributesCardBody">
-										<ul class="list-group pl-2">
-											<li class="small90 list-group-item font-italic">None</li>
+									<div class="card-body" id="attributesCardBody">
+										<ul class="list-group">
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
