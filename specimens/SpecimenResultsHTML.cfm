@@ -207,8 +207,8 @@
 			continent_ocean,
 			country,
 			spec_locality,
-			ISO_BEGAN_DATE,
-			iso_ended_date,
+			began_date,
+			ended_date,
 			collectors
 		FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 			join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -236,10 +236,10 @@
 						</thead>
 						<tbody>
 							<cfloop query="search">
-								<cfif search.iso_began_date EQ search.iso_ended_date OR len(search.iso_ended_date) EQ 0>
-									<cfset eventDate = search.iso_began_date>
+								<cfif search.began_date EQ search.ended_date OR len(search.ended_date) EQ 0>
+									<cfset eventDate = search.began_date>
 								<cfelse>
-									<cfset eventDate = "#search.iso_began_date#/#search.iso_ended_date#">
+									<cfset eventDate = "#search.began_date#/#search.ended_date#">
 								</cfif>
 								<tr>
 									<td>
