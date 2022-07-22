@@ -112,6 +112,7 @@
 					<input id="island_group" type="text" name="island_group" class="data-entry-input" value="#encodeForHtml(island_group)#">
 				</div>
 				<div class="col-12 col-md-4">
+					<cfif isdefined("islands")><cfset island="#islands#"></cfif>
 					<cfif not isdefined("island")><cfset island=""></cfif>
 					<label for="island" class="data-entry-label">Island</label>
 					<input id="island" type="text" name="island" class="data-entry-input" value="#encodeForHtml(island)#">
