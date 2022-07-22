@@ -122,6 +122,20 @@
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+		<cfif isDefined("island_group") AND len(island) GT 0>
+			<cfset field = '"field": "island_group"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island_group#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("island") AND len(island) GT 0>
+			<cfset field = '"field": "island"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#island#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
 		<cfif isDefined("spec_locality") AND len(spec_locality) GT 0>
 			<cfset field = '"field": "spec_locality"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#spec_locality#",separator="#separator#",nestDepth="#nest#")>
@@ -193,8 +207,8 @@
 			continent_ocean,
 			country,
 			spec_locality,
-			ISO_BEGAN_DATE,
-			iso_ended_date,
+			began_date,
+			ended_date,
 			collectors
 		FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 			join user_search_table on user_search_table.collection_object_id = flatTableName.collection_object_id
@@ -222,10 +236,10 @@
 						</thead>
 						<tbody>
 							<cfloop query="search">
-								<cfif iso_began_date EQ iso_ended_date OR len(iso_ended_date) EQ 0>
-									<cfset eventDate = iso_began_date>
+								<cfif search.began_date EQ search.ended_date OR len(search.ended_date) EQ 0>
+									<cfset eventDate = search.began_date>
 								<cfelse>
-									<cfset eventDate = "#iso_began_date#/#iso_ended_date#">
+									<cfset eventDate = "#search.began_date#/#search.ended_date#">
 								</cfif>
 								<tr>
 									<td>
