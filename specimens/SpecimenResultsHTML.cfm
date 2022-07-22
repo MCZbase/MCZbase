@@ -12,6 +12,17 @@
 
 		<cfset nest = 1>
 	
+		<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
+			<!--- lookup collection from collection_id if specified --->
+			<cfquery name="lookupColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT collection
+				FROM collection
+				WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_id#">
+			</cfquery>
+			<cfif lookupColl.recordcount EQ 1>
+				<cfset collection = lookupColl.collection>
+			</cfif>
+		</cfif>
 		<cfif isDefined("collection") AND len(collection) GT 0>
 			<cfset field = '"field": "collection_cde"'>
 			<cfset comparator = '"comparator": "IN"'>
