@@ -668,13 +668,13 @@ limitations under the License.
 							</div>
 							<div id="AttributesPane" class="collapse show" aria-labelledby="headingAttributes" data-parent="##accordionAttributes">
 								<cfif len(trim(#blockattributes#)) GT 0>
-									<div class="card-body px-1" id="attributesCardBody">
+									<div class="card-body" id="attributesCardBody">
 										#blockattributes#
 									</div>
 								<cfelse>
-									<div class="card-body px-3" id="attributesCardBody">
+									<div class="card-body" id="attributesCardBody">
 										<ul class="list-group">
-											<li class="small90 list-group-item font-italic">None</li>
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
