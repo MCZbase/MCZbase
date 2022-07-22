@@ -81,7 +81,7 @@
 	<noscript>
 		<div class="browserCheck">
 			JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
-			try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option.
+			try our <a target="_top" href="/SpecimensHTML.cfm">HTML SpecimenSearch</a> option.
 		</div>
 	</noscript>
 

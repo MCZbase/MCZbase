@@ -233,8 +233,8 @@ limitations under the License.
 		
 				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
 					<ul class="navbar-nav mx-auto">
-						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-						<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
+						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/specimens/browseSpecimens.cfm?target=noscript">Browse Data</a></li>
 						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 						<cfif isdefined("session.username") and len(#session.username#) gt 0>
 							<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#

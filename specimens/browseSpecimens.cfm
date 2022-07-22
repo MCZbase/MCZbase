@@ -17,6 +17,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<cfif not isdefined("target")>
+	<cfset target="normal">
+</cfif>
 <cfif not isdefined("action")>
 	<cfset action="browsefeatured">
 </cfif>
@@ -77,6 +80,9 @@ limitations under the License.
 	<cfset specimenSearch="/Specimens.cfm?execute=true&action=fixedSearch">
 <cfelse>
 	<cfset specimenSearch="/SpecimenResults.cfm?ShowObservations=true">
+</cfif>
+<cfif target EQ "noscript">
+	<cfset specimenSearch="/specimens/SpecimenResultsHTML.cfm?">
 </cfif>
 
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
