@@ -85,8 +85,8 @@ limitations under the License.
 	<!--- setup for delivery of links and page for users without javascript --->
 	<cfset specimenSearch="/specimens/SpecimenResultsHTML.cfm?">
 	<cfif action EQ "browsefeatured">
-		<cfset action = "browsetypes">
-	</cfif.
+		<cfset action = "browseprimarytypes">
+	</cfif>
 </cfif>
 
 <cfquery name="namedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
