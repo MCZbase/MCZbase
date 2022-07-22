@@ -20,7 +20,7 @@
 				WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_id#">
 			</cfquery>
 			<cfif lookupColl.recordcount EQ 1>
-				<cfset collection_cde = lookupColl.collection>
+				<cfset collection_cde = lookupColl.collection_cde>
 			</cfif>
 		</cfif>
 		<cfif isDefined("collection_cde") AND len(collection_cde) GT 0>
