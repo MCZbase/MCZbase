@@ -26,7 +26,7 @@
 		<cfif isDefined("collection_cde") AND len(collection_cde) GT 0>
 			<cfset field = '"field": "collection_cde"'>
 			<cfset comparator = '"comparator": "IN"'>
-			<cfset value = encodeForJSON(collection)>
+			<cfset value = encodeForJSON(collection_cde)>
 			<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
