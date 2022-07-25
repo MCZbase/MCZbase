@@ -2471,7 +2471,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
 					else
 						preferred_agent_name.agent_name
-					end preparators
+					end preparator
 				FROM
 					collector,
 					preferred_agent_name
@@ -2492,7 +2492,7 @@ limitations under the License.
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
 								<cfif len(preps.agent_id) GT 0 AND preps.agent_id NEQ "0">
-									<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
+									<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparator#</a>
 								<cfelse>
 									#preps.preparator#
 								</cfif>
@@ -2504,7 +2504,7 @@ limitations under the License.
 							<cfset separator = "">
 								<cfloop query="preps">
 								<cfif len(preps.agent_id) GT 0 AND preps.agent_id NEQ "0">
-									#separator#<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
+									#separator#<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparator#</a>
 								<cfelse>
 									#separator##preps.preparator#
 								</cfif>
