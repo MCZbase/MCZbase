@@ -22,7 +22,7 @@
 		<li>Use this form to report problems you have encountered while using the database.</li>
 		<li>Use this form to make suggestions in relation to database function or data display.</li>
             </ul>
-		<p>NOTE: To report problems or errors with specimen data, use the "Report Bad Data" link included on the Search Results webpages.</p>
+		<p>NOTE: To report problems or errors with specimen data, you may use this form, or if logged in, you may use the "Report Bad Data" link included on Search Results or Specimen Detail pages.</p>
      	<p>Include your email address if you wish to be contacted when the issue has been addressed. Your email address will <b>not</b> be    released or publicly displayed on our site.</p>
         </div>
         <form name="bug" method="post" action="bugs.cfm" onsubmit="return validateBugs();">
