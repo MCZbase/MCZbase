@@ -637,14 +637,26 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 search-header-basic py-1">
-												<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
-													<cfset GeogDetailStyle="display:none;">
-													<cfset toggleTo = "1">
-													<cfset GeogButton = "More Fields">
-												<cfelse>
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
+													OR (isDefined("country") and len(country) GT 0)
+													OR (isDefined("state_prov") and len(state_prov) GT 0)
+													OR (isDefined("county") and len(county) GT 0)
+													OR (isDefined("ocean_region") and len(ocean_region) GT 0)
+													OR (isDefined("ocean_subregion") and len(ocean_subregion) GT 0)
+													OR (isDefined("sea") and len(sea) GT 0)
+													OR (isDefined("island_group") and len(island_group) GT 0)
+													OR (isDefined("island") and len(island) GT 0)>
+													<cfset hiddenHaveValue = false>
+												</cfif>
+												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
+												<cfelse>
+													<cfset GeogDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset GeogButton = "More Fields">
 												</cfif>
 												<div class="col-12 col-xl-1 px-xl-3 px-1 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
@@ -775,14 +787,19 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 py-1">
-												<cfif listFind(searchPrefList,"CollDetail") EQ 0>
-													<cfset CollDetailStyle="display:none;">
-													<cfset toggleTo = "1">
-													<cfset CollButton = "More Fields">
-												<cfelse>
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
+													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)>
+													<cfset hiddenHaveValue = true>
+												</cfif>
+												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
 													<cfset CollButton = "Fewer Fields">
+												<cfelse>
+													<cfset CollDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset CollButton = "More Fields">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
