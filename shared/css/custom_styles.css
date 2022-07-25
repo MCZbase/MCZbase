@@ -1098,7 +1098,7 @@ ul.sd li.list-group-item:last-child {
 }
 .search-form-basic-odd {
    /* odd rows in the basic specimen search form */
-	background: #f3f3f3;
+/*	background: #f3f3f3;
 	background: -moz-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, #f0f0f0));
 	background: -webkit-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
@@ -1107,9 +1107,12 @@ ul.sd li.list-group-item:last-child {
 	background: linear-gradient(to bottom, #f3f3f3 0%, #e1e1e1 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3', endColorstr='@lightgrey', GradientType=0);
 	border-bottom: 1px solid #c1c1c1!important;
-	border-top: 1px solid #cfcfcf!important;
+	border-top: 1px solid #cfcfcf!important;*/
 }
-.search-form-basic-even {
+.search-form-basic-odd {
+	/* odd rows in the basic specimen search form */
+	border-top: 1px solid #c1c1c1;
+	border-bottom: 1px solid #c1c1c1;
 	background-color: #e1e1e1!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
