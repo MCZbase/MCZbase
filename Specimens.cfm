@@ -304,7 +304,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<div class="col-12 search-form-basic-odd py-1">
+											<div class="col-12 search-form-basic-odd py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -437,7 +437,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-1">
+											<div class="col-12 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -636,7 +636,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd py-1">
+											<div class="col-12 search-form-basic-odd py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
@@ -786,7 +786,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-1">
+											<div class="col-12 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)>
@@ -897,7 +897,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd py-1">
+											<div class="col-12 search-form-basic-odd py-2">
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
@@ -954,7 +954,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 py-1">
+												<div class="col-12 py-2">
 													<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 														<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
 															Transactions&nbsp;&nbsp;
