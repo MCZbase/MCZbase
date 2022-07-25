@@ -1098,9 +1098,9 @@ ul.sd li.list-group-item:last-child {
 }
 .search-form-basic-odd {
    /* odd rows in the basic specimen search form */
-	background-color: #eaf8ff!important;
-	border-bottom: 2px solid #d7d7d7!important;
-	border-top: 2px solid #d7d7d7!important;
+	background-color: aliceblue!important;
+	border-bottom: 2px solid #ccdeed!important;
+	border-top: 2px solid #ccdeed!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
