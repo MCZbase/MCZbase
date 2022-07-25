@@ -1106,8 +1106,8 @@ ul.sd li.list-group-item:last-child {
 	background: -ms-linear-gradient(top, #fafafa 0%, #ECECEC 100%);
 	background: linear-gradient(to bottom, #fafafa 0%, #ECECEC 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='@lightgrey', GradientType=0);
-	border-bottom: 1px solid #d3c5c8!important;
-	border-top: 1px solid #d3c5c8!important;
+	border-bottom: 1px solid #c7bfc0!important;
+	border-top: 1px solid #c7bfc0!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
