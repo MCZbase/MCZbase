@@ -437,7 +437,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-2 bg-white">
+											<div class="col-12 py-2 search-form-basic-even">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -786,7 +786,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-2 bg-white">
+											<div class="col-12 py-2 search-form-basic-even">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)>
@@ -954,7 +954,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 py-2">
+												<div class="col-12 py-2 search-form-basic-even">
 													<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 														<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
 															Transactions&nbsp;&nbsp;
