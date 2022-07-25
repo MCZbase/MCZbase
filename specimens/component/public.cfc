@@ -262,17 +262,17 @@ limitations under the License.
 						<div class="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h5 text-success">Current Identification</div>
 					<cfelse>
-						<div class="list-group border-transparent rounded m-1 p-1 h4 font-weight-normal">
+						<div class="list-group border-transparent rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
 						<!--- no ul for previous identifications --->
 						<cfif i EQ 2>
 						
-							<div class="h6 my-0 text-success formerID">#IDtitle#</div>
+							<div class="h6 mt-0 mb-1 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
-					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
+					<div class="h4 my-0 font-weight-lessbold d-inline-block">
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
