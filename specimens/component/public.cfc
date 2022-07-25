@@ -266,8 +266,8 @@ limitations under the License.
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
-						<!--- no ul for previous idntifications --->
-						<cfif i gt 1>
+						<!--- no ul for previous identifications --->
+						<cfif i EQ 2>
 						
 							<div class="h6 my-0 text-success formerID">#IDtitle#</div>
 						</cfif>
