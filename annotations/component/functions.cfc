@@ -345,7 +345,7 @@ limitations under the License.
 		<cfswitch expression="#target_type#">
 			<cfcase value="collection_object">
 				<cfset annotatable = true>
-				<cfquery name="annotated" datasource="cf_dbuser">
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select guid as annorecord
 					from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> FLAT
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
