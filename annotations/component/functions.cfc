@@ -46,19 +46,16 @@ limitations under the License.
 								collection.collection,
 								collection.collection_cde,
 								cat_num,
-								display_name,
-								author_text
+								mczbase.get_scientific_name_auths(collection_object_id) display_name
 							from 
 								cataloged_item
-								left join identification on cataloged_item.collection_object_id = identification.collection_object_id
-								left join taxonomy on identification.taxon_name_id = taxonomy.taxon_name_id
 								left join collection on cataloged_item.collection_id = collection.collection_id
 							where 
 								accepted_id_fg=1 AND
 								cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
 						<cfloop query="d">
-							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name# <span class='sm-caps'>#author_text#</span>">
+							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name#" >
 							<!--- TODO: Manage dialog for individual annotations --->
 							<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=collection_object_id&collection=#d.collection#">
 						</cfloop>
