@@ -304,20 +304,27 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<div class="col-12 search-header-basic py-1">
-												<cfif listFind(searchPrefList,"IDDetail") EQ 0>
-													<cfset IDDetailStyle="display:none;">
-													<cfset toggleTo = "1">
-													<cfset IDButton = "More Fields">
-												<cfelse>
+											<div class="col-12 search-form-basic-odd py-2">
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
+													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
+													<cfset hiddenHaveValue = true>
+												</cfif>
+												<cfif listFind(searchPrefList,"IDDetail") GT 0 OR hiddenHaveValue>
 													<cfset IDDetailStyle="">
 													<cfset toggleTo = "0">
 													<cfset IDButton = "Fewer Fields">
+												<cfelse>
+													<cfset IDDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset IDButton = "More Fields">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-0">
 														Identifiers&nbsp;&nbsp;
-														<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">(#IDButton#)</button>
+														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
+															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">(#IDButton#)</button>
+														</cfif>
 													</div>
 												</div>	
 												<div class="form-row col-12 col-xl-11 px-0 mx-0 mb-0">
@@ -430,16 +437,24 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-1">
-													<cfif listFind(searchPrefList,"TaxaDetail") EQ 0>
-														<cfset TaxaDetailStyle="display:none;">
-														<cfset toggleTo = "1">
-														<cfset TaxaButton = "More Fields">
-													<cfelse>
-														<cfset TaxaDetailStyle="">
-														<cfset toggleTo = "0">
-														<cfset TaxaButton = "Fewer Fields">
-													</cfif>
+											<div class="col-12 py-2">
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("phylum") and len(phylum) GT 0)
+													OR (isDefined("phylclass") and len(phylclass) GT 0)
+													OR (isDefined("phylorder") and len(phylorder) GT 0)
+													OR (isDefined("family") and len(family) GT 0)
+													OR (isDefined("genus") and len(genus) GT 0)>
+													<cfset hiddenHaveValue = true>
+												</cfif>
+												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
+													<cfset TaxaDetailStyle="">
+													<cfset toggleTo = "0">
+													<cfset TaxaButton = "Fewer Fields">
+												<cfelse>
+													<cfset TaxaDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset TaxaButton = "More Fields">
+												</cfif>
 												<div class="col-12 col-xl-1 px-xl-3 px-1 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
@@ -621,15 +636,27 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-header-basic py-1">
-												<cfif listFind(searchPrefList,"GeogDetail") EQ 0>
-													<cfset GeogDetailStyle="display:none;">
-													<cfset toggleTo = "1">
-													<cfset GeogButton = "More Fields">
-												<cfelse>
+											<div class="col-12 search-form-basic-odd py-2">
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
+													OR (isDefined("country") and len(country) GT 0)
+													OR (isDefined("state_prov") and len(state_prov) GT 0)
+													OR (isDefined("county") and len(county) GT 0)
+													OR (isDefined("ocean_region") and len(ocean_region) GT 0)
+													OR (isDefined("ocean_subregion") and len(ocean_subregion) GT 0)
+													OR (isDefined("sea") and len(sea) GT 0)
+													OR (isDefined("island_group") and len(island_group) GT 0)
+													OR (isDefined("island") and len(island) GT 0)>
+													<cfset hiddenHaveValue = false>
+												</cfif>
+												<cfif listFind(searchPrefList,"GeogDetail") GT 0 or hiddenHaveValue>
 													<cfset GeogDetailStyle="">
 													<cfset toggleTo = "0">
 													<cfset GeogButton = "Fewer Fields">
+												<cfelse>
+													<cfset GeogDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset GeogButton = "More Fields">
 												</cfif>
 												<div class="col-12 col-xl-1 px-xl-3 px-1 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
@@ -759,15 +786,20 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-1">
-												<cfif listFind(searchPrefList,"CollDetail") EQ 0>
-													<cfset CollDetailStyle="display:none;">
-													<cfset toggleTo = "1">
-													<cfset CollButton = "More Fields">
-												<cfelse>
+											<div class="col-12 py-2">
+												<cfset hiddenHaveValue = false>
+												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
+													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)>
+													<cfset hiddenHaveValue = true>
+												</cfif>
+												<cfif listFind(searchPrefList,"CollDetail") GT 0 OR hiddenHaveValue>
 													<cfset CollDetailStyle="">
 													<cfset toggleTo = "0">
 													<cfset CollButton = "Fewer Fields">
+												<cfelse>
+													<cfset CollDetailStyle="display:none;">
+													<cfset toggleTo = "1">
+													<cfset CollButton = "More Fields">
 												</cfif> 
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
@@ -865,7 +897,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-header-basic py-1">
+											<div class="col-12 search-form-basic-odd py-2">
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
@@ -922,7 +954,7 @@ limitations under the License.
 												</div>
 											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 py-1">
+												<div class="col-12 py-2">
 													<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 														<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
 															Transactions&nbsp;&nbsp;

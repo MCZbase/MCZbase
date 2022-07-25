@@ -262,17 +262,17 @@ limitations under the License.
 						<div class="list-group border-green rounded mx-1 my-2 p-2 h4 font-weight-normal">
 						<div class="d-inline-block my-0 h5 text-success">Current Identification</div>
 					<cfelse>
-						<div class="list-group border-transparent rounded m-1 p-1 h4 font-weight-normal">
+						<div class="list-group border-transparent rounded mx-1 mt-0 mb-1 p-1 h4 font-weight-normal">
 						<!---	Start of former Identifications --->
 						<cfif identification.recordcount GT 2><cfset plural = "s"><cfelse><cfset plural = ""></cfif>
 						<cfset IDtitle = "Previous Identification#plural#">
-						<!--- no ul for previous idntifications --->
-						<cfif i gt 1>
+						<!--- no ul for previous identifications --->
+						<cfif i EQ 2>
 						
-							<div class="h6 my-0 text-success formerID">#IDtitle#</div>
+							<div class="h6 mt-0 mb-1 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
-					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
+					<div class="h4 my-0 font-weight-lessbold d-inline-block">
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
@@ -457,7 +457,7 @@ limitations under the License.
 							<li class="list-group-item py-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
+								<a class="pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
@@ -883,7 +883,7 @@ limitations under the License.
 								</cfquery>
 								<cfif partAttributes.recordcount gt 0>
 									<tr class="border-top-0">
-										<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
+										<td colspan="5" class="border-top-0 mt-0 py-0">
 											<cfloop query="partAttributes">
 												<div class="small90 pl-3 line-height-sm">
 													#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
@@ -2471,7 +2471,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
 					else
 						preferred_agent_name.agent_name
-					end preparators
+					end preparator
 				FROM
 					collector,
 					preferred_agent_name
@@ -2491,14 +2491,24 @@ limitations under the License.
 						<li class="list-group-item pt-0">
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
-								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
+								<cfif len(preps.agent_id) GT 0 AND preps.agent_id NEQ "0">
+									<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparator#</a>
+								<cfelse>
+									#preps.preparator#
+								</cfif>
 							</cfloop>
 						</li>
 					<cfelse>
 						<li class="list-group-item pt-0">
 							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
-							<cfloop query="preps">
-								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
+							<cfset separator = "">
+								<cfloop query="preps">
+								<cfif len(preps.agent_id) GT 0 AND preps.agent_id NEQ "0">
+									#separator#<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparator#</a>
+								<cfelse>
+									#separator##preps.preparator#
+								</cfif>
+								<cfset separator="<span class='sd'>,</span> " > <!--- " --->
 							</cfloop>
 						</li>
 					</cfif>
