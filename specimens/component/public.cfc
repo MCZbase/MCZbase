@@ -2501,8 +2501,8 @@ limitations under the License.
 					<cfelse>
 						<li class="list-group-item pt-0">
 							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
-							<cfset separator = "";
-							<cfloop query="preps">
+							<cfset separator = "">
+								<cfloop query="preps">
 								<cfif len(preps.agent_id) GT 0 AND preps.agent_id NEQ "0">
 									#separator#<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
 								<cfelse>
