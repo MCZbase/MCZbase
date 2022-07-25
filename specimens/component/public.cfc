@@ -2491,7 +2491,7 @@ limitations under the License.
 						<li class="list-group-item pt-0">
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
-								<cfif len(preps.agent_id) GT 0 AND prepsagent_id NEQ "0">
+								<cfif len(preps.agent_id) GT 0 AND preps.agent_id NEQ "0">
 									<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
 								<cfelse>
 									#preps.preparator#
