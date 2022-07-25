@@ -1338,7 +1338,7 @@ limitations under the License.
 												</div>
 												<div class="col-6 px-0">
 													<label for="accn_number" class="data-entry-label mb-0">Number 
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 </label>
 													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
 												</div>
@@ -1813,7 +1813,7 @@ limitations under the License.
 												</div>
 												<div class="col-6 px-0">
 													<label for="deacc_number" class="data-entry-label mb-0">Number 
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##deacc_number').val('='+$('##deacc_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+														<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##deacc_number').val('='+$('##deacc_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 													</label>
 													<input type="text" name="deacc_number" id="deacc_number" class="data-entry-select-input" value="#deacc_number#" placeholder="Dyyyy-n-Col">
 												</div>
@@ -2256,7 +2256,7 @@ limitations under the License.
 										<div class="col-12 col-md-2">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="lenders_trans_num_cde">
 												Lender's Loan Number
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+												<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a><!--- ' --->
 											</label>
 											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde">
 										</div>

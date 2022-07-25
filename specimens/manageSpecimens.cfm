@@ -53,7 +53,7 @@ limitations under the License.
 										<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryAccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Accession</a>
 									</li>
 									<li class="nav-item mb-1">
-										<a href="##" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
+										<a href="javascript:void(0)" class="nav-link btn btn-xs btn-secondary disabled">Deaccession</a>
 										<!---
 											TODO: In progress, BugID:  
 											<a class="nav-link btn btn-xs btn-secondary" href="/specimens/changeQueryDeaccession.cfm?result_id=#encodeForUrl(result_id)#" target="_blank">Deaccession</a>
@@ -70,7 +70,7 @@ limitations under the License.
 									</li>
 								<cfelse>
 									<li class="nav-item mb-1">
-										<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Collecting Events</a>
+										<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Collecting Events</a>
 									</li>
 								</cfif>
 								<cfif findNoCase('master',Session.gitBranch) EQ 0>
@@ -80,32 +80,32 @@ limitations under the License.
 									</li>
 								<cfelse>
 									<li class="nav-item mb-1">
-										<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
+										<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Localities</a>
 									</li>
 								</cfif>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Encumbrances</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Identifications</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Map By Locality</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Parts Report</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Change Part Locations</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Modify Parts</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Add To Named Group</a>
 								</li>
 								<li class="nav-item mb-1">
-									<a href="##" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
+									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 								</li>
 	<!---
 

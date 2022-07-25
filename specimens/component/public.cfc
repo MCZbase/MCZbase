@@ -2286,7 +2286,7 @@ limitations under the License.
 							<li class="list-group-item col-7 px-0">
 								None
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Add </a>
+									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Add </a>
 								</cfif>
 							</li>
 						<cfelse>
@@ -2297,7 +2297,7 @@ limitations under the License.
 								</cfif>
 								<span class="my-0 font-weight-lessbold">Collector#plural#: </span>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<a href="##" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
+									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
 								</cfif>
 							</li>
 							<cfif oneOfUs EQ 0 AND Findnocase("mask collector", check.encumbranceDetail)>
