@@ -486,8 +486,9 @@ function saveThisAnnotation() {
  * @param dialogid the id of a div in the dom which is to contain the dialog, without a leading # selector.
  * @param target_type the type of entity which is to be annotated (collection_object, taxon_name, publication, project).
  * @param target_id the surrogate numeric primary key for the target_type table identifying the row to be annotated.
+ * @param callback function to execute on closing the dialog.
  */
-function openAnnotationsDialog(dialogid, target_type, target_id) { 
+function openAnnotationsDialog(dialogid, target_type, target_id, callback) { 
 	var title = "Annotations";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
@@ -525,6 +526,7 @@ function openAnnotationsDialog(dialogid, target_type, target_id) {
 			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
 		},
 		close: function(event,ui) {
+			if (jQuery.type(callback)==='function') callback();
 			$("#"+dialogid+"_div").html("");
 			$("#"+dialogid).dialog('destroy');
 		}

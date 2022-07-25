@@ -729,11 +729,11 @@
 							<cfif #existingAnnotations.cnt# GT 0>
 								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
 									class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
-									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#);">Annotate/View Annotations</button>
+									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#,null);">Annotate/View Annotations</button>
 							<cfelse>
 								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
 									class="btn btn-xs btn-info" value="Annotate this record"
-									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#);">Annotate</button>
+									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#,null);">Annotate</button>
 							</cfif>
 							<div id="annotationDialog"></div>
 							<cfif #existingAnnotations.cnt# gt 0>
