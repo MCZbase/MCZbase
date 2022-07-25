@@ -457,7 +457,7 @@ limitations under the License.
 							<li class="list-group-item py-0">
 								<span class="text-capitalize float-left font-weight-lessbold">#other_id_type#: </span>
 							<cfif len(link) gt 0>
-								<a class="external pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
+								<a class="pl-1 mb-0" href="#link#"> #display_value# <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #display_value#</span>
 							</cfif>
@@ -2491,14 +2491,24 @@ limitations under the License.
 						<li class="list-group-item pt-0">
 							<span class="my-0 d-inline font-weight-lessbold">Preparator:&nbsp;</span>
 							<cfloop query="preps">
-								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
+								<cfif len(preps.agent_id) GT 0 AND prepsagent_id NEQ "0">
+									<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
+								<cfelse>
+									#preps.preparator#
+								</cfif>
 							</cfloop>
 						</li>
 					<cfelse>
 						<li class="list-group-item pt-0">
 							<span class="my-0 font-weight-lessbold d-inline">Preparators:&nbsp;</span>
+							<cfset separator = "";
 							<cfloop query="preps">
-								<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a><span class="sd">,</span>
+								<cfif len(preps.agent_id) GT 0 AND preps.agent_id NEQ "0">
+									#separator#<a href="/agents/Agent.cfm?agent_id=#preps.agent_id#">#preps.preparators#</a>
+								<cfelse>
+									#separator##preps.preparator#
+								</cfif>
+								<cfset separator="<span class='sd'>,</span> " > <!--- " --->
 							</cfloop>
 						</li>
 					</cfif>
