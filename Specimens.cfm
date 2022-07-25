@@ -437,7 +437,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-2">
+											<div class="col-12 py-2 bg-white">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -786,7 +786,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-2">
+											<div class="col-12 py-2 bg-white">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)>
