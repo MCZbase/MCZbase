@@ -75,7 +75,23 @@ function loadMeta(collection_object_id,targetDivId) {
 			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"load ledger");
+			handleFail(jqXHR,textStatus,error,"load metadata");
+		},
+		dataType: "html"
+	});
+};
+function loadAnnotations(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getAnnotationsHTML",
+			collection_object_id: collection_object_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading annotations");
 		},
 		dataType: "html"
 	});
