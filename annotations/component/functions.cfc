@@ -51,7 +51,6 @@ limitations under the License.
 								cataloged_item
 								left join collection on cataloged_item.collection_id = collection.collection_id
 							where 
-								accepted_id_fg=1 AND
 								cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 						</cfquery>
 						<cfloop query="d">
