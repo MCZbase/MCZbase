@@ -277,7 +277,11 @@ limitations under the License.
 									<tbody>
 										<cfloop query="prevAnn">
 										<tr>
-											<td>#annotation#</td>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+												<td>#annotation#</td>
+											<cfelse>
+												</td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
+											</cfif>
 											<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
 											<td>
 												<cfif len(REVIEWER_COMMENT) gt 0>
