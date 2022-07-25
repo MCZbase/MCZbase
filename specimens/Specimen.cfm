@@ -717,6 +717,7 @@ limitations under the License.
 					<!------------------------------------ annotations -------------------------------->
 					<div class="accordion" id="accordionAnnotations">
 						<div class="card mb-2 bg-light">
+							<div id="annotationDialog"></div>
 							<div id="AnnotationsDialog"></div>
 							<cfset blockAnnotations = getAnnotationsHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingAnnotations">
@@ -747,7 +748,7 @@ limitations under the License.
 												});
 											}
 										</script>
-										<a href="##" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotation('collection_object_id=#collection_object_id#')">
+										<a href="##" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','cataloged_item',#collection_object_id#);">
 											Report Bad Data
 										</a>
 									</cfif>
