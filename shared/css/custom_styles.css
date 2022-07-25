@@ -1098,16 +1098,22 @@ ul.sd li.list-group-item:last-child {
 }
 .search-form-basic-odd {
    /* odd rows in the basic specimen search form */
-	background: #fafafa;
-	background: -moz-linear-gradient(top, #fafafa 0%, #e1e1e1 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #f0f0f0));
-	background: -webkit-linear-gradient(top, #fafafa 0%, #e1e1e1 100%);
-	background: -o-linear-gradient(top, #fafafa 0%, #e1e1e1 100%);
-	background: -ms-linear-gradient(top, #fafafa 0%, #e1e1e1 100%);
-	background: linear-gradient(to bottom, #fafafa 0%, #e1e1e1 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='@lightgrey', GradientType=0);
-	border-bottom: 1px solid #ddd7d8!important;
-	border-top: 1px solid #dfdddd!important;
+/*	background: #f3f3f3;
+	background: -moz-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f3f3f3), color-stop(100%, #f0f0f0));
+	background: -webkit-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
+	background: -o-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
+	background: -ms-linear-gradient(top, #f3f3f3 0%, #e1e1e1 100%);
+	background: linear-gradient(to bottom, #f3f3f3 0%, #e1e1e1 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f3f3', endColorstr='@lightgrey', GradientType=0);
+	border-bottom: 1px solid #c1c1c1!important;
+	border-top: 1px solid #cfcfcf!important;*/
+}
+.search-form-basic-odd {
+	/* odd rows in the basic specimen search form */
+	border-top: 1px solid #e3e3e3;
+	border-bottom: 1px solid #e3e3e3;
+	background-color: #efeded!important;
 }
 /*I don't know that this is needed.  I used bootstrap styles.*/
 .jqx-grid-load {
