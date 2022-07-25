@@ -304,7 +304,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<div class="col-12 search-header-basic py-1">
+											<div class="col-12 search-form-basic-odd py-1">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -636,7 +636,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-header-basic py-1">
+											<div class="col-12 search-form-basic-odd py-1">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
@@ -897,7 +897,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-header-basic py-1">
+											<div class="col-12 search-form-basic-odd py-1">
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
