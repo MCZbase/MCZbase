@@ -272,7 +272,7 @@ limitations under the License.
 							<div class="h6 mt-0 mb-1 text-success formerID">#IDtitle#</div>
 						</cfif>
 					</cfif>
-					<div class="h4 mb-0 mt-1 font-weight-lessbold d-inline-block">
+					<div class="h4 my-0 font-weight-lessbold d-inline-block">
 						<cfif getTaxa.recordcount is 1 and identification.taxa_formula IS 'A'>
 							<!--- simple formula with no added information just show name and link --->
 							<cfloop query="getTaxa"><!--- just to be explicit, only one row should match --->
