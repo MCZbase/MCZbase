@@ -323,6 +323,13 @@ limitations under the License.
 <cfoutput>
 	<!--- TODO: Split details.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
 	<script type="text/javascript" src="/specimens/js/details.js"></script> 
+   <cfif isdefined("session.username") AND len(session.username) gt 0>
+		<script>
+			function reloadAnnotations() { 
+				loadAnnotations(#collection_object_id#,'annotationsCardBody');
+			}
+		</script>
+	</cfif>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
@@ -360,9 +367,6 @@ limitations under the License.
 			}
 			function reloadRemarks() { 
 				loadRemarks(#collection_object_id#,'remarksCardBody');
-			}
-			function reloadAnnotations() { 
-				loadAnnotations(#collection_object_id#,'annotationsCardBody');
 			}
 			function reloadMeta() { 
 				loadMeta(#collection_object_id#,'metaCardBody');
@@ -725,7 +729,7 @@ limitations under the License.
 									<button type="button" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-label="Annotations Pane" aria-controls="AnnotationsPane" data-toggle="collapse" data-target="##AnnotationsPane">
 										Collection Object Annotations
 									</button>
-                				<cfif len(session.username) gt 0>
+ 									<cfif isdefined("session.username") AND len(session.username) gt 0>
 										<!--- anyone with a username can create annotations --->
 										<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 mr-5 anchorFocus" onclick="openAnnotationsDialog('annotationDialog','collection_object',#collection_object_id#,reloadAnnotations);">
 											Report Bad Data
