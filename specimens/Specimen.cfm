@@ -321,8 +321,8 @@ limitations under the License.
 	<cfset partCount=#countParts.ct#>
 </cfif>
 <cfoutput>
-	<!--- TODO: Split details.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
-	<script type="text/javascript" src="/specimens/js/details.js"></script> 
+	<!--- TODO: Split public.js into functions available for everyone and functions that support editing, load latter only with manage_specimens ---->
+	<script type="text/javascript" src="/specimens/js/public.js"></script> 
    <cfif isdefined("session.username") AND len(session.username) gt 0>
 		<script>
 			function reloadAnnotations() { 
