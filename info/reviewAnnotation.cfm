@@ -67,6 +67,7 @@
 					 preferred_agent_name.agent_name reviewer,
 					 annotations.reviewed_fg,
 					 annotations.reviewer_comment,
+					 annotations.motivation,
 					 collection.collection,
 					 cataloged_item.cat_num,
 					 identification.scientific_name idAs,
@@ -137,8 +138,16 @@
 						</td>
 					</tr>
 					<cfloop query="itemAnno">
-						<tr><td><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+						<tr>
+							<td>
+								<label class="data-entry-label">Annotation by</label>
+								<span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span>
+							</td>
 							<td><span class="small">#annotation#</span></td>
+							<td>
+								<label class="data-entry-label">Motivation</label>
+								<span class="small">#motivation#</span>
+							</td>
 							<form name="r" method="post" action="reviewAnnotation.cfm">
 								<input type="hidden" name="action" value="saveReview">
 								<input type="hidden" name="type" value="collection_object_id">
