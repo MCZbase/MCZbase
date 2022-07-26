@@ -245,29 +245,28 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row d-block">
-						<form name="annotate" method="post" action="/info/annotate.cfm">
-							<div class="col-12 col-md-6">
-								<input type="hidden" name="action" value="insert">
-								<input type="hidden" name="idtype" id="idtype" value="#target_type#">
-								<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
-
-								<label for="annotation" class="data-entry-label">Create Annotation (<span id="length_annotation"></span>)</label>
-										<textarea rows="2" name="annotation" id="annotation" 
-											onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
-											class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
-
-									<script>
-										$(document).ready(function() { 
-											$("##annotation").keyup(autogrow);  
-											$("##annotation").keyup();  
-										});
-									</script>
+						<form name="annotate" method="post" action="/info/annotate.cfm" class="form-row">
+							<input type="hidden" name="action" value="insert">
+							<input type="hidden" name="idtype" id="idtype" value="#target_type#">
+							<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
+							<div class="col-12">
+								<label for="annotation" class="data-entry-label">Annotation Text (<span id="length_annotation"></span>)</label>
+								<textarea rows="2" name="annotation" id="annotation"
+										onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
+										class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
+								<script>
+									$(document).ready(function() { 
+										$("##annotation").keyup(autogrow);  
+										$("##annotation").keyup();  
+									});
+								</script>
 							</div>
 							<div class="col-12 col-md-6">
 								<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
 								<select id="motivation" name="motivation" class="data-entry-select">
 									<cfloop query="ctmotivation">
-										<option value="#motivation#">#motivation# (#description#)</option>
+										<cfif motivation EQ "commenting"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+										<option value="#motivation#"#selected#>#motivation# (#description#)</option>
 									</cfloop>
 								</select>
 							</div>
