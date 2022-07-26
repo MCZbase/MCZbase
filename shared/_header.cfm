@@ -124,6 +124,10 @@ limitations under the License.
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 	<script type="text/javascript" src="/users/js/internal.js"></script>
 </cfif>
+<cfif isdefined("session.username") AND len(session.username) gt 0>
+	<!--- anyone with a username can create annotations --->
+	<script type="text/javascript" src="/annotations/js/annotations.js"></script>
+</cfif>
 
 <!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
 <!--- TODO: Replace with jqx multiselect instead of using additional library --->
