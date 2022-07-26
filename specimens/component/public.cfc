@@ -651,6 +651,10 @@ limitations under the License.
 	<cfreturn cfthread["getCitMediaThread#tn#"].output>
 </cffunction>
 								
+<!--- getPartsHTML obtain a block of html listing parts/preparations for a specified cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the parts.
+ @return html listing parts for the specified cataloged item.
+--->
 <cffunction name="getPartsHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 

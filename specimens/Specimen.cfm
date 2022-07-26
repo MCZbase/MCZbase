@@ -339,7 +339,7 @@ limitations under the License.
 				loadMedia(#collection_object_id#,'specimenMediaCardBody');
 			}
 			function reloadIdentifications() { 
-				// invoke specimen/component/public.cfc function getIdentificationHTML via ajax and repopulate the identification block.
+				// invoke specimen/component/public.cfc function getIdentificationsHTML via ajax and repopulate the identification block.
 				loadIdentifications(#collection_object_id#,'identificationsCardBody');
 			}
 			function reloadCitations() { 
