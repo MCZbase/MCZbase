@@ -2629,6 +2629,7 @@ limitations under the License.
 						to_char(annotate_date,'yyyy-mm-dd') annotate_date,
 						cf_username,
 						annotation,
+						motivation,
 						reviewer_agent_id,
 						MCZBASE.get_agentnameoftype(reviewer_agent_id) reviewer,
 						reviewed_fg,
@@ -2658,7 +2659,7 @@ limitations under the License.
 									<cfelse>
 										#rereplace(annotation,"^.* reported:","[Masked] reported:")#
 									</cfif>
-									<span class="d-block small mb-0 pb-0">#state# (#annotate_date#)</span>
+									<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) #state#</span>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 										<cfif reviewed_fg EQ "1">
 											<span class="d-block small mb-0 pb-0">#resolution# #reviwer# #reviewer_comment#</span>
