@@ -38,6 +38,10 @@ limitations under the License.
 				</cfif>
 				<cfset found = FALSE>
 				<cfset manageIRI = "">
+				<cfquery name="ctmotivation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT motivation, description
+					FROM ctmotivation
+					ORDER by motivation
 				<cfswitch expression="#target_type#">
 					<cfcase value="collection_object">
 						<cfset collection_object_id = target_id>
@@ -212,6 +216,7 @@ limitations under the License.
 								annotations.TARGET_PRIMARY_KEY TARGET_PRIMARY_KEY,
 								annotations.STATE STATE,
 								annotations.RESOLUTION RESOLUTION,
+								annotations.motivation,
 								revname.agent_name revewer_name,
 								annotator.first_name annotator_first_name,
 								annotator.middle_name annotator_middle_name,
@@ -257,6 +262,14 @@ limitations under the License.
 										});
 									</script>
 							</div>
+							<div class="col-12 col-md-6">
+								<label for="motivation" class="data-entry-label">Your motivation for making this annotation</label>
+								<select id="motivation" name="motivation" class="data-entry-select">
+									<cfloop query="ctmotivation">
+										<option value="#motivation#">#motivation# (#description#)</option>
+									</cfloop>
+								</select>
+							</div>
 							<div class="col-12">
 								<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
 							</div>
@@ -268,8 +281,9 @@ limitations under the License.
 								<h2 class="h4 mt-5">Annotations on this Record</h2>
 								<table id="tbl" class="table table-responsive table-striped">
 									<thead class="thead-light">
-										<th>Annotation</th>
-										<th>Made Date</th>
+										<th>Annotation Body</th>
+										<th>Created</th>
+										<th>Motivation</th>
 										<th>Reviewed</th>
 										<th>State</th>
 										<th>Resolution</th>
@@ -283,6 +297,7 @@ limitations under the License.
 												</td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
 											</cfif>
 											<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+											<td>#motivation#</td>
 											<td>
 												<cfif len(REVIEWER_COMMENT) gt 0>
 													#REVIEWER_COMMENT#
@@ -342,6 +357,12 @@ limitations under the License.
 	<cfargument name="target_type" type="string" required="yes">
 	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
+	<cfargument name="motivation" type="string" required="no">
+
+	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
+		<cfset motivation = "commenting">
+	</cfif>
+	<cfset motivation = rereplace(motivation,"[^a-zA-z]","all"`)>
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
@@ -424,14 +445,16 @@ limitations under the License.
 					annotation,
 					target_table, 
 					target_primary_key,
-					state
+					state,
+					motivation
 				) values (
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
 					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#target_type#' >,
 					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
-					'New'
+					'New',
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#motivation#' >
 				)
 			</cfquery>
 		<cfcatch>
@@ -457,7 +480,7 @@ limitations under the License.
 		<cftry>
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
 			<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
-An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annorecord#.
+An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annorecord#.  Motivation: #motivation#.
     
     			<blockquote>
     				#annotation#
