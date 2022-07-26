@@ -297,7 +297,7 @@ limitations under the License.
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
 												<td>#annotation#</td>
 											<cfelse>
-												</td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
+												<td>#rereplace(annotation,"^.* reported:","[Masked] reported:")#</td>
 											</cfif>
 											<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
 											<td>#motivation#</td>
