@@ -69,7 +69,7 @@ limitations under the License.
 		MCZBASE.get_collectorscope(agent.agent_id,'all') as collections_scope
 	FROM 
 		agent
-		left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
+		join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
 		left join person on agent.agent_id = person.person_id
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
