@@ -42,6 +42,7 @@ limitations under the License.
 					SELECT motivation, description
 					FROM ctmotivation
 					ORDER by motivation
+				</cfquery>
 				<cfswitch expression="#target_type#">
 					<cfcase value="collection_object">
 						<cfset collection_object_id = target_id>
