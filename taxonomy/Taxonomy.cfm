@@ -1081,6 +1081,71 @@ limitations under the License.
 							<div id="NameDQDiv"></div>
 						</div>
 					</section>
+					<section class="mt-2 float-left col-12 px-0">
+						<div class="p-3 border bg-light rounded mt-2">
+							<h2 class="h4">Annotations:</h2>
+							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(*) cnt from annotations
+								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+							</cfquery>
+							<cfif #existingAnnotations.cnt# GT 0>
+								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+									class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
+									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#,null);">Annotate/View Annotations</button>
+							<cfelse>
+								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+									class="btn btn-xs btn-info" value="Annotate this record"
+									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#,null);">Annotate</button>
+							</cfif>
+							<div id="annotationDialog"></div>
+							<cfif #existingAnnotations.cnt# gt 0>
+								<cfif #existingAnnotations.cnt# EQ 1>
+									<cfset are = "is">
+									<cfset s = "">
+								<cfelse>
+									<cfset are = "are">
+									<cfset s = "s">
+								</cfif>
+								<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
+								<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT
+										annotation_id,
+										to_char(annotate_date,'yyyy-mm-dd') annotate_date,
+										cf_username,
+										annotation,
+										reviewer_agent_id,
+										MCZBASE.get_agentnameoftype(reviewer_agent_id) reviewer,
+										reviewed_fg,
+										reviewer_comment,
+										state, 
+										resolution,
+										motivation
+									FROM 
+										annotations
+									WHERE
+										taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+									ORDER BY 
+									annotate_date
+								</cfquery>
+								<ul class="list-group">
+									<cfloop query="annotations">
+										<cfif len(#annotation#) gt 0>
+											<li class="list-group-item py-1">
+												#annotation#
+												<span class="d-block small mb-0 pb-0">#motivation# (#annotate_date#) #state#</span>
+												<cfif reviewed_fg EQ "1">
+													<span class="d-block small mb-0 pb-0">#resolution# #reviwer# #reviewer_comment#</span>
+												</cfif>
+											</li>
+										</cfif>
+									</cfloop>
+								</ul>
+							<cfelse>
+								<p class="my-2">There are no annotations on this taxon record</p>
+							</cfif>
+						</div>
+					</section>
+
 				</div>
 			</div>
 		</main>
