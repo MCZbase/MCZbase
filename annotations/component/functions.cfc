@@ -362,7 +362,7 @@ limitations under the License.
 	<cfif not isDefined("motivation") OR len(motivation) EQ 0>
 		<cfset motivation = "commenting">
 	</cfif>
-	<cfset motivation = rereplace(motivation,"[^a-zA-z]","all"`)>
+	<cfset motivation = rereplace(motivation,"[^a-zA-z]","all")>
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
