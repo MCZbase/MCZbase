@@ -530,7 +530,7 @@ limitations under the License.
 					<div class="list-group pt-0 d-block pb-1 px-2 w-100 mb-0 small95">
 						<span class="d-inline"></span>
 						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">#formatted_publication#</a>,
-						<cfif len(occurs_page_number) gt 0>page&nbsp;
+						<cfif len(occurs_page_number) gt 0>page 
 							<cfif len(citation_page_uri) gt 0>
 								<a href ="#citation_page_uri#">#occurs_page_number#</a>,
 							<cfelse>
