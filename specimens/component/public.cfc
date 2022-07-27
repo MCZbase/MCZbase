@@ -791,7 +791,14 @@ limitations under the License.
 							<cfloop query="mainParts">
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 									<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
-									<td class="py-1">#part_condition#</td>
+									<td class="py-1">
+										#part_condition#
+										<span class="d-block small mb-0 pb-0">
+											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
+												onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History</a>
+										</span>
+										<div id="historyDialog#mainParts.part_id#"></div>
+									</td>
 									<!--- TODO: Link out to history for part(s) --->
 									<td class="py-1">
 										#part_disposition#
@@ -928,7 +935,14 @@ limitations under the License.
 											<span class="font-weight-bold " style="font-size: 17px;">&##172;</span> 
 											<span class="font-italic">Subsample:</span> #part_name#</span>
 										</td>
-										<td class="py-1">#part_condition#</td>
+										<td class="py-1">
+											#part_condition#
+											<span class="d-block small mb-0 pb-0">
+												<a href="javascript:void(0)" aria-label="Condition/Preparation History"
+													onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History</a>
+											</span>
+											<div id="historyDialog#subsampleParts.part_id#"></div>
+										</td>
 										<td class="py-1">
 											#part_disposition#
 											<cfif loanList.recordcount GT 0 AND manageTransactions IS "1">
@@ -2824,6 +2838,148 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getNamedGroupsThread"/>
 	<cfreturn getNamedGroupsThread.output>
+</cffunction>	
+
+
+<!--- getHistoryHTML get a block of html containing prepservation and condition history for a collection object
+ @param collection_object_id for the collection object for which to return condition history.
+ @return a block of html with condition history, or if none, a list containing 'None'
+--->
+<cffunction name="getHistoryHTML" access="remote" returntype="any" returnformat="json">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfthread name="getHistoryThread#tn#">
+		<cfoutput>
+			<cftry>
+				<cfquery name="itemDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						'cataloged item' part_name,
+						cat_num,
+						collection.collection,
+						MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(collection_object_id) scientific_name
+					FROM
+						cataloged_item
+						join collection on cataloged_item.collection_id = collection.collection_id
+					WHERE
+						accepted_id_fg=1 AND
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					UNION
+					SELECT 
+						part_name,
+						cat_num,
+						collection.collection,
+						MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) scientific_name
+					FROM
+						cataloged_item
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+					WHERE
+						specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+
+				<h2 class="h3">
+					Condition History of #itemDetails.collection# #itemDetails.cat_num#
+					(#itemDetails.scientific_name#) #itemDetails.part_name#
+				</h2>
+				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						object_condition_id,
+						determined_agent_id,
+						MCZBASE.get_agent_name_of_type(determined_agent_id) agent_name,
+						determined_date,
+						condition
+					FROM 
+						object_condition
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					ORDER BY determined_date DESC
+				</cfquery>
+				<table class="" >
+					<thead>
+					<tr>
+						<th>Determined By</th>
+						<th>Date</th>
+						<th>Condition</th>
+					</tr>
+					</thead>
+					<cfloop query="cond">
+						<cfset thisDate = #dateformat(determined_date,"yyyy-mm-dd")#>
+						<tr>
+							<td> 
+								<cfif len(determined_agent_id) GT 0 AND determinedagent_id NEQ "0">
+									<a href="/agents/Agent.cfm?agent_id=#determined_agent_id#">#agent_name#</a>
+								<cfelse>
+									#agent_name#
+								</cfif>
+							</td>
+							<td> #thisDate# </td>
+							<td> #condition# </td>
+						</tr>
+					</cfloop>
+				</table>
+
+				<h2 class="h3">
+					Preservation History of #itemDetails.collection# #itemDetails.cat_num#
+					(#itemDetails.scientific_name#) #itemDetails.part_name#
+				</h2>
+				<cfquery name="pres" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						SPECIMEN_PART_PRES_HIST_ID,
+						CHANGED_AGENT_ID,
+						MCZBASE.get_agent_name_of_type(changed_agent_id) agent_name,
+						CHANGED_DATE,
+						preserve_method,
+						part_name,
+						decode(lot_count_modifier, null, '', lot_count_modifier) || lot_count as lotCount,
+						coll_object_remarks,
+						is_current_fg
+					FROM 
+						SPECIMEN_PART_PRES_HIST
+					WHERE
+						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+					ORDER BY CHANGED_DATE DESC
+				</cfquery>
+				<table class="">
+						<thead>
+					<tr>
+						<th>Changed By</th>
+						<th>Date</th>
+						<th>Part Name</th>
+						<th>Preserve Method</th>
+						<th>Lot Count</th>
+						<th>Remarks</th>
+					</tr>
+					</thead>
+					<cfloop query="pres">
+						<cfset thisDate = #dateformat(CHANGED_DATE,"yyyy-mm-dd")#>
+						<tr>
+							<td> 
+								<cfif len(changed_agent_id) GT 0 AND changedagent_id NEQ "0">
+									<a href="/agents/Agent.cfm?agent_id=#changed_agent_id#">#agent_name#</a>
+								<cfelse>
+									#agent_name#
+								</cfif>
+							</td>
+							<td> #thisDate# </td>
+							<td> #part_name# </td>
+							<td> #preserve_method# </td>
+							<td> #lotCount# </td>
+							<td> #coll_object_remarks# </td>
+						</tr>
+					</cfloop>
+				</table>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getHistoryThread#tn#"/>
+	<cfreturn cfthread["getHistoryThread#tn#"].output>
 </cffunction>	
 
 </cfcomponent>

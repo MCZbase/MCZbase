@@ -1098,3 +1098,64 @@ function localityMapSetup(){
 			map.fitBounds(bounds);
 	});
 }
+
+/** Create a dialog for printing transaction paperwork. 
+  * 
+  * @param transaction_id the transaction for which to print the paperwork
+  * @param transaction_type the type of transaction (loan, accession, deaccession, borrow)
+  * @param dialogid the id of the div that is to contain the dialog, without a leading # selector.
+  */
+function openHistoryDialog(collection_object_id, dialogid) { 
+	var title = "Part Preparation and Condition History.";
+	var content = '<div id="'+dialogid+'_div" style="width: 25rem;">Loading....</div>';
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: "auto",
+		width: "auto",
+		minWidth: 200,
+		minHeight: 300,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogid).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		type: "get",
+		data: {
+			method: getHistoryHTML,
+			returnformat: "plain",
+			collection_object_id: collection_object_id
+		},
+		success: function(data) {
+			$("#"+dialogid+"_div").html(data);
+		},
+		error: function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+		}
+	});
+}
