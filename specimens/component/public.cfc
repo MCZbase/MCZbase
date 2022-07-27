@@ -2906,7 +2906,7 @@ limitations under the License.
 						<cfset thisDate = #dateformat(determined_date,"yyyy-mm-dd")#>
 						<tr>
 							<td> 
-								<cfif len(determined_agent_id) GT 0 AND determinedagent_id NEQ "0">
+								<cfif len(determined_agent_id) GT 0 AND determined_agent_id NEQ "0">
 									<a href="/agents/Agent.cfm?agent_id=#determined_agent_id#">#agent_name#</a>
 								<cfelse>
 									#agent_name#
