@@ -2885,7 +2885,7 @@ limitations under the License.
 					SELECT 
 						object_condition_id,
 						determined_agent_id,
-						MCZBASE.get_agent_name_of_type(determined_agent_id) agent_name,
+						MCZBASE.get_agentnameoftype(determined_agent_id) agent_name,
 						determined_date,
 						condition
 					FROM 
@@ -2926,7 +2926,7 @@ limitations under the License.
 					SELECT
 						SPECIMEN_PART_PRES_HIST_ID,
 						CHANGED_AGENT_ID,
-						MCZBASE.get_agent_name_of_type(changed_agent_id) agent_name,
+						MCZBASE.get_agentnameoftype(changed_agent_id) agent_name,
 						CHANGED_DATE,
 						preserve_method,
 						part_name,
