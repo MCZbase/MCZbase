@@ -2913,7 +2913,6 @@ limitations under the License.
 					#itemDetails.collection# #itemDetails.cat_num#
 					(#itemDetails.scientific_name#) #itemDetails.part_name#
 				</h2>
-				<h2 class="h3">Condition History</h3>
 				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						object_condition_id,
@@ -2927,33 +2926,37 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					ORDER BY determined_date DESC
 				</cfquery>
-				<table class="table px-1 w-100" >
-					<thead>
-					<tr>
-						<th>Determined By</th>
-						<th>Date</th>
-						<th>Condition</th>
-					</tr>
-					</thead>
-					<tbody>
-					<cfloop query="cond">
-						<cfset thisDate = #dateformat(determined_date,"yyyy-mm-dd")#>
+				<cfif cond.recordcount GT 0>
+					<h2 class="h3">Condition History</h3>
+					<table class="table px-1 w-100" >
+						<thead>
 						<tr>
-							<td> 
-								<cfif len(determined_agent_id) GT 0 AND determined_agent_id NEQ "0">
-									<a href="/agents/Agent.cfm?agent_id=#determined_agent_id#">#agent_name#</a>
-								<cfelse>
-									#agent_name#
-								</cfif>
-							</td>
-							<td> #thisDate# </td>
-							<td> #condition# </td>
+							<th>Determined By</th>
+							<th>Date</th>
+							<th>Condition</th>
 						</tr>
-					</cfloop>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+						<cfloop query="cond">
+							<cfset thisDate = #dateformat(determined_date,"yyyy-mm-dd")#>
+							<tr>
+								<td> 
+									<cfif len(determined_agent_id) GT 0 AND determined_agent_id NEQ "0">
+										<a href="/agents/Agent.cfm?agent_id=#determined_agent_id#">#agent_name#</a>
+									<cfelse>
+										#agent_name#
+									</cfif>
+								</td>
+								<td> #thisDate# </td>
+								<td> #condition# </td>
+							</tr>
+						</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					<h2 class="h3">(No Condition History)</h3>
+				</cfif>
 
-				<h2 class="h3"> Preservation History </h2>
 				<cfquery name="pres" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						SPECIMEN_PART_PRES_HIST_ID,
@@ -2971,37 +2974,42 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					ORDER BY CHANGED_DATE DESC
 				</cfquery>
-				<table class="px-1 w-100">
-					<thead>
-					<tr>
-						<th>Changed By</th>
-						<th>Date</th>
-						<th>Part Name</th>
-						<th>Preserve Method</th>
-						<th>Lot Count</th>
-						<th>Remarks</th>
-					</tr>
-					</thead>
-					<tbody>
-					<cfloop query="pres">
-						<cfset thisDate = #dateformat(CHANGED_DATE,"yyyy-mm-dd")#>
+				<cfif pres.recordcount GT 0>
+					<h2 class="h3"> Preservation History </h2>
+					<table class="px-1 w-100">
+						<thead>
 						<tr>
-							<td> 
-								<cfif len(changed_agent_id) GT 0 AND changed_agent_id NEQ "0">
-									<a href="/agents/Agent.cfm?agent_id=#changed_agent_id#">#agent_name#</a>
-								<cfelse>
-									#agent_name#
-								</cfif>
-							</td>
-							<td> #thisDate# </td>
-							<td> #part_name# </td>
-							<td> #preserve_method# </td>
-							<td> #lotCount# </td>
-							<td> #coll_object_remarks# </td>
+							<th>Changed By</th>
+							<th>Date</th>
+							<th>Part Name</th>
+							<th>Preserve Method</th>
+							<th>Lot Count</th>
+							<th>Remarks</th>
 						</tr>
-					</cfloop>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+						<cfloop query="pres">
+							<cfset thisDate = #dateformat(CHANGED_DATE,"yyyy-mm-dd")#>
+							<tr>
+								<td> 
+									<cfif len(changed_agent_id) GT 0 AND changed_agent_id NEQ "0">
+										<a href="/agents/Agent.cfm?agent_id=#changed_agent_id#">#agent_name#</a>
+									<cfelse>
+										#agent_name#
+									</cfif>
+								</td>
+								<td> #thisDate# </td>
+								<td> #part_name# </td>
+								<td> #preserve_method# </td>
+								<td> #lotCount# </td>
+								<td> #coll_object_remarks# </td>
+							</tr>
+						</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					<h2 class="h3">(No Preservation History)</h3>
+				</cfif>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
