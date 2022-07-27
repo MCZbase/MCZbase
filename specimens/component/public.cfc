@@ -2341,13 +2341,13 @@ limitations under the License.
 								<cfif colls.recordcount EQ 1>
 									<cfset plural = "">
 								</cfif>
-								<span class="my-0 font-weight-lessbold">Collector#plural#: </span>
+								<span class="my-0 font-weight-bolder">Collector#plural#: </span>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
 									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
 								</cfif>
 							</li>
 							<cfif oneOfUs EQ 0 AND Findnocase("mask collector", check.encumbranceDetail)>
-								<li class="list-group-item col-7 px-0">[Masked]</li>
+								<li class="list-group-item col-7 px-0 fw-bolder">[Masked]</li>
 							<cfelse>
 								<cfset collectors = "">
 								<cfset sep="">
@@ -2363,7 +2363,7 @@ limitations under the License.
 									</cfif>
 									<cfset sep="; ">
 								</cfloop>
-								<li class="list-group-item col-7 px-0">#collectors#</li>
+								<li class="list-group-item col-7 px-0 fw-bolder">#collectors#</li>
 							</cfif>
 						</cfif>
 						<cfif len(loc_collevent.collecting_method) gt 0>
