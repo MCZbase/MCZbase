@@ -789,6 +789,20 @@ limitations under the License.
 							</cfquery>
 							<cfset i=1>
 							<cfloop query="mainParts">
+								<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT sum(cti) ct from (
+										SELECT count(*) cti 
+										FROM object_condition 
+										WHERE
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+										UNION
+										SELECT count(*) cti
+										FROM specimen_part_pres_hist
+										WHERE
+											collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
+									)
+								</cfquery>
+								<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
 								<div id="historyDialog#mainParts.part_id#"></div>
 								<tr <cfif mainParts.recordcount gt 1>class="line-top-sd"<cfelse></cfif>>
 									<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
@@ -796,7 +810,7 @@ limitations under the License.
 										#part_condition#
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-												onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History</a>
+												onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
 										</span>
 									</td>
 									<!--- TODO: Link out to history for part(s) --->
@@ -929,6 +943,20 @@ limitations under the License.
 									select * from distinctParts where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mainParts.part_id#">
 								</cfquery>
 								<cfloop query="subsampleParts">
+									<cfquery name="historyCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT sum(cti) ct from (
+											SELECT count(*) cti 
+											FROM object_condition 
+											WHERE
+												collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+											UNION
+											SELECT count(*) cti
+											FROM specimen_part_pres_hist
+											WHERE
+												collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#subsampleParts.part_id#">
+										)
+									</cfquery>
+									<cfif historyCount.ct GT 2><cfset histCount = " (#historyCount.ct#)"><cfelse><cfset histCount = ""></cfif>
 									<div id="historyDialog#subsampleParts.part_id#"></div>
 									<tr>
 										<td class="py-1">
@@ -940,7 +968,7 @@ limitations under the License.
 											#part_condition#
 											<span class="small mb-0 pb-0">
 												<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-													onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History</a>
+													onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History#histCount#</a>
 											</span>
 										</td>
 										<td class="py-1">
@@ -2878,9 +2906,10 @@ limitations under the License.
 				</cfquery>
 
 				<h2 class="h3">
-					Condition History of #itemDetails.collection# #itemDetails.cat_num#
+					#itemDetails.collection# #itemDetails.cat_num#
 					(#itemDetails.scientific_name#) #itemDetails.part_name#
 				</h2>
+				<h2 class="h3">Condition History</h3>
 				<cfquery name="cond" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						object_condition_id,
@@ -2894,7 +2923,7 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					ORDER BY determined_date DESC
 				</cfquery>
-				<table class="" >
+				<table class="table px-1 table-responsive-md w-100" >
 					<thead>
 					<tr>
 						<th>Determined By</th>
@@ -2902,6 +2931,7 @@ limitations under the License.
 						<th>Condition</th>
 					</tr>
 					</thead>
+					<tbody>
 					<cfloop query="cond">
 						<cfset thisDate = #dateformat(determined_date,"yyyy-mm-dd")#>
 						<tr>
@@ -2916,12 +2946,10 @@ limitations under the License.
 							<td> #condition# </td>
 						</tr>
 					</cfloop>
+					</tbody>
 				</table>
 
-				<h2 class="h3">
-					Preservation History of #itemDetails.collection# #itemDetails.cat_num#
-					(#itemDetails.scientific_name#) #itemDetails.part_name#
-				</h2>
+				<h2 class="h3"> Preservation History </h2>
 				<cfquery name="pres" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						SPECIMEN_PART_PRES_HIST_ID,
@@ -2939,8 +2967,8 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					ORDER BY CHANGED_DATE DESC
 				</cfquery>
-				<table class="">
-						<thead>
+				<table class="table px-1 table-responsive-md w-100">
+					<thead>
 					<tr>
 						<th>Changed By</th>
 						<th>Date</th>
@@ -2950,6 +2978,7 @@ limitations under the License.
 						<th>Remarks</th>
 					</tr>
 					</thead>
+					<tbody>
 					<cfloop query="pres">
 						<cfset thisDate = #dateformat(CHANGED_DATE,"yyyy-mm-dd")#>
 						<tr>
@@ -2967,6 +2996,7 @@ limitations under the License.
 							<td> #coll_object_remarks# </td>
 						</tr>
 					</cfloop>
+					</tbody>
 				</table>
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
