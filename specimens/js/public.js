@@ -1141,7 +1141,7 @@ function openHistoryDialog(collection_object_id, dialogid) {
 		url: "/specimens/component/public.cfc",
 		type: "get",
 		data: {
-			method: getHistoryHTML,
+			method: "getHistoryHTML",
 			returnformat: "plain",
 			collection_object_id: collection_object_id
 		},
