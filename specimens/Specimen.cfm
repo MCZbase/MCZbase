@@ -622,7 +622,7 @@ limitations under the License.
 							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
 								<div class="card-body px-1" id="partsCardBody">
 									<p class="smaller py-0 mb-0 text-center w-100">
-										<cfif #partCount# gt 5>click twice part header to see all #partCount#</cfif>
+										<cfif #partCount# gt 5>click the part header twice to see all #partCount#</cfif>
 									</p>
 									<cfset blockparts = getPartsHTML(collection_object_id = "#collection_object_id#")>
 									#blockparts#
