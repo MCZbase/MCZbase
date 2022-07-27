@@ -2967,7 +2967,7 @@ limitations under the License.
 						collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					ORDER BY CHANGED_DATE DESC
 				</cfquery>
-				<table class="table px-1 w-100">
+				<table class="px-1 w-100">
 					<thead>
 					<tr>
 						<th>Changed By</th>
