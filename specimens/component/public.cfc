@@ -2054,7 +2054,7 @@ limitations under the License.
 						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&action=fixedSearch&higher_geog==#loc_collevent.higher_geog#" title="See other specimens with this Higher Geography">Specimens with same Higher Geography</a></span>
 					</div>
 					<div class="w-100 float-left">
-						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20(#loc_collevent.locality_id#)&searchId1=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
+						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20(#loc_collevent.locality_id#)&searchId1=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
 					</div>
 					<cfif len(coordlookup.dec_lat) GT 0>
 						<div class="w-100 float-left">
