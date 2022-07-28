@@ -2252,7 +2252,7 @@ limitations under the License.
 									<li class="list-group-item col-7 px-0">Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#</li>
 								</cfif>
 								<cfif coordlookup.recordcount GT 1>
-									<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Unaccepted Georeferences: </span></li>
+									<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Unaccepted Georeferences: </span></li>
 									<li class="list-group-item col-7 px-0">
 										#coordlookup.recordcount - 1#
 										<button onclick="toggleUnacceptedGeorefs();" role="button" class="btn btn-xs small py-0 ml-1 btn-secondary" id="unaccGeoToggleButton">Show</button>
@@ -2275,7 +2275,7 @@ limitations under the License.
 										<cfset i = i+1>
 										<cfif i GT 1>
 											<li class="list-group-item col-5 px-0 unacceptedGeoreferenceLI">
-												<span class="my-0 font-weight-lessbold">Unaccepted: </span>
+												<span class="my-0 font-italic">Unaccepted: </span>
 											</li>
 											<cfset dla = left(#coordlookup.dec_lat#,10)>
 											<cfset dlo = left(#coordlookup.dec_long#,10)>
@@ -2300,7 +2300,7 @@ limitations under the License.
 											</li>
 											<cfif len(coordlookup.geolocate_score) GT 0>
 												<li class="list-group-item col-5 px-0 unacceptedGeoreferenceLI">
-													<span class="my-0 font-weight-lessbold">Geo-Locate Metadata: </span>
+													<span class="my-0 font-italic">Geo-Locate Metadata: </span>
 												</li>
 												<li class="list-group-item col-7 px-0 unacceptedGeoreferenceLI">
 													Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#
@@ -2327,7 +2327,7 @@ limitations under the License.
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collected On: </span></li>
 							<cfelse>
 								<cfset eventDate ="#loc_collevent.began_date# / #loc_collevent.ended_date#">
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Began Date / Ended Date: </span></li>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Began Date / Ended Date: </span></li>
 							</cfif>
 							<li class="list-group-item col-7 px-0">#eventDate#</li>
 						</cfif>
