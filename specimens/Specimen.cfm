@@ -195,7 +195,7 @@ limitations under the License.
 					<cfset divclass="no-card">
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
-					<div class="row mx-0">
+					<div class="row mx-0 mb-1">
 						<div class="float-left col-12 col-md-6 px-0 my-0">
 							<h1 class="col-12 col-md-6 mb-1 h4">#collection#&nbsp;#cat_num#</h1>
 							<div class="col-12 small">
@@ -444,35 +444,7 @@ limitations under the License.
 			<cfset specimenMediaCount = val(rereplace(specimenMediaCount,"[^0-9]","","all"))>
 			<cfif specimenMediaCount gt 0>
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-					
-					<!-----------------------------Identifiers----------------------------------> 
-					<div class="accordion" id="accordionMedia">
-						<div class="card mb-2 bg-light">
-							<div class="card-header" id="headingIdentifiers">
-								<h3 class="h5 my-0 text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="identifiersPane" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane" title="identifiers">Identifiers</button>
-								</h3>
-							</div>
-							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
-								<div class="card-body"id="identifiersCardBody">
-									<ul class="list-group pl-0 py-1">
-										
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span> &nbsp;<cfif len(detail.collection) gt 0> 
-											<cfset thisCollection = "#detail.collection#">
-										<cfelse>
-											<cfset thisCollection ="<a href='https://mczbase.mcz.harvard.edu/#detail.collection#'>#detail.collection#</a>">
-										</cfif>
-											#thisCollection#
-										</li>
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Catalog Number: </span> &nbsp;#detail.cat_num#</li>
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">GUID:&nbsp;</span><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
-								
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				
+
 					
 					<!-----------------------------Media----------------------------------> 
 					<div class="accordion" id="accordionMedia">
@@ -510,6 +482,35 @@ limitations under the License.
 
 				<!---- column 2 the leftmost of the two right columns ---->
 				<div class="col-12 col-lg-6 px-1 float-left"> 
+										
+					<!-----------------------------Identifiers----------------------------------> 
+					<div class="accordion" id="accordionMedia">
+						<div class="card mb-2 bg-light">
+							<div class="card-header" id="headingIdentifiers">
+								<h3 class="h5 my-0 text-dark">
+									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="identifiersPane" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane" title="identifiers">Identifiers</button>
+								</h3>
+							</div>
+							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
+								<div class="card-body"id="identifiersCardBody">
+									<ul class="list-group pl-0 py-1">
+										
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span> &nbsp;<cfif len(detail.collection) gt 0> 
+											<cfset thisCollection = "#detail.collection#">
+										<cfelse>
+											<cfset thisCollection ="<a href='https://mczbase.mcz.harvard.edu/#detail.collection#'>#detail.collection#</a>">
+										</cfif>
+											#thisCollection#
+										</li>
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Catalog Number: </span> &nbsp;#detail.cat_num#</li>
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">GUID:&nbsp;</span><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
+								
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				
 					<!------------------------------------ identifications ------------------------------------>
 					<div class="accordion" id="accordionID">
 						<div class="card mb-2 bg-light">
