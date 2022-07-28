@@ -540,8 +540,8 @@ limitations under the License.
 							<cfelse>
 								<div class="card-header" id="headingCitations">
 									<h3 class="h5 my-0 text-dark">
-										<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="undefined" aria-controls="citationsPane">
-											Citations (none)
+										<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations pane no values">
+											Citations <span class="small font-italic">(none)</span>
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
