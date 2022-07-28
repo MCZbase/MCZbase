@@ -604,7 +604,7 @@ limitations under the License.
 		<cfset row=[]>
 		<cfloop index="j" from="1" to="#columnCount#" step="1">
 			<cfset row[j] = '"' & replace(evaluate(columnNames[j]),'"','""','all') & '"' >
-			<cfset outputBuffer.append(row[j]);
+			<cfset outputBuffer.append(row[j])>
 		</cfloop>
 		<!--- cfset outputBuffer.append( JavaCast('string',(ArrayToList(row,",")))) --->
 		<cfset outputBuffer.append(newLine) >
