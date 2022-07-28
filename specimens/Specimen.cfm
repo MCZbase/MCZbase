@@ -198,7 +198,7 @@ limitations under the License.
 					<div class="row mx-0">
 						<div class="float-left col-12 col-md-6 px-0 my-0">
 							<cfif len(web_link) GT 0>
-								<cfset collection_heading = "<a href='#web_link#' class="text-dark">#collection#</a>">
+								<cfset collection_heading = "<a href='#web_link#' class='text-dark'>#collection#</a>">
 							<cfelse>
 								<cfset collection_heading = "#web_link#">
 							</cfif>
