@@ -208,7 +208,7 @@ limitations under the License.
 							</div>
 					
 						</div>
-						<div class="float-right col-12 ml-auto col-md-6 my-1 w-auto">
+						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
 								<h2 class="mt-0 px-0">
 									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
