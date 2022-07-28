@@ -2311,61 +2311,7 @@ limitations under the License.
 								</cfif>
 							</cfif>
 						</cfif>
-						<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT
-								collector.agent_id,
-								collector.coll_order,
-								MCZBASE.get_agentnameoftype(collector.agent_id) collector_name,
-								agent.agentguid_guid_type,
-								agent.agentguid
-							FROM
-								collector
-								join agent on collector.agent_id = agent.agent_id
-							WHERE
-								collector.collector_role='c' and
-								collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-							ORDER BY
-								coll_order
-						</cfquery>
-						<cfif colls.recordcount EQ 0>
-							<li class="list-group-item col-5 px-0 font-weight-lessbold">Collectors:</li>
-							<li class="list-group-item col-7 px-0 font-weight-lessbold">
-								None
-								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Add </a>
-								</cfif>
-							</li>
-						<cfelse>
-							<li class="list-group-item col-5 px-0">
-								<cfset plural="s">
-								<cfif colls.recordcount EQ 1>
-									<cfset plural = "">
-								</cfif>
-								<span class="my-0 font-weight-lessbold">Collector#plural#: </span>
-								<cfif listcontainsnocase(session.roles,"manage_specimens")>
-									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
-								</cfif>
-							</li>
-							<cfif oneOfUs EQ 0 AND Findnocase("mask collector", check.encumbranceDetail)>
-								<li class="list-group-item col-7 px-0 font-weight-lessbold">[Masked]</li>
-							<cfelse>
-								<cfset collectors = "">
-								<cfset sep="">
-								<cfloop query="colls">
-									<cfif #colls.agent_id# NEQ "0">
-										<cfset agentLinkOut = "">
-										<cfif len(colls.agentguid) GT 0>
-											<cfset agentLinkOut = getGuidLink(guid=#colls.agentguid#,guid_type=#colls.agentguid_guid_type#)>
-										</cfif>
-										<cfset collectors="#collectors##sep#<a href='/agents/Agent.cfm?agent_id=#colls.agent_id#'>#colls.collector_name#</a>#agentLinkOut#"> <!--- " --->
-									<cfelse>
-										<cfset collectors="#collectors##sep##colls.collector_name#">
-									</cfif>
-									<cfset sep="; ">
-								</cfloop>
-								<li class="list-group-item col-7 px-0 font-weight-lessbold">#collectors#</li>
-							</cfif>
-						</cfif>
+				
 						<cfif len(loc_collevent.collecting_method) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collecting Method: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_method#</li>
@@ -2428,6 +2374,61 @@ limitations under the License.
 									<span class="d-block small mb-0 pb-0"> (#collEventNumbers.number_series# of #num_determiner#)</span>
 								</li>
 							</cfloop>
+						</cfif>
+						<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								collector.agent_id,
+								collector.coll_order,
+								MCZBASE.get_agentnameoftype(collector.agent_id) collector_name,
+								agent.agentguid_guid_type,
+								agent.agentguid
+							FROM
+								collector
+								join agent on collector.agent_id = agent.agent_id
+							WHERE
+								collector.collector_role='c' and
+								collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+							ORDER BY
+								coll_order
+						</cfquery>
+						<cfif colls.recordcount EQ 0>
+							<li class="list-group-item col-5 px-0 font-weight-lessbold">Collectors:</li>
+							<li class="list-group-item col-7 px-0 font-weight-lessbold">
+								None
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Add </a>
+								</cfif>
+							</li>
+						<cfelse>
+							<li class="list-group-item col-5 px-0">
+								<cfset plural="s">
+								<cfif colls.recordcount EQ 1>
+									<cfset plural = "">
+								</cfif>
+								<span class="my-0 font-weight-lessbold">Collector#plural#: </span>
+								<cfif listcontainsnocase(session.roles,"manage_specimens")>
+									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
+								</cfif>
+							</li>
+							<cfif oneOfUs EQ 0 AND Findnocase("mask collector", check.encumbranceDetail)>
+								<li class="list-group-item col-7 px-0 font-weight-lessbold">[Masked]</li>
+							<cfelse>
+								<cfset collectors = "">
+								<cfset sep="">
+								<cfloop query="colls">
+									<cfif #colls.agent_id# NEQ "0">
+										<cfset agentLinkOut = "">
+										<cfif len(colls.agentguid) GT 0>
+											<cfset agentLinkOut = getGuidLink(guid=#colls.agentguid#,guid_type=#colls.agentguid_guid_type#)>
+										</cfif>
+										<cfset collectors="#collectors##sep#<a href='/agents/Agent.cfm?agent_id=#colls.agent_id#'>#colls.collector_name#</a>#agentLinkOut#"> <!--- " --->
+									<cfelse>
+										<cfset collectors="#collectors##sep##colls.collector_name#">
+									</cfif>
+									<cfset sep="; ">
+								</cfloop>
+								<li class="list-group-item col-7 px-0 font-weight-lessbold">#collectors#</li>
+							</cfif>
 						</cfif>
 						</ul>
 					<div class="w-100 float-left px-2 pt-1 pb-2">
