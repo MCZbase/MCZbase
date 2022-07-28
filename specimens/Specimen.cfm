@@ -196,13 +196,14 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mx-0">
-						<div class="float-left col-12 col-md-6 my-1 w-auto">
+						<div class="float-left col-12 col-md-6 px-0 my-1">
 						<cfif len(web_link) GT 0>
 							<cfset collection_heading = "<a href='#web_link#'>#collection#</a>">
 						<cfelse>
 							<cfset collection_heading = "#web_link#">
 						</cfif>
 							<h1 class="col-12 col-md-6 mb-0 h4">#collection_heading#&nbsp;#cat_num#</h1>
+							Test of Name
 						</div>
 						<div class="float-right col-12 ml-auto col-md-6 my-1 w-auto">
 							<a class="h4" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a>
