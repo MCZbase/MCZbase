@@ -466,12 +466,18 @@ limitations under the License.
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 								<ul class="list-group pl-0 py-1">
-									
-										<li class="list-group-item py-0">
-											<span class="text-capitalize float-left font-weight-lessbold">#detail.cat_num#: </span>
-										
-										</li>
-			
+									<li class="list-group-item py-0">
+							<!---		<span class="text-capitalize float-left font-weight-lessbold">#detail.cat_num#: </span>--->
+										<cfif len(web_link) GT 0>
+											<cfset collection_heading = "<a href='#detail.web_link#' class='text-dark'>#detail.collection#</a>">
+										<cfelse>
+											<cfset collection_heading = "#detail.web_link#">
+										</cfif>
+											#detail.collection_heading#&nbsp;#detail.cat_num#
+										<div class="col-12">
+											<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#detail.GUID#">#detail.GUID#</a>
+										</div>
+									</li>
 								</ul>
 							</div>
 						</div>
