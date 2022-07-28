@@ -474,7 +474,14 @@ limitations under the License.
 										
 								<div class="card-body"id="identifiersCardBody">
 									<ul class="list-group pl-0 py-1">
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span> &nbsp;<a href="https://mczbase.mcz.harvard.edu/#detail.collection#">#detail.collection#</a></li>
+										
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span> &nbsp;<cfif len(detail.collection) gt 0> 
+											<cfset thisCollection = "#detail.collection#">
+										<cfelse>
+											<cfset thisCollection ="<a href='https://mczbase.mcz.harvard.edu/#detail.collection#'>#detail.collection#</a>">
+										</cfif>
+											#thisCollection#
+										</li>
 										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Catalog Number: </span> &nbsp;#detail.cat_num#</li>
 										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">GUID:&nbsp;</span><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
 								
