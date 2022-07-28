@@ -475,7 +475,7 @@ limitations under the License.
 								<div class="card-body"id="identifiersCardBody">
 									<ul class="list-group pl-0 py-1">
 										<cfif len(web_link) GT 0>
-											<cfset collection_heading = "<a href='#web_link#' class='text-dark'>#detail.collection#</a>">
+											<cfset collection_heading = "<a href='#web_link#'>#detail.collection#</a>">
 										<cfelse>
 											<cfset collection_heading = "#web_link#">
 										</cfif>
