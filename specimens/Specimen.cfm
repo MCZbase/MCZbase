@@ -198,6 +198,10 @@ limitations under the License.
 					<div class="row mx-0">
 						<div class="float-left col-12 col-md-6 px-0 my-0">
 							<h1 class="col-12 col-md-6 mb-1 h4">#collection#&nbsp;#cat_num#</h1>
+							<div class="col-12 small">
+								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+							</div>
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
@@ -217,12 +221,6 @@ limitations under the License.
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
 							</div>
-						</div>
-					</div>
-					<div class="row mx-0">
-						<div class="col-12 small">
-							occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-							<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 						</div>
 					</div>
 				</div>
