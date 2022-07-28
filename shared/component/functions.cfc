@@ -586,8 +586,8 @@ limitations under the License.
 		
 	<!--- arrayToList on getColumnNames preserves order. --->
 	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
-	<cfset columnNames = queryToConvert.getColumnNames() >
-	<cfset columnCount = ArrayLen(columnNames) >
+	<cfset columnNamesArray = queryToConvert.getColumnNames() >
+	<cfset columnCount = ArrayLen(columnNamesArray) >
 
 	<cfset newLine =(chr(13) & chr(10)) >
 	<cfset outputbuffer = CreateObject('java','java.lang.StringBuffer').Init() >
@@ -595,7 +595,7 @@ limitations under the License.
 	<!--- header line --->
 	<cfset header=[]>
 	<cfloop index="i" from="1" to="#columnCount#" step="1">
-		<cfset header[i] = """#ucase(columnNames[i])#""" >
+		<cfset header[i] = """#ucase(columnNamesArray[i])#""" >
 	</cfloop>
 	<cfset outputBuffer.Append(JavaCast("string",( ArrayToList(header,",") & newLine)))>
 
@@ -603,7 +603,7 @@ limitations under the License.
 	<cfloop query="queryToConvert">
 		<cfset row=[]>
 		<cfloop index="j" from="1" to="#columnCount#" step="1">
-			<cfset row[j] = '"' & replace(evaluate(columnNames[j]),'"','""','all') & '"' >
+			<cfset row[j] = '"' & replace(evaluate(columnNamesArray[j]),'"','""','all') & '"' >
 		</cfloop>
 		<cfset outputBuffer.append( JavaCast('string',(ArrayToList(row,","))))>
 		<cfset outputBuffer.append(newLine) >
