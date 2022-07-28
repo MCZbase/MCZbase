@@ -465,7 +465,7 @@ limitations under the License.
 									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Identifiers
 									</button>
-									<cfif len(#blockident#) gt 10> 
+									<!---<cfif len(#blockident#) gt 10> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">
 												Edit
@@ -477,7 +477,7 @@ limitations under the License.
 												Add
 											</a>
 										</cfif>
-									</cfif>
+									</cfif>--->
 								</h3>
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="identifiersID" data-parent="##identifiersID">
