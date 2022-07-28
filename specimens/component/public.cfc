@@ -2392,7 +2392,7 @@ limitations under the License.
 								coll_order
 						</cfquery>
 						<cfif colls.recordcount EQ 0>
-							<li class="list-group-item col-5 px-0 font-weight-lessbold">Collectors:</li>
+							<li class="list-group-item col-5 px-0 font-weight-lessbold"><em>Collected By: </em></li>
 							<li class="list-group-item col-7 px-0 font-weight-lessbold">
 								None
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -2405,7 +2405,7 @@ limitations under the License.
 								<cfif colls.recordcount EQ 1>
 									<cfset plural = "">
 								</cfif>
-								<span class="my-0 font-weight-lessbold">Collector#plural#: </span>
+									<span class="my-0 font-weight-lessbold"><em>Collected By: </em></span>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
 									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
 								</cfif>
