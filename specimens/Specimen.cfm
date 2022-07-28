@@ -197,16 +197,7 @@ limitations under the License.
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mx-0">
 						<div class="float-left col-12 col-md-6 px-0 my-0">
-							<cfif len(web_link) GT 0>
-								<cfset collection_heading = "<a href='#web_link#' class='text-dark'>#collection#</a>">
-							<cfelse>
-								<cfset collection_heading = "#web_link#">
-							</cfif>
-							<h1 class="col-12 col-md-6 mb-1 h4">#collection_heading#&nbsp;#cat_num#</h1>
-							<div class="col-12">
-								<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a>
-							</div>
-					
+							<h1 class="col-12 col-md-6 mb-1 h4">#collection#&nbsp;#cat_num#</h1>
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
@@ -465,13 +456,6 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
-							<!---		<span class="text-capitalize float-left font-weight-lessbold">#detail.cat_num#: </span>--->
-				<!---						<cfif len(web_link) GT 0>
-											<cfset collection_heading = "<a href='#web_link#' class='text-dark'>#detail.collection#</a>">
-										<cfelse>
-											<cfset collection_heading = "#detail.web_link#">
-										</cfif>--->
-										
 								<div class="card-body"id="identifiersCardBody">
 									<ul class="list-group pl-0 py-1">
 										
