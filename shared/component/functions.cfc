@@ -585,7 +585,7 @@ limitations under the License.
 	<cfargument name="queryToConvert" type="query" required="true">
 		
 	<!--- arrayToList on getColumnNames preserves order. --->
-	<cfset columnNamesArray = arrayToList(queryToConvert.getColumnNames()) >
+	<cfset columnNamesList = arrayToList(queryToConvert.getColumnNames()) >
 	<cfset columnNames = queryToConvert.getColumnNames() >
 	<cfset columnCount = ArrayLen(columnNames) >
 
@@ -604,8 +604,9 @@ limitations under the License.
 		<cfset row=[]>
 		<cfloop index="j" from="1" to="#columnCount#" step="1">
 			<cfset row[j] = '"' & replace(evaluate(columnNames[j]),'"','""','all') & '"' >
+			<cfset outputBuffer.append(row[j]);
 		</cfloop>
-		<cfset outputBuffer.append( JavaCast('string',(ArrayToList(row,",")))) >
+		<!--- cfset outputBuffer.append( JavaCast('string',(ArrayToList(row,",")))) --->
 		<cfset outputBuffer.append(newLine) >
 	</cfloop>
 	<cfreturn outputBuffer.toString() >
