@@ -2516,7 +2516,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					</cfif>
 					)
 		</cfquery>
-		<cfif getProfileFields recordcount NEQ 1>
+		<cfif getProfileFields.recordcount NEQ 1>
 			<cfthrow message = "Specified profile [#encodeForHtml(download_profile_id)#] does not exist or is not shared with you.">
 		</cfif>
 		<cfset requested_columns = getProfileFields.column_list>
