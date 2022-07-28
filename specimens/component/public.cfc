@@ -2378,7 +2378,7 @@ limitations under the License.
 						<cfif len(loc_collevent.began_date) gt 0>
 							<cfif loc_collevent.began_date eq #loc_collevent.ended_date#>
 								<cfset eventDate = "#loc_collevent.began_date#">
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Collected On: </span></li>
+								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collected On: </span></li>
 							<cfelse>
 								<cfset eventDate ="#loc_collevent.began_date# / #loc_collevent.ended_date#">
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-weight-lessbold">Began Date / Ended Date: </span></li>
