@@ -459,7 +459,7 @@ limitations under the License.
 					<div class="accordion" id="identifersID">
 						<div class="card mb-2 bg-light">
 							<div id="identifiersDialog"></div>
-							<cfset blockident = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
+							<!---<cfset blockident = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>--->
 							<div class="card-header" id="identifiersID">
 								<h3 class="h5 my-0">
 									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
