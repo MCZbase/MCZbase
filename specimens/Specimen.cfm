@@ -455,6 +455,22 @@ limitations under the License.
 			<cfset specimenMediaCount = val(rereplace(specimenMediaCount,"[^0-9]","","all"))>
 			<cfif specimenMediaCount gt 0>
 				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+					
+					<!-----------------------------Identifiers----------------------------------> 
+					<div class="accordion" id="accordionMedia">
+						<div class="card mb-2 bg-light">
+							<div class="card-header" id="headingIdentifiers">
+								<h3 class="h5 my-0 text-dark">
+									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="identifiersPane" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane" title="identifiers">Identifiers</button>
+								</h3>
+							</div>
+							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
+								Catalog Identifiers
+							</div>
+						</div>
+					</div>
+				
+					
 					<!-----------------------------Media----------------------------------> 
 					<div class="accordion" id="accordionMedia">
 						<div class="card mb-2 bg-light">
