@@ -2065,7 +2065,7 @@ limitations under the License.
 					</cfif>
 				</div>
 				<div class="col-12 float-left px-0">
-					<ul class="sd list-unstyled bg-light row mx-0 px-2 py-1 mb-0 border-top">
+					<ul class="sd list-unstyled bg-light row mx-0 px-2 py-1 mb-0 border-top border-bottom">
 						<cfif len(loc_collevent.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="font-weight-lessbold my-0">Specific Locality: </span></li>
 							<li class="list-group-item col-7 px-0 last">#loc_collevent.spec_locality#</li>
@@ -2429,10 +2429,10 @@ limitations under the License.
 								</li>
 							</cfloop>
 						</cfif>
-						<li class="list-group-item col-12 px-0">
-							<span class="pb-1"><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1==#encodeForURL(loc_collevent.spec_locality)#%20#eventDate#%20(#loc_collevent.collecting_event_id#)&searchId1=#loc_collevent.collecting_event_id#" title="See other specimens from this collecting event">Specimens from the same Collecting Event</a></span>
-						</li>
-					</ul>
+						</ul>
+					<div class="w-100 float-left px-2 pt-1 pb-2">
+						<span><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1==#encodeForURL(loc_collevent.spec_locality)#%20#eventDate#%20(#loc_collevent.collecting_event_id#)&searchId1=#loc_collevent.collecting_event_id#" title="See other specimens from this collecting event">Specimens from the same Collecting Event</a></span>
+					</div>
 				</div>
 				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
