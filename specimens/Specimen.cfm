@@ -473,7 +473,7 @@ limitations under the License.
 										<cfelse>
 											<cfset collection_heading = "#detail.web_link#">
 										</cfif>--->
-											#detail.collection_heading#&nbsp;#detail.cat_num#
+											#detail.collection#&nbsp;#detail.cat_num#
 										<div class="col-12">
 											<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">#c.GUID#</a>
 										</div>
