@@ -2556,7 +2556,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			SELECT 
 				<cfset comma = "">
 				<cfloop array="#valid_columns#" index="idx">
-					<cfif len(sql_element) GT 0> 
+					<cfif len(idx.sql_element) GT 0> 
 						#comma##replace(idx.sql_element,"''","'","all")# #idx.column_name#
 						<cfset comma = ",">
 					</cfif>
