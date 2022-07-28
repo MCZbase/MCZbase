@@ -586,7 +586,7 @@ limitations under the License.
 		
 	<!--- arrayToList on getColumnNames preserves order. --->
 	<cfset columnNamesArray = arrayToList(queryToConvert.getColumnNames()) >
-	<cfset columnNames = listToArray(columnNamesArray) >
+	<cfset columnNames = queryToConvert.getColumnNames() >
 	<cfset columnCount = ArrayLen(columnNames) >
 
 	<cfset newLine =(chr(13) & chr(10)) >
