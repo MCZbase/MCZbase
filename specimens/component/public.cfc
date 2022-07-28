@@ -2328,8 +2328,8 @@ limitations under the License.
 								coll_order
 						</cfquery>
 						<cfif colls.recordcount EQ 0>
-							<li class="list-group-item col-5 px-0 font-weight-bold">Collectors:</li>
-							<li class="list-group-item col-7 px-0 font-weight-bold">
+							<li class="list-group-item col-5 px-0 font-weight-lessbold">Collectors:</li>
+							<li class="list-group-item col-7 px-0 font-weight-lessbold">
 								None
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
 									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Add </a>
@@ -2363,7 +2363,7 @@ limitations under the License.
 									</cfif>
 									<cfset sep="; ">
 								</cfloop>
-								<li class="list-group-item col-7 px-0 font-weight-bold">#collectors#</li>
+								<li class="list-group-item col-7 px-0 font-weight-lessbold">#collectors#</li>
 							</cfif>
 						</cfif>
 						<cfif len(loc_collevent.collecting_method) gt 0>
