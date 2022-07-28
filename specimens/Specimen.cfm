@@ -476,7 +476,7 @@ limitations under the License.
 									<ul class="list-group pl-0 py-1">
 										<li class="list-group-item py-0">Collection: #detail.collection#</li>
 										<li class="list-group-item py-0">Catalog Number: #detail.cat_num#</li>
-										<li class="list-group-item py-0">GUID: #c.GUID#</li>
+										<li class="list-group-item py-0">GUID: #GUID#</li>
 									<!---<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">#c.GUID#</a>--->
 									</ul>
 								</div>
