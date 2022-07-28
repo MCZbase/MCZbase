@@ -475,7 +475,7 @@ limitations under the License.
 										</cfif>--->
 											#detail.collection#&nbsp;#detail.cat_num#
 										<div class="col-12">
-											<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">#c.GUID#</a>
+											<!---<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">#c.GUID#</a>--->
 										</div>
 									</li>
 								</ul>
