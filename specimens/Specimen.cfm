@@ -476,7 +476,7 @@ limitations under the License.
 									<ul class="list-group pl-0 py-1">
 										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span> &nbsp;#detail.collection#</li>
 										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Catalog Number: </span> &nbsp;#detail.cat_num#</li>
-										<li class="list-group-item py-0"><a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#"><span class="text-capitalize mb-0 float-left font-weight-lessbold">GUID: </span> &nbsp;#GUID#</a></li>
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">GUID:&nbsp;</span><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
 								
 									</ul>
 								</div>
