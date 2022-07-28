@@ -206,10 +206,7 @@ limitations under the License.
 							<div class="col-12">
 								<a class="h4" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a>
 							</div>
-							<div class="col-12"><span class="pl-2">
-								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a></span>
-							</div>
+					
 						</div>
 						<div class="float-right col-12 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
@@ -231,7 +228,12 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-
+					<div class="row mx-0">
+						<div class="col-12 small">
+							occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+							<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
