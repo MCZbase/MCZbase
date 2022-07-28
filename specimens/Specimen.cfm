@@ -474,9 +474,9 @@ limitations under the License.
 										
 								<div class="card-body"id="identifiersCardBody">
 									<ul class="list-group pl-0 py-1">
-										<li class="list-group-item py-0"><span class="text-capitalize float-left font-weight-lessbold">Collection: </span>#detail.collection#</li>
-										<li class="list-group-item py-0"><span class="text-capitalize float-left font-weight-lessbold">Catalog Number: </span>#detail.cat_num#</li>
-										<li class="list-group-item py-0"><span class="text-capitalize float-left font-weight-lessbold">GUID: </span>#GUID#</li>
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span> #detail.collection#</li>
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Catalog Number: </span> #detail.cat_num#</li>
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">GUID: </span> #GUID#</li>
 									<!---<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">#c.GUID#</a>--->
 									</ul>
 								</div>
