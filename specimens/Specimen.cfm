@@ -165,13 +165,13 @@ limitations under the License.
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center ml-xl-1"> #twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center"> #twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
 		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center ml-xl-1"> #twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 pb-1 text-center"> #twotypes# </span>'>
 	<cfelse>
 		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 pb-1 px-2 text-center ml-xl-1"> </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 pb-1 px-2 text-center"> </span>'>
 	</cfif>
 	<div class="container-fluid" id="content">
 		<cfif isDefined("cited_as") and len(cited_as) gt 0>
@@ -521,28 +521,34 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="headingCitations">
-								<h3 class="h5 my-0 text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
-										Citations
-									</button>
-									<cfif listcontainsnocase(session.roles,"manage_specimens")>
-										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
-									</cfif>
-								</h3>
-							</div>
-							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
-								<cfif len(trim(#blockcit#)) GT 0>
+							<cfif len(trim(#blockcit#)) GT 0>
+								<div class="card-header" id="headingCitations">
+									<h3 class="h5 my-0 text-dark">
+										<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
+											Citations
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
+										</cfif>
+									</h3>
+								</div>
+								<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
 									<div class="card-body pt-2 pb-1" id="citationsCardBody">
 										#blockcit#
 									</div>
-								<cfelse>
-									<div class="card-body" id="citationsCardBody">
-										<ul class="list-group">
-											<li class="small90 list-group-item pt-0 font-italic">None</li>
-										</ul>
-									</div>
-								</cfif>
+								</div>
+							<cfelse>
+								<div class="card-header" id="headingCitations">
+									<h3 class="h5 my-0 text-dark">
+										<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations pane no values">
+											Citations <span class="small font-italic">(none)</span>
+										</button>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
+										</cfif>
+									</h3>
+								</div>
+							</cfif>
 								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
 								<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
 									<!--- error, display the resulting error message --->
@@ -556,7 +562,6 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-							</div>
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
