@@ -537,7 +537,7 @@ limitations under the License.
 										#blockcit#
 									</div>
 								</div>
-								<cfelse>
+							<cfelse>
 								<div class="card-header" id="headingCitations">
 									<h3 class="h5 my-0 text-dark">
 										<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="undefined" aria-controls="citationsPane">
@@ -562,7 +562,6 @@ limitations under the License.
 										</div>
 									</div>
 								</cfif>
-							</div>
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
