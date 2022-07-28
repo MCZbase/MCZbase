@@ -584,7 +584,9 @@ limitations under the License.
 <cffunction name="queryToCSV" returntype="string" output="false" access="public">
 	<cfargument name="queryToConvert" type="query" required="true">
 		
-	<cfset columnNames = listToArray(lCase(queryToConvert.columnlist)) >
+	<!--- arrayToList on getColumnNames preserves order. --->
+	<cfset columnNamesArray = arrayToList(queryToConvert.getColumnNames()) >
+	<cfset columnNames = listToArray(columnNamesArray) >
 	<cfset columnCount = ArrayLen(columnNames) >
 
 	<cfset newLine =(chr(13) & chr(10)) >
