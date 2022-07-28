@@ -465,7 +465,14 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
-								Catalog Identifiers
+								<ul class="list-group pl-0 py-1">
+									
+										<li class="list-group-item py-0">
+											<span class="text-capitalize float-left font-weight-lessbold">#detail.cat_num#: </span>
+										
+										</li>
+			
+								</ul>
 							</div>
 						</div>
 					</div>
