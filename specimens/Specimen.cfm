@@ -468,14 +468,14 @@ limitations under the License.
 								<ul class="list-group pl-0 py-1">
 									<li class="list-group-item py-0">
 							<!---		<span class="text-capitalize float-left font-weight-lessbold">#detail.cat_num#: </span>--->
-										<cfif len(web_link) GT 0>
-											<cfset collection_heading = "<a href='#detail.web_link#' class='text-dark'>#detail.collection#</a>">
+				<!---						<cfif len(web_link) GT 0>
+											<cfset collection_heading = "<a href='#web_link#' class='text-dark'>#detail.collection#</a>">
 										<cfelse>
 											<cfset collection_heading = "#detail.web_link#">
-										</cfif>
+										</cfif>--->
 											#detail.collection_heading#&nbsp;#detail.cat_num#
 										<div class="col-12">
-											<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#detail.GUID#">#detail.GUID#</a>
+											<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">#c.GUID#</a>
 										</div>
 									</li>
 								</ul>
