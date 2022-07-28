@@ -204,7 +204,7 @@ limitations under the License.
 							</cfif>
 							<h1 class="col-12 col-md-6 mb-1 h4">#collection_heading#&nbsp;#cat_num#</h1>
 							<div class="col-12">
-								GUID: <a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a>
+								<a class="h4 pt-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a>
 							</div>
 					
 						</div>
