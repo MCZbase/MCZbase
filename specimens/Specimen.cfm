@@ -472,7 +472,7 @@ limitations under the License.
 											<cfset collection_heading = "#detail.web_link#">
 										</cfif>--->
 										
-								<div class="col-12 px-0">
+								<div class="card-body"id="identifiersCardBody">
 									<ul class="list-group pl-0 py-1">
 										<li class="list-group-item py-0"><span class="text-capitalize float-left font-weight-lessbold">Collection: </span>#detail.collection#</li>
 										<li class="list-group-item py-0"><span class="text-capitalize float-left font-weight-lessbold">Catalog Number: </span>#detail.cat_num#</li>
