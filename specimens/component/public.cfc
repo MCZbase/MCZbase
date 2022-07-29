@@ -194,7 +194,7 @@ limitations under the License.
 					WHERE 
 						collection.collection_id = cataloged_item.collection_id 
 					AND 
-						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#detail.collection_object_id#">
 				</cfquery>
 				<cfif len(identifiers.cat_num) gt 0>
 					<ul class="list-group pl-0 py-1">
