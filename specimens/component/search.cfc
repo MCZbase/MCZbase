@@ -2627,7 +2627,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 								<option value="#download_profile_id#" #selected#>#name# (Available to: #sharing#)</option>
 								<cfset selected="">
 							</cfloop>
-						</cfselect>
+						</select>
 					</div>
 					<div class="col-12">
 						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#profile_id#" download="#filename#" >Download as CSV</a>
