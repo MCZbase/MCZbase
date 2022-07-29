@@ -175,7 +175,7 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<div class="container-fluid" id="content">
-		<cfif isDefined("typeStatus.typestatuswords") and len(typeStatus.typestatuswords) gt 0>
+		<cfif len(typeStatus.typestatuswords) gt 0>
 			<cfif toptypestatuskind eq 'Primary' >
 				<cfset sectionclass="primaryType">
 			<cfelseif toptypestatuskind eq 'Secondary' >
@@ -186,7 +186,7 @@ limitations under the License.
 		</cfif>
 		<section class="row #sectionclass#">
 			<div class="col-12">
-				<cfif isDefined("typeStatus.typestatuswords") and len(typeStatus.typestatuswords) gt 0>
+				<cfif len(typeStatus.typestatuswords) gt 0>
 					<cfif toptypestatuskind eq 'Primary' >
 						<cfset divclass="border-0">
 					<cfelseif toptypestatuskind eq 'Secondary' >
@@ -206,7 +206,7 @@ limitations under the License.
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
-								<cfif isDefined("typeStatus.typestatuswords") and len(typeStatus.typestatuswords) gt 0>
+								<cfif len(typeStatus.typestatuswords) gt 0>
 									<cfif toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
