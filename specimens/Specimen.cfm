@@ -197,7 +197,7 @@ limitations under the License.
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-1">
 						<div class="float-left col-12 col-md-6 px-1 my-0">
-							<h1 class="col-12 col-md-6 mb-1 h4">#GUID#</h1>
+							<h1 class="col-12 col-md-6 mb-1 h3">#GUID#</h1>
 							<div class="col-12 small">
 								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
