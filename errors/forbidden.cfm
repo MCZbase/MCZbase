@@ -1,3 +1,4 @@
+<cfset pageTitle = "Access Denied">
 <cfinclude template="/shared/_header.cfm">
 <main class="container" id="content">
 	<div class="row">
