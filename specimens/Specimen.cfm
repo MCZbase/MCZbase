@@ -484,7 +484,7 @@ limitations under the License.
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 										
 					<!-----------------------------Identifiers----------------------------------> 
-					<div class="accordion" id="accordionMedia">
+					<div class="accordion" id="accordionIdentifiers">
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="headingIdentifiers">
 								<h3 class="h5 my-0 text-dark">
