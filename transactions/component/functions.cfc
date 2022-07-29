@@ -1068,12 +1068,12 @@ limitations under the License.
 								</tr>
 								<cfif len(shipment_remarks) GT 0>
 									<tr>
-										<td colspan="4">#shipment_remarks#</td>
+										<td colspan="4"><span class="font-weight-lessbold">Shipment Remarks:</span> #shipment_remarks#</td>
 									</tr>
 								</cfif>
 								<cfif len(contents) GT 0>
 									<tr>
-										<td colspan="4">#contents#</td>
+										<td colspan="4"><span class="font-weight-lessbold">Contents:</span> #contents#</td>
 									</tr>
 								</cfif>
 							</tbody>
