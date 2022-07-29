@@ -103,38 +103,28 @@ limitations under the License.
 <!---  TODO: Refactor this to obtain live data --->
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
-		flattable.collection,
-		web_link,
-		flattable.collection_id,
-		flattable.cat_num,
-		flattable.collection_object_id as collection_object_id,
-		flattable.scientific_name,
-		flattable.full_taxon_name,
-		flattable.collecting_event_id,
-		flattable.higher_geog,
-		flattable.collectors,
-		flattable.spec_locality,
-		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
-		flattable.verbatim_date,
-		flattable.BEGAN_DATE,
-		flattable.ended_date,
-		flattable.cited_as,
-		flattable.typestatuswords,
-		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
-		flattable.toptypestatuskind,
-		concatparts_ct(flattable.collection_object_id) as partString,
-		concatEncumbrances(flattable.collection_object_id) as encumbrance_action,
-		flattable.dec_lat,
-		flattable.dec_long,
-		flattable.COORDINATEUNCERTAINTYINMETERS
-<!---	<cfif len(#session.CustomOtherIdentifier#) gt 0>
-		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
-		</cfif>--->
+		collection.collection,
+		collection.collection_id,
+		cataloged_item.cat_num,
+		cataloged_item.collection_object_id as collection_object_id,
+		identification.scientific_name,
+		taxonomy.full_taxon_name,
+		collecting_event.collecting_event_id,
+		geog_auth_rec.higher_geog,
+		locality.spec_locality,
+		citation.type_status
 	FROM
-		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
-		left join collection on flattable.collection_id = collection.collection_id
+		cataloged_item
+		left join collection on cataloged_item.collection_id = collection.collection_id
+		left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+		left join citation on citation.collection_object_id = cataloged_item.collection_object_id
+		left join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+		left join locality on locality.locality_id = collecting_event.locality_id
+		left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+		left join taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
 	WHERE
-		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2 
 	ORDER BY
 		cat_num
@@ -142,8 +132,8 @@ limitations under the License.
 
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
-<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.typestatuswords#">
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.type_status#; #detail.higher_geog#; #detail.spec_locality#">
+<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.type_status#">
 <cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
