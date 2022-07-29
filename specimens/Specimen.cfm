@@ -117,7 +117,6 @@ limitations under the License.
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
 		left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-		left join citation on citation.collection_object_id = cataloged_item.collection_object_id
 		left join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
 		left join locality on locality.locality_id = collecting_event.locality_id
 		left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
@@ -129,11 +128,22 @@ limitations under the License.
 	ORDER BY
 		cat_num
 </cfquery>
-
+<cfquery name="typeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT 	
+		flattable.typestatuswords,
+		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
+		flattable.toptypestatuskind
+	FROM
+		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
+		left join collection on flattable.collection_id = collection.collection_id
+	WHERE
+		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		AND rownum < 2 
+</cfquery>
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.type_status#; #detail.higher_geog#; #detail.spec_locality#">
-<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.type_status#">
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.typestatuswords#; #detail.higher_geog#; #detail.spec_locality#">
+<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.typestatusplain#">
 <cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
