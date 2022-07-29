@@ -498,7 +498,7 @@ limitations under the License.
 										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span> &nbsp;<cfif len(detail.collection) eq 0> 
 											<cfset thisCollection = "#detail.collection#">
 										<cfelse>
-											<cfset thisCollection ="<a href='#web_link#'>#detail.collection#</a>">
+											<cfset thisCollection ="<a href='#detail.web_link#'>#detail.collection#</a>">
 										</cfif>
 											#thisCollection#
 										</li>
