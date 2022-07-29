@@ -185,7 +185,7 @@ limitations under the License.
 </cfif>
 
 <cfoutput query="detail">
-	<cfset typeName = #detail2.type_status#>
+	<cfset typeName = typestatuswords>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
