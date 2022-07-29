@@ -155,7 +155,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
 					<cfif isdefined("agent_1") AND agent_1 EQ "NULL">
-						AND trans.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">)
+						AND transaction_view.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">)
 					<cfelse>
 						AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
 					</cfif>
@@ -171,7 +171,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
 					<cfif isdefined("agent_2") AND agent_2 EQ "NULL">
-						AND trans.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">)
+						AND transaction_view.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">)
 					<cfelse>
 						AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
 					</cfif>
@@ -187,7 +187,7 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
 					<cfif isdefined("agent_3") AND agent_3 EQ "NULL">
-						AND trans.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">)
+						AND transaction_view.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">)
 					<cfelse>
 						AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
 					</cfif>
