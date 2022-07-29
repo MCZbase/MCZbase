@@ -106,7 +106,7 @@ limitations under the License.
 		collection.collection,
 		collection.collection_id,
 		cataloged_item.cat_num,
-		cataloged_item.collection_object_id as collection_object_id,
+		cataloged_item.collection_object_id,
 		identification.scientific_name,
 		taxonomy.full_taxon_name,
 		collecting_event.collecting_event_id,
@@ -141,8 +141,8 @@ limitations under the License.
 </cfquery>
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.typestatuswords#; #detail.higher_geog#; #detail.spec_locality#">
-<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#detail.typestatusplain#">
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #typeStatus.typestatuswords#; #detail.higher_geog#; #detail.spec_locality#">
+<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#typeStatus.typestatusplain#">
 <cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
@@ -161,16 +161,16 @@ limitations under the License.
 
 <cfoutput query="detail">
 	<cfif len(typeStatus.typestatuswords)gt 0>
-		<cfset typeName = typestatuswords>
+		<cfset typeName = typeStatus.typestatuswords>
 		<!--- handle the edge cases of a specimen having more than one type status --->
 		<cfif toptypestatuskind eq 'Primary' > 
-			<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset twotypes = '#replace(typeStatus.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 		<cfelseif toptypestatuskind eq 'Secondary' >
-			<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset twotypes= '#replace(typeStatus.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 		<cfelse>
-			<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset twotypes= '#replace(typeStatus.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
 		</cfif>
 	</cfif>
