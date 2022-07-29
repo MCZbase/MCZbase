@@ -339,6 +339,10 @@ limitations under the License.
 				// invoke specimen/component/public.cfc function getIdentificationsHTML via ajax and repopulate the identification block.
 				loadIdentifications(#collection_object_id#,'identificationsCardBody');
 			}
+			function reloadIdentifiers() { 
+				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
+				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
+			}
 			function reloadCitations() { 
 				// replace the citations block via ajax.
 				loadCitations(#collection_object_id#,'citationsCardBody');
@@ -484,7 +488,7 @@ limitations under the License.
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 										
 					<!-----------------------------Identifiers----------------------------------> 
-					<div class="accordion" id="accordionIdentifiers">
+		<!---			<div class="accordion" id="accordionIdentifiers">
 						<div class="card mb-2 bg-light">
 							<div class="card-header" id="headingIdentifiers">
 								<h3 class="h5 my-0 text-dark">
@@ -506,6 +510,39 @@ limitations under the License.
 										<li class="list-group-item py-0"><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
 								
 									</ul>
+								</div>
+							</div>
+						</div>
+					</div>--->
+							
+					<div class="accordion" id="accordionIdentifiers">
+						<div class="card mb-2 bg-light">
+							<div id="identifiersDialog"></div>
+							<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
+							<div class="card-header" id="headingIdentifiers">
+								<h3 class="h5 my-0">
+									<button type="button" role="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
+										Identifications
+									</button>
+									<cfif len(#blockidentifiers#) gt 10> 
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">
+												Edit
+											</a>
+										</cfif>
+									<cfelse>
+										<cfif listcontainsnocase(session.roles,"manage_specimens")>
+											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">
+												Add
+											</a>
+										</cfif>
+									</cfif>
+								</h3>
+							</div>
+							<div id="identifiersPane" class="collapse show" aria-labelledby="headingID" data-parent="##accordionIdentifiers">
+								<div class="card-body" id="identifiersCardBody">
+									#blockidentifiers#
+									<div id="identifiersHTML"></div>
 								</div>
 							</div>
 						</div>

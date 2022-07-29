@@ -177,6 +177,71 @@ limitations under the License.
 	<cfreturn cfthread["getMediaThread#tn#"].output>
 </cffunction>
 							
+<!--- getIdentifiersHTML obtain a block of html listing other id numbers for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other id numbers
+ @return html for viewing other identifiers for the specified cataloged item. 
+--->
+<cffunction name="getIdentifiersHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getIdentifiersThread">
+		<cfoutput>
+			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<!--- check for mask record, hide if mask record and not one of us ---->
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
+				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
+					<cfthrow message="Record Masked">
+				</cfif>
+				<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						collection.collection, collection.GUID_prefix, cataloged_item.cat_num 
+					FROM 
+						collection, cataloged_item 
+					WHERE 
+						collection.collection_id = cataloged_item.collection_id 
+					AND 
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				</cfquery>
+				<cfif len(identifiers.cat_num) gt 0>
+					<ul class="list-group pl-0 py-1">
+						<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Collection: </span>
+							<cfif len(web_link) gt 0>
+								<a class="pl-1 mb-0" href="#web_link#"> #identifiers.collection# </a>
+							<cfelse>
+								<span class="float-left pl-1 mb-0"> #identifiers.collection#</span>
+							</cfif>
+						</li>
+						<li class="list-group-item py-0">
+								<span class="float-left font-weight-lessbold">Cataloged Item: </span>
+								<span class="float-left pl-1 mb-0"> #identifiers.cat_num#</span>
+						</li>
+						<li class="list-group-item py-0">
+							<span class="float-left mb-0">#identifiers.GUID#</span>
+						</li>
+					</ul>
+				</cfif>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getIdentifersThread" />
+	<cfreturn getIdentifersThread.output>
+</cffunction>
+							
 <!--- getIdentificationsHTML obtain a block of html listing identifications for a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the identifications.
  @return html for viewing identifications for the specified cataloged item. 

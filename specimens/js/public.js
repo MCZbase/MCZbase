@@ -24,7 +24,22 @@ function loadMedia(collection_object_id,targetDivId) {
 		dataType: "html"
 	});
 };
-
+function loadIdentifiers(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getIdentifiersHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading specimen identifiers");
+		},
+		dataType: "html"
+	});
+};
 function loadLedger(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
