@@ -2613,7 +2613,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="col-12">
 						<script>
 							function changeProfile() { 
-								var profile = this.value;
+								var profile = $("##profile_picker").val();
 								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
 							}
 						</script>
@@ -2785,7 +2785,38 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</div>
 					</div>
 					<h3>Download Profile</h3>
+					<cfquery name="getProfiles" datasource="cf_dbuser">
+						SELECT 
+							username, name, download_profile_id, sharing
+						FROM 
+							download_profile
+						WHERE
+							target_search = 'Specimens'
+							AND (
+							upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+							or sharing = 'Everyone'
+						)
+					</cfquery>
 					<div class="form-row">
+						<div class="col-12">
+							<script>
+								function changeProfile() { 
+									var profile = $("##profile_picker").val();
+									$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
+								}
+							</script>
+							<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
+							<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
+								<cfset selected="selected">
+								<cfloop query="getProfiles">
+									<cfif selected EQ "selected">
+										<cfset profile_id = download_profile_id>
+									</cfif>
+									<option value="#download_profile_id#" #selected#>#name# (Available to: #sharing#)</option>
+									<cfset selected="">
+								</cfloop>
+							</select>
+						</div>
 						<div class="col-12">
 							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" onclick="handleDownloadClick();" >Download as CSV</a>
 						</div>
