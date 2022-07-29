@@ -403,7 +403,7 @@ limitations under the License.
 						</cfif>
 					</li>
 					<li class="list-group-item px-0 mx-1">
-						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">Identifiers</button>
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" >Identifiers</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
@@ -503,19 +503,7 @@ limitations under the License.
 									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Identifiers
 									</button>
-									<!---<cfif len(#blockidentifiers#) gt 10> 
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">
-												Edit
-											</a>
-										</cfif>
-									<cfelse>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">
-												Add
-											</a>
-										</cfif>
-									</cfif>--->
+								
 								</h3>
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
