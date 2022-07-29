@@ -1071,6 +1071,11 @@ limitations under the License.
 										<td colspan="4">#shipment_remarks#</td>
 									</tr>
 								</cfif>
+								<cfif len(contents) GT 0>
+									<tr>
+										<td colspan="4">#contents#</td>
+									</tr>
+								</cfif>
 							</tbody>
 						</table>
 						<table class='table table-responsive d-md-table'>
