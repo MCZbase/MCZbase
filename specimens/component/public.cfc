@@ -2226,7 +2226,7 @@ limitations under the License.
 								<cfelse>
 									(Error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
 								</cfif>
-								<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source#</span>#warn301#
+								<span class="d-block mb-0 pb-0"> #georef_determiner##dateDet##georef_source#</span>#warn301#
 							</li>
 
 							<cfif len(coordlookup.datum) GT 0>
