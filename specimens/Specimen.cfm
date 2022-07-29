@@ -336,10 +336,10 @@ limitations under the License.
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
 				loadMedia(#collection_object_id#,'specimenMediaCardBody');
 			}
-			function reloadIdentifiers() { 
-				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
-				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
-			}
+	//		function reloadIdentifiers() { 
+//				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
+//				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
+//			}
 			function reloadIdentifications() { 
 				// invoke specimen/component/public.cfc function getIdentificationsHTML via ajax and repopulate the identification block.
 				loadIdentifications(#collection_object_id#,'identificationsCardBody');
