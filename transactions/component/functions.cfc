@@ -1066,6 +1066,10 @@ limitations under the License.
 									<td>#no_of_packages#&nbsp;</td>
 									<td>#carriers_tracking_number#</td>
 								</tr>
+								<cfif len(shipment_remarks) GT 0>
+								<tr>
+									<td colspan="4">#shipment_remarks#</td>
+								</tr>
 							</tbody>
 						</table>
 						<table class='table table-responsive d-md-table'>
