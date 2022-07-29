@@ -402,9 +402,9 @@ limitations under the License.
 							<button type="button" class="btn btn-xs btn-powder-blue small py-0" onClick="openEditMediaDialog(#collection_object_id#,'mediaDialog','#guid#',reloadMedia)">Media</button>
 						</cfif>
 					</li>
-					<li class="list-group-item px-0 mx-1">
+	<!---				<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" >Identifiers</button>
-					</li>
+					</li>--->
 					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
@@ -494,7 +494,7 @@ limitations under the License.
 					<!-----------------------------Identifiers----------------------------------> 
 
 							
-					<div class="accordion" id="accordionIdentifiers">
+<!---					<div class="accordion" id="accordionIdentifiers">
 						<div class="card mb-2 bg-light">
 							<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingIdentifiers">
@@ -511,7 +511,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>--->
 				
 					<!------------------------------------ identifications ------------------------------------>
 					<div class="accordion" id="accordionID">
