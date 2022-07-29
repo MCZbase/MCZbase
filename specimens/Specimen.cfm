@@ -593,44 +593,44 @@ limitations under the License.
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
+			
 					<div class="accordion" id="accordionOtherID">
 						<div class="card mb-2 bg-light">
 							<div id="otherIDsDialog"></div>
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
-							<cfif len(trim(#blockotherid#)) GT 0>
-								<div class="card-header" id="headingOtherID">
-									<h3 class="h5 my-0">
-										<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
-											Other Identifiers
-										</button>
+							<div class="card-header" id="headingOtherID">
+								<h3 class="h5 my-0">
+									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+										Other Identifiers
+									</button>
+									<cfif len(#blockotherid#) gt 1> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
 												Edit
 											</a>
 										</cfif>
-									</h3>
-								</div>
-								<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
-									<cfif len(trim(#blockotherid#)) GT 0> 
-										<div class="card-body" id="otherIDsCardBody">
-											#blockotherid# 
-										</div>
-									</cfif>
-								</div>
-							<cfelse>
-								<div class="card-header" id="headingOtherID">
-									<h3 class="h5 my-0">
-										<button type="button" class="headerLnk text-left w-100 h-100" aria-label="other identifier pane without values">
-											Other Identifiers <span class="small font-italic">(none)</span>
-										</button>
+									<cfelse>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
 												Add
 											</a>
 										</cfif>
-									</h3>
-								</div>
-							</cfif>
+									</cfif>
+								</h3>
+							</div>
+							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
+								<cfif len(trim(#blockotherid#)) GT 0> 
+									<div class="card-body" id="otherIDsCardBody">
+										#blockotherid# 
+									</div>
+								<cfelse>
+									<div class="card-body" id="otherIDsCardBody">
+										<ul class="list-group">
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
+										</ul>
+									</div>
+								</cfif>
+							</div>
 						</div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
