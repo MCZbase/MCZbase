@@ -549,47 +549,42 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="citationsDialog"></div>
 							<cfset blockcit = getCitationsHTML(collection_object_id = "#collection_object_id#")>
-							<cfif len(trim(#blockcit#)) GT 0>
-								<div class="card-header" id="headingCitations">
-									<h3 class="h5 my-0 text-dark">
-										<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
-											Citations
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
-										</cfif>
-									</h3>
-								</div>
-								<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
+							<div class="card-header" id="headingCitations">
+								<h3 class="h5 my-0 text-dark">
+									<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations Pane" data-target="##citationsPane" aria-expanded="true" aria-controls="citationsPane">
+										Citations
+									</button>
+									<cfif listcontainsnocase(session.roles,"manage_specimens")>
+										<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
+									</cfif>
+								</h3>
+							</div>
+							<div id="citationsPane" class="collapse show" aria-labelledby="headingCitations" data-parent="##accordionCitations">
+								<cfif len(trim(#blockcit#)) GT 0>
 									<div class="card-body pt-2 pb-1" id="citationsCardBody">
 										#blockcit#
 									</div>
-								</div>
-							<cfelse>
-								<div class="card-header" id="headingCitations">
-									<h3 class="h5 my-0 text-dark">
-										<button type="button" class="headerLnk text-left h-100 w-100" aria-label="citations pane no values">
-											Citations <span class="small font-italic">(none)</span>
-										</button>
-										<cfif listcontainsnocase(session.roles,"manage_specimens")>
-											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCitationsDialog(#collection_object_id#,'citationsDialog','#guid#',reloadCitations)">Add/Remove</a>
-										</cfif>
-									</h3>
-								</div>
-							</cfif>
-							<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
-							<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
-								<!--- error, display the resulting error message --->
-								#citationMediaCount#
-							</cfif>
-							<cfif citationMediaCount gt 0>
-								<div class="">
-									<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
-									<div id="citationMediaBlock" class="px-2">
-										#citationMediaBlock#
+								<cfelse>
+									<div class="card-body" id="citationsCardBody">
+										<ul class="list-group">
+											<li class="small90 list-group-item pt-0 font-italic">None</li>
+										</ul>
 									</div>
-								</div>
-							</cfif>
+								</cfif>
+								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
+								<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
+									<!--- error, display the resulting error message --->
+									#citationMediaCount#
+								</cfif>
+								<cfif citationMediaCount gt 0>
+									<div class="">
+										<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
+										<div id="citationMediaBlock" class="px-2">
+											#citationMediaBlock#
+										</div>
+									</div>
+								</cfif>
+							</div>
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
