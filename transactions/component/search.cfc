@@ -154,26 +154,50 @@ limitations under the License.
 					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
-					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+					<cfif isdefined("agent_1") AND agent_1 EQ "NULL">
+						AND transaction_view.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">)
+					<cfelse>
+						AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("agent_1_id") AND len(agent_1_id) gt 0>
 					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
+				<cfelseif isdefined("agent_1") AND agent_1 EQ "NOT NULL">
+					<!--- not need to add not null clause, just skip adding match on name --->
+				<cfelseif isdefined("agent_1") AND agent_1 EQ "NULL">
+					<!--- need to exclude or query clauses will be contradictory --->
 				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
 					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
 				</cfif>
 				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
-					AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+					<cfif isdefined("agent_2") AND agent_2 EQ "NULL">
+						AND transaction_view.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">)
+					<cfelse>
+						AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("agent_2_id") AND len(agent_2_id) gt 0>
 					AND upper(trans_agent_2.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_2_id#">
+				<cfelseif isdefined("agent_2") AND agent_2 EQ "NOT NULL">
+					<!--- not need to add not null clause, just skip adding match on name --->
+				<cfelseif isdefined("agent_2") AND agent_2 EQ "NULL">
+					<!--- need to exclude or query clauses will be contradictory --->
 				<cfelseif isdefined("agent_2") AND len(agent_2) gt 0>
 					AND upper(trans_agent_name_2.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_2)#%" >
 				</cfif>
 				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
-					AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+					<cfif isdefined("agent_3") AND agent_3 EQ "NULL">
+						AND transaction_view.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">)
+					<cfelse>
+						AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("agent_3_id") AND len(agent_3_id) gt 0>
 					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
+				<cfelseif isdefined("agent_3") AND agent_3 EQ "NOT NULL">
+					<!--- not need to add not null clause, just skip adding match on name --->
+				<cfelseif isdefined("agent_3") AND agent_3 EQ "NULL">
+					<!--- need to exclude or query clauses will be contradictory --->
 				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
 					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
 				</cfif>
@@ -553,18 +577,34 @@ limitations under the License.
 					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
 				</cfif>
 				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
-					AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+					<cfif isdefined("agent_2") AND agent_2 EQ "NULL">
+						AND trans.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">)
+					<cfelse>
+						AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("agent_2_id") AND len(agent_2_id) gt 0>
 					AND upper(trans_agent_2.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_2_id#">
+				<cfelseif isdefined("agent_2") AND agent_2 EQ "NOT NULL">
+					<!--- not need to add not null clause, just skip adding match on name --->
+				<cfelseif isdefined("agent_2") AND agent_2 EQ "NULL">
+					<!--- need to exclude or query clauses will be contradictory --->
 				<cfelseif isdefined("agent_2") AND len(agent_2) gt 0>
 					AND upper(trans_agent_name_2.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_2)#%" >
 				</cfif>
 				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
-					AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+					<cfif isdefined("agent_3") AND agent_3 EQ "NULL">
+						AND trans.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">)
+					<cfelse>
+						AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("agent_3_id") AND len(agent_3_id) gt 0>
 					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
+				<cfelseif isdefined("agent_3") AND agent_3 EQ "NOT NULL">
+					<!--- not need to add not null clause, just skip adding match on name --->
+				<cfelseif isdefined("agent_3") AND agent_3 EQ "NULL">
+					<!--- need to exclude or query clauses will be contradictory --->
 				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
 					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
 				</cfif>
