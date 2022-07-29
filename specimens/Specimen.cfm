@@ -161,20 +161,22 @@ limitations under the License.
 </cfif>
 
 <cfoutput query="detail">
-	<cfset typeName = typestatuswords>
-	<!--- handle the edge cases of a specimen having more than one type status --->
-	<cfif toptypestatuskind eq 'Primary' > 
-		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
-	<cfelseif toptypestatuskind eq 'Secondary' >
-		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
-	<cfelse>
-		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
+	<cfif len(typeStatus.typestatuswords)gt 0>
+		<cfset typeName = typestatuswords>
+		<!--- handle the edge cases of a specimen having more than one type status --->
+		<cfif toptypestatuskind eq 'Primary' > 
+			<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
+		<cfelseif toptypestatuskind eq 'Secondary' >
+			<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
+		<cfelse>
+			<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
+		</cfif>
 	</cfif>
 	<div class="container-fluid" id="content">
-		<cfif isDefined("cited_as") and len(cited_as) gt 0>
+		<cfif isDefined("typestatuswords") and len(typestatuswords) gt 0>
 			<cfif toptypestatuskind eq 'Primary' >
 				<cfset sectionclass="primaryType">
 			<cfelseif toptypestatuskind eq 'Secondary' >
@@ -185,7 +187,7 @@ limitations under the License.
 		</cfif>
 		<section class="row #sectionclass#">
 			<div class="col-12">
-				<cfif isDefined("cited_as") and len(cited_as) gt 0>
+				<cfif isDefined("typestatuswords") and len(typestatuswords) gt 0>
 					<cfif toptypestatuskind eq 'Primary' >
 						<cfset divclass="border-0">
 					<cfelseif toptypestatuskind eq 'Secondary' >
@@ -205,7 +207,7 @@ limitations under the License.
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
-								<cfif isDefined("cited_as") and len(cited_as) gt 0>
+								<cfif isDefined("typestatuswords") and len(typestatuswords) gt 0>
 									<cfif toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
