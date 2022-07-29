@@ -2859,7 +2859,7 @@ limitations under the License.
 			var result_uuid = $('##result_id_' + whichGrid + 'Search').val(); 
 			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
 				<cfif oneOfUs EQ 1>
-					$('##'+whichGrid+'resultDownloadButtonContainer').html('<a id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id='+ result_uuid + '" download="MCZbase_'+filename+'" >Export to CSV</a>');
+					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " >Export to CSV</button>`);
 				<cfelse>
 					$('##'+whichGrid+'resultDownloadButtonContainer').html(`<button id="specimencsvbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" onclick=" openDownloadAgreeDialog('downloadAgreeDialogDiv', '` + result_uuid + `', '` + filename + `'); " >Export to CSV</button>`);
 				</cfif>
