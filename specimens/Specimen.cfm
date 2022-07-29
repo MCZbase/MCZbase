@@ -568,7 +568,7 @@ limitations under the License.
 							<cfelse>
 								<div class="card-header" id="headingCitations">
 									<h3 class="h5 my-0 text-dark">
-										<button type="button" class="headerLnk text-left h-100 w-100" data-toggle="collapse" aria-label="citations pane no values">
+										<button type="button" class="headerLnk text-left h-100 w-100" aria-label="citations pane no values">
 											Citations <span class="small font-italic">(none)</span>
 										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -577,19 +577,19 @@ limitations under the License.
 									</h3>
 								</div>
 							</cfif>
-								<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
-								<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
-									<!--- error, display the resulting error message --->
-									#citationMediaCount#
-								</cfif>
-								<cfif citationMediaCount gt 0>
-									<div class="">
-										<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
-										<div id="citationMediaBlock" class="px-2">
-											#citationMediaBlock#
-										</div>
+							<cfset citationMediaCount = getCitationMediaHTML(collection_object_id="#collection_object_id#",get_count="true")>
+							<cfif refind("^[0-9 ]+$",citationMediaCount) EQ 0>
+								<!--- error, display the resulting error message --->
+								#citationMediaCount#
+							</cfif>
+							<cfif citationMediaCount gt 0>
+								<div class="">
+									<cfset citationMediaBlock= getCitationMediaHtml(collection_object_id="#collection_object_id#")>
+									<div id="citationMediaBlock" class="px-2">
+										#citationMediaBlock#
 									</div>
-								</cfif>
+								</div>
+							</cfif>
 						</div>
 					</div>
 					<!------------------------------------ other identifiers ---------------------------------->
@@ -597,39 +597,40 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="otherIDsDialog"></div>
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
-							<div class="card-header" id="headingOtherID">
-								<h3 class="h5 my-0">
-									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
-										Other Identifiers
-									</button>
-									<cfif len(#blockotherid#) gt 1> 
+							<cfif len(trim(#blockotherid#)) GT 0>
+								<div class="card-header" id="headingOtherID">
+									<h3 class="h5 my-0">
+										<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
+											Other Identifiers
+										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
 												Edit
 											</a>
 										</cfif>
-									<cfelse>
+									</h3>
+								</div>
+								<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
+									<cfif len(trim(#blockotherid#)) GT 0> 
+										<div class="card-body" id="otherIDsCardBody">
+											#blockotherid# 
+										</div>
+									</cfif>
+								</div>
+							<cfelse>
+								<div class="card-header" id="headingOtherID">
+									<h3 class="h5 my-0">
+										<button type="button" class="headerLnk text-left w-100 h-100" aria-label="other identifier pane without values">
+											Other Identifiers <span class="small font-italic">(none)</span>
+										</button>
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
 												Add
 											</a>
 										</cfif>
-									</cfif>
-								</h3>
-							</div>
-							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
-								<cfif len(trim(#blockotherid#)) GT 0> 
-									<div class="card-body" id="otherIDsCardBody">
-										#blockotherid# 
-									</div>
-								<cfelse>
-									<div class="card-body" id="otherIDsCardBody">
-										<ul class="list-group">
-											<li class="small90 list-group-item pt-0 font-italic">None</li>
-										</ul>
-									</div>
-								</cfif>
-							</div>
+									</h3>
+								</div>
+							</cfif>
 						</div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
