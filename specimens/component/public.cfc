@@ -202,7 +202,7 @@ limitations under the License.
 				</cfif>--->
 				<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
-						collection.collection, collection.GUID_prefix, cataloged_item.cat_num 
+						collection.collection, collection.GUID_prefix, cataloged_item.cat_num, collection.guid_prefix 
 					FROM 
 						collection, cataloged_item 
 					WHERE 
@@ -225,7 +225,7 @@ limitations under the License.
 								<span class="float-left pl-1 mb-0"> #identifiers.cat_num#</span>
 						</li>
 						<li class="list-group-item py-0">
-							<span class="float-left mb-0">#identifiers.GUID#</span>
+							<span class="float-left mb-0">#identifiers.guid_prefix#:#identifiers.cat_num#</span>
 						</li>
 					</ul>
 				</cfif>
