@@ -195,8 +195,8 @@ limitations under the License.
 					<cfset divclass="no-card">
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
-					<div class="row mx-0 mb-1">
-						<div class="float-left col-12 col-md-6 px-0 my-0">
+					<div class="row mb-1">
+						<div class="float-left col-12 col-md-6 px-1 my-0">
 							<h1 class="col-12 col-md-6 mb-1 h4">#GUID#</h1>
 							<div class="col-12 small">
 								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
@@ -219,7 +219,10 @@ limitations under the License.
 									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
 								</h2>
 							</div>
-								<div class="col-12 small">#higher_geog#<cfif len(spec_locality)gt 0><span class="text-danger">::</span> #spec_locality#<cfelse></cfif></div>
+							<div class="col-12 small">
+								#higher_geog#
+								<cfif len(spec_locality)gt 0>/ #spec_locality#<cfelse></cfif>
+							</div>
 						</div>
 					</div>
 				</div>
