@@ -503,7 +503,7 @@ limitations under the License.
 											#thisCollection#
 										</li>
 										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Catalog Number: </span> &nbsp;#detail.cat_num#</li>
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">GUID:&nbsp;</span><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
+										<li class="list-group-item py-0"><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
 								
 									</ul>
 								</div>
