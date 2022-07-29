@@ -403,6 +403,9 @@ limitations under the License.
 						</cfif>
 					</li>
 					<li class="list-group-item px-0 mx-1">
+						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">Identifiers</button>
+					</li>
+					<li class="list-group-item px-0 mx-1">
 						<button type="button" id="btn_pane" class="btn btn-xs btn-powder-blue py-0 small" onclick="openEditIdentificationsDialog(#collection_object_id#,'identificationsDialog','#guid#',reloadIdentifications)">Identifications</button>
 					</li>
 					<li class="list-group-item px-0 mx-1">
@@ -489,32 +492,7 @@ limitations under the License.
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 										
 					<!-----------------------------Identifiers----------------------------------> 
-		<!---			<div class="accordion" id="accordionIdentifiers">
-						<div class="card mb-2 bg-light">
-							<div class="card-header" id="headingIdentifiers">
-								<h3 class="h5 my-0 text-dark">
-									<button type="button" class="headerLnk text-left h-100 w-100" aria-label="identifiersPane" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane" title="identifiers">Identifiers</button>
-								</h3>
-							</div>
-							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
-								<div class="card-body"id="identifiersCardBody">
-									<ul class="list-group pl-0 py-1">
-										
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection:</span>&nbsp;<cfif len(detail.collection) eq 0> 
-											<cfset thisCollection = "#detail.collection#">
-										<cfelse>
-											<cfset thisCollection ="<a href='#detail.web_link#'>#detail.collection#</a>">
-										</cfif>
-											#thisCollection#
-										</li>
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Catalog Number: </span> &nbsp;#detail.cat_num#</li>
-										<li class="list-group-item py-0"><a href="https://mczbase.mcz.harvard.edu/guid/#GUID#">#GUID#</a></li>
-								
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>--->
+
 							
 					<div class="accordion" id="accordionIdentifiers">
 						<div class="card mb-2 bg-light">
@@ -523,9 +501,9 @@ limitations under the License.
 							<div class="card-header" id="headingIdentifiers">
 								<h3 class="h5 my-0">
 									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
-										Identifications
+										Identifiers
 									</button>
-									<cfif len(#blockidentifiers#) gt 10> 
+									<!---<cfif len(#blockidentifiers#) gt 10> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" id="btn_pane" class="anchorFocus btn btn-xs small py-0" onClick="openEditIdentifiersDialog(#collection_object_id#,'identifiersDialog','#guid#',reloadIdentifiers)">
 												Edit
@@ -537,7 +515,7 @@ limitations under the License.
 												Add
 											</a>
 										</cfif>
-									</cfif>
+									</cfif>--->
 								</h3>
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">

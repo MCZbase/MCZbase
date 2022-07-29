@@ -215,8 +215,8 @@ limitations under the License.
 						<li class="list-group-item py-0">
 								<span class="float-left font-weight-lessbold">Collection: </span>
 							<cfif len(identifiers.cat_num) gt 0>
-								<a class="pl-1 mb-0" href="##"> #identifiers.collection# </a>
-							<cfelse>
+					<!---			<a class="pl-1 mb-0" href="##"> #identifiers.collection# </a>
+							<cfelse>--->
 								<span class="float-left pl-1 mb-0"> #identifiers.collection#</span>
 							</cfif>
 						</li>
