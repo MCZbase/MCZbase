@@ -219,7 +219,7 @@ limitations under the License.
 									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
 								</h2>
 							</div>
-							<div class="col-12 small">#higher_geog#</div>
+							<div class="col-12 small">#higher_geog#<cfif len(spec_locality)gt 0>: #spec_locality#<cfelse></cfif></div>
 						</div>
 					</div>
 				</div>
