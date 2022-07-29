@@ -206,7 +206,7 @@ limitations under the License.
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
-								<cfif isDefined("typestatuswords") and len(typestatuswords) gt 0>
+								<cfif isDefined("typeStatus.typestatuswords") and len(typeStatus.typestatuswords) gt 0>
 									<cfif toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
