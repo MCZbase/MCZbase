@@ -495,7 +495,7 @@ limitations under the License.
 								<div class="card-body"id="identifiersCardBody">
 									<ul class="list-group pl-0 py-1">
 										
-										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection: </span>&nbsp;<cfif len(detail.collection) eq 0> 
+										<li class="list-group-item py-0"><span class="text-capitalize mb-0 float-left font-weight-lessbold">Collection:</span>&nbsp;<cfif len(detail.collection) eq 0> 
 											<cfset thisCollection = "#detail.collection#">
 										<cfelse>
 											<cfset thisCollection ="<a href='#detail.web_link#'>#detail.collection#</a>">
