@@ -2588,6 +2588,85 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 	<cfthread name="getDownloadDialogThread">
 		<cfoutput>
 			<cftry>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<cfset oneOfUs = 1>
+				<cfelse>
+					<cfset oneOfUs = 0>
+				</cfif>
+				<cfquery name="getProfiles" datasource="cf_dbuser">
+					SELECT 
+						username, name, download_profile_id, sharing
+					FROM 
+						download_profile
+					WHERE
+						target_search = 'Specimens'
+						AND (
+							upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+							or sharing = 'Everyone'
+							<cfif oneOfUs IS 1>
+								or sharing = 'MCZ'
+							</cfif>
+						)
+				</cfquery>
+				<h3>Download Profile</h3>
+				<div class="form-row">
+					<div class="col-12">
+						<script>
+							function changeProfile() { 
+								var profile = $('##profile_picker').value;
+								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
+							}
+						</script>
+						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
+						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
+							<cfset selected="selected">
+							<cfloop query="getProfiles">
+								<cfif selected EQ "selected">
+									<cfset profile_id = download_profile_id>
+								</cfif>
+								<option value="#download_profile_id#" #selected#>#name# (Available to: #sharing#)</option>
+								<cfset selected="">
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12">
+						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#profile_id#" download="#filename#" >Download as CSV</a>
+					</div>
+				</div>
+			<cfcatch>
+				<cfif isDefined("cfcatch.queryError") >
+					<cfset queryError=cfcatch.queryError>
+				<cfelse>
+					<cfset queryError = ''>
+				</cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfcontent reset="yes">
+				<cfheader statusCode="500" statusText="#message#">
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<h2>Internal Server Error.</h2>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">"Feedback/Report Errors"</a></p>
+							</div>
+						</div>
+					</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getDownloadDialogThread" />
+	<cfreturn getDownloadDialogThread.output>
+</cffunction>
+
+
+<cffunction name="getDownloadAgreeDialogHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="result_id" type="string" required="yes">
+	<cfargument name="filename" type="string" required="yes">
+	<cfthread name="getDownloadAgreeDialogThread">
+		<cfoutput>
+			<cftry>
 				<cfquery name="getUserData" datasource="cf_dbuser">
 					SELECT 
 						cf_users.user_id,
@@ -2705,6 +2784,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							</script>
 						</div>
 					</div>
+					<h3>Download Profile</h3>
 					<div class="form-row">
 						<div class="col-12">
 							<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1 disabled" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSV&result_id=#encodeForUrl(result_id)#" download="#filename#" onclick="handleDownloadClick();" >Download as CSV</a>
@@ -2734,8 +2814,8 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getDownloadDialogThread" />
-	<cfreturn getDownloadDialogThread.output>
+	<cfthread action="join" name="getDownloadAgreeDialogThread" />
+	<cfreturn getDownloadAgreeDialogThread.output>
 </cffunction>
 
 <cffunction name="logExternalDownload" returntype="string" access="remote" returnformat="plain">
