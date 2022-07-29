@@ -186,11 +186,11 @@ limitations under the License.
 	<cfthread name="getIdentifiersThread">
 		<cfoutput>
 			<cftry>
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+<!---				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<cfset oneOfUs = 1>
 				<cfelse>
 					<cfset oneOfUs = 0>
-				</cfif>
+				</cfif>--->
 				<!--- check for mask record, hide if mask record and not one of us ---->
 <!---				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
