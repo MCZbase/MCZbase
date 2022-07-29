@@ -1715,7 +1715,7 @@ $(document).ready(function() {
  /*Scroll to top when arrow up clicked END*/
 
 // open the download dialog to pick a profile for download fields
-function openDownloadAgreeDialog(dialogid, result_id, filename) { 
+function openDownloadDialog(dialogid, result_id, filename) { 
 	var title = "Download Agreement";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
