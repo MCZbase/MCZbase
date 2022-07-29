@@ -111,8 +111,7 @@ limitations under the License.
 		taxonomy.full_taxon_name,
 		collecting_event.collecting_event_id,
 		geog_auth_rec.higher_geog,
-		locality.spec_locality,
-		citation.type_status
+		locality.spec_locality
 	FROM
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
