@@ -1720,8 +1720,8 @@ function openDownloadDialog(dialogid, result_id, filename) {
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
-	w = Math.floor(w *.9);
-	h = Math.floor(h *.9);
+	w = Math.floor(w *.6);
+	h = Math.floor(h *.4);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
