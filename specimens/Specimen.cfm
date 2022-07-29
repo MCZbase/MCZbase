@@ -136,6 +136,7 @@ limitations under the License.
 	ORDER BY
 		cat_num
 </cfquery>
+			<!---below is the new query but there are problems around type status and author text is missing--->
 <cfquery name="detail2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
  SELECT DISTINCT
 		collection.collection,
