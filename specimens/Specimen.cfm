@@ -150,8 +150,7 @@ limitations under the License.
 		collecting_event.collecting_event_id,
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
-		citation.type_status,
-	     CONCATCITEDAS(cataloged_item.collection_object_id) as cited_as
+		citation.type_status
 		
 	FROM
 		cataloged_item
