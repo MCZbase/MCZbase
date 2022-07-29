@@ -215,7 +215,7 @@ limitations under the License.
 								<cfelse>
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
-								<h2 class="mt-0 px-0">
+								<h2 class="d-inline-block mt-0 px-0">
 									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
 								</h2>
 							</div>
