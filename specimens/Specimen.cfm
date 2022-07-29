@@ -106,12 +106,13 @@ limitations under the License.
 		collection.collection,
 		collection.collection_id,
 		cataloged_item.cat_num,
-		cataloged_item.collection_object_id,
+		cataloged_item.collection_object_id as collection_object_id,
 		identification.scientific_name,
 		taxonomy.full_taxon_name,
 		collecting_event.collecting_event_id,
 		geog_auth_rec.higher_geog,
-		locality.spec_locality
+		locality.spec_locality,
+		citation.type_status
 	FROM
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
@@ -127,7 +128,7 @@ limitations under the License.
 	ORDER BY
 		cat_num
 </cfquery>
-<cfquery name="typeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---<cfquery name="typeStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 	
 		flattable.typestatuswords,
 		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
@@ -138,11 +139,11 @@ limitations under the License.
 	WHERE
 		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2 
-</cfquery>
+</cfquery>--->
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #typeStatus.typestatuswords#; #detail.higher_geog#; #detail.spec_locality#">
-<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#,#typeStatus.typestatusplain#">
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
+<cfset addedKeywords=",#detail.full_taxon_name#,#detail.higher_geog#">
 <cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
@@ -160,22 +161,22 @@ limitations under the License.
 </cfif>
 
 <cfoutput query="detail">
-	<cfif len(typeStatus.typestatuswords)gt 0>
-		<cfset typeName = typeStatus.typestatuswords>
-		<!--- handle the edge cases of a specimen having more than one type status --->
+	<!--- handle the edge cases of a specimen having more than one type status --->
+<!---	<cfif len(typeStatus.typestatuswords)gt 0>
+		<cfset typeName = typestatuswords>
 		<cfif toptypestatuskind eq 'Primary' > 
-			<cfset twotypes = '#replace(typeStatus.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 		<cfelseif toptypestatuskind eq 'Secondary' >
-			<cfset twotypes= '#replace(typeStatus.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 		<cfelse>
-			<cfset twotypes= '#replace(typeStatus.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+			<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 			<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
 		</cfif>
-	</cfif>
+	</cfif>--->
 	<div class="container-fluid" id="content">
-		<cfif len(typeStatus.typestatuswords) gt 0>
+		<!---<cfif isDefined("typestatuswords") and len(typestatuswords) gt 0>
 			<cfif toptypestatuskind eq 'Primary' >
 				<cfset sectionclass="primaryType">
 			<cfelseif toptypestatuskind eq 'Secondary' >
@@ -183,10 +184,10 @@ limitations under the License.
 			</cfif>
 		<cfelse>
 			<cfset sectionclass="defaultType">
-		</cfif>
+		</cfif>--->
 		<section class="row #sectionclass#">
 			<div class="col-12">
-				<cfif len(typeStatus.typestatuswords) gt 0>
+				<!---<cfif isDefined("typestatuswords") and len(typestatuswords) gt 0>
 					<cfif toptypestatuskind eq 'Primary' >
 						<cfset divclass="border-0">
 					<cfelseif toptypestatuskind eq 'Secondary' >
@@ -194,7 +195,7 @@ limitations under the License.
 					</cfif>
 				<cfelse>
 					<cfset divclass="no-card">
-				</cfif>
+				</cfif>--->
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-1">
 						<div class="float-left col-12 col-md-6 px-1 my-0">
@@ -206,16 +207,16 @@ limitations under the License.
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
-								<cfif len(typeStatus.typestatuswords) gt 0>
+								<!---<cfif isDefined("typestatuswords") and len(typestatuswords) gt 0>
 									<cfif toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
 									<cfif toptypestatuskind eq 'Secondary'>
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
-								<cfelse>
+								<cfelse>--->
 									<!--- No type name to display for non-type specimens --->
-								</cfif>	
+								<!---</cfif>	--->
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
 									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
 								</h2>
