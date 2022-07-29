@@ -496,7 +496,7 @@ limitations under the License.
 							
 					<div class="accordion" id="accordionIdentifiers">
 						<div class="card mb-2 bg-light">
-					<!---		<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>--->
+							<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingIdentifiers">
 								<h3 class="h5 my-0">
 									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
@@ -507,7 +507,7 @@ limitations under the License.
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 								<div class="card-body" id="identifiersCardBody">
-								<!---	#blockidentifiers#--->
+									#blockidentifiers#
 								</div>
 							</div>
 						</div>
