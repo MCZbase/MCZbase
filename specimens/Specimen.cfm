@@ -151,7 +151,6 @@ limitations under the License.
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
 		citation.type_status
-		
 	FROM
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
@@ -162,7 +161,6 @@ limitations under the License.
 		left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
 		left join taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
-		left join 
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2
