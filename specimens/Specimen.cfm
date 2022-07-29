@@ -127,6 +127,9 @@ limitations under the License.
 		flattable.dec_lat,
 		flattable.dec_long,
 		flattable.COORDINATEUNCERTAINTYINMETERS
+<!---	<cfif len(#session.CustomOtherIdentifier#) gt 0>
+		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
+		</cfif>--->
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
 		left join collection on flattable.collection_id = collection.collection_id
@@ -136,7 +139,6 @@ limitations under the License.
 	ORDER BY
 		cat_num
 </cfquery>
-<!---New query detail2 --there is a problem with substituting type status--->
 <cfquery name="detail2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
  SELECT DISTINCT
 		collection.collection,
@@ -149,7 +151,8 @@ limitations under the License.
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
 		citation.type_status,
-		CONCATCITEDAS(cataloged_item.collection_object_id) as cited_as
+	     CONCATCITEDAS(cataloged_item.collection_object_id) as cited_as
+		
 	FROM
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
