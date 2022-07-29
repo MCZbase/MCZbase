@@ -494,7 +494,7 @@ limitations under the License.
 					<!-----------------------------Identifiers----------------------------------> 
 
 							
-<!---					<div class="accordion" id="accordionIdentifiers">
+					<div class="accordion" id="accordionIdentifiers">
 						<div class="card mb-2 bg-light">
 							<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingIdentifiers">
@@ -511,7 +511,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-					</div>--->
+					</div>
 				
 					<!------------------------------------ identifications ------------------------------------>
 					<div class="accordion" id="accordionID">

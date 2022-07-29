@@ -196,7 +196,7 @@ limitations under the License.
 					AND 
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 				</cfquery>
-				<cfif len(identifiers.cat_num) gt 0>
+<!---				<cfif len(identifiers.cat_num) gt 0>
 					<ul class="list-group pl-0 py-1">
 						<li class="list-group-item py-0">
 								<span class="float-left font-weight-lessbold">Collection: </span>
@@ -214,7 +214,7 @@ limitations under the License.
 							<span class="float-left mb-0">#identifiers.guid_prefix#:#identifiers.cat_num#</span>
 						</li>
 					</ul>
-				</cfif>
+				</cfif>--->
 			<cfcatch>
 				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 				<cfset function_called = "#GetFunctionCalledName()#">
