@@ -325,6 +325,10 @@ limitations under the License.
 			function reloadAnnotations() { 
 				loadAnnotations(#collection_object_id#,'annotationsCardBody');
 			}
+			function reloadIdentifiers() { 
+				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
+				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
+			}
 		</script>
 	</cfif>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
@@ -339,10 +343,7 @@ limitations under the License.
 				// invoke specimen/component/public.cfc function getIdentificationsHTML via ajax and repopulate the identification block.
 				loadIdentifications(#collection_object_id#,'identificationsCardBody');
 			}
-			function reloadIdentifiers() { 
-				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
-				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
-			}
+
 			function reloadCitations() { 
 				// replace the citations block via ajax.
 				loadCitations(#collection_object_id#,'citationsCardBody');
@@ -521,7 +522,7 @@ limitations under the License.
 							<cfset blockidentifiers = getIdentifiersHTML(collection_object_id = "#collection_object_id#")>
 							<div class="card-header" id="headingIdentifiers">
 								<h3 class="h5 my-0">
-									<button type="button" role="button" aria-label="identifications pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
+									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Identifications
 									</button>
 									<cfif len(#blockidentifiers#) gt 10> 
@@ -539,7 +540,7 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-							<div id="identifiersPane" class="collapse show" aria-labelledby="headingID" data-parent="##accordionIdentifiers">
+							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 								<div class="card-body" id="identifiersCardBody">
 									#blockidentifiers#
 									<div id="identifiersHTML"></div>
