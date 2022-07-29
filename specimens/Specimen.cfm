@@ -127,9 +127,6 @@ limitations under the License.
 		flattable.dec_lat,
 		flattable.dec_long,
 		flattable.COORDINATEUNCERTAINTYINMETERS
-<!---	<cfif len(#session.CustomOtherIdentifier#) gt 0>
-		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
-		</cfif>--->
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
 		left join collection on flattable.collection_id = collection.collection_id
@@ -139,7 +136,34 @@ limitations under the License.
 	ORDER BY
 		cat_num
 </cfquery>
-
+<cfquery name="detail2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ SELECT DISTINCT
+		collection.collection,
+		collection.collection_id,
+		cataloged_item.cat_num,
+		cataloged_item.collection_object_id as collection_object_id,
+		identification.scientific_name,
+		taxonomy.full_taxon_name,
+		collecting_event.collecting_event_id,
+		geog_auth_rec.higher_geog,
+		locality.spec_locality,
+		citation.type_status,
+		CONCATCITEDAS(cataloged_item.collection_object_id) as cited_as
+	FROM
+		cataloged_item
+		left join collection on cataloged_item.collection_id = collection.collection_id
+		left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+		left join citation on citation.collection_object_id = cataloged_item.collection_object_id
+		left join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+		left join locality on locality.locality_id = collecting_event.locality_id
+		left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+		left join taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
+		left join 
+	WHERE
+		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		AND rownum < 2
+</cfquery>
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #detail.collection# collection; #detail.scientific_name#; #detail.higher_geog#; #detail.spec_locality#">
@@ -161,7 +185,7 @@ limitations under the License.
 </cfif>
 
 <cfoutput query="detail">
-	<cfset typeName = typestatuswords>
+	<cfset typeName = detail2.type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
