@@ -192,14 +192,14 @@ limitations under the License.
 					<cfset oneOfUs = 0>
 				</cfif>
 				<!--- check for mask record, hide if mask record and not one of us ---->
-				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
 				<cfif oneOfUs EQ 0 AND Findnocase("mask record", check.encumbranceDetail)>
 					<cfthrow message="Record Masked">
-				</cfif>
+				</cfif>--->
 				<cfquery name="identifiers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						collection.collection, collection.GUID_prefix, cataloged_item.cat_num 
@@ -214,7 +214,7 @@ limitations under the License.
 					<ul class="list-group pl-0 py-1">
 						<li class="list-group-item py-0">
 								<span class="float-left font-weight-lessbold">Collection: </span>
-							<cfif len(web_link) gt 0>
+							<cfif len(identifiers.cat_num) gt 0>
 								<a class="pl-1 mb-0" href="##"> #identifiers.collection# </a>
 							<cfelse>
 								<span class="float-left pl-1 mb-0"> #identifiers.collection#</span>
