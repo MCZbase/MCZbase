@@ -509,7 +509,6 @@ limitations under the License.
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
 								<div class="card-body" id="identifiersCardBody">
 									#blockidentifiers#
-									<div id="identifiersHTML"></div>
 								</div>
 							</div>
 						</div>
