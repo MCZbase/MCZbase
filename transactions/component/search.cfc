@@ -547,6 +547,8 @@ limitations under the License.
 					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
 				<cfelseif isdefined("agent_1") AND agent_1 EQ "NOT NULL">
 					<!--- not need to add not null clause, just skip adding match on name --->
+				<cfelseif isdefined("agent_1") AND agent_1 EQ "NULL">
+					<!--- need to exclude or query clauses will be contradictory --->
 				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
 					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
 				</cfif>
