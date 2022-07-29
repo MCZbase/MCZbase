@@ -2613,7 +2613,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<div class="col-12">
 						<script>
 							function changeProfile() { 
-								var profile = $('##profile_picker').value;
+								var profile = this.value;
 								$('##specimencsvdownloadbutton').attr("href", "/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id="+profile);
 							}
 						</script>

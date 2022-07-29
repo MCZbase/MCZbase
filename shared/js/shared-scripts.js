@@ -1716,7 +1716,7 @@ $(document).ready(function() {
 
 // open the download dialog to pick a profile for download fields
 function openDownloadDialog(dialogid, result_id, filename) { 
-	var title = "Download Agreement";
+	var title = "Download as CSV";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
@@ -1732,8 +1732,8 @@ function openDownloadDialog(dialogid, result_id, filename) {
 		zindex: 2000,
 		height: h,
 		width: w,
-		minWidth: 400,
-		minHeight: 450,
+		minWidth: 300,
+		minHeight: 250,
 		draggable:true,
 		buttons: {
 		 	"Close Dialog": function() { 
