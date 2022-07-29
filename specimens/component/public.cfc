@@ -211,7 +211,7 @@ limitations under the License.
 								<span class="float-left pl-1 mb-0"> #identifiers.cat_num#</span>
 						</li>
 						<li class="list-group-item py-0">
-							<span class="float-left mb-0">#identifiers.guid_prefix#:#identifiers.cat_num#</span>
+							<span class="float-left mb-0"><a href="https://mczbase.mcz.harvard.edu/guid/#identifiers.guid_prefix#:#identifiers.cat_num#">#identifiers.guid_prefix#:#identifiers.cat_num#</a></span>
 						</li>
 					</ul>
 				</cfif>
