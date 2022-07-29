@@ -197,7 +197,7 @@ limitations under the License.
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mx-0 mb-1">
 						<div class="float-left col-12 col-md-6 px-0 my-0">
-							<h1 class="col-12 col-md-6 mb-1 h4">#collection#&nbsp;#cat_num#</h1>
+							<h1 class="col-12 col-md-6 mb-1 h4">#GUID#</h1>
 							<div class="col-12 small">
 								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
@@ -205,11 +205,6 @@ limitations under the License.
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
-								<h2 class="mt-0 px-0">
-									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
-								</h2>
-							</div>
-							<div class="col-12 mt-0 mb-1">
 								<cfif isDefined("cited_as") and len(cited_as) gt 0>
 									<cfif toptypestatuskind eq 'Primary' >
 										<h2 class="h4 my-0">#typeName#</h2>
@@ -220,7 +215,11 @@ limitations under the License.
 								<cfelse>
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
+								<h2 class="mt-0 px-0">
+									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
+								</h2>
 							</div>
+							<div class="col-12 small">#higher_geog#</div>
 						</div>
 					</div>
 				</div>
@@ -502,7 +501,6 @@ limitations under the License.
 									<button type="button" role="button" aria-label="identifiers pane" class="headerLnk text-left w-100" data-toggle="collapse" data-target="##identifiersPane" aria-expanded="true" aria-controls="identifiersPane">
 										Identifiers
 									</button>
-								
 								</h3>
 							</div>
 							<div id="identifiersPane" class="collapse show" aria-labelledby="headingIdentifiers" data-parent="##accordionIdentifiers">
