@@ -537,14 +537,16 @@ limitations under the License.
 						(to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_date_entered, "yyyy-mm-dd")#'>) + (86399/86400) )
 				</cfif>
 				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
-					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+					<cfif isdefined("agent_1") AND agent_1 EQ "NULL">
+						AND trans.transaction_id NOT IN (select transaction_id from trans_agent where trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">)
+					<cfelse>
+						AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("agent_1_id") AND len(agent_1_id) gt 0>
 					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
 				<cfelseif isdefined("agent_1") AND agent_1 EQ "NOT NULL">
 					<!--- not need to add not null clause, just skip adding match on name --->
-				<cfelseif isdefined("agent_1") AND agent_1 EQ "NULL">
-					AND trans_agent_name_1.agent_name IS NULL
 				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
 					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
 				</cfif>
