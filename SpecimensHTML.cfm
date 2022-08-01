@@ -137,7 +137,7 @@
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-6 col-xl-4">
-							<button type="submit" class="btn btn-xs btn-primary col-auto px-3 mx-0 my-1 mr-md-5" aria-label="run the minimal search" id="submitButton">Search <i class="fa fa-search"></i></button>
+							<button type="submit" class="btn btn-xs btn-primary col-auto px-3 mx-0 my-1 mr-md-3" aria-label="run the minimal search" id="submitButton">Search <i class="fa fa-search"></i></button>
 							<button type="button" class="btn btn-xs btn-warning col-auto px-3 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/SpecimensHTML.cfm';">New Search</button>
 						</div>
 					</div>
