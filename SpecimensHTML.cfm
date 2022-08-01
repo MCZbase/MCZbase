@@ -10,7 +10,7 @@
 	SELECT institution_acronym, collection, collection_id FROM collection order by collection
 </cfquery>
 <main id="content">
-	<section class="container-fluid" role="search" >
+	<section class="container" role="search" >
 		<div class="row">
 			<div class="col-12">
 				<h1 class="h3 smallcaps mt-3">
