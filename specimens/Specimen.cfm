@@ -186,8 +186,8 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfoutput query="detail">
-	<cfset typeName = typestatuswords>
+<cfoutput query="detail2">
+	<cfset typeName = type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
@@ -209,6 +209,7 @@ limitations under the License.
 		<cfelse>
 			<cfset sectionclass="defaultType">
 		</cfif>
+
 		<section class="row #sectionclass#">
 			<div class="col-12">
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
@@ -255,6 +256,8 @@ limitations under the License.
 			</div>
 		</section>
 	</div>
+</cfoutput>
+<cfoutput query="detail">
 	<div class="container-fluid">
 		<section class="row" id="resultSetNavigationSection">
 			<div class="col-12 px-2">
