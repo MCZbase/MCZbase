@@ -232,7 +232,7 @@ limitations under the License.
 	<div class="container-fluid bg-light">
 		<div class="row">
 			<div class="col-12 pb-2">
-				<h1 class="h2 text-center text-danger mt-5">MCZbase requires Javascript to function.</h1>
+				<h1 class="h2 text-center text-danger mt-5 mt-md-3">MCZbase requires Javascript to function.</h1>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
