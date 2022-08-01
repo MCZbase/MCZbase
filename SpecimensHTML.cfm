@@ -10,9 +10,9 @@
 	SELECT institution_acronym, collection, collection_id FROM collection order by collection
 </cfquery>
 <main id="content">
-	<section class="container" role="search" >
+	<section class="container-fluid" role="search" >
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 px-4">
 				<h1 class="h3 smallcaps mt-3">
 					Minimal Search for Specimen Records 
 					<span class="count font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
