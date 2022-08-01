@@ -232,7 +232,7 @@ limitations under the License.
 	<div class="container-fluid bg-light">
 		<div class="row">
 			<div class="col-12 pb-2">
-				<h1 class="h2 text-center text-danger mt-3">MCZbase requires Javascript to function.</h1>
+				<h1 class="h2 text-center text-danger mt-5">MCZbase requires Javascript to function.</h1>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
@@ -251,7 +251,7 @@ limitations under the License.
 						</div>
 					</form>
 				</cfif>
-				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+				<nav class="navbar navbar-expand-md navbar-light bg-light p-0">
 					
 					<ul class="navbar-nav mx-auto">
 						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
