@@ -181,7 +181,7 @@ limitations under the License.
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
-<cfif detail.recordcount LT 1>
+<cfif detail2.recordcount LT 1>
 	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
 	<cfinclude template="/errors/404.cfm">
 	<cfabort>
