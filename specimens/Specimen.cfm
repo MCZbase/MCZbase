@@ -151,6 +151,7 @@ limitations under the License.
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
 		citation.type_status,
+		MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
 		concatcitedas(cataloged_item.collection_object_id) as cited_as
 	FROM
 		cataloged_item
@@ -257,7 +258,7 @@ limitations under the License.
 		</section>
 	</div>
 </cfoutput>
-<cfoutput query="detail">
+	<cfoutput query="detail">
 	<div class="container-fluid">
 		<section class="row" id="resultSetNavigationSection">
 			<div class="col-12 px-2">
