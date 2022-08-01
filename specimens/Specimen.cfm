@@ -151,6 +151,7 @@ limitations under the License.
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
 		citation.type_status,
+		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
 		concatcitedas(cataloged_item.collection_object_id) as cited_as
 	FROM
 		cataloged_item
@@ -180,14 +181,14 @@ limitations under the License.
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
-<cfif detail.recordcount LT 1>
+<cfif detail2.recordcount LT 1>
 	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
 	<cfinclude template="/errors/404.cfm">
 	<cfabort>
 </cfif>
 
-<cfoutput query="detail">
-	<cfset typeName = typestatuswords>
+<cfoutput query="detail2">
+	<cfset typeName = type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
@@ -242,7 +243,7 @@ limitations under the License.
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
+									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
 							</div>
 							<div class="col-12 small">
@@ -264,7 +265,7 @@ limitations under the License.
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 						<input type="hidden" name="suppressHeader" value="true">
 						<input type="hidden" name="action" value="nothing">
-						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
+						<input type="hidden" name="collecting_event_id" value="#detail2.collecting_event_id#">
 						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
 							<cfset isPrev = "no">
 							<cfset isNext = "no">
