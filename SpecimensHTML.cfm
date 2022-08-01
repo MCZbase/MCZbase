@@ -11,12 +11,12 @@
 </cfquery>
 <main id="content">
 	<section class="container-fluid" role="search" >
-		<h1 class="h3 smallcaps pl-1">
+		<h1 class="h3 smallcaps mt-3">
 			Minimal Search for Specimen Records 
 			<span class="count font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span>
 		</h1>
 		<noscript>
-			<div>You are searching MCZbase with the non-JavaScript form. Please consider turning JavaScript on and using the <a href="/Specimens.cfm">standard search form</a>.</div>
+			<p>You are searching MCZbase with the non-JavaScript form. Please consider turning JavaScript on and using the <a href="/Specimens.cfm">standard search form</a>.</p>
 		</noscript>
 		<form class="container-flex" method="get" action="/specimens/SpecimenResultsHTML.cfm" name="specimenSearchForm" id="specimenSearchForm">
 			<div class="form-row my-2">
