@@ -168,7 +168,7 @@ limitations under the License.
 </cfquery>
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail2.collection# collection; #detail2.scientific_name#; #detail2.higher_geog#; #detail2.spec_locality#">
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail2.collection# collection; #detail2.scientific_name#; #detail2.higher_geog#; #detail2.spec_locality#; #detail2.type_status# of #detail2.cited_as#">
 <cfset addedKeywords=",#detail2.full_taxon_name#,#detail2.higher_geog#,#detail2.type_status#, #detail2.cited_as#">
 <cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
@@ -187,16 +187,16 @@ limitations under the License.
 </cfif>
 
 <cfoutput query="detail">
-	<cfset typeName = typestatuswords>
+	<cfset typeName = type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
-		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+		<cfset twotypes = '#replace(type_status,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
-		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+		<cfset twotypes= '#replace(type_status,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 	<cfelse>
-		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+		<cfset twotypes= '#replace(type_status,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
 	</cfif>
 	<div class="container-fluid" id="content">
