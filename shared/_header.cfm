@@ -245,7 +245,7 @@ limitations under the License.
 							</cfif>
 							</a>
 							<cfelse>
-							<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+							<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login float-right">
 								<input type="hidden" name="action" value="signIn">
 								<div class="login-form" id="header_login_form_div">
 									<label for="username" class="sr-only"> Username:</label>
