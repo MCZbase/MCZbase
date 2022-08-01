@@ -181,7 +181,7 @@
 	<ul class="geol_hier" style="padding:0;width:430px;margin: 0;">
 		<li>
 			<a href="ChangePassword.cfm">Change your password</a>
-			<cfset pwtime =  round(now() - getPrefs.pw_change_date)>
+			<cfset pwtime = round(now() - getPrefs.pw_change_date)>
 			<cfset pwage = Application.max_pw_age - pwtime>
 			<cfif pwage lte 0>
 				 <cfquery name="isDb" datasource="uam_god">
@@ -205,7 +205,7 @@
 			</cfif>
 		</li>
 		<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
-      	<li>
+			<li>
 				<a href="/users/Searches.cfm">Manage your Saved Searches</a> <br><span style="font-size:13px;"> (click Save Search from Specimen Results to save a search)</span>
 			</li>
 		</cfif>
@@ -234,10 +234,11 @@
 		SELECT
 			cf_users.user_id,
 			first_name,
-	        middle_name,
-	        last_name,
-	        affiliation,
-			email
+			middle_name,
+			last_name,
+			affiliation,
+			email,
+			specimens_download_profile
 		FROM
 			cf_user_data,
 			cf_users
@@ -254,19 +255,27 @@
 			Personal information will never be shared with anyone, and we&apos;ll never send you spam.</p>
 
 		<ul class="nobull">
-            <li><label for="first_name">First Name</label>
-                <input type="text" name="first_name" value="#encodeForHtml(getUserData.first_name)#" class="reqdClr" size="50"></li>
-		<li><label for="middle_name">Middle Name</label>
-            <input type="text" name="middle_name" value="#encodeForHtml(getUserData.middle_name)#" size="50"></li>
-		<li><label for="last_name">Last Name</label>
-            <input type="text" name="last_name" value="#encodeForHtml(getUserData.last_name)#" class="reqdClr" size="50"></li>
-		<li><label for="affiliation">Affiliation</label>
-            <input type="text" name="affiliation" value="#encodeForHtml(getUserData.affiliation)#" class="reqdClr" size="50"></li>
-		<li><label for="email">Email</label>
-            <input type="text" name="email" value="#encodeForHtml(getUserData.email)#" size="30"></li>
-            <li>
+			<li>
+				<label for="first_name">First Name</label>
+				<input type="text" name="first_name" value="#encodeForHtml(getUserData.first_name)#" class="reqdClr" size="50">
+			</li>
+		<li>
+			<label for="middle_name">Middle Name</label>
+			<input type="text" name="middle_name" value="#encodeForHtml(getUserData.middle_name)#" size="50">
+		</li>
+		<li>
+			<label for="last_name">Last Name</label>
+			<input type="text" name="last_name" value="#encodeForHtml(getUserData.last_name)#" class="reqdClr" size="50"></li>
+		<li>
+			<label for="affiliation">Affiliation</label>
+			<input type="text" name="affiliation" value="#encodeForHtml(getUserData.affiliation)#" class="reqdClr" size="50">
+		</li>
+		<li>
+			<label for="email">Email</label>
+			<input type="text" name="email" value="#encodeForHtml(getUserData.email)#" size="30"></li>
+		<li>
 
-            <input type="submit" value="Save Profile" class="savBtn" style="margin-top: .5em"></li></ul>
+		<input type="submit" value="Save Profile" class="savBtn" style="margin-top: .5em"></li></ul>
 	</form>
 	<!---
 	<cfquery name="getUserPrefs" datasource="cf_dbuser">
@@ -282,9 +291,22 @@
 		select cf_collection_id,collection from cf_collection
 		order by collection
 	</cfquery>
+	<cfquery name="getDownloadProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
+		SELECT 
+			username, name, download_profile_id, sharing, target_search, column_list
+		FROM 
+			download_profile
+		WHERE
+			upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+			or sharing = 'Everyone'
+			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				or sharing = 'MCZ'
+			</cfif>
+		ORDER BY name
+	</cfquery>
 
 
-   <h3 class="arctosSet">MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span></h3>
+	<h3 class="arctosSet">MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span></h3>
 	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
 		<label for="specimens_default_action">Default tab for Specimen Search</label>
 		<cfif not isDefined("session.specimens_default_action")>
@@ -307,7 +329,7 @@
 		<cfif not isDefined("session.specimens_pagesize")>
 			<cfset session.specimens_pagesize = "25">
 		</cfif>
-		<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000'  --->
+		<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000' --->
 		<select name="specimens_pagesize" id="specimens_pagesize" onchange="changeSpecimensPageSize(this.value)">
 			<option value="5" <cfif session.specimens_pagesize EQ "5"> selected="selected" </cfif>>5 (good for phone)</option>
 			<option value="10" <cfif session.specimens_pagesize EQ "10"> selected="selected" </cfif>>10 (good for right/left scroll)</option>
@@ -315,6 +337,17 @@
 			<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
 			<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
 			<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
+		</select>
+		<label for="specimens_pagesize">Default Profile for Columns included when downloading Specimen results as CSV </label>
+		<select name="specimen_default_profile" id="specimen_default_profile" onchange="changeSpecimenDefaultProfile(this.value)">
+			<option></option>
+			<cfloop query="getDownloadProfiles">
+				<cfif getDownloadProfiles.target_search EQ "Specimens">
+					<cfset columnCount = ListLen(getDownloadProfiles.column_list)>
+					<cfif getDownloadProfiles.target_search EQ getUserData.specimens_download_profile><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+					<option value="#getDownloadProfiles.download_profile_id#" #selected#>#getDownloadProfiles.name# (#columnCount# #getDownloadProfiles.username# visible to #getDownloadProfiles.sharing#)</option>
+				</cfif>
+			</cfloop>
 		</select>
 		<label for="block_suggest">Suggest Browse</label>
 		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
