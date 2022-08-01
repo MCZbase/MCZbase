@@ -82,7 +82,7 @@
 						</tbody>
 					</table>
 				</cfif>
-				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfile('#download_profile_id#');">New</button>
+				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfile();">New</button>
 				<div id="manageProfile"></div>
 			</div>
 		</section>
