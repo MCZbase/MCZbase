@@ -150,7 +150,8 @@ limitations under the License.
 		collecting_event.collecting_event_id,
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
-		citation.type_status
+		citation.type_status,
+		concatcitedas(cataloged_item.collection_object_id) as cited_as
 	FROM
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
@@ -168,7 +169,7 @@ limitations under the License.
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #detail2.collection# collection; #detail2.scientific_name#; #detail2.higher_geog#; #detail2.spec_locality#">
-<cfset addedKeywords=",#detail2.full_taxon_name#,#detail2.higher_geog#,#detail2.type_status#">
+<cfset addedKeywords=",#detail2.full_taxon_name#,#detail2.higher_geog#,#detail2.type_status#, #detail2.cited_as#">
 <cfset pageTitle = "MCZbase #guid# specimen details">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
