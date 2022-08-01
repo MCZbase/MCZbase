@@ -251,7 +251,7 @@ limitations under the License.
 						</div>
 					</form>
 				</cfif>
-				<nav class="navbar navbar-expand-md navbar-light bg-light p-0">
+				<nav class="navbar navbar-expand-sm navbar-light bg-light p-0">
 					
 					<ul class="navbar-nav mx-auto">
 						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
