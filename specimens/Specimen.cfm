@@ -258,7 +258,7 @@ limitations under the License.
 		</section>
 	</div>
 </cfoutput>
-	<cfoutput query="detail">
+	<cfoutput query="detail2">
 	<div class="container-fluid">
 		<section class="row" id="resultSetNavigationSection">
 			<div class="col-12 px-2">
