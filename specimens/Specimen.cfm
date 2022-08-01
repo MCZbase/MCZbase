@@ -119,6 +119,7 @@ limitations under the License.
 		flattable.BEGAN_DATE,
 		flattable.ended_date,
 		flattable.cited_as,
+		citation.type_status,
 		flattable.typestatuswords,
 		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
 		flattable.toptypestatuskind,
@@ -133,6 +134,7 @@ limitations under the License.
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
 		left join collection on flattable.collection_id = collection.collection_id
+			left join citation on citation.collection_object_id = flattable.collection_object_id
 	WHERE
 		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2 
