@@ -232,9 +232,7 @@ limitations under the License.
 	<div class="container-fluid bg-light">
 		<div class="row">
 			<div class="col-12 pb-2">
-				<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
-				
-		
+				<h1 class="h2 text-center text-danger mt-3">MCZbase requires Javascript to function.</h1>
 				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
 					<ul class="navbar-nav mx-auto">
 						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
