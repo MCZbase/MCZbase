@@ -151,7 +151,6 @@ limitations under the License.
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
 		citation.type_status,
-		MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
 		concatcitedas(cataloged_item.collection_object_id) as cited_as
 	FROM
 		cataloged_item
@@ -187,8 +186,8 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfoutput query="detail2">
-	<cfset typeName = type_status>
+<cfoutput query="detail">
+	<cfset typeName = typestatuswords>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
@@ -210,7 +209,6 @@ limitations under the License.
 		<cfelse>
 			<cfset sectionclass="defaultType">
 		</cfif>
-
 		<section class="row #sectionclass#">
 			<div class="col-12">
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
