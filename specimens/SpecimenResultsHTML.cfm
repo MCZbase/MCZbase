@@ -258,7 +258,7 @@
 	<cfoutput>
 		<div class="container my-3">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 mb-2">
 					<h3 class="h3">Search Results (#count.ct#)</h3>
 					<cfset linkParams="">
 					<cfset linkText="">
