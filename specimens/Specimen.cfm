@@ -151,7 +151,8 @@ limitations under the License.
 		geog_auth_rec.higher_geog,
 		locality.spec_locality,
 		citation.type_status,
-		concatcitedas(cataloged_item.collection_object_id) as cited_as
+		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
+		MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as
 	FROM
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
