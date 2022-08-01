@@ -234,18 +234,14 @@ limitations under the License.
 			<div class="col-12 pb-2">
 				<h1 class="h2 text-center text-danger mt-3">MCZbase requires Javascript to function.</h1>
 				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
-					<ul class="navbar-nav mx-auto">
-						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
-						<li class="nav-item"><a class="nav-link mr-2" href="/specimens/browseSpecimens.cfm?target=noscript">Browse Data</a></li>
-						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
-						<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 							<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
 							<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 								<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
 							</cfif>
 							</a>
 							<cfelse>
-							<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+							<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login float-right">
 								<input type="hidden" name="action" value="signIn">
 								<div class="login-form" id="header_login_form_div">
 									<label for="username" class="sr-only"> Username:</label>
@@ -256,6 +252,11 @@ limitations under the License.
 								</div>
 							</form>
 						</cfif>
+					<ul class="navbar-nav mx-auto">
+						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/specimens/browseSpecimens.cfm?target=noscript">Browse Data</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
+						
 					</ul>
 				</nav>
 			</div>
