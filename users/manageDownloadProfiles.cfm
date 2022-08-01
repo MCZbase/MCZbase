@@ -1,10 +1,5 @@
 <cfset pageTitle="Manage Download Field Profiles">
 <cfinclude template="/shared/_header.cfm">
-<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<cfset oneOfUs = 1>
-<cfelse>
-	<cfset oneOfUs = 0>
-</cfif>
 
 <script type="text/javascript" language="javascript">
 	function deleteDownloadProfile(download_profile_id) {
@@ -44,7 +39,7 @@
 					WHERE
 						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 						or sharing = 'Everyone'
-						<cfif oneOfUs IS 1>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							or sharing = 'MCZ'
 						</cfif>
 					ORDER BY name
