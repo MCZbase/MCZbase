@@ -189,7 +189,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfoutput query="detail">
+<cfoutput query="detail2">
 	<cfset typeName = type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
@@ -245,12 +245,12 @@ limitations under the License.
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span>
+									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#detail2.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
 							</div>
 							<div class="col-12 small">
-								#higher_geog#
-								<cfif len(spec_locality)gt 0>/ #spec_locality#<cfelse></cfif>
+								#detail2.higher_geog#
+								<cfif len(spec_locality)gt 0>/ #detail2.spec_locality#<cfelse></cfif>
 							</div>
 						</div>
 					</div>
@@ -267,7 +267,7 @@ limitations under the License.
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 						<input type="hidden" name="suppressHeader" value="true">
 						<input type="hidden" name="action" value="nothing">
-						<input type="hidden" name="collecting_event_id" value="#detail.collecting_event_id#">
+						<input type="hidden" name="collecting_event_id" value="#collecting_event_id#">
 						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
 							<cfset isPrev = "no">
 							<cfset isNext = "no">
