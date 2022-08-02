@@ -250,7 +250,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 small">
 								#detail2.higher_geog#
-								<cfif len(spec_locality)gt 0>/ #detail2.spec_locality#<cfelse></cfif>
+								<cfif len(detail2.spec_locality)gt 0>/ #detail2.spec_locality#<cfelse></cfif>
 							</div>
 						</div>
 					</div>
