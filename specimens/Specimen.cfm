@@ -189,7 +189,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfoutput query="detail">
+<cfoutput>
 	<cfset typeName = detail2.type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
