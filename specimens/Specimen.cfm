@@ -226,10 +226,10 @@ limitations under the License.
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-1">
 						<div class="float-left col-12 col-md-6 px-1 my-0">
-							<h1 class="col-12 col-md-6 mb-1 h3 font-weight-bold">#c.GUID#</h1>
+							<h1 class="col-12 col-md-6 mb-1 h3 font-weight-bold">#GUID#</h1>
 							<div class="col-12 small">
-								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">https://mczbase.mcz.harvard.edu/guid/#c.GUID#</a>
-								<a href="/guid/#c.GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
+								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 							</div>
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
