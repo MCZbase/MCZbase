@@ -810,7 +810,7 @@ limitations under the License.
 									<cfif targetMenu EQ "production">
 										<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
 									<cfelse>
-										<a href="/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
+										<a href="/users/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
 									</cfif>
 									<cfif session.roles contains "coldfusion_user">
 										<cfif targetMenu EQ "redesign">

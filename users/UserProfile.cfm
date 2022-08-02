@@ -1,7 +1,7 @@
 <!---
-UserProfile.cfm
+/users/UserProfile.cfm
 
-Copyright 2020 President and Fellows of Harvard College
+Copyright 2020-2022 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -139,7 +139,7 @@ limitations under the License.
 			<cfabort>
 		</cfcatch>
 	</cftry>
-	<cflocation url="/UserProfile.cfm" addtoken="false">
+	<cflocation url="/users/UserProfile.cfm" addtoken="false">
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------->
@@ -238,7 +238,7 @@ limitations under the License.
 							You&apos;ve been invited to become an Operator. Password restrictions apply.
 							This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
 							but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
-							<form name="getUserData" method="post" action="/UserProfile.cfm" onSubmit="return noenter();">
+							<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
 								<input type="hidden" name="action" value="makeUser">
 								<label for="pw">Enter your password:</label>
 								<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')">
@@ -264,7 +264,7 @@ limitations under the License.
 							WHERE
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
-						<form method="post" action="/UserProfile.cfm" name="dlForm">
+						<form method="post" action="/users/UserProfile.cfm" name="dlForm">
 							<input type="hidden" name="user_id" value="#getUserData.user_id#">
 							<input type="hidden" name="action" value="saveProfile">
 							<h3 class="mb-0">Personal Profile</h3>
@@ -429,7 +429,7 @@ limitations under the License.
 				)
 		</cfquery>
 	</cfif>
-	<cflocation url="/UserProfile.cfm?action=nothing" addtoken="false">
+	<cflocation url="/users/UserProfile.cfm?action=nothing" addtoken="false">
 		</cfif>
 </cfif>
 <!---------------------------------------------------------------------->
