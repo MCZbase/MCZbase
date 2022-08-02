@@ -196,14 +196,14 @@ limitations under the License.
 		<cfset twotypes = '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
-		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+		<cfset twotypes= '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 	<cfelse>
-		<cfset twotypes= '#replace(typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+		<cfset twotypes= '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
 	</cfif>
 	<div class="container-fluid" id="content">
-		<cfif isDefined("cited_as") and len(cited_as) gt 0>
+		<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
 			<cfif toptypestatuskind eq 'Primary' >
 				<cfset sectionclass="primaryType">
 			<cfelseif toptypestatuskind eq 'Secondary' >
