@@ -154,7 +154,8 @@ limitations under the License.
 		locality.spec_locality,
 		citation.type_status,
 		MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
-		MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as
+		MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
+		MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind
 	FROM
 		cataloged_item
 		left join collection on cataloged_item.collection_id = collection.collection_id
@@ -189,7 +190,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfoutput query="detail2">
+<cfoutput>
 	<cfset typeName = detail2.type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
 	<cfif toptypestatuskind eq 'Primary' > 
