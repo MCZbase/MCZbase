@@ -194,10 +194,10 @@ limitations under the License.
 <cfoutput>
 	<cfset typeName = detail2.type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
-	<cfif toptypestatuskind eq 'Primary' > 
+	<cfif detail2.toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
-	<cfelseif toptypestatuskind eq 'Secondary' >
+	<cfelseif detail2.toptypestatuskind eq 'Secondary' >
 		<cfset twotypes= '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 	<cfelse>
@@ -206,9 +206,9 @@ limitations under the License.
 	</cfif>
 	<div class="container-fluid" id="content">
 		<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
-			<cfif toptypestatuskind eq 'Primary' >
+			<cfif detail2.toptypestatuskind eq 'Primary' >
 				<cfset sectionclass="primaryType">
-			<cfelseif toptypestatuskind eq 'Secondary' >
+			<cfelseif detail2.toptypestatuskind eq 'Secondary' >
 				<cfset sectionclass="secondaryType">
 			</cfif>
 		<cfelse>
@@ -217,9 +217,9 @@ limitations under the License.
 		<section class="row #sectionclass#">
 			<div class="col-12">
 				<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
-					<cfif toptypestatuskind eq 'Primary' >
+					<cfif detail2.toptypestatuskind eq 'Primary' >
 						<cfset divclass="border-0">
-					<cfelseif toptypestatuskind eq 'Secondary' >
+					<cfelseif detail2.toptypestatuskind eq 'Secondary' >
 						<cfset divclass="no-card">
 					</cfif>
 				<cfelse>
@@ -237,10 +237,10 @@ limitations under the License.
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
 								<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
-									<cfif toptypestatuskind eq 'Primary' >
+									<cfif detail2.toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
-									<cfif toptypestatuskind eq 'Secondary'>
+									<cfif detail2.toptypestatuskind eq 'Secondary'>
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
 								<cfelse>
