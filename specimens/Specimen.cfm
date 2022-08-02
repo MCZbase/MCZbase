@@ -234,7 +234,7 @@ limitations under the License.
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
-								<cfif isDefined("cited_as") and len(cited_as) gt 0>
+								<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
 									<cfif toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
