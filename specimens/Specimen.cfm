@@ -190,6 +190,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
+<cftry>
 <cfoutput>
 	<cfset typeName = detail2.type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
@@ -306,6 +307,10 @@ limitations under the License.
 		</section><!-- end resultSetNavivationSection --->
 	</div>
 </cfoutput>
+<cfcatch>
+	<cfdump var="#cfcatch#">
+</cfcatch>
+</cftry>
 
 <!--- (4) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
 
