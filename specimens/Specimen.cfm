@@ -101,7 +101,7 @@ limitations under the License.
 
 <!--- (2) Look up summary and type information on the specimen --->
 <!---  TODO: Refactor this to obtain live data --->
-<cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---<cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
 		flattable.collection,
 		web_link,
@@ -128,9 +128,7 @@ limitations under the License.
 		flattable.dec_lat,
 		flattable.dec_long,
 		flattable.COORDINATEUNCERTAINTYINMETERS
-<!---	<cfif len(#session.CustomOtherIdentifier#) gt 0>
-		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
-		</cfif>--->
+
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
 		left join collection on flattable.collection_id = collection.collection_id
@@ -140,7 +138,7 @@ limitations under the License.
 		AND rownum < 2 
 	ORDER BY
 		cat_num
-</cfquery>
+</cfquery>--->
 <cfquery name="detail2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
  SELECT DISTINCT
 		collection.collection,
