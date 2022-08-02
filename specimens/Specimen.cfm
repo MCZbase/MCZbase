@@ -169,6 +169,9 @@ limitations under the License.
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2
 </cfquery>
+	<cfdump var="#detail2#">
+	</cfdump>
+	<cfabort></cfabort>
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #detail2.collection# collection; #detail2.scientific_name#; #detail2.higher_geog#; #detail2.spec_locality#; #detail2.type_status# of #detail2.cited_as#">
@@ -183,7 +186,7 @@ limitations under the License.
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
-<cfif detail2.recordcount LT 1>
+<cfif detail.recordcount LT 1>
 	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
 	<cfinclude template="/errors/404.cfm">
 	<cfabort>
