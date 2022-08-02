@@ -168,32 +168,6 @@ limitations under the License.
 	<cfoutput query="getPrefs" group="user_id">
 		<div class="container mt-4" id="content">
 			<div class="row mb-5">
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-					<div class="col-12">
-						<h1 class="h2">Server Settings</h1>
-						<ul>
-							<li>Application.protocol: #Application.protocol#</li>
-							<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
-								<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
-							</cfif>
-							<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
-							<li>Application.serverrole: #Application.serverrole# </li>
-							<cfif NOT isdefined("Session.gitBranch")>
-								<cftry>
-									<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-									<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-								<cfcatch>
-									<cfset gitBranch = "unknown">
-								</cfcatch>
-								</cftry>
-								<cfset Session.gitBranch = gitBranch>
-							</cfif>
-							<li>Session.gitbranch: #Session.gitbranch# </li>
-						</ul>
-					</div>		
-					</div>
-					<div class="row mb-5">
-				</cfif>
 				<div class="col-12 col-md-6 mb-2">
 					<h1 class="h2">
 						<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
@@ -204,7 +178,47 @@ limitations under the License.
 							Welcome back, #encodeForHtml(getPrefs.username)#
 						</cfif>
 					</h1>
-					<h4><a href="/changePassword.cfm?action=nothing">Change your password</a>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+						<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
+						<div class="col-12">
+							<h2 class="h3">Server Settings</h2>
+							<ul>
+								<li>Application.protocol: #Application.protocol#</li>
+								<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
+									<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
+								</cfif>
+								<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
+								<li>Application.serverrole: #Application.serverrole# </li>
+								<cfif NOT isdefined("Session.gitBranch")>
+									<cftry>
+										<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+										<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+									<cfcatch>
+										<cfset gitBranch = "unknown">
+									</cfcatch>
+									</cftry>
+									<cfset Session.gitBranch = gitBranch>
+								</cfif>
+								<li>Session.gitbranch: #Session.gitbranch# </li>
+							</ul>
+							<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT count(*) ct, stale_flag 
+								FROM flat
+								GROUP BY stale_flag
+							</cfquery>
+							<h2 class="h3">FLAT Table</h2>
+							<ul>
+							<cfloop query="flatstatus">
+									<cfset flattext = "">
+									<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
+									<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
+								</cfloop>
+							<ul>
+						</div>		
+						<h2 class="h3">Manage your profile</h2>
+					</cfif>
+					<h3 class="h4">
+						<a href="/changePassword.cfm?action=nothing">Change your password</a>
 						<cfset pwtime = round(now() - getPrefs.pw_change_date)>
 						<cfset pwage = Application.max_pw_age - pwtime>
 						<cfif pwage lte 0>
@@ -232,38 +246,40 @@ limitations under the License.
 							<span style="color:red;"> Your password expires in #pwage# days. </span>
 						</cfif>
 					</h4>
-					<h4> <a href="/users/Searches.cfm">Manage your Saved Searches</a><br>
-						<small>Click "Save Search" from Specimen Results to save a search.</small> </h4>
-						<cfif isInv.allow is 1>
-							You&apos;ve been invited to become an Operator. Password restrictions apply.
-							This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
-							but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
-							<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
-								<input type="hidden" name="action" value="makeUser">
-								<label for="pw">Enter your password:</label>
-								<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')">
-								<span id="pwstatus" style="background-color:white;"></span>
-								<br>
-								<br>
-								<span id="savBtn"><input type="submit" value="Create Account" class="btn btn-secondary"></span>
-							</form>
-							<script>
-								document.getElementById(pw).value='';
-							</script>
-						</cfif>
-						<cfquery name="getUserData" datasource="cf_dbuser">
-							SELECT
-								cf_users.user_id,
-								first_name,
-								middle_name,
-								last_name,
-								affiliation,
-								email
-							FROM
-								cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
-							WHERE
-								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
-						</cfquery>
+					<h4> 
+						<a href="/users/Searches.cfm">Manage your Saved Searches</a><br>
+						<small>Click "Save Search" from Specimen Results to save a search.</small>
+					</h4>
+					<cfif isInv.allow is 1>
+						You&apos;ve been invited to become an Operator. Password restrictions apply.
+						This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
+						but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
+						<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
+							<input type="hidden" name="action" value="makeUser">
+							<label for="pw">Enter your password:</label>
+							<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')">
+							<span id="pwstatus" style="background-color:white;"></span>
+							<br>
+							<br>
+							<span id="savBtn"><input type="submit" value="Create Account" class="btn btn-secondary"></span>
+						</form>
+						<script>
+							document.getElementById(pw).value='';
+						</script>
+					</cfif>
+					<cfquery name="getUserData" datasource="cf_dbuser">
+						SELECT
+							cf_users.user_id,
+							first_name,
+							middle_name,
+							last_name,
+							affiliation,
+							email
+						FROM
+							cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
+						WHERE
+							username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+					</cfquery>
 						<form method="post" action="/users/UserProfile.cfm" name="dlForm">
 							<input type="hidden" name="user_id" value="#getUserData.user_id#">
 							<input type="hidden" name="action" value="saveProfile">
@@ -310,9 +326,28 @@ limitations under the License.
 								<input type="submit" value="Save Profile" class="btn btn-primary ml-0 mt-1">	
 							</div>
 						</form>
-					</div>				
+
 				
-					<div class="col-12 col-md-6 float-left">
+						<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+							select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
+						</cfquery>
+						<cfquery name="collid" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
+							select cf_collection_id,collection from cf_collection
+							order by collection
+						</cfquery>
+						<cfquery name="getDownloadProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
+							SELECT 
+								username, name, download_profile_id, sharing, target_search, column_list
+							FROM 
+								download_profile
+							WHERE
+								upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+								or sharing = 'Everyone'
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									or sharing = 'MCZ'
+								</cfif>
+							ORDER BY name
+						</cfquery>
 						<cfquery name="getUserPrefs" datasource="cf_dbuser">
 							SELECT 
 								USERNAME, PASSWORD, TARGET, DISPLAYROWS, MAPSIZE, PARTS, ACCN_NUM, HIGHER_TAXA, AF_NUM,
@@ -327,9 +362,113 @@ limitations under the License.
 							WHERE 
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
+
+						<h3 class="h4">
+								MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span>
+						</h3>
+	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
+		<label for="specimens_default_action">Default tab for Specimen Search</label>
+		<cfif not isDefined("session.specimens_default_action")>
+			<cfset session.specimens_default_action = "fixedSearch">
+		</cfif>
+		<select name="specimens_default_action" id="specimens_default_action" onchange="changeSpecimensDefaultAction(this.value)">
+			<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
+			<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
+			<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
+		</select>
+		<label for="specimens_pin_guid">Pin GUID column</label>
+		<cfif not isDefined("session.specimens_pin_guid")>
+			<cfset session.specimens_pin_guid = "no">
+		</cfif>
+		<select name="specimens_pin_guid" id="specimens_pin_guid" onchange="changeSpecimensPinGuid(this.value)">
+			<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
+			<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
+		</select>
+		<label for="specimens_pagesize">Default Rows in Specimen Search Grid</label>
+		<cfif not isDefined("session.specimens_pagesize")>
+			<cfset session.specimens_pagesize = "25">
+		</cfif>
+		<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000' --->
+		<select name="specimens_pagesize" id="specimens_pagesize" onchange="changeSpecimensPageSize(this.value)">
+			<option value="5" <cfif session.specimens_pagesize EQ "5"> selected="selected" </cfif>>5 (good for phone)</option>
+			<option value="10" <cfif session.specimens_pagesize EQ "10"> selected="selected" </cfif>>10 (good for right/left scroll)</option>
+			<option value="25" <cfif session.specimens_pagesize EQ "25"> selected="selected" </cfif>>25 (default)</option>
+			<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
+			<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
+			<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
+		</select>
+		<label for="specimens_pagesize">Default Profile for Columns included when downloading Specimen results as CSV </label>
+		<select name="specimen_default_profile" id="specimen_default_profile" onchange="changeSpecimenDefaultProfile(this.value)">
+			<option></option>
+			<cfloop query="getDownloadProfiles">
+				<cfif getDownloadProfiles.target_search EQ "Specimens">
+					<cfset columnCount = ListLen(getDownloadProfiles.column_list)>
+					<cfif getDownloadProfiles.target_search EQ getUserData.specimens_download_profile><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+					<option value="#getDownloadProfiles.download_profile_id#" #selected#>#getDownloadProfiles.name# (#columnCount# #getDownloadProfiles.username# visible to #getDownloadProfiles.sharing#)</option>
+				</cfif>
+			</cfloop>
+		</select>
+		<label for="block_suggest">Suggest Browse</label>
+		<select name="block_suggest" id="block_suggest" onchange="blockSuggest(this.value)">
+			<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
+			<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
+		</select>
+		<label for="showObservations">Include Observations?</label>
+		<select name="showObservations" id="showObservations" onchange="changeshowObservations(this.value)">
+			<option value="0" <cfif session.showObservations neq 1> selected="selected" </cfif>>No</option>
+			<option value="1" <cfif session.showObservations is 1> selected="selected" </cfif>>Yes</option>
+		</select>
+		<label for="showObservations">Specimen & Taxonomy Records Per Page</label>
+		<select name="displayRows" id="displayRows" onchange="changedisplayRows(this.value);" size="1">
+			<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
+			<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
+			<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
+			<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
+		</select>
+		<label for="killRows">SpecimenResults Row-Removal Option</label>
+		<select name="killRow" id="killRow" onchange="changekillRows(this.value)">
+			<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
+			<option value="1" <cfif session.killRow is 1> selected="selected" </cfif>>Yes</option>
+		</select>
+		<label for="customOtherIdentifier">My Other Identifier</label>
+		<select name="customOtherIdentifier" id="customOtherIdentifier"
+			size="1" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
+			<option value="">None</option>
+			<cfloop query="OtherIdType">
+				<option
+					<cfif session.CustomOtherIdentifier is other_id_type>selected="selected"</cfif>
+					value="#other_id_type#">#other_id_type#</option>
+			</cfloop>
+		</select>
+		<label for="fancyCOID">Show 3-part ID on SpecimenSearch</label>
+		<select name="fancyCOID" id="fancyCOID"
+			size="1" onchange="this.className='red';changefancyCOID(this.value);">
+			<option <cfif #session.fancyCOID# is not 1>selected="selected"</cfif> value="">No</option>
+			<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
+		</select>
+		<cfif len(session.roles) gt 0 and session.roles is "public">
+			<cfif isdefined("session.portal_id")>
+				<cfset pid=session.portal_id>
+			<cfelse>
+				<cfset pid="">
+			</cfif>
+			<label for="exclusive_collection_id">Filter Results By Collection</label>
+			<select name="exclusive_collection_id" id="exclusive_collection_id"
+				onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
+			 	<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
+			  	<cfloop query="collid">
+					<option <cfif pid is cf_collection_id>selected="selected" </cfif> value="#cf_collection_id#">#collection#</option>
+			  	</cfloop>
+			</select>
+		</cfif>
+	</form>
+
+
+					</div>				
+					<div class="col-12 col-md-6 float-left">
 	
 						<div id="divRss"></div>
-					 </div>
+					</div>
 				<script>
 					$( document ).ready(function(){
 						jQuery.getFeed({
