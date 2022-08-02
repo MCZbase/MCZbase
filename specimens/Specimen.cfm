@@ -17,8 +17,8 @@ limitations under the License.
 
 --->
 <!--- this page checks that a provided guid or collection_object_id matches a visible record, then displays the 
- top portion of the specimen details page, header, summary information/type bar, then the bulk of the body of the
- specimen details page, then the footer.
+ top portion of the specimen summarys page, header, summary information/type bar, then the bulk of the body of the
+ specimen summarys page, then the footer.
 --->
 
 <!--- (1) Check the provided guid or collection object id --->
@@ -78,7 +78,7 @@ limitations under the License.
 		<cfinclude template="/errors/404.cfm">
 		<cfabort>
 	<cfelse>
-		<!--- Record for this GUID was found, make the collection_object_id available to obtain specimen record details. ---> 
+		<!--- Record for this GUID was found, make the collection_object_id available to obtain specimen record summarys. ---> 
 		<cfoutput query="c">
 			<cfset collection_object_id=c.collection_object_id>
 		</cfoutput>
@@ -98,72 +98,38 @@ limitations under the License.
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
+<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT 
+		concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+	FROM DUAL
+</cfquery>
 
 <!--- (2) Look up summary and type information on the specimen --->
-<!---  TODO: Refactor this to obtain live data --->
-<cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT DISTINCT
-		flattable.collection,
-		web_link,
-		flattable.collection_id,
-		flattable.cat_num,
-		flattable.collection_object_id as collection_object_id,
-		flattable.scientific_name,
-		flattable.full_taxon_name,
-		flattable.collecting_event_id,
-		flattable.higher_geog,
-		flattable.collectors,
-		flattable.spec_locality,
-		case flattable.author_text  when 'undefinable' then '' else flattable.author_text end as author_text,
-		flattable.verbatim_date,
-		flattable.BEGAN_DATE,
-		flattable.ended_date,
-		flattable.cited_as,
-		citation.type_status,
-		flattable.typestatuswords,
-		MCZBASE.concattypestatus_plain_s(flattable.collection_object_id,1,1,0) as typestatusplain,
-		flattable.toptypestatuskind,
-		concatparts_ct(flattable.collection_object_id) as partString,
-		concatEncumbrances(flattable.collection_object_id) as encumbrance_action,
-		flattable.dec_lat,
-		flattable.dec_long,
-		flattable.COORDINATEUNCERTAINTYINMETERS
-<!---	<cfif len(#session.CustomOtherIdentifier#) gt 0>
-		,concatSingleOtherId(#session.flatTableName#.collection_object_id,'#session.CustomOtherIdentifier#') as CustomID
-		</cfif>--->
-	FROM
-		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flattable
-		left join collection on flattable.collection_id = collection.collection_id
-			left join citation on citation.collection_object_id = flattable.collection_object_id
-	WHERE
-		flattable.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		AND rownum < 2 
-	ORDER BY
-		cat_num
-</cfquery>
-<cfquery name="detail2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!--- TODO: Fix handling of identifications other than formula "A" --->
+<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
  SELECT DISTINCT
 		collection.collection,
-		collection.collection_id,
-		cataloged_item.cat_num,
 		cataloged_item.collection_object_id as collection_object_id,
 		identification.scientific_name,
 		taxonomy.full_taxon_name,
-		collecting_event.collecting_event_id,
 		geog_auth_rec.higher_geog,
-		locality.spec_locality,
+		<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
+			'[Masked]' as spec_locality,
+		<cfelse>
+			locality.spec_locality,
+		</cfif>
 		citation.type_status,
 		MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
 		MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
 		MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind
 	FROM
 		cataloged_item
-		left join collection on cataloged_item.collection_id = collection.collection_id
-		left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-		left join citation on citation.collection_object_id = cataloged_item.collection_object_id
-		left join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
-		left join locality on locality.locality_id = collecting_event.locality_id
-		left join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+		join collection on cataloged_item.collection_id = collection.collection_id
+		join identification on identification.collection_object_id = cataloged_item.collection_object_id
+		join citation on citation.collection_object_id = cataloged_item.collection_object_id
+		join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+		join locality on locality.locality_id = collecting_event.locality_id
+		join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 		left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
 		left join taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
 	WHERE
@@ -171,10 +137,10 @@ limitations under the License.
 		AND rownum < 2
 </cfquery>
 <!--- (3) Display the page header ---> 
-<!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
-<cfset addedMetaDescription="Specimen Record for: #guid# in the #detail2.collection# collection; #detail2.scientific_name#; #detail2.higher_geog#; #detail2.spec_locality#; #detail2.type_status# of #detail2.cited_as#">
-<cfset addedKeywords=",#detail2.full_taxon_name#,#detail2.higher_geog#,#detail2.type_status#, #detail2.cited_as#">
-<cfset pageTitle = "MCZbase #guid# specimen details">
+<!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the summarys ---> 
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #summary.collection# collection; #summary.scientific_name#; #summary.higher_geog#; #summary.spec_locality#; #summary.type_status# of #summary.cited_as#">
+<cfset addedKeywords=",#summary.full_taxon_name#,#summary.higher_geog#,#summary.type_status#, #summary.cited_as#">
+<cfset pageTitle = "MCZbase #guid# specimen summarys">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
 	<cfset session.sdmapclass='tinymap'>
@@ -184,7 +150,7 @@ limitations under the License.
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
-<cfif detail2.recordcount LT 1>
+<cfif summary.recordcount LT 1>
 	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
 	<cfinclude template="/errors/404.cfm">
 	<cfabort>
@@ -192,23 +158,23 @@ limitations under the License.
 
 <cftry>
 <cfoutput>
-	<cfset typeName = detail2.type_status>
+	<cfset typeName = summary.type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
-	<cfif detail2.toptypestatuskind eq 'Primary' > 
-		<cfset twotypes = '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+	<cfif summary.toptypestatuskind eq 'Primary' > 
+		<cfset twotypes = '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
-	<cfelseif detail2.toptypestatuskind eq 'Secondary' >
-		<cfset twotypes= '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+	<cfelseif summary.toptypestatuskind eq 'Secondary' >
+		<cfset twotypes= '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 	<cfelse>
-		<cfset twotypes= '#replace(detail2.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+		<cfset twotypes= '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
 	</cfif>
 	<div class="container-fluid" id="content">
-		<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
-			<cfif detail2.toptypestatuskind eq 'Primary' >
+		<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
+			<cfif summary.toptypestatuskind eq 'Primary' >
 				<cfset sectionclass="primaryType">
-			<cfelseif detail2.toptypestatuskind eq 'Secondary' >
+			<cfelseif summary.toptypestatuskind eq 'Secondary' >
 				<cfset sectionclass="secondaryType">
 			</cfif>
 		<cfelse>
@@ -216,10 +182,10 @@ limitations under the License.
 		</cfif>
 		<section class="row #sectionclass#">
 			<div class="col-12">
-				<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
-					<cfif detail2.toptypestatuskind eq 'Primary' >
+				<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
+					<cfif summary.toptypestatuskind eq 'Primary' >
 						<cfset divclass="border-0">
-					<cfelseif detail2.toptypestatuskind eq 'Secondary' >
+					<cfelseif summary.toptypestatuskind eq 'Secondary' >
 						<cfset divclass="no-card">
 					</cfif>
 				<cfelse>
@@ -236,23 +202,23 @@ limitations under the License.
 						</div>
 						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
-								<cfif isDefined("detail2.cited_as") and len(detail2.cited_as) gt 0>
-									<cfif detail2.toptypestatuskind eq 'Primary' >
+								<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
+									<cfif summary.toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
-									<cfif detail2.toptypestatuskind eq 'Secondary'>
+									<cfif summary.toptypestatuskind eq 'Secondary'>
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 									</cfif>
 								<cfelse>
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#detail2.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
 							</div>
 							<div class="col-12 small">
-								#detail2.higher_geog#
-								<cfif len(detail2.spec_locality)gt 0>/ #detail2.spec_locality#<cfelse></cfif>
+								#summary.higher_geog#
+								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif>
 							</div>
 						</div>
 					</div>
@@ -269,7 +235,6 @@ limitations under the License.
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 						<input type="hidden" name="suppressHeader" value="true">
 						<input type="hidden" name="action" value="nothing">
-						<input type="hidden" name="collecting_event_id" value="#collecting_event_id#">
 						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
 							<cfset isPrev = "no">
 							<cfset isNext = "no">
