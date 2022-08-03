@@ -3028,7 +3028,7 @@ limitations under the License.
 				</cfquery>
 				<cfif pres.recordcount GT 0>
 					<h2 class="h3"> Preservation History </h2>
-					<table class="px-1 w-100">
+					<table class="px-1 w-100 table">
 						<thead>
 						<tr>
 							<th>Changed By</th>
