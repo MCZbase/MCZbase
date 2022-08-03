@@ -141,7 +141,7 @@ limitations under the License.
  SELECT DISTINCT
 		collection.collection,
 		cataloged_item.collection_object_id as collection_object_id,
-		MCZBASE.get_scientificname_auths(cataloged_item.collection_object_id) as scientific_name,
+		MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 		geog_auth_rec.higher_geog,
 		<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
 			'[Masked]' as spec_locality,
