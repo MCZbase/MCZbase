@@ -218,7 +218,7 @@ limitations under the License.
 						<h2 class="h3">Manage your profile</h2>
 					</cfif>
 					<h3 class="h4">
-						<a href="/changePassword.cfm?action=nothing">Change your password</a>
+						<a href="/ChangePassword.cfm">Change your password</a>
 						<cfset pwtime = round(now() - getPrefs.pw_change_date)>
 						<cfset pwage = Application.max_pw_age - pwtime>
 						<cfif pwage lte 0>
