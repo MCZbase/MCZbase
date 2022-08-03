@@ -112,7 +112,8 @@ limitations under the License.
 		full_taxon_name,
 		higher_geog,
 		spec_locality,
-		typestatusplain
+		typestatusplain,
+		typestatuswords
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	WHERE
@@ -122,7 +123,7 @@ limitations under the License.
 <!--- (3) Display the page header ---> 
 <!--- Successfully found a specimen, set the pageTitle plus page metadata and call the header to reflect this ---> 
 <cfset addedMetaDescription="Specimen Record for: #guid# in the #header.collection# collection; #header.scientific_name#; #header.higher_geog#; #header.spec_locality#; #header.typestatusplain#">
-<cfset addedKeywords=",#header.full_taxon_name#,#header.higher_geog#,#header.type_status#, #header.cited_as#">
+<cfset addedKeywords=",#header.full_taxon_name#,#header.higher_geog#,#header.typestatuswords#, #header.cited_as#">
 <cfset pageTitle = "MCZbase #guid# specimen headers">
 <cfinclude template="/shared/_header.cfm">
 
