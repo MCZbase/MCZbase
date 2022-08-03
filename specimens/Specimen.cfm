@@ -136,42 +136,35 @@ limitations under the License.
 
 <!--- (4) Display the summary/type bar for the record --->
 <!--- TODO: Move this section to a backing method, and reload on change to any pertenent section --->
-<!--- TODO: Fix handling of identifications other than formula "A" --->
 <!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
 <cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
  SELECT DISTINCT
 		collection.collection,
 		cataloged_item.collection_object_id as collection_object_id,
-		identification.scientific_name,
-		taxonomy.full_taxon_name,
+		MCZBASE.get_scientificname_auths(cataloged_item.collection_object_id) as scientific_name,
 		geog_auth_rec.higher_geog,
 		<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
 			'[Masked]' as spec_locality,
 		<cfelse>
 			locality.spec_locality,
 		</cfif>
-		citation.type_status,
+		MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 		MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
 		MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
 		MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind
 	FROM
 		cataloged_item
 		join collection on cataloged_item.collection_id = collection.collection_id
-		join identification on identification.collection_object_id = cataloged_item.collection_object_id
-		join citation on citation.collection_object_id = cataloged_item.collection_object_id
 		join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
 		join locality on locality.locality_id = collecting_event.locality_id
 		join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-		left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
-		left join taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
 	WHERE
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2
 </cfquery>
 <cfif summary.recordcount LT 1>
 	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
-	<cfinclude template="/errors/404.cfm">
-	<cfabort>
+	<cfthrow message="Summary query returned zero rows for specimen record which exists.">
 </cfif>
 
 <cftry>
