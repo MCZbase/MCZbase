@@ -353,7 +353,7 @@ limitations under the License.
 						<h3 class="h4">
 								MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span>
 						</h3>
-						<!--- Most settings are session variables, 
+						<!--- Most settings are session variables --->
 						<!--- values are obtained from the session --->
 						<!--- changing involves both changing the persistence store and the session variable.  --->
 	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
