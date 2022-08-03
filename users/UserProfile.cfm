@@ -19,10 +19,13 @@ limitations under the License.
 <cfset addheaderresource="feedreader" />
 <cfset pageTitle="MCZbase User Profile">
 <cfinclude template = "/shared/_header.cfm">
+
 <cfparam name="action" default="nothing">
+
 <cfif len(session.username) is 0>
 	<cflocation url="/login.cfm" addtoken="false">
 </cfif>
+
 <script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 <script>
 	function pwc(p,u){
@@ -40,294 +43,290 @@ limitations under the License.
 		elem.className=clas;
 	}
 </script>
-<!------------------------------------------------------------------->
-<cfif action is "makeUser">
-<cfoutput>
-	<cfquery name="exPw" datasource="uam_god">
-		select count(*) as passwordMatchCount
-		from cf_users 
-		where 
-			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			AND PASSWORD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(pw)#"> 
-	</cfquery>
-	<cfif exPw.passwordMatchCount NEQ 1 >
-		<div class="error">
-			You did not enter the correct password.
-		</div>
-		<cfabort>
-	</cfif>
-	<cfquery name="alreadyGotOne" datasource="uam_god">
-		select count(*) c from dba_users 
-		where upper(username) = <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR">
-	</cfquery>
-	<cfif alreadyGotOne.c is not 0>
-		<cfthrow
-		   type = "user_already_exists"
-		   message = "user_already_exists"
-		   detail = "Someone tried to create user #session.username#. That user already exists."
-		   errorCode = "-123">
-		<cfabort>
-	</cfif>
-	<cftry>
-		<cftransaction>
-			<cfquery name="makeUser" datasource="uam_god">
-				create user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-					identified by <cfqueryparam value="#pw#" cfsqltype="CF_SQL_VARCHAR">
-					profile "ARCTOS_USER" default TABLESPACE users QUOTA 1G on users
-			</cfquery>
-			<cfquery name="grantConn" datasource="uam_god">
-				grant create session to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-			</cfquery>
-			<cfquery name="grantTab" datasource="uam_god">
-				grant create table to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-			</cfquery>
-			<cfquery name="grantVPD" datasource="uam_god">
-				grant execute on app_security_context to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-			</cfquery>
-			<cfquery name="usrInfo" datasource="uam_god">
-				select * from temp_allow_cf_user,cf_users where temp_allow_cf_user.user_id=cf_users.user_id and
-				cf_users.username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-			</cfquery>
-			<cfquery name="makeUserCleanup" datasource="uam_god">
-				delete from temp_allow_cf_user 
-				where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-			<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
-				Arctos user #encodeForHtml(session.username)# has successfully created an Oracle account.
-				<br>
-				You now need to assign them roles and collection access.
-				<br>Contact the DBA immediately if you did not invite this user to become an operator.
-			</cfmail>
-		</cftransaction>
-		<cfcatch>
-			<cftry>
-			<cfquery name="makeUserCleanup" datasource="uam_god">
-				drop user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
-			</cfquery>
-			<cfcatch>
-			</cfcatch>
-			</cftry>
-			<cfsavecontent variable="errortext">
-				<h3>Error in creating user.</h3>
-				<p>#cfcatch.Message#</p>
-				<p>#cfcatch.Detail#</p>
-				<hr>
-				<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
-					<CFSET ipaddress="#CGI.HTTP_X_Forwarded_For#">
-				<CFELSEif  isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
-					<CFSET ipaddress="#CGI.Remote_Addr#">
-				<cfelse>
-					<cfset ipaddress='unknown'>
-				</CFIF>
-				<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
-				<p>Client Dump:</p>
-				<hr>
-				<cfdump var="#client#" label="client">
-				<hr>
-				<p>URL Dump:</p>
-				<hr>
-				<cfdump var="#url#" label="url">
-				<p>CGI Dump:</p>
-				<hr>
-				<cfdump var="#CGI#" label="CGI">
-			</cfsavecontent>
-			<cfmail subject="Error" to="#Application.PageProblemEmail#" from="bad_authentication@#Application.fromEmail#" type="html">
-				#errortext#
-			</cfmail>
-			<h3>Error in creating user.</h3>
-			<p>#cfcatch.Message#</p>
+
+<cfswitch expression="#acction#">
+<cfcase value="makeUser">
+	<!------------------------------------------------------------------->
+	<cfoutput>
+		<cfquery name="exPw" datasource="uam_god">
+			SELECT count(*) as passwordMatchCount
+			FROM cf_users 
+			WHERE
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+				AND PASSWORD = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(pw)#"> 
+		</cfquery>
+		<cfif exPw.passwordMatchCount NEQ 1 >
+			<div class="error">
+				You did not enter the correct password.
+			</div>
 			<cfabort>
-		</cfcatch>
-	</cftry>
-	<cflocation url="/users/UserProfile.cfm" addtoken="false">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------------------->
-<div class="container-fluid">
-	<cfif action is "nothing">
-	<cfquery name="getPrefs" datasource="cf_dbuser">
-		SELECT * 
-		FROM cf_users
-			left join user_loan_request on cf_users.user_id = user_loan_request.user_id
-			left join agent_name on cf_users.username = agent_name.agent_name
-			left join person on agent_name.agent_id = person.person_id
-		WHERE 
-			agent_name.agent_name_type = 'login' and 
-			username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
-		ORDER BY cf_users.user_id
-	</cfquery>
-	
-	<cfif getPrefs.recordcount is 0>
-		<cflocation url="/Specimens.cfm" addtoken="false">
-	</cfif>
-	<cfquery name="isInv" datasource="uam_god">
-		SELECT allow 
-		FROM temp_allow_cf_user 
-		WHERE user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
-	</cfquery>
-	<cfoutput query="getPrefs" group="user_id">
-		<div class="container mt-4" id="content">
-			<div class="row mb-5">
-				<div class="col-12 col-md-6 mb-2">
-					<h1 class="h2">
-						<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
-							Welcome back, <b>#encodeForHtml(getPrefs.first_name)# #encodeForHtml(getPrefs.last_name)#</b><br>
-							<small>(login: #encodeForHtml(getPrefs.username)#)</small>
-						<cfelse>
-							<!--- not all users have agent and person records --->
-							Welcome back, #encodeForHtml(getPrefs.username)#
-						</cfif>
-					</h1>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-						<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
-						<div class="col-12">
-							<h2 class="h3">Server Settings</h2>
-							<ul>
-								<li>Application.protocol: #Application.protocol#</li>
-								<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
-									<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
-								</cfif>
-								<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
-								<li>Application.serverrole: #Application.serverrole# </li>
-								<cfif NOT isdefined("Session.gitBranch")>
-									<cftry>
-										<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-										<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-									<cfcatch>
-										<cfset gitBranch = "unknown">
-									</cfcatch>
-									</cftry>
-									<cfset Session.gitBranch = gitBranch>
-								</cfif>
-								<li>Session.gitbranch: #Session.gitbranch# </li>
-							</ul>
-							<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT count(*) ct, stale_flag 
-								FROM flat
-								GROUP BY stale_flag
-							</cfquery>
-							<h2 class="h3">FLAT Table</h2>
-							<ul>
-							<cfloop query="flatstatus">
-									<cfset flattext = "">
-									<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
-									<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
-								</cfloop>
-							<ul>
-						</div>		
-						<h2 class="h3">Manage your profile</h2>
-					</cfif>
-					<h3 class="h4">
-						<a href="/ChangePassword.cfm">Change your password</a>
-						<cfset pwtime = round(now() - getPrefs.pw_change_date)>
-						<cfset pwage = Application.max_pw_age - pwtime>
-						<cfif pwage lte 0>
-							<cfquery name="isDb" datasource="uam_god">
-								SELECT
-								(
-									select count(*) c from all_users where
-									username= <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR" >
-								)
-								+
-								(
-									select count(*) C 
-									from temp_allow_cf_user, cf_users 
-									where temp_allow_cf_user.user_id = cf_users.user_id 
-									AND cf_users.username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
-								)
-								cnt
-								FROM dual
-							</cfquery>
-							<cfif isDb.cnt gt 0>
-								<cfset session.force_password_change = "yes">
-								<cflocation url="ChangePassword.cfm" addtoken="false">
-							</cfif>
-							<cfelseif pwage lte 10>
-							<span style="color:red;"> Your password expires in #pwage# days. </span>
-						</cfif>
-					</h4>
-					<h4> 
-						<a href="/users/Searches.cfm">Manage your Saved Searches</a><br>
-						<small>Click "Save Search" from Specimen Results to save a search.</small>
-					</h4>
-					<cfif isInv.allow is 1>
-						You&apos;ve been invited to become an Operator. Password restrictions apply.
-						This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
-						but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
-						<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
-							<input type="hidden" name="action" value="makeUser">
-							<label for="pw">Enter your password:</label>
-							<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')">
-							<span id="pwstatus" style="background-color:white;"></span>
-							<br>
-							<br>
-							<span id="savBtn"><input type="submit" value="Create Account" class="btn btn-secondary"></span>
-						</form>
-						<script>
-							document.getElementById(pw).value='';
-						</script>
-					</cfif>
-					<cfquery name="getUserData" datasource="cf_dbuser">
-						SELECT
-							cf_users.user_id,
-							first_name,
-							middle_name,
-							last_name,
-							affiliation,
-							email,
-							specimens_download_profile
-						FROM
-							cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
-						WHERE
-							username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+		</cfif>
+		<cfquery name="checkDBUserExists" datasource="uam_god">
+			SELECT count(*) ct
+			FROM dba_users 
+			WHERE upper(username) = <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR">
+		</cfquery>
+		<cfif checDBUserExists.ct is not 0>
+			<cfthrow
+			   type = "user_already_exists"
+			   message = "user_already_exists"
+			   detail = "Someone tried to create user #session.username#. That user already exists."
+		   	errorCode = "-123">
+			<cfabort>
+		</cfif>
+		<cftry>
+			<cftransaction>
+				<cfquery name="makeUser" datasource="uam_god">
+					create user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
+						identified by <cfqueryparam value="#pw#" cfsqltype="CF_SQL_VARCHAR">
+						profile "ARCTOS_USER" default TABLESPACE users QUOTA 1G on users
+				</cfquery>
+				<cfquery name="grantConn" datasource="uam_god">
+					grant create session to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
+				</cfquery>
+				<cfquery name="grantTab" datasource="uam_god">
+					grant create table to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
+				</cfquery>
+				<cfquery name="grantVPD" datasource="uam_god">
+					grant execute on app_security_context to <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
+				</cfquery>
+				<cfquery name="usrInfo" datasource="uam_god">
+					select * from temp_allow_cf_user,cf_users where temp_allow_cf_user.user_id=cf_users.user_id and
+					cf_users.username = <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
+				</cfquery>
+				<cfquery name="makeUserCleanup" datasource="uam_god">
+					delete from temp_allow_cf_user 
+					where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
+				<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
+					Arctos user #encodeForHtml(session.username)# has successfully created an Oracle account.
+					<br>
+					You now need to assign them roles and collection access.
+					<br>Contact the DBA immediately if you did not invite this user to become an operator.
+				</cfmail>
+			</cftransaction>
+			<cfcatch>
+				<cftry>
+					<cfquery name="makeUserCleanup" datasource="uam_god">
+						drop user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
 					</cfquery>
+					<cfcatch>
+						<!--- no action, insert may have failed, so may be no user to drop --->
+					</cfcatch>
+					</cftry>
+					<!--- create email message text --->
+					<cfsavecontent variable="errortext">
+						<h3>Error in creating user.</h3>
+						<p>#cfcatch.Message#</p>
+						<p>#cfcatch.Detail#</p>
+						<hr>
+						<cfif isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
+							<cfset ipaddress="#CGI.HTTP_X_Forwarded_For#">
+						<cfelseif  isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
+							<cfset ipaddress="#CGI.Remote_Addr#">
+						<cfelse>
+							<cfset ipaddress='unknown'>
+						</cfif>
+						<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
+						<p>Client Dump:</p>
+						<hr>
+						<cfdump var="#client#" label="client">
+						<hr>
+						<p>URL Dump:</p>
+						<hr>
+						<cfdump var="#url#" label="url">
+						<p>CGI Dump:</p>
+						<hr>
+						<cfdump var="#CGI#" label="CGI">
+					</cfsavecontent>
+					<cfmail subject="Error" to="#Application.PageProblemEmail#" from="bad_authentication@#Application.fromEmail#" type="html">
+						#errortext#
+					</cfmail>
+					<h2 class="h3 text-warning">Error in creating user.</h2>
+					<p>#cfcatch.Message#</p>
+				<cfabort>
+			</cfcatch>
+		</cftry>
+		<cflocation url="/users/UserProfile.cfm" addtoken="false">
+	</cfoutput>
+</cfcase>
+<cfcase value="nothing">
+	<!------------------------------------------------------------------->
+	<div class="container-fluid">
+		<cfquery name="getPrefs" datasource="cf_dbuser">
+			SELECT * 
+			FROM cf_users
+				left join user_loan_request on cf_users.user_id = user_loan_request.user_id
+				left join agent_name on cf_users.username = agent_name.agent_name
+				left join person on agent_name.agent_id = person.person_id
+			WHERE 
+				agent_name.agent_name_type = 'login' and 
+				username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
+			ORDER BY cf_users.user_id
+		</cfquery>
+		<cfif getPrefs.recordcount is 0>
+			<cflocation url="/Specimens.cfm" addtoken="false">
+		</cfif>
+		<!--- check to see if user has been invited to becoem an operator --->
+		<cfquery name="isInv" datasource="uam_god">
+			SELECT allow 
+			FROM temp_allow_cf_user 
+			WHERE user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfoutput query="getPrefs" group="user_id">
+			<div class="container mt-4" id="content">
+				<div class="row mb-5">
+					<div class="col-12 col-md-6 mb-2">
+						<h1 class="h2">
+							<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
+								Welcome back, <b>#encodeForHtml(getPrefs.first_name)# #encodeForHtml(getPrefs.last_name)#</b><br>
+								<small>(login: #encodeForHtml(getPrefs.username)#)</small>
+							<cfelse>
+								<!--- not all users have agent and person records --->
+								Welcome back, #encodeForHtml(getPrefs.username)#
+							</cfif>
+						</h1>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+							<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
+							<div class="col-12">
+								<h2 class="h3">Server Settings</h2>
+								<ul>
+									<li>Application.protocol: #Application.protocol#</li>
+									<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
+										<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
+									</cfif>
+									<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
+									<li>Application.serverrole: #Application.serverrole# </li>
+									<cfif NOT isdefined("Session.gitBranch")>
+										<cftry>
+											<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+											<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+										<cfcatch>
+											<cfset gitBranch = "unknown">
+										</cfcatch>
+										</cftry>
+										<cfset Session.gitBranch = gitBranch>
+									</cfif>
+									<li>Session.gitbranch: #Session.gitbranch# </li>
+								</ul>
+								<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									SELECT count(*) ct, stale_flag 
+									FROM flat
+									GROUP BY stale_flag
+								</cfquery>
+								<h2 class="h3">FLAT Table</h2>
+								<ul>
+									<cfloop query="flatstatus">
+										<cfset flattext = "">
+										<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
+										<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
+									</cfloop>
+								<ul>
+							</div>		
+						</cfif>
+						<h2 class="h3">Manage your profile</h2>
+						<h3 class="h4">
+							<a href="/ChangePassword.cfm">Change your password</a>
+							<cfset pwtime = round(now() - getPrefs.pw_change_date)>
+							<cfset pwage = Application.max_pw_age - pwtime>
+							<cfif pwage lte 0>
+								<cfquery name="isDb" datasource="uam_god">
+									SELECT
+									(
+										select count(*) c from all_users where
+										username= <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR" >
+									)
+									+
+									(
+										select count(*) C 
+										from temp_allow_cf_user, cf_users 
+										where temp_allow_cf_user.user_id = cf_users.user_id 
+										AND cf_users.username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+									)
+									cnt
+									FROM dual
+								</cfquery>
+								<cfif isDb.cnt gt 0>
+									<cfset session.force_password_change = "yes">
+									<cflocation url="ChangePassword.cfm" addtoken="false">
+								</cfif>
+								<cfelseif pwage lte 10>
+								<span style="color:red;"> Your password expires in #pwage# days. </span>
+							</cfif>
+						</h3>
+						<h3 class="h4"> 
+							<a href="/users/Searches.cfm">Manage your Saved Searches</a><br>
+							<small>Click "Save Search" from Specimen Results to save a search.</small>
+						</h4>
+						<cfif isInv.allow is 1>
+							You&apos;ve been invited to become an Operator. Password restrictions apply.
+							This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
+							but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
+							<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
+								<input type="hidden" name="action" value="makeUser">
+								<div class="form-row pl-0">
+									<div class="col-12 mb-1">
+										<label for="pw" class="data-entry-label">Enter your password:</label>
+										<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')" class="data-entry-input reqdClr" required>
+										<span id="pwstatus" style="background-color:white;"></span>
+									</div>
+									<div class="col-12 mb-1">
+										<span id="savBtn"><input type="submit" value="Create Account" class="btn btn-secondary"></span>
+									</div>
+								</div>
+							</form>
+							<script>
+								document.getElementById(pw).value='';
+							</script>
+						</cfif>
+						<cfquery name="getUserData" datasource="cf_dbuser">
+							SELECT
+								cf_users.user_id,
+								first_name,
+								middle_name,
+								last_name,
+								affiliation,
+								email,
+								specimens_download_profile
+							FROM
+								cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
+							WHERE
+								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
+						</cfquery>
+						<h3 class="mb-0">Personal Profile</h3>
 						<form method="post" action="/users/UserProfile.cfm" name="dlForm">
 							<input type="hidden" name="user_id" value="#getUserData.user_id#">
 							<input type="hidden" name="action" value="saveProfile">
-							<h3 class="mb-0">Personal Profile</h3>
 							<h4 class="h4">
 								A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
 							</h4>
-							<div class="form-group col-md-12 col-sm-12 pl-0">
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text" name="first_name" id="basic-addon1">First Name</span>
-									</div>
-									<input type="text" name="first_name" value="#encodeForHtml(getUserData.first_name)#" class="form-control" placeholder="first_name" aria-label="first_name" aria-describedby="basic-addon1">
+							<div class="form-row pl-0">
+								<div class="col-12 mb-1">
+									<label for="first_name" class="data-entry-label">First Name</label>
+									<input type="text" name="first_name" id="first_name" value="#encodeForHtml(getUserData.first_name)#" class="data-entry-input reqdClr" required>
 								</div>
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text" name="middle_name" id="basic-addon1">Middle Name</span>
-									</div>
-									<input type="text" name="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="form-control" placeholder="middle_name" aria-label="middle_name" aria-describedby="basic-addon1">
+								<div class="col-12 mb-1">
+									<label class="data-entry-label" for="middle_name" >Middle Name</label>
+									<input type="text" name="middle_name" id="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="data-entry-input">
 								</div>
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text" name="last_name" id="basic-addon1">Last Name</span>
-									</div>
-									<input type="text" name="last_name" value="#encodeForHtml(getUserData.last_name)#" class="form-control" placeholder="last_name" aria-label="last_name" aria-describedby="basic-addon1">
+								<div class="col-12 mb-1">
+									<label class="data-entry-input" for="last_name">Last Name</label>
+									<input type="text" name="last_name" id="last_name" value="#encodeForHtml(getUserData.last_name)#" class="data-entry-input reqdClr" required>
 								</div>
-							</div>
-							<div class="form-group col-md-12 col-sm-12 pl-0">
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text" name="affiliation" id="basic-addon1">Affiliation</span>
-									</div>
-									<input type="text" name="affiliation" class="form-control" value="#encodeForHtml(getUserData.affiliation)#" placeholder="Affiliation" aria-label="affiliation" aria-describedby="basic-addon1">
+								<div class="col-12 mb-1">
+									<label class="data-entry-label" for="affiliation">Affiliation</label>
+									<input type="text" name="affiliation" id="affiliation" class="data-entry-input reqdClr" value="#encodeForHtml(getUserData.affiliation)#" required>
 								</div>
-								<div class="input-group mb-3">
-									<div class="input-group-prepend">
-										<span class="input-group-text" name="email" id="basic-addon1">Email</span>
-									</div>
-									<input type="text" name="email" class="form-control" value="#encodeForHtml(getUserData.email)#" placeholder="email" aria-label="email" aria-describedby="basic-addon1">
+								<div class="col-12 mb-1">
+									<label class="data-entry-label" for="email">Email</label>
+									<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
 								</div>
 							</div>
 							<div class="form-group col-md-12 col-sm-12 pl-0">
-								<h4>You cannot recover from a lost password unless you enter an email address.</h4>
+								<h4 class="h4">You cannot recover from a lost password unless you enter an email address.</h4>
 								<input type="submit" value="Save Profile" class="btn btn-primary ml-0 mt-1">	
 							</div>
 						</form>
-
 				
 						<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 							select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
@@ -356,24 +355,29 @@ limitations under the License.
 						<!--- Most settings are session variables --->
 						<!--- values are obtained from the session --->
 						<!--- changing involves both changing the persistence store and the session variable.  --->
-	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
-		<label for="specimens_default_action">Default tab for Specimen Search</label>
-		<cfif not isDefined("session.specimens_default_action")>
-			<cfset session.specimens_default_action = "fixedSearch">
-		</cfif>
-		<select name="specimens_default_action" id="specimens_default_action" onchange="changeSpecimensDefaultAction(this.value)">
-			<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
-			<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
-			<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
-		</select>
-		<label for="specimens_pin_guid">Pin GUID column</label>
-		<cfif not isDefined("session.specimens_pin_guid")>
-			<cfset session.specimens_pin_guid = "no">
-		</cfif>
-		<select name="specimens_pin_guid" id="specimens_pin_guid" onchange="changeSpecimensPinGuid(this.value)">
-			<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
-			<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
-		</select>
+						<div class="form-row pl-0">
+							<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
+								<div class="col-12 mb-1">
+									<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
+									<cfif not isDefined("session.specimens_default_action")>
+										<cfset session.specimens_default_action = "fixedSearch">
+									</cfif>
+									<select name="specimens_default_action" id="specimens_default_action" class="data-entry-input" onchange="changeSpecimensDefaultAction(this.value)">
+										<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
+										<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
+										<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
+									</select>
+								</div>
+								<div class="col-12 mb-1">
+									<label for="specimens_pin_guid">Pin GUID column</label>
+									<cfif not isDefined("session.specimens_pin_guid")>
+										<cfset session.specimens_pin_guid = "no">
+									</cfif>
+									<select name="specimens_pin_guid" id="specimens_pin_guid" onchange="changeSpecimensPinGuid(this.value)">
+										<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
+										<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
+									</select>
+
 		<label for="specimens_pagesize">Default Rows in Specimen Search Grid</label>
 		<cfif not isDefined("session.specimens_pagesize")>
 			<cfset session.specimens_pagesize = "25">
@@ -453,7 +457,7 @@ limitations under the License.
 			</select>
 		</cfif>
 	</form>
-
+	</div>
 
 					</div>				
 					<div class="col-12 col-md-6 float-left">
@@ -563,6 +567,8 @@ limitations under the License.
 		</cfif>
 </cfif>
 <!---------------------------------------------------------------------->
+</cfswitch>
+
 <cfif isdefined("redir") AND #redir# is "true">
 	<cfoutput>
 	<!----
