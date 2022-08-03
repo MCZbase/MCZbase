@@ -224,7 +224,7 @@ limitations under the License.
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="font-italic text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
 							</div>
 							<div class="col-12 small">

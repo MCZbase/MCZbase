@@ -177,9 +177,9 @@ limitations under the License.
 	<cfreturn cfthread["getMediaThread#tn#"].output>
 </cffunction>
 							
-<!--- getIdentifiersHTML obtain a block of html listing other id numbers for a cataloged item
- @param collection_object_id the collection_object_id for the cataloged item for which to obtain the other id numbers
- @return html for viewing other identifiers for the specified cataloged item. 
+<!--- getIdentifiersHTML obtain a block of html listing cataloge number information for a cataloged item
+ @param collection_object_id the collection_object_id for the cataloged item for which to obtain the catalog number
+ @return html for viewing catalog number information for the specified cataloged item. 
 --->
 <cffunction name="getIdentifiersHTML" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
@@ -207,10 +207,11 @@ limitations under the License.
 							</cfif>
 						</li>
 						<li class="list-group-item py-0">
-								<span class="float-left font-weight-lessbold">Cataloged Item: </span>
+								<span class="float-left font-weight-lessbold">Catalog Number: </span>
 								<span class="float-left pl-1 mb-0"> #identifiers.cat_num#</span>
 						</li>
 						<li class="list-group-item py-0">
+							<span class="float-left font-weight-lessbold">Institution Code:Collection Code:Catalog Number: </span>
 							<span class="float-left mb-0"><a href="https://mczbase.mcz.harvard.edu/guid/#identifiers.guid_prefix#:#identifiers.cat_num#">#identifiers.guid_prefix#:#identifiers.cat_num#</a></span>
 						</li>
 					</ul>
