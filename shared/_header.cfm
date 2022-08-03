@@ -826,48 +826,48 @@ limitations under the License.
 				</ul>
 			</div>
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
-							<input type="hidden" name="action" value="signOut">
-							<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
-							<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-								<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-							</cfif>
-							</button>
-						</form>
+				<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
+					<input type="hidden" name="action" value="signOut">
+					<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+						<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+							<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+						</cfif>
+					</button>
+				</form>
+			<cfelse>
+				<cfif isdefined("gotopage") and len(gotopage) GT 0>
+					<cfset gtp = gotopage>
+				<cfelse>
+					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+					<cfelse>
+						<cfset requestData = #GetHttpRequestData()#>
+						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+							<cfset gtp=requestData.headers.referer>
 						<cfelse>
-						<cfif isdefined("gotopage") and len(gotopage) GT 0>
-							<cfset gtp = gotopage>
-							<cfelse>
-							<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-								<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-								<cfelse>
-								<cfset requestData = #GetHttpRequestData()#>
-								<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
-									<cfset gtp=requestData.headers.referer>
-									<cfelse>
-									<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-								</cfif>
-							</cfif>
+							<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
 						</cfif>
-						<cfif gtp EQ '/errors/forbidden.cfm'>
-							<cfset gtp = "/UserProfile.cfm">
-						</cfif>
-						<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
-							<input type="hidden" name="action" value="signIn">
-							<input type="hidden" name="mode" value="">
-							<input type="hidden" name="gotopage" value="#gtp#">
-							<div class="login-form" id="header_login_form_div">
-								<label for="username" class="sr-only"> Username:</label>
-								<input type="text" name="username" id="username" placeholder="username" class="loginfields d-inline loginButtons loginfld1">
-								<label for="password" class="mr-1 sr-only"> Password:</label>
-								<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
-								<label for="login" class="mr-1 sr-only"> Password:</label>
-								<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-								<label for="create_account" class="mr-1 sr-only"> Password:</label>
-								<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();" aria-label="click to create new account">
-							</div>
-						</form>
 					</cfif>
+				</cfif>
+				<cfif gtp EQ '/errors/forbidden.cfm'>
+					<cfset gtp = "/UserProfile.cfm">
+				</cfif>
+				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+					<input type="hidden" name="action" value="signIn">
+					<input type="hidden" name="mode" value="">
+					<input type="hidden" name="gotopage" value="#gtp#">
+					<div class="login-form" id="header_login_form_div">
+						<label for="username" class="sr-only"> Username:</label>
+						<input type="text" name="username" id="username" placeholder="username" class="loginfields d-inline loginButtons loginfld1">
+						<label for="password" class="mr-1 sr-only"> Password:</label>
+						<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
+						<label for="login" class="mr-1 sr-only"> Password:</label>
+						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+						<label for="create_account" class="mr-1 sr-only"> Password:</label>
+						<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='loginForm';logIn.mode.value='register';submit();" aria-label="click to create new account">
+					</div>
+				</form>
+			</cfif>
 		</nav>
 	</div>
 	<!-- container //  --> 
