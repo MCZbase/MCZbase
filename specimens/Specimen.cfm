@@ -104,8 +104,39 @@ limitations under the License.
 	FROM DUAL
 </cfquery>
 
-<!--- (2) Look up summary and type information on the specimen --->
+<!--- (2) Look up summary and type information on the specimen for the html header, this isn't reloaded, so can come from flat --->
+<cfquery name="header" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ SELECT 
+		collection,
+		scientific_name,
+		higher_geog,
+		spec_locality,
+		type_status,
+		cited_as
+	FROM
+		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+	WHERE
+		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+</cfquery>
+
+<!--- (3) Display the page header ---> 
+<!--- Successfully found a specimen, set the pageTitle plus page metadata and call the header to reflect this ---> 
+<cfset addedMetaDescription="Specimen Record for: #guid# in the #header.collection# collection; #header.scientific_name#; #header.higher_geog#; #header.spec_locality#; #header.type_status# of #header.cited_as#">
+<cfset addedKeywords=",#header.full_taxon_name#,#header.higher_geog#,#header.type_status#, #header.cited_as#">
+<cfset pageTitle = "MCZbase #guid# specimen headers">
+<cfinclude template="/shared/_header.cfm">
+
+<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
+	<cfset session.sdmapclass='tinymap'>
+</cfif>
+<cfoutput>
+	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
+
+<!--- (4) Display the summary/type bar for the record --->
+<!--- TODO: Move this section to a backing method, and reload on change to any pertenent section --->
 <!--- TODO: Fix handling of identifications other than formula "A" --->
+<!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
 <cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
  SELECT DISTINCT
 		collection.collection,
@@ -136,20 +167,6 @@ limitations under the License.
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2
 </cfquery>
-<!--- (3) Display the page header ---> 
-<!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the summarys ---> 
-<cfset addedMetaDescription="Specimen Record for: #guid# in the #summary.collection# collection; #summary.scientific_name#; #summary.higher_geog#; #summary.spec_locality#; #summary.type_status# of #summary.cited_as#">
-<cfset addedKeywords=",#summary.full_taxon_name#,#summary.higher_geog#,#summary.type_status#, #summary.cited_as#">
-<cfset pageTitle = "MCZbase #guid# specimen summarys">
-<cfinclude template="/shared/_header.cfm">
-<cfif not isdefined("session.sdmapclass") or len(session.sdmapclass) is 0>
-	<cfset session.sdmapclass='tinymap'>
-</cfif>
-<cfoutput>
-	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
-</cfoutput>
-
-<!--- (4) Display the summary/type bar for the record --->
 <cfif summary.recordcount LT 1>
 	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
 	<cfinclude template="/errors/404.cfm">
