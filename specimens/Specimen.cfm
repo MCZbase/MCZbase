@@ -109,6 +109,7 @@ limitations under the License.
  SELECT 
 		collection,
 		scientific_name,
+		full_taxon_name,
 		higher_geog,
 		spec_locality,
 		typestatusplain
