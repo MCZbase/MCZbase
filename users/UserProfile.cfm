@@ -274,7 +274,8 @@ limitations under the License.
 							middle_name,
 							last_name,
 							affiliation,
-							email
+							email,
+							specimens_download_profile
 						FROM
 							cf_users left join cf_user_data on cf_users.user_id = cf_user_data.user_id
 						WHERE
@@ -348,25 +349,13 @@ limitations under the License.
 								</cfif>
 							ORDER BY name
 						</cfquery>
-						<cfquery name="getUserPrefs" datasource="cf_dbuser">
-							SELECT 
-								USERNAME, PASSWORD, TARGET, DISPLAYROWS, MAPSIZE, PARTS, ACCN_NUM, HIGHER_TAXA, AF_NUM,
-								RIGHTS, USER_ID, ACTIVE_LOAN_ID, COLLECTION, IMAGES, PERMIT, CITATION, PROJECT, PRESMETH,
-								ATTRIBUTES, COLLS, PHYLCLASS, SCINAMEOPERATOR, DATES, DETAIL_LEVEL, COLL_ROLE, CURATORIAL_STUFF,
-								IDENTIFIER, BOUNDINGBOX, KILLROW, APPROVED_TO_REQUEST_LOANS, BIGSEARCHBOX, COLLECTING_SOURCE,
-								SCIENTIFIC_NAME, CUSTOMOTHERIDENTIFIER, CHRONOLOGICAL_EXTENT, MAX_ERROR_IN_METERS, SHOWOBSERVATIONS,
-								COLLECTION_IDS, EXCLUSIVE_COLLECTION_ID, LOAN_REQUEST_COLL_ID, MISCELLANEOUS, LOCALITY,
-								RESULTCOLUMNLIST, PW_CHANGE_DATE, LAST_LOGIN, SPECSRCHPREFS, FANCYCOID, RESULT_SORT, 
-								BLOCK_SUGGEST, LOCSRCHPREFS, REPORTPREFS, SPECIMENS_DEFAULT_ACTION,
-								specimens_download_profile
-						 	FROM cf_users 
-							WHERE 
-								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
-						</cfquery>
 
 						<h3 class="h4">
 								MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span>
 						</h3>
+						<!--- Most settings are session variables, 
+						<!--- values are obtained from the session --->
+						<!--- changing involves both changing the persistence store and the session variable.  --->
 	<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
 		<label for="specimens_default_action">Default tab for Specimen Search</label>
 		<cfif not isDefined("session.specimens_default_action")>
@@ -398,7 +387,8 @@ limitations under the License.
 			<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
 			<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
 		</select>
-		<label for="specimens_pagesize">Default Profile for Columns included when downloading Specimen results as CSV </label>
+		<!---  download profile is an exception, it isn't in the session but retrieved on demand--->
+		<label for="specimens_default_profile">Default Profile for Columns included when downloading Specimen results as CSV </label>
 		<select name="specimen_default_profile" id="specimen_default_profile" onchange="changeSpecimenDefaultProfile(this.value)">
 			<option></option>
 			<cfloop query="getDownloadProfiles">
