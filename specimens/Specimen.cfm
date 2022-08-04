@@ -236,8 +236,8 @@ limitations under the License.
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
 								
-								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.verbatim_date#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+								<h2 class="h5 d-inline-block mt-0 mb-0 mb-xl-2 px-0">
+									<a class="text-dark font-weight-bold" href="javascript:void(0)">Verbatim Date: #summary.verbatim_date#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
 							</div>
 							<div class="col-12 small">
