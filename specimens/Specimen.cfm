@@ -240,7 +240,7 @@ limitations under the License.
 									<a class="text-dark font-weight-bold" href="javascript:void(0)">Verbatim Date: #summary.verbatim_date#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
 							</div>
-							<div class="col-12 small">
+							<div class="col-12">
 								#summary.higher_geog#
 								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif>
 							</div>
