@@ -1129,7 +1129,7 @@ function openHistoryDialog(collection_object_id, dialogid) {
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'position-relative w-100 float-left ui-widget-header',
+		dialogClass: 'position-relative col-12 col-md-8 col-xl-5 px-0 float-left ui-widget-header',
 		modal: false,
 		stack: true,
 		//height: "auto",
