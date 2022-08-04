@@ -34,8 +34,10 @@
 				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
 					SELECT 
 						username, name, download_profile_id, sharing, target_search, column_list
+						decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
 					FROM 
 						download_profile
+						left join agent_name on upper(download_profile.username) = upper(agent_name.agent_name) and agent_name_type = 'login'
 					WHERE
 						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 						or sharing = 'Everyone'
@@ -52,6 +54,7 @@
 						<thead class="thead-light">
 						<tr>
 							<th><strong>Name</strong></th>
+							<th><strong>Created By</strong></th>
 							<th><strong>Shared With</strong></th>
 							<th><strong>Columns</strong></th>
 							<th><strong>For Search</strong></th>
@@ -63,6 +66,7 @@
 							<cfset columnCount = ListLen(column_list)>
 							<tr id="tr#download_profile_id#">
 								<td>#encodeForHtml(name)#</td>
+								<td>#encodeForHtml(owner_name)#</td>
 								<td>#sharing#</td>
 								<td>#columnCount#</td>
 								<td>#target_search#</td>
@@ -77,8 +81,43 @@
 						</tbody>
 					</table>
 				</cfif>
-				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfile();">New</button>
-				<div id="manageProfile"></div>
+				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfileForm();">New</button>
+				<div id="manageProfile">
+					<cfquery name="getFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFields_result">
+						SELECT column_name, category, sf_sepec_res_cols_id, disp_order, label, access_role, hidden 
+						FROM
+							cf_spec_res_cols_r
+						WHERE
+							access_role = 'PUBLIC'
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								OR access_role = 'COLDFUSION_USER'
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"data_entry")>
+								OR access_role = 'DATA_ENTRY'
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+								OR access_role = 'MANAGE_SPECIMENS'
+							</cfif>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"MANAGE_TRANSACTIONS")>
+								OR access_role = 'MANAGE_TRANSACTIONS'
+							</cfif>
+						ORDER BY 
+							disp_order
+					</cfquery>
+					<div id="manageProfileFormDiv" style="display: none;">
+						<h2 class="h3">#getFields.recordcount# Columns available to include in CSV downloads for Specimens</h2>
+						<ul>
+							<cfloop query="getFields">
+								<li>#label# #category# #access_role#</li>
+							</cfloop>
+						</ul>
+					</div>
+				</div>
+				<script>
+					function newDownloadProfileForm() { 
+						$("##manageProfileFormDiv").show();
+					};
+				</script>
 			</div>
 		</section>
 	</main>
