@@ -1124,7 +1124,7 @@ function localityMapSetup(){
   */
 function openHistoryDialog(collection_object_id, dialogid) { 
 	var title = "Part Preparation and Condition History.";
-	var content = '<div id="'+dialogid+'_div" style="width: auto;padding: 0 1rem;left: 0; position: absolute;">Loading....</div>';
+	var content = '<div id="'+dialogid+'_div" style="col-12;padding: 0 1rem;left: 0; position: absolute;">Loading....</div>';
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -1134,8 +1134,8 @@ function openHistoryDialog(collection_object_id, dialogid) {
 		stack: true,
 		height: "auto",
 		width: "auto",
-		minWidth: 450,
-		minHeight: 400,
+		minWidth: "450px",
+		minHeight: "400px",
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
