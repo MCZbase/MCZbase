@@ -1,5 +1,22 @@
 /** Scripts specific to editing user profile information **/
 
+function changeSpecimenDefaultProfile(profile) {
+	$.getJSON("/users/component/functions.cfc",
+		{
+			method : "changeSpecimenDefaultProfile",
+			target_profile_id : profile,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function(r) {
+			if (r == 'success') {
+				$('#changeFeedback').html('Default CSV column download profile changed.');
+			} else {
+				alert('An error occured! \n ' + r);
+			}	
+		}
+	);
+}
 /** TODO: Refactor the backing methods for these from component/functions.cfc to users/component/functions.cfc **/
 function changeBlockSuggest (onoff) {
 	$.getJSON("/component/functions.cfc",
@@ -11,7 +28,7 @@ function changeBlockSuggest (onoff) {
 			},
 			function(r) {
 				if (r == 'success') {
-					$('#browseArctos').html('Suggest Browser disabled. You may turn this feature back on under My Stuff.');
+					$('#changeFeedback').html('Suggest Browser disabled. You may turn this feature back on under My Stuff.');
 				} else {
 					alert('An error occured! \n ' + r);
 				}	
@@ -28,7 +45,7 @@ function changeSpecimensDefaultAction (specimens_default_action) {
 			},
 			function(r) {
 				if (r == 'success') {
-					$('#browseArctos').html('Default Tab for the Specimen Search changed.');
+					$('#changeFeedback').html('Default Tab for the Specimen Search changed.');
 				} else {
 					alert('An error occured! \n ' + r);
 				}	
@@ -45,7 +62,7 @@ function changeSpecimensPinGuid (specimens_pin_guid) {
 			},
 			function(r) {
 				if (r == 'success') {
-					$('#browseArctos').html('Pin GUID Column setting for the Specimen Search changed.');
+					$('#changeFeedback').html('Pin GUID Column setting for the Specimen Search changed.');
 				} else {
 					alert('An error occured! \n ' + r);
 				}	
@@ -62,7 +79,7 @@ function changeSpecimensPageSize (specimens_pagesize) {
 			},
 			function(r) {
 				if (r == 'success') {
-					$('#browseArctos').html('Page Size setting for the Specimen Search changed.');
+					$('#changeFeedback').html('Page Size setting for the Specimen Search changed.');
 				} else {
 					alert('An error occured! \n ' + r);
 				}	

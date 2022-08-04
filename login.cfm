@@ -109,7 +109,7 @@ limitations under the License.
 						<div class="form-row my-2">
 							<cfif mode NEQ "register"> 
 								<div class="col-12 col-md-1">
-									<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="signIn.action.value='signIn';submit();" tabindex="3">
+									<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
 								</div>
 							</cfif>
 							<cfif mode EQ "">

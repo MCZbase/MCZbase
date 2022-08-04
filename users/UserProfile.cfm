@@ -98,7 +98,7 @@ limitations under the License.
 					where user_id = <cfqueryparam value="#usrInfo.user_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfmail to="#usrInfo.invited_by_email#" from="account_created@#Application.fromEmail#" subject="User Authenticated" cc="#Application.PageProblemEmail#" type="html">
-					Arctos user #encodeForHtml(session.username)# has successfully created an Oracle account.
+					MCZbase user #encodeForHtml(session.username)# has successfully created an Oracle account.
 					<br>
 					You now need to assign them roles and collection access.
 					<br>Contact the DBA immediately if you did not invite this user to become an operator.
@@ -355,8 +355,9 @@ limitations under the License.
 						<!--- Most settings are session variables --->
 						<!--- values are obtained from the session --->
 						<!--- changing involves both changing the persistence store and the session variable.  --->
+						<output id="changeFeedback">&nbsp;</output>
 						<div class="form-row pl-0">
-							<form method="post" action="myArctos.cfm" name="dlForm" class="userdataForm">
+							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
 								<div class="col-12 mb-1">
 									<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
 									<cfif not isDefined("session.specimens_default_action")>
@@ -401,24 +402,10 @@ limitations under the License.
 										<cfloop query="getDownloadProfiles">
 											<cfif getDownloadProfiles.target_search EQ "Specimens">
 												<cfset columnCount = ListLen(getDownloadProfiles.column_list)>
-												<cfif getDownloadProfiles.target_search EQ getUserData.specimens_download_profile><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+												<cfif getDownloadProfiles.download_profile_id EQ getUserData.specimens_download_profile><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 												<option value="#getDownloadProfiles.download_profile_id#" #selected#>#getDownloadProfiles.name# (#columnCount# cols. by #getDownloadProfiles.owner_name# visible to #getDownloadProfiles.sharing#)</option>
 											</cfif>
 										</cfloop>
-									</select>
-								</div>
-								<div class="col-12 mb-1">
-									<label for="block_suggest" class="data-entry-label" >Suggest Browse</label>
-									<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
-										<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
-										<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
-									</select>
-								</div>
-								<div class="col-12 mb-1">
-									<label for="showObservations" class="data-entry-label" >Include Observations?</label>
-									<select name="showObservations" id="showObservations" class="data-entry-select" onchange="changeshowObservations(this.value)">
-										<option value="0" <cfif session.showObservations neq 1> selected="selected" </cfif>>No</option>
-										<option value="1" <cfif session.showObservations is 1> selected="selected" </cfif>>Yes</option>
 									</select>
 								</div>
 								<div class="col-12 mb-1">
@@ -428,13 +415,6 @@ limitations under the License.
 										<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
 										<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
 										<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
-									</select>
-								</div>
-								<div class="col-12 mb-1">
-									<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option</label>
-									<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
-										<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
-										<option value="1" <cfif session.killRow is 1> selected="selected" </cfif>>Yes</option>
 									</select>
 								</div>
 								<div class="col-12 mb-1">
@@ -450,11 +430,17 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 mb-1">
-									<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch</label>
-									<select name="fancyCOID" id="fancyCOID"
-										size="1" class="data-entry-select" onchange="this.className='red';changefancyCOID(this.value);">
-										<option <cfif #session.fancyCOID# is not 1>selected="selected"</cfif> value="">No</option>
-										<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
+									<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
+									<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
+										<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
+										<option value="1" <cfif session.killRow is 1> selected="selected" </cfif>>Yes</option>
+									</select>
+								</div>
+								<div class="col-12 mb-1">
+									<label for="showObservations" class="data-entry-label" >Include Observations? (currently old search only)</label>
+									<select name="showObservations" id="showObservations" class="data-entry-select" onchange="changeshowObservations(this.value)">
+										<option value="0" <cfif session.showObservations neq 1> selected="selected" </cfif>>No</option>
+										<option value="1" <cfif session.showObservations is 1> selected="selected" </cfif>>Yes</option>
 									</select>
 								</div>
 								<cfif len(session.roles) gt 0 and session.roles is "public">
@@ -464,7 +450,7 @@ limitations under the License.
 										<cfelse>
 											<cfset pid="">
 										</cfif>
-										<label for="exclusive_collection_id" class="data-entry-label" >Filter Results By Collection</label>
+										<label for="exclusive_collection_id" class="data-entry-label" >Filter Results By Collection (currently old search only)</label>
 										<select name="exclusive_collection_id" id="exclusive_collection_id"
 											class="data-entry-select" onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
 			 								<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
@@ -474,6 +460,21 @@ limitations under the License.
 										</select>
 									</div>
 								</cfif>
+								<div class="col-12 mb-1">
+									<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
+									<select name="fancyCOID" id="fancyCOID"
+										size="1" class="data-entry-select" onchange="this.className='red';changefancyCOID(this.value);">
+										<option <cfif #session.fancyCOID# is not 1>selected="selected"</cfif> value="">No</option>
+										<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
+									</select>
+								</div>
+								<div class="col-12 mb-1">
+									<label for="block_suggest" class="data-entry-label" >Suggest Browse (unused)</label>
+									<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
+										<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
+										<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
+									</select>
+								</div>
 							</form>
 						</div>
 					</div>				

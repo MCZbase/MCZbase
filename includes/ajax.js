@@ -38,7 +38,7 @@ function getMedia(typ,q,tgt,rpp,pg){
 	})
 }
 function blockSuggest (onoff) {
-	$.getJSON("/component/functions.cfc",
+	$.getJSON("/users/component/functions.cfc",
 			{
 				method : "changeBlockSuggest",
 				onoff : onoff,

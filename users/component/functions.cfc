@@ -20,6 +20,63 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- changeSpecimenDefaultProfile change the user profile value for the
+ default csv column download profile.
+ @param target_profile_id the download_profile_id to use as the default.
+ @return success on success, otherwise throw an error.
+--->
+<cffunction name="changeSpecimenDefaultProfile" access="remote">
+	<cfargument name="target_profile_id" type="string" required="yes">
+	<cftransaction>
+		<cftry>
+			<cfquery name="up" datasource="cf_dbuser">
+				UPDATE cf_users 
+				SET
+					specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_profile_id#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<!--- unlike other user profile variables, not stored as a session variable but retrieved on demand (in ajax backing method for csv download dialog) --->
+			<cfset result="success">
+			<cftransaction action="commit"> 
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn result>
+</cffunction>
+
+<!--- changeBlockSuggest change the user profile block_suggest value
+   currently unused by application.
+--->
+<cffunction name="changeBlockSuggest" access="remote">
+	<cfargument name="onoff" type="string" required="yes">
+	<cftransaction>
+		<cftry>
+			<cfquery name="up" datasource="cf_dbuser">
+				UPDATE cf_users SET
+					block_suggest = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#onoff#">
+				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfset session.block_suggest = onoff>
+			<cfset result="success">
+			<cftransaction action="commit"> 
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn result>
+</cffunction>
+
 <!--- saveSearch save searches 
  @param search_name the user provided name for the search
  @param execute whether to execute the search immediately on page load, or only display the populated search form
