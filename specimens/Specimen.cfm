@@ -205,12 +205,9 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-1">
-						<div class="float-left col-12 col-md-4 px-1 my-0">
+						<div class="float-left col-12 col-md-2 px-1 my-0">
 							<h1 class="col-12 col-md-6 mb-1 h3 font-weight-bold">#GUID#</h1>
-							<div class="col-12 small">
-								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
-							</div>
+				
 						</div>
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
@@ -235,7 +232,6 @@ limitations under the License.
 						</div>
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
-								
 								<h2 class="h5 d-inline-block mt-0 mb-0 mb-xl-2 px-0">
 									Verbatim Date:<a class="text-dark font-weight-bold" href="javascript:void(0)"> #summary.verbatim_date#</a>
 								</h2>
@@ -243,6 +239,10 @@ limitations under the License.
 							<div class="col-12">
 								<h2 class="h5">#summary.higher_geog#
 								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
+							</div>
+							<div class="col-12 small">
+								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 							</div>
 						</div>
 					</div>
