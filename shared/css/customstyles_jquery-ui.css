@@ -186,6 +186,12 @@ override Bootstrap styles
 	left:30%!important;
 	right: 30%!important;
 }
+@media (max-width: 1200px) {
+.left-3 {
+	left:15%!important;
+	right: 15%!important;
+}
+}
 @media (max-width: 600px) {
 .left-3 {
 	left:3%!important;
