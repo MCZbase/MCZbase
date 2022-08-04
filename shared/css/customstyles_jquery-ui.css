@@ -184,4 +184,5 @@ override Bootstrap styles
   }
 .left-3 {
 	left:30%!important;
+	right: 30%!important;
 }
