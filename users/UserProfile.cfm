@@ -293,7 +293,7 @@ limitations under the License.
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
 						<h3 class="mb-0">Personal Profile</h3>
-						<form method="post" action="/users/UserProfile.cfm" name="dlForm">
+						<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border p-1">
 							<input type="hidden" name="user_id" value="#getUserData.user_id#">
 							<input type="hidden" name="action" value="saveProfile">
 							<h4 class="h4">
@@ -323,7 +323,7 @@ limitations under the License.
 							</div>
 							<div class="form-group col-md-12 col-sm-12 pl-0">
 								<h4 class="h4">You cannot recover from a lost password unless you enter an email address.</h4>
-								<input type="submit" value="Save Profile" class="btn btn-primary ml-0 mt-1">	
+								<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1">	
 							</div>
 						</form>
 				
@@ -479,7 +479,7 @@ limitations under the License.
 						</div>
 					</div>				
 					<div class="col-12 col-md-6 float-left">
-						<div id="divRss" class="h-100"></div>
+						<div id="divRss" class="h-75"></div>
 					</div>
 					<script>
 						$( document ).ready(function(){
@@ -491,7 +491,7 @@ limitations under the License.
 									header = header.replace("[en]", "");
 					
 									jQuery('##divRss').empty();
-									var html ='<div class="shell"><h2 class="h3 py-2 px-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=60"><span class="d-block">Recent Wiki Changes</span> </a></h2>';
+									var html ='<div class="shell h-100"><h2 class="h3 py-2 px-2 text-center">' + header + '<a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=60"><span class="d-block">Recent Wiki Changes</span> </a></h2>';
 									for(var i = 0; i < feed.items.length && i < 5; i++) {
 										var item = feed.items[i];
 										item.updated = new Date(item.updated);
