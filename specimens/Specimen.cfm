@@ -205,13 +205,10 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-1">
-						<div class="float-left col-12 col-md-2 px-1 my-0">
-							<h1 class="col-12 col-md-6 mb-1 h3 font-weight-bold">#GUID#</h1>
-				
-						</div>
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
-								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
+								<h1 class="col-12 col-md-6 mb-1 h3 font-weight-bold">#GUID#</h1>
+								<h2 class="d-inline-block mt-0 mb-0 mb-xl-1 px-0">
 									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
 								</h2>
 							</div>
