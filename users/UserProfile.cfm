@@ -409,15 +409,6 @@ limitations under the License.
 									</select>
 								</div>
 								<div class="col-12 mb-1">
-									<label for="displayRows" class="data-entry-label" >Specimen & Taxonomy Records Per Page</label>
-									<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
-										<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
-										<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
-										<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
-										<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
-									</select>
-								</div>
-								<div class="col-12 mb-1">
 									<label for="customOtherIdentifier" class="data-entry-label" >My Other Identifier</label>
 									<select name="customOtherIdentifier" id="customOtherIdentifier"
 										size="1" class="data-entry-select" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
@@ -460,6 +451,15 @@ limitations under the License.
 										</select>
 									</div>
 								</cfif>
+								<div class="col-12 mb-1">
+									<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
+									<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
+										<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
+										<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
+										<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
+										<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
+									</select>
+								</div>
 								<div class="col-12 mb-1">
 									<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
 									<select name="fancyCOID" id="fancyCOID"
