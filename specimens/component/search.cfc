@@ -2620,7 +2620,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 					<!--- has no default profile, use first in getProfiles --->
 					<cfset selected_profile_id = getProfiles.download_profile_id>
 				<cfelse>
-					<cfset selected_profile_id = getUserDefaultProfile.specimen_download_profile>
+					<cfset selected_profile_id = getUserDefaultProfile.specimens_download_profile>
 				</cfif>
 				<h3>Download Profile</h3>
 				<div class="form-row">
