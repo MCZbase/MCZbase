@@ -241,8 +241,8 @@ limitations under the License.
 								</h2>
 							</div>
 							<div class="col-12">
-								#summary.higher_geog#
-								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif>
+								<h2 class="h5">#summary.higher_geog#
+								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
 							</div>
 						</div>
 					</div>
