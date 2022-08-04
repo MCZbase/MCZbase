@@ -337,9 +337,10 @@ limitations under the License.
 						</cfquery>
 						<cfquery name="getDownloadProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
 							SELECT 
-								username, name, download_profile_id, sharing, target_search, column_list
+								username, name, download_profile_id, sharing, target_search, column_list, decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
 							FROM 
 								download_profile
+								left join agent_name on upper(download_profile.username) = upper(agent_name.agent_name) and agent_name_type = 'login'
 							WHERE
 								upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 								or sharing = 'Everyone'
@@ -402,7 +403,7 @@ limitations under the License.
 											<cfif getDownloadProfiles.target_search EQ "Specimens">
 												<cfset columnCount = ListLen(getDownloadProfiles.column_list)>
 												<cfif getDownloadProfiles.target_search EQ getUserData.specimens_download_profile><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option value="#getDownloadProfiles.download_profile_id#" #selected#>#getDownloadProfiles.name# (#columnCount# #getDownloadProfiles.username# visible to #getDownloadProfiles.sharing#)</option>
+												<option value="#getDownloadProfiles.download_profile_id#" #selected#>#getDownloadProfiles.name# (#columnCount# cols. by #getDownloadProfiles.owner_name# visible to #getDownloadProfiles.sharing#)</option>
 											</cfif>
 										</cfloop>
 									</select>
