@@ -3037,7 +3037,6 @@ limitations under the License.
 							<th>Part Name</th>
 							<th>Preserve Method</th>
 							<th>Lot Count</th>
-							<th>Remarks</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -3054,7 +3053,9 @@ limitations under the License.
 								<td> #thisDate# </td>
 								<td> #part_name# </td>
 								<td> #preserve_method# </td>
-								<td> #lotCount# </td>
+								<td>Remarks: #lotCount# </td>
+							</tr>
+							<tr>
 								<td> #coll_object_remarks# </td>
 							</tr>
 						</cfloop>
