@@ -1129,11 +1129,11 @@ function openHistoryDialog(collection_object_id, dialogid) {
 	.dialog({
 		title: title,
 		autoOpen: false,
-		dialogClass: 'dialog_fixed col-12 ui-widget-header',
+		dialogClass: 'dialog_fixed float-left ui-widget-header',
 		modal: false,
 		stack: true,
 		height: "auto",
-		width: "400px",
+		width: "auto",
 		minWidth: 350,
 		minHeight: 300,
 		draggable:true,
