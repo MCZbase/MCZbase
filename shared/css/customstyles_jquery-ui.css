@@ -182,7 +182,19 @@ override Bootstrap styles
  .ui-autocomplete-loading {
      background: transparent url("../../images/spinner_16px_reqd_bg.gif") right center no-repeat;
   }
-.ui-widget-content.left-0 {
-	left: 35%!important;
-	margin: auto!important;
+.left-3 {
+	left:30%!important;
+	right: 30%!important;
+}
+@media (max-width: 1200px) {
+.left-3 {
+	left:15%!important;
+	right: 15%!important;
+}
+}
+@media (max-width: 600px) {
+.left-3 {
+	left:3%!important;
+	right: 3%!important;
+}
 }

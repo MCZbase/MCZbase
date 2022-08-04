@@ -141,6 +141,7 @@ limitations under the License.
  SELECT DISTINCT
 		collection.collection,
 		cataloged_item.collection_object_id as collection_object_id,
+		collecting_event.verbatim_date,
 		MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 		geog_auth_rec.higher_geog,
 		<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
@@ -203,33 +204,41 @@ limitations under the License.
 					<cfset divclass="no-card">
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
-					<div class="row mb-1">
-						<div class="float-left col-12 col-md-6 px-1 my-0">
-							<h1 class="col-12 col-md-6 mb-1 h3 font-weight-bold">#GUID#</h1>
-							<div class="col-12 small">
-								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
-							</div>
-						</div>
-						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
-							<div class="col-12">
-								<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
-									<cfif summary.toptypestatuskind eq 'Primary' >
-										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
-									</cfif>
-									<cfif summary.toptypestatuskind eq 'Secondary'>
-										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
-									</cfif>
-								<cfelse>
-									<!--- No type name to display for non-type specimens --->
-								</cfif>	
-								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+					<div class="row mb-0">
+						<div class="float-left col-12 col-md-6 mr-xl-auto col-xl-3 my-1 w-auto">
+							<div class="col-12 px-0">
+								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
+								<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
 								</h2>
 							</div>
+						</div>
+						<div class="float-left col-12 mt-3 col-md-6 col-xl-3">
+							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
+								<cfif summary.toptypestatuskind eq 'Primary' >
+									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
+								</cfif>
+								<cfif summary.toptypestatuskind eq 'Secondary'>
+									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
+								</cfif>
+							<cfelse>
+								<!--- No type name to display for non-type specimens --->
+							</cfif>	
+						</div>
+							
+						<div class="float-left col-12 px-xl-0 mr-auto col-xl-6 my-1 w-auto">
+							<div class="col-12"><span class="small">Verbatim Date: </span>
+								<h2 class="h5 mb-1 d-inline-block">
+									<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summary.verbatim_date#</a>
+								</h2>
+							</div>
+							<div class="col-12">
+								<h2 class="h5 mb-0">#summary.higher_geog#
+								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
+							</div>
 							<div class="col-12 small">
-								#summary.higher_geog#
-								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif>
+								occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>
 							</div>
 						</div>
 					</div>
