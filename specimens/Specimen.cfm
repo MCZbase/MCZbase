@@ -672,7 +672,7 @@ limitations under the License.
 								</h3>
 							</div>
 							<div id="PartsPane" <cfif #partCount# gt 5>style="height:300px;"</cfif> class="collapse show" aria-labelledby="headingParts" data-parent="##accordionParts">
-								<div class="card-body px-1" id="partsCardBody">
+								<div class="card-body" id="partsCardBody">
 									<p class="smaller py-0 mb-0 text-center w-100">
 										<cfif #partCount# gt 5>click the part header twice to see all #partCount#</cfif>
 									</p>
