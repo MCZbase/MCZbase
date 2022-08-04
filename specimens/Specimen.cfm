@@ -141,6 +141,7 @@ limitations under the License.
  SELECT DISTINCT
 		collection.collection,
 		cataloged_item.collection_object_id as collection_object_id,
+		collecting_event.verbatim_date,
 		MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 		geog_auth_rec.higher_geog,
 		<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
@@ -211,8 +212,11 @@ limitations under the License.
 								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 							</div>
 						</div>
-						<div class="float-left col-12 px-0 mr-auto col-md-6 my-1 w-auto">
+						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
+								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
+									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+								</h2>
 								<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 									<cfif summary.toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
@@ -223,8 +227,14 @@ limitations under the License.
 								<cfelse>
 									<!--- No type name to display for non-type specimens --->
 								</cfif>	
+								
+							</div>
+						</div>
+						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
+							<div class="col-12">
+								
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.verbatim_date#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
 							</div>
 							<div class="col-12 small">
