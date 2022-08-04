@@ -204,14 +204,14 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-1">
-						<div class="float-left col-12 col-md-6 px-1 my-0">
+						<div class="float-left col-12 col-md-4 px-1 my-0">
 							<h1 class="col-12 col-md-6 mb-1 h3 font-weight-bold">#GUID#</h1>
 							<div class="col-12 small">
 								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 							</div>
 						</div>
-						<div class="float-right col-12 px-0 ml-auto col-md-6 my-1 w-auto">
+						<div class="float-left col-12 px-0 mr-auto col-md-6 my-1 w-auto">
 							<div class="col-12">
 								<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 									<cfif summary.toptypestatuskind eq 'Primary' >
