@@ -968,9 +968,11 @@ function openItemConditionHistoryDialog(collection_object_id, dialogId) {
 		autoOpen: false,
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
-		stack: true,
-		minWidth: 550,
-		minHeight: 200,
+		//stack: true,
+		height: 900,
+		width: 900,
+		minWidth: 400,
+		minHeight: 400,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
