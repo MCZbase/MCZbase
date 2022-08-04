@@ -204,7 +204,7 @@ limitations under the License.
 					<cfset divclass="no-card">
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
-					<div class="row mb-1">
+					<div class="row mb-0">
 						<div class="float-left col-12 col-md-6 mr-xl-auto col-xl-3 my-1 w-auto">
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h3 font-weight-bold">#GUID#</h1>
