@@ -179,7 +179,7 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
   .dialog({
     title: title,
     autoOpen: false,
-    dialogClass: 'dialog_fixed,ui-widget-header',
+    dialogClass: 'ui-widget-header',
     modal: true,
     stack: true,
     zindex: 2000,
