@@ -211,7 +211,6 @@ limitations under the License.
 						</div>
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
-								
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
 									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
 								</h2>
@@ -232,7 +231,7 @@ limitations under the License.
 						</div>
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
-								<h2 class="h5 d-inline-block mt-0 mb-0 mb-xl-2 px-0">
+								<h2 class="h5 d-inline-block mt-0 mb-0 mb-xl-1 px-0">
 									Verbatim Date:<a class="text-dark font-weight-bold" href="javascript:void(0)"> #summary.verbatim_date#</a>
 								</h2>
 							</div>
@@ -241,7 +240,7 @@ limitations under the License.
 								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
 							</div>
 							<div class="col-12 small">
-								occurrenceID: <a class="h5" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+								occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 							</div>
 						</div>
