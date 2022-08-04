@@ -479,7 +479,9 @@ limitations under the License.
 						</div>
 					</div>				
 					<div class="col-12 col-md-6 float-left">
-						<div id="divRss" class="h-75"></div>
+						<div id="divRss" class="h-75">
+							<div class="shell h-100"><h2 class="h3 py-2 px-2 text-center">Checking the wiki for documentation updates...</h2></div>
+						</div>
 					</div>
 					<script>
 						$( document ).ready(function(){
