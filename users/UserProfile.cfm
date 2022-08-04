@@ -44,7 +44,7 @@ limitations under the License.
 	}
 </script>
 
-<cfswitch expression="#acction#">
+<cfswitch expression="#action#">
 <cfcase value="makeUser">
 	<!------------------------------------------------------------------->
 	<cfoutput>
