@@ -1134,8 +1134,8 @@ function openHistoryDialog(collection_object_id, dialogid) {
 		stack: true,
 		//height: "auto",
 		//width: "400px",
-		minWidth: 400,
-		minHeight: 400,
+	//	minWidth: 400,
+	//	minHeight: 400,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
