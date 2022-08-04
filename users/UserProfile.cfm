@@ -26,7 +26,6 @@ limitations under the License.
 	<cflocation url="/login.cfm" addtoken="false">
 </cfif>
 
-<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 <script>
 	function pwc(p,u){
 		var r=orapwCheck(p,u);
@@ -410,7 +409,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 mb-1">
 									<label for="block_suggest" class="data-entry-label" >Suggest Browse</label>
-									<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="blockSuggest(this.value)">
+									<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
 										<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
 										<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
 									</select>
