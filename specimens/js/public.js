@@ -1134,7 +1134,7 @@ function openHistoryDialog(collection_object_id, dialogid) {
 		stack: true,
 		height: 'auto',
 		width: 'auto',
-		maxWidth: '600px',
+		maxWidth: 600,
 		minHeight: 500,
 		draggable:true,
 		buttons: {
