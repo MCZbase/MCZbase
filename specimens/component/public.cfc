@@ -3055,9 +3055,11 @@ limitations under the License.
 								<td> #preserve_method# </td>
 								<td>#lotCount# </td>
 							</tr>
+							<cfif len(coll_object_remarks) gt 0>
 							<tr>
 								<td colspan="5" class="w-100">Remarks:  #coll_object_remarks# </td>
 							</tr>
+							</cfif>
 						</cfloop>
 						</tbody>
 					</table>
