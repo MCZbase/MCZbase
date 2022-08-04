@@ -214,9 +214,12 @@ limitations under the License.
 						</div>
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
+								
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
 									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
 								</h2>
+							</div>
+							<div class="col-12">
 								<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 									<cfif summary.toptypestatuskind eq 'Primary' >
 										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
