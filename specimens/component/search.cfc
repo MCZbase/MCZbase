@@ -2609,6 +2609,19 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 							</cfif>
 						)
 				</cfquery>
+				<cfquery name="getUserDefaultProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getUserDefaultProfile_result">
+					SELECT specimens_download_profile 
+					FROM cf_users
+					WHERE
+						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+						and specimens_download_profile IS NOT NULL
+				</cfquery>
+				<cfif getUserDefaultProfile.recordcount EQ 0>
+					<!--- has no default profile, use first in getProfiles --->
+					<cfset selected_profile_id = getProfiles.download_profile_id>
+				<cfelse>
+					<cfset selected_profile_id = getUserDefaultProfile.specimen_download_profile>
+				</cfif>
 				<h3>Download Profile</h3>
 				<div class="form-row">
 					<div class="col-12">
@@ -2620,18 +2633,18 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						</script>
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
 						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
-							<cfset selected="selected">
 							<cfloop query="getProfiles">
-								<cfif selected EQ "selected">
-									<cfset profile_id = download_profile_id>
+								<cfif download_profile_id EQ selected_profile_id>
+									<cfset selected = "selected">
+								<cfelse>
+									<cfset selected="">
 								</cfif>
 								<option value="#download_profile_id#" #selected#>#name# (Available to: #sharing#)</option>
-								<cfset selected="">
 							</cfloop>
 						</select>
 					</div>
 					<div class="col-12">
-						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#profile_id#" download="#filename#" >Download as CSV</a>
+						<a id="specimencsvdownloadbutton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" aria-label="Export results to csv" href="/specimens/component/search.cfc?method=getSpecimensAsCSVProfile&result_id=#encodeForUrl(result_id)#&download_profile_id=#selected_profile_id#" download="#filename#" >Download as CSV</a>
 					</div>
 				</div>
 			<cfcatch>
