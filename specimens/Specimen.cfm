@@ -205,7 +205,7 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-1">
-						<div class="float-left col-12 mr-auto col-xl-3 my-1 w-auto">
+						<div class="float-left col-12 col-md-6 mr-xl-auto col-xl-3 my-1 w-auto">
 							<div class="col-12 px-1">
 								<h1 class="col-12 mb-1 h3 font-weight-bold">#GUID#</h1>
 								<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
@@ -213,7 +213,7 @@ limitations under the License.
 								</h2>
 							</div>
 						</div>
-						<div class="col-12 mt-3 col-xl-3">
+						<div class="float-left col-12 mt-3 col-md-6 col-xl-3">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
 									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
@@ -238,7 +238,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 small">
 								occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="20" alt="JSON-LD"></a>
+								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>
 							</div>
 						</div>
 					</div>
