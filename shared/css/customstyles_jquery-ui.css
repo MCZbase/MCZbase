@@ -182,6 +182,6 @@ override Bootstrap styles
  .ui-autocomplete-loading {
      background: transparent url("../../images/spinner_16px_reqd_bg.gif") right center no-repeat;
   }
-.left-0 {
-	left:0!important;
+.left-3 {
+	left:30%!important;
 }
