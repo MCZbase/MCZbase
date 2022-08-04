@@ -152,7 +152,8 @@ limitations under the License.
 		MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
 		MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
 		MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
-		MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind
+		MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind,
+		MCZBASE.GET_SCIENTIFIC_NAME_AUTHS(cataloged_item.collection_object_id) as scinameauth
 	FROM
 		cataloged_item
 		join collection on cataloged_item.collection_id = collection.collection_id
@@ -209,7 +210,7 @@ limitations under the License.
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
 								<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
+									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name# #summary.scinameauth#</a>
 								</h2>
 							</div>
 						</div>
