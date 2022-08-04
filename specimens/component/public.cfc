@@ -3053,10 +3053,10 @@ limitations under the License.
 								<td> #thisDate# </td>
 								<td> #part_name# </td>
 								<td> #preserve_method# </td>
-								<td>Remarks: #lotCount# </td>
+								<td>#lotCount# </td>
 							</tr>
 							<tr>
-								<td> #coll_object_remarks# </td>
+								<td class="w-100">Remarks:  #coll_object_remarks# </td>
 							</tr>
 						</cfloop>
 						</tbody>
