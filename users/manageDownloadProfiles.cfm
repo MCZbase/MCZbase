@@ -33,7 +33,7 @@
 				<h1 class="h2 w-100">Manage profiles for columns in Specimen Search CSV downloads for #encodeForHtml(session.username)#</h1>
 				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
 					SELECT 
-						username, name, download_profile_id, sharing, target_search, column_list
+						username, name, download_profile_id, sharing, target_search, column_list,
 						decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
 					FROM 
 						download_profile
