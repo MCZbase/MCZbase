@@ -233,7 +233,7 @@ limitations under the License.
 								</h2>
 							</div>
 							<div class="col-12">
-								<h2 class="h5 mb-1">#summary.higher_geog#
+								<h2 class="h5 mb-1 font-weight-bold">#summary.higher_geog#
 								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
 							</div>
 							<div class="col-12 small">
