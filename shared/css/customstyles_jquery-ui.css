@@ -184,4 +184,5 @@ override Bootstrap styles
   }
 .left-0 {
 	left: 0!important;
+	margin: auto!important;
 }
