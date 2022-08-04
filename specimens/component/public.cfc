@@ -3056,7 +3056,7 @@ limitations under the License.
 								<td>#lotCount# </td>
 							</tr>
 							<tr>
-								<td class="w-100">Remarks:  #coll_object_remarks# </td>
+								<td colspan="5" class="w-100">Remarks:  #coll_object_remarks# </td>
 							</tr>
 						</cfloop>
 						</tbody>
