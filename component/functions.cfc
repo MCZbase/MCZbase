@@ -4716,23 +4716,6 @@
 	<cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------->
-<cffunction name="changeBlockSuggest" access="remote">
-	<cfargument name="onoff" type="string" required="yes">
-	<cftry>
-			<cfquery name="up" datasource="cf_dbuser">
-				UPDATE cf_users SET
-					block_suggest = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#onoff#">
-				WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfset session.block_suggest = onoff>
-		<cfset result="success">
-	<cfcatch>
-		<cfset result = "#cfcatch.Message# #cfcatch.Detail#">
-	</cfcatch>
-	</cftry>
-	<cfreturn result>
-</cffunction>
-<!----------------------------------------------------------------------------------------->
 <cffunction name="changeSpecimensDefaultAction" access="remote">
 	<cfargument name="specimens_default_action" type="string" required="yes">
 	<cftry>

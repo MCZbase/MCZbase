@@ -1033,7 +1033,7 @@ function changekillRows(a) {
 }
 
 function blockSuggest(a) {
-    $.getJSON("/component/functions.cfc", {
+    $.getJSON("/users/component/functions.cfc", {
         method: "changeBlockSuggest",
         onoff: a,
         returnformat: "json",
