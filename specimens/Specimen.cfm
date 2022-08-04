@@ -226,7 +226,7 @@ limitations under the License.
 							</cfif>	
 						</div>
 							
-						<div class="float-left col-12 mr-auto col-xl-6 my-1 w-auto">
+						<div class="float-left col-12 px-xl-0 mr-auto col-xl-6 my-1 w-auto">
 							<div class="col-12"><span class="small">Verbatim Date: </span>
 								<h2 class="h5 mb-1 d-inline-block">
 									<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summary.verbatim_date#</a>
