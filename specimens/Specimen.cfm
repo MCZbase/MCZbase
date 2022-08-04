@@ -216,7 +216,7 @@ limitations under the License.
 							<div class="col-12">
 								
 								<h2 class="d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
 								</h2>
 							</div>
 							<div class="col-12">
@@ -237,7 +237,7 @@ limitations under the License.
 							<div class="col-12">
 								
 								<h2 class="h5 d-inline-block mt-0 mb-0 mb-xl-2 px-0">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)">Verbatim Date: #summary.verbatim_date#</a>&nbsp;<!---<span class="sm-caps h3">#author_text#</span>--->
+									Verbatim Date:<a class="text-dark font-weight-bold" href="javascript:void(0)"> #summary.verbatim_date#</a>
 								</h2>
 							</div>
 							<div class="col-12">
