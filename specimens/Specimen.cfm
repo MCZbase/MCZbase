@@ -212,19 +212,18 @@ limitations under the License.
 									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
 								</h2>
 							</div>
-							<div class="col-12">
-								<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
-									<cfif summary.toptypestatuskind eq 'Primary' >
-										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
-									</cfif>
-									<cfif summary.toptypestatuskind eq 'Secondary'>
-										<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
-									</cfif>
-								<cfelse>
-									<!--- No type name to display for non-type specimens --->
-								</cfif>	
-								
-							</div>
+						</div>
+						<div class="col-12 col-md-4">
+							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
+								<cfif summary.toptypestatuskind eq 'Primary' >
+									<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
+								</cfif>
+								<cfif summary.toptypestatuskind eq 'Secondary'>
+									<h2 class="d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
+								</cfif>
+							<cfelse>
+								<!--- No type name to display for non-type specimens --->
+							</cfif>	
 						</div>
 						<div class="float-left col-12 px-0 mr-auto col-md-4 my-1 w-auto">
 							<div class="col-12">
