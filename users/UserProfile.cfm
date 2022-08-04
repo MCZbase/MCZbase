@@ -394,6 +394,11 @@ limitations under the License.
 										<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
 									</select>
 								</div>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<div class="col-12 mb-1">
+										<span class="h4"><a href="users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
+									</div>
+								</cfif>
 								<div class="col-12 mb-1">
 									<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
 									<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
