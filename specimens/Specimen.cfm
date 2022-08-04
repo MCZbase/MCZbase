@@ -229,11 +229,11 @@ limitations under the License.
 						<div class="float-left col-12 px-0 mr-auto col-md-6 my-1 w-auto">
 							<div class="col-12"><span class="small">Verbatim Date: </span>
 								<h2 class="h5 mb-1 d-inline-block">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)"> #summary.verbatim_date#</a>
+									<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summary.verbatim_date#</a>
 								</h2>
 							</div>
 							<div class="col-12">
-								<h2 class="h5 mb-1 font-weight-bold">#summary.higher_geog#
+								<h2 class="h5 mb-1">#summary.higher_geog#
 								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
 							</div>
 							<div class="col-12 small">
