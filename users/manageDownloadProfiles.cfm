@@ -84,7 +84,7 @@
 				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfileForm();">New</button>
 				<div id="manageProfile">
 					<cfquery name="getFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFields_result">
-						SELECT column_name, category, sf_sepec_res_cols_id, disp_order, label, access_role, hidden 
+						SELECT column_name, category, sf_spec_res_cols_id, disp_order, label, access_role, hidden 
 						FROM
 							cf_spec_res_cols_r
 						WHERE
