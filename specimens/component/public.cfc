@@ -67,6 +67,11 @@ limitations under the License.
 						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
 					FROM DUAL
 				</cfquery>
+				<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select GUID 
+					from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
+					where collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
 				<cfquery name="summaryheader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT DISTINCT
 						collection.collection,
@@ -168,8 +173,8 @@ limitations under the License.
 												<cfif len(summaryheader.spec_locality)gt 0>/ #summaryheader.spec_locality#<cfelse></cfif></h2>
 											</div>
 											<div class="col-12 small">
-										<!---		occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-												<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>--->
+												occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#c.GUID#">https://mczbase.mcz.harvard.edu/guid/#c.GUID#</a>
+												<a href="/guid/#c.GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>
 											</div>
 										</div>
 									</div>
