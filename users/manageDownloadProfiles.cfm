@@ -135,7 +135,7 @@
 									<ul>
 										<cfloop query="getFields">
 											<cfif minimal_fg EQ 1>
-												<li>#label#<li>
+												<li>#label#</li>
 											</cfif>
 										</cfloop>
 									</ul>
