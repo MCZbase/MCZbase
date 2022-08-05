@@ -143,7 +143,7 @@ limitations under the License.
 									<div class="row mb-0">
 										<div class="float-left col-12 col-md-6 mr-xl-auto col-xl-3 my-1 w-auto">
 											<div class="col-12 px-0">
-												<!---<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>--->
+												<h1 class="col-12 mb-1 h4 font-weight-bold">#c.GUID#</h1>
 												<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 													<a class="text-dark font-weight-bold" href="javascript:void(0)">#summaryheader.scientific_name#</a>
 												</h2>
