@@ -216,7 +216,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 								col-12 col-xl-5
 							<cfelse>
-								col-11 </cfif>
+								col-6 </cfif>
 						">
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
@@ -235,7 +235,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 								col-12 col-xl-1
 							<cfelse>
-								col-11 </cfif>
+								col-1 </cfif>
 							">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
@@ -259,7 +259,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-5
 							<cfelse> 
-								col-xl-12 </cfif>
+								col-xl-5 </cfif>
 							">
 							<div class="col-12 px-xl-0"><span class="small">Verbatim Date: </span>
 								<h2 class="h5 mb-1 d-inline-block">
