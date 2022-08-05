@@ -213,7 +213,7 @@ limitations under the License.
 								</h2>
 							</div>
 						</div>
-						<div class="float-left col-12 mt-1 mt-md-3 pr-md-0 <cfif len(summary.cited_as) gt 0>col-xl-3 <cfelse> </cfif>">
+						<div class="float-left col-12 mt-1 mt-xl-3 pr-md-0 <cfif len(summary.cited_as) gt 0>col-xl-3 <cfelse> </cfif>">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
 									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
