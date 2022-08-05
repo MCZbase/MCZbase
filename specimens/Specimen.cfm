@@ -138,7 +138,7 @@ limitations under the License.
 					
 	<div id="headerDialog"></div>
 	<cfset blockHeader = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
-	<div class="container-fluid" id="content">
+	<div class="container-fluid" id="spec_header">
 		#blockHeader# 
 	</div>				
 				
