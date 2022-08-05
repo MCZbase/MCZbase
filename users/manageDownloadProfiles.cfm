@@ -135,7 +135,7 @@
 											allowDrop:true,
 											renderer:function (index, label, value) 
 												{
-												    var datarecord = data[index];
+												    var datarecord = $("##available_fields").jqxListBox('getItem', index );
 												    return "<strong>"+ datarecord.label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
 												}
 										});
@@ -180,7 +180,7 @@
 											allowDrop:true,
 											renderer:function (index, label, value) 
 												{
-												    var datarecord = data[index];
+												    var datarecord = $("##included_fields").jqxListBox('getItem', index );
 												    return "<strong>"+ datarecord.label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
 												}
 										});
