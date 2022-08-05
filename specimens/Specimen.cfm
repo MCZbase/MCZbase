@@ -208,7 +208,7 @@ limitations under the License.
 					<div class="row mb-0">
 						<div class="float-left pr-md-0 my-1 
 							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
-								col-12 col-xl-3 
+								col-12 col-xl-4 
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-6
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 0> 
