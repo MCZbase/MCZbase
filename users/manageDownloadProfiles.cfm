@@ -135,8 +135,12 @@
 											allowDrop:true,
 											renderer:function (index, label, value) 
 												{
-												    var datarecord = $("##available_fields").jqxListBox('getItem', index );
-												    return "<strong>"+ datarecord.label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
+													var datarecord = $("##available_fields").jqxListBox('source').records.filter(obj => { return obj.id===value })[0];
+													if (datarecord===undefined) { 
+														return label;
+													} else {
+														return "<strong>"+ label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
+													}
 												}
 										});
 									});	
@@ -180,8 +184,12 @@
 											allowDrop:true,
 											renderer:function (index, label, value) 
 												{
-												    var datarecord = $("##included_fields").jqxListBox('getItem', index );
-												    return "<strong>"+ datarecord.label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
+													var datarecord = $("##included_fields").jqxListBox('source').records.filter(obj => { return obj.id===value })[0];
+													if (datarecord===undefined) { 
+														return label;
+													} else {
+														return "<strong>"+ label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
+													}
 												}
 										});
 									});	
