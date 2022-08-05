@@ -51,8 +51,60 @@ limitations under the License.
 	</cfif>
 	<cfreturn returnValue>
 </cffunction>
+
+<cffunction name="getSummaryHeaderHTML" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+	<cfthread name="getSummaryHeaderThread">
+		<cfoutput>
+			<cftry>
+				<cfquery name="summaryheader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT DISTINCT
+						collection.collection,
+						cataloged_item.collection_object_id as collection_object_id,
+						collecting_event.verbatim_date,
+						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
+						geog_auth_rec.higher_geog,
+						<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
+							'[Masked]' as spec_locality,
+						<cfelse>
+							locality.spec_locality,
+						</cfif>
+						MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+						MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
+						MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
+						MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind
+					FROM
+						cataloged_item
+						join collection on cataloged_item.collection_id = collection.collection_id
+						join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+						join locality on locality.locality_id = collecting_event.locality_id
+						join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+					WHERE
+						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						AND rownum < 2
+				</cfquery>
+				<cfif summaryheader.recordcount LT 1>
+					<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
+					<cfthrow message="Summary query returned zero rows for specimen record which exists.">
+				</cfif>
+				
+				<cfloop query="summaryheader">
+					#collection#, #collection_object_id#, #verbatim_date#, #scientific_name#, #higher_geog#, #spec_locality#, #type_status#, #typestatusplain#, #cited_as#, #toptypestatuskind#
+				</cfloop>
+			<cfcatch>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+				<cfset function_called = "#GetFunctionCalledName()#">
+				<h2 class='h3'>Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getSummaryHeaderThread" />
+	<cfreturn getSummaryHeaderThread.output>
+</cffunction>
 					
-<cffunction name="getSummaryHeader" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="getSummaryHeader" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="collection_object_id" type="string" required="yes">
 	<cfargument name="GUID" type="string" required="yes">
 		<cfthread name="getSummaryHeaderThread">
@@ -83,13 +135,11 @@ limitations under the License.
 				AND rownum < 2
 		</cfquery>
 		<cfif summaryheader.recordcount LT 1>
-			<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
 			<cfthrow message="Summary query returned zero rows for specimen record which exists.">
 		</cfif>
 		<cftry>
 		<cfoutput>
 			<cfset typeName = summaryheader.type_status>
-			<!--- handle the edge cases of a specimen having more than one type status --->
 			<cfif summaryheader.toptypestatuskind eq 'Primary' > 
 				<cfset twotypes = '#replace(summaryheader.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 				<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
@@ -140,7 +190,7 @@ limitations under the License.
 											<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 										</cfif>
 									<cfelse>
-										<!--- No type name to display for non-type specimens --->
+										
 									</cfif>	
 								</div>
 
@@ -168,7 +218,6 @@ limitations under the License.
 				<section class="row" id="resultSetNavigationSection">
 					<div class="col-12 px-2">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
 							<form name="incPg" method="post" action="/specimens/Specimen.cfm">
 								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								<input type="hidden" name="suppressHeader" value="true">
@@ -207,7 +256,7 @@ limitations under the License.
 							</form>
 						</cfif>
 					</div>					
-				</section><!-- end resultSetNavivationSection --->
+				</section>
 			</div>
 		</cfoutput>
 		<cfcatch>
@@ -217,7 +266,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getSummaryHeaderThread#tn#" />
 	<cfreturn cfthread["getSummaryHeaderThread#tn#"].output>
-</cffunction>
+</cffunction>--->
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
  @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'documents' for
