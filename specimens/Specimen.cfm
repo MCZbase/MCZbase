@@ -206,7 +206,18 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-0">
-						<div class="float-left col-12 mr-xl-auto pr-md-0 <cfif len(summary.cited_as) gt 0>col-12 col-xl-4 <cfelse>col-12 <cfif len(header.imgurl) gt 0> <cfelse>col-xl-7</cfif> </cfif> my-1 w-auto">
+						<div class="float-left col-12 mr-xl-auto pr-md-0 
+							<cfif len(summary.cited_as) gt 0>
+								col-12 col-xl-4 
+							<cfelse>
+								col-12 
+								<cfif len(header.imgurl) gt 0> 
+									col-xl-5
+								<cfelse>
+									col-xl-7
+								</cfif> 
+							</cfif> 
+						my-1 w-auto">
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
 								<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
