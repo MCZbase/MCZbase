@@ -46,6 +46,9 @@
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							or sharing = 'MCZ'
 						</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+							OR download_profile_id IS NOT NULL
+						</cfif>
 					ORDER BY name
 				</cfquery>
 				<cfif getProfiles.recordcount is 0>
@@ -248,6 +251,8 @@
 													retval = JSON.parse(result)
 													if (retval.DATA.STATUS[0]=="inserted") { 
 														$("##feedback").html(retval.DATA.MESSAGE[0]);
+														// TODO: reload profile list with ajax
+														window.location.reload(false);
 													} else {
 														// we shouldn't get here, but in case.
 														alert("Error, problem adding new download profile");
