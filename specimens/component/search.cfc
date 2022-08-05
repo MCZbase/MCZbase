@@ -2508,7 +2508,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 			WHERE
 				download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 				AND (
-					upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
+					upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 					OR
 					sharing = 'Everyone'
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
