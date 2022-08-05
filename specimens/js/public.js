@@ -1,6 +1,6 @@
 /** Functions used (only) on the specimen details page.  **/
 
-function loadSummaryHeaderHTML(collection_object_id,targetDivId) { 
+function getSummaryHeaderHTML(collection_object_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
 		data : {
