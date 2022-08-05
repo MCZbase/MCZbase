@@ -206,7 +206,7 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-0">
-						<div class="float-left mr-xl-auto pr-md-0 my-1 w-auto
+						<div class="float-left pr-md-0 my-1 
 							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-4 
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) eq 0> 
