@@ -109,6 +109,35 @@
 						<div class="form-row">
 							<div class="col-6">
 								<h3 class="h4">#getFields.recordcount# Columns available</h3>
+								<div id="available_fields" class="w-75"></div>
+								<script>
+									$(document).ready(function () {
+										var fieldList = [
+											<cfset separator="">
+											<cfloop query="getFields">
+												<cfif minimal_fg EQ 0>
+													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#" }
+													<cfset separator=",">
+												</cfif>
+											</cfloop>
+										];
+										var source = {
+											datatype: "json",	
+											datafields: [ {name:"label"},{name:"id"}],
+											localdata: fieldList
+										};
+										var dataAdaptor = new $.jqx.dataAdapter(source);
+										$("##available_fields").jqxListBox({ 
+											source: dataAdaptor, 
+											displayMember:"name", valueMember:"id",
+											autoHeight:true,
+											allowDrag:true,
+											allowDrop:true,
+											dropAction:"copy"
+										});
+									});	
+								</script>
+								<!---
 								<table class="sortable table table-responsive">
 									<thead>
 										<tr>
@@ -129,6 +158,7 @@
 										</cfloop>
 									</tbody>
 								</table>
+								--->
 							</div>
 							<div class="col-6">
 								<label class="data-entry-label" for="name">Column Profile Name</label>
@@ -142,7 +172,7 @@
 									<option value="Everyone">Everyone</option>
 								</select>
 								<label class="h4" for="included_fields">Columns Included</label>
-								<div id="included_fields"></div>
+								<div id="included_fields" class="w-75"></div>
 								<script>
 									$(document).ready(function () {
 										var fieldList = [
@@ -169,6 +199,8 @@
 										});
 									});	
 								</script>
+								<!--- $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems')[0].label; (or .value for id) ---> 
+								<button class="btn btn-xs btn-primary disabled">Save</button>
 							</div>
 						</div>
 					</div>
