@@ -123,7 +123,7 @@
 											<tr>
 												<td>#label#</td>
 												<td>#category#</td>
-												<td>##access_role#</td>
+												<td>#access_role#</td>
 												<td>#disp_order#</td>
 											</tr>
 										</cfloop>
