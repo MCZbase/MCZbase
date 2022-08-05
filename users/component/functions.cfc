@@ -105,7 +105,7 @@ limitations under the License.
 				WHERE
 					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 					AND
-					specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+					download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
 			</cfquery>
 			<cfif deleteProfile_result.recordcount EQ 1>
 				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
