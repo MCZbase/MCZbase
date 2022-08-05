@@ -81,7 +81,7 @@
 								<td>#encodeForHtml(name)#</td>
 								<td>#encodeForHtml(owner_name)#</td>
 								<td>#sharing#</td>
-								<cfset column_list_formatted = replace(column_list,",",", ","all")>
+								<cfset column_list_formatted = lcase(replace(column_list,",",", ","all"))>
 								<td><button class="btn btn-xs btn-info" onClick="messageDialog('#column_list_formatted#');">#columnCount#</button></td>
 								<td>#target_search#</td>
 								<td>#checkUse.ct#</td>
