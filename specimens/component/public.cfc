@@ -62,6 +62,11 @@ limitations under the License.
 				<cfelse>
 					<cfset oneOfUs = 0>
 				</cfif>
+				<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						concatEncumbranceDetails(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">) encumbranceDetail
+					FROM DUAL
+				</cfquery>
 				<cfquery name="summaryheader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT DISTINCT
 						collection.collection,
