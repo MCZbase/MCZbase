@@ -84,7 +84,7 @@
 				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfileForm();">New</button>
 				<div id="manageProfile">
 					<cfquery name="getFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFields_result">
-						SELECT column_name, category, cf_spec_res_cols_id, disp_order, label, access_role, hidden 
+						SELECT column_name, category, cf_spec_res_cols_id, disp_order, label, access_role, hidden, minimal_fg
 						FROM
 							cf_spec_res_cols_r
 						WHERE
@@ -106,11 +106,41 @@
 					</cfquery>
 					<div id="manageProfileFormDiv" style="display: none;">
 						<h2 class="h3">#getFields.recordcount# Columns available to include in CSV downloads for Specimens</h2>
-						<ul>
-							<cfloop query="getFields">
-								<li>#label# #category# #access_role#</li>
-							</cfloop>
-						</ul>
+						<div class="form-row">
+							<div class="col-6">
+								<h3 class="h4">#getFields.recordcount# Columns available to include in CSV downloads for Specimens</h3>
+								<table class="sortable table table-responsive">
+									<thead>
+										<tr>
+											<th>Column</th>
+											<th>Category</th>
+											<th>Visible To</th>
+											<th>Order</th>
+										</tr>
+									</thead>
+									<tbody>
+										<cfloop query="getFields">
+											<tr>
+												<td>#label#</td>
+												<td>#category#</td>
+												<td>##access_role#</td>
+												<td>#disp_order#</td>
+											</tr>
+										</cfloop>
+									</tbody>
+								</ul>
+							</div>
+							<div class="col-6">
+								<h3 class="h4">Columns Included</h3>
+									<ul>
+										<cfloop query="getFields">
+											<cfif minimal_fg EQ 1>
+												<li>#label#<li>
+											</cfif>
+										</cfloop>
+									</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 				<script>
