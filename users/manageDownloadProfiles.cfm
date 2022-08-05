@@ -60,7 +60,7 @@
 							<th><strong>Shared With</strong></th>
 							<th><strong>Columns</strong></th>
 							<th><strong>For Search</strong></th>
-							<th>&nbsp;</th>
+							<th>Manage My Profiles</th>
 						</tr>
 						</thead>
 						<tbody>
