@@ -13,9 +13,9 @@
 			},
 			success : function(result) { 
 				retval = JSON.parse(result)
-				if (retval[0].status=="deleted") { 
+				if (retval.DATA.status[0]=="deleted") { 
 					$("#tr" + retval[0].removed_id).hide();
-					$("#userSearchCount").html(retval[0].user_search_count);
+					$("#userSearchCount").html(retval.DATA.user_search_count[0]);
 				} else {
 					// we shouldn't get here, but in case.
 					alert("Error, problem deleting download profile");
@@ -246,8 +246,8 @@
 												},
 												success : function(result) { 
 													retval = JSON.parse(result)
-													if (retval[0].status=="inserted") { 
-														$("##feedback").html(retval[0].message);
+													if (retval.DATA.status[0]=="inserted") { 
+														$("##feedback").html(retval.DATA.message[0]);
 													} else {
 														// we shouldn't get here, but in case.
 														alert("Error, problem adding new download profile");
