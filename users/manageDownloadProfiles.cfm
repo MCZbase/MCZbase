@@ -176,7 +176,7 @@
 									<option value="Everyone">Everyone</option>
 								</select>
 								<label class="h4" for="included_fields">Columns Included (drag to columns available to remove)</label>
-								<button class="btn btn-xs btn-primary disabled" onClick="saveProfile();">Save</button>
+								<button class="btn btn-xs btn-primary" onClick="saveProfile();">Save</button>
 								<output id="feedback"></output>
 								<div id="included_fields" class="w-75"></div>
 								<script>
