@@ -1,5 +1,21 @@
 /** Functions used (only) on the specimen details page.  **/
 
+function loadSummaryHeaderHTML(collection_object_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/specimens/component/public.cfc",
+		data : {
+			method : "getSummaryHeaderHTML",
+			collection_object_id: collection_object_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading header of Specimen Details");
+		},
+		dataType: "html"
+	});
+};
 /** loadMedia populate an html block with the media for 
  * a cataloged item
  * @param collection_object_id for the cataloged item for which
