@@ -160,8 +160,14 @@
 											localdata: fieldList
 										};
 										var dataAdaptor = new $.jqx.dataAdapter(source);
-										$("##included_fields").jqxListBox({ source: dataAdaptor, displayMember:"name", valueMember:"id"});
-									}	
+										$("##included_fields").jqxListBox({ 
+											source: dataAdaptor, 
+											displayMember:"name", valueMember:"id",
+											autoHeight:true,
+											allowDrag:true,
+											allowDrop:true
+										});
+									});	
 								</script>
 							</div>
 						</div>
