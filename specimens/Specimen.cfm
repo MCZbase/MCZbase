@@ -207,16 +207,16 @@ limitations under the License.
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-0">
 						<div class="float-left pr-md-0 my-1 
-							<cfif len(header.imageurl) gt 0 and len(summary.toptypestatuskind) gt 0> 
+							<cfif len(header.imageurl) gt 6 and len(summary.toptypestatuskind) gt 6> 
 								col-12 col-xl-4 
-							<cfelseif len(header.imageurl) gt 0 and len(summary.toptypestatuskind) lt 1> 
+							<cfelseif len(header.imageurl gt 6 and summary.toptypestatuskind is null> 
 								col-12 col-xl-6
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) gt 0> 
+							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) gt 6> 
 								col-12 col-xl-3 
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) lt 1>
+							<cfelseif header.imageurl is null and summary.toptypestatuskind is null>
 								col-12 col-xl-5
 							<cfelse>
-								col-11 </cfif>
+								col-6 </cfif>
 						">
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
