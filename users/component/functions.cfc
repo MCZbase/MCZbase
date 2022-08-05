@@ -20,6 +20,43 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- deleteDownloadProfile delete a specified download profile.
+ @param download_profile_id the download_profile_id to delete.
+ @return a data structure containing status=deleted on success, otherwise throw an error.
+--->
+<cffunction name="deleteDownloadProfile" access="remote" returntype="query">
+	<cfargument name="download_profile_id" type="string" required="yes">
+	<cfset result=queryNew("status, message")>
+	<cftransaction>
+		<cftry>
+			<cfquery name="deleteProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteProfile_result">
+				DELETE FROM
+					download_profile
+				WHERE
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND
+					specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_profile_id#">
+			</cfquery>
+			<cfif deleteProfile_result.recordcount EQ 1>
+				<cfset t = queryaddrow(result,1)>
+				<cfset t = QuerySetCell(result, "status", "deleted", 1)>
+				<cfset t = QuerySetCell(result, "message", "Record #encodeForHtml(download_profile_id)# deleted.", 1)>
+			<cfelse>
+				<cfthrow message="Unable to delete specified profile.">
+			</cfif>
+			<cftransaction action="commit"> 
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn result>
+</cffunction>
+
 <!--- changeSpecimenDefaultProfile change the user profile value for the
  default csv column download profile.
  @param target_profile_id the download_profile_id to use as the default.
