@@ -108,7 +108,7 @@
 						<h2 class="h3">Create a new profile of columns to include in CSV downloads for Specimens</h2>
 						<div class="form-row">
 							<div class="col-6">
-								<h3 class="h4">#getFields.recordcount# Columns available</h3>
+								<h3 class="h4">#getFields.recordcount# Columns available (drag to columns included to add)</h3>
 								<div id="available_fields" class="w-75"></div>
 								<script>
 									$(document).ready(function () {
@@ -161,7 +161,7 @@
 									<option value="MCZ">MCZ</option>
 									<option value="Everyone">Everyone</option>
 								</select>
-								<label class="h4" for="included_fields">Columns Included</label>
+								<label class="h4" for="included_fields">Columns Included (drag to columns available to remove)</label>
 								<div id="included_fields" class="w-75"></div>
 								<script>
 									$(document).ready(function () {
