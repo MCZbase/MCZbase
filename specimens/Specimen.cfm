@@ -207,11 +207,11 @@ limitations under the License.
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-0">
 						<div class="float-left pr-md-0 my-1 
-							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
+							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-4 
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-6
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 0> 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-3 
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 								col-12 col-xl-5
@@ -226,11 +226,11 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="float-left mt-1 mt-xl-3 pr-md-0 
-							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
+							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 									col-12 col-xl-3 
-							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) lt 7> 
+							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 									col-12 col-xl-1
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 0> 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 									col-12 col-xl-3 
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 								col-12 col-xl-1
@@ -250,11 +250,11 @@ limitations under the License.
 						</div>
 							
 						<div class="float-left pr-md-0 my-1 mt-xl-2
-							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
+							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-5 
-							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) lt 7> 
+							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-5
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 0> 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-5 
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-5
