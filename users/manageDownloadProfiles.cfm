@@ -105,10 +105,10 @@
 							disp_order
 					</cfquery>
 					<div id="manageProfileFormDiv" style="display: none;">
-						<h2 class="h3">#getFields.recordcount# Columns available to include in CSV downloads for Specimens</h2>
+						<h2 class="h3">Create a new profile: #getFields.recordcount# Columns available to include in CSV downloads for Specimens</h2>
 						<div class="form-row">
 							<div class="col-6">
-								<h3 class="h4">#getFields.recordcount# Columns available to include in CSV downloads for Specimens</h3>
+								<h3 class="h4">#getFields.recordcount#</h3>
 								<table class="sortable table table-responsive">
 									<thead>
 										<tr>
@@ -121,7 +121,7 @@
 									<tbody>
 										<cfloop query="getFields">
 											<tr>
-												<td>#label#</td>
+												<td><div id="field_#cf_spec_res_cols_id#">#label#</div></td>
 												<td>#category#</td>
 												<td>#access_role#</td>
 												<td>#disp_order#</td>
@@ -131,14 +131,22 @@
 								</table>
 							</div>
 							<div class="col-6">
-								<h3 class="h4">Columns Included</h3>
-									<ul>
-										<cfloop query="getFields">
-											<cfif minimal_fg EQ 1>
-												<li>#label#</li>
-											</cfif>
-										</cfloop>
-									</ul>
+								<label class="data-entry-label" for="name">Column Profile Name</label>
+								<input type="text" class="data-entry-input reqdClr" id="name" name="name">
+								<label class="data-entry-label" for="sharing">Share with</label>
+								<select class="data-entry-select" id="sharing" name="sharing">
+									<option value="Self" selected >Self</option>
+									<option value="MCZ">MCZ</option>
+									<option value="Everyone">Everyone</option>
+								</select>
+								<label class="h4" for="included_fields">Columns Included</label>
+								<ul id="included_fields">
+									<cfloop query="getFields">
+										<cfif minimal_fg EQ 1>
+											<li id="included_#cf_spec_res_cols_id#">#label#</li>
+										</cfif>
+									</cfloop>
+								</ul>
 							</div>
 						</div>
 					</div>
