@@ -63,30 +63,30 @@
 							<th><strong>Shared With</strong></th>
 							<th><strong>Columns</strong></th>
 							<th><strong>For Search</strong></th>
+							<th><strong>Used As Default</strong></th>
 							<th>Manage My Profiles</th>
 						</tr>
 						</thead>
 						<tbody>
 						<cfloop query="getProfiles">
 							<cfset columnCount = ListLen(column_list)>
+							<cfquery name="checkUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkUse_result">
+								SELECT count(*) ct
+								FROM
+									cf_users
+								WHERE
+									specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+							</cfquery>
 							<tr id="tr#download_profile_id#">
 								<td>#encodeForHtml(name)#</td>
 								<td>#encodeForHtml(owner_name)#</td>
 								<td>#sharing#</td>
 								<td>#columnCount#</td>
 								<td>#target_search#</td>
+								<td>#checkUse.ct#</td>
 								<td>
 									<cfif ucase(getProfiles.username) EQ ucase(session.username)>
-										<cfquery name="checkUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkUse_result">
-											SELECT count(*) ct
-											FROM
-												cf_users
-											WHERE
-												specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
-										</cfquery>
-										<cfif checkUse.ct GT 0>
-											<span>Default for #checkUse.ct# users</span>
-										<cfelse>
+										<cfif checkUse.ct EQ 0>
 											<button class="btn btn-xs btn-danger" onClick="deleteDownloadProfile('#download_profile_id#');">Delete</button>
 										</cfif>
 										<button class="btn btn-xs btn-secondary disabled" onClick="manageDownloadProfile('#download_profile_id#');">Edit</button>
