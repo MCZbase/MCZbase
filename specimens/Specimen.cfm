@@ -213,7 +213,7 @@ limitations under the License.
 								</h2>
 							</div>
 						</div>
-						<div class="float-left col-12 mt-3 col-md-6 col-xl-3">
+						<div class="float-left col-12 mt-1 mt-xl-3 col-md-6 col-xl-3">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
 									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
@@ -226,7 +226,7 @@ limitations under the License.
 							</cfif>	
 						</div>
 							
-						<div class="float-left col-12 px-xl-0 mr-auto col-xl-6 my-1 w-auto">
+						<div class="float-left col-12 px-xl-0 mr-auto col-xl-6 my-1 mt-xl-2 w-auto">
 							<div class="col-12"><span class="small">Verbatim Date: </span>
 								<h2 class="h5 mb-1 d-inline-block">
 									<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summary.verbatim_date#</a>
