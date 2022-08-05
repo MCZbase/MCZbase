@@ -63,7 +63,7 @@
 							<th><strong>Shared With</strong></th>
 							<th><strong>Columns</strong></th>
 							<th><strong>For Search</strong></th>
-							<th><strong>Used As Default</strong></th>
+							<th><strong>Uses A Default</strong></th>
 							<th>Manage My Profiles</th>
 						</tr>
 						</thead>
