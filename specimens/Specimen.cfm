@@ -192,7 +192,7 @@ limitations under the License.
 		<cfelse>
 			<cfset sectionclass="defaultType">
 		</cfif>
-		<section class="row #sectionclass#">
+		<section class="row #sectionclass# mb-2">
 			<div class="col-12">
 				<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 					<cfif summary.toptypestatuskind eq 'Primary' >
