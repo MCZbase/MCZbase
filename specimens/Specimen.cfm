@@ -232,7 +232,7 @@ limitations under the License.
 									col-0 col-xl-0
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
 									col-12 col-xl-5 
-							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0> \
+							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0>
 								col-12 col-xl-0
 							<cfelse>
 								col-xl-12 </cfif>
