@@ -115,7 +115,7 @@
 										var fieldList = [
 											<cfset separator="">
 											<cfloop query="getFields">
-												<cfif minimal_fg EQ 1>
+												<cfif minimal_fg EQ 0>
 													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#" }
 													<cfset separator=",">
 												</cfif>
