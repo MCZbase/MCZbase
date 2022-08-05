@@ -230,7 +230,7 @@ limitations under the License.
 									col-12 col-xl-3 
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) eq 0> 
 									col-12 col-xl-2
-							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
+							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) gt 0> 
 									col-12 col-xl-2 
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0>
 								col-12 col-xl-0
