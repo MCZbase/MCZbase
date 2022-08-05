@@ -142,13 +142,27 @@
 									<option value="Everyone">Everyone</option>
 								</select>
 								<label class="h4" for="included_fields">Columns Included</label>
-								<ul id="included_fields">
-									<cfloop query="getFields">
-										<cfif minimal_fg EQ 1>
-											<li id="included_#cf_spec_res_cols_id#">#label#</li>
-										</cfif>
-									</cfloop>
-								</ul>
+								<div id="included_fields"></div>
+								<script>
+									$(document).ready(function () {
+										var fieldList = [
+											<cfset separator="">
+											<cfloop query="getFields">
+												<cfif minimal_fg EQ 1>
+													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#" }
+													<cfset separator=",">
+												</cfif>
+											</cfloop>
+										];
+										var source = {
+											datatype: "json",	
+											datafields: [ {name:"label"},{name:"id"}],
+											localdata: fieldList
+										};
+										var dataAdaptor = new $.jqx.dataAdapter(source);
+										$("##included_fields").jqxListBox({ source: dataAdaptor, displayMember:"name", valueMember:"id"});
+									}	
+								</script>
 							</div>
 						</div>
 					</div>
