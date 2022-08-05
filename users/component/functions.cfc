@@ -35,11 +35,11 @@ limitations under the License.
 		<cftry>
 			<cfset column_list = "">
 			<cfset separator = "">
-			<cfloop list="column_id_list" index="idx">
+			<cfloop list="#column_id_list#" index="idx">
 				<cfquery name="getCol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCol_result">
 					SELECT column_name
 					FROM cf_spec_res_cols_r
-					WHERE cf_Spec_res_Cols_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idx#">
+					WHERE cf_spec_res_cols_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idx#">
 				</cfquery>
 				<cfif getCol.recordcount EQ 1>
 					<cfset column_list = "#column_list##separator##getCol.column_name#">
