@@ -210,7 +210,7 @@ limitations under the License.
 							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-4 
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) eq 0> 
-								col-12 col-xl-6
+								col-12 col-xl-5
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-3 
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0>
@@ -226,7 +226,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="float-left mt-1 mt-xl-3 pr-md-0 
-							<cfif len(summary.cited_as) gt 0 and len(header.imageurl) gt 0> 
+							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
 									col-12 col-xl-3 
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) eq 0> 
 									col-12 col-xl-1
@@ -250,7 +250,7 @@ limitations under the License.
 						</div>
 							
 						<div class="float-left pr-md-0 mr-auto col-xl-5 my-1 mt-xl-2 w-auto
-							<cfif len(summary.cited_as) gt 0 and len(header.imageurl) gt 0> 
+							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-5 
 							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) eq 0> 
 								col-12 col-xl-5
