@@ -235,7 +235,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 								col-12 col-xl-1
 							<cfelse>
-								col-1 </cfif>
+								col-12 </cfif>
 							">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
