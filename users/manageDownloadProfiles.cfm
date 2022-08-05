@@ -84,7 +84,6 @@
 										<cfif checkUse.ct GT 0>
 											<span>Default for #checkUse.ct# users</span>
 										<cfelse>
-											<form 
 											<button class="btn btn-xs btn-danger" onClick="deleteDownloadProfile('#download_profile_id#');">Delete</button>
 										</cfif>
 										<button class="btn btn-xs btn-secondary disabled" onClick="manageDownloadProfile('#download_profile_id#');">Edit</button>
