@@ -176,6 +176,8 @@
 									<option value="Everyone">Everyone</option>
 								</select>
 								<label class="h4" for="included_fields">Columns Included (drag to columns available to remove)</label>
+								<button class="btn btn-xs btn-primary disabled" onClick="saveProfile();">Save</button>
+								<output id="feedback"></output>
 								<div id="included_fields" class="w-75"></div>
 								<script>
 									$(document).ready(function () {
@@ -216,7 +218,6 @@
 									});	
 								</script>
 								<!--- $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems')[0].label; (or .value for id) ---> 
-								<button class="btn btn-xs btn-primary disabled" onClick="saveProfile();">Save</button>
 								<script>
 									function saveProfile() { 
 										// check if requirements are met.
@@ -245,8 +246,7 @@
 												success : function(result) { 
 													retval = JSON.parse(result)
 													if (retval[0].status=="inserted") { 
-														$("#tr" + retval[0].removed_id).hide();
-														$("#userSearchCount").html(retval[0].user_search_count);
+														$("##feedback").html(retval[0].message);
 													} else {
 														// we shouldn't get here, but in case.
 														alert("Error, problem adding new download profile");
