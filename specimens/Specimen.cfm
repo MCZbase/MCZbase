@@ -205,7 +205,7 @@ limitations under the License.
 				</cfif>
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-0">
-						<div class="float-left col-12 mr-xl-auto pr-md-0 <cfif len(summary.cited_as) gt 0>col-xl-4 <cfelse> </cfif> my-1 w-auto">
+						<div class="float-left col-12 mr-xl-auto pr-md-0 <cfif len(summary.cited_as) gt 0>col-12 col-xl-4 <cfelse>col-12 col-xl-6 </cfif> my-1 w-auto">
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
 								<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
@@ -226,7 +226,7 @@ limitations under the License.
 							</cfif>	
 						</div>
 							
-						<div class="float-left col-12 pr-md-0 mr-auto col-xl-5 my-1 mt-xl-2 w-auto">
+						<div class="float-left <cfif len(summary.cited_as) gt 0>col-12 col-xl-5 <cfelse> </cfif> pr-md-0 mr-auto col-xl-5 my-1 mt-xl-2 w-auto">
 							<div class="col-12 px-xl-0"><span class="small">Verbatim Date: </span>
 								<h2 class="h5 mb-1 d-inline-block">
 									<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summary.verbatim_date#</a>
