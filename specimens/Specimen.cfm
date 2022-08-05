@@ -138,7 +138,7 @@ limitations under the License.
 <!--- TODO: Move this section to a backing method, and reload on change to any pertenent section --->
 <!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
 <cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
- SELECT DISTINCT
+ 	SELECT DISTINCT
 		collection.collection,
 		cataloged_item.collection_object_id as collection_object_id,
 		collecting_event.verbatim_date,
@@ -213,7 +213,7 @@ limitations under the License.
 								</h2>
 							</div>
 						</div>
-						<div class="float-left col-12 mt-1 mt-xl-3 pr-md-0 <cfif len(summary.cited_as) gt 0>col-xl-3 <cfelse> </cfif>">
+						<div class="float-left mt-1 mt-xl-3 pr-md-0 <cfif len(summary.cited_as) gt 0>col-12 col-xl-3 <cfelse> </cfif>">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
 									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
