@@ -128,7 +128,7 @@
 											</tr>
 										</cfloop>
 									</tbody>
-								</ul>
+								</table>
 							</div>
 							<div class="col-6">
 								<h3 class="h4">Columns Included</h3>
