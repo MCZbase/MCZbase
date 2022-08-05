@@ -161,7 +161,7 @@
 										};
 										var dataAdaptor = new $.jqx.dataAdapter(source);
 										$("##included_fields").jqxListBox({ source: dataAdaptor, displayMember:"name", valueMember:"id"});
-									}	
+									});	
 								</script>
 							</div>
 						</div>
