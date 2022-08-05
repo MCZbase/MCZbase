@@ -8,6 +8,8 @@
 			data: {
 				method : "deleteDownloadProfile",
 				download_profile_id : download_profile_id,
+				returnformat : "json",
+				queryformat : "column"
 			},
 			success : function(result) { 
 				retval = JSON.parse(result)
@@ -72,7 +74,19 @@
 								<td>#target_search#</td>
 								<td>
 									<cfif ucase(getProfiles.username) EQ ucase(session.username)>
-										<button class="btn btn-xs btn-danger disabled" onClick="deleteDownloadProfile('#download_profile_id#');">Delete</button>
+										<cfquery name="checkUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkUse_result">
+											SELECT count(*) ct
+											FROM
+												cf_users
+											WHERE
+												specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+										</cfquery>
+										<cfif checkUse.ct GT 0>
+											<span>Default for #checkUse.ct# users</span>
+										<cfelse>
+											<form 
+											<button class="btn btn-xs btn-danger" onClick="deleteDownloadProfile('#download_profile_id#');">Delete</button>
+										</cfif>
 										<button class="btn btn-xs btn-secondary disabled" onClick="manageDownloadProfile('#download_profile_id#');">Edit</button>
 									</cfif>
 								</td>
@@ -80,6 +94,7 @@
 						</cfloop>
 						</tbody>
 					</table>
+					</script>
 				</cfif>
 				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfileForm();">New</button>
 				<div id="manageProfile">
