@@ -105,10 +105,10 @@
 							disp_order
 					</cfquery>
 					<div id="manageProfileFormDiv" style="display: none;">
-						<h2 class="h3">Create a new profile: #getFields.recordcount# Columns available to include in CSV downloads for Specimens</h2>
+						<h2 class="h3">Create a new profile of columns to include in CSV downloads for Specimens</h2>
 						<div class="form-row">
 							<div class="col-6">
-								<h3 class="h4">#getFields.recordcount#</h3>
+								<h3 class="h4">#getFields.recordcount# Columns available</h3>
 								<table class="sortable table table-responsive">
 									<thead>
 										<tr>
@@ -133,6 +133,8 @@
 							<div class="col-6">
 								<label class="data-entry-label" for="name">Column Profile Name</label>
 								<input type="text" class="data-entry-input reqdClr" id="name" name="name">
+								<label class="data-entry-label" for="target_search">For Search</label>
+								<input type="text" class="data-entry-input disabled" id="target_search" name="target_search" value="Specimens">
 								<label class="data-entry-label" for="sharing">Share with</label>
 								<select class="data-entry-select" id="sharing" name="sharing">
 									<option value="Self" selected >Self</option>
