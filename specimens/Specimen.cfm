@@ -134,18 +134,11 @@ limitations under the License.
 <cfoutput>
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
 </cfoutput>
-		<!------------------------------------ header ---------------------------------->
-					
-	<div id="headerDialog"></div>
-	<cfset blockHeader = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
-	<div class="container-fluid" id="spec_header">
-		#blockHeader# 
-	</div>				
-				
+
 <!--- (4) Display the summary/type bar for the record --->
 <!--- TODO: Move this section to a backing method, and reload on change to any pertenent section --->
 <!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
-<!---<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
  	SELECT DISTINCT
 		collection.collection,
 		cataloged_item.collection_object_id as collection_object_id,
@@ -171,16 +164,16 @@ limitations under the License.
 		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		AND rownum < 2
 </cfquery>
-<cfif summary.recordcount LT 1>--->
+<cfif summary.recordcount LT 1>
 	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
-<!---	<cfthrow message="Summary query returned zero rows for specimen record which exists.">
+	<cfthrow message="Summary query returned zero rows for specimen record which exists.">
 </cfif>
 
 <cftry>
 <cfoutput>
-	<cfset typeName = summary.type_status>--->
+	<cfset typeName = summary.type_status>
 	<!--- handle the edge cases of a specimen having more than one type status --->
-<!---	<cfif summary.toptypestatuskind eq 'Primary' > 
+	<cfif summary.toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
 		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
 	<cfelseif summary.toptypestatuskind eq 'Secondary' >
@@ -229,9 +222,9 @@ limitations under the License.
 								<cfif summary.toptypestatuskind eq 'Secondary'>
 									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
 								</cfif>
-							<cfelse>--->
+							<cfelse>
 								<!--- No type name to display for non-type specimens --->
-<!---							</cfif>	
+							</cfif>	
 						</div>
 							
 						<div class="float-left <cfif len(summary.cited_as) gt 0>col-12 col-xl-5 <cfelse> </cfif> pr-md-0 mr-auto col-xl-5 my-1 mt-xl-2 w-auto">
@@ -257,9 +250,9 @@ limitations under the License.
 	<div class="container-fluid">
 		<section class="row" id="resultSetNavigationSection">
 			<div class="col-12 px-2">
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>--->
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
-<!---					<form name="incPg" method="post" action="/specimens/Specimen.cfm">
+					<form name="incPg" method="post" action="/specimens/Specimen.cfm">
 						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 						<input type="hidden" name="suppressHeader" value="true">
 						<input type="hidden" name="action" value="nothing">
@@ -297,13 +290,13 @@ limitations under the License.
 					</form>
 				</cfif>
 			</div>					
-		</section>---><!-- end resultSetNavivationSection --->
-<!---	</div>
+		</section><!-- end resultSetNavivationSection --->
+	</div>
 </cfoutput>
 <cfcatch>
 	<cfdump var="#cfcatch#">
 </cfcatch>
-</cftry>--->
+</cftry>
 
 <!--- (4) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
 
