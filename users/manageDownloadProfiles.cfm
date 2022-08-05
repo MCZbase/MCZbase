@@ -223,8 +223,7 @@
 										if ($("##name").val().trim().length==0) { 
 											messageDialog("You must enter a name for the new profile.");
 										} else { 
-											var fieldArray = $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems');
-												[0].label; (or .value for id) ---> 
+											var fieldArray = $("##included_fields").jqxListBox('getItems'); 
 											var column_id_list = "";
 											var separator = "";
 											for (i=0; i<array.length; i++) {
