@@ -81,7 +81,7 @@
 								<td>#encodeForHtml(name)#</td>
 								<td>#encodeForHtml(owner_name)#</td>
 								<td>#sharing#</td>
-								<td>#columnCount#</td>
+								<td><button class="btn btn-xs btn-info" onClick="messageDialog('#column_list#');">#columnCount#<button></td>
 								<td>#target_search#</td>
 								<td>#checkUse.ct#</td>
 								<td>
