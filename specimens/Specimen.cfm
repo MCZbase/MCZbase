@@ -211,7 +211,7 @@ limitations under the License.
 								col-12 col-xl-4 
 							<cfelse>
 								col-12 
-								<cfif len(header.imgurl) gt 0> 
+								<cfif len(header.imageurl) gt 0> 
 									col-xl-5
 								<cfelse>
 									col-xl-7
