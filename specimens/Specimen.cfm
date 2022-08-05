@@ -216,7 +216,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0>
 								col-12 col-xl-5
 							<cfelse>
-								col-xl-12 </cfif>
+								col-11 </cfif>
 						">
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
@@ -235,7 +235,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0>
 								col-12 col-xl-1
 							<cfelse>
-								col-xl-12 </cfif>
+								col-11 </cfif>
 							">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
