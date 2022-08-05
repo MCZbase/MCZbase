@@ -214,7 +214,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-3 
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0>
-								col-12 col-xl-6
+								col-12 col-xl-5
 							<cfelse>
 								col-xl-12 </cfif>
 						">
@@ -257,7 +257,7 @@ limitations under the License.
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-5 
 							<cfelseif len(header.imageurl) eq 0 and len(summary.cited_as) eq 0> 
-								col-12 col-xl-5
+								col-12 col-xl-6
 							<cfelse> 
 								col-xl-12 </cfif>
 							">
