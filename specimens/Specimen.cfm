@@ -227,16 +227,16 @@ limitations under the License.
 						</div>
 							
 						<div class="float-left col-12 pr-md-0 mr-auto col-xl-5 my-1 mt-xl-2 w-auto">
-							<div class="col-12"><span class="small">Verbatim Date: </span>
+							<div class="col-12 px-0"><span class="small">Verbatim Date: </span>
 								<h2 class="h5 mb-1 d-inline-block">
 									<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summary.verbatim_date#</a>
 								</h2>
 							</div>
-							<div class="col-12">
+							<div class="col-12 px-0">
 								<h2 class="h5 mb-0">#summary.higher_geog#
 								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
 							</div>
-							<div class="col-12 small">
+							<div class="col-12 px-0 small">
 								occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
 								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>
 							</div>
