@@ -116,7 +116,7 @@
 											<cfset separator="">
 											<cfloop query="getFields">
 												<cfif minimal_fg EQ 0>
-													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#" }
+													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#"  }
 													<cfset separator=",">
 												</cfif>
 											</cfloop>
@@ -133,32 +133,14 @@
 											autoHeight:true,
 											allowDrag:true,
 											allowDrop:true,
-											dropAction:"copy"
+											renderer:function (index, label, value) 
+												{
+												    var datarecord = data[index];
+												    return "<strong>"+ datarecord.label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
+												}
 										});
 									});	
 								</script>
-								<!---
-								<table class="sortable table table-responsive">
-									<thead>
-										<tr>
-											<th>Column</th>
-											<th>Category</th>
-											<th>Visible To</th>
-											<th>Order</th>
-										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="getFields">
-											<tr>
-												<td><div id="field_#cf_spec_res_cols_id#">#label#</div></td>
-												<td>#category#</td>
-												<td>#access_role#</td>
-												<td>#disp_order#</td>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-								--->
 							</div>
 							<div class="col-6">
 								<label class="data-entry-label" for="name">Column Profile Name</label>
@@ -179,7 +161,7 @@
 											<cfset separator="">
 											<cfloop query="getFields">
 												<cfif minimal_fg EQ 1>
-													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#" }
+													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#"  }
 													<cfset separator=",">
 												</cfif>
 											</cfloop>
@@ -195,7 +177,12 @@
 											displayMember:"name", valueMember:"id",
 											autoHeight:true,
 											allowDrag:true,
-											allowDrop:true
+											allowDrop:true,
+											renderer:function (index, label, value) 
+												{
+												    var datarecord = data[index];
+												    return "<strong>"+ datarecord.label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
+												}
 										});
 									});	
 								</script>
