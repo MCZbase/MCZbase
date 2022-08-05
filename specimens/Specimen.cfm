@@ -252,11 +252,11 @@ limitations under the License.
 						<div class="float-left pr-md-0 my-1 mt-xl-2
 							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-5 
-							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) lt 1> 
+							<cfelseif len(header.imageurl) gt 0 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-5
-							<cfelseif len(header.imageurl) lt 1 and len(summary.cited_as) gt 0> 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 0> 
 								col-12 col-xl-5 
-							<cfelseif len(header.imageurl) lt 1 and len(summary.cited_as) lt 1> 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-5
 							<cfelse> 
 								col-xl-12 </cfif>
