@@ -218,8 +218,13 @@
 													}
 												}
 										});
-										//TODO: disable GUID
-										//$("##included_fields").jqxListBox("disableItem","GUID");
+										//Disable removal of GUID column
+										var items = $("##included_fields").jqxListBox("getItems");
+										for (i=0; i<items.length; i++) {
+											if(items[i].label=="GUID") {
+												$("##included_fields").jqxListBox("disableItem",i);
+											}
+										}
 									});	
 								</script>
 								<!--- $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems')[0].label; (or .value for id) ---> 
