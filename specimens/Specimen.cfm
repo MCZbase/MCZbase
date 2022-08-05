@@ -209,11 +209,11 @@ limitations under the License.
 						<div class="float-left pr-md-0 my-1 
 							<cfif len(header.imageurl) gt 6 and len(summary.toptypestatuskind) gt 6> 
 								col-12 col-xl-4 
-							<cfelseif len(header.imageurl gt 6 and summary.toptypestatuskind is null> 
+							<cfelseif len(header.imageurl gt 6 and #summary.toptypestatuskind# is null> 
 								col-12 col-xl-6
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) gt 6> 
+							<cfelseif #header.imageurl# is null and len(summary.toptypestatuskind) gt 6> 
 								col-12 col-xl-3 
-							<cfelseif header.imageurl is null and summary.toptypestatuskind is null>
+							<cfelseif #header.imageurl# is null and #summary.toptypestatuskind# is null>
 								col-12 col-xl-5
 							<cfelse>
 								col-6 </cfif>
