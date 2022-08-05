@@ -84,7 +84,7 @@
 				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfileForm();">New</button>
 				<div id="manageProfile">
 					<cfquery name="getFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFields_result">
-						SELECT column_name, category, cf_spec_res_cols_id, disp_order, label, access_role, hidden 
+						SELECT column_name, category, cf_spec_res_cols_id, disp_order, label, access_role, hidden, minimal_fg
 						FROM
 							cf_spec_res_cols_r
 						WHERE
@@ -105,12 +105,50 @@
 							disp_order
 					</cfquery>
 					<div id="manageProfileFormDiv" style="display: none;">
-						<h2 class="h3">#getFields.recordcount# Columns available to include in CSV downloads for Specimens</h2>
-						<ul>
-							<cfloop query="getFields">
-								<li>#label# #category# #access_role#</li>
-							</cfloop>
-						</ul>
+						<h2 class="h3">Create a new profile: #getFields.recordcount# Columns available to include in CSV downloads for Specimens</h2>
+						<div class="form-row">
+							<div class="col-6">
+								<h3 class="h4">#getFields.recordcount#</h3>
+								<table class="sortable table table-responsive">
+									<thead>
+										<tr>
+											<th>Column</th>
+											<th>Category</th>
+											<th>Visible To</th>
+											<th>Order</th>
+										</tr>
+									</thead>
+									<tbody>
+										<cfloop query="getFields">
+											<tr>
+												<td><div id="field_#cf_spec_res_cols_id#">#label#</div></td>
+												<td>#category#</td>
+												<td>#access_role#</td>
+												<td>#disp_order#</td>
+											</tr>
+										</cfloop>
+									</tbody>
+								</table>
+							</div>
+							<div class="col-6">
+								<label class="data-entry-label" for="name">Column Profile Name</label>
+								<input type="text" class="data-entry-input reqdClr" id="name" name="name">
+								<label class="data-entry-label" for="sharing">Share with</label>
+								<select class="data-entry-select" id="sharing" name="sharing">
+									<option value="Self" selected >Self</option>
+									<option value="MCZ">MCZ</option>
+									<option value="Everyone">Everyone</option>
+								</select>
+								<label class="h4" for="included_fields">Columns Included</label>
+								<ul id="included_fields">
+									<cfloop query="getFields">
+										<cfif minimal_fg EQ 1>
+											<li id="included_#cf_spec_res_cols_id#">#label#</li>
+										</cfif>
+									</cfloop>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 				<script>
