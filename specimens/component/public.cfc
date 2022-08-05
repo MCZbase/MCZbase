@@ -51,8 +51,172 @@ limitations under the License.
 	</cfif>
 	<cfreturn returnValue>
 </cffunction>
+					
+<cffunction name="getSummaryHeader" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="collection_object_id" type="string" required="yes">
+		<cfthread name="getSummaryHeaderThread">
+		<cfquery name="summaryheader" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT DISTINCT
+				collection.collection,
+				cataloged_item.collection_object_id as collection_object_id,
+				collecting_event.verbatim_date,
+				MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
+				geog_auth_rec.higher_geog,
+				<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
+					'[Masked]' as spec_locality,
+				<cfelse>
+					locality.spec_locality,
+				</cfif>
+				MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
+				MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
+				MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
+				MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind
+			FROM
+				cataloged_item
+				join collection on cataloged_item.collection_id = collection.collection_id
+				join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
+				join locality on locality.locality_id = collecting_event.locality_id
+				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
+			WHERE
+				cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+				AND rownum < 2
+		</cfquery>
+		<cfif summaryheader.recordcount LT 1>
+			<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
+			<cfthrow message="Summary query returned zero rows for specimen record which exists.">
+		</cfif>
+		<cftry>
+		<cfoutput>
+			<cfset typeName = summaryheader.type_status>
+			<!--- handle the edge cases of a specimen having more than one type status --->
+			<cfif summaryheader.toptypestatuskind eq 'Primary' > 
+				<cfset twotypes = '#replace(summaryheader.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+				<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
+			<cfelseif summaryheader.toptypestatuskind eq 'Secondary' >
+				<cfset twotypes= '#replace(summaryheader.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+				<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
+			<cfelse>
+				<cfset twotypes= '#replace(summaryheader.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
+				<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
+			</cfif>
+			<div class="container-fluid" id="content">
+				<cfif isDefined("summaryheader.cited_as") and len(summaryheader.cited_as) gt 0>
+					<cfif summaryheader.toptypestatuskind eq 'Primary' >
+						<cfset sectionclass="primaryType">
+					<cfelseif summaryheader.toptypestatuskind eq 'Secondary' >
+						<cfset sectionclass="secondaryType">
+					</cfif>
+				<cfelse>
+					<cfset sectionclass="defaultType">
+				</cfif>
+				<section class="row #sectionclass# mb-2">
+					<div class="col-12">
+						<cfif isDefined("summaryheader.cited_as") and len(summaryheader.cited_as) gt 0>
+							<cfif summaryheader.toptypestatuskind eq 'Primary' >
+								<cfset divclass="border-0">
+							<cfelseif summaryheader.toptypestatuskind eq 'Secondary' >
+								<cfset divclass="no-card">
+							</cfif>
+						<cfelse>
+							<cfset divclass="no-card">
+						</cfif>
+						<div class="card box-shadow #divclass# bg-transparent">
+							<div class="row mb-0">
+								<div class="float-left col-12 col-md-6 mr-xl-auto col-xl-3 my-1 w-auto">
+									<div class="col-12 px-0">
+										<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
+										<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
+											<a class="text-dark font-weight-bold" href="javascript:void(0)">#summaryheader.scientific_name#</a>
+										</h2>
+									</div>
+								</div>
+								<div class="float-left col-12 mt-1 mt-md-3 col-md-6 col-xl-3">
+									<cfif isDefined("summaryheader.cited_as") and len(summaryheader.cited_as) gt 0>
+										<cfif summaryheader.toptypestatuskind eq 'Primary' >
+											<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
+										</cfif>
+										<cfif summaryheader.toptypestatuskind eq 'Secondary'>
+											<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
+										</cfif>
+									<cfelse>
+										<!--- No type name to display for non-type specimens --->
+									</cfif>	
+								</div>
 
-
+								<div class="float-left col-12 px-xl-0 mr-auto col-xl-6 my-1 mt-xl-2 w-auto">
+									<div class="col-12"><span class="small">Verbatim Date: </span>
+										<h2 class="h5 mb-1 d-inline-block">
+											<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summaryheader.verbatim_date#</a>
+										</h2>
+									</div>
+									<div class="col-12">
+										<h2 class="h5 mb-0">#summaryheader.higher_geog#
+										<cfif len(summaryheader.spec_locality)gt 0>/ #summaryheader.spec_locality#<cfelse></cfif></h2>
+									</div>
+									<div class="col-12 small">
+										occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
+										<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class="container-fluid">
+				<section class="row" id="resultSetNavigationSection">
+					<div class="col-12 px-2">
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
+							<form name="incPg" method="post" action="/specimens/Specimen.cfm">
+								<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								<input type="hidden" name="suppressHeader" value="true">
+								<input type="hidden" name="action" value="nothing">
+								<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
+									<cfset isPrev = "no">
+									<cfset isNext = "no">
+									<cfset currPos = 0>
+									<cfset lenOfIdList = 0>
+									<cfset firstID = collection_object_id>
+									<cfset nextID = collection_object_id>
+									<cfset prevID = collection_object_id>
+									<cfset lastID = collection_object_id>
+									<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
+									<cfset lenOfIdList = listlen(session.collObjIdList)>
+									<cfset firstID = listGetAt(session.collObjIdList,1)>
+									<cfif currPos lt lenOfIdList>
+										<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
+									</cfif>
+									<cfif currPos gt 1>
+										<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
+									</cfif>
+									<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
+									<cfif lenOfIdList gt 1>
+										<cfif currPos gt 1>
+											<cfset isPrev = "yes">
+										</cfif>
+										<cfif currPos lt lenOfIdList>
+											<cfset isNext = "yes">
+										</cfif>
+									</cfif>
+								<cfelse>
+									<cfset isNext="">
+									<cfset isPrev="">
+								</cfif>
+							</form>
+						</cfif>
+					</div>					
+				</section><!-- end resultSetNavivationSection --->
+			</div>
+		</cfoutput>
+		<cfcatch>
+			<cfdump var="#cfcatch#">
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getSummaryHeaderThread#tn#" />
+	<cfreturn cfthread["getSummaryHeaderThread#tn#"].output>
+</cffunction>
 <!--- getMediaHTML obtain a block of html listing media related to a cataloged item
  @param collection_object_id the collection_object_id for the cataloged item for which to obtain the media.
  @param relationship_type which relationships to show, one of 'shows' for shows cataloged item, 'documents' for
