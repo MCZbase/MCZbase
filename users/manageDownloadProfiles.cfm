@@ -135,7 +135,7 @@
 											allowDrop:true,
 											renderer:function (index, label, value) 
 												{
-												    var datarecord = $("##available_fields").jqxListBox('source')records.filter(obj => { return obj.id===index });
+												    var datarecord = $("##available_fields").jqxListBox('source').records.filter(obj => { return obj.id === index })[0];
 												    return "<strong>"+ datarecord.label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
 												}
 										});
@@ -180,7 +180,7 @@
 											allowDrop:true,
 											renderer:function (index, label, value) 
 												{
-												    var datarecord = $("##included_fields").jqxListBox('source')records.filter(obj => { return obj.id===index });
+												    var datarecord = $("##included_fields").jqxListBox('source').records.filter(obj => { return obj.id===index })[0];
 												    return "<strong>"+ label + "</strong>  " + datarecord.category + " (" + datarecord.access_role + ")" ;
 												}
 										});
