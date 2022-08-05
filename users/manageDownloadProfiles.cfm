@@ -222,7 +222,7 @@
 										var items = $("##included_fields").jqxListBox("getItems");
 										for (i=0; i<items.length; i++) {
 											if(items[i].label=="GUID") {
-												$("##included_fields").jqxListBox("disableItem",i);
+												$("##included_fields").jqxListBox("disableAt",i);
 											}
 										}
 									});	
