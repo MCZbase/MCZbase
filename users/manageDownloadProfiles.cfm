@@ -133,6 +133,9 @@
 											autoHeight:true,
 											allowDrag:true,
 											allowDrop:true,
+											width:"75%",
+											filterable:true,
+											enableSelection:false,
 											renderer:function (index, label, value) 
 												{
 													var datarecord = $("##available_fields").jqxListBox('source').loadedData.filter(obj => { return obj.id===value })[0];
@@ -182,6 +185,8 @@
 											autoHeight:true,
 											allowDrag:true,
 											allowDrop:true,
+											width:"75%",
+											enableSelection:false,
 											renderer:function (index, label, value) 
 												{
 													var datarecord = $("##included_fields").jqxListBox('source').loadedData.filter(obj => { return obj.id===value })[0];
