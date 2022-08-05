@@ -20,13 +20,83 @@ limitations under the License.
 <cf_rolecheck>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- createDownloadProfile create a new download profile.
+ @param name the name for the new profile
+ @return a data structure containing status=deleted and the new download profile id on success, otherwise throw an error.
+--->
+<cffunction name="createDownloadProfile" access="remote" returntype="query">
+	<cfargument name="name" type="string" required="yes">
+	<cfargument name="sharing" type="string" required="yes">
+	<cfargument name="target_search" type="string" required="yes">
+	<cfargument name="column_id_list" type="string" required="yes">
+
+	<cfset result=queryNew("status, message, download_profile_id")>
+	<cftransaction>
+		<cftry>
+			<cfset column_list = "">
+			<cfset separator = "">
+			<cfloop list="column_id_list" index="idx">
+				<cfquery name="getCol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCol_result">
+					SELECT column_name
+					FROM cf_spec_res_cols_r
+					WHERE cf_Spec_res_Cols_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idx#">
+				</cfquery>
+				<cfif getCol.recordcount EQ 1>
+					<cfset column_list = "#column_list##separator##getCol.column_name#">
+					<cfset separator = ",">
+				</cfif>
+			</cfloop>
+			<cfif len(column_list) EQ 0>
+				<cfthrow message="Unable to add specified profile, no fields found for the list of specified column id values.">
+			</cfif>
+			<cfquery name="createProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="createProfile_result">
+				INSERT INTO download_profile
+				(
+					username,
+					name,
+					<cfif isdefined("sharing") AND len(sharing) GT 0>
+						sharing,
+					</cfif>
+					target_search,
+					column_list
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
+					<cfif isdefined("sharing") AND len(sharing) GT 0>
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sharing#">,
+					</cfif>
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#target_search#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#column_list#">
+				)
+			</cfquery>
+			<cfif createProfile_result.recordcount EQ 1>
+				<cfset t = queryaddrow(result,1)>
+				<cfset t = QuerySetCell(result, "status", "inserted", 1)>
+				<cfset t = QuerySetCell(result, "message", "Record created.", 1)>
+				<cfset t = QuerySetCell(result, "download_profile_id", "#createProfile_result.generatedkey#", 1)>
+			<cfelse>
+				<cfthrow message="Unable to add specified profile.">
+			</cfif>
+			<cftransaction action="commit"> 
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn result>
+</cffunction>
+
 <!--- deleteDownloadProfile delete a specified download profile.
  @param download_profile_id the download_profile_id to delete.
  @return a data structure containing status=deleted on success, otherwise throw an error.
 --->
 <cffunction name="deleteDownloadProfile" access="remote" returntype="query">
 	<cfargument name="download_profile_id" type="string" required="yes">
-	<cfset result=queryNew("status, message")>
+	<cfset result=queryNew("status, message, user_search_count")>
 	<cftransaction>
 		<cftry>
 			<cfquery name="deleteProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteProfile_result">
@@ -38,8 +108,22 @@ limitations under the License.
 					specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_profile_id#">
 			</cfquery>
 			<cfif deleteProfile_result.recordcount EQ 1>
+				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
+					SELECT 
+						count(*) ct
+					FROM 
+						download_profile
+					WHERE
+						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+						or sharing = 'Everyone'
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							or sharing = 'MCZ'
+						</cfif>
+					ORDER BY name
+				</cfquery>
 				<cfset t = queryaddrow(result,1)>
 				<cfset t = QuerySetCell(result, "status", "deleted", 1)>
+				<cfset t = QuerySetCell(result, "user_search_count", "#getProfiles.ct#", 1)>
 				<cfset t = QuerySetCell(result, "message", "Record #encodeForHtml(download_profile_id)# deleted.", 1)>
 			<cfelse>
 				<cfthrow message="Unable to delete specified profile.">

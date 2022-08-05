@@ -168,7 +168,7 @@
 								<label class="data-entry-label" for="name">Column Profile Name</label>
 								<input type="text" class="data-entry-input reqdClr" id="name" name="name">
 								<label class="data-entry-label" for="target_search">For Search</label>
-								<input type="text" class="data-entry-input disabled" id="target_search" name="target_search" value="Specimens">
+								<input type="text" class="data-entry-input disabled" id="target_search" name="target_search" value="Specimens" disabled >
 								<label class="data-entry-label" for="sharing">Share with</label>
 								<select class="data-entry-select" id="sharing" name="sharing">
 									<option value="Self" selected >Self</option>
@@ -212,10 +212,54 @@
 													}
 												}
 										});
+										$("##included_fields").jqxListBox("disableItem","GUID");
 									});	
 								</script>
 								<!--- $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems')[0].label; (or .value for id) ---> 
-								<button class="btn btn-xs btn-primary disabled">Save</button>
+								<button class="btn btn-xs btn-primary disabled" onClick="saveProfile();">Save</button>
+								<script>
+									function saveProfile() { 
+										// check if requirements are met.
+										if ($("##name").val().trim().length==0) { 
+											messageDialog("You must enter a name for the new profile.");
+										} else { 
+											var fieldArray = $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems');
+												[0].label; (or .value for id) ---> 
+											var column_id_list = "";
+											var separator = "";
+											for (i=0; i<array.length; i++) {
+												column_id_list = column_id_list + separator + fieldArray[i].value; 
+												separator = ",";
+											}
+											console.log(column_id_list);
+											jQuery.ajax({
+											url: "/users/component/functions.cfc",
+												data: {
+													method : "createDownloadProfile",
+													name: $("##name").val(), 
+													sharing: $("##sharing").val(), 
+													target_search: "Specimens", 
+													column_id_list: column_id_list,
+													returnformat : "json",
+													queryformat : "column"
+												},
+												success : function(result) { 
+													retval = JSON.parse(result)
+													if (retval[0].status=="inserted") { 
+														$("#tr" + retval[0].removed_id).hide();
+														$("#userSearchCount").html(retval[0].user_search_count);
+													} else {
+														// we shouldn't get here, but in case.
+														alert("Error, problem adding new download profile");
+													}
+												}, 
+												error: function (jqXHR, textStatus, error) {
+													 handleFail(jqXHR,textStatus,error,"creating a download profile");
+												 }
+											});
+										}
+									};
+								</script>
 							</div>
 						</div>
 					</div>
