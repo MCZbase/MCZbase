@@ -106,7 +106,7 @@ limitations under the License.
 
 <!--- (2) Look up summary and type information on the specimen for the html header, this isn't reloaded, so can come from flat --->
 <cfquery name="header" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
- SELECT 
+ 	SELECT 
 		collection,
 		scientific_name,
 		full_taxon_name,
@@ -114,7 +114,7 @@ limitations under the License.
 		spec_locality,
 		typestatusplain,
 		typestatuswords,
-		imgurl
+		imageurl
 	FROM
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	WHERE
