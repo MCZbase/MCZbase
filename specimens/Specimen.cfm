@@ -207,16 +207,16 @@ limitations under the License.
 				<div class="card box-shadow #divclass# bg-transparent">
 					<div class="row mb-0">
 						<div class="float-left pr-md-0 my-1 
-							<cfif len(header.imageurl) gt 0 and len(summary.toptypestatuskind) gt 0> 
+							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-4 
-							<cfelseif len(header.imageurl) gt 0 and len(summary.toptypestatuskind) lt 1> 
+							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-6
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) gt 0> 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-3 
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) lt 1>
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 								col-12 col-xl-5
 							<cfelse>
-								col-11 </cfif>
+								col-6 </cfif>
 						">
 							<div class="col-12 px-0">
 								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
@@ -226,16 +226,16 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="float-left mt-1 mt-xl-3 pr-md-0 
-							<cfif len(header.imageurl) gt 0 and len(summary.toptypestatuskind) gt 0> 
+							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 									col-12 col-xl-3 
-							<cfelseif len(header.imageurl) gt 0 and len(summary.toptypestatuskind) lt 1> 
+							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 									col-12 col-xl-1
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) gt 0> 
-									col-12 col-xl-2 
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) lt 1>
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
+									col-12 col-xl-3 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
 								col-12 col-xl-1
 							<cfelse>
-								col-11 </cfif>
+								col-12 </cfif>
 							">
 							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
 								<cfif summary.toptypestatuskind eq 'Primary' >
@@ -250,16 +250,16 @@ limitations under the License.
 						</div>
 							
 						<div class="float-left pr-md-0 my-1 mt-xl-2
-							<cfif len(header.imageurl) gt 0 and len(summary.cited_as) gt 0> 
+							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-5 
-							<cfelseif len(header.imageurl) gt 0 and len(summary.toptypestatuskind) lt 1> 
+							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
 								col-12 col-xl-5
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) gt 0> 
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
 								col-12 col-xl-5 
-							<cfelseif len(header.imageurl) lt 1 and len(summary.toptypestatuskind) lt 1> 
-								col-12 col-xl-6
+							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
+								col-12 col-xl-5
 							<cfelse> 
-								col-xl-12 </cfif>
+								col-xl-5 </cfif>
 							">
 							<div class="col-12 px-xl-0"><span class="small">Verbatim Date: </span>
 								<h2 class="h5 mb-1 d-inline-block">
