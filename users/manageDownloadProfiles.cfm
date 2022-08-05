@@ -14,7 +14,7 @@
 			success : function(result) { 
 				retval = JSON.parse(result)
 				if (retval.DATA.STATUS[0]=="deleted") { 
-					$("#tr" + retval.DATA.REMOVED_ID[0]).hide();
+					$("#tr" + download_profile_id).hide();
 					$("#userSearchCount").html(retval.DATA.USER_SEARCH_COUNT[0]);
 				} else {
 					// we shouldn't get here, but in case.
