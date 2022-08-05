@@ -214,7 +214,8 @@
 													}
 												}
 										});
-										$("##included_fields").jqxListBox("disableItem","GUID");
+										//TODO: disable GUID
+										//$("##included_fields").jqxListBox("disableItem","GUID");
 									});	
 								</script>
 								<!--- $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems')[0].label; (or .value for id) ---> 
@@ -227,7 +228,7 @@
 											var fieldArray = $("##included_fields").jqxListBox('getItems'); 
 											var column_id_list = "";
 											var separator = "";
-											for (i=0; i<array.length; i++) {
+											for (i=0; i<fieldArray.length; i++) {
 												column_id_list = column_id_list + separator + fieldArray[i].value; 
 												separator = ",";
 											}
