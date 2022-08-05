@@ -135,6 +135,7 @@
 											allowDrop:true,
 											width:"75%",
 											filterable:true,
+											searchMode:"containsignorecase",
 											enableSelection:false,
 											renderer:function (index, label, value) 
 												{
