@@ -169,6 +169,8 @@
 								</script>
 							</div>
 							<div class="col-6">
+								<button class="btn btn-xs btn-primary d-block" onClick="saveProfile();">Save New Profile</button>
+								<output id="feedback"></output>
 								<label class="data-entry-label" for="name">Column Profile Name</label>
 								<input type="text" class="data-entry-input reqdClr" id="name" name="name">
 								<label class="data-entry-label" for="target_search">For Search</label>
@@ -179,9 +181,7 @@
 									<option value="MCZ">MCZ</option>
 									<option value="Everyone">Everyone</option>
 								</select>
-								<label class="h4" for="included_fields">Columns Included (drag to columns available to remove)</label>
-								<button class="btn btn-xs btn-primary" onClick="saveProfile();">Save</button>
-								<output id="feedback"></output>
+								<label class="h4" for="included_fields">Columns Included (drag to change order or drag to columns available to remove)</label>
 								<div id="included_fields" class="w-75"></div>
 								<script>
 									$(document).ready(function () {
