@@ -813,9 +813,6 @@ limitations under the License.
 								<li>
 									<a href="/users/UserProfile.cfm" class="dropdown-item">User Profile</a>
 									<cfif session.roles contains "coldfusion_user">
-										<cfif targetMenu EQ "redesign">
-											<a href="" class="dropdown-item">Settings</a>
-										</cfif>
 										<a href="/users/Searches.cfm" class="dropdown-item">Saved Searches</a>
 										<a href="/users/manageDownloadProfiles.cfm" class="dropdown-item">Manage CSV Download Columm Profiles</a>
 									</cfif>
