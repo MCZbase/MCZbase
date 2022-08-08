@@ -437,7 +437,7 @@ limitations under the License.
 											});
 										}
 									}
-								<script> 
+								</script> 
 							<cfelse>
 								<script> 
 									function saveNewProfile() { 
