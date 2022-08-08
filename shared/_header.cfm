@@ -811,16 +811,13 @@ limitations under the License.
 							</a>
 							<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
 								<li>
-									<cfif targetMenu EQ "production">
-										<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
-									<cfelse>
-										<a href="/users/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
-									</cfif>
+									<a href="/users/UserProfile.cfm" class="dropdown-item">User Profile</a>
 									<cfif session.roles contains "coldfusion_user">
 										<cfif targetMenu EQ "redesign">
 											<a href="" class="dropdown-item">Settings</a>
 										</cfif>
 										<a href="/users/Searches.cfm" class="dropdown-item">Saved Searches</a>
+										<a href="/users/manageDownloadProfiles.cfm" class="dropdown-item">Manage CSV Download Columm Profiles</a>
 									</cfif>
 								</li>	
 							</ul>
@@ -854,7 +851,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif gtp EQ '/errors/forbidden.cfm'>
-					<cfset gtp = "/UserProfile.cfm">
+					<cfset gtp = "/users/UserProfile.cfm">
 				</cfif>
 				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 					<input type="hidden" name="action" value="signIn">

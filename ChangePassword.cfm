@@ -213,7 +213,7 @@ You will be redirected soon, or you may use the menu above now.
 <script>
 	setTimeout("go_now()",5000);
 	function go_now () {
-		document.location='#Application.ServerRootUrl#/myArctos.cfm';
+		document.location='#Application.ServerRootUrl#/users/UserProfile.cfm';
 	}
 </script>
 </cfoutput>

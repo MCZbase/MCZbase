@@ -400,9 +400,10 @@
 					<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
-								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
+								<a class="dropdown-item" target="_top" href="/users/UserProfile.cfm">User Profile</a>
 								<cfif session.roles contains "coldfusion_user">
 									<a class="dropdown-item" target="_top" href="/users/Searches.cfm">Saved Searches</a>
+									<a href="/users/manageDownloadProfiles.cfm" class="dropdown-item" target="_top">Manage CSV Download Columm Profiles</a>
 								</cfif>
 							</div>
 						</li>

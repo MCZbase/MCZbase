@@ -20,7 +20,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <cfif isdefined("session.username") and len(#session.username#) gt 0 and (NOT isDefined("action") OR #action# neq "signOut")>
 	<!--- user is logged in already, redirect to user profile page --->
-	<cflocation url="myArctos.cfm" addtoken="false">
+	<cflocation url="/users/UserProfile.cfm" addtoken="false">
 </cfif>
 <cfif NOT isDefined("action") or len(action) EQ 0>
 	<cfset action="loginForm">
@@ -211,7 +211,7 @@ limitations under the License.
 					<section class="row border rounded my-2 p-2">
 						<h1 class="h2 w-100">Successfully created user #encodeForHtml(username)#.</h1>
 						<div class="mt-2">
-							<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/myArctos.cfm&mode=authenticate" addtoken="false">Login to MCZbase</a>
+							<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/users/UserProfile.cfm&mode=authenticate" addtoken="false">Login to MCZbase</a>
 						</div>
 					</section>
 				</main>

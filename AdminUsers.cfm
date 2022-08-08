@@ -386,7 +386,7 @@
 				Hello, #getTheirEmail.username#.
 				<br>
 				You have been invited to become an Arctos Operator by #session.username#.
-				<br>The next time you log in, your Profile page (#application.serverRootUrl#/myArctos.cfm)
+				<br>The next time you log in, your Profile page (#application.serverRootUrl#/users/UserProfile.cfm)
 				will contain an authentication form.
 				<br>You must complete this form. If your password does not meet our rules you may be required
 				to create a new password by following the link from your Profile page. 

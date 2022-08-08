@@ -15,7 +15,7 @@
 		<div class="error">
 			You must provide an email address to annotate specimens.
 			<br>
-			Update <a href="/myArctos.cfm" target="_blank">your profile</a> (opens in new window) to proceed.
+			Update <a href="/users/UserProfile.cfm" target="_blank">your profile</a> (opens in new window) to proceed.
 			<br>
 			<span class="likeLink" onclick="closeAnnotation()">Close this window</span>
 		</div>
