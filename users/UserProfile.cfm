@@ -292,7 +292,7 @@ limitations under the License.
 							WHERE
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
-						<div class="border float-left p-2">
+						<div class="border float-left p-3">
 							<h3 class="mb-0 mt-3">Personal Profile</h3>
 							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-light px-2 py-1">
 								<input type="hidden" name="user_id" value="#getUserData.user_id#">
@@ -429,7 +429,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mx-0">
 										<cfif len(session.roles) gt 0 and session.roles is "public">
-											<div class="col-12 mb-2">
+											<div class="col-12 col-md-6 float-left mb-2">
 												<cfif isdefined("session.portal_id")>
 													<cfset pid=session.portal_id>
 												<cfelse>
