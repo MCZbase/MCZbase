@@ -188,9 +188,26 @@ limitations under the License.
 					</cfif>
 					<div class="form-row">
 						<div class="col-6">
+							
 							<h3 class="h4">#getFields.recordcount# Columns available (drag to columns included to add)</h3>
-							<div id="available_fields" class="w-75"></div>
+							<div class="form-row">
+								<div class="col-10">
+									<div id="available_fields"></div>
+								</div>
+								<div class="col-2">
+									<button onClick="moveSelectionToIncluded();")>&rArr;</button>
+									<button onClick="removeSelectionFromIncluded();")>&lArr;</button>
+								<div>
+							</div>
 							<script>
+								function moveSelectionToIncluded() { 
+									var selectedItems = $("##available_fields").jqxListBox("getSelectedItems");
+									messageDialog("Not implemented yet, drag fields to add/remove");
+								}
+								function removeSelectionFromIncluded() { 
+									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
+									messageDialog("Not implemented yet, drag fields to add/remove");
+								}
 								$(document).ready(function () {
 									var fieldList = [
 										<cfset separator="">
@@ -251,8 +268,24 @@ limitations under the License.
 								<option value="Everyone" #selected#>Everyone</option>
 							</select>
 							<label class="h4" for="included_fields">Columns Included (drag to change order or drag to columns available to remove)</label>
-							<div id="included_fields" class="w-75"></div>
+							<div class="form-row">
+								<div class="col-10">
+									<div id="included_fields"></div>
+								</div>
+								<div class="col-2">
+									<button onClick="moveUp();")>&uArr;</button>
+									<button onClick="moveDown();")>&dArr;</button>
+								</div>
+							</div>
 							<script>
+								function moveUp() { 
+									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
+									messageDialog("Not implemented yet, drag fields to change order");
+								}
+								function moveDown() { 
+									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
+									messageDialog("Not implemented yet, drag fields to change order");
+								}
 								$(document).ready(function () {
 									var fieldList = [
 										<cfif mode EQ "edit">
