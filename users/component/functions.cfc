@@ -111,6 +111,12 @@ limitations under the License.
 	<cfreturn cfthread["downloadProfileThread#tn#"].output>
 </cffunction>
 
+<!--- editDownloadProfileHtml get a block of html for editing an existing or creating a new
+  download profile.
+ @param download_profile_id the csv column download profile to edit, if not provided, return
+  a form for adding a new profile.
+ @return a block of html listing the csv download profiles visible to the current user 
+--->
 <cffunction name="editDownloadProfileHtml" returntype="string" access="remote">
 	<cfargument name="download_profile_id" type="string" required="no">
 
@@ -294,7 +300,44 @@ limitations under the License.
 							<!--- $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems')[0].label; (or .value for id) ---> 
 							<script>
 								function saveProfile() { 
-									messageDialog("not yet implemented");
+									// check if requirements are met.
+									if ($("##name").val().trim().length==0) { 
+										messageDialog("You must enter a name for the profile.");
+									} else { 
+										var fieldArray = $("##included_fields").jqxListBox('getItems'); 
+										var column_id_list = "";
+										var separator = "";
+										for (i=0; i<fieldArray.length; i++) {
+											column_id_list = column_id_list + separator + fieldArray[i].value; 
+											separator = ",";
+										}
+										console.log(column_id_list);
+										jQuery.ajax({
+										url: "/users/component/functions.cfc",
+											data: {
+												method : "saveDownloadProfile",
+												name: $("##name").val(), 
+												sharing: $("##sharing").val(), 
+												target_search: "Specimens", 
+												column_id_list: column_id_list,
+												returnformat : "json",
+												queryformat : "column"
+											},
+											success : function(result) { 
+												retval = JSON.parse(result)
+												if (retval.DATA.STATUS[0]=="saved") { 
+													$("##feedback").html(retval.DATA.MESSAGE[0]);
+												} else {
+													// we shouldn't get here, but in case.
+													alert("Error, problem adding new download profile");
+												}
+												reloadDownloadProfileList();
+											}, 
+											error: function (jqXHR, textStatus, error) {
+												 handleFail(jqXHR,textStatus,error,"creating a download profile");
+											 }
+										});
+									}
 								} 
 								function saveNewProfile() { 
 									// check if requirements are met.
@@ -331,7 +374,7 @@ limitations under the License.
 												reloadDownloadProfileList();
 											}, 
 											error: function (jqXHR, textStatus, error) {
-												 handleFail(jqXHR,textStatus,error,"creating a download profile");
+												 handleFail(jqXHR,textStatus,error,"updating a download profile");
 											 }
 										});
 									}
@@ -355,7 +398,11 @@ limitations under the License.
 
 <!--- createDownloadProfile create a new download profile.
  @param name the name for the new profile
- @return a data structure containing status=deleted and the new download profile id on success, otherwise throw an error.
+ @param sharing value for the new profile
+ @param target_search for the new profile
+ @param column_id_list a list of cf_spec_res_cols_r.cf_spec_res_cols_id values specifying, in order, the columns to
+  include in the profile
+ @return a data structure containing status=inserted and the new download profile id on success, otherwise throws an error.
 --->
 <cffunction name="createDownloadProfile" access="remote" returntype="query">
 	<cfargument name="name" type="string" required="yes">
@@ -409,6 +456,73 @@ limitations under the License.
 				<cfset t = QuerySetCell(result, "download_profile_id", "#createProfile_result.generatedkey#", 1)>
 			<cfelse>
 				<cfthrow message="Unable to add specified profile.">
+			</cfif>
+			<cftransaction action="commit"> 
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn result>
+</cffunction>
+
+<!--- saveDownloadProfile save changes to an existing download profile.
+ @param download_profile_id the primary key value for the csv column profile to edit
+ @param name the new value for the name for the profile
+ @param sharing the new value for sharing of the profile
+ @param target_search the new value for the target_search for the profile
+ @param column_id_list a list of cf_spec_res_cols_r.cf_spec_res_cols_id values specifying, in order, the columns to
+  include in the profile.
+ @return a data structure containing status=saved and the download profile id on success, otherwise throws an error.
+--->
+<cffunction name="saveDownloadProfile" access="remote" returntype="query">
+	<cfargument name="download_profile_id" type="string" required="yes">
+	<cfargument name="name" type="string" required="yes">
+	<cfargument name="sharing" type="string" required="yes">
+	<cfargument name="target_search" type="string" required="yes">
+	<cfargument name="column_id_list" type="string" required="yes">
+
+	<cfset result=queryNew("status, message, download_profile_id")>
+	<cftransaction>
+		<cftry>
+			<cfset column_list = "">
+			<cfset separator = "">
+			<cfloop list="#column_id_list#" index="idx">
+				<cfquery name="getCol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCol_result">
+					SELECT column_name
+					FROM cf_spec_res_cols_r
+					WHERE cf_spec_res_cols_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#idx#">
+				</cfquery>
+				<cfif getCol.recordcount EQ 1>
+					<cfset column_list = "#column_list##separator##getCol.column_name#">
+					<cfset separator = ",">
+				</cfif>
+			</cfloop>
+			<cfif len(column_list) EQ 0>
+				<cfthrow message="Unable to save changes to specified profile, no fields found for the list of specified column id values.">
+			</cfif>
+			<cfquery name="createProfile" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="createProfile_result">
+				UPDATE download_profile
+				SET
+					name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
+					sharing = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sharing#">,
+					target_search = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#target_search#">,
+					column_list = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#column_list#">
+				WHERE 
+					download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">,
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
+			</cfquery>
+			<cfif createProfile_result.recordcount EQ 1>
+				<cfset t = queryaddrow(result,1)>
+				<cfset t = QuerySetCell(result, "status", "saved", 1)>
+				<cfset t = QuerySetCell(result, "message", "Record saved.", 1)>
+				<cfset t = QuerySetCell(result, "download_profile_id", "#createProfile_result.generatedkey#", 1)>
+			<cfelse>
+				<cfthrow message="Unable to save specified profile [#encodeForHtml(download_profile_id)#].">
 			</cfif>
 			<cftransaction action="commit"> 
 		<cfcatch>
