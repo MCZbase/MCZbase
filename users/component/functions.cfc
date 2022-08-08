@@ -88,7 +88,7 @@ limitations under the License.
 								<td>
 									<cfif ucase(getProfiles.username) EQ ucase(session.username)>
 										<cfif checkUse.ct EQ 0>
-											<button class="btn btn-xs btn-danger" onClick="confirmDialog('Delete this CSV Download Column Profile?','Confirm Delete Profile', deleteDownloadProfile('#download_profile_id#') );">Delete</button>
+											<button class="btn btn-xs btn-danger" onClick="confirmDialog('Delete this CSV Download Column Profile?','Confirm Delete Profile', function() { deleteDownloadProfile('#download_profile_id#'); } );">Delete</button>
 										</cfif>
 										<button class="btn btn-xs btn-secondary" onClick="loadEditDownloadProfileForm('#download_profile_id#');">Edit</button>
 									</cfif>
