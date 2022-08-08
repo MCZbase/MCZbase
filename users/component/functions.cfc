@@ -425,7 +425,7 @@ limitations under the License.
 													$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
 													$("##manageProfileFormDiv").hide();
 												} else {
-													// we shouldn't get here, but in case.
+													// we should not get here, but in case.
 													alert("Error, problem adding new download profile");
 												}
 												reloadDownloadProfileList();
@@ -466,7 +466,7 @@ limitations under the License.
 													$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
 													$("##manageProfileFormDiv").hide();
 												} else {
-													// we shouldn't get here, but in case.
+													// we should not get here, but in case.
 													alert("Error, problem adding new download profile");
 												}
 												reloadDownloadProfileList();
