@@ -175,7 +175,7 @@ limitations under the License.
 		<cfoutput query="getPrefs" group="user_id">
 			<div class="container mt-4" id="content">
 				<div class="row mb-5">
-					<div class="col-12 col-md-6 mb-2">
+					<div class="col-12 col-md-8 mb-2">
 						<h1 class="h2">
 							<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
 								Welcome back, <b>#encodeForHtml(getPrefs.first_name)# #encodeForHtml(getPrefs.last_name)#</b><br>
@@ -292,199 +292,201 @@ limitations under the License.
 							WHERE
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
-						<h3 class="mb-0 mt-3">Personal Profile</h3>
-						<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border px-2 py-1">
-							<input type="hidden" name="user_id" value="#getUserData.user_id#">
-							<input type="hidden" name="action" value="saveProfile">
-					
-							<div class="form-row mx-0">
-								<h4 class="h4 px-1 mt-2">
-									A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
-								</h4>
-								<div class="col-12 mb-2">
-									<label for="first_name" class="data-entry-label">First Name</label>
-									<input type="text" name="first_name" id="first_name" value="#encodeForHtml(getUserData.first_name)#" class="data-entry-input reqdClr" required>
+						<div class="border p-2">
+							<h3 class="mb-0 mt-3">Personal Profile</h3>
+							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border px-2 py-1">
+								<input type="hidden" name="user_id" value="#getUserData.user_id#">
+								<input type="hidden" name="action" value="saveProfile">
+								<div class="form-row mx-0">
+									<h4 class="h4 px-1 mt-2">
+										A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
+									</h4>
+									<div class="col-12 mb-2">
+										<label for="first_name" class="data-entry-label">First Name</label>
+										<input type="text" name="first_name" id="first_name" value="#encodeForHtml(getUserData.first_name)#" class="data-entry-input reqdClr" required>
+									</div>
+									<div class="col-12 col-md-4 mb-2">
+										<label class="data-entry-label" for="middle_name" >Middle Name</label>
+										<input type="text" name="middle_name" id="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="data-entry-input">
+									</div>
+									<div class="col-12 col-md-4 mb-2">
+										<label class="data-entry-label" for="last_name">Last Name</label>
+										<input type="text" name="last_name" id="last_name" value="#encodeForHtml(getUserData.last_name)#" class="data-entry-input reqdClr" required>
+									</div>
+									<div class="col-12 col-md-6 mb-2">
+										<label class="data-entry-label" for="affiliation">Affiliation</label>
+										<input type="text" name="affiliation" id="affiliation" class="data-entry-input reqdClr" value="#encodeForHtml(getUserData.affiliation)#" required>
+									</div>
+									<div class="col-12 col-md-6 mb-2">
+										<label class="data-entry-label" for="email">Email</label>
+										<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
+									</div>
+									<div class="col-12 mb-2">
+										<h4 class="h4 px-1 mt-1">You cannot recover from a lost password unless you enter an email address.</h4>
+										<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 my-1 ">	
+									</div>
 								</div>
-								<div class="col-12 mb-2">
-									<label class="data-entry-label" for="middle_name" >Middle Name</label>
-									<input type="text" name="middle_name" id="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="data-entry-input">
-								</div>
-								<div class="col-12 mb-2">
-									<label class="data-entry-label" for="last_name">Last Name</label>
-									<input type="text" name="last_name" id="last_name" value="#encodeForHtml(getUserData.last_name)#" class="data-entry-input reqdClr" required>
-								</div>
-								<div class="col-12 mb-2">
-									<label class="data-entry-label" for="affiliation">Affiliation</label>
-									<input type="text" name="affiliation" id="affiliation" class="data-entry-input reqdClr" value="#encodeForHtml(getUserData.affiliation)#" required>
-								</div>
-								<div class="col-12 mb-2">
-									<label class="data-entry-label" for="email">Email</label>
-									<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
-								</div>
-								<div class="col-12 mb-2">
-									<h4 class="h4 px-1 mt-1">You cannot recover from a lost password unless you enter an email address.</h4>
-									<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 my-1 ">	
-								</div>
-							</div>
-						</form>
+							</form>
 				
-						<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-							select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
-						</cfquery>
-						<cfquery name="collectionList" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
-							select cf_collection_id,collection from cf_collection
-							order by collection
-						</cfquery>
-						<cfquery name="getDownloadProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
-							SELECT 
-								username, name, download_profile_id, sharing, target_search, column_list, decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
-							FROM 
-								download_profile
-								left join agent_name on upper(download_profile.username) = upper(agent_name.agent_name) and agent_name_type = 'login'
-							WHERE
-								upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
-								or sharing = 'Everyone'
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									or sharing = 'MCZ'
-								</cfif>
-							ORDER BY name
-						</cfquery>
+							<cfquery name="OtherIdType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+								select distinct(other_id_type) FROM CTCOLL_OTHER_ID_TYPE ORDER BY other_Id_Type
+							</cfquery>
+							<cfquery name="collectionList" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
+								select cf_collection_id,collection from cf_collection
+								order by collection
+							</cfquery>
+							<cfquery name="getDownloadProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
+								SELECT 
+									username, name, download_profile_id, sharing, target_search, column_list, decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
+								FROM 
+									download_profile
+									left join agent_name on upper(download_profile.username) = upper(agent_name.agent_name) and agent_name_type = 'login'
+								WHERE
+									upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+									or sharing = 'Everyone'
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										or sharing = 'MCZ'
+									</cfif>
+								ORDER BY name
+							</cfquery>
 
-						<h3 class="h3 mt-3 mb-0">
-								MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
-						</h3>
+							<h3 class="h3 mt-3 mb-0">
+									MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
+							</h3>
 						<!--- Most settings are session variables --->
 						<!--- values are obtained from the session --->
 						<!--- changing involves both changing the persistence store and the session variable.  --->
-						<output id="changeFeedback">&nbsp;</output>
-						<div class="form-row mx-0">
-							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
-								<div class="col-12 px-0 mb-2">
-									<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
-									<cfif not isDefined("session.specimens_default_action")>
-										<cfset session.specimens_default_action = "fixedSearch">
-									</cfif>
-									<select name="specimens_default_action" id="specimens_default_action" class="data-entry-input" onchange="changeSpecimensDefaultAction(this.value)">
-										<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
-										<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
-										<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
-									</select>
-								</div>
-								<div class="col-12 px-0 mb-2">
-									<label for="specimens_pin_guid" class="data-entry-label">Pin GUID column</label>
-									<cfif not isDefined("session.specimens_pin_guid")>
-										<cfset session.specimens_pin_guid = "no">
-									</cfif>
-									<select name="specimens_pin_guid" id="specimens_pin_guid" class="data-entry-select" onchange="changeSpecimensPinGuid(this.value)">
-										<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
-										<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
-									</select>
-								</div>
-								<div class="col-12 px-0 mb-2">
-									<label for="specimens_pagesize" class="data-entry-label">Default Rows in Specimen Search Grid</label>
-									<cfif not isDefined("session.specimens_pagesize")>
-										<cfset session.specimens_pagesize = "25">
-									</cfif>
-									<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000' --->
-									<select name="specimens_pagesize" id="specimens_pagesize" class="data-entry-select" onchange="changeSpecimensPageSize(this.value)">
-										<option value="5" <cfif session.specimens_pagesize EQ "5"> selected="selected" </cfif>>5 (good for phone)</option>
-										<option value="10" <cfif session.specimens_pagesize EQ "10"> selected="selected" </cfif>>10 (good for right/left scroll)</option>
-										<option value="25" <cfif session.specimens_pagesize EQ "25"> selected="selected" </cfif>>25 (default)</option>
-										<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
-										<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
-										<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
-									</select>
-								</div>
-								<div class="col-12 px-0 mb-2">
-									<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
-									<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
-									<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
-										<option></option>
-										<cfloop query="getDownloadProfiles">
-											<cfif getDownloadProfiles.target_search EQ "Specimens">
-												<cfset columnCount = ListLen(getDownloadProfiles.column_list)>
-												<cfif getDownloadProfiles.download_profile_id EQ getUserData.specimens_download_profile><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-												<option value="#getDownloadProfiles.download_profile_id#" #selected#>#getDownloadProfiles.name# (#columnCount# cols. by #getDownloadProfiles.owner_name# visible to #getDownloadProfiles.sharing#)</option>
-											</cfif>
-										</cfloop>
-									</select>
-								</div>
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 px-0 mb-2">
-										<span class="h4 ml-3"><a href="/users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
-									</div>
-								</cfif>
-								<div class="col-12 px-0 mb-2">
-									<label for="customOtherIdentifier" class="data-entry-label" >My Other Identifier</label>
-									<select name="customOtherIdentifier" id="customOtherIdentifier"
-										size="1" class="data-entry-select" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
-										<option value="">None</option>
-										<cfloop query="OtherIdType">
-											<option
-												<cfif session.CustomOtherIdentifier is other_id_type>selected="selected"</cfif>
-												value="#other_id_type#">#other_id_type#</option>
-										</cfloop>
-									</select>
-								</div>
-								<div class="col-12 px-0 mb-2">
-									<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
-									<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
-										<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
-										<option value="1" <cfif session.killRow is 1> selected="selected" </cfif>>Yes</option>
-									</select>
-								</div>
-								<div class="col-12 px-0 mb-2">
-									<label for="showObservations" class="data-entry-label" >Include Observations? (currently old search only)</label>
-									<select name="showObservations" id="showObservations" class="data-entry-select" onchange="changeshowObservations(this.value)">
-										<option value="0" <cfif session.showObservations neq 1> selected="selected" </cfif>>No</option>
-										<option value="1" <cfif session.showObservations is 1> selected="selected" </cfif>>Yes</option>
-									</select>
-								</div>
-								<cfif len(session.roles) gt 0 and session.roles is "public">
-									<div class="col-12 px-0 mb-2">
-										<cfif isdefined("session.portal_id")>
-											<cfset pid=session.portal_id>
-										<cfelse>
-											<cfset pid="">
+							<output id="changeFeedback">&nbsp;</output>
+							<div class="form-row mx-0">
+								<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
+									<div class="col-12 col-md-6 px-0 mb-2">
+										<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
+										<cfif not isDefined("session.specimens_default_action")>
+											<cfset session.specimens_default_action = "fixedSearch">
 										</cfif>
-										<label for="exclusive_collection_id" class="data-entry-label" >Filter Results By Collection (currently old search only)</label>
-										<select name="exclusive_collection_id" id="exclusive_collection_id"
-											class="data-entry-select" onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
-			 								<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
-											<cfloop query="collectionList">
-												<option <cfif pid is cf_collection_id>selected="selected" </cfif> value="#cf_collection_id#">#collection#</option>
+										<select name="specimens_default_action" id="specimens_default_action" class="data-entry-input" onchange="changeSpecimensDefaultAction(this.value)">
+											<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
+											<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
+											<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 px-0 mb-2">
+										<label for="specimens_pin_guid" class="data-entry-label">Pin GUID column</label>
+										<cfif not isDefined("session.specimens_pin_guid")>
+											<cfset session.specimens_pin_guid = "no">
+										</cfif>
+										<select name="specimens_pin_guid" id="specimens_pin_guid" class="data-entry-select" onchange="changeSpecimensPinGuid(this.value)">
+											<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
+											<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 px-0 mb-2">
+										<label for="specimens_pagesize" class="data-entry-label">Default Rows in Specimen Search Grid</label>
+										<cfif not isDefined("session.specimens_pagesize")>
+											<cfset session.specimens_pagesize = "25">
+										</cfif>
+										<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000' --->
+										<select name="specimens_pagesize" id="specimens_pagesize" class="data-entry-select" onchange="changeSpecimensPageSize(this.value)">
+											<option value="5" <cfif session.specimens_pagesize EQ "5"> selected="selected" </cfif>>5 (good for phone)</option>
+											<option value="10" <cfif session.specimens_pagesize EQ "10"> selected="selected" </cfif>>10 (good for right/left scroll)</option>
+											<option value="25" <cfif session.specimens_pagesize EQ "25"> selected="selected" </cfif>>25 (default)</option>
+											<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
+											<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
+											<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
+										</select>
+									</div>
+			
+									<div class="col-12 col-md-6 px-0 mb-2">
+										<label for="customOtherIdentifier" class="data-entry-label" >My Other Identifier</label>
+										<select name="customOtherIdentifier" id="customOtherIdentifier"
+											size="1" class="data-entry-select" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
+											<option value="">None</option>
+											<cfloop query="OtherIdType">
+												<option
+													<cfif session.CustomOtherIdentifier is other_id_type>selected="selected"</cfif>
+													value="#other_id_type#">#other_id_type#</option>
 											</cfloop>
 										</select>
 									</div>
-								</cfif>
-								<div class="col-12 px-0 mb-2">
-									<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
-									<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
-										<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
-										<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
-										<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
-										<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
-									</select>
-								</div>
-								<div class="col-12 px-0 mb-2">
-									<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
-									<select name="fancyCOID" id="fancyCOID"
-										size="1" class="data-entry-select" onchange="this.className='red';changefancyCOID(this.value);">
-										<option <cfif #session.fancyCOID# is not 1>selected="selected"</cfif> value="">No</option>
-										<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
-									</select>
-								</div>
-								<div class="col-12 px-0 mb-2">
-									<label for="block_suggest" class="data-entry-label" >Suggest Browse (unused)</label>
-									<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
-										<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
-										<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
-									</select>
-								</div>
-							</form>
+									<div class="col-12 px-0 mb-2">
+										<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
+										<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
+											<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
+											<option value="1" <cfif session.killRow is 1> selected="selected" </cfif>>Yes</option>
+										</select>
+									</div>
+									<div class="col-12 px-0 mb-2">
+										<label for="showObservations" class="data-entry-label" >Include Observations? (currently old search only)</label>
+										<select name="showObservations" id="showObservations" class="data-entry-select" onchange="changeshowObservations(this.value)">
+											<option value="0" <cfif session.showObservations neq 1> selected="selected" </cfif>>No</option>
+											<option value="1" <cfif session.showObservations is 1> selected="selected" </cfif>>Yes</option>
+										</select>
+									</div>
+									<cfif len(session.roles) gt 0 and session.roles is "public">
+										<div class="col-12 px-0 mb-2">
+											<cfif isdefined("session.portal_id")>
+												<cfset pid=session.portal_id>
+											<cfelse>
+												<cfset pid="">
+											</cfif>
+											<label for="exclusive_collection_id" class="data-entry-label" >Filter Results By Collection (currently old search only)</label>
+											<select name="exclusive_collection_id" id="exclusive_collection_id"
+												class="data-entry-select" onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
+												<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
+												<cfloop query="collectionList">
+													<option <cfif pid is cf_collection_id>selected="selected" </cfif> value="#cf_collection_id#">#collection#</option>
+												</cfloop>
+											</select>
+										</div>
+									</cfif>
+									<div class="col-12 col-md-6 px-0 mb-2">
+										<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
+										<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
+											<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
+											<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
+											<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
+											<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 px-0 mb-2">
+										<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
+										<select name="fancyCOID" id="fancyCOID"
+											size="1" class="data-entry-select" onchange="this.className='red';changefancyCOID(this.value);">
+											<option <cfif #session.fancyCOID# is not 1>selected="selected"</cfif> value="">No</option>
+											<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 px-0 mb-2">
+										<label for="block_suggest" class="data-entry-label" >Suggest Browse (unused)</label>
+										<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
+											<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
+											<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
+										</select>
+									</div>
+									<div class="col-12 px-0 mb-2">
+										<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
+										<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
+										<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
+											<option></option>
+											<cfloop query="getDownloadProfiles">
+												<cfif getDownloadProfiles.target_search EQ "Specimens">
+													<cfset columnCount = ListLen(getDownloadProfiles.column_list)>
+													<cfif getDownloadProfiles.download_profile_id EQ getUserData.specimens_download_profile><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+													<option value="#getDownloadProfiles.download_profile_id#" #selected#>#getDownloadProfiles.name# (#columnCount# cols. by #getDownloadProfiles.owner_name# visible to #getDownloadProfiles.sharing#)</option>
+												</cfif>
+											</cfloop>
+										</select>
+									</div>
+									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+										<div class="col-12 px-0 mb-2">
+											<span class="h4 ml-3"><a href="/users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
+										</div>
+									</cfif>
+								</form>
+							</div>
 						</div>
 					</div>				
-					<div class="col-12 col-md-6 float-left">
+					<div class="col-12 col-md-4 float-left">
 						<div id="divRss" class="h-75">
 							<div class="shell h-100"><h2 class="h3 py-2 px-2 text-center">Checking the wiki for documentation updates...</h2></div>
 						</div>
