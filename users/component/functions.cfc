@@ -254,14 +254,19 @@ limitations under the License.
 							<div id="included_fields" class="w-75"></div>
 							<script>
 								$(document).ready(function () {
-									// TODO: preserve field order on edit, store then iterate through column_list from getProfile
+									// Preserve field order on edit, store then iterate through column_list from getProfile
 									var fieldList = [
-										<cfset separator="">
+										<cfset listItems = ArrayNew(listLen(column_list,",",false))>
 										<cfloop query="getFields">
-											<cfif (mode EQ "edit" AND listcontains(column_list,column_name) ) OR ( minimal_fg EQ 1) >
-												#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#"  }
-												<cfset separator=",">
+											<cfif (mode EQ "edit" AND listContainsNoCase(column_list,column_name) ) OR ( minimal_fg EQ 1) >
+												<cfset position = listFindNoCase(column_list,column_name)>
+												<cfset listItems[position] = '{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }'><!--- ' --->
 											</cfif>
+										</cfloop>
+										<cfset separator="">
+										<cfloop array="listItems" index="item">
+											#separator##item#
+											<cfset separator=",">
 										</cfloop>
 									];
 									var source = {
