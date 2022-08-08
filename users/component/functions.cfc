@@ -254,13 +254,13 @@ limitations under the License.
 							<div id="included_fields" class="w-75"></div>
 							<script>
 								$(document).ready(function () {
-									// Preserve field order on edit, store then iterate through column_list from getProfile
-									<cfset listItems = ArrayNew(1)>
-									<cfloop from="1" to="#listLen(column_list,',',false)#" index="i">
-										<cfset listItems[i] = ""> 
-									</cfloop>
 									var fieldList = [
 										<cfif mode EQ "edit">
+											// Preserve field order on edit, store then iterate through column_list from getProfile
+											<cfset listItems = ArrayNew(1)>
+											<cfloop from="1" to="#listLen(column_list,',',false)#" index="i">
+												<cfset listItems[i] = ""> 
+											</cfloop>
 											<cfloop query="getFields">
 												<cfif listContainsNoCase(column_list,column_name) GT 0 >
 													<cfset position = listFindNoCase(column_list,column_name)>
@@ -275,6 +275,7 @@ limitations under the License.
 												<cfset separator=",">
 											</cfloop>
 										<cfelse>
+											// field order as specified in metadata table
 											<cfset separator="">
 											<cfloop query="getFields">
 												<cfif minimal_fg EQ 1>
