@@ -243,11 +243,11 @@ limitations under the License.
 							<input type="text" class="data-entry-input disabled" id="target_search" name="target_search" value="#target_search_value#" disabled >
 							<label class="data-entry-label" for="sharing">Share with</label>
 							<select class="data-entry-select" id="sharing" name="sharing">
-								<cfif sharing_value EQ "Self"><cfset selected = "selected"><cfelse><selected = ""></cfif>
+								<cfif sharing_value EQ "Self"><cfset selected = "selected"><cfelse><cfset selected = ""></cfif>
 								<option value="Self" #selected# >Self</option>
-								<cfif sharing_value EQ "MCZ"><cfset selected = "selected"><cfelse><selected = ""></cfif>
+								<cfif sharing_value EQ "MCZ"><cfset selected = "selected"><cfelse><cfset selected = ""></cfif>
 								<option value="MCZ" #selected#>MCZ</option>
-								<cfif sharing_value EQ "Everyone"><cfset selected = "selected"><cfelse><selected = ""></cfif>
+								<cfif sharing_value EQ "Everyone"><cfset selected = "selected"><cfelse><cfset selected = ""></cfif>
 								<option value="Everyone" #selected#>Everyone</option>
 							</select>
 							<label class="h4" for="included_fields">Columns Included (drag to change order or drag to columns available to remove)</label>
