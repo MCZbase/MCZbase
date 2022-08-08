@@ -443,11 +443,12 @@ limitations under the License.
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
 													OR (isDefined("phylorder") and len(phylorder) GT 0)
 													OR (isDefined("family") and len(family) GT 0)
-													OR (isDefined("genus") and len(genus) GT 0)>
-													OR (isDefined("species") and len(species) GT 0)>
-													OR (isDefined("determiner") and len(determiner) GT 0)>
-													OR (isDefined("citation") and len(citation) GT 0)>
-													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)>
+													OR (isDefined("genus") and len(genus) GT 0)
+													OR (isDefined("species") and len(species) GT 0)
+													OR (isDefined("determiner") and len(determiner) GT 0)
+													OR (isDefined("citation") and len(citation) GT 0)
+													OR (isDefined("nature_of_id") and len(nature_of_id) GT 0)
+												>
 													<cfset hiddenHaveValue = true>
 												</cfif>
 												<cfif listFind(searchPrefList,"TaxaDetail") GT 0 OR hiddenHaveValue>
