@@ -321,7 +321,7 @@ limitations under the License.
 									<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
 								</div>
 								<div class="col-12 mb-1">
-									<h4 class="h4">You cannot recover from a lost password unless you enter an email address.</h4>
+									<h4 class="h4 px-1 mt-1">You cannot recover from a lost password unless you enter an email address.</h4>
 									<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1 ">	
 								</div>
 							</div>
