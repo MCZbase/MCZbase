@@ -194,8 +194,8 @@ limitations under the License.
 								<div class="col-10">
 									<div id="available_fields" class="w-100"></div>
 								</div>
-								<div class="col-2">
-									<button onClick="moveSelectionToIncluded();" class="btn btn-secondary w-100 h1" aria-label="Move selected fields from available fields to included fields.">&rArr;</button>
+								<div class="col-2 pt-5">
+									<button onClick="moveSelectionToIncluded();" class="btn btn-secondary w-100 h1 mt-5" aria-label="Move selected fields from available fields to included fields.">&rArr;</button>
 									<button onClick="removeSelectionFromIncluded();" class="btn btn-secondary w-100 h1" arial-label="Move selected fields from included fields to available fields.">&lArr;</button>
 								</div>
 							</div>
