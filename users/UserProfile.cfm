@@ -428,7 +428,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row mx-0">
-										<cfif len(session.roles) gt 0 and session.roles is "public">
+										<cfif len(session.roles) gt 0 OR session.roles is "public">
 											<div class="col-12 col-md-6 float-left mb-2">
 												<cfif isdefined("session.portal_id")>
 													<cfset pid=session.portal_id>
