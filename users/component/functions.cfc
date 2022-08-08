@@ -197,7 +197,7 @@ limitations under the License.
 								<div class="col-2">
 									<button onClick="moveSelectionToIncluded();")>&rArr;</button>
 									<button onClick="removeSelectionFromIncluded();")>&lArr;</button>
-								<div>
+								</div>
 							</div>
 							<script>
 								function moveSelectionToIncluded() { 
