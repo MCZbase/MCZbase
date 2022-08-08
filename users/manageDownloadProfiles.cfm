@@ -16,6 +16,7 @@
 				retval = JSON.parse(result)
 				if (retval.DATA.STATUS[0]=="deleted") { 
 					$("#tr" + download_profile_id).hide();
+					$("#feedbackDiv").html("Deleted Record");
 					$("#userSearchCount").html(retval.DATA.USER_SEARCH_COUNT[0]);
 				} else {
 					// we shouldn't get here, but in case.
@@ -44,6 +45,7 @@
 		});
 	};
 	function loadNewDownloadProfileForm() { 
+		$("#feedbackDiv").html("");
 		jQuery.ajax({
 			url: "/users/component/functions.cfc",
 			data: {
@@ -59,6 +61,7 @@
 		});
 	};
 	function loadEditDownloadProfileForm(download_profile_id) { 
+		$("#feedbackDiv").html("");
 		jQuery.ajax({
 			url: "/users/component/functions.cfc",
 			data: {
@@ -84,6 +87,7 @@
 				<cfset profileBlockContent = getDownloadProfilesHtml()>
 				<div id="profileBlock">#profileBlockContent#</div>
 				<button class="btn btn-xs btn-secondary" onClick="loadNewDownloadProfileForm();">New</button>
+				<output id="feedbackDiv"></output>
 				<div id="manageProfileBlock"></div>
 			</div>
 		</section>

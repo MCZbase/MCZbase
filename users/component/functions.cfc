@@ -347,7 +347,8 @@ limitations under the License.
 											success : function(result) { 
 												retval = JSON.parse(result)
 												if (retval.DATA.STATUS[0]=="saved") { 
-													$("##feedback").html(retval.DATA.MESSAGE[0]);
+													$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
+													$("##manageProfileFormDiv").hide();
 												} else {
 													// we shouldn't get here, but in case.
 													alert("Error, problem adding new download profile");
@@ -387,7 +388,8 @@ limitations under the License.
 											success : function(result) { 
 												retval = JSON.parse(result)
 												if (retval.DATA.STATUS[0]=="inserted") { 
-													$("##feedback").html(retval.DATA.MESSAGE[0]);
+													$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
+													$("##manageProfileFormDiv").hide();
 												} else {
 													// we shouldn't get here, but in case.
 													alert("Error, problem adding new download profile");
