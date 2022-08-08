@@ -294,7 +294,7 @@ limitations under the License.
 						</cfquery>
 						<div class="border float-left p-3">
 							<h3 class="mb-0 mt-3">Personal Profile</h3>
-							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-light px-2 py-1">
+							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-verylightteal px-2 py-1">
 								<input type="hidden" name="user_id" value="#getUserData.user_id#">
 								<input type="hidden" name="action" value="saveProfile">
 								<div class="form-row mx-0">
