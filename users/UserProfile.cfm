@@ -357,14 +357,14 @@ limitations under the License.
 								ORDER BY name
 							</cfquery>
 
-							<h3 class="h3 mt-3 mb-0 px-2">
+							<h3 class="h3 mt-3 mb-0 px-1">
 									MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
 							</h3>
 						<!--- Most settings are session variables --->
 						<!--- values are obtained from the session --->
 						<!--- changing involves both changing the persistence store and the session variable.  --->
 							<output id="changeFeedback">&nbsp;</output>
-							<div class=" mx-0">
+							<div class="form-row">
 								<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
 									<div class="form-row mx-0">
 										<div class="col-12 col-md-6 float-left mb-2">
