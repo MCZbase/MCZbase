@@ -210,11 +210,19 @@ limitations under the License.
 								}
 								function moveSelectionToIncluded() { 
 									var selectedItems = $("##available_fields").jqxListBox("getSelectedItems");
+									$("##included_fields").jqxListBox("beginUpdate");
+									$("##available_fields").jqxListBox("beginUpdate");
 									selectedItems.forEach(moveFieldToIncluded);
+									$("##included_fields").jqxListBox("endUpdate");
+									$("##available_fields").jqxListBox("endUpdate");
 								}
 								function removeSelectionFromIncluded() { 
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
+									$("##included_fields").jqxListBox("beginUpdate");
+									$("##available_fields").jqxListBox("beginUpdate");
 									selectedItems.forEach(moveFieldToAvailable);
+									$("##included_fields").jqxListBox("endUpdate");
+									$("##available_fields").jqxListBox("endUpdate");
 								}
 								$(document).ready(function () {
 									var fieldList = [
@@ -286,13 +294,32 @@ limitations under the License.
 								</div>
 							</div>
 							<script>
+								function moveFieldUp(item) {
+									var idx = item.index;
+									if (idx > 1) { 
+										$("##included_fields").jqxListBox("removeItem",item);
+										$("##included_fields").jqxListBox("insertAt",item,idx+1);
+									}
+								}
+								function moveFieldDown(item) {
+									var idx = item.index;
+									var items = $("##included_fields").jqxListBox("getItems");
+									if (idx<items) { 
+										$("##included_fields").jqxListBox("removeItem",item);
+										$("##included_fields").jqxListBox("insertAt",item,idx-1);
+									}
+								}
 								function moveUp() { 
+									$("##included_fields").jqxListBox("beginUpdate");
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
-									messageDialog("Not implemented yet, drag fields to change order");
+									selectedItems.forEach(moveFieldUp);
+									$("##included_fields").jqxListBox("endUpdate");
 								}
 								function moveDown() { 
+									$("##included_fields").jqxListBox("beginUpdate");
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
-									messageDialog("Not implemented yet, drag fields to change order");
+									selectedItems.forEach(moveFieldDown);
+									$("##included_fields").jqxListBox("endUpdate");
 								}
 								$(document).ready(function () {
 									var fieldList = [
