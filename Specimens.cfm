@@ -516,26 +516,14 @@ limitations under the License.
 														</script>
 													</div>
 													<div class="col-12 mb-1 col-md-2">
-														<label for="determiner" class="data-entry-label small">Determiner</label>
-														<cfif not isdefined("determiner")><cfset determiner=""></cfif>
-														<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
-														<!--- lookup agent name --->
-														<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
-															<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
-																SELECT agent_name
-																FROM preferred_agent_name
-																WHERE
-																	agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
-															</cfquery>
-															<cfif lookupDeterminer.recordcount EQ 1>
-																<cfset determiner = "=#lookupDeterminer.agent_name#">
-															</cfif>
-														</cfif>
-														<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#encodeForHtml(determiner_id)#" >
-														<input type="text" id="determiner" name="determiner" class="data-entry-input inputHeight" value="#encodeForHtml(determiner)#" >
+														<label for="type_status" class="data-entry-label small">Type Status/Citation
+															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+														</label>
+														<cfif not isdefined("type_status")><cfset type_status=""></cfif>
+														<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
 														<script>
 															jQuery(document).ready(function() {
-																makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
+																makeTypeStatusSearchAutocomplete('type_status');
 															});
 														</script>
 													</div>
@@ -573,7 +561,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="family" class="data-entry-label small">Family</label>
 																<cfif not isdefined("family")><cfset family=""></cfif>
 																<input type="text" id="family" name="family" class="data-entry-input inputHeight" value="#encodeForHtml(family)#" >
@@ -583,7 +571,7 @@ limitations under the License.
 																	});
 																</script>
 															</div>
-															<div class="col-12 mb-1 col-md-3">
+															<div class="col-12 mb-1 col-md-2">
 																<label for="genus" class="data-entry-label small">Genus</label>
 																<cfif not isdefined("genus")><cfset genus=""></cfif>
 																<input type="text" class="data-entry-input inputHeight" id="genus" name="genus" value="#encodeForHtml(genus)#">
@@ -593,18 +581,40 @@ limitations under the License.
 																	});
 																</script>
 															</div>
+															<div class="col-12 mb-1 col-md-2">
+																<label for="species" class="data-entry-label small">Specific Name</label>
+																<cfif not isdefined("species")><cfset species=""></cfif>
+																<input type="text" class="data-entry-input inputHeight" id="species" name="species" value="#encodeForHtml(species)#">
+																<script>
+																	jQuery(document).ready(function() {
+																		makeTaxonSearchAutocomplete('species','species');
+																	});
+																</script>
+															</div>
 															
 														</div>
 														<div class="form-row col-12 col-md-12 px-0 mx-0 mb-0">
-															<div class="col-12 mb-1 col-md-4">
-																<label for="type_status" class="data-entry-label small">Type Status/Citation
-																	<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick=" $('##type_status').autocomplete('search','%%%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
-																</label>
-																<cfif not isdefined("type_status")><cfset type_status=""></cfif>
-																<input type="text" class="data-entry-input inputHeight" id="type_status" name="type_status" value="#encodeForHtml(type_status)#">
+															<div class="col-12 mb-1 col-md-2">
+																<label for="determiner" class="data-entry-label small">Determiner</label>
+																<cfif not isdefined("determiner")><cfset determiner=""></cfif>
+																<cfif not isdefined("determiner_id")><cfset determiner_id=""></cfif>
+																<!--- lookup agent name --->
+																<cfif len(determiner) EQ 0 AND len(determiner_id) GT 0>
+																	<cfquery name="lookupDeterminer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupDeterminer_result">
+																		SELECT agent_name
+																		FROM preferred_agent_name
+																		WHERE
+																			agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#determiner_id#">
+																	</cfquery>
+																	<cfif lookupDeterminer.recordcount EQ 1>
+																		<cfset determiner = "=#lookupDeterminer.agent_name#">
+																	</cfif>
+																</cfif>
+																<input type="hidden" id="determiner_id" name="determiner_id" class="data-entry-input" value="#encodeForHtml(determiner_id)#" >
+																<input type="text" id="determiner" name="determiner" class="data-entry-input inputHeight" value="#encodeForHtml(determiner)#" >
 																<script>
 																	jQuery(document).ready(function() {
-																		makeTypeStatusSearchAutocomplete('type_status');
+																		makeConstrainedAgentPicker('determiner', 'determiner_id', 'determiner');
 																	});
 																</script>
 															</div>

@@ -1038,6 +1038,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="full_taxon_name" type="string" required="no">
 	<cfargument name="any_taxa_term" type="string" required="no">
 	<cfargument name="current_id_only" type="string" required="no">
+	<cfargument name="species" type="string" required="no">
 	<cfargument name="genus" type="string" required="no">
 	<cfargument name="family" type="string" required="no">
 	<cfargument name="phylorder" type="string" required="no">
@@ -1380,6 +1381,13 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("author_text") AND len(author_text) GT 0>
 			<cfset field = '"field": "author_text"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#author_text#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("species") AND len(species) GT 0>
+			<cfset field = '"field": "species"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#species#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
