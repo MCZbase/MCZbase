@@ -255,8 +255,11 @@ limitations under the License.
 							<script>
 								$(document).ready(function () {
 									// Preserve field order on edit, store then iterate through column_list from getProfile
+									<cfset listItems = ArrayNew(1)>
+									<cfloop from="0" to=listLen(column_list,",",false) index="i">
+										<cfset listItems[i] = ""> 
+									</cfloop>
 									var fieldList = [
-										<cfset listItems = ArrayNew(listLen(column_list,",",false))>
 										<cfloop query="getFields">
 											<cfif (mode EQ "edit" AND listContainsNoCase(column_list,column_name) ) OR ( minimal_fg EQ 1) >
 												<cfset position = listFindNoCase(column_list,column_name)>
