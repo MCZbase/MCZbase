@@ -524,7 +524,7 @@ limitations under the License.
 				<cfset t = queryaddrow(result,1)>
 				<cfset t = QuerySetCell(result, "status", "saved", 1)>
 				<cfset t = QuerySetCell(result, "message", "Record saved.", 1)>
-				<cfset t = QuerySetCell(result, "download_profile_id", "#createProfile_result.generatedkey#", 1)>
+				<cfset t = QuerySetCell(result, "download_profile_id", "#encodeForHtml(download_profile_id)#", 1)>
 			<cfelse>
 				<cfthrow message="Unable to save specified profile [#encodeForHtml(download_profile_id)#].">
 			</cfif>
