@@ -200,13 +200,21 @@ limitations under the License.
 								</div>
 							</div>
 							<script>
+								function moveFieldToIncluded(item) {
+									$("##included_fields").jqxListBox("addItem",item);
+									$("##available_fields").jqxListBox("removeItem",item);
+								}
+								function moveFieldToAvailable(item) {
+									$("##available_fields").jqxListBox("addItem",item);
+									$("##included_fields").jqxListBox("removeItem",item);
+								}
 								function moveSelectionToIncluded() { 
 									var selectedItems = $("##available_fields").jqxListBox("getSelectedItems");
-									messageDialog("Not implemented yet, drag fields to add/remove");
+									selectedItems.forEach(moveFieldToIncluded);
 								}
 								function removeSelectionFromIncluded() { 
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
-									messageDialog("Not implemented yet, drag fields to add/remove");
+									selectedItems.forEach(moveFieldToAvailable);
 								}
 								$(document).ready(function () {
 									var fieldList = [
@@ -233,7 +241,7 @@ limitations under the License.
 										width:"75%",
 										filterable:true,
 										searchMode:"containsignorecase",
-										enableSelection:false,
+										enableSelection:true,
 										renderer:function (index, label, value) 
 											{
 												var datarecord = $("##available_fields").jqxListBox('source').loadedData.filter(obj => { return obj.id===value })[0];
@@ -298,7 +306,7 @@ limitations under the License.
 												<cfif listContainsNoCase(column_list,column_name) GT 0 >
 													<cfset position = listFindNoCase(column_list,column_name)>
 													<cfif position GT 0>
-														<cfset listItems[position] = '{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }'><!--- ' --->
+														<cfset listItems[position] = '{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }'>
 													</cfif>
 												</cfif>
 											</cfloop>
@@ -331,7 +339,7 @@ limitations under the License.
 										allowDrag:true,
 										allowDrop:true,
 										width:"75%",
-										enableSelection:false,
+										enableSelection:true,
 										renderer:function (index, label, value) 
 											{
 												var datarecord = $("##included_fields").jqxListBox('source').loadedData.filter(obj => { return obj.id===value })[0];
