@@ -296,10 +296,11 @@ limitations under the License.
 						<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border px-2 py-1">
 							<input type="hidden" name="user_id" value="#getUserData.user_id#">
 							<input type="hidden" name="action" value="saveProfile">
-							<h4 class="h4">
-								A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
-							</h4>
+					
 							<div class="form-row mx-0">
+								<h4 class="h4 px-1 mt-2">
+									A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
+								</h4>
 								<div class="col-12 mb-1">
 									<label for="first_name" class="data-entry-label">First Name</label>
 									<input type="text" name="first_name" id="first_name" value="#encodeForHtml(getUserData.first_name)#" class="data-entry-input reqdClr" required>
@@ -322,7 +323,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 mb-1">
 									<h4 class="h4 px-1 mt-1">You cannot recover from a lost password unless you enter an email address.</h4>
-									<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1 ">	
+									<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 my-1 ">	
 								</div>
 							</div>
 						</form>
