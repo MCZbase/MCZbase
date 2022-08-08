@@ -107,6 +107,9 @@ table td .small {
 .border-bottom-ltblue {
 	border-bottom: 2px solid #b8d7f8;
 }
+.bg-verylightteal {
+	background-color: #f2f9ff;
+}
 
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */

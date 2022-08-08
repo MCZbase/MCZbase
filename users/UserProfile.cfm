@@ -151,7 +151,6 @@ limitations under the License.
 </cfcase>
 <cfcase value="nothing">
 	<!------------------------------------------------------------------->
-	<div class="container-fluid">
 		<cfquery name="checkUserExists" datasource="cf_dbuser">
 			SELECT count(*) ct
 			FROM cf_users
@@ -180,8 +179,8 @@ limitations under the License.
 			WHERE user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfoutput query="getPrefs" group="user_id">
-			<div class="container mt-4" id="content">
-				<div class="row mb-5">
+			<div class="container-fluid py-4" id="content">
+				<div class="row mx-0 mb-5">
 					<div class="col-12 col-md-8 mb-2">
 						<h1 class="h2">
 							<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
@@ -194,40 +193,44 @@ limitations under the License.
 						</h1>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 							<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
-							<div class="col-12">
-								<h2 class="h3">Server Settings</h2>
-								<ul>
-									<li>Application.protocol: #Application.protocol#</li>
-									<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
-										<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
-									</cfif>
-									<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
-									<li>Application.serverrole: #Application.serverrole# </li>
-									<cfif NOT isdefined("Session.gitBranch")>
-										<cftry>
-											<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-											<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-										<cfcatch>
-											<cfset gitBranch = "unknown">
-										</cfcatch>
-										</cftry>
-										<cfset Session.gitBranch = gitBranch>
-									</cfif>
-									<li>Session.gitbranch: #Session.gitbranch# </li>
-								</ul>
+							<div class="form-row">
+								<div class="col-12 col-md-6">
+									<h2 class="h3">Server Settings</h2>
+									<ul>
+										<li>Application.protocol: #Application.protocol#</li>
+										<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
+											<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
+										</cfif>
+										<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
+										<li>Application.serverrole: #Application.serverrole# </li>
+										<cfif NOT isdefined("Session.gitBranch")>
+											<cftry>
+												<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+												<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+											<cfcatch>
+												<cfset gitBranch = "unknown">
+											</cfcatch>
+											</cftry>
+											<cfset Session.gitBranch = gitBranch>
+										</cfif>
+										<li>Session.gitbranch: #Session.gitbranch# </li>
+									</ul>
+								</div>
 								<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT count(*) ct, stale_flag 
 									FROM flat
 									GROUP BY stale_flag
 								</cfquery>
-								<h2 class="h3">FLAT Table</h2>
-								<ul>
-									<cfloop query="flatstatus">
-										<cfset flattext = "">
-										<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
-										<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
-									</cfloop>
-								<ul>
+								<div class="col-12 col-md-6">
+									<h2 class="h3">FLAT Table</h2>
+									<ul>
+										<cfloop query="flatstatus">
+											<cfset flattext = "">
+											<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
+											<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
+										</cfloop>
+									<ul>
+								</div>
 							</div>		
 						</cfif>
 						<h2 class="h3">Manage your profile</h2>
@@ -261,8 +264,8 @@ limitations under the License.
 							</cfif>
 						</h3>
 						<h3 class="h4"> 
-							<a href="/users/Searches.cfm">Manage your Saved Searches</a><br>
-							<small>Click "Save Search" from Specimen Results to save a search.</small>
+							<a href="/users/Searches.cfm">Manage your Saved Searches</a>
+							<span class="small pl-1"> (Click "Save Search" from Specimen Results to save a search.)</span>
 						</h4>
 						<cfif isInv.allow is 1>
 							You&apos;ve been invited to become an Operator. Password restrictions apply.
@@ -300,8 +303,8 @@ limitations under the License.
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
 						<div class="border float-left p-3">
-							<h3 class="mb-0 mt-3">Personal Profile</h3>
-							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-light px-2 py-1">
+							<h3 class="my-0">Personal Profile</h3>
+							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-verylightteal px-2 py-1">
 								<input type="hidden" name="user_id" value="#getUserData.user_id#">
 								<input type="hidden" name="action" value="saveProfile">
 								<div class="form-row mx-0">
@@ -356,17 +359,18 @@ limitations under the License.
 									</cfif>
 								ORDER BY name
 							</cfquery>
-
-							<h3 class="h3 mt-3 mb-0 px-2">
-									MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
-							</h3>
-						<!--- Most settings are session variables --->
-						<!--- values are obtained from the session --->
-						<!--- changing involves both changing the persistence store and the session variable.  --->
-							<output id="changeFeedback">&nbsp;</output>
-							<div class=" mx-0">
+							<div class="form-row mx-0 my-2">
+								<h3 class="h3 mt-3 mb-0 px-1 col-auto float-left px-1">
+										MCZbase Settings <span class="font-weight-lessbold small">(settings related to how you see search results)</span>
+								</h3>
+								<!--- Most settings are session variables --->
+								<!--- values are obtained from the session --->
+								<!--- changing involves both changing the persistence store and the session variable.  --->
+								<output id="changeFeedback" class="text-danger float-left pl-1 mt-0 mt-xl-3 pt-1 small90">&nbsp;</output>
+							</div>
+			
 								<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
 											<cfif not isDefined("session.specimens_default_action")>
@@ -389,7 +393,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="specimens_pagesize" class="data-entry-label">Default Rows in Specimen Search Grid</label>
 											<cfif not isDefined("session.specimens_pagesize")>
@@ -418,7 +422,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
 											<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
@@ -434,35 +438,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
-										<cfif len(session.roles) gt 0 OR session.roles is "public">
-											<div class="col-12 col-md-6 float-left mb-2">
-												<cfif isdefined("session.portal_id")>
-													<cfset pid=session.portal_id>
-												<cfelse>
-													<cfset pid="">
-												</cfif>
-												<label for="exclusive_collection_id" class="data-entry-label" >Filter Results By Collection (currently old search only)</label>
-												<select name="exclusive_collection_id" id="exclusive_collection_id"
-													class="data-entry-select" onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
-													<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
-													<cfloop query="collectionList">
-														<option <cfif pid is cf_collection_id>selected="selected" </cfif> value="#cf_collection_id#">#collection#</option>
-													</cfloop>
-												</select>
-											</div>
-										</cfif>
-										<div class="col-12 col-md-6 float-left mb-2">
-											<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
-											<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
-												<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
-												<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
-												<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
-												<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
 											<select name="fancyCOID" id="fancyCOID"
@@ -479,8 +455,36 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
-										<div class="col-12 col-md-7 float-left mb-2">
+									<div class="form-row">
+										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
+											<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
+												<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
+												<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
+												<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
+												<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
+											</select>
+										</div>
+										<cfif len(session.roles) gt 0 AND session.roles is "public">
+											<div class="col-12 col-md-6 float-left mb-2">
+											<cfif isdefined("session.portal_id")>
+												<cfset pid=session.portal_id>
+											<cfelse>
+												<cfset pid="">
+											</cfif>
+											<label for="exclusive_collection_id" class="data-entry-label" >Filter Results By Collection (currently old search only)</label>
+												<select name="exclusive_collection_id" id="exclusive_collection_id"
+												class="data-entry-select" onchange="this.className='red';changeexclusive_collection_id(this.value);" size="1">
+												<option  <cfif pid is "" or pid is 0>selected="selected" </cfif> value="">All</option>
+												<cfloop query="collectionList">
+													<option <cfif pid is cf_collection_id>selected="selected" </cfif> value="#cf_collection_id#">#collection#</option>
+												</cfloop>
+												</select>
+											</div>
+										</cfif>
+									</div>
+									<div class="form-row">
+										<div class="col-12 col-xl-7 float-left mb-2">
 											<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
 											<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
 											<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
@@ -495,13 +499,13 @@ limitations under the License.
 											</select>
 										</div>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-											<div class="col-12 col-md-5 float-left px-0 mb-2 pt-3">
+											<div class="col-12 col-xl-5 float-left px-0 mb-2 pt-0 pt-xl-3">
 												<span class="h4 ml-3"><a href="/users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
 											</div>
 										</cfif>
 									</div>
 								</form>
-							</div>
+				
 						</div>
 					</div>				
 					<div class="col-12 col-md-4 float-left">
@@ -539,7 +543,6 @@ limitations under the License.
 				</div>
 			</div>
 		</cfoutput>
-	</div>
 </cfcase>
 <cfcase value="saveProfile">
 	<!--- get the values they filled in --->
