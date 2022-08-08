@@ -350,7 +350,7 @@ limitations under the License.
 								ORDER BY name
 							</cfquery>
 
-							<h3 class="h3 mt-3 mb-0">
+							<h3 class="h3 mt-3 mb-0 px-2">
 									MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
 							</h3>
 						<!--- Most settings are session variables --->
@@ -456,7 +456,7 @@ limitations under the License.
 											<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
 										</select>
 									</div>
-									<div class="col-12 col-md-6 float-left px-0 mb-2">
+									<div class="col-12 col-md-6 float-left mb-2">
 										<label for="block_suggest" class="data-entry-label" >Suggest Browse (unused)</label>
 										<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
 											<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
