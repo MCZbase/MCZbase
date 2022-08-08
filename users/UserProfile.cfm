@@ -320,10 +320,10 @@ limitations under the License.
 									<label class="data-entry-label" for="email">Email</label>
 									<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
 								</div>
-							</div>
-							<div class="form-group col-md-12 col-sm-12 mb-1">
-								<h4 class="h4">You cannot recover from a lost password unless you enter an email address.</h4>
-								<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1 ">	
+								<div class="col-12 mb-1">
+									<h4 class="h4">You cannot recover from a lost password unless you enter an email address.</h4>
+									<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1 ">	
+								</div>
 							</div>
 						</form>
 				
