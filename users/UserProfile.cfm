@@ -499,7 +499,7 @@ limitations under the License.
 											</select>
 										</div>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-											<div class="col-12 col-md-5 float-left px-0 mb-2 pt-3">
+											<div class="col-12 col-xl-5 float-left px-0 mb-2 pt-0 pt-xl-3">
 												<span class="h4 ml-3"><a href="/users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
 											</div>
 										</cfif>
