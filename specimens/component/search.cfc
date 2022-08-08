@@ -2596,7 +2596,7 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 				</cfif>
 				<cfquery name="getProfiles" datasource="cf_dbuser">
 					SELECT 
-						username, name, download_profile_id, sharing
+						username, name, download_profile_id, sharing, column_list
 					FROM 
 						download_profile
 					WHERE
@@ -2634,12 +2634,13 @@ Function getSpecSearchColsAutocomplete.  Search for distinct values of fields in
 						<label class="data-entry-label" for="profile_picker">Pick profile for which fields to include in the download</label>
 						<select id="profile_picker" name="profile_picker" class="data-entry-select" onchange="changeProfile()">
 							<cfloop query="getProfiles">
+								<cfset columnCount = ListLen(column_list)>
 								<cfif download_profile_id EQ selected_profile_id>
 									<cfset selected = "selected">
 								<cfelse>
 									<cfset selected="">
 								</cfif>
-								<option value="#download_profile_id#" #selected#>#name# (Available to: #sharing#)</option>
+								<option value="#download_profile_id#" #selected#>#name# (#columnCount# columns, available to: #sharing#)</option>
 							</cfloop>
 						</select>
 					</div>
