@@ -293,7 +293,7 @@ limitations under the License.
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
 						<h3 class="mb-0">Personal Profile</h3>
-						<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border p-1">
+						<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border px-2 py-1">
 							<input type="hidden" name="user_id" value="#getUserData.user_id#">
 							<input type="hidden" name="action" value="saveProfile">
 							<h4 class="h4">
@@ -321,9 +321,9 @@ limitations under the License.
 									<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
 								</div>
 							</div>
-							<div class="form-group col-md-12 col-sm-12 pl-0">
+							<div class="form-group col-md-12 col-sm-12 pl-0 mb-1">
 								<h4 class="h4">You cannot recover from a lost password unless you enter an email address.</h4>
-								<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1">	
+								<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1 ">	
 							</div>
 						</form>
 				
@@ -349,7 +349,7 @@ limitations under the License.
 							ORDER BY name
 						</cfquery>
 
-						<h3 class="h4">
+						<h3 class="h3 mt-2 mb-0">
 								MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span>
 						</h3>
 						<!--- Most settings are session variables --->
