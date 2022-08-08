@@ -262,9 +262,11 @@ limitations under the License.
 									var fieldList = [
 										<cfif mode EQ "edit">
 											<cfloop query="getFields">
-					a							<cfif listContainsNoCase(column_list,column_name) GT 0 >
+												<cfif listContainsNoCase(column_list,column_name) GT 0 >
 													<cfset position = listFindNoCase(column_list,column_name)>
-													<cfset listItems[position] = '{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }'><!--- ' --->
+													<cfif position GT 0>
+														<cfset listItems[position] = '{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }'><!--- ' --->
+													</cfif>
 												</cfif>
 											</cfloop>
 											<cfset separator="">
