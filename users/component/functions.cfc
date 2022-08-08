@@ -256,7 +256,7 @@ limitations under the License.
 								$(document).ready(function () {
 									// Preserve field order on edit, store then iterate through column_list from getProfile
 									<cfset listItems = ArrayNew(1)>
-									<cfloop from="0" to=listLen(column_list,",",false) index="i">
+									<cfloop from="0" to="#listLen(column_list,',',false)#" index="i">
 										<cfset listItems[i] = ""> 
 									</cfloop>
 									var fieldList = [
