@@ -300,16 +300,16 @@ limitations under the License.
 										$("##included_fields").jqxListBox("removeItem",item);
 										$("##included_fields").jqxListBox("insertAt",item,idx-1);
 									}
-									$("##included_fields").jqxListBox("selectItem",item);
+									$("##included_fields").jqxListBox("selectIndex",idx-1);
 								}
 								function moveFieldLater(item) {
 									var idx = item.index;
 									var items = $("##included_fields").jqxListBox("getItems");
 									if (idx<items.length) { 
 										$("##included_fields").jqxListBox("removeItem",item);
-										$("##included_fields").jqxListBox("insertAt",item,idx+2);
+										$("##included_fields").jqxListBox("insertAt",item,idx+1);
 									}
-									$("##included_fields").jqxListBox("selectItem",item);
+									$("##included_fields").jqxListBox("selectIndex",idx+1);
 								}
 								function moveUp() { 
 									$("##included_fields").jqxListBox("beginUpdate");
