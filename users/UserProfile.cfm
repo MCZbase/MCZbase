@@ -261,8 +261,8 @@ limitations under the License.
 							</cfif>
 						</h3>
 						<h3 class="h4"> 
-							<a href="/users/Searches.cfm">Manage your Saved Searches</a><br>
-							<small>Click "Save Search" from Specimen Results to save a search.</small>
+							<a href="/users/Searches.cfm">Manage your Saved Searches</a>
+							<span class="small pl-1"> (Click "Save Search" from Specimen Results to save a search.)</span>
 						</h4>
 						<cfif isInv.allow is 1>
 							You&apos;ve been invited to become an Operator. Password restrictions apply.
