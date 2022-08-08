@@ -366,7 +366,7 @@ limitations under the License.
 								<!--- Most settings are session variables --->
 								<!--- values are obtained from the session --->
 								<!--- changing involves both changing the persistence store and the session variable.  --->
-								<output id="changeFeedback" class="text-danger float-left pl-1 mt-3 pt-1 small90">&nbsp;</output>
+								<output id="changeFeedback" class="text-danger float-left pl-1 mt-0 mt-xl-3 pt-1 small90">&nbsp;</output>
 							</div>
 			
 								<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
