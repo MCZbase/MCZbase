@@ -260,17 +260,27 @@ limitations under the License.
 										<cfset listItems[i] = ""> 
 									</cfloop>
 									var fieldList = [
-										<cfloop query="getFields">
-											<cfif (mode EQ "edit" AND listContainsNoCase(column_list,column_name) ) OR ( minimal_fg EQ 1) >
-												<cfset position = listFindNoCase(column_list,column_name)>
-												<cfset listItems[position] = '{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }'><!--- ' --->
-											</cfif>
-										</cfloop>
-										<cfset separator="">
-										<cfloop array="listItems" index="item">
-											#separator##item#
-											<cfset separator=",">
-										</cfloop>
+										<cfif mode EQ "edit">
+											<cfloop query="getFields">
+					a							<cfif listContainsNoCase(column_list,column_name) GT 0 >
+													<cfset position = listFindNoCase(column_list,column_name)>
+													<cfset listItems[position] = '{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }'><!--- ' --->
+												</cfif>
+											</cfloop>
+											<cfset separator="">
+											<cfloop array="listItems" index="item">
+												#separator##item#
+												<cfset separator=",">
+											</cfloop>
+										<cfelse>
+											<cfset separator="">
+											<cfloop query="getFields">
+												<cfif minimal_fg EQ 1>
+													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }
+													<cfset separator=",">
+												</cfif>
+											<cfloop>
+										</cfif>
 									];
 									var source = {
 										datatype: "json",	
