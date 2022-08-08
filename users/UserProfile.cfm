@@ -299,7 +299,7 @@ limitations under the License.
 							<h4 class="h4">
 								A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
 							</h4>
-							<div class="form-row pl-0">
+							<div class="form-row mx-0">
 								<div class="col-12 mb-1">
 									<label for="first_name" class="data-entry-label">First Name</label>
 									<input type="text" name="first_name" id="first_name" value="#encodeForHtml(getUserData.first_name)#" class="data-entry-input reqdClr" required>
@@ -309,7 +309,7 @@ limitations under the License.
 									<input type="text" name="middle_name" id="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="data-entry-input">
 								</div>
 								<div class="col-12 mb-1">
-									<label class="data-entry-input" for="last_name">Last Name</label>
+									<label class="data-entry-label" for="last_name">Last Name</label>
 									<input type="text" name="last_name" id="last_name" value="#encodeForHtml(getUserData.last_name)#" class="data-entry-input reqdClr" required>
 								</div>
 								<div class="col-12 mb-1">
@@ -321,7 +321,7 @@ limitations under the License.
 									<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
 								</div>
 							</div>
-							<div class="form-group col-md-12 col-sm-12 pl-0 mb-1">
+							<div class="form-group col-md-12 col-sm-12 mb-1">
 								<h4 class="h4">You cannot recover from a lost password unless you enter an email address.</h4>
 								<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 mt-1 ">	
 							</div>
