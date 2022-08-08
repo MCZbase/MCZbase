@@ -179,7 +179,7 @@ limitations under the License.
 			WHERE user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfoutput query="getPrefs" group="user_id">
-			<div class="container-fluid mt-4" id="content">
+			<div class="container-fluid py-4" id="content">
 				<div class="row mx-0 mb-5">
 					<div class="col-12 col-md-8 mb-2">
 						<h1 class="h2">
