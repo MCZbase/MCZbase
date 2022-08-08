@@ -359,54 +359,57 @@ limitations under the License.
 							<output id="changeFeedback">&nbsp;</output>
 							<div class=" mx-0">
 								<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
-									<div class="col-12 col-md-6 float-left mb-2">
-										<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
-										<cfif not isDefined("session.specimens_default_action")>
-											<cfset session.specimens_default_action = "fixedSearch">
-										</cfif>
-										<select name="specimens_default_action" id="specimens_default_action" class="data-entry-input" onchange="changeSpecimensDefaultAction(this.value)">
-											<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
-											<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
-											<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
-										</select>
+									<div class="form-row mx-0">
+										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
+											<cfif not isDefined("session.specimens_default_action")>
+												<cfset session.specimens_default_action = "fixedSearch">
+											</cfif>
+											<select name="specimens_default_action" id="specimens_default_action" class="data-entry-input" onchange="changeSpecimensDefaultAction(this.value)">
+												<option value="fixedSearch" <cfif session.specimens_default_action EQ "fixedSearch"> selected="selected" </cfif>>Basic Search</option>
+												<option value="keywordSearch" <cfif session.specimens_default_action EQ "keywordSearch"> selected="selected" </cfif>>Keyword Search</option>
+												<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="specimens_pin_guid" class="data-entry-label">Pin GUID column</label>
+											<cfif not isDefined("session.specimens_pin_guid")>
+												<cfset session.specimens_pin_guid = "no">
+											</cfif>
+											<select name="specimens_pin_guid" id="specimens_pin_guid" class="data-entry-select" onchange="changeSpecimensPinGuid(this.value)">
+												<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
+												<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
+											</select>
+										</div>
 									</div>
-									<div class="col-12 float-left col-md-6 mb-2">
-										<label for="specimens_pin_guid" class="data-entry-label">Pin GUID column</label>
-										<cfif not isDefined("session.specimens_pin_guid")>
-											<cfset session.specimens_pin_guid = "no">
-										</cfif>
-										<select name="specimens_pin_guid" id="specimens_pin_guid" class="data-entry-select" onchange="changeSpecimensPinGuid(this.value)">
-											<option value="0" <cfif session.specimens_pin_guid EQ "0"> selected="selected" </cfif>>No</option>
-											<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
-										</select>
-									</div>
-									<div class="col-12 col-md-6 float-left mb-2">
-										<label for="specimens_pagesize" class="data-entry-label">Default Rows in Specimen Search Grid</label>
-										<cfif not isDefined("session.specimens_pagesize")>
-											<cfset session.specimens_pagesize = "25">
-										</cfif>
-										<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000' --->
-										<select name="specimens_pagesize" id="specimens_pagesize" class="data-entry-select" onchange="changeSpecimensPageSize(this.value)">
-											<option value="5" <cfif session.specimens_pagesize EQ "5"> selected="selected" </cfif>>5 (good for phone)</option>
-											<option value="10" <cfif session.specimens_pagesize EQ "10"> selected="selected" </cfif>>10 (good for right/left scroll)</option>
-											<option value="25" <cfif session.specimens_pagesize EQ "25"> selected="selected" </cfif>>25 (default)</option>
-											<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
-											<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
-											<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
-										</select>
-									</div>
-			
-									<div class="col-12 float-left col-md-6 mb-2">
-										<label for="customOtherIdentifier" class="data-entry-label" >My Other Identifier</label>
-										<select name="customOtherIdentifier" id="customOtherIdentifier"
-											size="1" class="data-entry-select" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
-											<option value="">None</option>
-											<cfloop query="OtherIdType">
-												<option
-													<cfif session.CustomOtherIdentifier is other_id_type>selected="selected"</cfif>
-													value="#other_id_type#">#other_id_type#</option>
-											</cfloop>
-										</select>
+									<div class="form-row mx-0">
+										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="specimens_pagesize" class="data-entry-label">Default Rows in Specimen Search Grid</label>
+											<cfif not isDefined("session.specimens_pagesize")>
+												<cfset session.specimens_pagesize = "25">
+											</cfif>
+											<!--- Must be one of the values on the pagesizeoptions array '5','10','25','50','100','1000' --->
+											<select name="specimens_pagesize" id="specimens_pagesize" class="data-entry-select" onchange="changeSpecimensPageSize(this.value)">
+												<option value="5" <cfif session.specimens_pagesize EQ "5"> selected="selected" </cfif>>5 (good for phone)</option>
+												<option value="10" <cfif session.specimens_pagesize EQ "10"> selected="selected" </cfif>>10 (good for right/left scroll)</option>
+												<option value="25" <cfif session.specimens_pagesize EQ "25"> selected="selected" </cfif>>25 (default)</option>
+												<option value="50" <cfif session.specimens_pagesize EQ "50"> selected="selected" </cfif>>50</option>
+												<option value="100" <cfif session.specimens_pagesize EQ "100"> selected="selected" </cfif>>100</option>
+												<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
+											</select>
+										</div>
+										<div class="col-12 float-left col-md-6 mb-2">
+											<label for="customOtherIdentifier" class="data-entry-label" >My Other Identifier</label>
+											<select name="customOtherIdentifier" id="customOtherIdentifier"
+												size="1" class="data-entry-select" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
+												<option value="">None</option>
+												<cfloop query="OtherIdType">
+													<option
+														<cfif session.CustomOtherIdentifier is other_id_type>selected="selected"</cfif>
+														value="#other_id_type#">#other_id_type#</option>
+												</cfloop>
+											</select>
+										</div>
 									</div>
 									<div class="col-12 col-md-6 float-left mb-2">
 										<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
