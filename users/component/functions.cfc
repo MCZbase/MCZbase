@@ -514,8 +514,11 @@ limitations under the License.
 					target_search = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#target_search#">,
 					column_list = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#column_list#">
 				WHERE 
-					download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">,
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">,
+					download_profile_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
+					<cfif NOT listfindnocase(session.roles,"global_admin")>
+						AND
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfif>
 			</cfquery>
 			<cfif createProfile_result.recordcount EQ 1>
 				<cfset t = queryaddrow(result,1)>
