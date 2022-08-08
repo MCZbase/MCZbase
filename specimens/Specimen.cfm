@@ -88,10 +88,6 @@ limitations under the License.
 	<cfabort>
 </cfif>
 
-<cfif findNoCase('master',Session.gitBranch) GT 0>
-	<cfthrow message="Not for production use yet.">
-</cfif>
-
 <!--- Check to see if the user is logged in and has the role coldfusion_user, granted to internal users --->
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -136,207 +132,19 @@ limitations under the License.
 </cfoutput>
 
 <!--- (4) Display the summary/type bar for the record --->
-<!--- TODO: Move this section to a backing method, and reload on change to any pertenent section --->
-<!--- Lookup live data (with redactions as specified by encumbrances) as flat may be stale --->
-<cfquery name="summary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
- 	SELECT DISTINCT
-		collection.collection,
-		cataloged_item.collection_object_id as collection_object_id,
-		collecting_event.verbatim_date,
-		MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
-		geog_auth_rec.higher_geog,
-		<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
-			'[Masked]' as spec_locality,
-		<cfelse>
-			locality.spec_locality,
-		</cfif>
-		MCZBASE.GET_TOP_TYPESTATUS(cataloged_item.collection_object_id) as type_status,
-		MCZBASE.concattypestatus_plain_s(cataloged_item.collection_object_id,1,1,0) as typestatusplain,
-		MCZBASE.concatcitedas(cataloged_item.collection_object_id) as cited_as,
-		MCZBASE.GET_TOP_TYPESTATUS_KIND(cataloged_item.collection_object_id) as toptypestatuskind
-	FROM
-		cataloged_item
-		join collection on cataloged_item.collection_id = collection.collection_id
-		join collecting_event on collecting_event.collecting_event_id = cataloged_item.collecting_event_id
-		join locality on locality.locality_id = collecting_event.locality_id
-		join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
-	WHERE
-		cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-		AND rownum < 2
-</cfquery>
-<cfif summary.recordcount LT 1>
-	<!--- It shouldn't be possible to reach here, the logic early in the page should catch this condition. --->
-	<cfthrow message="Summary query returned zero rows for specimen record which exists.">
-</cfif>
-
-<cftry>
-<cfoutput>
-	<cfset typeName = summary.type_status>
-	<!--- handle the edge cases of a specimen having more than one type status --->
-	<cfif summary.toptypestatuskind eq 'Primary' > 
-		<cfset twotypes = '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
-	<cfelseif summary.toptypestatuskind eq 'Secondary' >
-		<cfset twotypes= '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> #twotypes# </span>'>
-	<cfelse>
-		<cfset twotypes= '#replace(summary.typestatusplain,"|"," &nbsp; <br> &nbsp; ","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pt-0 px-2 text-center" style="padding-bottom:2px;"> </span>'>
-	</cfif>
-	<div class="container-fluid" id="content">
-		<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
-			<cfif summary.toptypestatuskind eq 'Primary' >
-				<cfset sectionclass="primaryType">
-			<cfelseif summary.toptypestatuskind eq 'Secondary' >
-				<cfset sectionclass="secondaryType">
-			</cfif>
-		<cfelse>
-			<cfset sectionclass="defaultType">
-		</cfif>
-		<section class="row #sectionclass# mb-2">
-			<div class="col-12">
-				<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
-					<cfif summary.toptypestatuskind eq 'Primary' >
-						<cfset divclass="border-0">
-					<cfelseif summary.toptypestatuskind eq 'Secondary' >
-						<cfset divclass="no-card">
-					</cfif>
-				<cfelse>
-					<cfset divclass="no-card">
-				</cfif>
-				<div class="card box-shadow #divclass# bg-transparent">
-					<div class="row mb-0">
-						<div class="float-left pr-md-0 my-1 
-							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-								col-12 col-xl-4 
-							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-								col-12 col-xl-6
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-								col-12 col-xl-3 
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
-								col-12 col-xl-5
-							<cfelse>
-								col-6 </cfif>
-						">
-							<div class="col-12 px-0">
-								<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
-								<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
-									<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
-								</h2>
-							</div>
-						</div>
-						<div class="float-left mt-1 mt-xl-3 pr-md-0 
-							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-									col-12 col-xl-3 
-							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-									col-12 col-xl-1
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-									col-12 col-xl-3 
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7>
-								col-12 col-xl-1
-							<cfelse>
-								col-12 </cfif>
-							">
-							<cfif isDefined("summary.cited_as") and len(summary.cited_as) gt 0>
-								<cfif summary.toptypestatuskind eq 'Primary' >
-									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
-								</cfif>
-								<cfif summary.toptypestatuskind eq 'Secondary'>
-									<h2 class="col-12 d-inline-block h4 mb-2 my-xl-0">#typeName#</h2>
-								</cfif>
-							<cfelse>
-								<!--- No type name to display for non-type specimens --->
-							</cfif>	
-						</div>
-							
-						<div class="float-left pr-md-0 my-1 mt-xl-2
-							<cfif len(header.imageurl) gt 7 and len(summary.cited_as) gt 7> 
-								col-12 col-xl-5 
-							<cfelseif len(header.imageurl) gt 7 and len(summary.cited_as) lt 7> 
-								col-12 col-xl-5
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) gt 7> 
-								col-12 col-xl-5 
-							<cfelseif len(header.imageurl) lt 7 and len(summary.cited_as) lt 7> 
-								col-12 col-xl-5
-							<cfelse> 
-								col-xl-5 </cfif>
-							">
-							<div class="col-12 px-xl-0"><span class="small">Verbatim Date: </span>
-								<h2 class="h5 mb-1 d-inline-block">
-									<a class="text-dark font-weight-lessbold" href="javascript:void(0)"> #summary.verbatim_date#</a>
-								</h2>
-							</div>
-							<div class="col-12 px-xl-0">
-								<h2 class="h5 mb-0">#summary.higher_geog#
-								<cfif len(summary.spec_locality)gt 0>/ #summary.spec_locality#<cfelse></cfif></h2>
-							</div>
-							<div class="col-12 px-xl-0 small">
-								occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-								<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
-	<div class="container-fluid">
-		<section class="row" id="resultSetNavigationSection">
-			<div class="col-12 px-2">
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					<!--- TODO: This handles navigation through a result set and will need to be refactored with redesign of specimen search/results handling --->
-					<form name="incPg" method="post" action="/specimens/Specimen.cfm">
-						<input type="hidden" name="collection_object_id" value="#collection_object_id#">
-						<input type="hidden" name="suppressHeader" value="true">
-						<input type="hidden" name="action" value="nothing">
-						<cfif isdefined("session.collObjIdList") and len(session.collObjIdList) gt 0>
-							<cfset isPrev = "no">
-							<cfset isNext = "no">
-							<cfset currPos = 0>
-							<cfset lenOfIdList = 0>
-							<cfset firstID = collection_object_id>
-							<cfset nextID = collection_object_id>
-							<cfset prevID = collection_object_id>
-							<cfset lastID = collection_object_id>
-							<cfset currPos = listfind(session.collObjIdList,collection_object_id)>
-							<cfset lenOfIdList = listlen(session.collObjIdList)>
-							<cfset firstID = listGetAt(session.collObjIdList,1)>
-							<cfif currPos lt lenOfIdList>
-								<cfset nextID = listGetAt(session.collObjIdList,currPos + 1)>
-							</cfif>
-							<cfif currPos gt 1>
-								<cfset prevID = listGetAt(session.collObjIdList,currPos - 1)>
-							</cfif>
-							<cfset lastID = listGetAt(session.collObjIdList,lenOfIdList)>
-							<cfif lenOfIdList gt 1>
-								<cfif currPos gt 1>
-									<cfset isPrev = "yes">
-								</cfif>
-								<cfif currPos lt lenOfIdList>
-									<cfset isNext = "yes">
-								</cfif>
-							</cfif>
-						<cfelse>
-							<cfset isNext="">
-							<cfset isPrev="">
-						</cfif>
-					</form>
-				</cfif>
-			</div>					
-		</section><!-- end resultSetNavivationSection --->
-	</div>
-</cfoutput>
-<cfcatch>
-	<cfdump var="#cfcatch#">
-</cfcatch>
-</cftry>
-
-<!--- (4) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
-
 <!--- Include the templates that contains functions used to load portions of this page --->
 <cfinclude template="/specimens/component/public.cfc">
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfinclude template="/vocabularies/component/search.cfc" runOnce="true">
+<cfset summaryHeadingBlock = getSummaryHeaderHTML(collection_object_id = "#collection_object_id#")>
+<cfoutput>
+<div id="specimenSummaryHeaderDiv">
+#summaryHeadingBlock#
+</div>
+</cfoutput>
+
+<!--- (5) Bulk of the specimen page (formerly in SpecimenDetailBody) --->
+
 <!--- query getCatalogedItem is needed for determining what is public and what is partitioned --->
 <cfquery name="getCatalogedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
@@ -388,23 +196,30 @@ limitations under the License.
 		<!--- user can edit the specimen record --->
 		<!--- scripts for reloading sections of pages after edits, use as callabcks on edit dialogs --->
 		<script>
+			function reloadHeadingBar() { 
+				// invoke specimen/component/public function to reload summary header section.
+				// called from several other sections where data shown in summary may be changed.
+				loadSummaryHeaderHTML(#collection_object_id#,"specimenSummaryHeaderDiv");
+			} 
 			function reloadMedia() { 
 				// invoke specimen/component/public.cfc function getMediaHTML via ajax with relationship_type shows  and repopulate the specimen media block.
 				loadMedia(#collection_object_id#,'specimenMediaCardBody');
 			}
-	//		function reloadIdentifiers() { 
-//				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
-//				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
-//			}
+			function reloadIdentifiers() { 
+				// invoke specimen/component/public.cfc function getIdentifiersHTML via ajax and repopulate the identifiers block.
+				loadIdentifiers(#collection_object_id#,'identifiersCardBody');
+			}
 			function reloadIdentifications() { 
 				// invoke specimen/component/public.cfc function getIdentificationsHTML via ajax and repopulate the identification block.
 				loadIdentifications(#collection_object_id#,'identificationsCardBody');
+				reloadHeadingBar();
 			}
 			function reloadCitations() { 
 				// replace the citations block via ajax.
 				loadCitations(#collection_object_id#,'citationsCardBody');
 				// replace the citation media block via ajax.
 				loadCitationMedia(#collection_object_id#,'citationMediaBlock');
+				reloadHeadingBar();
 			}
 			function reloadOtherIDs() { 
 				// invoke specimen/component/public.cfc function getOtherIDsHTML via ajax and repopulate the Other Identifiers block.
@@ -432,6 +247,7 @@ limitations under the License.
 
 			function reloadLocality() { 
 				loadLocality(#collection_object_id#,'localityCardBody');
+				reloadHeadingBar();
 			}
 			function reloadPreparators() { 
 				loadPreparators(#collection_object_id#,'collectorsCardBody');
@@ -452,6 +268,7 @@ limitations under the License.
 		<div class="container-lg d-none d-lg-block">
 			<div class="row mt-2">
 				<ul class="list-group list-inline list-group-horizontal-md py-0 mx-auto">
+					<!--- TODO: Implement navigation through records in a result set --->
 					<li class="list-group-item px-0 mx-1">
 						<div id="mediaDialog"></div>
 						<cfif listcontainsnocase(session.roles,"manage_media")>
@@ -548,7 +365,6 @@ limitations under the License.
 				<div class="col-12 col-lg-6 px-1 float-left"> 
 										
 					<!-----------------------------Identifiers----------------------------------> 
-
 							
 					<div class="accordion" id="accordionIdentifiers">
 						<div class="card mb-2 bg-light">
@@ -999,7 +815,7 @@ limitations under the License.
 	</div><!--- end container-fluid --->
 </cfoutput>
 
-<!--- (4a) QC section --->
+<!--- (6) QC section --->
 <cfoutput>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"collops")>
 		<div class="container-fluid">
@@ -1028,5 +844,5 @@ limitations under the License.
 	</cfif>
 </cfoutput>
 
-<!--- (5) Finish up with the page footer --->
+<!--- (7) Finish up with the page footer --->
 <cfinclude template="/shared/_footer.cfm">
