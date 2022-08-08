@@ -192,11 +192,11 @@ limitations under the License.
 							<h3 class="h4">#getFields.recordcount# Columns available (drag to columns included to add)</h3>
 							<div class="form-row">
 								<div class="col-10">
-									<div id="available_fields"></div>
+									<div id="available_fields" class="w-100"></div>
 								</div>
 								<div class="col-2">
-									<button onClick="moveSelectionToIncluded();")>&rArr;</button>
-									<button onClick="removeSelectionFromIncluded();")>&lArr;</button>
+									<button onClick="moveSelectionToIncluded();" class="btn btn-secondary w-100 h1" aria-label="Move selected fields from available fields to included fields.">&rArr;</button>
+									<button onClick="removeSelectionFromIncluded();" class="btn btn-secondary w-100 h1" arial-label="Move selected fields from included fields to available fields.">&lArr;</button>
 								</div>
 							</div>
 							<script>
@@ -270,11 +270,11 @@ limitations under the License.
 							<label class="h4" for="included_fields">Columns Included (drag to change order or drag to columns available to remove)</label>
 							<div class="form-row">
 								<div class="col-10">
-									<div id="included_fields"></div>
+									<div id="included_fields" class="w-100"></div>
 								</div>
 								<div class="col-2">
-									<button onClick="moveUp();")>&uArr;</button>
-									<button onClick="moveDown();")>&dArr;</button>
+									<button onClick="moveUp();" class="btn btn-secondary w-100 h1" aria-label="Move selected included field earlier in sort order.">&uArr;</button>
+									<button onClick="moveDown();" class="btn btn-secondary w-100 h1" aria-label="Move selected included field later in sort order.">&dArr;</button>
 								</div>
 							</div>
 							<script>
