@@ -111,8 +111,6 @@ limitations under the License.
 	<cfreturn cfthread["downloadProfileThread#tn#"].output>
 </cffunction>
 
-<cffunction
-
 <cffunction name="editDownloadProfileHtml" returntype="string" access="remote">
 	<cfargument name="download_profile_id" type="string" required="no">
 
