@@ -174,7 +174,7 @@ limitations under the License.
 					ORDER BY 
 						disp_order
 				</cfquery>
-				<div id="manageProfileFormDiv" style="display: none;">
+				<div id="manageProfileFormDiv">
 					<cfif mode EQ "edit">
 						<h2 class="h3">Edit profile of columns to include in CSV downloads for Specimens</h2>
 					<cfelse>
