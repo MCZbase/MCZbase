@@ -294,13 +294,15 @@ limitations under the License.
 								</div>
 							</div>
 							<script>
+								function selectItem(item) {
+									$("##included_fields").jqxListBox("selectItem",item);
+								}
 								function moveFieldEarlier(item) {
 									var idx = item.index;
 									if (idx > 1) { 
 										$("##included_fields").jqxListBox("removeItem",item);
 										$("##included_fields").jqxListBox("insertAt",item,idx-1);
 									}
-									$("##included_fields").jqxListBox("selectIndex",idx-1);
 								}
 								function moveFieldLater(item) {
 									var idx = item.index;
@@ -309,19 +311,20 @@ limitations under the License.
 										$("##included_fields").jqxListBox("removeItem",item);
 										$("##included_fields").jqxListBox("insertAt",item,idx+1);
 									}
-									$("##included_fields").jqxListBox("selectIndex",idx+1);
 								}
 								function moveUp() { 
 									$("##included_fields").jqxListBox("beginUpdate");
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
 									selectedItems.forEach(moveFieldEarlier);
 									$("##included_fields").jqxListBox("endUpdate");
+									selectedItems.forEach(selectItem);
 								}
 								function moveDown() { 
 									$("##included_fields").jqxListBox("beginUpdate");
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
 									selectedItems.forEach(moveFieldLater);
 									$("##included_fields").jqxListBox("endUpdate");
+									selectedItems.forEach(selectItem);
 								}
 								$(document).ready(function () {
 									var fieldList = [
