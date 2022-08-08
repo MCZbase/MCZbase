@@ -316,6 +316,7 @@ limitations under the License.
 										url: "/users/component/functions.cfc",
 											data: {
 												method : "saveDownloadProfile",
+												download_profile_id: "#target_download_profile_id#",
 												name: $("##name").val(), 
 												sharing: $("##sharing").val(), 
 												target_search: "Specimens", 
