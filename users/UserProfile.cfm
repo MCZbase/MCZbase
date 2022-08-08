@@ -292,7 +292,7 @@ limitations under the License.
 							WHERE
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
-						<h3 class="mb-0">Personal Profile</h3>
+						<h3 class="mb-0 mt-3">Personal Profile</h3>
 						<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border px-2 py-1">
 							<input type="hidden" name="user_id" value="#getUserData.user_id#">
 							<input type="hidden" name="action" value="saveProfile">
@@ -301,27 +301,27 @@ limitations under the License.
 								<h4 class="h4 px-1 mt-2">
 									A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
 								</h4>
-								<div class="col-12 mb-1">
+								<div class="col-12 mb-2">
 									<label for="first_name" class="data-entry-label">First Name</label>
 									<input type="text" name="first_name" id="first_name" value="#encodeForHtml(getUserData.first_name)#" class="data-entry-input reqdClr" required>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 mb-2">
 									<label class="data-entry-label" for="middle_name" >Middle Name</label>
 									<input type="text" name="middle_name" id="middle_name" value="#encodeForHtml(getUserData.middle_name)#" class="data-entry-input">
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 mb-2">
 									<label class="data-entry-label" for="last_name">Last Name</label>
 									<input type="text" name="last_name" id="last_name" value="#encodeForHtml(getUserData.last_name)#" class="data-entry-input reqdClr" required>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 mb-2">
 									<label class="data-entry-label" for="affiliation">Affiliation</label>
 									<input type="text" name="affiliation" id="affiliation" class="data-entry-input reqdClr" value="#encodeForHtml(getUserData.affiliation)#" required>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 mb-2">
 									<label class="data-entry-label" for="email">Email</label>
 									<input type="text" name="email" id="email" class="data-entry-input" value="#encodeForHtml(getUserData.email)#"> 
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 mb-2">
 									<h4 class="h4 px-1 mt-1">You cannot recover from a lost password unless you enter an email address.</h4>
 									<input type="submit" value="Save Profile" class="btn btn-primary btn-xs ml-0 my-1 ">	
 								</div>
@@ -350,16 +350,16 @@ limitations under the License.
 							ORDER BY name
 						</cfquery>
 
-						<h3 class="h3 mt-2 mb-0">
-								MCZbase Settings <span style="font-size: 13px;font-weight: 500">(settings related to how you see search results)</span>
+						<h3 class="h3 mt-3 mb-0">
+								MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
 						</h3>
 						<!--- Most settings are session variables --->
 						<!--- values are obtained from the session --->
 						<!--- changing involves both changing the persistence store and the session variable.  --->
 						<output id="changeFeedback">&nbsp;</output>
-						<div class="form-row pl-0">
+						<div class="form-row mx-0">
 							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
 									<cfif not isDefined("session.specimens_default_action")>
 										<cfset session.specimens_default_action = "fixedSearch">
@@ -370,7 +370,7 @@ limitations under the License.
 										<option value="builderSearch" <cfif session.specimens_default_action EQ "builderSearch"> selected="selected" </cfif>>Search Builder</option>
 									</select>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="specimens_pin_guid" class="data-entry-label">Pin GUID column</label>
 									<cfif not isDefined("session.specimens_pin_guid")>
 										<cfset session.specimens_pin_guid = "no">
@@ -380,7 +380,7 @@ limitations under the License.
 										<option value="1" <cfif session.specimens_pin_guid EQ "1"> selected="selected" </cfif>>Yes, Pin Column</option>
 									</select>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="specimens_pagesize" class="data-entry-label">Default Rows in Specimen Search Grid</label>
 									<cfif not isDefined("session.specimens_pagesize")>
 										<cfset session.specimens_pagesize = "25">
@@ -395,7 +395,7 @@ limitations under the License.
 										<option value="1000" <cfif session.specimens_pagesize EQ "1000"> selected="selected" </cfif>>1000</option>
 									</select>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
 									<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
 									<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
@@ -410,11 +410,11 @@ limitations under the License.
 									</select>
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<div class="col-12 mb-1">
+									<div class="col-12 px-0 mb-2">
 										<span class="h4 ml-3"><a href="/users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
 									</div>
 								</cfif>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="customOtherIdentifier" class="data-entry-label" >My Other Identifier</label>
 									<select name="customOtherIdentifier" id="customOtherIdentifier"
 										size="1" class="data-entry-select" onchange="this.className='red';changecustomOtherIdentifier(this.value);">
@@ -426,14 +426,14 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
 									<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
 										<option value="0" <cfif session.killRow neq 1> selected="selected" </cfif>>No</option>
 										<option value="1" <cfif session.killRow is 1> selected="selected" </cfif>>Yes</option>
 									</select>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="showObservations" class="data-entry-label" >Include Observations? (currently old search only)</label>
 									<select name="showObservations" id="showObservations" class="data-entry-select" onchange="changeshowObservations(this.value)">
 										<option value="0" <cfif session.showObservations neq 1> selected="selected" </cfif>>No</option>
@@ -441,7 +441,7 @@ limitations under the License.
 									</select>
 								</div>
 								<cfif len(session.roles) gt 0 and session.roles is "public">
-									<div class="col-12 mb-1">
+									<div class="col-12 px-0 mb-2">
 										<cfif isdefined("session.portal_id")>
 											<cfset pid=session.portal_id>
 										<cfelse>
@@ -457,7 +457,7 @@ limitations under the License.
 										</select>
 									</div>
 								</cfif>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
 									<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
 										<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
@@ -466,7 +466,7 @@ limitations under the License.
 										<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
 									</select>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
 									<select name="fancyCOID" id="fancyCOID"
 										size="1" class="data-entry-select" onchange="this.className='red';changefancyCOID(this.value);">
@@ -474,7 +474,7 @@ limitations under the License.
 										<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
 									</select>
 								</div>
-								<div class="col-12 mb-1">
+								<div class="col-12 px-0 mb-2">
 									<label for="block_suggest" class="data-entry-label" >Suggest Browse (unused)</label>
 									<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
 										<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
