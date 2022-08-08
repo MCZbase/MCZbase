@@ -292,13 +292,13 @@ limitations under the License.
 							WHERE
 								username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 						</cfquery>
-						<div class="border p-2">
+						<div class="border float-left p-2">
 							<h3 class="mb-0 mt-3">Personal Profile</h3>
 							<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="border bg-light px-2 py-1">
 								<input type="hidden" name="user_id" value="#getUserData.user_id#">
 								<input type="hidden" name="action" value="saveProfile">
 								<div class="form-row mx-0">
-									<h4 class="h4 px-1 mt-2">
+									<h4 class="h4 col-12 mt-2">
 										A profile is required to download data.  See the <a href="https://mcz.harvard.edu/privacy-policy">privacy policy</a>
 									</h4>
 									<div class="col-12 col-md-4 mb-2">
