@@ -279,7 +279,7 @@ limitations under the License.
 													#separator#{ "label":"#label#", "id":"#cf_spec_res_cols_id#","access_role":"#access_role#","category":"#category#" }
 													<cfset separator=",">
 												</cfif>
-											<cfloop>
+											</cfloop>
 										</cfif>
 									];
 									var source = {
