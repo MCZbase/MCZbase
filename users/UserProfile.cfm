@@ -152,19 +152,26 @@ limitations under the License.
 <cfcase value="nothing">
 	<!------------------------------------------------------------------->
 	<div class="container-fluid">
+		<cfquery name="checkUserExists" datasource="cf_dbuser">
+			SELECT count(*) ct
+			FROM cf_users
+			WHERE
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		</cfquery>
+		<cfif checkUserExists.ct NEQ 1>
+			<cflocation url="login.cfm" addtoken="false">
+		</cfif>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
 			SELECT * 
 			FROM cf_users
-				left join user_loan_request on cf_users.user_id = user_loan_request.user_id
-				left join agent_name on cf_users.username = agent_name.agent_name
+				left join agent_name on cf_users.username = agent_name.agent_name and agent_name.agent_name_type = 'login'
 				left join person on agent_name.agent_id = person.person_id
 			WHERE 
-				agent_name.agent_name_type = 'login' and 
 				username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR">
 			ORDER BY cf_users.user_id
 		</cfquery>
 		<cfif getPrefs.recordcount is 0>
-			<cflocation url="/Specimens.cfm" addtoken="false">
+			<cflocation url="/login.cfm" addtoken="false">
 		</cfif>
 		<!--- check to see if user has been invited to becoem an operator --->
 		<cfquery name="isInv" datasource="uam_god">
