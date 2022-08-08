@@ -350,7 +350,7 @@ limitations under the License.
 								ORDER BY name
 							</cfquery>
 
-							<h3 class="h3 mt-3 mb-0 px-3">
+							<h3 class="h3 mt-3 mb-0 px-2">
 									MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
 							</h3>
 						<!--- Most settings are session variables --->
