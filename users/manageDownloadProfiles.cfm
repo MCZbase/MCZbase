@@ -1,5 +1,6 @@
 <cfset pageTitle="Manage Download Field Profiles">
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/users/component/functions.cfc" runOnce="true">
 
 <script type="text/javascript" language="javascript">
 	function deleteDownloadProfile(download_profile_id) {
@@ -20,12 +21,27 @@
 					// we shouldn't get here, but in case.
 					alert("Error, problem deleting download profile");
 				}
+				reloadDownloadProfileList();
 			}, 
-			 error: function (jqXHR, textStatus, error) {
-				 handleFail(jqXHR,textStatus,error,"deleting a download profile");
-			 }
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"deleting a download profile");
+			}
 		});
-	}
+	};
+	function reloadDownloadProfileList() { 
+		jQuery.ajax({
+			url: "/users/component/functions.cfc",
+			data: {
+				method : "getDownloadProfilesHtml"
+			},
+			success : function(result) { 
+				$("#profileBlock").html(result);
+			}, 
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"deleting a download profile");
+			}
+		});
+	};
 </script>
 
 <cfoutput>
@@ -33,72 +49,8 @@
 		<section class="row border rounded my-2 p-2">
 			<div class="col-12 pt-2">
 				<h1 class="h2 w-100">Manage profiles for columns in Specimen Search CSV downloads for #encodeForHtml(session.username)#</h1>
-				<cfquery name="getProfiles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getProfiles_result">
-					SELECT 
-						username, name, download_profile_id, sharing, target_search, column_list,
-						decode(agent_name.agent_id,NULL,username,MCZBASE.get_agentnameoftype(agent_name.agent_id)) as owner_name
-					FROM 
-						download_profile
-						left join agent_name on upper(download_profile.username) = upper(agent_name.agent_name) and agent_name_type = 'login'
-					WHERE
-						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
-						or sharing = 'Everyone'
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							or sharing = 'MCZ'
-						</cfif>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-							OR download_profile_id IS NOT NULL
-						</cfif>
-					ORDER BY name
-				</cfquery>
-				<cfif getProfiles.recordcount is 0>
-					<h2 class="h4 w-100">No Visible Download Profiles</h2>
-				<cfelse>
-					<h2 class="h3"><span id="userSearchCount">#getProfiles.recordcount#</span> visible Download Profiles</h2>
-					<table class="table table-responsive table-striped d-lg-table">
-						<thead class="thead-light">
-						<tr>
-							<th><strong>Name</strong></th>
-							<th><strong>Created By</strong></th>
-							<th><strong>Shared With</strong></th>
-							<th><strong>Columns</strong></th>
-							<th><strong>For Search</strong></th>
-							<th><strong>Uses A Default</strong></th>
-							<th>Manage My Profiles</th>
-						</tr>
-						</thead>
-						<tbody>
-						<cfloop query="getProfiles">
-							<cfset columnCount = ListLen(column_list)>
-							<cfquery name="checkUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkUse_result">
-								SELECT count(*) ct
-								FROM
-									cf_users
-								WHERE
-									specimens_download_profile = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#download_profile_id#">
-							</cfquery>
-							<tr id="tr#download_profile_id#">
-								<td>#encodeForHtml(name)#</td>
-								<td>#encodeForHtml(owner_name)#</td>
-								<td>#sharing#</td>
-								<cfset column_list_formatted = lcase(replace(column_list,",",", ","all"))>
-								<td><button class="btn btn-xs btn-info" onClick="messageDialog('#column_list_formatted#');">#columnCount#</button></td>
-								<td>#target_search#</td>
-								<td>#checkUse.ct#</td>
-								<td>
-									<cfif ucase(getProfiles.username) EQ ucase(session.username)>
-										<cfif checkUse.ct EQ 0>
-											<button class="btn btn-xs btn-danger" onClick="deleteDownloadProfile('#download_profile_id#');">Delete</button>
-										</cfif>
-										<button class="btn btn-xs btn-secondary disabled" onClick="manageDownloadProfile('#download_profile_id#');">Edit</button>
-									</cfif>
-								</td>
-							</tr>
-						</cfloop>
-						</tbody>
-					</table>
-					</script>
-				</cfif>
+				<cfset profileBlockContent = getDownloadProfilesHtml()>
+				<div id="profileBlock">#profileBlockContent#</div>
 				<button class="btn btn-xs btn-secondary" onClick="newDownloadProfileForm();">New</button>
 				<div id="manageProfile">
 					<cfquery name="getFields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getFields_result">
@@ -257,12 +209,11 @@
 													retval = JSON.parse(result)
 													if (retval.DATA.STATUS[0]=="inserted") { 
 														$("##feedback").html(retval.DATA.MESSAGE[0]);
-														// TODO: reload profile list with ajax
-														window.location.reload(false);
 													} else {
 														// we shouldn't get here, but in case.
 														alert("Error, problem adding new download profile");
 													}
+													reloadDownloadProfileList();
 												}, 
 												error: function (jqXHR, textStatus, error) {
 													 handleFail(jqXHR,textStatus,error,"creating a download profile");
