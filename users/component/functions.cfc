@@ -295,7 +295,8 @@ limitations under the License.
 							</div>
 							<script>
 								function selectItem(item) {
-									$("##included_fields").jqxListBox("selectItem",item);
+									var movedItem = $("##included_fields").jqxListBox("getItemByValue",item);
+									$("##included_fields").jqxListBox("selectItem",movedItem);
 								}
 								function moveFieldEarlier(item) {
 									var idx = item.index;
