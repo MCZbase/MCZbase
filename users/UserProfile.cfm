@@ -358,15 +358,15 @@ limitations under the License.
 							</cfquery>
 
 							<h3 class="h3 mt-3 mb-0 px-1">
-									MCZbase Settings <span class="font-weight-lessbold small90">(settings related to how you see search results)</span>
+									MCZbase Settings <span class="font-weight-lessbold small">(settings related to how you see search results)</span>
 							</h3>
 						<!--- Most settings are session variables --->
 						<!--- values are obtained from the session --->
 						<!--- changing involves both changing the persistence store and the session variable.  --->
 							<output id="changeFeedback">&nbsp;</output>
-							<div class="form-row">
+			
 								<form method="post" action="/users/UserProfile.cfm" name="dlForm" class="userdataForm">
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="specimens_default_action" class="data-entry-label">Default tab for Specimen Search</label>
 											<cfif not isDefined("session.specimens_default_action")>
@@ -389,7 +389,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="specimens_pagesize" class="data-entry-label">Default Rows in Specimen Search Grid</label>
 											<cfif not isDefined("session.specimens_pagesize")>
@@ -418,7 +418,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="killRows" class="data-entry-label" >SpecimenResults Row-Removal Option (curently old search only)</label>
 											<select name="killRow" id="killRow" class="data-entry-select" onchange="changekillRows(this.value)">
@@ -434,7 +434,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<cfif len(session.roles) gt 0 OR session.roles is "public">
 											<div class="col-12 col-md-6 float-left mb-2">
 												<cfif isdefined("session.portal_id")>
@@ -462,7 +462,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-6 float-left mb-2">
 											<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
 											<select name="fancyCOID" id="fancyCOID"
@@ -479,7 +479,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row">
 										<div class="col-12 col-md-7 float-left mb-2">
 											<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
 											<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
@@ -501,7 +501,7 @@ limitations under the License.
 										</cfif>
 									</div>
 								</form>
-							</div>
+				
 						</div>
 					</div>				
 					<div class="col-12 col-md-4 float-left">
