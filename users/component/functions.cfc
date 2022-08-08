@@ -312,13 +312,13 @@ limitations under the License.
 								function moveUp() { 
 									$("##included_fields").jqxListBox("beginUpdate");
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
-									selectedItems.forEach(moveFieldUp);
+									selectedItems.forEach(moveFieldDown);
 									$("##included_fields").jqxListBox("endUpdate");
 								}
 								function moveDown() { 
 									$("##included_fields").jqxListBox("beginUpdate");
 									var selectedItems = $("##included_fields").jqxListBox("getSelectedItems");
-									selectedItems.forEach(moveFieldDown);
+									selectedItems.forEach(moveFieldUp);
 									$("##included_fields").jqxListBox("endUpdate");
 								}
 								$(document).ready(function () {
