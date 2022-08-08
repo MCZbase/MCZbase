@@ -19,7 +19,7 @@
 					$("#feedbackDiv").html("Deleted Record");
 					$("#userSearchCount").html(retval.DATA.USER_SEARCH_COUNT[0]);
 				} else {
-					// we shouldn't get here, but in case.
+					// we should not get here, but in case.
 					alert("Error, problem deleting download profile");
 				}
 				reloadDownloadProfileList();
