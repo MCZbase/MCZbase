@@ -145,7 +145,7 @@ limitations under the License.
 							and upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 					</cfquery>
 					<cfif getProfile.recordcount NEQ 1>
-						<cfthrow message="Unable to edit the specified download profile [#encodeForHtml(target_download_profile_id#]">
+						<cfthrow message="Unable to edit the specified download profile [#encodeForHtml(target_download_profile_id)#]">
 					</cfif>
 					<cfset column_list = getProfile.column_list>
 					<cfset name_value = getProfile.name>
