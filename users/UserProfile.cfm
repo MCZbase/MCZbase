@@ -463,7 +463,7 @@ limitations under the License.
 											<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
 										</select>
 									</div>
-									<div class="col-12 px-0 col-md-8 float-left mb-2">
+									<div class="col-12 px-0 col-md-7 float-left mb-2">
 										<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
 										<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
 										<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
@@ -478,7 +478,7 @@ limitations under the License.
 										</select>
 									</div>
 									<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-										<div class="col-12 col-md-4 float-left px-0 mb-2">
+										<div class="col-12 col-md-5 float-left px-0 mb-2">
 											<span class="h4 ml-3"><a href="/users/manageDownloadProfiles.cfm">Manage Profiles for columns in CSV Downloads</a></span>
 										</div>
 									</cfif>
