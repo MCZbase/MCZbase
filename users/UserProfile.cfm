@@ -153,7 +153,7 @@ limitations under the License.
 	<!------------------------------------------------------------------->
 	<div class="container-fluid">
 		<cfquery name="checkUserExists" datasource="cf_dbuser">
-			SELECT count(*)
+			SELECT count(*) ct
 			FROM cf_users
 			WHERE
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
