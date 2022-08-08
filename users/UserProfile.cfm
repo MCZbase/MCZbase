@@ -181,7 +181,7 @@ limitations under the License.
 		<cfoutput query="getPrefs" group="user_id">
 			<div class="container-fluid py-4" id="content">
 				<div class="row mx-0 mb-5">
-					<div class="col-12 col-md-7 col-xl-8 mb-2">
+					<div class="col-12 col-md-8 mb-2">
 						<h1 class="h2">
 							<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
 								Welcome back, <b>#encodeForHtml(getPrefs.first_name)# #encodeForHtml(getPrefs.last_name)#</b><br>
@@ -508,7 +508,7 @@ limitations under the License.
 				
 						</div>
 					</div>				
-					<div class="col-12 col-md-5 col-xl-4 float-left">
+					<div class="col-12 col-md-4 float-left">
 						<div id="divRss" class="h-75">
 							<div class="shell h-100"><h2 class="h3 py-2 px-2 text-center">Checking the wiki for documentation updates...</h2></div>
 						</div>
