@@ -270,7 +270,7 @@ limitations under the License.
 												</cfif>
 											</cfloop>
 											<cfset separator="">
-											<cfloop array="listItems" index="item">
+											<cfloop array="#listItems#" index="item">
 												#separator##item#
 												<cfset separator=",">
 											</cfloop>
