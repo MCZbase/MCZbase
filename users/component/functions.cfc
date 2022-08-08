@@ -306,7 +306,7 @@ limitations under the License.
 									var items = $("##included_fields").jqxListBox("getItems");
 									if (idx<items) { 
 										$("##included_fields").jqxListBox("removeItem",item);
-										$("##included_fields").jqxListBox("insertAt",item,idx+1);
+										$("##included_fields").jqxListBox("insertAt",item,idx+2);
 									}
 								}
 								function moveUp() { 
