@@ -194,40 +194,44 @@ limitations under the License.
 						</h1>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 							<!--- Provide users with global admin role sanity checking information on the current deployment environment --->
-							<div class="col-12">
-								<h2 class="h3">Server Settings</h2>
-								<ul>
-									<li>Application.protocol: #Application.protocol#</li>
-									<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
-										<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
-									</cfif>
-									<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
-									<li>Application.serverrole: #Application.serverrole# </li>
-									<cfif NOT isdefined("Session.gitBranch")>
-										<cftry>
-											<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-											<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
-										<cfcatch>
-											<cfset gitBranch = "unknown">
-										</cfcatch>
-										</cftry>
-										<cfset Session.gitBranch = gitBranch>
-									</cfif>
-									<li>Session.gitbranch: #Session.gitbranch# </li>
-								</ul>
+							<div class="form-row">
+								<div class="col-12 col-md-6">
+									<h2 class="h3">Server Settings</h2>
+									<ul>
+										<li>Application.protocol: #Application.protocol#</li>
+										<cfif Application.serverrole EQ "production" AND Application.protocol NEQ "https">
+											<li><strong>Warning: expected protocol for production is https, restart coldfusion while apache is running.</li>
+										</cfif>
+										<li>Application.serverRootUrl: #Application.serverRootUrl# </li>
+										<li>Application.serverrole: #Application.serverrole# </li>
+										<cfif NOT isdefined("Session.gitBranch")>
+											<cftry>
+												<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+												<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+											<cfcatch>
+												<cfset gitBranch = "unknown">
+											</cfcatch>
+											</cftry>
+											<cfset Session.gitBranch = gitBranch>
+										</cfif>
+										<li>Session.gitbranch: #Session.gitbranch# </li>
+									</ul>
+								</div>
 								<cfquery name="flatstatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT count(*) ct, stale_flag 
 									FROM flat
 									GROUP BY stale_flag
 								</cfquery>
-								<h2 class="h3">FLAT Table</h2>
-								<ul>
-									<cfloop query="flatstatus">
-										<cfset flattext = "">
-										<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
-										<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
-									</cfloop>
-								<ul>
+								<div class="col-12 col-md-6">
+									<h2 class="h3">FLAT Table</h2>
+									<ul>
+										<cfloop query="flatstatus">
+											<cfset flattext = "">
+											<cfif flatstatus.stale_flag GT 1><cfset flattext = " manually excluded"></cfif>
+											<li>stale_flag: #flatstatus.stale_flag# Rows: #flatstatus.ct##flattext#</li>
+										</cfloop>
+									<ul>
+								</div>
 							</div>		
 						</cfif>
 						<h2 class="h3">Manage your profile</h2>
