@@ -393,91 +393,96 @@ limitations under the License.
 								});	
 							</script>
 							<!--- $("#included_fields").jqxListBox('getItems'); gets list in sorted order $("#included_fields").jqxListBox('getItems')[0].label; (or .value for id) ---> 
-							<script>
-								function saveProfile() { 
-									// check if requirements are met.
-									if ($("##name").val().trim().length==0) { 
-										messageDialog("You must enter a name for the profile.");
-									} else { 
-										var fieldArray = $("##included_fields").jqxListBox('getItems'); 
-										var column_id_list = "";
-										var separator = "";
-										for (i=0; i<fieldArray.length; i++) {
-											column_id_list = column_id_list + separator + fieldArray[i].value; 
-											separator = ",";
+							<cfif mode EQ "edit">
+								<script>
+									function saveProfile() { 
+										// check if requirements are met.
+										if ($("##name").val().trim().length==0) { 
+											messageDialog("You must enter a name for the profile.");
+										} else { 
+											var fieldArray = $("##included_fields").jqxListBox('getItems'); 
+											var column_id_list = "";
+											var separator = "";
+											for (i=0; i<fieldArray.length; i++) {
+												column_id_list = column_id_list + separator + fieldArray[i].value; 
+												separator = ",";
+											}
+											console.log(column_id_list);
+											jQuery.ajax({
+											url: "/users/component/functions.cfc",
+												data: {
+													method : "saveDownloadProfile",
+													download_profile_id: "#target_download_profile_id#",
+													name: $("##name").val(), 
+													sharing: $("##sharing").val(), 
+													target_search: "Specimens", 
+													column_id_list: column_id_list,
+													returnformat : "json",
+													queryformat : "column"
+												},
+												success : function(result) { 
+													retval = JSON.parse(result)
+													if (retval.DATA.STATUS[0]=="saved") { 
+														$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
+														$("##manageProfileFormDiv").hide();
+													} else {
+														// we should not get here, but in case.
+														alert("Error, problem adding new download profile");
+													}
+													reloadDownloadProfileList();
+												}, 
+												error: function (jqXHR, textStatus, error) {
+													 handleFail(jqXHR,textStatus,error,"creating a download profile");
+												 }
+											});
 										}
-										console.log(column_id_list);
-										jQuery.ajax({
-										url: "/users/component/functions.cfc",
-											data: {
-												method : "saveDownloadProfile",
-												download_profile_id: "#target_download_profile_id#",
-												name: $("##name").val(), 
-												sharing: $("##sharing").val(), 
-												target_search: "Specimens", 
-												column_id_list: column_id_list,
-												returnformat : "json",
-												queryformat : "column"
-											},
-											success : function(result) { 
-												retval = JSON.parse(result)
-												if (retval.DATA.STATUS[0]=="saved") { 
-													$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
-													$("##manageProfileFormDiv").hide();
-												} else {
-													// we should not get here, but in case.
-													alert("Error, problem adding new download profile");
-												}
-												reloadDownloadProfileList();
-											}, 
-											error: function (jqXHR, textStatus, error) {
-												 handleFail(jqXHR,textStatus,error,"creating a download profile");
-											 }
-										});
 									}
-								} 
-								function saveNewProfile() { 
-									// check if requirements are met.
-									if ($("##name").val().trim().length==0) { 
-										messageDialog("You must enter a name for the new profile.");
-									} else { 
-										var fieldArray = $("##included_fields").jqxListBox('getItems'); 
-										var column_id_list = "";
-										var separator = "";
-										for (i=0; i<fieldArray.length; i++) {
-											column_id_list = column_id_list + separator + fieldArray[i].value; 
-											separator = ",";
+								<script> 
+							<cfelse>
+								<script> 
+									function saveNewProfile() { 
+										// check if requirements are met.
+										if ($("##name").val().trim().length==0) { 
+											messageDialog("You must enter a name for the new profile.");
+										} else { 
+											var fieldArray = $("##included_fields").jqxListBox('getItems'); 
+											var column_id_list = "";
+											var separator = "";
+											for (i=0; i<fieldArray.length; i++) {
+												column_id_list = column_id_list + separator + fieldArray[i].value; 
+												separator = ",";
+											}
+											console.log(column_id_list);
+											jQuery.ajax({
+											url: "/users/component/functions.cfc",
+												data: {
+													method : "createDownloadProfile",
+													name: $("##name").val(), 
+													sharing: $("##sharing").val(), 
+													target_search: "Specimens", 
+													column_id_list: column_id_list,
+													returnformat : "json",
+													queryformat : "column"
+												},
+												success : function(result) { 
+													retval = JSON.parse(result)
+													if (retval.DATA.STATUS[0]=="inserted") { 
+														$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
+														$("##manageProfileFormDiv").hide();
+													} else {
+														// we should not get here, but in case.
+														alert("Error, problem adding new download profile");
+													}
+													reloadDownloadProfileList();
+												}, 
+												error: function (jqXHR, textStatus, error) {
+													 handleFail(jqXHR,textStatus,error,"updating a download profile");
+												 }
+											});
 										}
-										console.log(column_id_list);
-										jQuery.ajax({
-										url: "/users/component/functions.cfc",
-											data: {
-												method : "createDownloadProfile",
-												name: $("##name").val(), 
-												sharing: $("##sharing").val(), 
-												target_search: "Specimens", 
-												column_id_list: column_id_list,
-												returnformat : "json",
-												queryformat : "column"
-											},
-											success : function(result) { 
-												retval = JSON.parse(result)
-												if (retval.DATA.STATUS[0]=="inserted") { 
-													$("##feedbackDiv").html(retval.DATA.MESSAGE[0]);
-													$("##manageProfileFormDiv").hide();
-												} else {
-													// we should not get here, but in case.
-													alert("Error, problem adding new download profile");
-												}
-												reloadDownloadProfileList();
-											}, 
-											error: function (jqXHR, textStatus, error) {
-												 handleFail(jqXHR,textStatus,error,"updating a download profile");
-											 }
-										});
-									}
-								};
-							</script>
+									};
+								</script>
+							</cfif>
 						</div>
 					</div>
 				</div>
