@@ -484,7 +484,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div class="form-row">
-										<div class="col-12 col-md-7 float-left mb-2">
+										<div class="col-12 col-xl-7 float-left mb-2">
 											<!--- download profile is an exception, it isn't in the session but retrieved on demand--->
 											<label for="specimens_default_profile" class="data-entry-label">Default Profile for Columns included when downloading Specimen results as CSV </label>
 											<select name="specimen_default_profile" id="specimen_default_profile" class="data-entry-select" onchange="changeSpecimenDefaultProfile(this.value)">
