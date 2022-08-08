@@ -32,7 +32,8 @@
 		jQuery.ajax({
 			url: "/users/component/functions.cfc",
 			data: {
-				method : "getDownloadProfilesHtml"
+				method : "getDownloadProfilesHtml",
+				returnformat: "plain"
 			},
 			success : function(result) { 
 				$("#profileBlock").html(result);
@@ -46,7 +47,8 @@
 		jQuery.ajax({
 			url: "/users/component/functions.cfc",
 			data: {
-				method : "editDownloadProfileHtml"
+				method : "editDownloadProfileHtml",
+				returnformat: "plain"
 			},
 			success : function(result) { 
 				$("#manageProfileBlock").html(result);
@@ -61,6 +63,7 @@
 			url: "/users/component/functions.cfc",
 			data: {
 				method : "editDownloadProfileHtml",
+				returnformat: "plain",
 				download_profile_id: download_profile_id
 			},
 			success : function(result) { 
