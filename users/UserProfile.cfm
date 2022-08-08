@@ -151,7 +151,6 @@ limitations under the License.
 </cfcase>
 <cfcase value="nothing">
 	<!------------------------------------------------------------------->
-	<div class="container-fluid">
 		<cfquery name="checkUserExists" datasource="cf_dbuser">
 			SELECT count(*) ct
 			FROM cf_users
@@ -180,8 +179,8 @@ limitations under the License.
 			WHERE user_id = <cfqueryparam value="#getPrefs.user_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
 		<cfoutput query="getPrefs" group="user_id">
-			<div class="container mt-4" id="content">
-				<div class="row mb-5">
+			<div class="container-fluid mt-4" id="content">
+				<div class="row mx-0 mb-5">
 					<div class="col-12 col-md-8 mb-2">
 						<h1 class="h2">
 							<cfif len(getPrefs.first_name) GT 0 OR len(getPrefs.last_name) GT 0>
@@ -543,7 +542,6 @@ limitations under the License.
 				</div>
 			</div>
 		</cfoutput>
-	</div>
 </cfcase>
 <cfcase value="saveProfile">
 	<!--- get the values they filled in --->
