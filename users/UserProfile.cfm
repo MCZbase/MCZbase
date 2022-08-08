@@ -439,6 +439,32 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row">
+										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
+											<select name="fancyCOID" id="fancyCOID"
+												size="1" class="data-entry-select" onchange="this.className='red';changefancyCOID(this.value);">
+												<option <cfif #session.fancyCOID# is not 1>selected="selected"</cfif> value="">No</option>
+												<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="block_suggest" class="data-entry-label" >Suggest Browse (unused)</label>
+											<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
+												<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
+												<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
+											</select>
+										</div>
+										<div class="col-12 col-md-6 float-left mb-2">
+											<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
+											<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
+												<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
+												<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
+												<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
+												<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-row">
 										<cfif len(session.roles) gt 0 OR session.roles is "public">
 											<div class="col-12 col-md-6 float-left mb-2">
 												<cfif isdefined("session.portal_id")>
@@ -456,32 +482,6 @@ limitations under the License.
 												</select>
 											</div>
 										</cfif>
-										<div class="col-12 col-md-6 float-left mb-2">
-											<label for="displayRows" class="data-entry-label" >Specimen Records Per Page (deprecated, old search only)</label>
-											<select name="displayRows" id="displayRows" class="data-entry-select" onchange="changedisplayRows(this.value);" size="1">
-												<option <cfif session.displayRows is "10"> selected </cfif> value="10">10</option>
-												<option  <cfif session.displayRows is "20"> selected </cfif> value="20" >20</option>
-												<option  <cfif session.displayRows is "50"> selected </cfif> value="50">50</option>
-												<option  <cfif session.displayRows is "100"> selected </cfif> value="100">100</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-row">
-										<div class="col-12 col-md-6 float-left mb-2">
-											<label for="fancyCOID" class="data-entry-label" >Show 3-part ID on SpecimenSearch (deprecated, old search only)</label>
-											<select name="fancyCOID" id="fancyCOID"
-												size="1" class="data-entry-select" onchange="this.className='red';changefancyCOID(this.value);">
-												<option <cfif #session.fancyCOID# is not 1>selected="selected"</cfif> value="">No</option>
-												<option <cfif #session.fancyCOID# is 1>selected="selected"</cfif> value="1">Yes</option>
-											</select>
-										</div>
-										<div class="col-12 col-md-6 float-left mb-2">
-											<label for="block_suggest" class="data-entry-label" >Suggest Browse (unused)</label>
-											<select name="block_suggest" id="block_suggest" class="data-entry-select" onchange="changeBlockSuggest(this.value)">
-												<option value="0" <cfif session.block_suggest neq 1> selected="selected" </cfif>>Allow</option>
-												<option value="1" <cfif session.block_suggest is 1> selected="selected" </cfif>>Block</option>
-											</select>
-										</div>
 									</div>
 									<div class="form-row">
 										<div class="col-12 col-md-7 float-left mb-2">
