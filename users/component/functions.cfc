@@ -349,8 +349,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="downloadProfileThread#tn#" />
-	<cfreturn cfthread["downloadProfileThread#tn#"].output>
+	<cfthread action="join" name="editDownloadProfileThread#tn#" />
+	<cfreturn cfthread["editDownloadProfileThread#tn#"].output>
 </cffunction>
 
 <!--- createDownloadProfile create a new download profile.
