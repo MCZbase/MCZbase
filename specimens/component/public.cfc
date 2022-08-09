@@ -78,6 +78,7 @@ limitations under the License.
 						collecting_event.verbatim_date,
 						collecting_event.began_date,
 						collecting_event.ended_date,
+						MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date.collecting_event.ended_date,1,0) as pretty_date,
 						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 						geog_auth_rec.higher_geog,
 						<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
@@ -195,11 +196,11 @@ limitations under the License.
 										">
 										<div class="col-12 px-xl-0"><span class="small">Date Collected: </span>
 											<h2 class="h5 mb-1 d-inline-block">
-												<cfset date ="#summary.verbatim_date#">
-												<cfif len(summary.began_date) GT 0 AND summary.began_date EQ summary.ended_date >
-													<cfset date = "#summary.began_date#">
-												<cfelseif len(summary.began_date) GT 0 AND summary.began_date NEQ '1700-01-01'>
-													<cfset date = "#summary.began_date#/#summary.ended_date#">
+												<cfobject type="Java" class="org.filteredpush.qc.date.DateUtils" name="dateUtils">
+												<cfset formatted_date = dateUtils.extractDateFromVerbatimER(#summary.pretty_date#).getResult()>
+												<cfset date ="#summary.pretty_date#">
+												<cfif len(formatted_date) GT 0 >
+													<cfset date = "#formatted_date#">
 												</cfif>
 												<span class="text-dark font-weight-lessbold">#date#</span>
 											</h2>
