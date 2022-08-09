@@ -3,18 +3,19 @@
 <script src="/includes/sorttable.js"></script>
 
 <cfif not isDefined("username")><cfset username=""></cfif>
+<cfif not isDefined("action")><cfset action=""></cfif>
 
 <main class="container" id="content">
 	<section class="row">
-
-		<form action="/AdminUsers.cfm" method="post">
-			<input type="hidden" name="Action" value="list">
-			<h2 class="h3">Manage MCZbase Users</h2>
-			<label for="username" class="data-entry-label">Find users:</label>
-			<input name="username" id="username" class="data-entry-input" value="#encodeForHtml(username)#">
-			<input type="submit" value="Find" class="btn btn-primary btn-xs">
-		</form>
-
+		<cfoutput>
+			<form action="/AdminUsers.cfm" method="post">
+				<input type="hidden" name="Action" value="list">
+				<h2 class="h3">Manage MCZbase Users</h2>
+				<label for="username" class="data-entry-label">Find users:</label>
+				<input name="username" id="username" class="data-entry-input" value="#encodeForHtml(username)#">
+				<input type="submit" value="Find" class="btn btn-primary btn-xs">
+			</form>
+		</cfoutput>
 	</section>
 	<section class="row">
 
