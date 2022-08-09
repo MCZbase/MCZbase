@@ -75,6 +75,7 @@ limitations under the License.
 				 	SELECT DISTINCT
 						collection.collection,
 						cataloged_item.collection_object_id as collection_object_id,
+						cataloged_item.cat_num,
 						collecting_event.verbatim_date,
 						collecting_event.began_date,
 						collecting_event.ended_date,
@@ -152,7 +153,7 @@ limitations under the License.
 											col-6 </cfif>
 									">
 										<div class="col-12 px-0">
-											<h1 class="col-12 mb-1 h4 font-weight-bold">#GUID#</h1>
+											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ:#summary.collection#:#summary.cat_num#</h1>
 											<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
 												<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
 											</h2>
