@@ -202,7 +202,7 @@ limitations under the License.
 												<cfif isDefined("formatted_date") AND len(formatted_date) GT 0 >
 													<cfset date = "#formatted_date#">
 												<cfelseif summary.pretty_date EQ "[date unknown]" AND summary.began_date EQ "1700-01-01">
-													<cfset date = "#formatted_date# prior to #summary.ended_date#">
+													<cfset date = "#summary.pretty_date# prior to #summary.ended_date#">
 												</cfif>
 												<span class="text-dark font-weight-lessbold">#date#</span>
 											</h2>
