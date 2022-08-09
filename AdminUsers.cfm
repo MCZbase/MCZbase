@@ -118,7 +118,11 @@
 				<tr>
 			 		<td><a class="btn btn-xs btn-primary" href="AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
 			 		<td>#hasProfile#</td>
-					<td>#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)</td>
+					<td>
+						<cfif len(getUsers.user_data_id) GT 0>
+							#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)
+						</cfif>
+					</td>
 			 		<td>#operator#</td>
 			 		<td>#agentRecord#</td>
 					<td>#valuelist(collectionRoles.role_name)#</td>
