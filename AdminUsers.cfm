@@ -1,13 +1,25 @@
-<cfinclude template = "includes/_header.cfm">
-    <div style="width: 70em;margin:0 auto; padding: 2em 0 4em 0;">
+<cfset pageTitle="Administer Users">
+<cfinclude template = "/shared/_header.cfm">
 <script src="/includes/sorttable.js"></script>
-<cfset title="Administer Users">
-<form action="AdminUsers.cfm" method="post">
-	<input type="hidden" name="Action" value="list">
-    <h2 class="wikilink">Manage MCZbase User</h2>
-	Find a user: <input name="username">&nbsp;<input type="submit" value="Find">
-</form>
+
+<cfif not isDefined("username")><cfset username=""></cfif>
+
+<main class="container" id="content">
+	<section class="row">
+
+		<form action="/AdminUsers.cfm" method="post">
+			<input type="hidden" name="Action" value="list">
+			<h2 class="h3">Manage MCZbase Users</h2>
+			<label for="username" class="data-entry-label">Find users:</label>
+			<input name="username" id="username" class="data-entry-input" value="#encodeForHtml(username)#">
+			<input type="submit" value="Find" class="btn btn-primary btn-xs">
+		</form>
+
+	</section>
+	<section class="row">
+
 <cfif Action is "list">
+	<!--- everyone with an account has a record in cf_users, they may have added name/contact/affiliation information in cf_user_data --->
 	<cfquery name="getUsers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT 
 			username,
@@ -17,41 +29,102 @@
 			MIDDLE_NAME,
 			LAST_NAME,
 			AFFILIATION,
-			EMAIL
-		FROM cf_users
-		left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
-		 where upper(username) like '%#ucase(username)#%'
+			EMAIL,
+			cf_user_data.user_id user_data_id
+		FROM 
+			cf_users
+			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
+		WHERE 
+			upper(username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
 		ORDER BY
 			rights, ucasename
 	</cfquery>
-	<br>Select a user to administer<br>
-<table border="1" id="t" class="sortable">
-		<tr>
-			<th>Username</th>
-			<th>Details</th>
-			
-		</tr>
-	<cfoutput query="getUsers">
-		  <cfquery name="roles" datasource="uam_god">
-			select 
-				granted_role role_name
-			from 
-				dba_role_privs,
-				collection
-			where
-				upper(dba_role_privs.granted_role) = upper(collection.institution_acronym) || '_' || upper(collection.collection_cde) and
-				upper(grantee) = '#ucasename#'
-		</cfquery>
-		<tr>
-			 	<td><a href="AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
-            <td>
-			 	<table>
-                    <tr><td><b>Collections:</b> </td><td>#valuelist(roles.role_name)#</td></tr>
-                    <tr><td align="right"><b>Contact: </b></td><td>#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)</td></tr>
-            </table>
-            </td>
-			 </tr>
-	</cfoutput>
+	<h2 class="h3">Select a user to administer</h2>
+	<table border="1" id="matchedUsers" class="table table-responsive sortable">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Profile</th>
+				<th>Oracle User</th>
+				<th>Agent</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<cfoutput>
+			<tbody>
+			<cfloop query="getUsers">
+				<cfif len(getUsers.user_data_id) GT 0>
+					<cfset hasProfile = "#FIRST_NAME# #LAST_NAME#">
+				<cfelse>
+					<cfset hasProfile = "[no]">
+				</cfif>
+				</cfif> 
+				<cfquery name="getAgent" datasource="uam_god">
+					SELECT
+						agent_name.agent_id,
+						MCZBASE.get_agentname_of_type(agent_name.agent_id) agent_name
+					FROM
+						agent_name 
+					where
+						upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">	
+						and 
+						agent_name_type = 'login'
+				</cfquery>
+				<cfif getAgent.recordcount EQ 0>
+					<cfset agentRecord = "[no]">
+				<cfelse>
+					<cfset agentRecord = "<a href='/agents/Agent.cfm?agent_id=#getAgent.agent_id#'>#getAgent.agent_name#</a>">
+				</cfif>
+				<cfquery name="oracleUser" datasource="uam_god">
+					SELECT count(*) ct
+					FROM 
+						DBA_USERS
+					WHERE
+						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+				</cfquery>
+				<cfquery name="coldfusionUserRole" datasource="uam_god">
+					SELECT 
+						count(*) ct
+					FROM
+						dba_role_privs
+					WHERE
+						upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
+						AND
+						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+				</cfquery>
+				<cfquery name="collectionRoles" datasource="uam_god">
+					select 
+						granted_role role_name
+					from 
+						dba_role_privs,
+						collection
+					where
+						upper(dba_role_privs.granted_role) = upper(collection.institution_acronym) || '_' || upper(collection.collection_cde) and
+						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+				</cfquery>
+				<cfif oracleUser.ct GT 0>
+					<cfset operator = "Oracle User">
+					<cfif coldfusionUserRole.ct GT 0>
+						<cfset operator = "One of Us">
+					</cfif>
+				<cfelse>
+					<cfset operator = "[no]">
+				</cfif>
+				<tr>
+			 		<td><a href="AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
+			 		<td>#hasProfile#</td>
+			 		<td>#operator#</td>
+			 		<td>#agentRecord#</td>
+					<td>
+					 	<table>
+							<tr><td><b>Collections:</b> </td><td>#valuelist(collectionRoles.role_name)#</td></tr>
+							<tr><td align="right"><b>Contact: </b></td><td>#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)</td></tr>
+						</table>
+					</td>
+				 </tr>
+			</cfloop>
+			</tbody>
+		</cfoutput>
 	</table>
 </cfif>
 
@@ -491,5 +564,7 @@
 	</cfif>
 	</cfoutput>
 </cfif>
-        </div>
-<cfinclude template = "includes/_footer.cfm">
+
+	</section>
+</main>
+<cfinclude template = "/shared/_footer.cfm">
