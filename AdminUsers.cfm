@@ -62,7 +62,7 @@
 				<cfquery name="getAgent" datasource="uam_god">
 					SELECT
 						agent_name.agent_id,
-						MCZBASE.get_agentname_of_type(agent_name.agent_id) agent_name
+						MCZBASE.get_agentnameoftype(agent_name.agent_id) agent_name
 					FROM
 						agent_name 
 					where
