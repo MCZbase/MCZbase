@@ -1632,7 +1632,7 @@ limitations under the License.
 					</ul>
 				<cfelse>
 					<ul class="pl-0 list-group my-0">
-						<li class="small90 list-group-item py-0 font-italic">None</li>
+						<li class="small list-group-item py-0 font-italic">None</li>
 					</ul>
 				</cfif>
 			<cfcatch>
