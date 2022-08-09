@@ -440,7 +440,7 @@ limitations under the License.
 								<cfelse>
 									<div class="card-body" id="citationsCardBody">
 										<ul class="list-group">
-											<li class="small90 list-group-item pt-0 font-italic">None</li>
+											<li class="small list-group-item py-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
@@ -492,9 +492,9 @@ limitations under the License.
 										#blockotherid# 
 									</div>
 								<cfelse>
-									<div class="card-body" id="otherIDsCardBody">
-										<ul class="list-group">
-											<li class="small90 list-group-item pt-0 font-italic">None</li>
+									<div class="card-body py-0" id="otherIDsCardBody">
+										<ul class="list-group my-0">
+											<li class="small list-group-item py-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
@@ -563,9 +563,9 @@ limitations under the License.
 										#blockattributes#
 									</div>
 								<cfelse>
-									<div class="card-body" id="attributesCardBody">
-										<ul class="list-group">
-											<li class="small90 list-group-item pt-0 font-italic">None</li>
+									<div class="card-body py-0" id="attributesCardBody">
+										<ul class="list-group my-0">
+											<li class="small list-group-item py-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
@@ -752,9 +752,9 @@ limitations under the License.
 										</div>
 									</div>
 								<cfelse>
-									<div class="card-body" id="ledgerCardBody">
-										<ul class="list-group">
-											<li class="small90 list-group-item pt-0 font-italic">None</li>
+									<div class="card-body py-0" id="ledgerCardBody">
+										<ul class="list-group my-0">
+											<li class="small list-group-item py-0 font-italic">None</li>
 										</ul>
 									</div>
 								</cfif>
