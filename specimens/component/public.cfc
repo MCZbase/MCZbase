@@ -206,7 +206,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-xl-0">
 											<h2 class="h5 mb-0">#summary.higher_geog#
-											<cfif len(summary.spec_locality) GT 0>/ #summary.spec_locality#<cfelse></cfif></h2>
+											<cfif len(summary.spec_locality) GT 0> | #summary.spec_locality#<cfelse></cfif></h2>
 										</div>
 										<div class="col-12 px-xl-0 small">
 											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
