@@ -4,17 +4,60 @@
 
 <cfif not isDefined("username")><cfset username=""></cfif>
 <cfif not isDefined("action")><cfset action=""></cfif>
+<cfif not isDefined("state")><cfset state=""></cfif>
+<cfif not isDefined("findlastname")><cfset findlastname=""></cfif>
 
-<main class="container" id="content">
-	<section class="row">
+<cfif NOT ( isdefined("session.roles") AND listfindnocase(session.roles,"global_admin") ) >
+	<!--- this should be handled by rolecheck but add another layer here to make sure of access control --->
+	<cflocation url="/errors/forbidden.cfm" addtoken="false">
+</cfif>
+
+<main class="container py-3" id="content">
+	<section class="row border rounded my-2">
+		<h1 class="h2">Manage MCZbase Users</h1>
 		<cfoutput>
-			<form action="/AdminUsers.cfm" method="post">
-				<input type="hidden" name="Action" value="list">
-				<h2 class="h3">Manage MCZbase Users</h2>
-				<label for="username" class="data-entry-label">Find users:</label>
-				<input name="username" id="username" class="data-entry-input" value="#encodeForHtml(username)#">
-				<input type="submit" value="Find" class="btn btn-primary btn-xs">
-			</form>
+			<div class="col-12">
+				<h2 class="h3">Find Users</h2>
+				<form action="/AdminUsers.cfm" method="get">
+					<div class="form-row">
+						<input type="hidden" name="Action" value="list">
+						<div class="col-12 col-md-4">
+							<label for="username" class="data-entry-label">Username</label>
+							<input name="username" id="username" class="data-entry-input" value="#encodeForHtml(username)#">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="findlastname" class="data-entry-label">Last Name</label>
+							<input name="findlastname" id="findlastname" class="data-entry-input" value="#encodeForHtml(findlastname)#">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="state" class="data-entry-label">State:</label>
+							<select name="state" id="state" class="data-entry-input" value="#encodeForHtml(state)#">
+								<cfif not isDefined("state") OR state EQ "all"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="all" #selected#>All</option>
+								<cfif isDefined("state") and state EQ "profile"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="profile" #selected#>Has Profile</option>
+								<cfif isDefined("state") and state EQ "invited"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="invited" #selected#>Invited to become an operator</option>
+								<cfif isDefined("state") and state EQ "oracle"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="oracle" #selected#>Has Oracle User</option>
+								<cfif isDefined("state") and state EQ "coldfusion_user"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="coldfusion_user" #selected#>One of Us</option>
+								<cfif isDefined("state") and state EQ "noprofile"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="noprofile" #selected#>No Profile</option>
+								<cfif isDefined("state") and state EQ "nooracle"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="nooracle" #selected#>No Oracle User</option>
+								<cfif isDefined("state") and state EQ "locked"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="locked" #selected#>Locked Account</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-4">
+							<input type="submit" value="Find" class="btn btn-primary btn-xs">
+						</div>
+					</div>
+				</form>
+			</div>
 		</cfoutput>
 	</section>
 	<section class="row">
@@ -37,12 +80,20 @@
 			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
 		WHERE 
 			upper(username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
+			<cfif isDefined("findlastname") AND len(findlastname) GT 0>
+				AND upper(LAST_NAME) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(findlastname)#%">
+			</cfif>
+			<cfif isDefined("state") and state EQ "profile">
+				and cf_user_data.user_id IS NOT NULL
+			<cfelseif isDefined("state" and state EQ "noprofile">
+				and cf_user_data.user_id IS NULL
+			</cfif>
 		ORDER BY
 			rights, ucasename
 	</cfquery>
 	<h2 class="h3">Select a user to administer</h2>
 	<table id="matchedUsers" class="table table-responsive sortable">
-		<thead>
+		<thead class="thead-light">
 			<tr>
 				<th>Username</th>
 				<th>Profile</th>
