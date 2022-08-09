@@ -41,14 +41,15 @@
 			rights, ucasename
 	</cfquery>
 	<h2 class="h3">Select a user to administer</h2>
-	<table border="1" id="matchedUsers" class="table table-responsive sortable">
+	<table id="matchedUsers" class="table table-responsive sortable">
 		<thead>
 			<tr>
 				<th>Username</th>
 				<th>Profile</th>
+				<th>Contact</th>
 				<th>Oracle User</th>
 				<th>Agent</th>
-				<th>Details</th>
+				<th>Collections</th>
 			</tr>
 		</thead>
 		<cfoutput>
@@ -58,7 +59,8 @@
 					<cfset hasProfile = "#FIRST_NAME# #LAST_NAME#">
 				<cfelse>
 					<cfset hasProfile = "[no]">
-				</cfif> 
+				</cfif>
+				<!--- Some users are linked to agent records by login name --->
 				<cfquery name="getAgent" datasource="uam_god">
 					SELECT
 						agent_name.agent_id,
@@ -75,6 +77,7 @@
 				<cfelse>
 					<cfset agentRecord = "<a href='/agents/Agent.cfm?agent_id=#getAgent.agent_id#'>#getAgent.agent_name#</a>">
 				</cfif>
+				<!--- "Operators" have an oracle schema --->
 				<cfquery name="oracleUser" datasource="uam_god">
 					SELECT count(*) ct
 					FROM 
@@ -82,6 +85,7 @@
 					WHERE
 						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
 				</cfquery>
+				<!--- users with an oracle schema can have the coldfusion_user role, and be "one of us" --->
 				<cfquery name="coldfusionUserRole" datasource="uam_god">
 					SELECT 
 						count(*) ct
@@ -92,6 +96,7 @@
 						AND
 						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
 				</cfquery>
+				<!--- users with an oracle schema can be granted access to VPDs for collections --->
 				<cfquery name="collectionRoles" datasource="uam_god">
 					select 
 						granted_role role_name
@@ -111,16 +116,12 @@
 					<cfset operator = "[no]">
 				</cfif>
 				<tr>
-			 		<td><a href="AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
+			 		<td><a class="btn btn-xs btn-primary" href="AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
 			 		<td>#hasProfile#</td>
+					<td>#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)</td>
 			 		<td>#operator#</td>
 			 		<td>#agentRecord#</td>
-					<td>
-					 	<table>
-							<tr><td><b>Collections:</b> </td><td>#valuelist(collectionRoles.role_name)#</td></tr>
-							<tr><td align="right"><b>Contact: </b></td><td>#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)</td></tr>
-						</table>
-					</td>
+					<td>#valuelist(collectionRoles.role_name)#</td>
 				 </tr>
 			</cfloop>
 			</tbody>
