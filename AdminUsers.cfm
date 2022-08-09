@@ -57,7 +57,6 @@
 					<cfset hasProfile = "#FIRST_NAME# #LAST_NAME#">
 				<cfelse>
 					<cfset hasProfile = "[no]">
-				</cfif>
 				</cfif> 
 				<cfquery name="getAgent" datasource="uam_god">
 					SELECT
