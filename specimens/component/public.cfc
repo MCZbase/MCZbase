@@ -199,7 +199,7 @@ limitations under the License.
 												<cfobject type="Java" class="org.filteredpush.qc.date.DateUtils" name="dateUtils">
 												<cfset formatted_date = dateUtils.extractDateFromVerbatimER(#summary.pretty_date#).getResult()>
 												<cfset date ="#summary.pretty_date#">
-												<cfif len(formatted_date) GT 0 >
+												<cfif isDefined("formatted_date") AND len(formatted_date) GT 0 >
 													<cfset date = "#formatted_date#">
 												</cfif>
 												<span class="text-dark font-weight-lessbold">#date#</span>
