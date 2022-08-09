@@ -2289,8 +2289,8 @@ limitations under the License.
 					<div class="w-100 float-left">
 						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20(#loc_collevent.locality_id#)&searchId1=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
 					</div>
-					<div class="w-100 float-left px-2 py-1">
-						<span class="float-left py-0 px-2"><a class="small90" href="##" title="See other specimens from this collecting event">Specimens from the same Collecting Event</a></span>
+					<div class="w-100 float-left">
+						<span class="float-left px-2"><a class="small90" href="##" title="See other specimens from this collecting event">Specimens from the same Collecting Event</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
