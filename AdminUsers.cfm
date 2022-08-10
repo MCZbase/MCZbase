@@ -180,7 +180,7 @@
 						<cfset operator = "One of Us">
 					</cfif>
 					<cfif account_status NEQ "OPEN">
-						<cfset operator = "#operator#:#account_status#">
+						<cfset operator = "#operator#: #account_status#">
 					</cfif>
 				<cfelse>
 					<cfset operator = "[no]">
