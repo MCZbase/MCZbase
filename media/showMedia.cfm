@@ -151,10 +151,10 @@
 							<div class="row mx-0">
 								<h3 class="h4 px-2 pt-0">Additional Renderings: </h3>
 								<ul class="list-group list-group-horizontal col-12">
-									<li class="list-unstyled col-3 border bg-light">
+									<li class="list-unstyled col-3 py-2 border bg-light text-center">
 										<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Slide Atlas</a>
 									</li>
-									<li class="list-unstyled col-3 border bg-light">
+									<li class="list-unstyled col-3 py-2 border bg-light text-center">
 										<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Morphosource</a>
 									</li>
 								</ul>
@@ -219,8 +219,12 @@
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-2 col-xl-2  px-1 list-group-item"><span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-lg-none">s </span></span></li>
-								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
+								<li class="col-2 col-xl-2  px-1 list-group-item">
+									<span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-lg-none">s </span></span>
+								</li>
+								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+									<span class="font-weight-lessbold">Details</span>
+								</li>
 								<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
 									<span class="font-weight-lessbold">		
 										<cfset IDtitle = "This and Other Specimen Media">
