@@ -109,11 +109,11 @@ limitations under the License.
 							<div class="form-row my-2">
 								<cfif mode NEQ "register"> 
 									<div class="col-12 col-md-1">
-										<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
+										<input type="submit" class="btn btn-xs btn-primary px-4" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
 									</div>
 								</cfif>
 								<cfif mode EQ "">
-									<div class="col-12 col-md-1">
+									<div class="col-12 col-md-1 text-center">
 										or
 									</div>
 								</cfif>
@@ -141,11 +141,11 @@ limitations under the License.
 								</div>
 							</cfif>
 						</form>
-						<div class="col-12">
+						<div class="col-12 px-0">
 							<a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
 							we can send it to you. You can also just create a new account.
 						</div>
-						<div class="col-12">
+						<div class="col-12 px-0">
 							You can explore MCZbase using basic options without signing in.
 						</div>
 					</section>
