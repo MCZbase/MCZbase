@@ -155,7 +155,7 @@
 										<div id="content">
 											<div class="flip-card">
 												<div class="flip-card-inner">
-													<a href="##" id="flip-card-inner">
+													<a href="###media_rel.media_relationship#" id="flip-card-inner">
 														<div class="flip-card-front">
 															<div>Slide Atlas</div>
 														</div>
@@ -172,13 +172,13 @@
 										<div id="content">
 											<div class="flip-card">
 												<div class="flip-card-inner">
-													<a href="##" id="flip-card-inner">
+													<a href="###media_rel.media_id#" id="flip-card-inner">
 														<div class="flip-card-front">
 															<div>Morphosource</div>
 														</div>
 													</a>
 													<div class="flip-card-back">
-														<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Morphosource logo </a>
+														<a class="link-color px-1 text-center" href="###media_rel.media_id#">Morphosource logo </a>
 														<div>slide metadata</div>
 													</div>
 												</div>
