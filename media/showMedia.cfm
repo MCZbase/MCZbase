@@ -107,7 +107,7 @@
 						</cfif>
 
 						<div class="float-left col-12 px-0 col-xl-8 pl-xl-4">
-							<h3 class="mx-2 h4 mb-1 mt-0 border-dark w-auto float-left">Metadata</h3>
+							<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
 							<table class="table border-none">
 								<thead class="thead-light">
 									<tr>
