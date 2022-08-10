@@ -108,7 +108,7 @@ limitations under the License.
 							</div>
 							<div class="form-row my-2">
 								<cfif mode NEQ "register"> 
-									<div class="col-4 col-md-1 py-2">
+									<div class="col-4 col-md-2 py-2">
 										<input type="submit" class="btn btn-xs btn-primary px-3" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
 									</div>
 								</cfif>
@@ -118,7 +118,7 @@ limitations under the License.
 									</div>
 								</cfif>--->
 								<cfif mode NEQ "authenticate"> 
-									<div class="col-4 col-md-1 py-2">
+									<div class="col-4 col-md-3 py-2">
 										<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
 									</div>
 								</cfif>
