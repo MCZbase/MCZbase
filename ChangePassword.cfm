@@ -101,7 +101,7 @@
 
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
-	<div class="container py-3" style="width: 75%; margin: 0 auto;">
+	<div class="container py-3" style="width: 75%; margin: 0 auto 2rem auto;">
 		<div class="row mx-0">
 			<div class="col-12">
 				<div class="changePW"></div>
