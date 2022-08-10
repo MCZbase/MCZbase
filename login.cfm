@@ -61,95 +61,95 @@ limitations under the License.
 				<cfset gotopage=''>
 			</cfif>
 			<main class="container py-3" id="content" >
-				<section class="row border rounded my-2 p-2">
-					<cfif mode EQ "register"> 
-						<cfset headingText = "Create an Account">
-					<cfelseif mode EQ "authenticate"> 
-						<cfset headingText = "Log In">
-					<cfelse>
-						<cfset headingText = "Log In (or Create an Account)">
-					</cfif>
-					<h1 class="h2">#headingText#</h1>
-					<div class="col-12">
+				<section class="row my-3 p-2">
+					<div class="col-12 py-2 border rounded rounded">
+						<cfif mode EQ "register"> 
+							<cfset headingText = "Create an Account">
+						<cfelseif mode EQ "authenticate"> 
+							<cfset headingText = "Log In">
+						<cfelse>
+							<cfset headingText = "Log In (or Create an Account)">
+						</cfif>
+						<h1 class="h2">#headingText#</h1>
 						<p>Logging in enables you to download data, turn on, turn off, or otherwise customize many features of
-						this database. To create an account and log in, simply supply a username and
-						password here and click Create Account.</p>
-					</div>
-					<form class="col-12" name="loginform" id="loginform" method="post" action="/login.cfm">
-						<input name="action" id="formAction" value="signIn" type="hidden">
-						<input name="gotopage" value="#gotopage#" type="hidden">
-						<input name="mode" value="#mode#" type="hidden">
-						<div class="form-row">
-							<div class="col-12 col-md-4">
-								<label for="formUsername" class="data-entry-label">Username</label>
-								<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="formUsername" required>
-							</div>
-							<div class="col-12 col-md-4">
-								<label for="formPassword" class="data-entry-label">Password</label>
-								<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPassword" required>
-							</div>
-							<div class="col-12 col-md-4">
-								<cfif isdefined("badPW") and badPW is true>
-									<cfif not isdefined("err") or len(err) is 0>
-										<cfset err="Your username or password was not recognized. Please try again.">
+							this database. To create an account and log in, simply supply a username and
+							password here and click Create Account.
+						</p>
+						<form class="" name="loginform" id="loginform" method="post" action="/login.cfm">
+							<input name="action" id="formAction" value="signIn" type="hidden">
+							<input name="gotopage" value="#gotopage#" type="hidden">
+							<input name="mode" value="#mode#" type="hidden">
+							<div class="form-row">
+								<div class="col-12 col-md-4">
+									<label for="formUsername" class="data-entry-label">Username</label>
+									<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="formUsername" required>
+								</div>
+								<div class="col-12 col-md-4">
+									<label for="formPassword" class="data-entry-label">Password</label>
+									<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPassword" required>
+								</div>
+								<div class="col-12 col-md-4">
+									<cfif isdefined("badPW") and badPW is true>
+										<cfif not isdefined("err") or len(err) is 0>
+											<cfset err="Your username or password was not recognized. Please try again.">
+										</cfif>
+										<h2 class="data-entry-label sr-only mb-0">Error</h2>
+										<div class="data-entry-input bg-danger text-white mt-3">#err#</div>
+										<script>
+											$(document).ready(function() { 
+												$('##username').css('backgroundColor','red');
+												$('##password').val('').css('backgroundColor','red').select().focus();
+												$('##formUsername').css('backgroundColor','red');
+												$('##formPassword').val('').css('backgroundColor','red').select().focus();
+											});
+										</script>
 									</cfif>
-									<h2 class="data-entry-label">Error</h2>
-									<div class="data-entry-input bg-danger text-white">#err#</div>
-									<script>
-										$(document).ready(function() { 
-											$('##username').css('backgroundColor','red');
-											$('##password').val('').css('backgroundColor','red').select().focus();
-											$('##formUsername').css('backgroundColor','red');
-											$('##formPassword').val('').css('backgroundColor','red').select().focus();
-										});
-									</script>
+								</div>
+							</div>
+							<div class="form-row my-2">
+								<cfif mode NEQ "register"> 
+									<div class="col-12 col-md-1">
+										<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
+									</div>
+								</cfif>
+								<cfif mode EQ "">
+									<div class="col-12 col-md-1">
+										or
+									</div>
+								</cfif>
+								<cfif mode NEQ "authenticate"> 
+									<div class="col-12 col-md-1">
+										<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
+									</div>
 								</cfif>
 							</div>
-						</div>
-						<div class="form-row my-2">
-							<cfif mode NEQ "register"> 
-								<div class="col-12 col-md-1">
-									<input type="submit" class="btn btn-xs btn-primary" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
-								</div>
-							</cfif>
-							<cfif mode EQ "">
-								<div class="col-12 col-md-1">
-									or
-								</div>
-							</cfif>
-							<cfif mode NEQ "authenticate"> 
-								<div class="col-12 col-md-1">
-									<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
-								</div>
-							</cfif>
-						</div>
-						<cfif mode EQ "register"> 
-							<div class="form-row my-2">
-								<h2 class="h3 w-100">Password rules:</h2>
-								<ul>
-								<li>At least eight characters</li>
-								<li>May not contain your username</li>
-								<li>Must contain at least:
+							<cfif mode EQ "register"> 
+								<div class="form-row my-2">
+									<h2 class="h3 w-100">Password rules:</h2>
 									<ul>
-										<li>One letter</li>
-										<li>One number</li>
-										<li>One special character .!$%&*?_-()<>=/:;</li>
+									<li>At least eight characters</li>
+									<li>May not contain your username</li>
+									<li>Must contain at least:
+										<ul>
+											<li>One letter</li>
+											<li>One number</li>
+											<li>One special character .!$%&*?_-()<>=/:;</li>
+										</ul>
+									</li>
+									<li>May only contain characters A-Z, a-z, 0-9, and .!$%&_?(\-)<>=/:;*</li>
 									</ul>
-								</li>
-								<li>May only contain characters A-Z, a-z, 0-9, and .!$%&_?(\-)<>=/:;*</li>
-								</ul>
-							</div>
-						</cfif>
-					</form>
-					<div class="col-12">
-						<a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
-						we can send it to you. You can also just create a new account.
-					</div>
-					<div class="col-12">
-						You can explore MCZbase using basic options without signing in.
-					</div>
-				</section>
-			</main>
+								</div>
+							</cfif>
+						</form>
+						<div class="col-12">
+							<a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
+							we can send it to you. You can also just create a new account.
+						</div>
+						<div class="col-12">
+							You can explore MCZbase using basic options without signing in.
+						</div>
+					</section>
+				</main>
 		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
@@ -208,10 +208,12 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 				<main class="container py-3" id="content" >
-					<section class="row border rounded my-2 p-2">
-						<h1 class="h2 w-100">Successfully created user #encodeForHtml(username)#.</h1>
-						<div class="mt-2">
-							<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/users/UserProfile.cfm&mode=authenticate" addtoken="false">Login to MCZbase</a>
+					<section class="row my-3 p-2">
+						<div class="col-12 py-2 border rounded rounded">
+							<h1 class="h2 w-100">Successfully created user #encodeForHtml(username)#.</h1>
+							<div class="mt-2">
+								<a href="/login.cfm?username=#encodeForURL(username)#&gotopage=/users/UserProfile.cfm&mode=authenticate" addtoken="false">Login to MCZbase</a>
+							</div>
 						</div>
 					</section>
 				</main>
