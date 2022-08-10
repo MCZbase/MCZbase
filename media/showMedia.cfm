@@ -150,7 +150,7 @@
 							</table>
 							<div class="row mx-0">
 								<h3 class="h4 px-2 pt-0">Additional Renderings: </h3>
-								<ul class="list-group list-group-horizontal">
+								<ul class="list-group list-group-horizontal col-12">
 									<li class="list-unstyled col-3 border bg-light">
 										<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Slide Atlas</a>
 									</li>
