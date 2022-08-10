@@ -127,11 +127,11 @@ limitations under the License.
 								<div class="form-row my-2">
 									<div class="col-12">
 										<h2 class="h3 w-100">Password rules:</h2>
-										<ul>
+										<ul class="list-style-disc">
 											<li class="pb-1">At least eight characters</li>
 											<li class="pb-1">May not contain your username</li>
 											<li class="pb-1">Must contain at least:
-												<ul>
+												<ul class="mt-1 list-style-circle">
 													<li class="pb-1">One letter</li>
 													<li class="pb-1">One number</li>
 													<li class="pb-1">One special character .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;*&nbsp;?&nbsp;_&nbsp;-&nbsp;(&nbsp;)&nbsp;<&nbsp;>&nbsp;=&nbsp;/&nbsp;:&nbsp;;</li>
