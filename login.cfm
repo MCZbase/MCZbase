@@ -179,7 +179,7 @@ limitations under the License.
 		</cfif>
 		<cfif len(err) gt 0>
 			<!--- Don't create the new account --->
-			<cflocation url="login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">
+			<cflocation url="/login.cfm?username=#username#&badPW=true&err=#err#" addtoken="false">
 		</cfif>
 		<!--- Create the new account --->
 		<cfoutput>
@@ -207,7 +207,7 @@ limitations under the License.
 				<cfcatch>
 					<cftransaction action="rollback">
 					<cfset err="User Creation Failed. #cfcatch.message#">
-					<cflocation url="login.cfm?username=#encodeForURL(username)#&badPW=true&err=#encodeForURL(err)#&mode=#encodeForURL(mode)#" addtoken="false">
+					<cflocation url="/login.cfm?username=#encodeForURL(username)#&badPW=true&err=#encodeForURL(err)#&mode=#encodeForURL(mode)#" addtoken="false">
 				</cfcatch>
 				</cftry>
 				<main class="container py-3" id="content" >
@@ -229,7 +229,7 @@ limitations under the License.
 		<cfoutput>
 			<cfset initSession('#username#','#password#')>
 			<cfif len(session.username) is 0>
-				<cfset u="login.cfm?badPW=true&username=#encodeForUrl(username)#">
+				<cfset u="/login.cfm?badPW=true&username=#encodeForUrl(username)#">
 				<cfif isdefined("gotopage")>
 					<cfset u=u & '&gotopage=#encodeForUrl(gotopage)#'>
 				</cfif>

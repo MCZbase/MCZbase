@@ -112,7 +112,7 @@ limitations under the License.
 		<cfif checkUser.ct NEQ 1>
 			<cfset session.username = "">
 			<cfset session.epw = "">
-			<cflocation url="login.cfm?badPW=true&username=#encodeForURL(username)#">
+			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)#">
 		</cfif>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
 			select * 
@@ -124,7 +124,7 @@ limitations under the License.
 		<cfif getPrefs.recordcount is 0>
 			<cfset session.username = "">
 			<cfset session.epw = "">
-			<cflocation url="login.cfm?badPW=true&username=#encodeForURL(username)#">
+			<cflocation url="/login.cfm?badPW=true&username=#encodeForURL(username)#">
 		</cfif>
 		<cfset session.username=username>
 		<cfquery name="dbrole" datasource="uam_god">

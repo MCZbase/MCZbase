@@ -158,7 +158,7 @@ limitations under the License.
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif checkUserExists.ct NEQ 1>
-			<cflocation url="login.cfm" addtoken="false">
+			<cflocation url="/login.cfm" addtoken="false">
 		</cfif>
 		<cfquery name="getPrefs" datasource="cf_dbuser">
 			SELECT * 
