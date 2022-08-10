@@ -167,7 +167,7 @@
 					<cfset operator = "[no]">
 				</cfif>
 				<tr>
-			 		<td><a class="btn btn-xs btn-primary" href="AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
+			 		<td><a class="btn btn-xs btn-primary" href="/AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
 			 		<td>#hasProfile#</td>
 					<td>
 						<cfif len(getUsers.user_data_id) GT 0>
@@ -190,7 +190,7 @@
 		<cfquery name="g" datasource="uam_god">
 			grant #role_name# to #username#
 		</cfquery>
-		<cflocation url="AdminUsers.cfm?action=edit&username=#username#" addtoken="no">		
+		<cflocation url="/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">		
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------->
@@ -199,39 +199,44 @@
 		<cfquery name="t" datasource="uam_god">
 			revoke #role_name# from #username#
 		</cfquery>
-		<cflocation url="AdminUsers.cfm?action=edit&username=#username#" addtoken="no">
+		<cflocation url="/AdminUsers.cfm?action=edit&username=#username#" addtoken="no">
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------->
 <cfif #Action# is "edit">
 	<cfquery name="getUsers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT * FROM cf_users
-		left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
-		 where username = '#username#'
+		SELECT * 
+		FROM cf_users
+			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
+		WHERE 
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 	</cfquery>
 	<cfquery name="ctRoleName" datasource="uam_god">
-				select role_name from cf_ctuser_roles where upper(role_name) not in (
-					select upper(granted_role) role_name
-					from 
-					dba_role_privs,
-					cf_ctuser_roles
-					where
-					upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) and
-					upper(grantee) = '#ucase(username)#'
-				)
-			</cfquery>
+		SELECT role_name 
+		FROM cf_ctuser_roles 
+		WHERE 
+			upper(role_name) not in (
+			SELECT upper(granted_role) role_name
+			FROM 
+				dba_role_privs,
+				cf_ctuser_roles
+			WHERE
+				upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) and
+				upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
+			)
+	</cfquery>
 	<cfquery name="roles" datasource="uam_god">
-		select granted_role role_name
-		from 
-		dba_role_privs,
-		cf_ctuser_roles
-		where
-		upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) and
-		upper(grantee) = '#ucase(username)#'
+		SELECT granted_role role_name
+		FROM 
+			dba_role_privs,
+			cf_ctuser_roles
+		WHERE
+			upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) and
+			upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 	</cfquery>
 	
 	<cfoutput>
-	<form action="AdminUsers.cfm" method="post">
+	<form action="/AdminUsers.cfm" method="post">
 		<input type="hidden" name="Action" value="runUpdate">
 		<input type="hidden" name="orig_username" value="#getUsers.username#">
 <table>
@@ -283,7 +288,9 @@
 </form>
 
 <cfquery name="isDbUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select username from all_users where username='#ucase(username)#'
+	SELECT username 
+	FROM all_users 
+	WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 </cfquery>
 
 		</td>
@@ -294,7 +301,7 @@
 				<td>
 					<cfif len(isDbUser.username) gt 0>
 						Is User
-						<a href="AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
+						<a href="/AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
 						<!---  check if user_search_table exists for this user --->
 						<cftry>
 							<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -311,18 +318,18 @@
 						<cfif hasInvite.allow is 1>
 							Awaiting User Action
 						<cfelse>
-							<a href="AdminUsers.cfm?action=makeNewDbUser&username=#username#&user_id=#getUsers.user_id#">Invite</a>
+							<a href="/AdminUsers.cfm?action=makeNewDbUser&username=#username#&user_id=#getUsers.user_id#">Invite</a>
 						</cfif>
 					</cfif>					
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">Roles <a href="AdminUsers.cfm?username=#username#&action=dbRole"><img src="/images/info.gif" border="0" /></a></td>
+				<td colspan="2">Roles <a href="/AdminUsers.cfm?username=#username#&action=dbRole"><img src="/images/info.gif" border="0" /></a></td>
 			</tr>
 			
 			<tr class="newRec">
 				<td>
-					<form name="ar" method="post" action="AdminUsers.cfm">
+					<form name="ar" method="post" action="/AdminUsers.cfm">
 						<input type="hidden" name="action" value="addRole" />
 						<input type="hidden" name="username" value="#getUsers.username#" />
 						<select name="role_name" size="1">
@@ -347,7 +354,7 @@
 						#role_name# 
 					</td>
 					<td>
-						<a href="AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#"><img src="/images/del.gif" border="0" /></a>
+						<a href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#"><img src="/images/del.gif" border="0" /></a>
 					</td>
 				</tr>
 			</cfloop>
@@ -394,7 +401,7 @@
 					<th>Access</th>
 				</tr>
 				
-				<form name="ar" method="post" action="AdminUsers.cfm">
+				<form name="ar" method="post" action="/AdminUsers.cfm">
 					<input type="hidden" name="action" value="addRole" />
 					<input type="hidden" name="username" value="#getUsers.username#" />
 					<tr>
@@ -419,7 +426,7 @@
 						<tr>
 							<td>#role_name#</td>
 							<td>
-								<a href="AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#"><img src="/images/del.gif" border="0" /></a>
+								<a href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#"><img src="/images/del.gif" border="0" /></a>
 							</td>
 						</tr>
 				</cfloop>					
@@ -438,18 +445,17 @@
 		</cfquery>
 		
 		The account for #username# is now locked. Contact a DBA to unlock it.
-		<a href="AdminUsers.cfm?username=#username#&action=edit">Continue</a>
+		<a href="/AdminUsers.cfm?username=#username#&action=edit">Continue</a>
 	</cfoutput>
 </cfif>
-
-						
 <!---------------------------------------------------->
 <cfif #Action# is "adminSet">
 	<cfoutput>
 		<cfquery name="gpw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from temp_allow_cf_user where user_id=#user_id#
+			DELETE FROM temp_allow_cf_user 
+			WHERE user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 		</cfquery>
-		<cflocation url="AdminUsers.cfm?Action=edit&username=#username#">
+		<cflocation url="/AdminUsers.cfm?Action=edit&username=#username#">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
@@ -465,7 +471,7 @@
 				cf_user_data
 			where 
 				cf_users.user_id=cf_user_data.user_id and
-				cf_users.user_id=#user_id#
+				cf_users.user_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 		</cfquery>
 		<cfif getTheirEmail.email is "">
 			<div class="error">
@@ -481,7 +487,7 @@
 				cf_user_data
 			where 
 				cf_users.user_id=cf_user_data.user_id and
-				username='#session.username#'
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif getMyEmail.email is "">
 			<div class="error">
@@ -498,7 +504,7 @@
 			where 
 				agent_name.agent_name_type='login' and
 				agent_name.agent_name=cf_users.username and
-				cf_users.user_id=#user_id#
+				cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_id#">
 		</cfquery>
 		<cfif getAgent.agent_id is "" or getAgent.recordcount is not 1>
 			<div class="error">
@@ -514,7 +520,7 @@
 			<cfmail to="#getTheirEmail.EMAIL#" from="welcome@#Application.fromEmail#" subject="operator invitation" cc="#getMyEmail.EMAIL#,#Application.PageProblemEmail#" type="html">
 				Hello, #getTheirEmail.username#.
 				<br>
-				You have been invited to become an Arctos Operator by #session.username#.
+				You have been invited to become an MCZbase Operator by #session.username#.
 				<br>The next time you log in, your Profile page (#application.serverRootUrl#/users/UserProfile.cfm)
 				will contain an authentication form.
 				<br>You must complete this form. If your password does not meet our rules you may be required
@@ -525,14 +531,14 @@
 				Please email #getMyEmail.EMAIL# if you have any questions, or 
 				#Application.PageProblemEmail# if you believe you have received this message in error.
 			</cfmail>
-			An invitation has been sent. <a href="AdminUsers.cfm?Action=edit&username=#username#">continue</a>			
+			An invitation has been sent. <a href="/AdminUsers.cfm?Action=edit&username=#username#">continue</a>			
 		</cfif>
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------->
 <cfif action is "dbRole">
 	<cfoutput>
-	<a href="AdminUsers.cfm?action=edit&username=#username#">back</a>
+	<a href="/AdminUsers.cfm?action=edit&username=#username#">back</a>
 	<br />
 		<cfquery name="rd" datasource="uam_god">
 			select
@@ -575,7 +581,8 @@
 	<cfoutput>
 	<cfif isdefined("delete") AND #delete# is "delete">
 		<cfquery name="deleteUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM cf_users where username = '#username#'
+			DELETE FROM cf_users 
+			WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 		</cfquery>
 		<cftry>
 			<cfquery name="killDB" datasource="uam_god">
@@ -588,7 +595,7 @@
 			<cfabort>
 		</cfcatch>
 		</cftry>
-		<cflocation url="AdminUsers.cfm">
+		<cflocation url="/AdminUsers.cfm">
 	<cfelse>
 		<cfquery name="updateUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE cf_users SET
@@ -616,7 +623,7 @@
                 </cfcatch>
 	        </cftry>
         </cfif>
-		<cflocation url="AdminUsers.cfm?Action=edit&username=#username#">
+		<cflocation url="/AdminUsers.cfm?Action=edit&username=#username#">
 	</cfif>
 	</cfoutput>
 </cfif>
