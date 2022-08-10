@@ -128,22 +128,22 @@ limitations under the License.
 									<div class="col-12">
 										<h2 class="h3 w-100">Password rules:</h2>
 										<ul>
-											<li>At least eight characters</li>
-											<li>May not contain your username</li>
-											<li>Must contain at least:
+											<li class="pb-1">At least eight characters</li>
+											<li class="pb-1">May not contain your username</li>
+											<li class="pb-1">Must contain at least:
 												<ul>
-													<li>One letter</li>
-													<li>One number</li>
-													<li>One special character .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;*&nbsp;?&nbsp;_&nbsp;-&nbsp;(&nbsp;)&nbsp;<&nbsp;>&nbsp;=&nbsp;/&nbsp;:&nbsp;;</li>
+													<li class="pb-1">One letter</li>
+													<li class="pb-1">One number</li>
+													<li class="pb-1">One special character .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;*&nbsp;?&nbsp;_&nbsp;-&nbsp;(&nbsp;)&nbsp;<&nbsp;>&nbsp;=&nbsp;/&nbsp;:&nbsp;;</li>
 												</ul>
 											</li>
-											<li>May only contain characters A-Z, a-z, 0-9, and .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;_&nbsp;?&nbsp;\&nbsp;-&nbsp;)&nbsp;&lt;&nbsp;(&nbsp;&gt;&nbsp;=&nbsp;/&nbsp;:&nbsp;;&nbsp;*</li>
+											<li class="pb-1">May only contain characters A-Z, a-z, 0-9, and .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;_&nbsp;?&nbsp;\&nbsp;-&nbsp;)&nbsp;&lt;&nbsp;(&nbsp;&gt;&nbsp;=&nbsp;/&nbsp;:&nbsp;;&nbsp;*</li>
 										</ul>
 									</div>
 								</div>
 							</cfif>
 						</form>
-						<div class="col-12 px-0 mt-2">
+						<div class="col-12 px-0">
 							<p><a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
 							we can send it to you. You can also just create a new account.</p>
 							<p class="mb-1">You can explore MCZbase using basic options without signing in.</p>
