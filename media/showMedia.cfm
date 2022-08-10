@@ -159,18 +159,20 @@
 									</li>
 								</ul>
 							</div>
-							<div class="row mx-0">
-								<h3 class="h4 px-2 pt-0">Shown on records with relationship(s): </h3>
-								<ul class="list-group list-group-horizontal">
-									<li class="list-unstyled">
-									<cfloop query="media_rel">
-										<a class="link-color px-1" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a>
-									</cfloop>
-									</li>
-								</ul>
-							</div>
+				
 
 						</div>
+						<div class="row mx-0">
+							<h3 class="h4 px-2 pt-0">Shown on records with relationship(s): </h3>
+							<ul class="list-group list-group-horizontal">
+								<li class="list-unstyled">
+								<cfloop query="media_rel">
+									<a class="link-color px-1" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a>
+								</cfloop>
+								</li>
+							</ul>
+						</div>
+						
 					</div>
 				</div>
 				<!---specimen records--->
