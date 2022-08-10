@@ -84,7 +84,7 @@
 				left join dba_role_privs on upper(cf_users.username) = upper(dba_role_privs.grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
 			</cfif>
 		WHERE 
-			upper(cf_user.username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
+			upper(cf_users.username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
 			<cfif isDefined("findlastname") AND len(findlastname) GT 0>
 				AND upper(LAST_NAME) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(findlastname)#%">
 			</cfif>
