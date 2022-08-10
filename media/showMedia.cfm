@@ -152,10 +152,38 @@
 								<h3 class="h4 px-2 pt-0">Additional Renderings: </h3>
 								<ul class="list-group list-group-horizontal col-12">
 									<li class="list-unstyled col-3 py-2 border bg-light text-center">
-										<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Slide Atlas</a>
+										<div id="content">
+											<div class="flip-card">
+												<div class="flip-card-inner">
+													<a href="#" id="flip-card-inner">
+														<div class="flip-card-front">
+															<div>Slide Atlas</div>
+														</div>
+													</a>
+													<div class="flip-card-back">
+														<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Slide Atlas logo </a>
+														<div>slide metadata</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</li>
 									<li class="list-unstyled col-3 py-2 border bg-light text-center">
-										<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Morphosource</a>
+										<div id="content">
+											<div class="flip-card">
+												<div class="flip-card-inner">
+													<a href="#" id="flip-card-inner">
+														<div class="flip-card-front">
+															<div>Slide Atlas</div>
+														</div>
+													</a>
+													<div class="flip-card-back">
+														<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Morphosource logo </a>
+														<div>slide metadata</div>
+													</div>
+												</div>
+											</div>
+										</div>
 									</li>
 								</ul>
 							</div>
@@ -164,7 +192,7 @@
 						</div>
 					</div>
 				</div>
-							
+			<section class="container-fluid">
 				<div class="row mx-0">
 					<h3 class="h4 px-2 pt-0">Shown on records with relationship(s): </h3>
 					<ul class="list-group list-group-horizontal">
