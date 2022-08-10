@@ -83,9 +83,9 @@
 			<cfif isDefined("findlastname") AND len(findlastname) GT 0>
 				AND upper(LAST_NAME) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(findlastname)#%">
 			</cfif>
-			<cfif isDefined("state") and state EQ "profile">
+			<cfif isDefined("state") AND state EQ "profile">
 				and cf_user_data.user_id IS NOT NULL
-			<cfelseif isDefined("state" and state EQ "noprofile">
+			<cfelseif isDefined("state") AND state EQ "noprofile">
 				and cf_user_data.user_id IS NULL
 			</cfif>
 		ORDER BY
