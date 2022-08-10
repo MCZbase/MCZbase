@@ -144,7 +144,7 @@ limitations under the License.
 						<div class="col-12 px-0 mt-2">
 							<p><a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
 							we can send it to you. You can also just create a new account.</p>
-							<p class="mb-0">You can explore MCZbase using basic options without signing in.</p>
+							<p class="mb-1">You can explore MCZbase using basic options without signing in.</p>
 						</div>
 					</section>
 				</main>
