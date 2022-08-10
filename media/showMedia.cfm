@@ -150,8 +150,8 @@
 							</table>
 							<div class="row mx-0">
 								<h3 class="h4 px-2 pt-0">Additional Renderings: </h3>
-								<ul class="list-group list-group-horizontal col-12">
-									<li class="list-unstyled col-3 py-2 border bg-light text-center">
+								<ul class="list-group list-group-horizontal col-12 px-0">
+									<li class="list-unstyled col-3 px-0 border bg-light text-center">
 										<div id="content">
 											<div class="flip-card">
 												<div class="flip-card-inner">
@@ -168,13 +168,13 @@
 											</div>
 										</div>
 									</li>
-									<li class="list-unstyled col-3 py-2 border bg-light text-center">
+									<li class="list-unstyled col-3 px-0 border bg-light text-center">
 										<div id="content">
 											<div class="flip-card">
 												<div class="flip-card-inner">
 													<a href="##" id="flip-card-inner">
 														<div class="flip-card-front">
-															<div>Slide Atlas</div>
+															<div>Morphosource</div>
 														</div>
 													</a>
 													<div class="flip-card-back">
