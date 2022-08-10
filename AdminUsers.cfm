@@ -80,7 +80,7 @@
 			cf_users
 			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
 			left join DBA_USERS on upper(cf_users.username) = upper(DBA_USERS.username)
-			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
+			<cfif isDefined("state") AND state EQ "coldfusion_user">
 				left join dba_role_privs on upper(cf_users.username) = upper(dba_role_privs.grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
 			</cfif>
 		WHERE 
