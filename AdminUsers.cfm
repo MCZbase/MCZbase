@@ -81,10 +81,10 @@
 			<cfif isDefined("state") AND (state EQ "oracle" OR state EQ "nooracle") >
 				left join DBA_USERS on cf_users.username = DBA_USERS.username
 			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
-				left join dba_role_privs on upper(username) = upper(grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
+				left join dba_role_privs on upper(cf_users.username) = upper(dba_role_privs.grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
 			</cfif>
 		WHERE 
-			upper(username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
+			upper(cf_user.username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
 			<cfif isDefined("findlastname") AND len(findlastname) GT 0>
 				AND upper(LAST_NAME) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(findlastname)#%">
 			</cfif>
@@ -100,7 +100,7 @@
 				and dba_role_privs.grantee IS NOT NULL
 			</cfif>
 		ORDER BY
-			rights, ucasename
+			cf_users.username	
 	</cfquery>
 	<h2 class="h3">#getUsers.recordcount# matching users found.</h2>
 	<table id="matchedUsers" class="table table-responsive sortable col-12">
