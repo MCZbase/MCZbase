@@ -101,21 +101,23 @@
 
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
-	<div class="row">
-		<div class="col-12">
-		<div class="changePW"></div>
-		<p>Lost your password? Passwords are stored in an encrypted format and cannot be recovered.</p>
-		<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
-		<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
-		<form name="pw" method="post" action="ChangePassword.cfm">
-			<input type="hidden" name="action" value="findPass">
-			<label for="username">Username</label>
-			<input type="text" name="username" id="username">
-			<label for="email">Email Address</label>
-			<input type="text" name="email" id="email">
-			<br>
-			<input type="submit" value="Request Password" class="lnkBtn">
-		</form>
+	<div class="container">
+		<div class="row mx-0">
+			<div class="col-12">
+				<div class="changePW"></div>
+				<p>Lost your password? Passwords are stored in an encrypted format and cannot be recovered.</p>
+				<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
+				<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
+				<form name="pw" method="post" action="ChangePassword.cfm">
+				<input type="hidden" name="action" value="findPass">
+				<label for="username">Username</label>
+				<input type="text" name="username" id="username">
+				<label for="email">Email Address</label>
+				<input type="text" name="email" id="email">
+				<br>
+				<input type="submit" value="Request Password" class="lnkBtn">
+			</form>
+			</div>
 		</div>
 	</div>
 </cfif>
