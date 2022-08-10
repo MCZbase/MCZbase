@@ -162,7 +162,7 @@
 					</div>
 				</div>
 				<div class="row mx-0">
-					<div class="col-12">
+					<div class="col-12 px-0 pb-3">
 						<h3 class="h4 px-2 pt-0">Shown on records with relationship(s): </h3>
 						<ul class="list-group list-group-horizontal">
 							<li class="list-unstyled">
