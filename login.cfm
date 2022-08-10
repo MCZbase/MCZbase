@@ -108,8 +108,8 @@ limitations under the License.
 							</div>
 							<div class="form-row my-2">
 								<cfif mode NEQ "register"> 
-									<div class="col-4 col-md-1">
-										<input type="submit" class="btn btn-xs btn-primary px-3" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3"><span ="d-block px-2">OR</span>
+									<div class="col-4 col-md-1 py-2">
+										<input type="submit" class="btn btn-xs btn-primary px-3" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
 									</div>
 								</cfif>
 			<!---					<cfif mode EQ "">
