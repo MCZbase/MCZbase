@@ -211,7 +211,7 @@
 								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block"><span class="font-weight-lessbold">Details</span></li>
 								<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
 									<span class="font-weight-lessbold">		
-										<cfset IDtitle = "This and Other Media">
+										<cfset IDtitle = "This and Other Specimen Media">
 										#IDtitle#
 									</span>
 								</li>
@@ -430,7 +430,7 @@
 										<span class="font-weight-lessbold">Details</span>
 									</li>
 									<li class="col-6 px-1 list-group-item">
-										<span class="font-weight-lessbold">This and Other Media</span>
+										<span class="font-weight-lessbold">This and Other Collecting Event Media</span>
 									</li>
 								</ul>
 							</div>
@@ -1075,7 +1075,7 @@
 										<cfelse>
 											<cfset plural = "">
 										</cfif>
-										<cfset IDtitle = "This and Other Media">
+										<cfset IDtitle = "This and Other Agent Media">
 										#IDtitle#
 									</span>
 								</li>
@@ -1196,7 +1196,7 @@
 										<cfelse>
 											<cfset plural = "">
 										</cfif>
-										<cfset IDtitle = "This and Other Media">
+										<cfset IDtitle = "This and Other Publication Media">
 										#IDtitle#
 									</span>
 								</li>
