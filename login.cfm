@@ -88,7 +88,7 @@ limitations under the License.
 									<label for="formPassword" class="data-entry-label">Password</label>
 									<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPassword" required>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12">
 									<cfif isdefined("badPW") and badPW is true>
 										<cfif not isdefined("err") or len(err) is 0>
 											<cfset err="Your username or password was not recognized. Please try again.">
@@ -109,14 +109,14 @@ limitations under the License.
 							<div class="form-row my-2">
 								<cfif mode NEQ "register"> 
 									<div class="col-4 col-md-1">
-										<input type="submit" class="btn btn-xs btn-primary px-4" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
+										<input type="submit" class="btn btn-xs btn-primary px-3" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3"><span ="d-block px-2">OR</span>
 									</div>
 								</cfif>
-								<cfif mode EQ "">
-									<div class="col-4 col-md-1 text-center">
+			<!---					<cfif mode EQ "">
+									<div class="col-1 col-md-1 text-center">
 										or
 									</div>
-								</cfif>
+								</cfif>--->
 								<cfif mode NEQ "authenticate"> 
 									<div class="col-4 col-md-1">
 										<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
