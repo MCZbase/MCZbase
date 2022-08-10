@@ -214,7 +214,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 px-xl-0 small">
 											occurrenceID: <a class="h5 mb-1" href="https://mczbase.mcz.harvard.edu/guid/#GUID#">https://mczbase.mcz.harvard.edu/guid/#GUID#</a>
-											<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" height="26" alt="JSON-LD"></a>
+											<a href="/guid/#GUID#/json"><img src="/shared/images/json-ld-data-24.png" alt="JSON-LD"></a>
 										</div>
 									</div>
 								</div>
@@ -2298,8 +2298,17 @@ limitations under the License.
 					<div class="w-100 float-left">
 						<span class="px-2 float-left pt-0 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20(#loc_collevent.locality_id#)&searchId1=#loc_collevent.locality_id#" title="See other specimens with this Locality">Specimens from the same Locality</a></span>
 					</div>
+					<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+					<cfset eventDate = "">
+					<cfif len(loc_collevent.began_date) gt 0>
+						<cfif loc_collevent.began_date eq #loc_collevent.ended_date#>
+							<cfset eventDate = "#loc_collevent.began_date#">
+						<cfelse>
+							<cfset eventDate ="#loc_collevent.began_date# / #loc_collevent.ended_date#">
+						</cfif>
+					</cfif>
 					<div class="w-100 float-left">
-						<span class="float-left px-2 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1=#encodeForURL(loc_collevent.spec_locality)#&searchId1=#loc_collevent.collecting_event_id#" title="See other specimens from this collecting event">Specimens from the same Collecting Event</a></span>
+						<span class="float-left px-2 pb-1"><a class="small90" href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=0&field1=CATALOGED_ITEM%3ACATALOGED%20ITEM_COLLECTING_EVENT_ID&searchText1=#encodeForURL(loc_collevent.spec_locality)#%20#eventDate#%20(#loc_collevent.collecting_event_id#)&searchId1=#loc_collevent.collecting_event_id#" title="See other specimens from this collecting event">Specimens from the same Collecting Event</a></span>
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
@@ -2558,13 +2567,10 @@ limitations under the License.
 							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collecting Source: </span></li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_source#</li>
 						</cfif>
-						<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
 						<cfif len(loc_collevent.began_date) gt 0>
 							<cfif loc_collevent.began_date eq #loc_collevent.ended_date#>
-								<cfset eventDate = "#loc_collevent.began_date#">
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collected On: </span></li>
 							<cfelse>
-								<cfset eventDate ="#loc_collevent.began_date# / #loc_collevent.ended_date#">
 								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Began Date / Ended Date: </span></li>
 							</cfif>
 							<li class="list-group-item col-7 px-0">#eventDate#</li>
