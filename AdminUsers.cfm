@@ -74,12 +74,12 @@
 			LAST_NAME,
 			AFFILIATION,
 			EMAIL,
-			cf_user_data.user_id user_data_id
+			cf_user_data.user_id user_data_id,
+			DBA_USERS.account_status
 		FROM 
 			cf_users
 			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
-			<cfif isDefined("state") AND (state EQ "oracle" OR state EQ "nooracle") >
-				left join DBA_USERS on upper(cf_users.username) = upper(DBA_USERS.username)
+			left join DBA_USERS on upper(cf_users.username) = upper(DBA_USERS.username)
 			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
 				left join dba_role_privs on upper(cf_users.username) = upper(dba_role_privs.grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
 			</cfif>
@@ -92,15 +92,20 @@
 				and cf_user_data.user_id IS NOT NULL
 			<cfelseif isDefined("state") AND state EQ "noprofile">
 				and cf_user_data.user_id IS NULL
+			<cfelseif isDefined("state") AND state EQ "invited">
+				and cf_users.user_id in (select user_id from temp_allow_cf_user where allow = 1)
 			<cfelseif isDefined("state") AND state EQ "oracle">
 				and DBA_USERS.username IS NOT NULL
 			<cfelseif isDefined("state") AND state EQ "nooracle">
 				and DBA_USERS.username IS NULL
 			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
 				and dba_role_privs.grantee IS NOT NULL
+			<cfelseif isDefined("state") AND state EQ "locked">
+				and DBA_USERS.lock_date IS NOT NULL
 			</cfif>
 		ORDER BY
 			cf_users.username	
+invited locked
 	</cfquery>
 	<cfoutput>
 		<h2 class="h3">#getUsers.recordcount# matching users found.</h2>
@@ -174,6 +179,9 @@
 					<cfset operator = "Oracle User">
 					<cfif coldfusionUserRole.ct GT 0>
 						<cfset operator = "One of Us">
+					</cfif>
+					<cfif account_status NEQ "OPEN">
+						<cfset operator = "#operator#:#account_status#">
 					</cfif>
 				<cfelse>
 					<cfset operator = "[no]">
