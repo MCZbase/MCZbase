@@ -70,16 +70,17 @@ limitations under the License.
 						<cfelse>
 							<cfset headingText = "Log In (or Create an Account)">
 						</cfif>
-						<h1 class="h2 px-2">#headingText#</h1>
-						<p class="px-2">Logging in enables you to download data, turn on, turn off, or otherwise customize many features of
-							this database. To create an account and log in, simply supply a username and
-							password here and click Create Account.
-						</p>
+
 						<form name="loginform" id="loginform" method="post" action="/login.cfm">
 							<input name="action" id="formAction" value="signIn" type="hidden">
 							<input name="gotopage" value="#gotopage#" type="hidden">
 							<input name="mode" value="#mode#" type="hidden">
 							<div class="form-row mx-0">
+								<h1 class="h2 px-2">#headingText#</h1>
+								<p class="px-2">Logging in enables you to download data, turn on, turn off, or otherwise customize many features of
+									this database. To create an account and log in, simply supply a username and
+									password here and click Create Account.
+								</p>
 								<div class="col-12 col-md-6 col-xl-4">
 									<label for="formUsername" class="data-entry-label">Username</label>
 									<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="formUsername" required>
@@ -126,7 +127,7 @@ limitations under the License.
 							<cfif mode EQ "register"> 
 								<div class="form-row mx-0 my-2">
 									<div class="col-12">
-										<h2 class="h3 w-100">Password rules:</h2>
+										<h2 class="h3 w-100 px-2">Password rules:</h2>
 										<ul class="list-style-disc px-5">
 											<li class="pb-1">At least eight characters</li>
 											<li class="pb-1">May not contain your username</li>
@@ -143,11 +144,13 @@ limitations under the License.
 								</div>
 							</cfif>
 						</form>
-						<div class="col-12 px-0">
-							<p><a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
-							we can send it to you. You can also just create a new account.</p>
-							<p class="mb-1">You can explore MCZbase using basic options without signing in.</p>
-						</div>
+							<div class="form-row mx-0">
+								<div class="col-12">
+									<p><a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
+									we can send it to you. You can also just create a new account.</p>
+									<p class="mb-1">You can explore MCZbase using basic options without signing in.</p>
+								</div>
+							</div>
 					</section>
 			</main>
 		</cfoutput>
