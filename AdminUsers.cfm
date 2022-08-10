@@ -79,7 +79,7 @@
 			cf_users
 			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
 			<cfif isDefined("state") AND (state EQ "oracle" OR state EQ "nooracle") >
-				left join DBA_USERS on cf_users.username = DBA_USERS.username
+				left join DBA_USERS on upper(cf_users.username) = upper(DBA_USERS.username)
 			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
 				left join dba_role_privs on upper(cf_users.username) = upper(dba_role_privs.grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
 			</cfif>
@@ -102,20 +102,20 @@
 		ORDER BY
 			cf_users.username	
 	</cfquery>
-	<h2 class="h3">#getUsers.recordcount# matching users found.</h2>
-	<table id="matchedUsers" class="table table-responsive sortable col-12">
-		<thead class="thead-light">
-			<tr>
-				<th>Action</th>
-				<th>Username</th>
-				<th>Profile</th>
-				<th>Contact</th>
-				<th>Oracle User</th>
-				<th>Agent</th>
-				<th>Collections</th>
-			</tr>
-		</thead>
-		<cfoutput>
+	<cfoutput>
+		<h2 class="h3">#getUsers.recordcount# matching users found.</h2>
+		<table id="matchedUsers" class="table table-responsive sortable col-12">
+			<thead class="thead-light">
+				<tr>
+					<th>Action</th>
+					<th>Username</th>
+					<th>Profile</th>
+					<th>Contact</th>
+					<th>Oracle User</th>
+					<th>Agent</th>
+					<th>Collections</th>
+				</tr>
+			</thead>
 			<tbody>
 			<cfloop query="getUsers">
 				<cfif len(getUsers.user_data_id) GT 0>
@@ -193,8 +193,8 @@
 				 </tr>
 			</cfloop>
 			</tbody>
-		</cfoutput>
-	</table>
+		</table>
+	</cfoutput>
 </cfif>
 
 <!-------------------------------------------------->
