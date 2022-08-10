@@ -260,7 +260,7 @@ limitations under the License.
 					<ul class="navbar-nav mx-auto">
 						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimensHTML.cfm">Minimal Specimen Search</a></li>
 						<li class="nav-item"><a class="nav-link mr-2" href="/specimens/browseSpecimens.cfm?target=noscript">Browse Data</a></li>
-						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
 						
 					</ul>
 				</nav>
