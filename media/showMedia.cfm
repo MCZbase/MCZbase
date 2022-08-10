@@ -190,7 +190,7 @@
 						</div>
 					</div>
 				</div>
-				<section class="container-fluid">
+				<section class="container-fluid pb-5">
 				<div class="row mx-0 mt-2 mb-3">
 					<h3 class="px-2 pt-0">Shown on records with relationship(s): </h3>
 					<ul class="list-group list-group-horizontal">
