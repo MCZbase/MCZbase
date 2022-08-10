@@ -157,12 +157,12 @@
 												<div class="flip-card-inner">
 													<a href="##" id="flip-card-inner">
 														<div class="flip-card-front">
-															<div>Slide Atlas</div>
+															<div class="heightFlip">Slide Atlas</div>
 														</div>
 													</a>
 													<div class="flip-card-back">
 														<a class="link-color px-1 text-center" href="http://www.google.com">Slide Atlas logo </a>
-														<div>slide metadata</div>
+														<div class="heightFlip">slide metadata</div>
 													</div>
 												</div>
 											</div>
@@ -174,12 +174,12 @@
 												<div class="flip-card-inner">
 													<a href="##" id="flip-card-inner">
 														<div class="flip-card-front">
-															<div>Morphosource</div>
+															<div class="heightFlip">Morphosource</div>
 														</div>
 													</a>
 													<div class="flip-card-back">
 														<a class="link-color px-1 text-center" href="http://www.google.com">Morphosource logo </a>
-														<div>slide metadata</div>
+														<div class="heightFlip">slide metadata</div>
 													</div>
 												</div>
 											</div>
@@ -190,7 +190,7 @@
 						</div>
 					</div>
 				</div>
-			<section class="container-fluid">
+				<section class="container-fluid">
 				<div class="row mx-0">
 					<h3 class="px-2 pt-0">Shown on records with relationship(s): </h3>
 					<ul class="list-group list-group-horizontal">
@@ -1327,7 +1327,7 @@
 					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
 				</div>
-	</cfloop>
+			</cfloop>
 			</div>
 		</div>
 	</main>
