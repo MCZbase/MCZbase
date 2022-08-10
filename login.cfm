@@ -134,7 +134,7 @@ limitations under the License.
 												<ul>
 													<li>One letter</li>
 													<li>One number</li>
-													<li>One special character .!$%&*?_-()<>=/:;</li>
+													<li>One special character .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;*&nbsp;?&nbsp;_&nbsp;-&nbsp;(&nbsp;)&nbsp;<&nbsp;>&nbsp;=&nbsp;/&nbsp;:&nbsp;;</li>
 												</ul>
 											</li>
 											<li>May only contain characters A-Z, a-z, 0-9, and .&nbsp;!&nbsp;$&nbsp;%&nbsp;&amp;&nbsp;_&nbsp;?&nbsp;\&nbsp;-&nbsp;)&nbsp;&lt;&nbsp;(&nbsp;&gt;&nbsp;=&nbsp;/&nbsp;:&nbsp;;&nbsp;*</li>
