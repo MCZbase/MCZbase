@@ -61,7 +61,7 @@ limitations under the License.
 				<cfset gotopage=''>
 			</cfif>
 			<main class="container py-3" id="content" >
-				<section class="row my-3 p-2">
+				<section class="row mx-0 my-3 p-2">
 					<div class="col-12 py-3 border rounded rounded">
 						<cfif mode EQ "register"> 
 							<cfset headingText = "Create an Account">
@@ -79,7 +79,7 @@ limitations under the License.
 							<input name="action" id="formAction" value="signIn" type="hidden">
 							<input name="gotopage" value="#gotopage#" type="hidden">
 							<input name="mode" value="#mode#" type="hidden">
-							<div class="form-row">
+							<div class="form-row mx-0">
 								<div class="col-12 col-md-6 col-xl-4">
 									<label for="formUsername" class="data-entry-label">Username</label>
 									<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="formUsername" required>
@@ -106,7 +106,7 @@ limitations under the License.
 									</cfif>
 								</div>
 							</div>
-							<div class="form-row my-2">
+							<div class="form-row mx-0 my-2">
 								<cfif mode NEQ "register"> 
 									<div class="col-12 col-sm-4 col-md-2 col-xl-1 py-2">
 										<input type="submit" class="btn btn-xs btn-primary px-3" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
@@ -124,7 +124,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<cfif mode EQ "register"> 
-								<div class="form-row my-2">
+								<div class="form-row mx-0 my-2">
 									<div class="col-12">
 										<h2 class="h3 w-100">Password rules:</h2>
 										<ul class="list-style-disc px-5">
@@ -149,7 +149,7 @@ limitations under the License.
 							<p class="mb-1">You can explore MCZbase using basic options without signing in.</p>
 						</div>
 					</section>
-				</main>
+			</main>
 		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
