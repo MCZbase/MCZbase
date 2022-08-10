@@ -162,7 +162,7 @@
 													</a>
 													<div class="flip-card-back">
 														<a class="link-color px-1 text-center" href="http://www.google.com">Slide Atlas logo </a>
-														<div class="heightFlip">slide metadata</div>
+														<div class="">slide metadata</div>
 													</div>
 												</div>
 											</div>
@@ -179,7 +179,7 @@
 													</a>
 													<div class="flip-card-back">
 														<a class="link-color px-1 text-center" href="http://www.google.com">Morphosource logo </a>
-														<div class="heightFlip">slide metadata</div>
+														<div class="">slide metadata</div>
 													</div>
 												</div>
 											</div>
