@@ -1,3 +1,4 @@
+<cfset pageTitle = "Change Password">
 <cfinclude template = "shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
