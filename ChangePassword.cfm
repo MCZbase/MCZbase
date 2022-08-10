@@ -115,7 +115,7 @@
 					<label for="email">Email Address</label>
 					<input type="text" name="email" id="email">
 					<br>
-					<input type="submit" value="Request Password" class="lnkBtn" style="margin-top: 2rem;">
+					<input type="submit" value="Request Password" class="lnkBtn" style="margin-top: 1rem;">
 				</form>
 			</div>
 		</div>
