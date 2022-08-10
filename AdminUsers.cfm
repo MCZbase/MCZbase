@@ -13,7 +13,7 @@
 </cfif>
 
 <main class="container py-3" id="content">
-	<section class="row border rounded my-2">
+	<section class="row border rounded my-2 p-2">
 		<h1 class="h2">Manage MCZbase Users</h1>
 		<cfoutput>
 			<div class="col-12">
@@ -92,7 +92,7 @@
 			rights, ucasename
 	</cfquery>
 	<h2 class="h3">Select a user to administer</h2>
-	<table id="matchedUsers" class="table table-responsive sortable">
+	<table id="matchedUsers" class="table table-responsive sortable col-12">
 		<thead class="thead-light">
 			<tr>
 				<th>Username</th>
@@ -176,7 +176,7 @@
 					</td>
 			 		<td>#operator#</td>
 			 		<td>#agentRecord#</td>
-					<td>#valuelist(collectionRoles.role_name)#</td>
+					<td>#valuelist(collectionRoles.role_name," ")#</td>
 				 </tr>
 			</cfloop>
 			</tbody>
