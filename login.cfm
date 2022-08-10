@@ -61,7 +61,7 @@ limitations under the License.
 				<cfset gotopage=''>
 			</cfif>
 			<main class="container py-3" id="content" >
-				<section class="row my-3 p-2">
+				<section class="row mx-0 my-3 p-2">
 					<div class="col-12 py-3 border rounded rounded">
 						<cfif mode EQ "register"> 
 							<cfset headingText = "Create an Account">
@@ -149,7 +149,7 @@ limitations under the License.
 							<p class="mb-1">You can explore MCZbase using basic options without signing in.</p>
 						</div>
 					</section>
-				</main>
+			</main>
 		</cfoutput>
 	</cfcase>
 	<!------------------------------------------------------------>
