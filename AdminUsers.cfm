@@ -105,7 +105,6 @@
 			</cfif>
 		ORDER BY
 			cf_users.username	
-invited locked
 	</cfquery>
 	<cfoutput>
 		<h2 class="h3">#getUsers.recordcount# matching users found.</h2>
