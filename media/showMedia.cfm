@@ -435,7 +435,7 @@
 										<span class="font-weight-lessbold">Details</span>
 									</li>
 									<li class="col-6 px-1 list-group-item">
-										<span class="font-weight-lessbold">Other Media</span>
+										<span class="font-weight-lessbold">This and Other Media</span>
 									</li>
 								</ul>
 							</div>
@@ -1080,7 +1080,7 @@
 										<cfelse>
 											<cfset plural = "">
 										</cfif>
-										<cfset IDtitle = "Other Media">
+										<cfset IDtitle = "This and Other Media">
 										#IDtitle#
 									</span>
 								</li>
@@ -1201,7 +1201,7 @@
 										<cfelse>
 											<cfset plural = "">
 										</cfif>
-										<cfset IDtitle = "Other Media">
+										<cfset IDtitle = "This and Other Media">
 										#IDtitle#
 									</span>
 								</li>
