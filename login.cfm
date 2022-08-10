@@ -125,19 +125,21 @@ limitations under the License.
 							</div>
 							<cfif mode EQ "register"> 
 								<div class="form-row my-2">
-									<h2 class="h3 w-100">Password rules:</h2>
-									<ul>
-									<li>At least eight characters</li>
-									<li>May not contain your username</li>
-									<li>Must contain at least:
+									<div class="col-12">
+										<h2 class="h3 w-100">Password rules:</h2>
 										<ul>
-											<li>One letter</li>
-											<li>One number</li>
-											<li>One special character .!$%&*?_-()<>=/:;</li>
+											<li>At least eight characters</li>
+											<li>May not contain your username</li>
+											<li>Must contain at least:
+												<ul>
+													<li>One letter</li>
+													<li>One number</li>
+													<li>One special character .!$%&*?_-()<>=/:;</li>
+												</ul>
+											</li>
+											<li>May only contain characters A-Z, a-z, 0-9, and .!$%&_?(\-)<>=/:;*</li>
 										</ul>
-									</li>
-									<li>May only contain characters A-Z, a-z, 0-9, and .!$%&_?(\-)<>=/:;*</li>
-									</ul>
+									</div>
 								</div>
 							</cfif>
 						</form>
