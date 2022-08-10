@@ -79,7 +79,7 @@ limitations under the License.
 							<input name="action" id="formAction" value="signIn" type="hidden">
 							<input name="gotopage" value="#gotopage#" type="hidden">
 							<input name="mode" value="#mode#" type="hidden">
-							<div class="form-row">
+							<div class="form-row mx-0">
 								<div class="col-12 col-md-6 col-xl-4">
 									<label for="formUsername" class="data-entry-label">Username</label>
 									<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="formUsername" required>
@@ -106,7 +106,7 @@ limitations under the License.
 									</cfif>
 								</div>
 							</div>
-							<div class="form-row my-2">
+							<div class="form-row mx-0 my-2">
 								<cfif mode NEQ "register"> 
 									<div class="col-12 col-sm-4 col-md-2 col-xl-1 py-2">
 										<input type="submit" class="btn btn-xs btn-primary px-3" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
@@ -124,7 +124,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<cfif mode EQ "register"> 
-								<div class="form-row my-2">
+								<div class="form-row mx-0 my-2">
 									<div class="col-12">
 										<h2 class="h3 w-100">Password rules:</h2>
 										<ul class="list-style-disc px-5">
