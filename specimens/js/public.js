@@ -1063,7 +1063,7 @@ function localityMapSetup(){
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			panControl: true,
 			scaleControl: false,
-			controlSize: 28,
+			controlSize: 30,
 			fullscreenControl: true,
 			zoomControl: true
 		};
