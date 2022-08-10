@@ -1009,6 +1009,7 @@ limitations under the License.
 								<th class="py-0"><span>Condition</span></th>
 								<th class="py-0"><span>Disposition</span></th>
 								<th class="py-0"><span>Count</span></th>
+								<th class="py-0"></th>
 								<cfif oneOfus is "1">
 									<th class="py-0">
 										<span>Container</span>
@@ -1042,10 +1043,6 @@ limitations under the License.
 									<td class="py-1"><span class="font-weight-lessbold">#part_name#</span></td>
 									<td class="py-1">
 										#part_condition#
-										<span class="small mb-0 pb-0">
-											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-												onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
-										</span>
 									</td>
 									<!--- TODO: Link out to history for part(s) --->
 									<td class="py-1">
@@ -1101,6 +1098,12 @@ limitations under the License.
 										</cfif>
 									</td>
 									<td class="py-1">#lot_count#</td>
+									<td class="py-1">
+										<span class="small mb-0 pb-0">
+											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
+												onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
+										</span>
+									</td>
 									<cfif oneOfus is "1">
 										<td class="pb-0">#label#</td>
 									</cfif>
