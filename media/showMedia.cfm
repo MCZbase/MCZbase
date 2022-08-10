@@ -187,8 +187,6 @@
 									</li>
 								</ul>
 							</div>
-							
-
 						</div>
 					</div>
 				</div>
@@ -1329,7 +1327,7 @@
 					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
 				</div>
-			</cfloop>
+	</cfloop>
 			</div>
 		</div>
 	</main>
