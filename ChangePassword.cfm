@@ -1,5 +1,5 @@
 <cfset pageTitle = "Change Password">
-<cfinclude template = "shared/_header.cfm">
+<cfinclude template = "includes/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 <script>
@@ -299,4 +299,4 @@
 	</div>
 </cfif>
 <!---------------------------------------------------------------------->
-<cfinclude template = "shared/_footer.cfm">
+<cfinclude template = "includes/_footer.cfm">
