@@ -80,15 +80,15 @@ limitations under the License.
 							<input name="gotopage" value="#gotopage#" type="hidden">
 							<input name="mode" value="#mode#" type="hidden">
 							<div class="form-row">
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6 col-xl-4">
 									<label for="formUsername" class="data-entry-label">Username</label>
 									<input name="username" class="data-entry-input reqdClr" type="text" tabindex="1" value="#encodeForHtml(username)#" id="formUsername" required>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6 col-xl-4">
 									<label for="formPassword" class="data-entry-label">Password</label>
 									<input name="password" class="data-entry-input reqdClr" type="password" tabindex="2" value="" id="formPassword" required>
 								</div>
-								<div class="col-12">
+								<div class="col-12 col-xl-8">
 									<cfif isdefined("badPW") and badPW is true>
 										<cfif not isdefined("err") or len(err) is 0>
 											<cfset err="Your username or password was not recognized. Please try again.">
@@ -108,8 +108,8 @@ limitations under the License.
 							</div>
 							<div class="form-row my-2">
 								<cfif mode NEQ "register"> 
-									<div class="col-4 col-md-2 py-2">
-										<input type="submit" class="btn btn-xs btn-primary px-3" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
+									<div class="col-4 col-md-2 col-xl-1 py-2">
+										<input type="submit" class="btn btn-xs btn-primary px-3 px-xl-4" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
 									</div>
 								</cfif>
 			<!---					<cfif mode EQ "">
@@ -142,11 +142,9 @@ limitations under the License.
 							</cfif>
 						</form>
 						<div class="col-12 px-0">
-							<a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
-							we can send it to you. You can also just create a new account.
-						</div>
-						<div class="col-12 px-0">
-							You can explore MCZbase using basic options without signing in.
+							<p><a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
+							we can send it to you. You can also just create a new account.</p>
+							<p>You can explore MCZbase using basic options without signing in.</p>
 						</div>
 					</section>
 				</main>
