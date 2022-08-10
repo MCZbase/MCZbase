@@ -157,7 +157,7 @@
 												<div class="flip-card-inner">
 													<a href="##" id="flip-card-inner">
 														<div class="flip-card-front">
-															<div class="heightFlip">Slide Atlas</div>
+															<div class="heightFlip font-weight-lessbold">Slide Atlas</div>
 														</div>
 													</a>
 													<div class="flip-card-back">
@@ -174,7 +174,7 @@
 												<div class="flip-card-inner">
 													<a href="##" id="flip-card-inner">
 														<div class="flip-card-front">
-															<div class="heightFlip">Morphosource</div>
+															<div class="heightFlip font-weight-lessbold">Morphosource</div>
 														</div>
 													</a>
 													<div class="flip-card-back">
