@@ -64,7 +64,7 @@
 
 <cfif Action is "list">
 	<!--- everyone with an account has a record in cf_users, they may have added name/contact/affiliation information in cf_user_data --->
-	<cfquery name="getUsers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="getUsers" datasource="uam_god">
 		SELECT 
 			username,
 			upper(username) as ucasename,
@@ -78,6 +78,11 @@
 		FROM 
 			cf_users
 			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
+			<cfif isDefined("state") AND state EQ "oracle">
+				left join DBA_USERS on cf_users.username = DBA_USERS.username
+			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
+				left join dba_role_privs on upper(username) = upper(grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
+			</cfif>
 		WHERE 
 			upper(username) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(username)#%">
 			<cfif isDefined("findlastname") AND len(findlastname) GT 0>
@@ -87,14 +92,19 @@
 				and cf_user_data.user_id IS NOT NULL
 			<cfelseif isDefined("state") AND state EQ "noprofile">
 				and cf_user_data.user_id IS NULL
+			<cfelseif isDefined("state") AND state EQ "oracle">
+				and DBA_USERS.username IS NOT NULL
+			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
+				and dba_role_privs.grantee IS NOT NULL
 			</cfif>
 		ORDER BY
 			rights, ucasename
 	</cfquery>
-	<h2 class="h3">Select a user to administer</h2>
+	<h2 class="h3">#getUsers.recordcount# matching users found.</h2>
 	<table id="matchedUsers" class="table table-responsive sortable col-12">
 		<thead class="thead-light">
 			<tr>
+				<th>Action</th>
 				<th>Username</th>
 				<th>Profile</th>
 				<th>Contact</th>
@@ -167,11 +177,12 @@
 					<cfset operator = "[no]">
 				</cfif>
 				<tr>
-			 		<td><a class="btn btn-xs btn-primary" href="/AdminUsers.cfm?action=edit&username=#username#">#username#</a></td>
+			 		<td><a class="btn btn-xs btn-primary" href="/AdminUsers.cfm?action=edit&username=#encodeForUrl(username)#">Edit</a></td>
+			 		<td>#encodeForHtml(username)#</td>
 			 		<td>#hasProfile#</td>
 					<td>
 						<cfif len(getUsers.user_data_id) GT 0>
-							#FIRST_NAME# #MIDDLE_NAME# #LAST_NAME#: #AFFILIATION# (#EMAIL#)
+							#encodeForHtml(FIRST_NAME)# #encodeForHtml(MIDDLE_NAME)# #encodeForHtml(LAST_NAME)#: #encodeForHtml(AFFILIATION)# (#encodeForHtml(EMAIL)#)
 						</cfif>
 					</td>
 			 		<td>#operator#</td>
