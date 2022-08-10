@@ -61,8 +61,8 @@ limitations under the License.
 				<cfset gotopage=''>
 			</cfif>
 			<main class="container py-3" id="content" >
-				<section class="row mx-0 my-3 p-2">
-					<div class="col-12 py-3 border rounded rounded">
+				<section class="row mx-0 my-3">
+					<div class="col-12 py-3 border rounded">
 						<cfif mode EQ "register"> 
 							<cfset headingText = "Create an Account">
 						<cfelseif mode EQ "authenticate"> 
@@ -75,7 +75,7 @@ limitations under the License.
 							this database. To create an account and log in, simply supply a username and
 							password here and click Create Account.
 						</p>
-						<form class="" name="loginform" id="loginform" method="post" action="/login.cfm">
+						<form name="loginform" id="loginform" method="post" action="/login.cfm">
 							<input name="action" id="formAction" value="signIn" type="hidden">
 							<input name="gotopage" value="#gotopage#" type="hidden">
 							<input name="mode" value="#mode#" type="hidden">
