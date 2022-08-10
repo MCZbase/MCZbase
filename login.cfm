@@ -127,7 +127,7 @@ limitations under the License.
 							<cfif mode EQ "register"> 
 								<div class="form-row mx-0 my-2">
 									<div class="col-12">
-										<h2 class="h3 w-100">Password rules:</h2>
+										<h2 class="h3 w-100 px-2">Password rules:</h2>
 										<ul class="list-style-disc px-5">
 											<li class="pb-1">At least eight characters</li>
 											<li class="pb-1">May not contain your username</li>
