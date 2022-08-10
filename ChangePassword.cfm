@@ -101,7 +101,7 @@
 
 <!----------------------------------------------------------->
 <cfif action is "lostPass">
-	<div class="container py-3">
+	<div class="container py-3" style="width: 75%; margin: 0 auto;">
 		<div class="row mx-0">
 			<div class="col-12">
 				<div class="changePW"></div>
@@ -109,14 +109,14 @@
 				<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
 				<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
 				<form name="pw" method="post" action="ChangePassword.cfm">
-				<input type="hidden" name="action" value="findPass">
-				<label for="username">Username</label>
-				<input type="text" name="username" id="username">
-				<label for="email">Email Address</label>
-				<input type="text" name="email" id="email">
-				<br>
-				<input type="submit" value="Request Password" class="lnkBtn">
-			</form>
+					<input type="hidden" name="action" value="findPass">
+					<label for="username">Username</label>
+					<input type="text" name="username" id="username">
+					<label for="email">Email Address</label>
+					<input type="text" name="email" id="email">
+					<br>
+					<input type="submit" value="Request Password" class="lnkBtn" style="margin-top: 2rem;">
+				</form>
 			</div>
 		</div>
 	</div>
