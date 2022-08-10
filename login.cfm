@@ -62,7 +62,7 @@ limitations under the License.
 			</cfif>
 			<main class="container py-3" id="content" >
 				<section class="row my-3 p-2">
-					<div class="col-12 py-2 border rounded rounded">
+					<div class="col-12 py-3 border rounded rounded">
 						<cfif mode EQ "register"> 
 							<cfset headingText = "Create an Account">
 						<cfelseif mode EQ "authenticate"> 
@@ -108,17 +108,17 @@ limitations under the License.
 							</div>
 							<div class="form-row my-2">
 								<cfif mode NEQ "register"> 
-									<div class="col-12 col-md-1">
+									<div class="col-4 col-md-1">
 										<input type="submit" class="btn btn-xs btn-primary px-4" value="Sign In" onClick="$('##formAction').value='signIn';submit();" tabindex="3">
 									</div>
 								</cfif>
 								<cfif mode EQ "">
-									<div class="col-12 col-md-1 text-center">
+									<div class="col-4 col-md-1 text-center">
 										or
 									</div>
 								</cfif>
 								<cfif mode NEQ "authenticate"> 
-									<div class="col-12 col-md-1">
+									<div class="col-4 col-md-1">
 										<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
 									</div>
 								</cfif>
