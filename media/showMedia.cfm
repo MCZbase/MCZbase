@@ -155,7 +155,7 @@
 										<div id="content">
 											<div class="flip-card">
 												<div class="flip-card-inner">
-													<a href="#" id="flip-card-inner">
+													<a href="##" id="flip-card-inner">
 														<div class="flip-card-front">
 															<div>Slide Atlas</div>
 														</div>
@@ -172,7 +172,7 @@
 										<div id="content">
 											<div class="flip-card">
 												<div class="flip-card-inner">
-													<a href="#" id="flip-card-inner">
+													<a href="##" id="flip-card-inner">
 														<div class="flip-card-front">
 															<div>Slide Atlas</div>
 														</div>
