@@ -149,7 +149,18 @@
 								</tbody>
 							</table>
 							<div class="row mx-0">
-								<h4 class="h5 px-2 pt-0">Shown on records with relationship(s): </h4>
+								<h3 class="h4 px-2 pt-0">Additional Renderings: </h3>
+								<ul class="list-group list-group-horizontal">
+									<li class="list-unstyled col-3 border bg-light">
+										<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Slide Atlas</a>
+									</li>
+									<li class="list-unstyled col-3 border bg-light">
+										<a class="link-color px-1 text-center" href="###media_rel.media_relationship#">Morphosource</a>
+									</li>
+								</ul>
+							</div>
+							<div class="row mx-0">
+								<h3 class="h4 px-2 pt-0">Shown on records with relationship(s): </h3>
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
 									<cfloop query="media_rel">
@@ -158,6 +169,7 @@
 									</li>
 								</ul>
 							</div>
+
 						</div>
 					</div>
 				</div>
