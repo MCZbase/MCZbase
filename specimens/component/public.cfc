@@ -3087,7 +3087,7 @@ limitations under the License.
 				</cfquery>
 				<ul class="list-group">
 					<cfif named_groups.recordcount EQ 0>
-						<li class="small list-group-item font-italic py0-0">None</li>
+						<li class="small list-group-item font-italic py-0">None</li>
 					<cfelse>
 						<cfloop query="named_groups">
 							<li class="list-group-item">
