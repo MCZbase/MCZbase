@@ -194,7 +194,7 @@
 				</div>
 			<section class="container-fluid">
 				<div class="row mx-0">
-					<h3 class="h4 px-2 pt-0">Shown on records with relationship(s): </h3>
+					<h3 class="px-2 pt-0">Shown on records with relationship(s): </h3>
 					<ul class="list-group list-group-horizontal">
 						<li class="list-unstyled">
 						<cfloop query="media_rel">
@@ -244,7 +244,7 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
-					<h1 class="h3 w-100 my-0 px-2">Related Cataloged Items (#speccount.ct#)</h1>
+					<h3 class="w-100 my-0 px-2">Related Cataloged Items (#speccount.ct#)</h3>
 					<a name="shows%20cataloged_item"></a>
 					<a name="ledger%20entry%20for%20cataloged_item"></a>
 					<div class="search-box mt-1 pb-0 w-100">
@@ -318,7 +318,7 @@
 						</cfloop>
 					</div>
 				<cfelse>
-					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Specimen Records</h3>
+					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
 										
@@ -346,7 +346,7 @@
 						</cfquery>
 					</cfif>
 					<cfif len(accn.transaction_id) gt 0>
-						<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Accessions (#accncount.ct#)</h1>
+						<h3 class="w-100 mt-3 mb-0 px-2">Related Accessions (#accncount.ct#)</h3>
 						<div class="col-12 px-0">
 						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
@@ -456,7 +456,7 @@
 							and media_relations.media_relationship = 'shows collecting_event'
 					</cfquery>
 					<cfif len(collecting_event.collecting_event_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Collecting Event Records with this Media</h1>
+						<h3 class="w-100 my-0 px-2">Collecting Event Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
@@ -538,7 +538,7 @@
 						</div>
 						</div>
 					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Collecting Events</h3>
+						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Collecting Events</h3>
 					</cfif>
 				</div>
 																					
@@ -554,7 +554,7 @@
 					</cfquery>
 					</cfif>
 					<cfif len(permit.permit_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Related Permits</h1>
+						<h3 class="w-100 my-0 px-2">Related Permits</h3>
 						<div class="col-12 px-0">
 							<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -645,7 +645,7 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
+						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
 					</cfif>
 				</div>
 													
@@ -860,7 +860,7 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
+						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
 					</cfif>
 				</div>
 													
@@ -874,7 +874,7 @@
 							and media_relations.media_relationship = 'documents borrow'
 					</cfquery>
 					<cfif len(borrow.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Related Borrows</h1>
+						<h3 class="w-100 my-0 px-2">Related Borrows</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -973,7 +973,7 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Borrow</h3>
+						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Borrow</h3>
 					</cfif>
 				</div>
 													
@@ -987,7 +987,7 @@
 							and (media_relations.media_relationship = 'documents deaccession')
 					</cfquery>
 					<cfif len(deaccession.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Related Deaccessions</h1>
+						<h3 class="w-100 my-0 px-2">Related Deaccessions</h3>
 						<div class="col-12 px-0">
 						<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -1073,7 +1073,7 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Deaccession</h3>
+						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Deaccession</h3>
 					</cfif>
 				</div>								
 													
@@ -1104,7 +1104,7 @@
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 			
-					<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Agents (#agents.agent_name#)</h1>
+					<h3 class="w-100 mt-3 mb-0 px-2">Related Agents (#agents.agent_name#)</h3>
 					<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
@@ -1195,7 +1195,7 @@
 						</div>
 					</div>
 				<cfelse>
-					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
+					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
 				</cfloop>
 				</div>
@@ -1225,7 +1225,7 @@
 							left join publication on media_relations.related_primary_key = publication.pubication_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					</cfquery>
-					<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Publications (#pub-count.ct#)</h1>
+					<h3 class="w-100 mt-3 mb-0 px-2">Related Publications (#pub-count.ct#)</h3>
 					<a name="created%20by%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
@@ -1326,7 +1326,7 @@
 						</cfloop>
 					</div>
 				<cfelse>
-					<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
+					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
 				</div>
 			</cfloop>
