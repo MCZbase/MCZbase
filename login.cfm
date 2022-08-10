@@ -118,7 +118,7 @@ limitations under the License.
 									</div>
 								</cfif>--->
 								<cfif mode NEQ "authenticate"> 
-									<div class="col-4 col-md-1">
+									<div class="col-4 col-md-1 py-2">
 										<input type="button" class="btn btn-xs btn-secondary" value="Create an Account" class="insBtn" onClick="validateAndRegister();" tabindex="4">
 									</div>
 								</cfif>
