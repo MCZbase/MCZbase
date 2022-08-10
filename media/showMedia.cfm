@@ -105,7 +105,6 @@
 								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
-
 						<div class="float-left col-12 px-0 col-xl-8 pl-xl-4">
 							<h3 class="mx-2 h4 mb-1 mt-0 border-dark w-auto float-left">Metadata</h3>
 							<table class="table border-none">
@@ -159,10 +158,10 @@
 									</li>
 								</ul>
 							</div>
-				
-
 						</div>
-						<div class="row mx-0">
+					</div>
+					<div class="row mx-0">
+						<div class="col-12">
 							<h3 class="h4 px-2 pt-0">Shown on records with relationship(s): </h3>
 							<ul class="list-group list-group-horizontal">
 								<li class="list-unstyled">
@@ -172,7 +171,6 @@
 								</li>
 							</ul>
 						</div>
-						
 					</div>
 				</div>
 				<!---specimen records--->
