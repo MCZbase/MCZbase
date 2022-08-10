@@ -66,8 +66,8 @@
 	<!--- everyone with an account has a record in cf_users, they may have added name/contact/affiliation information in cf_user_data --->
 	<cfquery name="getUsers" datasource="uam_god">
 		SELECT 
-			username,
-			upper(username) as ucasename,
+			cf_users.username,
+			upper(cf_users.username) as ucasename,
 			approved_to_request_loans,
 			FIRST_NAME,
 			MIDDLE_NAME,
@@ -78,7 +78,7 @@
 		FROM 
 			cf_users
 			left outer join cf_user_data on (cf_users.user_id = cf_user_data.user_id)
-			<cfif isDefined("state") AND state EQ "oracle">
+			<cfif isDefined("state") AND (state EQ "oracle" OR state EQ "nooracle") >
 				left join DBA_USERS on cf_users.username = DBA_USERS.username
 			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
 				left join dba_role_privs on upper(username) = upper(grantee) and upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
@@ -94,6 +94,8 @@
 				and cf_user_data.user_id IS NULL
 			<cfelseif isDefined("state") AND state EQ "oracle">
 				and DBA_USERS.username IS NOT NULL
+			<cfelseif isDefined("state") AND state EQ "nooracle">
+				and DBA_USERS.username IS NULL
 			<cfelseif isDefined("state") AND state EQ "coldfusion_user">
 				and dba_role_privs.grantee IS NOT NULL
 			</cfif>
