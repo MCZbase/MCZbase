@@ -192,11 +192,11 @@
 				</div>
 				<section class="container-fluid pb-5">
 				<div class="row mx-0 mt-2 mb-3">
-					<h3 class="px-2 pt-0">Shown on records with relationship(s): </h3>
+					<h3 class="px-2 pt-0">Shown on records with relationships: </h3>
 					<ul class="list-group list-group-horizontal">
 						<li class="list-unstyled">
 						<cfloop query="media_rel">
-							<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> | 
+							<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
 						</cfloop>
 						</li>
 					</ul>
