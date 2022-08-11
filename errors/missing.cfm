@@ -41,7 +41,7 @@
 			<cfelseif refind('/turtle$',rdurl) GT 0>
 				<cfset rdurl = rereplace(rdurl,"/turtle$","")>
 	   		<cfset deliver = "text/turtle">
-			<cfelseif refind('/trdf$',rdurl) GT 0>
+			<cfelseif refind('/rdf$',rdurl) GT 0>
 				<cfset rdurl = rereplace(rdurl,"/rdf$","")>
 	   		<cfset deliver = "application/xhtml+xml">
 			</cfif>
