@@ -36,6 +36,8 @@ limitations under the License.
 	</cfif>
 </cfif>
 	<script>
+		var width = window.innerWidth;
+		var height = window.innerHeight;
 		if(width <= 568) { <cfset action="keywordSearch"> }
 	</script>
 <cfswitch expression="#action#">
