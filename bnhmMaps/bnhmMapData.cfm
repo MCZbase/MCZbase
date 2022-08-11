@@ -19,39 +19,37 @@
 <cfset mediaFlatTableName = "media_flat">
 <!----------------------------------------------------------------->
 <cfif isdefined("action") and action IS "mapPoint">
-<cfoutput>
-	<!---- map a lat_long_id ---->
-	<cfif not isdefined("lat_long_id") or len(lat_long_id) is 0>
-		<div class="error">
-			You can't map a point without a lat_long_id.
-		</div>
-		<cfabort>
-	</cfif>
-	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			'All collections' Collection,
-			0 collection_id,
-			'000000' cat_num,
-			'Lat Long ID: ' || lat_long_id scientific_name,
-			'none' verbatim_date,
-			'none' spec_locality,
-			dec_lat,
-			dec_long,
-			to_meters(max_error_distance,max_error_units) max_error_meters,
-			datum,
-			'000000' collection_object_id,
-			' ' collectors
-		FROM
-			lat_long
-		WHERE
-			lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
-	</cfquery>
-</cfoutput>
-
+	<!--- map a single point --->
+	<cfoutput>
+		<!---- map a lat_long_id ---->
+		<cfif not isdefined("lat_long_id") or len(lat_long_id) is 0>
+			<div class="error">
+				You can't map a point without a lat_long_id.
+			</div>
+			<cfabort>
+		</cfif>
+		<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				'All collections' Collection,
+				0 collection_id,
+				'000000' cat_num,
+				'Lat Long ID: ' || lat_long_id scientific_name,
+				'none' verbatim_date,
+				'none' spec_locality,
+				dec_lat,
+				dec_long,
+				to_meters(max_error_distance,max_error_units) max_error_meters,
+				datum,
+				'000000' collection_object_id,
+				' ' collectors
+			FROM
+				lat_long
+			WHERE
+				lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
+		</cfquery>
+	</cfoutput>
 <cfelseif isdefined("search") and search IS "MediaSearch">
-<!-- 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
-		<cfset ShowObservations = "true">
-	</cfif> -->
+	<!--- map coordinates for specimens in a media search, incomplete implementation --->
 
 	<cfset ShowObservations = "true">
 
@@ -77,14 +75,44 @@
 
 	<cfset srch = "">
 
+	<!--- TODO: No such file --->
 	<cfinclude template="/development/MediaSearchSql.cfm">
 	<cfset SqlString = "#basSelect# #basFrom# #basWhere# #srch#">
 	<cfset checkSQL(SqlString)>
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
-
-<cfelse><!--- regular mapping routine ---->
+<cfelseif isDefined("result_id") and len(result_id) GT 0>
+	<!--- mapping search results from user_search_table by result_id ---->
+	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT DISTINCT
+			collection,
+			collection_id,
+			cat_num,
+			scientific_name,
+			phylclass,
+			verbatim_date,
+			spec_locality,
+			dec_lat,
+			dec_long,
+			COORDINATEUNCERTAINTYINMETERS,
+			datum,
+			collection_object_id,
+			collectors
+		FROM
+			<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+		WHERE
+			collection_object_id in (
+				SELECT collection_object_id 
+				FROM user_search_table 
+				WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+			)
+			AND dec_lat is not null
+			AND dec_long is not null
+			AND collecting_source in ('wild caught', 'unknown', 'rock/outcrop')
+	</cfquery>
+<cfelse>
+	<!--- old mapping routine using include of searchSql ---->
 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 		<cfset ShowObservations = "true">
 	</cfif>

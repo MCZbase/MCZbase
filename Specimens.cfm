@@ -1096,6 +1096,7 @@ limitations under the License.
 													<div id="fixedcolumnPickDialogButton"></div>
 													<div id="fixedresultDownloadButtonContainer"></div>
 													<span id="fixedmanageButton" class=""></span>
+													<div id="fixedresultBMMapLinkContainer"></div>
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
 												<div class="row mt-0"> 
@@ -1350,6 +1351,7 @@ limitations under the License.
 													<div id="keywordcolumnPickDialogButton"></div>
 													<div id="keywordresultDownloadButtonContainer"></div>
 													<span id="keywordmanageButton" class=""></span>
+													<div id="keywordresultBMMapLinkContainer"></div>
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
 												<div class="row mt-0"> 
@@ -1762,6 +1764,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class=""></span>
+													<div id="keywordresultBMMapLinkContainer"></div>
 													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output> 
 												</div>
 												<div class="row mt-0"> 
@@ -2884,6 +2887,9 @@ limitations under the License.
 			<cfif isDefined("session.specimens_pin_guid") AND session.specimens_pin_guid EQ 1> 
 				console.log(#session.specimens_pin_guid#);
 				setPinColumnState(gridId,'GUID',true);
+			</cfif>
+			<cfif isdefined("session.username") AND len(#session.username#) GT 0>
+				$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
 			</cfif>
 			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
 		}
