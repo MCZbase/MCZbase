@@ -2888,7 +2888,7 @@ limitations under the License.
 				console.log(#session.specimens_pin_guid#);
 				setPinColumnState(gridId,'GUID',true);
 			</cfif>
-			$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+which_grid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
+			$('##'+whichGrid+'resultBMMapLinkContainer').html(`<a id="`+whichGrid+`BMMapButton" class="btn btn-xs btn-secondary px-2 my-2 mx-1" target="_blank" href="/bnhmMaps/bnhmMapData.cfm?result_id=`+result_uuid+`" aria-label="Plot points in Berkeley Mapper">BerkeleyMapper</a>`);
 			$("html, body").scrollTop($("##"+whichGrid+"SearchResultsSection").offset().top);
 		}
 
