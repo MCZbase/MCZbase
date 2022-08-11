@@ -35,6 +35,9 @@ limitations under the License.
 		<cfset action="fixedSearch">
 	</cfif>
 </cfif>
+	<script>
+		if(width <= 568) { <cfset action="keywordSearch"> }
+	</script>
 <cfswitch expression="#action#">
 	<!--- API note: action and method seem duplicative, action is required and used to determine
 			which tab to show, method invokes target backing method in form submission, but when 
@@ -180,6 +183,7 @@ limitations under the License.
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
+				
 					<div class="tabs card-header tab-card-header px-2 pt-3">
 						<cfswitch expression="#action#">
 							<cfcase value="fixedSearch">
