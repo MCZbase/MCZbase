@@ -185,6 +185,17 @@ limitations under the License.
 </cfif>
 </head>
 <body class="default">
+<cfClientSettings detectDevice=true />
+<cfclient>
+<cffunction access="public" name="devicewidth" returntype="void" >
+<cfset document.getElementById('devicewidth').innerHTML=cfclient.properties.width>
+</cffunction>
+</cfclient>
+Mobile support -<b id="devicewidth"></b><br>
+<button onclick="invokeCFClientFunction('devicewidth',null)">
+Show mobile support
+</button>
+	
 <cfset header_color = Application.header_color>
 <cfset collection_link_color = Application.collectionlinkcolor>
 <cfif not isdefined("Session.gitBranch")>
