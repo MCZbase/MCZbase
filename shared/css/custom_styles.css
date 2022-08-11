@@ -2804,6 +2804,9 @@ ol.flowNone li a,ul.flowNone li a {
 a.wrapurl {
 	overflow-wrap:anywhere;
 }
+ul li.list-unstyled span:last-child {
+	display:none;
+}
 /* 
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px
