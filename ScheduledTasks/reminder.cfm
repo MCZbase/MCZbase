@@ -54,7 +54,7 @@
 				trans_agent.agent_id = preferred_agent_name.agent_id AND
 				trans_agent.agent_id = person.person_id(+) AND
 				preferred_agent_name.agent_id = electronic_address.agent_id(+) AND
-				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by') and
+				trans_agent.trans_agent_role in ('in-house contact',  'additional in-house contact', 'additional outside contact', 'for use by', 'received by','outside contact') and
 				round(RETURN_DUE_DATE - (sysdate)) + 1 in (-365,-180,-150,-120,-90,-60,-30,-7,0,30) and
 				LOAN_STATUS like 'open%' and
 				loan_type in ('returnable', 'consumable') and
@@ -135,7 +135,7 @@
 					expLoan
 				where
 					transaction_id=#transaction_id# and
-					trans_agent_role in ('additional outside contact', 'for use by', 'received by') and
+					trans_agent_role in ('additional outside contact', 'for use by', 'received by','outside contact') and
 					address is not null
 				group by
 					address,
