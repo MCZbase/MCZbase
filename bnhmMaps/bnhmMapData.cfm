@@ -82,7 +82,7 @@
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preserveSingleQuotes(SqlString)#
 	</cfquery>
-<cfelseif isDefined("result_id" and len(result_id) GT 0>
+<cfelseif isDefined("result_id") and len(result_id) GT 0>
 	<!--- mapping search results from user_search_table by result_id ---->
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT DISTINCT
