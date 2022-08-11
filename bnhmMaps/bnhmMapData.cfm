@@ -223,7 +223,7 @@
 		<cfquery name="species" dbtype="query">
 			select distinct(scientific_name) from getMapData
 		</cfquery>
-		<cfset nameList = ListQualify(valuelist(species.scientific_name), "'")>
+		<cfset nameList = valuelist(species.scientific_name)>
 		<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select phylclass,genus || ' ' || species scientific_name from taxonomy where scientific_name in
 			 (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nameList#" list="yes">)
