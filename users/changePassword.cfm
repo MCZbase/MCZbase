@@ -134,14 +134,24 @@
 				<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
 				<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
 				<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
-				<form name="pw" method="post" action="/users/changePassword.cfm">
-					<input type="hidden" name="action" value="findPass">
-					<label for="username">Username</label>
-					<input type="text" name="username" id="username">
-					<label for="email">Email Address</label>
-					<input type="text" name="email" id="email">
-					<br>
-					<input type="submit" value="Request Password" class="lnkBtn" style="margin-top: 1rem;">
+				<form class="row" name="pw" method="post" action="/users/changePassword.cfm">
+					<div class="col-12 col-md-3">
+						<input type="hidden" name="action" value="findPass">
+						<label for="username" class="data-entry-label">Username</label>
+						<input type="text" name="username" id="username" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<input type="hidden" name="action" value="findPass">
+						<label for="username" class="data-entry-label">Username</label>
+						<input type="text" name="username" id="username" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="email" class="data-entry-label">Email Address</label>
+						<input type="text" name="email" id="email" class="data-entry-input">
+					</div>
+					<div class="col-12">
+						<input type="submit" value="Request Password" class="btn btn-xs btn-primary">
+					</div>
 				</form>
 			</div>
 		</div>
