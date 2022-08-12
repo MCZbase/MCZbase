@@ -2898,7 +2898,7 @@ limitations under the License.
 	
 	<!---  script>
 	TODO: indentation is broken, and this references ids not present on the page, so it breaks this block.  Remove or add back in if left/right blocks for faceted search are added back in.
-	TODO: Fix the indentation and nestinng, this looks like one function, but isn't.
+	TODO: Fix the indentation and nesting, this looks like one function, but isn't.
 	
 	var	menuRight = document.getElementById( 'cbp-spmenu-s2' ),
 		showRightPush = document.getElementById( 'showRightPush' ),
