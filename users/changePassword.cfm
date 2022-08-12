@@ -79,18 +79,26 @@
 					</cfif>
 						<form action="/users/changePassword.cfm" method="post">
 							<input type="hidden" name="action" value="update">
-							<label for="oldpassword" class="data-entry-label">Old password</label>
-							<input name="oldpassword" class="data-entry-input" id="oldpassword" type="password">
-							<label for="newpassword" class="data-entry-label">New password</label>
-							<input name="newpassword" class="data-entry-input" id="newpassword" type="password"
-							<cfif isDb.cnt gt 0>
-								onkeyup="pwc(this.value,'#session.username#')"
-							</cfif>	>
+							<div class="col-12 col-md-4">
+								<label for="oldpassword" class="data-entry-label">Old password</label>
+								<input name="oldpassword" class="data-entry-input" id="oldpassword" type="password">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="newpassword" class="data-entry-label">New password</label>
+								<input name="newpassword" class="data-entry-input" id="newpassword" type="password"
+									<cfif isDb.cnt gt 0>
+										onkeyup="pwc(this.value,'#session.username#')"
+									</cfif>	
+								>
+							</div>
 							<span id="pwstatus"></span>
-							<label for="newpassword2">Retype new password</label>
-							<input name="newpassword2" id="newpassword2" type="password">
-							<br><br>
-							<input type="submit" value="Save Password Change" class="savBtn">
+							<div class="col-12 col-md-4">
+								<label for="newpassword2" class="data-entry-label">Retype new password</label>
+								<input name="newpassword2" class="data-entry-input" id="newpassword2" type="password">
+							</div>
+							<div class="col-12 col-md-4">
+								<input type="submit" value="Save Password Change" class="btn btn-xs btn-primary">
+							</div>
 						</form>
 						<cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select email, username
