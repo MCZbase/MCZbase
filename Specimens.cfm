@@ -27,7 +27,7 @@ limitations under the License.
 </cftry>
 
 <cfset enableMobileKeywordTabModal = false>
-<cifif not isdefined("action") AND not isDefined("execute") AND not isDefined("method")>
+<cfif not isdefined("action") AND not isDefined("execute") AND not isDefined("method")>
 	<!--- enable test for mobile browser to make the keyword tab modal on page load if no question was asked in the uri. --->
 	<cfset enableMobileKeywordTabModal = true>
 </cfif>
