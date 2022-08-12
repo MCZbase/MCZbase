@@ -126,9 +126,9 @@
 </cfcase>
 <cfcase value="lostPass">
 	<!----------------------------------------------------------->
-	<div class="container py-3">
-		<div class="row">
-			<div class="col-12 mt-3">
+	<main class="container py-3">
+		<section class="row my-3 mx-0">
+			<div class="col-12 py-3 border rounded">
 				<div class="changePW"></div>
 				<h1 class="h2">Lost your password?</h1>
 				<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
@@ -154,8 +154,8 @@
 					</div>
 				</form>
 			</div>
-		</div>
-	</div>
+		</section>
+	</main>
 </cfcase>
 <cfcase value="update">
 	<!-------------------------------------------------------------------->
