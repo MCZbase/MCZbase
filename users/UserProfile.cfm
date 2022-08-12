@@ -257,7 +257,7 @@ limitations under the License.
 								</cfquery>
 								<cfif isDb.cnt gt 0>
 									<cfset session.force_password_change = "yes">
-									<cflocation url="ChangePassword.cfm" addtoken="false">
+									<cflocation url="/ChangePassword.cfm" addtoken="false">
 								</cfif>
 								<cfelseif pwage lte 10>
 								<span style="color:red;"> Your password expires in #pwage# days. </span>
