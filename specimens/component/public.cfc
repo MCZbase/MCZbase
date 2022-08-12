@@ -1902,13 +1902,13 @@ limitations under the License.
 						</cfquery>
 						<cfif deaccessionCount.deaccessionedParts GT 0>
 							<cfset hasContent = true>
-						<span class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">
+							<li class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">
 							<cfif deaccessionCount.parts EQ deaccessionCount.deaccessionedParts>
 								Deaccessioned
 							<cfelse>
 								Some Parts have been Deaccessioned
 							</cfif>
-						</span>
+							</li>
 
 						</cfif>
 					</cfif>
