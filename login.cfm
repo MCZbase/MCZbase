@@ -95,7 +95,7 @@ limitations under the License.
 											<cfset err="Your username or password was not recognized. Please try again.">
 										</cfif>
 										<h2 class="data-entry-label sr-only mb-0">Error</h2>
-										<div class="data-entry-input bg-danger text-white mt-3">#err#</div>
+										<div class="data-entry-input bg-danger py-1 text-white mt-3">#err#</div>
 										<script>
 											$(document).ready(function() { 
 												$('##username').css('backgroundColor','red');
