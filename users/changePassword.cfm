@@ -42,7 +42,7 @@
 						Guests are not allowed to change passwords.<cfabort>
 					</cfif>
 					<h1 class="h2 mt-3">Change Password</h1>
-					<h2 class="h4">You are logged in as #session.username#.</h2>
+					<p class="font-weight-lessbold">You are logged in as #session.username#.</p>
 					<p>Your password is <span class="font-weight-lessbold text-danger">#pwtime#</span> days old.</p>
 					<cfquery name="isDb" datasource="uam_god">
 						select
