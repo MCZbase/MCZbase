@@ -30,7 +30,7 @@
 	<cfoutput>
 		<div class="container">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 mt-3">
 					<cfquery name="pwExp" datasource="uam_god">
 						select pw_change_date
 						from cf_users where
@@ -96,7 +96,7 @@
 									>
 								</div>
 								<span id="pwstatus"></span>
-								<div class="col-12 col-md-3 mb-2">
+								<div class="col-12 col-md-3 my-2">
 									<label for="newpassword2" class="data-entry-label">Retype new password</label>
 									<input name="newpassword2" class="data-entry-input" id="newpassword2" type="password">
 								</div>
