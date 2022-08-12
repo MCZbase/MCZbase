@@ -1307,7 +1307,7 @@ limitations under the License.
 										<tr class="border-top-0">
 											<td colspan="5" class="border-top-0 mt-0 pb-2 pt-1">
 												<cfloop query="partAttributes">
-													<div class="small90 pl-3 line-height-sm">
+													<div class="small90 pl-3 pb-2 line-height-sm">
 														#attribute_type#=<span class="">#attribute_value#</span> &nbsp;
 													<cfif len(attribute_units) gt 0>
 														#attribute_units# &nbsp;
@@ -1903,7 +1903,6 @@ limitations under the License.
 						<cfif deaccessionCount.deaccessionedParts GT 0>
 							<cfset hasContent = true>
 							<li class="list-group-item">
-								<span class="font-weight-lessbold mb-1 d-inline-block float-left pr-1">Deaccessions: </span>
 								<ul class="d-block">
 									<cfif deaccessionCount.parts EQ deaccessionCount.deaccessionedParts>
 										<li class="d-block"> Deaccessioned </li>
