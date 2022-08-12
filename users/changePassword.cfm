@@ -87,7 +87,7 @@
 								</div>
 							</div>
 						
-								<div class="col-12 col-md-3 mb-2">
+								<div class="col-12 col-md-3 my-2">
 									<label for="newpassword" class="data-entry-label">New password</label>
 									<input name="newpassword" class="data-entry-input" id="newpassword" type="password"
 										<cfif isDb.cnt gt 0>
