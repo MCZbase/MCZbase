@@ -237,7 +237,7 @@ limitations under the License.
 							<!--- check for a narrow screen, and if so, make the keyword search tab modal --->
 							<script>
 								$(document).ready(function() {
-									if (window.innerHeight <= 600) { 
+									if (window.innerWidth <= 600) { 
 										$("##keywordSearchTabButton").trigger("click");
 									}
 								});
