@@ -128,7 +128,7 @@
 	<!----------------------------------------------------------->
 	<div class="container py-3" style="width: 75%; margin: 0 auto 2rem auto;">
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 mt-3">
 				<div class="changePW"></div>
 				<h1 class="h2">Lost your password?</h1>
 				<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
@@ -149,7 +149,7 @@
 						<label for="email" class="data-entry-label">Email Address</label>
 						<input type="text" name="email" id="email" class="data-entry-input">
 					</div>
-					<div class="col-12">
+					<div class="col-12 my-3">
 						<input type="submit" value="Request Password" class="btn btn-xs btn-primary">
 					</div>
 				</form>
