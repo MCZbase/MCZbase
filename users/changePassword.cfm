@@ -43,7 +43,7 @@
 					</cfif>
 					<h1 class="h3 mt-3">Change Password</h1>
 					<h2 class="h4">You are logged in as #session.username#.</h2>
-					<p>Your password is <span class="font-weight-lessbold">#pwtime#</span> days old.</p>
+					<p>Your password is <span class="font-weight-lessbold text-danger">#pwtime#</span> days old.</p>
 					<cfquery name="isDb" datasource="uam_god">
 						select
 						(
@@ -63,9 +63,9 @@
 						from dual
 					</cfquery>
 					<cfif isDb.cnt gt 0>
-						<h2 class="h4 px-2">Operators must change password every #Application.max_pw_age# days.</h2>
-						<h2 class="h3 w-100 px-2">Password rules:</h2>
-						<ul class="list-style-disc px-5">
+						<p class="h4">Operators must change password every #Application.max_pw_age# days.</p>
+						<h2 class="h3 w-100">Password rules:</h2>
+						<ul class="list-style-disc px-4">
 							<li class="pb-1">At least eight characters</li>
 							<li class="pb-1">May not contain some special characters</li>
 							<li class="pb-1">May not contain your username</li>
@@ -80,11 +80,11 @@
 					</cfif>
 						<form action="/users/changePassword.cfm" method="post">
 							<input type="hidden" name="action" value="update">
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3">
 								<label for="oldpassword" class="data-entry-label">Old password</label>
 								<input name="oldpassword" class="data-entry-input" id="oldpassword" type="password">
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3 mb-2">
 								<label for="newpassword" class="data-entry-label">New password</label>
 								<input name="newpassword" class="data-entry-input" id="newpassword" type="password"
 									<cfif isDb.cnt gt 0>
@@ -93,11 +93,11 @@
 								>
 							</div>
 							<span id="pwstatus"></span>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3 mb-2">
 								<label for="newpassword2" class="data-entry-label">Retype new password</label>
 								<input name="newpassword2" class="data-entry-input" id="newpassword2" type="password">
 							</div>
-							<div class="col-12 col-md-4">
+							<div class="col-12 col-md-3 my-2">
 								<input type="submit" value="Save Password Change" class="btn btn-xs btn-primary">
 							</div>
 						</form>
