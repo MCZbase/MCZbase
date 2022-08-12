@@ -78,9 +78,9 @@
 							</li>
 						</ul>
 					</cfif>
-						<form action="/users/changePassword.cfm" method="post">
+						<form class="row" action="/users/changePassword.cfm" method="post">
 							<input type="hidden" name="action" value="update">
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-3 mb-2">
 								<label for="oldpassword" class="data-entry-label">Old password</label>
 								<input name="oldpassword" class="data-entry-input" id="oldpassword" type="password">
 							</div>
