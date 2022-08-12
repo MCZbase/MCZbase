@@ -128,7 +128,7 @@
 	<!----------------------------------------------------------->
 	<main class="container py-3">
 		<section class="row my-3 mx-0">
-			<div class="col-12 px-4 py-3 border rounded">
+			<div class="col-12 px-4 pt-4 pb-2 border rounded">
 				<div class="changePW"></div>
 				<h1 class="h2">Lost your password?</h1>
 				<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
