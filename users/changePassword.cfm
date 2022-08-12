@@ -41,9 +41,9 @@
 					<cfif session.username is "guest">
 						Guests are not allowed to change passwords.<cfabort>
 					</cfif>
-					<h1 class="h3">Change Password</h1>
-					<p>You are logged in as #session.username#.</p>
-					<p>Your password is #pwtime# days old.</p>
+					<h1 class="h3 mt-3">Change Password</h1>
+					<h2 class="h4">You are logged in as #session.username#.</h2>
+					<p>Your password is <span class="font-weight-lessbold">#pwtime#</span> days old.</p>
 					<cfquery name="isDb" datasource="uam_god">
 						select
 						(
@@ -63,7 +63,7 @@
 						from dual
 					</cfquery>
 					<cfif isDb.cnt gt 0>
-						<h1 class="h2 px-2">Operators must change password every #Application.max_pw_age# days.</h1>
+						<h2 class="h4 px-2">Operators must change password every #Application.max_pw_age# days.</h2>
 						<h2 class="h3 w-100 px-2">Password rules:</h2>
 						<ul class="list-style-disc px-5">
 							<li class="pb-1">At least eight characters</li>
