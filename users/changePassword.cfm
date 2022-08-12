@@ -28,79 +28,84 @@
 		<cflocation url="/users/changePassword.cfm?action=lostPass" addtoken="false">
 	</cfif>
 	<cfoutput>
-		<div class="changePW">
-		<cfquery name="pwExp" datasource="uam_god">
-			select pw_change_date
-			from cf_users where
-			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfset pwtime =  round(now() - pwExp.pw_change_date)>
-		<cfset pwage = Application.max_pw_age - pwtime>
-		<cfif session.username is "guest">
-			Guests are not allowed to change passwords.<cfabort>
-		</cfif>
-		<p>You are logged in as #session.username#.</p>
-		<p>Your password is #pwtime# days old.</p>
-		<cfquery name="isDb" datasource="uam_god">
-			select
-			(
-				select count(*) c
-				from all_users
-				where
-				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
-			)
-			+
-			(
-				select count(*) C
-				from temp_allow_cf_user, cf_users
-				where temp_allow_cf_user.user_id = cf_users.user_id
-				and cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			)
-			cnt
-			from dual
-		</cfquery>
-		<cfif isDb.cnt gt 0>
-			<h1 class="h2 px-2">Operators must change password every #Application.max_pw_age# days.</h1>
-			<h2 class="h3 w-100 px-2">Password rules:</h2>
-			<ul class="list-style-disc px-5">
-				<li class="pb-1">At least eight characters</li>
-				<li class="pb-1">May not contain some special characters</li>
-				<li class="pb-1">May not contain your username</li>
-				<li class="pb-1">Must contain at least
-					<ul class="mt-1 list-style-circle px-5">
-						<li class="pb-1">One letter</li>
-						<li class="pb-1">One number</li>
-						<li class="pb-1">One special character</li>
-					</ul>
-				</li>
-			</ul>
-		</cfif>
-		<form action="/users/changePassword.cfm" method="post">
-			<input type="hidden" name="action" value="update">
-			<label for="oldpassword">Old password</label>
-			<input name="oldpassword" id="oldpassword" type="password">
-			<label for="newpassword">New password</label>
-			<input name="newpassword" id="newpassword" type="password"
-			<cfif isDb.cnt gt 0>
-				onkeyup="pwc(this.value,'#session.username#')"
-			</cfif>	>
-			<span id="pwstatus"></span>
-			<label for="newpassword2">Retype new password</label>
-			<input name="newpassword2" id="newpassword2" type="password">
-			<br><br>
-			<input type="submit" value="Save Password Change" class="savBtn">
-		</form>
-		<cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select email, username
-			from cf_user_data, cf_users
-			 where cf_user_data.user_id = cf_users.user_id and
-			 username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-		</cfquery>
-		<cfif len(isGoodEmail.email) gt 0>
-			<p>If you can't remember your old password, we can
-				<a href="/users/changePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
-			</p>
-		</cfif>
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<cfquery name="pwExp" datasource="uam_god">
+						select pw_change_date
+						from cf_users where
+						username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					</cfquery>
+					<cfset pwtime =  round(now() - pwExp.pw_change_date)>
+					<cfset pwage = Application.max_pw_age - pwtime>
+					<cfif session.username is "guest">
+						Guests are not allowed to change passwords.<cfabort>
+					</cfif>
+					<p>You are logged in as #session.username#.</p>
+					<p>Your password is #pwtime# days old.</p>
+					<cfquery name="isDb" datasource="uam_god">
+						select
+						(
+							select count(*) c
+							from all_users
+							where
+							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+						)
+						+
+						(
+							select count(*) C
+							from temp_allow_cf_user, cf_users
+							where temp_allow_cf_user.user_id = cf_users.user_id
+							and cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						)
+						cnt
+						from dual
+					</cfquery>
+					<cfif isDb.cnt gt 0>
+						<h1 class="h2 px-2">Operators must change password every #Application.max_pw_age# days.</h1>
+						<h2 class="h3 w-100 px-2">Password rules:</h2>
+						<ul class="list-style-disc px-5">
+							<li class="pb-1">At least eight characters</li>
+							<li class="pb-1">May not contain some special characters</li>
+							<li class="pb-1">May not contain your username</li>
+							<li class="pb-1">Must contain at least
+								<ul class="mt-1 list-style-circle px-5">
+									<li class="pb-1">One letter</li>
+									<li class="pb-1">One number</li>
+									<li class="pb-1">One special character</li>
+								</ul>
+							</li>
+						</ul>
+					</cfif>
+						<form action="/users/changePassword.cfm" method="post">
+							<input type="hidden" name="action" value="update">
+							<label for="oldpassword" class="data-entry-label">Old password</label>
+							<input name="oldpassword" class="data-entry-input" id="oldpassword" type="password">
+							<label for="newpassword" class="data-entry-label">New password</label>
+							<input name="newpassword" class="data-entry-input" id="newpassword" type="password"
+							<cfif isDb.cnt gt 0>
+								onkeyup="pwc(this.value,'#session.username#')"
+							</cfif>	>
+							<span id="pwstatus"></span>
+							<label for="newpassword2">Retype new password</label>
+							<input name="newpassword2" id="newpassword2" type="password">
+							<br><br>
+							<input type="submit" value="Save Password Change" class="savBtn">
+						</form>
+						<cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select email, username
+							from cf_user_data, cf_users
+							 where cf_user_data.user_id = cf_users.user_id and
+							 username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+						</cfquery>
+						<cfif len(isGoodEmail.email) gt 0>
+							<p>If you can't remember your old password, we can
+								<a href="/users/changePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
+							</p>
+						</cfif>
+					</div>
+				</div>
+			</div>
 		</div>
 	</cfoutput>
 </cfcase>
