@@ -126,7 +126,7 @@
 </cfcase>
 <cfcase value="lostPass">
 	<!----------------------------------------------------------->
-	<div class="container py-3" style="width: 75%; margin: 0 auto 2rem auto;">
+	<div class="container py-3">
 		<div class="row">
 			<div class="col-12 mt-3">
 				<div class="changePW"></div>
