@@ -135,17 +135,17 @@
 				<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
 				<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
 				<form class="row" name="pw" method="post" action="/users/changePassword.cfm">
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-sm-4 col-xl-3">
 						<input type="hidden" name="action" value="findPass">
 						<label for="username" class="data-entry-label">Username</label>
 						<input type="text" name="username" id="username" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-sm-4 col-xl-3">
 						<input type="hidden" name="action" value="findPass">
 						<label for="username" class="data-entry-label">Username</label>
 						<input type="text" name="username" id="username" class="data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-12 col-sm-4 col-xl-3">
 						<label for="email" class="data-entry-label">Email Address</label>
 						<input type="text" name="email" id="email" class="data-entry-input">
 					</div>
