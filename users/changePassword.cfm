@@ -97,7 +97,7 @@
 								<label for="newpassword2" class="data-entry-label">Retype new password</label>
 								<input name="newpassword2" class="data-entry-input" id="newpassword2" type="password">
 							</div>
-							<div class="col-12 col-md-3 mt-3">
+							<div class="col-12 col-md-3 mt-3 float-left">
 								<input type="submit" value="Save Password Change" class="btn btn-xs btn-primary">
 							</div>
 						</form>
