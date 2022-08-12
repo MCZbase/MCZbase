@@ -269,74 +269,80 @@
 	<!---------------------------------------------------------------------->
    <div class="changePW">
 		<cfoutput>
-			<cfquery name="isGoodEmail" datasource="cf_dbuser">
-				SELECT cf_user_data.user_id, email, username
-				FROM cf_user_data
-					join cf_users on cf_user_data.user_id = cf_users.user_id
-				WHERE
-					email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
-				and username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
-			</cfquery>
-			<cfif isGoodEmail.recordcount neq 1>
-				<div>Sorry, that email was not associated with your username.</div>
-				<cfabort>
-			<cfelse>
-				<cfset charList = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,z,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0">
-				<cfset numList="1,2,3,4,5,6,7,8,9,0">
-				<cfset specList="!,$,%,&,_,*,?,-,(,),=,/,:,;,.">
-				<cfset newPass = "">
-				<cfset cList="#charList#,#numList#,#specList#">
-				<cfset c=0>
-				<cfset i=1>
-				<cfset thisChar = ListGetAt(charList,RandRange(1,listlen(charList)))>
-				<cfset newPass=newPass & thisChar>
-				<cfset thisChar = ListGetAt(numList,RandRange(1,listlen(numList)))>
-				<cfset newPass=newPass & thisChar>
-				<cfset thisChar = ListGetAt(specList,RandRange(1,listlen(specList)))>
-				<cfset newPass=newPass & thisChar>
-				<cfloop from="1" to="10" index="i">
-					<cfset thisChar = ListGetAt(cList,RandRange(1,listlen(cList)))>
-					<cfset newPass=newPass & thisChar>
-				</cfloop>
-				<cftransaction>
-					<cfquery name="stopTrg" datasource="uam_god">
-						alter trigger CF_PW_CHANGE disable
-					</cfquery>
-					<cfquery name="setNewPass" datasource="uam_god">
-						UPDATE cf_users
-						SET
-							password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newPass)#">,
-							pw_change_date=sysdate-91
-						where
-							user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
-					</cfquery>
-					<cftry>
-						<cfquery name="db" datasource="uam_god">
-							alter user #isGoodEmail.username# identified by <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newPass#">
+			<main class="container py-3">
+				<section class="row my-3 mx-0">
+					<div class="col-12 px-4 pt-4 pb-2 border rounded">
+						<cfquery name="isGoodEmail" datasource="cf_dbuser">
+							SELECT cf_user_data.user_id, email, username
+							FROM cf_user_data
+								join cf_users on cf_user_data.user_id = cf_users.user_id
+							WHERE
+								email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+							and username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 						</cfquery>
-					<cfcatch>
-						<!--- not a DB user - whatever --->
-					</cfcatch>
-					</cftry>
-					<cfquery name="stopTrg" datasource="uam_god">
-						alter trigger CF_PW_CHANGE enable
-					</cfquery>
-				</cftransaction>
-				<cfmail to="#email#" subject="Arctos password" from="LostFound@#Application.fromEmail#" type="text">
-					<p></p>Your MCZbase username/password is
-	
-					#username# / #newPass#
-	
-					You will be required to change your password
-					after logging in.
-	
-					#Application.ServerRootUrl#/login.cfm
-	
-					If you did not request this change, please reply to #Application.technicalEmail#.
-				</cfmail>
-				<div>An email containing your new password has been sent to the email address on file. It may take a few minutes to arrive.</div>
-				<cfset initSession()>
-			</cfif>
+						<cfif isGoodEmail.recordcount neq 1>
+							<h1 class="h3 mt-3">Sorry, that email was not associated with your username.</h1>
+							<cfabort>
+						<cfelse>
+							<cfset charList = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,z,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0">
+							<cfset numList="1,2,3,4,5,6,7,8,9,0">
+							<cfset specList="!,$,%,&,_,*,?,-,(,),=,/,:,;,.">
+							<cfset newPass = "">
+							<cfset cList="#charList#,#numList#,#specList#">
+							<cfset c=0>
+							<cfset i=1>
+							<cfset thisChar = ListGetAt(charList,RandRange(1,listlen(charList)))>
+							<cfset newPass=newPass & thisChar>
+							<cfset thisChar = ListGetAt(numList,RandRange(1,listlen(numList)))>
+							<cfset newPass=newPass & thisChar>
+							<cfset thisChar = ListGetAt(specList,RandRange(1,listlen(specList)))>
+							<cfset newPass=newPass & thisChar>
+							<cfloop from="1" to="10" index="i">
+								<cfset thisChar = ListGetAt(cList,RandRange(1,listlen(cList)))>
+								<cfset newPass=newPass & thisChar>
+							</cfloop>
+							<cftransaction>
+								<cfquery name="stopTrg" datasource="uam_god">
+									alter trigger CF_PW_CHANGE disable
+								</cfquery>
+								<cfquery name="setNewPass" datasource="uam_god">
+									UPDATE cf_users
+									SET
+										password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newPass)#">,
+										pw_change_date=sysdate-91
+									where
+										user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
+								</cfquery>
+								<cftry>
+									<cfquery name="db" datasource="uam_god">
+										alter user #isGoodEmail.username# identified by <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newPass#">
+									</cfquery>
+								<cfcatch>
+									<!--- not a DB user - whatever --->
+								</cfcatch>
+								</cftry>
+								<cfquery name="stopTrg" datasource="uam_god">
+									alter trigger CF_PW_CHANGE enable
+								</cfquery>
+							</cftransaction>
+							<cfmail to="#email#" subject="Arctos password" from="LostFound@#Application.fromEmail#" type="text">
+								<p></p>Your MCZbase username/password is
+
+								#username# / #newPass#
+
+								You will be required to change your password
+								after logging in.
+
+								#Application.ServerRootUrl#/login.cfm
+
+								If you did not request this change, please reply to #Application.technicalEmail#.
+							</cfmail>
+							<div>An email containing your new password has been sent to the email address on file. It may take a few minutes to arrive.</div>
+							<cfset initSession()>
+						</cfif>
+					</div>
+				</section>
+			</main>
 		</cfoutput>
 	</div>
 </cfcase>
