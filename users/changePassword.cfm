@@ -308,5 +308,6 @@
 		</cfoutput>
 	</div>
 </cfcase>
+</cfswitch>
 <!---------------------------------------------------------------------->
 <cfinclude template = "/shared/_footer.cfm">
