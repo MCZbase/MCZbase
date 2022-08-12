@@ -208,7 +208,7 @@ limitations under the License.
 		<cfset pwage = Application.max_pw_age - pwtime>
 		<cfif pwage lte 0>
 			<cfset session.force_password_change = "yes">
-			<cflocation url="ChangePassword.cfm">
+			<cflocation url="/users/changePassword.cfm">
 		</cfif>
 		</cfif>
 	</cfif>

@@ -146,7 +146,7 @@ limitations under the License.
 						</form>
 							<div class="form-row mx-0">
 								<div class="col-12">
-									<p><a href="/ChangePassword.cfm">Lost your password?</a> If you created a profile with an email address,
+									<p><a href="/users/changePassword.cfm">Lost your password?</a> If you created a profile with an email address,
 									we can send it to you. You can also just create a new account.</p>
 									<p class="mb-1">You can explore MCZbase using basic options without signing in.</p>
 								</div>
@@ -282,7 +282,7 @@ limitations under the License.
 				<cfif pwage lte 7>
 					<div style="text-align:center;color:red;font-weight:bold;">
 						Your password expires in #pwage# days
-						<br>You may <a href="/ChangePassword.cfm">change it now</a>
+						<br>You may <a href="/users/changePassword.cfm">change it now</a>
 					</div>
 					<a href="#gotopage#">Continue to #encodeForHtml(gotopage)#</a>
 				<cfelse>

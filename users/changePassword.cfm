@@ -25,7 +25,7 @@
 <cfswitch expression="#action#">
 <cfcase value="default">
 	<cfif len(session.username) is 0>
-		<cflocation url="ChangePassword.cfm?action=lostPass" addtoken="false">
+		<cflocation url="/users/changePassword.cfm?action=lostPass" addtoken="false">
 	</cfif>
 	<cfoutput>
 		<div class="changePW">
@@ -75,7 +75,7 @@
 				</li>
 			</ul>
 		</cfif>
-		<form action="ChangePassword.cfm" method="post">
+		<form action="/users/changePassword.cfm" method="post">
 			<input type="hidden" name="action" value="update">
 			<label for="oldpassword">Old password</label>
 			<input name="oldpassword" id="oldpassword" type="password">
@@ -98,7 +98,7 @@
 		</cfquery>
 		<cfif len(isGoodEmail.email) gt 0>
 			<p>If you can't remember your old password, we can
-				<a href="ChangePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
+				<a href="/users/changePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
 			</p>
 		</cfif>
 		</div>
@@ -113,7 +113,7 @@
 				<p>Lost your password? Passwords are stored in an encrypted format and cannot be recovered.</p>
 				<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
 				<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
-				<form name="pw" method="post" action="ChangePassword.cfm">
+				<form name="pw" method="post" action="/users/changePassword.cfm">
 					<input type="hidden" name="action" value="findPass">
 					<label for="username">Username</label>
 					<input type="text" name="username" id="username">
@@ -137,17 +137,17 @@
 			</cfquery>
 			<cfif hash(oldpassword) is not getpass.password>
 				<span style="background-color:red;">
-					Incorrect old password. <a href="ChangePassword.cfm">Go Back</a>
+					Incorrect old password. <a href="/users/changePassword.cfm">Go Back</a>
 				</span>
 				<cfabort>
 			<cfelseif getpass.password is hash(newpassword)>
 				<span style="background-color:red;">
-					You must pick a new password. <a href="ChangePassword.cfm">Go Back</a>
+					You must pick a new password. <a href="/users/changePassword.cfm">Go Back</a>
 				</span>
 				<cfabort>
 			<cfelseif newpassword neq newpassword2>
 				<span style="background-color:red;">
-					New passwords do not match. <a href="ChangePassword.cfm">Go Back</a>
+					New passwords do not match. <a href="/users/changePassword.cfm">Go Back</a>
 				</span>
 				<cfabort>
 			</cfif>
