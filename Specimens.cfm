@@ -26,6 +26,12 @@ limitations under the License.
 </cfcatch>
 </cftry>
 
+<cfset enableMobileKeywordTabModal = false>
+<cifif not isdefined("action") AND not isDefined("execute") AND not isDefined("method")>
+	<!--- enable test for mobile browser to make the keyword tab modal on page load if no question was asked in the uri. --->
+	<cfset enableMobileKeywordTabModal = true>
+</cfif>
+
 <cfif not isdefined("action")>
 	<!--- set the default tab based on user preferences --->
 	<cfif isDefined("session.specimens_default_action") AND len(session.specimens_default_action) GT 0 >
@@ -227,14 +233,24 @@ limitations under the License.
 								<cfset keywordTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
 						</cfswitch>
+						<cfif enableMobileKeywordTabModal EQ true>
+							<!--- check for a narrow screen, and if so, make the keyword search tab modal --->
+							<script>
+								$(document).ready(function() {
+									if (window.innerHeight <= 600) { 
+										$("##keywordSearchTabButton").trigger("click");
+									}
+								});
+							</script>
+						</cfif>
 						<div class="tab-headers px-0 tabList" role="tablist" aria-label="search panel tabs">
-							<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="1" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
-							<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="2" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
-							<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="3" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
+							<button class="col-3 col-md-2 px-2 my-0 #fixedTabActive#" id="basicSearchTabButton" role="tab" aria-controls="fixedSearchPanel" #fixedTabAria#>Basic Search</button>
+							<button class="col-3 col-xl-2 px-1 my-0 #keywordTabActive#" id="keywordSearchTabButton" role="tab" aria-controls="keywordSearchPanel" #keywordTabAria# >Keyword Search</button>
+							<button class="col-3 col-xl-2 px-1 my-0 #builderTabActive#" id="builderSearchTabButton" role="tab" aria-controls="builderSearchPanel" #builderTabAria# aria-label="search builder tab">Search Builder</button>
 						</div>
 						<div class="tab-content mt-0 px-0 pb-0">
 							<!---Fixed Search tab panel--->
-							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="1" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
+							<section id="fixedSearchPanel" role="tabpanel" aria-labelledby="basicSearchTabButton" tabindex="0" class="mx-0 #fixedTabActive# unfocus"  #fixedTabShow#>
 								<div class="col-9 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
@@ -1212,7 +1228,7 @@ limitations under the License.
 							}
 						</script>
 							<!---Keyword Search/results tab panel--->
-							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="2" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
+							<section id="keywordSearchPanel" role="tabpanel" aria-labelledby="keywordSearchTabButton" tabindex="-1" class="unfocus mx-0 #keywordTabActive#" #keywordTabShow#>
 								<div class="col-9 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn" type="button" data-toggle="collapse" data-target="##collapseKeyword" aria-expanded="false" aria-controls="collapseKeyword">
 													Search Help
@@ -1365,7 +1381,7 @@ limitations under the License.
 								</div>
 							</section><!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
-							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="3" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
+							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" class="container-fluid">
 									<form id="builderSearchForm">
 										<script>
