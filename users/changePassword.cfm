@@ -82,7 +82,7 @@
 							<input type="hidden" name="action" value="update">
 							<div class="col-12 col-md-3 mb-2">
 								<label for="oldpassword" class="data-entry-label">Old password</label>
-								<input name="oldpassword" class="data-entry-input" id="oldpassword" type="password">
+								<input name="oldpassword" class="data-entry-input border-danger" id="oldpassword" type="password">
 							</div>
 							<div class="col-12 col-md-3 mb-2">
 								<label for="newpassword" class="data-entry-label">New password</label>
@@ -97,7 +97,7 @@
 								<label for="newpassword2" class="data-entry-label">Retype new password</label>
 								<input name="newpassword2" class="data-entry-input" id="newpassword2" type="password">
 							</div>
-							<div class="col-12 col-md-3 my-2">
+							<div class="col-12 col-md-3 mt-3">
 								<input type="submit" value="Save Password Change" class="btn btn-xs btn-primary">
 							</div>
 						</form>
