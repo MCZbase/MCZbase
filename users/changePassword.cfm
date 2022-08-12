@@ -80,13 +80,13 @@
 					</cfif>
 						<form class="row" action="/users/changePassword.cfm" method="post">
 							<input type="hidden" name="action" value="update">
-							<div class="row">
+							
 								<div class="col-12 col-md-3 mb-2">
 									<label for="oldpassword" class="data-entry-label">Old password</label>
 									<input name="oldpassword" class="data-entry-input border-danger" id="oldpassword" type="password">
 								</div>
 							</div>
-							<div class="row">
+						
 								<div class="col-12 col-md-3 mb-2">
 									<label for="newpassword" class="data-entry-label">New password</label>
 									<input name="newpassword" class="data-entry-input" id="newpassword" type="password"
