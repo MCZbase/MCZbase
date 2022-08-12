@@ -30,7 +30,7 @@
 	<cfoutput>
 		<div class="container">
 			<div class="row">
-				<div class="col-12 mt-3">
+				<div class="col-12 mt-3 changePW">
 					<cfquery name="pwExp" datasource="uam_god">
 						select pw_change_date
 						from cf_users where
@@ -127,10 +127,11 @@
 <cfcase value="lostPass">
 	<!----------------------------------------------------------->
 	<div class="container py-3" style="width: 75%; margin: 0 auto 2rem auto;">
-		<div class="row mx-0">
+		<div class="row">
 			<div class="col-12">
 				<div class="changePW"></div>
-				<p>Lost your password? Passwords are stored in an encrypted format and cannot be recovered.</p>
+				<h1 class="h2">Lost your password?</h1>
+				<p>Passwords are stored in an encrypted format and cannot be recovered.</p>
 				<p>If you have saved your email address in your profile, enter it here to reset your password.</p>
 				<p>If you have not saved your email address, please submit a bug report to that effect and we will reset your password for you.</p>
 				<form name="pw" method="post" action="/users/changePassword.cfm">
