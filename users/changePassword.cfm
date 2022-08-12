@@ -41,6 +41,7 @@
 					<cfif session.username is "guest">
 						Guests are not allowed to change passwords.<cfabort>
 					</cfif>
+					<h1 class="h3">Change Password</h1>
 					<p>You are logged in as #session.username#.</p>
 					<p>Your password is #pwtime# days old.</p>
 					<cfquery name="isDb" datasource="uam_god">
