@@ -235,7 +235,7 @@ limitations under the License.
 						</cfif>
 						<h2 class="h3">Manage your profile</h2>
 						<h3 class="h4">
-							<a href="/ChangePassword.cfm">Change your password</a>
+							<a href="/users/changePassword.cfm">Change your password</a>
 							<cfset pwtime = round(now() - getPrefs.pw_change_date)>
 							<cfset pwage = Application.max_pw_age - pwtime>
 							<cfif pwage lte 0>
@@ -257,7 +257,7 @@ limitations under the License.
 								</cfquery>
 								<cfif isDb.cnt gt 0>
 									<cfset session.force_password_change = "yes">
-									<cflocation url="ChangePassword.cfm" addtoken="false">
+									<cflocation url="/users/changePassword.cfm" addtoken="false">
 								</cfif>
 								<cfelseif pwage lte 10>
 								<span style="color:red;"> Your password expires in #pwage# days. </span>
@@ -269,7 +269,7 @@ limitations under the License.
 						</h4>
 						<cfif isInv.allow is 1>
 							You&apos;ve been invited to become an Operator. Password restrictions apply.
-							This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
+							This form does not change your password (you may do so <a href="/users/changePassword.cfm">here</a>),
 							but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
 							<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
 								<input type="hidden" name="action" value="makeUser">

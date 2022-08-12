@@ -2,8 +2,8 @@
 	session.roles contains "coldfusion_user") and
 	(isdefined("session.force_password_change") and
 	session.force_password_change is "yes" and
-	cgi.script_name is not "/ChangePassword.cfm")>
-	<cflocation url="/ChangePassword.cfm">
+	cgi.script_name is not "/users/changePassword.cfm")>
+	<cflocation url="/users/changePassword.cfm">
 </cfif>
 <cfset filePath = replace('#cgi.script_name#','//','/') >
 <cfif fileexists(application.webDirectory & filePath)>
