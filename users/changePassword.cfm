@@ -18,7 +18,7 @@
 
 <cfif not isDefined("action") OR len(action) EQ 0>
 	<cfset action="default">
-<cfif isDefined("action") AND action EQ "nothing">
+<cfelseif isDefined("action") AND action EQ "nothing">
 	<cfset action="default">
 </cfif>
 
