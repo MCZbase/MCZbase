@@ -156,106 +156,112 @@
 	<!-------------------------------------------------------------------->
 	<div class="changePW">
 		<cfoutput>
-			<cfquery name="getPass" datasource="cf_dbuser">
-				select password
-				from cf_users
-				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-			</cfquery>
-			<cfif hash(oldpassword) is not getpass.password>
-				<span style="background-color:red;">
-					Incorrect old password. <a href="/users/changePassword.cfm">Go Back</a>
-				</span>
-				<cfabort>
-			<cfelseif getpass.password is hash(newpassword)>
-				<span style="background-color:red;">
-					You must pick a new password. <a href="/users/changePassword.cfm">Go Back</a>
-				</span>
-				<cfabort>
-			<cfelseif newpassword neq newpassword2>
-				<span style="background-color:red;">
-					New passwords do not match. <a href="/users/changePassword.cfm">Go Back</a>
-				</span>
-				<cfabort>
-			</cfif>
-			<!--- Passwords check out for public users, now see if they're a database user --->
-			<cftransaction>
-				<cfquery name="isDb" datasource="uam_god">
-					SELECT *
-					FROM all_users
-					WHERE
-					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
-				</cfquery>
-				<cfif isDb.recordcount is 0>
-					<cfquery name="setPass" datasource="cf_dbuser">
-						UPDATE cf_users
-						SET
-							password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
-							PW_CHANGE_DATE=sysdate
-						WHERE
-							username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-					</cfquery>
-					<cftransaction action="commit">
-				<cfelse>
-					<cftry>
-						<cfquery name="dbUser" datasource="uam_god">
-							alter user #session.username#
-							identified by "#newpassword#"
+			<main class="container py-3">
+				<section class="row my-3 mx-0">
+					<div class="col-12 px-4 pt-4 pb-2 border rounded">
+						<cfquery name="getPass" datasource="cf_dbuser">
+							select password
+							from cf_users
+							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
-						<cfquery name="setPass" datasource="uam_god">
-							UPDATE cf_users
-							SET
-								password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
-								PW_CHANGE_DATE=sysdate
-							WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
-						<cftransaction action="commit">
-					<cfcatch>
-						<cftransaction action="rollback">
-						<cfsavecontent variable="errortext">
-							<h3>Error in creating user.</h3>
-							<p>#cfcatch.Message#</p>
-							<p>#cfcatch.Detail#"</p>
-							<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
-								<CFSET ipaddress="#CGI.HTTP_X_Forwarded_For#">
-							<CFELSEif  isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
-								<CFSET ipaddress="#CGI.Remote_Addr#">
+						<cfif hash(oldpassword) is not getpass.password>
+							<span style="background-color:red;">
+								Incorrect old password. <a href="/users/changePassword.cfm">Go Back</a>
+							</span>
+							<cfabort>
+						<cfelseif getpass.password is hash(newpassword)>
+							<span style="background-color:red;">
+								You must pick a new password. <a href="/users/changePassword.cfm">Go Back</a>
+							</span>
+							<cfabort>
+						<cfelseif newpassword neq newpassword2>
+							<span style="background-color:red;">
+								New passwords do not match. <a href="/users/changePassword.cfm">Go Back</a>
+							</span>
+							<cfabort>
+						</cfif>
+						<!--- Passwords check out for public users, now see if they're a database user --->
+						<cftransaction>
+							<cfquery name="isDb" datasource="uam_god">
+								SELECT *
+								FROM all_users
+								WHERE
+								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+							</cfquery>
+							<cfif isDb.recordcount is 0>
+								<cfquery name="setPass" datasource="cf_dbuser">
+									UPDATE cf_users
+									SET
+										password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
+										PW_CHANGE_DATE=sysdate
+									WHERE
+										username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+								</cfquery>
+								<cftransaction action="commit">
 							<cfelse>
-								<cfset ipaddress='unknown'>
-							</CFIF>
-							<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
-							<hr>
-							<p>Client Dump:</p>
-							<hr>
-							<cfdump var="#client#" label="client">
-							<hr>
-							<p>URL Dump:</p>
-							<hr>
-							<cfdump var="#url#" label="url">
-							<p>CGI Dump:</p>
-							<hr>
-							<cfdump var="#CGI#" label="CGI">
-						</cfsavecontent>
-						<cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
-							#errortext#
-						</cfmail>
-						<h3>Error in changing password user.</h3>
-						<p>#cfcatch.Message#</p>
-						<p>#cfcatch.Detail#</p>
-						<cfabort>
-					</cfcatch>
-					</cftry>
-				</cfif>
-			</cftransaction>
-			<cfset session.force_password_change = "">
-			<cfset initSession('#session.username#','#newpassword#')>
-			<p>Your password has successfully been changed.</p>
-			<p>You will be redirected soon, or you may use the menu above now.</p>
-			<script>
-				setTimeout("go_now()",5000);
-				function go_now () {
-					document.location='#Application.ServerRootUrl#/users/UserProfile.cfm';
-				}
-			</script>
+								<cftry>
+									<cfquery name="dbUser" datasource="uam_god">
+										alter user #session.username#
+										identified by "#newpassword#"
+									</cfquery>
+									<cfquery name="setPass" datasource="uam_god">
+										UPDATE cf_users
+										SET
+											password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
+											PW_CHANGE_DATE=sysdate
+										WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+									</cfquery>
+									<cftransaction action="commit">
+								<cfcatch>
+									<cftransaction action="rollback">
+									<cfsavecontent variable="errortext">
+										<h1 class="h3">Error in creating user.</h1>
+										<p>#cfcatch.Message#</p>
+										<p>#cfcatch.Detail#"</p>
+										<CFIF isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
+											<CFSET ipaddress="#CGI.HTTP_X_Forwarded_For#">
+										<CFELSEif  isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
+											<CFSET ipaddress="#CGI.Remote_Addr#">
+										<cfelse>
+											<cfset ipaddress='unknown'>
+										</CFIF>
+										<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
+										<hr>
+										<p>Client Dump:</p>
+										<hr>
+										<cfdump var="#client#" label="client">
+										<hr>
+										<p>URL Dump:</p>
+										<hr>
+										<cfdump var="#url#" label="url">
+										<p>CGI Dump:</p>
+										<hr>
+										<cfdump var="#CGI#" label="CGI">
+									</cfsavecontent>
+									<cfmail subject="Error" to="#Application.PageProblemEmail#" from="SomethingBroke@#Application.fromEmail#" type="html">
+										#errortext#
+									</cfmail>
+									<h3>Error in changing password user.</h3>
+									<p>#cfcatch.Message#</p>
+									<p>#cfcatch.Detail#</p>
+									<cfabort>
+								</cfcatch>
+								</cftry>
+							</cfif>
+						</cftransaction>
+						<cfset session.force_password_change = "">
+						<cfset initSession('#session.username#','#newpassword#')>
+						<h1 class="h3">Your password has successfully been changed.</h1>
+						<p>You will be redirected soon, or you may use the menu above now.</p>
+						<script>
+							setTimeout("go_now()",5000);
+							function go_now () {
+								document.location='#Application.ServerRootUrl#/users/UserProfile.cfm';
+							}
+						</script>
+					</div>
+				</section>
+			</main>
 		</cfoutput>
 	</div>
 </cfcase>
