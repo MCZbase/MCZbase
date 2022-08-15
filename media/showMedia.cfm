@@ -1125,7 +1125,7 @@
 								</li>
 								<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
 									<span class="font-weight-lessbold">		
-										<cfif relm8.recordcount GT 2>
+										<cfif agents.recordcount GT 2>
 											<cfset plural = "s">
 										<cfelse>
 											<cfset plural = "">
