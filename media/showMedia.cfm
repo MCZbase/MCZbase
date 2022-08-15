@@ -1240,7 +1240,6 @@
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 					<h3 class="w-100 mt-3 mb-0 px-2">Related Publications</h3>
-						
 						<div class="search-box mt-1 pb-0 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
@@ -1294,7 +1293,7 @@
 									</cfif>
 								</div>
 								<div class="col-12 col-lg-7 col-xl-7 p-1">
-									<cfloop query="relm10">
+									<cfloop query="citation1">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm10.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(citation1.publication_id) gt 0>
 												<cfif relm10.media_id eq '#media.media_id#'> 
