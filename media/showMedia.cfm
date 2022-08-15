@@ -666,7 +666,7 @@
 				</div>
 													
 				<!--- loan records --->
-				<div class="row mx-0">
+				<div class="row mx-0 mt-3">
 					<cfif media.media_id gt 0>
 					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select  loan.transaction_id, loan_item.transaction_id,loan.loan_type,loan.loan_status,loan.loan_instructions,loan.return_due_date,loan.loan_description,loan.loan_number 
@@ -769,12 +769,12 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
+						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Loans</h3>
 					</cfif>
 				</div>
 
 				<!--- underscore collections records --->
-				<div class="row mx-0">
+				<div class="row mx-0 mt-3">
 					<cfif media.media_id gt 0>
 					<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select locality.locality_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
@@ -921,7 +921,7 @@
 												<cfelse>
 													<cfset plural = "">
 												</cfif>
-												<cfset IDtitle = "Image Thumbnail#plural#">
+												<cfset IDtitle = "This and Other Locality Media">
 												#IDtitle#
 											</span>
 										</li>
