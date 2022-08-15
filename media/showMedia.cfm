@@ -835,8 +835,10 @@
 												<div class="col-12 pt-0 pb-1">#locality.spec_locality#</div>
 											</div>
 											<div class="row mx-0">
-												<h3 class="h5 mb-0">Min-Max Elevation</h3>
-												<div class="col-12 pt-0 pb-1">#locality.minimum_elevation# - #locality.maximum_elevation#</div>
+												<h3 class="h5 mb-0">Min Elevation</h3>
+												<div class="col-12 pt-0 pb-1">#locality.minimum_elevation#</div>
+												<h3 class="h5 mb-0">Max Elevation</h3>
+												<div class="col-12 pt-0 pb-1">#locality.maximum_elevation#</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-xl-8 p-1">
@@ -850,17 +852,17 @@
 														</cfif>
 														<div class="#activeimg#" id="mediaBlock#relmloc.media_id#">
 															<div class="col-5 bg-white px-1 float-left">
-																<cfset mediablock= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+																<cfset mediablockloc= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablockloc#
 															</div>
-															<cfset showTitleText1 = trim(title1)>
-															<cfif len(showTitleText1) gt 170>
-																<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+															<cfset showTitleText2 = trim(title1)>
+															<cfif len(showTitleText2) gt 170>
+																<cfset showTitleText2 = "#left(showTitleText2,170)#..." >
 															<cfelse>
-																<cfset showTitleText1 = "#showTitleText1#" >
+																<cfset showTitleText2 = "#showTitleText2#" >
 															</cfif>
 															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relmloc.media_id#</span>
 																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
-																#showTitleText1#
+																#showTitleText2#
 															</div>
 														</div>
 													</cfif>
@@ -873,7 +875,7 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
+						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Localities</h3>
 					</cfif>
 				</div>
 													
