@@ -174,17 +174,17 @@
 							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfif hash(oldpassword) is not getpass.password>
-							<span style="background-color:red;">
+							<span class="font-weight-lessbold text-danger">
 								Incorrect old password. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
 						<cfelseif getpass.password is hash(newpassword)>
-							<span style="background-color:red;">
+							<span class="font-weight-lessbold text-danger">
 								You must pick a new password. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
 						<cfelseif newpassword neq newpassword2>
-							<span style="background-color:red;">
+							<span class="font-weight-lessbold text-danger">
 								New passwords do not match. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
