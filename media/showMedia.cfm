@@ -46,7 +46,7 @@
 			ORDER BY media_relationship
 		</cfquery>
 		<div class="row mx-0">
-			<div class="col-12 pb-4">
+			<div class="col-12 px-0 pb-4">
 				<cfloop query="media">
 					<div class="row mx-0">
 						<div class="col-12 px-0 px-xl-5 mt-3">
@@ -201,7 +201,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row mx-0 pb-5">
+					<div class="pb-5">
 						<cfif media_rel.recordcount GT 2>
 							<cfset plural = "s">
 						<cfelse>
