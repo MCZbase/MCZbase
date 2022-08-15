@@ -879,7 +879,9 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Localities</h3>
+						<div class="col-12">
+							<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Localities</h3>
+						</div>
 					</cfif>
 				</div>
 													
@@ -993,7 +995,9 @@
 							</div>
 						</div>
 					<cfelse>
-						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Borrow</h3>
+						<div class="col-12">
+							<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Borrow</h3>
+						</div>
 					</cfif>
 				</div>
 													
