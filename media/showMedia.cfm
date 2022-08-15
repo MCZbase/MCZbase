@@ -1269,7 +1269,7 @@
 									left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
 								left join citation on citation.publication_id = publication.publication_id
 								left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
-								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm10.publication_id#">
+								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 							</cfquery>
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
