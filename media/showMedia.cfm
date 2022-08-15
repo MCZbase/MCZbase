@@ -148,7 +148,7 @@
 									</cfif>
 								</tbody>
 							</table>
-							<cfif media.media_uri contains('%slide-atlas%') OR media.media_uri contains ('%morphosource%')>
+							<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
 								<div class="row mx-0">
 									<h3 class="h4 px-2 pt-0">Additional Renderings </h3>
 									<ul class="list-group list-group-horizontal col-12 px-0">
