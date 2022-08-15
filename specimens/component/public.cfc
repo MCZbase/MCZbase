@@ -1098,15 +1098,16 @@ limitations under the License.
 										</cfif>
 									</td>
 									<td class="py-1">#lot_count#</td>
+								
+									<cfif oneOfus is "1">
+										<td class="pb-0">#label#</td>
+									</cfif>
 									<td class="py-1">
 										<span class="small mb-0 pb-0">
 											<a href="javascript:void(0)" aria-label="Condition/Preparation History"
 												onClick=" openHistoryDialog(#mainParts.part_id#, 'historyDialog#mainParts.part_id#');">History#histCount#</a>
 										</span>
 									</td>
-									<cfif oneOfus is "1">
-										<td class="pb-0">#label#</td>
-									</cfif>
 								</tr>
 								<cfif len(part_remarks) gt 0>
 									<tr class="small90">
@@ -1203,10 +1204,7 @@ limitations under the License.
 										</td>
 										<td class="py-1">
 											#part_condition#
-											<span class="small mb-0 pb-0">
-												<a href="javascript:void(0)" aria-label="Condition/Preparation History"
-													onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History#histCount#</a>
-											</span>
+											
 										</td>
 										<td class="py-1">
 											#part_disposition#
@@ -1260,11 +1258,17 @@ limitations under the License.
 												</cfif>
 											</cfif>
 										</td>
-										</td>
+										
 										<td class="py-1">#lot_count#</td>
 										<cfif oneOfus is "1">
 											<td class="py-1">#label#</td>
 										</cfif>
+										<td class="py-1">
+											<span class="small mb-0 pb-0">
+												<a href="javascript:void(0)" aria-label="Condition/Preparation History"
+													onClick=" openHistoryDialog(#subsampleParts.part_id#, 'historyDialog#subsampleParts.part_id#');">History#histCount#</a>
+											</span>
+										</td>
 									</tr>
 									<cfif len(part_remarks) gt 0>
 										<tr class="small90">
@@ -1482,7 +1486,7 @@ limitations under the License.
 							</tr>
 							<cfif len(attribute_remark)gt 0>
 								<tr>
-									<td colspan="4" class="inputHeight"><span class="font-italic pl-3 small90">Remarks:</span> #attribute_remark#</td>
+									<td colspan="4" class="inputHeight"><span class="font-italic d-inline-block pb-1 pl-3 small90">Remarks:</span> #attribute_remark#</td>
 								</tr>
 							</cfif>
 						</cfloop>
