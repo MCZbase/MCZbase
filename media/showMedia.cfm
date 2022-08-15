@@ -35,16 +35,16 @@
 
 
 	<main class="container-fluid" id="content">
-	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct
-			media_relationship
-		From
-			media_relations
-		WHERE 
-			media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-			and media_relations.media_relationship <> 'created by agent'
-		ORDER BY media_relationship
-	</cfquery>
+		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				media_relationship
+			From
+				media_relations
+			WHERE 
+				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+				and media_relations.media_relationship <> 'created by agent'
+			ORDER BY media_relationship
+		</cfquery>
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
 				<cfloop query="media">
@@ -201,7 +201,7 @@
 							</div>
 						</div>
 					</div>
-					<section class="pb-5">
+					<div class="row mx-0 pb-5">
 						<cfif media_rel.recordcount GT 2>
 							<cfset plural = "s">
 						<cfelse>
@@ -1324,7 +1324,7 @@
 								</div>
 							</cfif>
 						</div>
-					</section>
+					</div>
 				</cfloop>
 			</div>
 		</div>
