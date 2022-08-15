@@ -193,7 +193,8 @@ function success_makePartThingy(r){
 			if (result.SAMPLED_FROM_OBJ_ID[i] > 0) {
 				theTable += '&nbsp;sample';
 			}
-            theTable += '(' + result.PRESERVE_METHOD[i] + ')';
+         theTable += '(' + result.PRESERVE_METHOD[i] + ')';
+         theTable += '[' + result.LOT_COUNT[i] + ']';
 			theTable += "&nbsp;(" + result.COLL_OBJ_DISPOSITION[i] + ")</i> [" + result.BARCODE[i] + "]";
 			theTable += '</td><td nowrap="nowrap" class="specResultPartCell">';
 			theTable += 'Remark:&nbsp;<input type="text" name="item_remark" size="10" id="item_remark_' + result.PARTID[i] + '">';
