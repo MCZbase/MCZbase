@@ -1112,7 +1112,17 @@
 				</cfquery>
 			
 				<cfif len(agents.agent_id) gt 0>
-					
+					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct media.media_id, preview_uri, media.media_uri,
+							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+							MCZBASE.get_media_title(media.media_id) as title1,
+							media_relations.media_relationship
+						FROM media_relations
+							 left join media on media_relations.media_id = media.media_id
+						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+						and media_relations.media_relationship <> 'created by agent'
+						AND MCZBASE.is_media_encumbered(media.media_id) < 1
+					</cfquery>
 			
 					<h3 class="w-100 mt-3 mb-0 px-2">Related Agents </h3>
 					<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
@@ -1138,7 +1148,7 @@
 								</li>
 							</ul>
 						</div>
-						<cfloop query="agents">
+						<cfloop query="relm8">
 							<div class="row mx-0 py-0 border-top-teal">
 						<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
 							<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span>
@@ -1172,17 +1182,15 @@
 						</div>
 						<div class="col-12 col-lg-7 col-xl-8 p-1">
 							<cfloop query="relm8">
-								<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT distinct media.media_id, preview_uri, media.media_uri,
-										media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-										MCZBASE.get_media_title(media.media_id) as title1,
-										media_relations.media_relationship
-									FROM media_relations
-										 left join media on media_relations.media_id = media.media_id
-									WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-									and media_relations.media_relationship <> 'created by agent'
-									AND MCZBASE.is_media_encumbered(media.media_id) < 1
-								</cfquery>
+	<!---						<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
+								FROM agent_name
+									left join agent on agent.agent_id = agent_name.agent_id
+									left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+								WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
+								and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
+								ORDER BY agent_id
+							</cfquery>--->
 								<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 									<cfif len(agents.agent_id) gt 0>
 										<cfif relm8.media_id eq '#media.media_id#'> 
