@@ -1182,7 +1182,7 @@
 						</div>
 						<div class="col-12 col-lg-7 col-xl-8 p-1">
 							<cfloop query="relm8">
-	<!---						<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
 								FROM agent_name
 									left join agent on agent.agent_id = agent_name.agent_id
@@ -1190,22 +1190,22 @@
 								WHERE media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm8.media_id#">
 								and agent_name.agent_name_id = agent.PREFERRED_AGENT_NAME_ID
 								ORDER BY agent_id
-							</cfquery>--->
-								<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+							</cfquery>
+								<div class="border-light col-12 col-md-6 col-lg-4 <cfif #agentName.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 									<cfif len(agents.agent_id) gt 0>
-										<cfif relm8.media_id eq '#media.media_id#'> 
+										<cfif agentName.media_id eq '#media.media_id#'> 
 											<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 										<cfelse>	
 											<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
 										</cfif>
-										<div class="#activeimg#" id="mediaBlock#relm8.media_id#">
+										<div class="#activeimg#" id="mediaBlock#agentName.media_id#">
 											<div class="col-5 bg-white px-1 float-left">
-												<cfset mediablock= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
+												<cfset mediablock= getMediaBlockHtml(media_id="#agentName.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
 											</div>
 											<cfset showTitleText1 = trim(title1)>
 												<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
 											<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-												">Media ID: media/#relm8.media_id#</span>
+												">Media ID: media/#agentName.media_id#</span>
 												#showTitleText1#
 											</div>
 										</div>
