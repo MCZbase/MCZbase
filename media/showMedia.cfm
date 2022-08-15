@@ -105,7 +105,7 @@
 								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
-
+						
 						<div class="float-left col-12 px-0 col-xl-8 pl-xl-4">
 							<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
 							<table class="table border-none">
@@ -148,45 +148,47 @@
 									</cfif>
 								</tbody>
 							</table>
-							<div class="row mx-0">
-								<h3 class="h4 px-2 pt-0">Additional Renderings </h3>
-								<ul class="list-group list-group-horizontal col-12 px-0">
-									<li class="list-unstyled col-3 px-0 border bg-light text-center">
-										<div id="content">
-											<div class="flip-card">
-												<div class="flip-card-inner">
-													<a href="##" id="flip-card-inner">
-														<div class="flip-card-front">
-															<div class="heightFlip font-weight-lessbold">Slide Atlas</div>
+							<cfif media.media_uri like '%slide-atlas%'>
+								<div class="row mx-0">
+									<h3 class="h4 px-2 pt-0">Additional Renderings </h3>
+									<ul class="list-group list-group-horizontal col-12 px-0">
+										<li class="list-unstyled col-3 px-0 border bg-light text-center">
+											<div id="content">
+												<div class="flip-card">
+													<div class="flip-card-inner">
+														<a href="##" id="flip-card-inner">
+															<div class="flip-card-front">
+																<div class="heightFlip font-weight-lessbold">Slide Atlas</div>
+															</div>
+														</a>
+														<div class="flip-card-back">
+															<a class="link-color px-1 text-center" href="http://www.google.com">Slide Atlas logo </a>
+															<div class="">slide metadata</div>
 														</div>
-													</a>
-													<div class="flip-card-back">
-														<a class="link-color px-1 text-center" href="http://www.google.com">Slide Atlas logo </a>
-														<div class="">slide metadata</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</li>
-									<li class="list-unstyled col-3 px-0 border bg-light text-center">
-										<div id="content">
-											<div class="flip-card">
-												<div class="flip-card-inner">
-													<a href="##" id="flip-card-inner">
-														<div class="flip-card-front">
-															<div class="heightFlip font-weight-lessbold">Morphosource</div>
+										</li>
+										<li class="list-unstyled col-3 px-0 border bg-light text-center">
+											<div id="content">
+												<div class="flip-card">
+													<div class="flip-card-inner">
+														<a href="##" id="flip-card-inner">
+															<div class="flip-card-front">
+																<div class="heightFlip font-weight-lessbold">Morphosource</div>
+															</div>
+														</a>
+														<div class="flip-card-back">
+															<a class="link-color px-1 text-center" href="http://www.google.com">Morphosource logo </a>
+															<div class="">slide metadata</div>
 														</div>
-													</a>
-													<div class="flip-card-back">
-														<a class="link-color px-1 text-center" href="http://www.google.com">Morphosource logo </a>
-														<div class="">slide metadata</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
+										</li>
+									</ul>
+								</div>
+							</cfif>
 						</div>
 					</div>
 				</div>
