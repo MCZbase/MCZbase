@@ -224,7 +224,7 @@
 						
 						
 				<!---specimen specimen records--->
-				<div class="row mx-0">
+				<div class="row mx-0 mt-3">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
@@ -342,7 +342,7 @@
 				</div>
 										
 				<!--- accn accn records --->
-				<div class="row mx-0">
+				<div class="row mx-0 mt-3">
 					<cfif media.media_id gt 0>
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
@@ -466,7 +466,7 @@
 				</div>
 				
 				<!--- collecting event, collecting event records --->
-				<div class="row mx-0">
+				<div class="row mx-0 mt-3">
 					<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
 						from collecting_event 
