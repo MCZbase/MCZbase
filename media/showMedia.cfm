@@ -1124,7 +1124,7 @@
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 			
-					<h3 class="w-100 mt-3 mb-0 px-2">Related Agents (#agents.agent_name#)</h3>
+					<h3 class="w-100 mt-3 mb-0 px-2">Related Agents </h3>
 					<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
 					<div class="search-box mt-1 pb-0 w-100">
 						<div class="search-box-header px-2 mt-0">
@@ -1151,7 +1151,8 @@
 						<cfloop query="agents">
 							<div class="row mx-0 py-0 border-top-teal">
 						<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-							<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span><a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#">#agents.agent_id#</a>
+							<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span>
+							<a href="#relm8.auto_protocol#/#relm8.auto_host#/guid/#agents.agent_id#" class="font-weight-lessbold">#agents.agent_id#</a>
 						</div>
 						<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 
