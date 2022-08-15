@@ -116,15 +116,9 @@
 								</div>
 							</div>
 						</form>
-						<cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select email, username
-							from cf_user_data, cf_users
-							 where cf_user_data.user_id = cf_users.user_id and
-							 username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-						</cfquery>
 						<cfif len(isGoodEmail.email) gt 0>
 							<p>If you can't remember your old password, we can
-								<a href="/users/changePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
+								<a href="/users/changePassword.cfm?action=lostPass">email a new temporary password</a>.
 							</p>
 						</cfif>
 					</div>
