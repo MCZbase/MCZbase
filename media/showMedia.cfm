@@ -1240,14 +1240,14 @@
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
 					<h3 class="w-100 mt-3 mb-0 px-2">Related Publications</h3>
-						<cfset mediablock10= getMediaBlockHtml(media_id="#relm10.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock10#
+						
 						<div class="search-box mt-1 pb-0 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-2 col-xl-1  px-1 list-group-item">
 										<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
 									</li>
-									<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+									<li class="col-3 col-xl-4 px-1 list-group-item d-none d-lg-block">
 										<span class="font-weight-lessbold">Details</span>
 									</li>
 									<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
@@ -1293,8 +1293,7 @@
 									</div>
 									</cfif>
 								</div>
-							<!---	<div class="col-12 col-lg-7 col-xl-7 p-1">
-									<div class="col-12 h5 d-lg-none mb-0 font-weight-lessbold float-left">Media </div>
+								<div class="col-12 col-lg-7 col-xl-7 p-1">
 									<cfloop query="relm10">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm10.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 											<cfif len(citation1.publication_id) gt 0>
@@ -1308,7 +1307,7 @@
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm10.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
 													</div>
 													<cfset showTitleText3 = trim(title1)>
-														<cfif len(title1) gt 125><cfset showTitleText3 = "#left(showTitleText3,125)#..." ></cfif>
+													<cfif len(title1) gt 125><cfset showTitleText3 = "#left(showTitleText3,125)#..." ></cfif>
 													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 														">Media ID: media/#relm10.media_id#</span>
 														#showTitleText3#
