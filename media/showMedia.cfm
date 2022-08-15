@@ -1158,7 +1158,8 @@
 											</cfquery>
 												<h3 class="h5 mb-0">Agent Relationship</h3>
 												<div class="col-12 pt-0 pb-1">
-													<cfloop query="list_agentRel">#list_agentRel.media_relationship#<span class="comma1">, </span></cfloop>
+													<cfloop query="list_agentRel">#list_agentRel.media_relationship#<span class="comma1">, </span>
+													</cfloop>
 												</div>
 											</div>
 										<div class="row mx-0">
@@ -1166,19 +1167,19 @@
 											<div class="col-12 pt-0 pb-1">#agents.agent_name_type#</div>
 										</div>
 									</div>
-									<div class="col-12 col-lg-7 col-xl-8 p-1">
-										<cfloop query="agents">
-											<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT distinct media.media_id, preview_uri, media.media_uri,
-													media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-													MCZBASE.get_media_title(media.media_id) as title1,
-													media_relations.media_relationship
-												FROM media_relations
-													 left join media on media_relations.media_id = media.media_id
-												WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-												and media_relations.media_relationship <> 'created by agent'
-												AND MCZBASE.is_media_encumbered(media.media_id) < 1
-											</cfquery>
+									<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT distinct media.media_id, preview_uri, media.media_uri,
+											media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+											MCZBASE.get_media_title(media.media_id) as title1,
+											media_relations.media_relationship
+										FROM media_relations
+											 left join media on media_relations.media_id = media.media_id
+										WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+										and media_relations.media_relationship <> 'created by agent'
+										AND MCZBASE.is_media_encumbered(media.media_id) < 1
+									</cfquery>
+									<cfloop query="relm8">
+										<div class="col-12 col-lg-7 col-xl-8 p-1">
 											<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 												<cfif relm8.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -1187,19 +1188,19 @@
 												</cfif>
 												<div class="#activeimg#" id="mediaBlock#relm8.media_id#">
 													<div class="col-5 bg-white px-1 float-left">
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
+														<cfset mediablock8= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock8#
 													</div>
-													<cfset showTitleText1 = trim(title1)>
-														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
+													<cfset showTitleText11 = trim(title1)>
+														<cfif len(title1) gt 125><cfset showTitleText11 = "#left(showTitleText11,125)#..." ></cfif>
 													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 														">Media ID: media/#relm8.media_id#</span>
-														#showTitleText1#
+														#showTitleText11#
 													</div>
 												</div>
 											</div>
 											<div id="targetDiv"></div>
-										</cfloop>
-									</div>
+										</div>
+									</cfloop>
 								</div>
 							</cfloop>
 						</div>
