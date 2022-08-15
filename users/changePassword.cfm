@@ -2,6 +2,7 @@
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
+<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 <script>
 	function pwc(p,u){
 		var r=orapwCheck(p,u);
