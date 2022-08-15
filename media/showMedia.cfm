@@ -1263,7 +1263,7 @@
 									</li>
 								</ul>
 							</div>
-						<cfif len(relm10) gt 0>
+						<cfloop query="relm10">
 							<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct publication.publication_id,formatted_publication.formatted_publication, citation_remarks
 								FROM publication
@@ -1319,11 +1319,10 @@
 									<div id="targetDiv"></div>
 								</div>
 							</div>
-						
-						</cfif>
+						</cfloop>
 					</div>
 				<cfelse>
-					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Publication Records</h3>
+					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Citation Records</h3>
 				</cfif>
 				</div>
 										
