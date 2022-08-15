@@ -189,7 +189,7 @@
 								username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 							</cfquery>
 							<cfif isDb.recordcount is 0>
-								<cfquery name="setPass" datasource="cf_dbuser">
+								<cfquery name="setPass" datasource="uam_god">
 									UPDATE cf_users
 									SET
 										password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
