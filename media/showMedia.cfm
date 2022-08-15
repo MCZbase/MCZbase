@@ -1168,7 +1168,7 @@
 									</div>
 								</div>
 								<div class="col-12 col-lg-7 col-xl-8 p-1">
-									<cfloop query="relm8">
+									<cfloop query="agents">
 										<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT distinct media.media_id, preview_uri, media.media_uri,
 												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
