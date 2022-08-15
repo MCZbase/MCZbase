@@ -152,6 +152,8 @@
 								<div class="row mx-0">
 									<h3 class="h4 px-2 pt-0">Additional Renderings </h3>
 									<ul class="list-group list-group-horizontal col-12 px-0">
+										
+									<cfif media.media_uri contains 'slide-atlas'>
 										<li class="list-unstyled col-3 px-0 border bg-light text-center">
 											<div id="content">
 												<div class="flip-card">
@@ -169,6 +171,8 @@
 												</div>
 											</div>
 										</li>
+									</cfif>
+									<cfif media.media_uri contains 'morphosource'>
 										<li class="list-unstyled col-3 px-0 border bg-light text-center">
 											<div id="content">
 												<div class="flip-card">
@@ -186,6 +190,7 @@
 												</div>
 											</div>
 										</li>
+									</cfif>
 									</ul>
 								</div>
 							</cfif>
