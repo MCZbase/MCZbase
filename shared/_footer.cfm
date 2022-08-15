@@ -36,9 +36,9 @@ limitations under the License.
 				<div class="col-8 col-md-5 col-lg-4 col-xl-3 px-0 mx-auto">
 					<img alt="Harvard Museum of Comparative Zoology Logo" class="media-element file-default file-os-files-medium col-12" src="/shared/images/harvard_museum.png">
 					<div class="agreements text-center small mt-0"><a href="/Affiliates.cfm" class="policy_link" aria-label="affiliates_link">Affiliates</a>
-						<a>&nbsp;&nbsp;|&nbsp;&nbsp;</a> 
+						<a href="##">&nbsp;&nbsp;|&nbsp;&nbsp;</a> 
 						<a href="https://mcz.harvard.edu/privacy-policy" class="policy_link" aria-label="privacy_policy_link">Privacy</a> 
-						<a>&nbsp;&nbsp;|&nbsp;&nbsp;</a> 
+						<a href="##">&nbsp;&nbsp;|&nbsp;&nbsp;</a> 
 						<a href="https://mcz.harvard.edu/user-agreement" class="policy_link" aria-label="user_agreement_link">User Agreement</a> 
 						<br><a href="https://mcz.harvard.edu/acknowledgment-harmful-content" class="policy_link" aria-label="acknowledgment of harmful content">Acknowledgment of Harmful Content</a>
 					</div>
