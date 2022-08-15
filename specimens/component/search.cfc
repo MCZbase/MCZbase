@@ -195,7 +195,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				numeric = atomParts[1];
 			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
 				// number and suffix
-				startNumBit = rereplace(atomParts[1],"[^0-9]]","","all");
+				numeric = rereplace(atomParts[1],"[^0-9]]","","all");
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
