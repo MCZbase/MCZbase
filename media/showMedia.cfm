@@ -1181,7 +1181,7 @@
 							</div>
 						</div>
 						<div class="col-12 col-lg-7 col-xl-8 p-1">
-							<cfloop query="relm8">
+							<cfloop query="agents">
 							<cfquery name="agentName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct agent_name.agent_id, agent_name.agent_name_id,agent.PREFERRED_AGENT_NAME_ID, agent_name.agent_name,media_relations.media_relationship, media_relations.media_id,agent.biography, agent.agent_type
 								FROM agent_name
