@@ -1178,8 +1178,9 @@
 										and media_relations.media_relationship <> 'created by agent'
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
 									</cfquery>
-									<cfloop query="relm8">
+									
 										<div class="col-12 col-lg-7 col-xl-8 p-1">
+											<cfloop query="relm8">
 											<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 												<cfif relm8.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -1199,8 +1200,9 @@
 												</div>
 											</div>
 											<div id="targetDiv"></div>
+											</cfloop>
 										</div>
-									</cfloop>
+									
 								</div>
 							</cfloop>
 						</div>
