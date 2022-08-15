@@ -885,6 +885,7 @@
 													
 				<!---Borrow borrow records--->
 				<div class="row mx-0 mt-3">
+					<a name="shows%20borrow"></a>
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, to_char(borrow.received_date,'yyyy-mm-dd') received_date,to_char(borrow.due_date,'yyyy-mm-dd') due_date, to_char(borrow.lenders_loan_date,'yyyy-mm-dd') lenders_loan_date, borrow.borrow_status
 						from borrow 
@@ -998,6 +999,7 @@
 													
 				<!---Deaccession deaccesion records--->
 				<div class="row mx-0">
+					<a name="shows%20deaccession"></a>
 					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select *
 						from deaccession 
@@ -1098,6 +1100,7 @@
 													
 				<!---agent agent records created by--->
 				<div class="row mx-0">
+					<a name="shows%20agent"></a>
 					<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct agent_name.agent_id, agent_name.agent_name, media_relations.media_relationship, agent_name.agent_name_type, media.auto_protocol, media.auto_host
 						FROM agent_name
@@ -1210,7 +1213,8 @@
 				</div>
 										
 				<!---publication publication records--->
-				<div class="row mx-0">
+				<div class="row mx-0 mt-3">
+					<a name="shows%20publication"></a>
 				<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct publication_id 
 					FROM publication
