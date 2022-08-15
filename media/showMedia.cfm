@@ -1098,90 +1098,88 @@
 													
 				<!---agent agent records created by--->
 				<div class="row mx-0">
-				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT distinct agent_name.agent_id, agent_name.agent_name, media_relations.media_relationship, agent_name.agent_name_type, media.auto_protocol, media.auto_host
-					FROM agent_name
-						left join agent on agent.agent_id = agent_name.agent_id
-						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-						left join media on media_relations.media_id = media.media_id
-					WHERE media_relations.media_relationship like '%agent%'
-						and media_relations.media_relationship <> 'created by agent'
-						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						AND agent_name.agent_name_type = 'preferred'
-					ORDER BY agent_name.agent_id
-				</cfquery>
-				<cfif len(agents.agent_id) gt 0>
-
-					<h3 class="w-100 mt-3 mb-0 px-2">Related Agents </h3>
-					<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
-					<div class="search-box mt-1 pb-0 w-100">
-						<div class="search-box-header px-2 mt-0">
-							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-2 col-xl-1  px-1 list-group-item">
-									<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
-								</li>
-								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">Details</span>
-								</li>
-								<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">		
-										<cfif agents.recordcount GT 2>
-											<cfset plural = "s">
-										<cfelse>
-											<cfset plural = "">
-										</cfif>
-										<cfset IDtitle = "This and Other Agent Media">
-										#IDtitle#
-									</span>
-								</li>
-							</ul>
-						</div>
-						<cfloop query="agents">
-							<div class="row mx-0 py-0 border-top-teal">
-								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span>
-									<a href="#agents.auto_protocol#/#agents.auto_host#/guid/#agents.agent_id#" class="font-weight-lessbold">#agents.agent_id#</a>
-								</div>
-								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
-									<div class="row mx-0">
-										<h3 class="h5 mb-0">Agent Name </h3>
-										<cfif len(agents.agent_name) gt 0>
-											<div class="col-12 pt-0 pb-1">#agents.agent_name#</div>
-										<cfelse>
-											<div class="col-12 pt-0 pb-1">None</div>
-										</cfif>
+					<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT distinct agent_name.agent_id, agent_name.agent_name, media_relations.media_relationship, agent_name.agent_name_type, media.auto_protocol, media.auto_host
+						FROM agent_name
+							left join agent on agent.agent_id = agent_name.agent_id
+							left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+							left join media on media_relations.media_id = media.media_id
+						WHERE media_relations.media_relationship like '%agent%'
+							and media_relations.media_relationship <> 'created by agent'
+							AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							AND agent_name.agent_name_type = 'preferred'
+						ORDER BY agent_name.agent_id
+					</cfquery>
+					<cfif len(agents.agent_id) gt 0>
+						<h3 class="w-100 mt-3 mb-0 px-2">Related Agents </h3>
+						<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
+						<div class="search-box mt-1 pb-0 w-100">
+							<div class="search-box-header px-2 mt-0">
+								<ul class="list-group list-group-horizontal text-white">
+									<li class="col-2 col-xl-1  px-1 list-group-item">
+										<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
+									</li>
+									<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">Details</span>
+									</li>
+									<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">		
+											<cfif agents.recordcount GT 2>
+												<cfset plural = "s">
+											<cfelse>
+												<cfset plural = "">
+											</cfif>
+											<cfset IDtitle = "This and Other Agent Media">
+											#IDtitle#
+										</span>
+									</li>
+								</ul>
+							</div>
+							<cfloop query="agents">
+								<div class="row mx-0 py-0 border-top-teal">
+									<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
+										<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span>
+										<a href="#agents.auto_protocol#/#agents.auto_host#/guid/#agents.agent_id#" class="font-weight-lessbold">#agents.agent_id#</a>
 									</div>
+									<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 										<div class="row mx-0">
-										<cfquery name="list_agentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT distinct media_relationship
-											FROM media_relations 
-											WHERE media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-										</cfquery>
-											<h3 class="h5 mb-0">Agent Relationship</h3>
-											<div class="col-12 pt-0 pb-1">
-												<cfloop query="list_agentRel">#list_agentRel.media_relationship#<span class="comma1">, </span></cfloop>
-											</div>
+											<h3 class="h5 mb-0">Agent Name </h3>
+											<cfif len(agents.agent_name) gt 0>
+												<div class="col-12 pt-0 pb-1">#agents.agent_name#</div>
+											<cfelse>
+												<div class="col-12 pt-0 pb-1">None</div>
+											</cfif>
 										</div>
-									<div class="row mx-0">
-										<h3 class="h5 mb-0">Agent Type</h3>
-										<div class="col-12 pt-0 pb-1">#agents.agent_name_type#</div>
+											<div class="row mx-0">
+											<cfquery name="list_agentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT distinct media_relationship
+												FROM media_relations 
+												WHERE media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+											</cfquery>
+												<h3 class="h5 mb-0">Agent Relationship</h3>
+												<div class="col-12 pt-0 pb-1">
+													<cfloop query="list_agentRel">#list_agentRel.media_relationship#<span class="comma1">, </span></cfloop>
+												</div>
+											</div>
+										<div class="row mx-0">
+											<h3 class="h5 mb-0">Agent Type</h3>
+											<div class="col-12 pt-0 pb-1">#agents.agent_name_type#</div>
+										</div>
 									</div>
-								</div>
-								<div class="col-12 col-lg-7 col-xl-8 p-1">
-									<cfloop query="agents">
-										<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT distinct media.media_id, preview_uri, media.media_uri,
-												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-												MCZBASE.get_media_title(media.media_id) as title1,
-												media_relations.media_relationship
-											FROM media_relations
-												 left join media on media_relations.media_id = media.media_id
-											WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
-											and media_relations.media_relationship <> 'created by agent'
-											AND MCZBASE.is_media_encumbered(media.media_id) < 1
-										</cfquery>
-										<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-											<cfif len(agents.agent_id) gt 0>
+									<div class="col-12 col-lg-7 col-xl-8 p-1">
+										<cfloop query="agents">
+											<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT distinct media.media_id, preview_uri, media.media_uri,
+													media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+													MCZBASE.get_media_title(media.media_id) as title1,
+													media_relations.media_relationship
+												FROM media_relations
+													 left join media on media_relations.media_id = media.media_id
+												WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
+												and media_relations.media_relationship <> 'created by agent'
+												AND MCZBASE.is_media_encumbered(media.media_id) < 1
+											</cfquery>
+											<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 												<cfif relm8.media_id eq '#media.media_id#'> 
 													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 												<cfelse>	
@@ -1198,17 +1196,16 @@
 														#showTitleText1#
 													</div>
 												</div>
-											</cfif>
-										</div>
-									</cfloop>
-									<div id="targetDiv"></div>
+											</div>
+											<div id="targetDiv"></div>
+										</cfloop>
+									</div>
 								</div>
-							</div>
-						</cfloop>
-					</div>
-				<cfelse>
-					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
-				</cfif>
+							</cfloop>
+						</div>
+					<cfelse>
+						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
+					</cfif>
 				</div>
 										
 				<!---publication publication records--->
