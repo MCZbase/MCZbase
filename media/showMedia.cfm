@@ -220,7 +220,10 @@
 						</ul>
 					</div>
 				</cfif>
-				<!---specimen records--->
+						
+						
+						
+				<!---specimen specimen records--->
 				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
@@ -338,7 +341,7 @@
 				</cfif>
 				</div>
 										
-				<!--- accn records --->
+				<!--- accn accn records --->
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -462,7 +465,7 @@
 					</cfif>
 				</div>
 				
-				<!--- collecting event records --->
+				<!--- collecting event, collecting event records --->
 				<div class="row mx-0">
 					<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
@@ -558,7 +561,7 @@
 					</cfif>
 				</div>
 																					
-				<!--- permit records --->
+				<!--- permit permit records --->
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 					<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -665,7 +668,7 @@
 					</cfif>
 				</div>
 													
-				<!--- loan records --->
+				<!--- loan loan records --->
 				<div class="row mx-0 mt-3">
 					<cfif media.media_id gt 0>
 					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -773,7 +776,7 @@
 					</cfif>
 				</div>
 
-				<!--- underscore collections records --->
+				<!--- locality locality records --->
 				<div class="row mx-0 mt-3">
 					<cfif media.media_id gt 0>
 					<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -879,7 +882,7 @@
 					</cfif>
 				</div>
 													
-				<!---Borrow records--->			
+				<!---Borrow borrow records--->			
 				<div class="row mx-0 mt-3">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, to_char(borrow.received_date,'yyyy-mm-dd') received_date,to_char(borrow.due_date,'yyyy-mm-dd') due_date, to_char(borrow.lenders_loan_date,'yyyy-mm-dd') lenders_loan_date, borrow.borrow_status
@@ -921,7 +924,7 @@
 												<cfelse>
 													<cfset plural = "">
 												</cfif>
-												<cfset IDtitle = "This and Other Locality Media">
+												<cfset IDtitle = "This and Other Borrow Media">
 												#IDtitle#
 											</span>
 										</li>
@@ -992,7 +995,7 @@
 					</cfif>
 				</div>
 													
-				<!---Deaccession records--->			
+				<!---Deaccession deaccesion records--->			
 				<div class="row mx-0">
 					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select *
@@ -1092,7 +1095,7 @@
 					</cfif>
 				</div>								
 													
-				<!---agent records created by--->
+				<!---agent agent records created by--->
 				<div class="row mx-0">
 				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct agent_name.agent_id, agent_name.agent_name, media_relations.media_relationship, agent_name.agent_name_type
@@ -1215,7 +1218,7 @@
 				</cfloop>
 				</div>
 										
-				<!---publication records--->
+				<!---publication publication records--->
 				<div class="row mx-0">
 				<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct publication_id 
@@ -1345,9 +1348,9 @@
 				</cfif>
 				</div>
 										
-				<!---locality records--->
+				<!---related to media records--->
 				<div class="row mx-0">
-				<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="related" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct locality_id 
 					FROM locality
 					left join media_relations on locality.locality_id= media_relations.related_primary_key
