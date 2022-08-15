@@ -201,7 +201,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="pb-5">
+					<div class="row mx-0 pb-5">
 						<cfif media_rel.recordcount GT 2>
 							<cfset plural = "s">
 						<cfelse>
