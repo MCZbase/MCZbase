@@ -1239,33 +1239,30 @@
 						AND media_relations.media_relationship like '%publication%'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
-						
+					<h3 class="w-100 mt-3 mb-0 px-2">Related Publications</h3>
 						<cfset mediablock10= getMediaBlockHtml(media_id="#relm10.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock10#
-					<cfquery name="pub-count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select count(publication.publication_id) ct
-						from media_relations
-							left join publication on media_relations.related_primary_key = publication.pubication_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					</cfquery>
-					<h3 class="w-100 mt-3 mb-0 px-2">Related Publications (#pub-count.ct#)</h3>
-					<a name="created%20by%20agent"></a>
-					<div class="search-box mt-1 pb-0 w-100">
-						<div class="search-box-header px-2 mt-0">
-							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-2 col-xl-1 px-1 list-group-item">
-									<span class="font-weight-lessbold">Publication</span>
-								</li>
-								<li class="col-3 col-xl-4 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">Details</span>
-								</li>
-								<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">
-										<cfset IDtitle = "This and Other Publication Media">
-										#IDtitle#
-									</span>
-								</li>
-							</ul>
-						</div>
+						<div class="search-box mt-1 pb-0 w-100">
+							<div class="search-box-header px-2 mt-0">
+								<ul class="list-group list-group-horizontal text-white">
+									<li class="col-2 col-xl-1  px-1 list-group-item">
+										<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
+									</li>
+									<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">Details</span>
+									</li>
+									<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
+										<span class="font-weight-lessbold">		
+											<cfif relm8.recordcount GT 2>
+												<cfset plural = "s">
+											<cfelse>
+												<cfset plural = "">
+											</cfif>
+											<cfset IDtitle = "This and Other Agent Media">
+											#IDtitle#
+										</span>
+									</li>
+								</ul>
+							</div>
 						<cfloop query="relm10">
 							<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct publication.publication_id,formatted_publication.formatted_publication, citation_remarks
@@ -1275,14 +1272,6 @@
 								left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
 								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 							</cfquery>
-			<!---				<cfquery name="citationSpecList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct flat.cat_num
-								FROM publication
-									left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
-								left join citation on citation.publication_id = publication.publication_id
-								left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
-								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#citation1.publication_id#">
-							</cfquery>--->
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.publication_id#">#citation1.publication_id#</a>
@@ -1297,14 +1286,6 @@
 											<div class="col-12 pt-0 pb-1">None</div>
 										</cfif>
 									</div>
-					<!---				<div class="row mx-0">
-										<h3 class="h5 mb-1">Catalog Numbers Cited</h3>
-										<div class="col-12 pt-0 pb-1 comma1 d-inline">
-											<cfloop query="citationSpecList">
-												 #citationSpecList.cat_num#<span>, </span>
-											</cfloop>
-										</div>
-									</div>--->
 									<cfif len(citation1.citation_remarks) gt 0>
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Citation Remarks</h3>
