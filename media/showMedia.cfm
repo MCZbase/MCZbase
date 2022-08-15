@@ -1110,7 +1110,6 @@
 						AND agent_name.agent_name_type = 'preferred'
 					ORDER BY agent_name.agent_id
 				</cfquery>
-			
 				<cfif len(agents.agent_id) gt 0>
 					<cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT distinct media.media_id, preview_uri, media.media_uri,
@@ -1147,7 +1146,7 @@
 								</li>
 							</ul>
 						</div>
-						<cfloop query="agents">
+						<cfloop query="relm8">
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span>
@@ -1209,7 +1208,6 @@
 				<cfelse>
 					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
-			
 				</div>
 										
 				<!---publication publication records--->
