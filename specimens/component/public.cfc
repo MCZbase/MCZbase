@@ -1000,7 +1000,7 @@ limitations under the License.
 							lot_count,
 							part_remarks
 						order by
-							part_name
+							part_name, part_id
 					</cfquery>
 					<table class="table px-1 table-responsive-md w-100 tablesection my-1">
 						<thead class="thead-light">

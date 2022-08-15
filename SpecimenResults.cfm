@@ -191,6 +191,9 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 
 	<cfset basQual = "">
 	<cfset basOrder = "">
+	<cfif isdefined("transaction_id") and #action# is "dispCollObj">
+		<cfset basOrder = "ORDER BY part_name, specimen_part.collection_object_id">
+	</cfif>
 	<cfset mapurl="">
 	<cfinclude template="includes/SearchSql.cfm">
 	<!--- wrap everything up in a string --->
