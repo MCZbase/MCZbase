@@ -1239,6 +1239,7 @@
 						AND media_relations.media_relationship like '%publication%'
 						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 					</cfquery>
+						#relm10.preview_uri#
 					<cfquery name="pub-count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select count(publication.publication_id) ct
 						from media_relations
