@@ -777,7 +777,7 @@
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 					<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select locality.locality_id, locality.spec_locality
+						select locality.locality_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
 						from locality
 							left join media_relations on media_relations.related_primary_key = locality.locality_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -836,7 +836,7 @@
 											</div>
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Min-Max Elevation</h3>
-												<div class="col-12 pt-0 pb-1">#locality.min_elevation# - #locality.max_elevation#</div>
+												<div class="col-12 pt-0 pb-1">#locality.minimum_elevation# - #locality.maximum_elevation#</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-6 col-xl-8 p-1">
