@@ -1167,7 +1167,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
                 lot_count,
                 part_remarks
         order by
-                part_name
+                part_name, part_id
 </cfquery>
 
 <cfquery name="mPart" dbtype="query">

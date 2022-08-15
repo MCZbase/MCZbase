@@ -43,7 +43,11 @@
 	<cfset basSelect = "#basSelect#,SCORE(1) as sco ">
 	<cfset mapurl = "#mapurl#&freetextsearch=#containssearch#">
    	<cfset basQual = "#basQual#  AND CONTAINS(#session.flatTableName#.cat_num, '#containssearch#', 1) > 0  AND ROWNUM <= 1000 " >
-   	<cfset basOrder = "#basOrder#  order by SCORE(1) desc " >
+		<cfif len(trim(basOrder)) GT 0>
+	   	<cfset basOrder = "#basOrder#, SCORE(1) desc " >
+		<cfelse>
+	   	<cfset basOrder = " order by SCORE(1) desc " >
+		</cfif>
 </cfif>
 
 <cfif isdefined("catnum") and len(catnum) gt 0>

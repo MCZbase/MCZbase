@@ -2390,7 +2390,7 @@
 			specimen_part.SAMPLED_FROM_OBJ_ID is null and
 			specimen_part.collection_object_id = loan_item.collection_object_id (+)
 		order by
-			cataloged_item.collection_object_id, specimen_part.part_name
+			cataloged_item.collection_object_id, specimen_part.part_name, specimen_part.collection_object_id
 	</cfquery>
 	<cfreturn result>
 	</cfoutput>
