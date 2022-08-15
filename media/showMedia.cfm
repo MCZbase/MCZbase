@@ -560,7 +560,7 @@
 						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Collecting Events</h3>
 					</cfif>
 				</div>
-																					
+												
 				<!--- permit permit records --->
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
@@ -791,7 +791,8 @@
 						<h1 class="h3 w-100 my-0 px-2">Locality Records with this Media</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+								MCZBASE.get_media_title(media.media_id) as title1
 								from media_relations
 									left join media on media_relations.media_id = media.media_id
 								where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality.locality_id#">
@@ -815,7 +816,7 @@
 												<cfelse>
 													<cfset plural = "">
 												</cfif>
-												<cfset IDtitle = "Image Thumbnail#plural#">
+												<cfset IDtitle = "This and Other Locality Media">
 												#IDtitle#
 											</span>
 										</li>
@@ -882,7 +883,7 @@
 					</cfif>
 				</div>
 													
-				<!---Borrow borrow records--->			
+				<!---Borrow borrow records--->
 				<div class="row mx-0 mt-3">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, to_char(borrow.received_date,'yyyy-mm-dd') received_date,to_char(borrow.due_date,'yyyy-mm-dd') due_date, to_char(borrow.lenders_loan_date,'yyyy-mm-dd') lenders_loan_date, borrow.borrow_status
@@ -995,7 +996,7 @@
 					</cfif>
 				</div>
 													
-				<!---Deaccession deaccesion records--->			
+				<!---Deaccession deaccesion records--->
 				<div class="row mx-0">
 					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select *
@@ -1093,7 +1094,7 @@
 					<cfelse>
 						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Deaccession</h3>
 					</cfif>
-				</div>								
+				</div>
 													
 				<!---agent agent records created by--->
 				<div class="row mx-0">
@@ -1348,7 +1349,7 @@
 				</cfif>
 				</div>
 										
-				<!---related to media records--->
+				<!---audio media records--->
 				<div class="row mx-0">
 				<cfquery name="related" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct locality_id 
