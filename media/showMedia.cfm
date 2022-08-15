@@ -150,7 +150,7 @@
 							</table>
 							<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
 								<div class="row mx-0">
-									<h3 class="h4 px-2 pt-0">Additional Renderings </h3>
+									<h3 class="h4 px-2 pt-0">Additional Rendering </h3>
 									<ul class="list-group list-group-horizontal col-12 px-0">
 										
 									<cfif media.media_uri contains 'slide-atlas'>
@@ -197,7 +197,7 @@
 						</div>
 					</div>
 				</div>
-				<section class="container-fluid pb-5">
+				<section class="pb-5">
 				<cfif len(media_rel.media_relationship) gt 0>
 					<div class="row mx-0 mt-2 mb-3">
 						<h3 class="px-2 pt-0">Shown on records with relationships: </h3>
