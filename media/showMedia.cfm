@@ -1271,7 +1271,7 @@
 						</div>
 						<cfloop query="relm10">
 							<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct publication.publication_id,formatted_publication, citation_remarks
+								SELECT distinct publication.publication_id,formatted_publication.formatted_publication, citation_remarks
 								FROM publication
 									left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
 								left join citation on citation.publication_id = publication.publication_id
@@ -1300,14 +1300,14 @@
 											<div class="col-12 pt-0 pb-1">None</div>
 										</cfif>
 									</div>
-									<div class="row mx-0">
+					<!---				<div class="row mx-0">
 										<h3 class="h5 mb-1">Catalog Numbers Cited</h3>
 										<div class="col-12 pt-0 pb-1 comma1 d-inline">
 											<cfloop query="citationSpecList">
 												 #citationSpecList.cat_num#<span>, </span>
 											</cfloop>
 										</div>
-									</div>
+									</div>--->
 									<cfif len(citation1.citation_remarks) gt 0>
 									<div class="row mx-0">
 										<h3 class="h5 mb-0">Citation Remarks</h3>
@@ -1329,11 +1329,11 @@
 													<div class="col-5 bg-white px-1 float-left">
 														<cfset mediablock= getMediaBlockHtml(media_id="#relm10.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
 													</div>
-													<cfset showTitleText1 = trim(title1)>
-														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
+													<cfset showTitleText3 = trim(title1)>
+														<cfif len(title1) gt 125><cfset showTitleText3 = "#left(showTitleText3,125)#..." ></cfif>
 													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 														">Media ID: media/#relm10.media_id#</span>
-														#showTitleText1#
+														#showTitleText3#
 													</div>
 												</div>
 											</cfif>
