@@ -1177,7 +1177,7 @@
 										WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
 										and media_relations.media_relationship <> 'created by agent'
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
-									</cfquery>
+									</cfquery><div id="targetDiv"></div>
 									<div class="col-12 col-lg-7 col-xl-8 p-1">
 										<cfloop query="relm8">
 											<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
@@ -1310,124 +1310,12 @@
 					
 					</div>
 				<cfelse>
-					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Citation Records</h3>
+					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
 				</cfif>
 				</div>
 						
 											
-				<!---audio media records--->
-				<div class="row mx-0">
-				<cfquery name="related" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT distinct locality_id 
-					FROM locality
-					left join media_relations on locality.locality_id= media_relations.related_primary_key
-					WHERE 
-					media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				</cfquery>
-				<cfif len(locality.locality_id) gt 0>
-					<cfquery name="loc1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct media.media_id, preview_uri, media.media_uri,
-							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
-						FROM media_relations
-							 left join media on media_relations.media_id = media.media_id
-						WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality.locality_id#">
-						AND media_relations.media_relationship like '%locality%'
-						AND MCZBASE.is_media_encumbered(media.media_id) < 1
-					</cfquery>
-					<cfquery name="loc-count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select count(locality.locality_id) ct
-						from media_relations
-							left join locality on media_relations.related_primary_key = locality.locality_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					</cfquery>
-					<h3 class="w-100 mt-3 mb-0 px-2">Related Localities (#loc-count.ct#)</h3>
-					<a name="created%20by%20agent"></a>
-					<div class="search-box mt-1 pb-0 w-100">
-						<div class="search-box-header px-2 mt-0">
-							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-2 col-xl-1 px-1 list-group-item">
-									<span class="font-weight-lessbold">Locality<span class="d-inline d-lg-none">s </span></span>
-								</li>
-								<li class="col-3 col-xl-4 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">Details</span>
-								</li>
-								<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">		
-										<cfif relm10.recordcount GT 2>
-											<cfset plural = "s">
-										<cfelse>
-											<cfset plural = "">
-										</cfif>
-										<cfset IDtitle = "This and Other Locality Media">
-										#IDtitle#
-									</span>
-								</li>
-							</ul>
-						</div>
-						<cfloop query="locality">
-							<div class="row mx-0 py-0 border-top-teal">
-								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Locality: </span><a href="#loc1.auto_protocol#/#loc1.auto_host#/guid/#locality.locality_id#">#Locality.locality_id#</a>
-								</div>
-								<div class="col-12 col-lg-3 col-xl-4 pt-2 pb-2 border-right small">
-									<div class="row mx-0">
-										<h3 class="h5 mb-0">Citation </h3>
-										<cfif len(citation1.publication_id) gt 0>
-
-											<div class="col-12 pt-0 pb-1">#citation1.formatted_publication#</div>
-										<cfelse>
-											<div class="col-12 pt-0 pb-1">None</div>
-										</cfif>
-									</div>
-									<div class="row mx-0">
-										<h3 class="h5 mb-1">Catalog Numbers Cited</h3>
-										<div class="col-12 pt-0 pb-1 comma1 d-inline">
-											<cfloop query="citationSpecList">
-												 #citationSpecList.cat_num#<span>, </span>
-											</cfloop>
-										</div>
-									</div>
-									<cfif len(citation1.citation_remarks) gt 0>
-									<div class="row mx-0">
-										<h3 class="h5 mb-0">Citation Remarks</h3>
-										<div class="col-12 pt-0 pb-1">#citation1.citation_remarks#</div>
-									</div>
-									</cfif>
-								</div>
-								<div class="col-12 col-lg-7 col-xl-7 p-1">
-									<div class="col-12 h5 d-lg-none mb-0 font-weight-lessbold float-left">Media </div>
-									<cfloop query="relm10">
-										<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm10.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-											<cfif len(citation1.publication_id) gt 0>
-												<cfif relm10.media_id eq '#media.media_id#'> 
-													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-												<cfelse>	
-													<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
-												</cfif>
-												<div class="#activeimg#" id="mediaBlock#relm10.media_id#">
-													<div class="col-5 bg-white px-1 float-left">
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm10.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
-													</div>
-													<cfset showTitleText1 = trim(title1)>
-														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
-													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-														">Media ID: media/#relm10.media_id#</span>
-														#showTitleText1#
-													</div>
-												</div>
-											</cfif>
-										</div>
-									</cfloop>
-									<div id="targetDiv"></div>
-								</div>
-							</div>
-						
-						</cfloop>
-					</div>
-				<cfelse>
-					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
-				</cfif>
-				</div>
+		
 			</cfloop>
 			</div>
 		</div>
