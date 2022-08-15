@@ -131,7 +131,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 		suffixFieldName = "CAT_NUM_SUFFIX";
  	} else { 
 		suffixFieldName = "OTHER_ID_SUFFIX";
-		baseFieldName = "OTHER_ID";
+		baseFieldName = "OTHER_ID_NUMBER";
 	}
 
 	// Prepare list for parsing
@@ -193,9 +193,13 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (partCount EQ 1 and REFind("^[0-9]+$",atomParts[1])) { 
 				// just a number
 				numeric = atomParts[1];
+			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
+				// number and suffix
+				startNumBit = rereplace(atomParts[1],"[^0-9]]","","all");
+				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldname &'","comparator": "=","value": "#lparts[i]#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldName &'","comparator": "=","value": "#lparts[i]#"}';
 				comma = ",";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
