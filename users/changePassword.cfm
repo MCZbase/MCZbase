@@ -44,7 +44,12 @@
 					</cfif>
 					<h1 class="h2 mt-3">Change Password</h1>
 					<p class="font-weight-lessbold">You are logged in as #session.username#.</p>
-					<p>Your password is <span class="font-weight-lessbold text-danger">#pwtime#</span> days old.</p>
+					<cfif pwtime LT Application.max_pw_age>
+						<cfset oldpwclass="">
+					<cfelse>
+						<cfset oldpwclass="text-danger">
+					</cfif>
+					<p>Your password is <span class="font-weight-lessbold #oldpwclass#">#pwtime#</span> days old.</p>
 					<cfquery name="isDb" datasource="uam_god">
 						select
 						(
@@ -78,6 +83,9 @@
 								</ul>
 							</li>
 						</ul>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<p>Harvard information security recommends the use of <a href="https://security.harvard.edu/lastpass">LastPass</a> for password management.</p>
+						</cfif>
 					</cfif>
 						<form class="row" action="/users/changePassword.cfm" method="post">
 							<input type="hidden" name="action" value="update">
