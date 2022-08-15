@@ -1251,18 +1251,13 @@
 						<div class="search-box-header px-2 mt-0">
 							<ul class="list-group list-group-horizontal text-white">
 								<li class="col-2 col-xl-1 px-1 list-group-item">
-									<span class="font-weight-lessbold">Publication<span class="d-inline d-lg-none">s </span></span>
+									<span class="font-weight-lessbold">Publication</span>
 								</li>
 								<li class="col-3 col-xl-4 px-1 list-group-item d-none d-lg-block">
 									<span class="font-weight-lessbold">Details</span>
 								</li>
 								<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">		
-										<cfif relm10.recordcount GT 2>
-											<cfset plural = "s">
-										<cfelse>
-											<cfset plural = "">
-										</cfif>
+									<span class="font-weight-lessbold">
 										<cfset IDtitle = "This and Other Publication Media">
 										#IDtitle#
 									</span>
@@ -1278,14 +1273,14 @@
 								left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
 								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 							</cfquery>
-							<cfquery name="citationSpecList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<!---				<cfquery name="citationSpecList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct flat.cat_num
 								FROM publication
 									left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
 								left join citation on citation.publication_id = publication.publication_id
 								left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
 								WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#citation1.publication_id#">
-							</cfquery>
+							</cfquery>--->
 							<div class="row mx-0 py-0 border-top-teal">
 								<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
 									<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.publication_id#">#citation1.publication_id#</a>
@@ -1315,7 +1310,7 @@
 									</div>
 									</cfif>
 								</div>
-								<div class="col-12 col-lg-7 col-xl-7 p-1">
+							<!---	<div class="col-12 col-lg-7 col-xl-7 p-1">
 									<div class="col-12 h5 d-lg-none mb-0 font-weight-lessbold float-left">Media </div>
 									<cfloop query="relm10">
 										<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm10.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
@@ -1340,13 +1335,13 @@
 										</div>
 									</cfloop>
 									<div id="targetDiv"></div>
-								</div>
+								</div>--->
 							</div>
 						
 						</cfloop>
 					</div>
 				<cfelse>
-					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
+					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Citation Records</h3>
 				</cfif>
 				</div>
 										
