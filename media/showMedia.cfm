@@ -1178,31 +1178,29 @@
 										and media_relations.media_relationship <> 'created by agent'
 										AND MCZBASE.is_media_encumbered(media.media_id) < 1
 									</cfquery>
-									
-										<div class="col-12 col-lg-7 col-xl-8 p-1">
-											<cfloop query="relm8">
+									<div class="col-12 col-lg-7 col-xl-8 p-1">
+										<cfloop query="relm8">
 											<div class="border-light col-12 col-md-6 col-lg-4 <cfif #relm8.recordcount# lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-												<cfif relm8.media_id eq '#media.media_id#'> 
-													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-												<cfelse>	
-													<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
-												</cfif>
-												<div class="#activeimg#" id="mediaBlock#relm8.media_id#">
-													<div class="col-5 bg-white px-1 float-left">
-														<cfset mediablock8= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock8#
-													</div>
-													<cfset showTitleText11 = trim(title1)>
-														<cfif len(title1) gt 125><cfset showTitleText11 = "#left(showTitleText11,125)#..." ></cfif>
-													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-														">Media ID: media/#relm8.media_id#</span>
-														#showTitleText11#
-													</div>
+											<cfif relm8.media_id eq '#media.media_id#'> 
+												<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+											<cfelse>	
+												<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
+											</cfif>
+											<div class="#activeimg#" id="mediaBlock#relm8.media_id#">
+												<div class="col-5 bg-white px-1 float-left">
+													<cfset mediablock8= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock8#
+												</div>
+												<cfset showTitleText11 = trim(title1)>
+													<cfif len(title1) gt 125><cfset showTitleText11 = "#left(showTitleText11,125)#..." ></cfif>
+												<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+													">Media ID: media/#relm8.media_id#</span>
+													#showTitleText11#
 												</div>
 											</div>
-											<div id="targetDiv"></div>
-											</cfloop>
 										</div>
-									
+										</cfloop>
+										<div id="targetDiv"></div>
+									</div>
 								</div>
 							</cfloop>
 						</div>
