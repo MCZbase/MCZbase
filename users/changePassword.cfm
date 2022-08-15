@@ -2,6 +2,7 @@
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
+<cfinclude template="/shared/loginFunctions.cfm" runOnce="true">
 <script>
 	function pwc(p,u){
 		var r=orapwCheck(p,u);
@@ -43,7 +44,12 @@
 					</cfif>
 					<h1 class="h2 mt-3">Change Password</h1>
 					<p class="font-weight-lessbold">You are logged in as #session.username#.</p>
-					<p>Your password is <span class="font-weight-lessbold text-danger">#pwtime#</span> days old.</p>
+					<cfif pwtime LT Application.max_pw_age>
+						<cfset oldpwclass="">
+					<cfelse>
+						<cfset oldpwclass="text-danger">
+					</cfif>
+					<p>Your password is <span class="font-weight-lessbold #oldpwclass#">#pwtime#</span> days old.</p>
 					<cfquery name="isDb" datasource="uam_god">
 						select
 						(
@@ -77,6 +83,9 @@
 								</ul>
 							</li>
 						</ul>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<p>Harvard information security recommends the use of <a href="https://security.harvard.edu/lastpass">LastPass</a> for password management.</p>
+						</cfif>
 					</cfif>
 						<form class="row" action="/users/changePassword.cfm" method="post">
 							<input type="hidden" name="action" value="update">
@@ -108,14 +117,16 @@
 							</div>
 						</form>
 						<cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select email, username
-							from cf_user_data, cf_users
-							 where cf_user_data.user_id = cf_users.user_id and
-							 username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+							SELECT email, username
+							FROM 
+								cf_user_data
+								join cf_users on cf_user_data.user_id = cf_users.user_id 
+							WHERE 
+								username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfif len(isGoodEmail.email) gt 0>
 							<p>If you can't remember your old password, we can
-								<a href="/users/changePassword?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#">email a new temporary password</a>.
+								<a href="/users/changePassword.cfm?action=lostPass">email a new temporary password</a>.
 							</p>
 						</cfif>
 					</div>
@@ -165,17 +176,17 @@
 							where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 						</cfquery>
 						<cfif hash(oldpassword) is not getpass.password>
-							<span style="background-color:red;">
+							<span class="font-weight-lessbold text-danger">
 								Incorrect old password. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
 						<cfelseif getpass.password is hash(newpassword)>
-							<span style="background-color:red;">
+							<span class="font-weight-lessbold text-danger">
 								You must pick a new password. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
 						<cfelseif newpassword neq newpassword2>
-							<span style="background-color:red;">
+							<span class="font-weight-lessbold text-danger">
 								New passwords do not match. <a href="/users/changePassword.cfm">Go Back</a>
 							</span>
 							<cfabort>
