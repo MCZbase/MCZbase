@@ -777,7 +777,7 @@
 				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 					<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select locality.locality_id
+						select locality.locality_id, locality.spec_locality
 						from locality
 							left join media_relations on media_relations.related_primary_key = locality.locality_id
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
