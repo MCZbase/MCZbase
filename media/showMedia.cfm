@@ -148,7 +148,7 @@
 									</cfif>
 								</tbody>
 							</table>
-							<cfif media.media_uri like '%slide-atlas%'>
+							<cfif media.media_uri like '%slide-atlas%' OR media.media_uri like '%morphosource%'>
 								<div class="row mx-0">
 									<h3 class="h4 px-2 pt-0">Additional Renderings </h3>
 									<ul class="list-group list-group-horizontal col-12 px-0">
@@ -193,17 +193,18 @@
 					</div>
 				</div>
 				<section class="container-fluid pb-5">
-				<div class="row mx-0 mt-2 mb-3">
-					<h3 class="px-2 pt-0">Shown on records with relationships: </h3>
-					<ul class="list-group list-group-horizontal">
-						<li class="list-unstyled">
-						<cfloop query="media_rel">
-							<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
-						</cfloop>
-						</li>
-					</ul>
-				</div>
-				
+				<cfif len(media_rel.media_relationship) gt 0>
+					<div class="row mx-0 mt-2 mb-3">
+						<h3 class="px-2 pt-0">Shown on records with relationships: </h3>
+						<ul class="list-group list-group-horizontal">
+							<li class="list-unstyled">
+							<cfloop query="media_rel">
+								<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
+							</cfloop>
+							</li>
+						</ul>
+					</div>
+				</cfif>
 				<!---specimen records--->
 				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
