@@ -21,9 +21,7 @@ limitations under the License.
 		<cfif cgi.HTTP_HOST contains "harvard.edu" >
 			<div class="row helplinks bg-light border-top">
 				<div class="col-sm-12 col-md-6 text-center">
-					<cfoutput>
-						<a href="https://mcz.harvard.edu/acknowledgment-harmful-content" class="policy_link" aria-label="acknowledgment of harmful content">Acknowledgment of Harmful Content</a>
-					</cfoutput>
+					<a href="https://mcz.harvard.edu/acknowledgment-harmful-content" class="policy_link" aria-label="acknowledgment of harmful content">Acknowledgment of Harmful Content</a>
 				</div>
 				<div class="col-sm-12 col-md-6 text-center">
 					<a href="/info/bugs.cfm" aria-label="bug_report_link" target="_blank">Feedback&#8202;/&#8202;Report Errors</a>
