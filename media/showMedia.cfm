@@ -484,10 +484,10 @@
 											<li class="col-1 px-1 list-group-item">
 												<span class="font-weight-lessbold">Locality&nbsp;ID</span>
 											</li>
-											<li class="col-4 px-1 list-group-item">
+											<li class="col-3 px-1 list-group-item">
 												<span class="font-weight-lessbold">Details</span>
 											</li>
-											<li class="col-6 px-1 list-group-item">
+											<li class="col-7 px-1 list-group-item">
 												<span class="font-weight-lessbold">This and Other Collecting Event Media</span>
 											</li>
 										</ul>
@@ -502,7 +502,7 @@
 												<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
-											<div class="col-12 col-md-4 py-2 border-right small">
+											<div class="col-12 col-md-3 py-2 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Date</h3>
 													<div class="col-12 pt-1 pb-2">#collecting_event.verbatim_date#</div>
@@ -516,7 +516,7 @@
 													<div class="col-12 pt-1 pb-2">#collecting_event.collecting_source#</div>
 												</div>
 											</div>
-											<div class="col-12 col-md-6 p-1">
+											<div class="col-12 col-md-7 p-1">
 												<cfloop query="relm3">
 													<div class="border-light col-md-6 col-lg-4 col-xl-3 p-1 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
@@ -840,7 +840,7 @@
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmloc.media_id#">
 																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablockloc= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablockloc#
+																		<cfset mediablockloc= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablockloc#
 																	</div>
 																	<cfset showTitleText2 = trim(title1)>
 																	<cfif len(showTitleText2) gt 170>
