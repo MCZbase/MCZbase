@@ -604,7 +604,7 @@
 													<span class="d-block d-md-none">Permit Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_num#">
 														#permit.permit_num#</a>
 												</div>--->
-												<div class="col-12 col-md-4 col-xl-4 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-3 col-xl-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Permit Type</h3>
 														<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
@@ -614,7 +614,7 @@
 														<div class="col-12 pt-0 pb-1">#permit.permit_title#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-7 col-xl-7 p-1">
+												<div class="col-12 col-md-8 col-xl-8 p-1">
 													<cfloop query="relm4">
 														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 															<cfif len(permit.permit_id) gt 0>
