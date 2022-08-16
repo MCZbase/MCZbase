@@ -614,7 +614,7 @@
 														<div class="col-12 pt-0 pb-1">#permit.permit_title#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 p-1">
+												<div class="col-12 col-md-6 col-xl-9 p-1">
 													<cfloop query="relm4">
 														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 															<cfif len(permit.permit_id) gt 0>
