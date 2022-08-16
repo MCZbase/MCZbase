@@ -4,8 +4,8 @@
      <div id="footerContentBox" class="content_box_footer clearfix">
       <cfif cgi.HTTP_HOST contains "harvard.edu" >
         <div class="footer clearfix">
-				<a href="https://mcz.harvard.edu/acknowledgment-harmful-content" aria-label="acknowledgment of harmful content">Acknowledgment of Harmful Content</a>
-            <a href="/info/bugs.cfm" target="_blank">Feedback&#8202;/&#8202;Report Errors</a>
+				<a href="https://mcz.harvard.edu/acknowledgment-harmful-content" aria-label="acknowledgment of harmful content" style="width: 50%;">Acknowledgment of Harmful Content</a>
+            <a href="/info/bugs.cfm" target="_blank" style="width: 50%;">Feedback&#8202;/&#8202;Report Errors</a>
          </div>
          <div class="footer2 clearfix">
 	<div class="copyright">
