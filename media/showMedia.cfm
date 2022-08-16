@@ -562,7 +562,7 @@
 						<div class="row mx-0">
 							<cfif media.media_id gt 0>
 							<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title  
+								select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title,permit.permit_status
 								from permit
 									left join media_relations on media_relations.related_primary_key = permit.permit_id
 								where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -595,12 +595,7 @@
 												</li>
 												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">		
-														<cfif relm4.recordcount GT 2>
-															<cfset plural = "s">
-														<cfelse>
-															<cfset plural = "">
-														</cfif>
-														<cfset IDtitle = "Image Thumbnail#plural#">
+														<cfset IDtitle = "This Media and Other Permit Media">
 														#IDtitle#
 													</span>
 												</li>
