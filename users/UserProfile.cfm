@@ -65,7 +65,7 @@ limitations under the License.
 			FROM dba_users 
 			WHERE upper(username) = <cfqueryparam value='#ucase(session.username)#' cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
-		<cfif checDBUserExists.ct is not 0>
+		<cfif checkDBUserExists.ct is not 0>
 			<cfthrow
 				type = "user_already_exists"
 				message = "user_already_exists"
