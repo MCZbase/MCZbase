@@ -1203,7 +1203,7 @@
 															#showTitleText11#
 														</div>
 													</div>
-												</div>
+													</div>
 												</cfloop>
 												<div id="targetDiv"></div>
 											</div>
@@ -1239,79 +1239,80 @@
 								</cfquery>
 								<h3 class="w-100 mt-3 mb-0 px-2">Related Publications</h3>
 								<div class="search-box mt-1 pb-0 w-100">
-										<div class="search-box-header px-2 mt-0">
-											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold">Publication&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
-												</li>
-												<li class="col-3 col-xl-4 px-1 list-group-item d-none d-lg-block">
-													<span class="font-weight-lessbold">Details</span>
-												</li>
-												<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
-													<span class="font-weight-lessbold">
-														<cfset IDtitle = "This and Other Agent Media">
-														#IDtitle#
-													</span>
-												</li>
-											</ul>
+									<div class="search-box-header px-2 mt-0">
+										<ul class="list-group list-group-horizontal text-white">
+											<li class="col-2 col-xl-1  px-1 list-group-item">
+												<span class="font-weight-lessbold">Publication&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
+											</li>
+											<li class="col-3 col-xl-4 px-1 list-group-item d-none d-lg-block">
+												<span class="font-weight-lessbold">Details</span>
+											</li>
+											<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
+												<span class="font-weight-lessbold">
+													<cfset IDtitle = "This and Other Agent Media">
+													#IDtitle#
+												</span>
+											</li>
+										</ul>
+									</div>
+									<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT distinct publication.publication_id,formatted_publication.formatted_publication, citation_remarks
+										FROM publication
+											left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
+										left join citation on citation.publication_id = publication.publication_id
+										left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
+										WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
+									</cfquery>
+									<div class="row mx-0 py-0 border-top-teal">
+										<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90">
+											<a name="publication"></a>
+											<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span>
+											<a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.publication_id#">
+											#citation1.publication_id#
+											</a>
 										</div>
-
-										<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT distinct publication.publication_id,formatted_publication.formatted_publication, citation_remarks
-											FROM publication
-												left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
-											left join citation on citation.publication_id = publication.publication_id
-											left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
-											WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
-										</cfquery>
-										<div class="row mx-0 py-0 border-top-teal">
-											<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="publication"></a>
-												<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span><a href="#relm10.auto_protocol#/#relm10.auto_host#/guid/#citation1.publication_id#">#citation1.publication_id#</a>
+										<div class="col-12 col-lg-3 col-xl-4 py-2 border-right small">
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Citation </h3>
+												<cfif len(citation1.publication_id) gt 0>
+													<div class="col-12 pt-0 pb-1">#citation1.formatted_publication#</div>
+												<cfelse>
+													<div class="col-12 pt-0 pb-1">None</div>
+												</cfif>
 											</div>
-											<div class="col-12 col-lg-3 col-xl-4 pt-2 pb-2 border-right small">
-												<div class="row mx-0">
-													<h3 class="h5 mb-0">Citation </h3>
-													<cfif len(citation1.publication_id) gt 0>
-
-														<div class="col-12 pt-0 pb-1">#citation1.formatted_publication#</div>
-													<cfelse>
-														<div class="col-12 pt-0 pb-1">None</div>
-													</cfif>
-												</div>
-												<cfif len(citation1.citation_remarks) gt 0>
+											<cfif len(citation1.citation_remarks) gt 0>
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Citation Remarks</h3>
 													<div class="col-12 pt-0 pb-1">#citation1.citation_remarks#</div>
 												</div>
-												</cfif>
-											</div>
-											<div class="col-12 col-lg-7 col-xl-7 p-1">
-												<cfloop query="relm10">
-													<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm10.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-														<cfif len(citation1.publication_id) gt 0>
-															<cfif relm10.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-															<cfelse>	
-																<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
-															</cfif>
-															<div class="#activeimg#" id="mediaBlock#relm10.media_id#">
-																<div class="col-5 bg-white px-1 float-left">
-																	<cfset mediablock10= getMediaBlockHtml(media_id="#relm10.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock10#
-																</div>
-																<cfset showTitleText3 = trim(title1)>
-																<cfif len(title1) gt 125><cfset showTitleText3 = "#left(showTitleText3,125)#..." ></cfif>
-																<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-																	">Media ID: media/#relm10.media_id#</span>
-																	#showTitleText3#
-																</div>
-															</div>
-														</cfif>
-													</div>
-												</cfloop>
-												<div id="targetDiv"></div>
-											</div>
+											</cfif>
 										</div>
-
+										<div class="col-12 col-lg-7 col-xl-7 p-1">
+											<cfloop query="relm10">
+												<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm10.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+													<cfif len(citation1.publication_id) gt -1>
+														<cfif relm10.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
+														</cfif>
+														<div class="#activeimg#" id="mediaBlock#relm10.media_id#">
+															<div class="col-5 bg-white px-1 float-left">
+																<cfset mediablock10= getMediaBlockHtml(media_id="#relm10.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock10#
+															</div>
+															<cfset showTitleText3 = trim(title1)>
+															<cfif len(title1) gt 125><cfset showTitleText3 = "#left(showTitleText3,125)#..." ></cfif>
+															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+																">Media ID: media/#relm10.media_id#</span>
+																#showTitleText3#
+															</div>
+														</div>
+													</cfif>
+												</div>
+											</cfloop>
+											<div id="targetDiv"></div>
+										</div>
+									</div>
 								</div>
 							<cfelse>
 								<div class="col-12">
