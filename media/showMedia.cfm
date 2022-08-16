@@ -1217,6 +1217,47 @@
 							</cfif>
 						</div>
 
+													
+						<!---pubs created by--->
+						<div class="row mx-0">
+							<a name="shows%20publication"></a>
+							<cfquery name="citation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT distinct citation.collection_object_id 
+								FROM citation
+									left join cataloged_item on cataloged_item.collection_object_id = citation.collection_object_id
+									left join media_relations on media_relations.related_primary_key = cataloged_item.collection_object_id
+									left join media on media_relations.media_id = media.media_id
+								WHERE media_relations.media_relationship like '%pub%'
+									AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+							<cfif len(citation.collection_object_id) gt 0>
+								<h3 class="w-100 mt-3 mb-0 px-2">Related Publication </h3>
+								<a name="shows%20publication"></a>
+								<div class="search-box mt-1 pb-0 w-100">
+									<div class="search-box-header px-2 mt-0">
+										<ul class="list-group list-group-horizontal text-white">
+											<li class="col-2 col-xl-1  px-1 list-group-item">
+												<span class="font-weight-lessbold">Publication&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
+											</li>
+											<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+												<span class="font-weight-lessbold">Details</span>
+											</li>
+											<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
+												<span class="font-weight-lessbold">		
+													<cfset IDtitle = "This and Other Agent Media">
+													#IDtitle#
+												</span>
+											</li>
+										</ul>
+									</div>
+									#citation.collection_object_id#
+								</div>
+							<cfelse>
+								<div class="col-12">
+									<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
+								</div>
+							</cfif>
+						</div>
 						<!---publication publication records--->
 						<div class="row mx-0 mt-3">
 							<a name="shows%20publication"></a>
