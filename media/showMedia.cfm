@@ -1345,8 +1345,8 @@
 													</cfif>
 												</div>
 											</cfloop>
-											<div id="targetDiv"></div>
 										</div>
+										<div id="targetDiv"></div>
 									</div>
 								</div>
 							<cfelse>
