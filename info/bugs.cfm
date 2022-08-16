@@ -217,8 +217,9 @@
 
 	</cfmail>
         <cfcatch>
-           <div>Error: Unable to send bugmail to admin. #cfcatch.Message#</div>
-           <cfset sentok="false">
+				<div>Error: Unable to send bugmail to admin. #cfcatch.Message#</div>
+				<div>Contact the <a HREF="mailto:#Application.PageProblemEmail#" aria-label="email_to_system_admin">System Administrator</a>.</div>
+				<cfset sentok="false">
         </cfcatch>
         </cftry>
 
