@@ -1011,27 +1011,27 @@
 							<cfif len(deaccession.transaction_id) gt 0>
 								<h3 class="w-100 my-0 px-2">Related Deaccessions</h3>
 								<div class="col-12 px-0">
-								<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
-								from media_relations
-									 left join media on media_relations.media_id = media.media_id
-								where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
-								</cfquery>
-								<div class="search-box mt-1 pb-0 w-100">
-									<div class="search-box-header px-2 mt-0">
-										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-2 col-xl-1  px-1 list-group-item">
-												<span class="font-weight-lessbold">Deaccession
-													<span class="d-inline d-lg-none">s </span>
-													<span class="d-none d-lg-inline"> IDs </span>
-												</span>
-											</li>
-											<li>Details</li>
-											<li>Image&nbsp;Thumbnail(s)</li>
-										</ul>
-									</div>
-									<cfloop query="deaccession">
-										<div class="row mx-0 border-top py-0 border-gray">
+									<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+									from media_relations
+										 left join media on media_relations.media_id = media.media_id
+									where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
+									</cfquery>
+									<div class="search-box mt-1 pb-0 w-100">
+										<div class="search-box-header px-2 mt-0">
+											<ul class="list-group list-group-horizontal text-white">
+												<li class="col-2 col-xl-1  px-1 list-group-item">
+													<span class="font-weight-lessbold">Deaccession
+														<span class="d-inline d-lg-none">s </span>
+														<span class="d-none d-lg-inline"> IDs </span>
+													</span>
+												</li>
+												<li>Details</li>
+												<li>Image&nbsp;Thumbnail(s)</li>
+											</ul>
+										</div>
+										<cfloop query="deaccession">
+											<div class="row mx-0 border-top py-0 border-gray">
 											<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 												<span class="d-block d-md-none">Deaccession Number: </span>
 												<a href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.deacc_number#">
@@ -1216,7 +1216,6 @@
 								</div>
 							</cfif>
 						</div>
-						</div>
 
 						<!---publication publication records--->
 						<div class="row mx-0 mt-3">
@@ -1264,7 +1263,7 @@
 										left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
 										WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 									</cfquery>
-									<div class="row mx-0 py-0 border-top-teal">
+							
 										<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90">
 											<a name="publication"></a>
 											<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span>
@@ -1313,7 +1312,7 @@
 											</cfloop>
 											<div id="targetDiv"></div>
 										</div>
-									</div>
+								
 								</div>
 							<cfelse>
 								<div class="col-12">
