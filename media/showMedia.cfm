@@ -562,7 +562,7 @@
 						<div class="row mx-0">
 							<cfif media.media_id gt 0>
 							<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title,permit.permit_status
+								select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
 								from permit
 									left join media_relations on media_relations.related_primary_key = permit.permit_id
 								where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -618,8 +618,8 @@
 														<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
 													</div>
 													<div class="row mx-0">
-														<h3 class="h5 mb-0">Permit Status</h3>
-														<div class="col-12 pt-0 pb-1">#permit.permit_status#</div>
+														<h3 class="h5 mb-0">Permit Title</h3>
+														<div class="col-12 pt-0 pb-1">#permit.permit_title#</div>
 													</div>
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 p-1">
