@@ -573,7 +573,7 @@
 								<h3 class="w-100 my-0 px-2">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
 										from media_relations
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
@@ -635,15 +635,15 @@
 																	<div class="col-5 bg-white px-1 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
-																	<cfset showTitleText1 = trim(title1)>
-																	<cfif len(showTitleText1) gt 170>
-																		<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+																	<cfset showTitleTextP = trim(title1)>
+																	<cfif len(showTitleTextP) gt 170>
+																		<cfset showTitleTextP = "#left(showTitleTextP,170)#..." >
 																	<cfelse>
-																		<cfset showTitleText1 = "#showTitleText1#" >
+																		<cfset showTitleTextP = "#showTitleTextP#" >
 																	</cfif>
 																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relm4.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
-																		#showTitleText1#
+																		#showTitleTextP#
 																	</div>
 																</div>
 															</cfif>
