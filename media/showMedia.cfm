@@ -1321,12 +1321,6 @@
 													<div class="col-12 pt-0 pb-1">None</div>
 												</cfif>
 											</div>
-											<cfif len(citation1.citation_remarks) gt 0>
-												<div class="row mx-0">
-													<h3 class="h5 mb-0">Citation Remarks</h3>
-													<div class="col-12 pt-0 pb-1">#citation1.citation_remarks#</div>
-												</div>
-											</cfif>
 										</div>
 										<div class="col-12 col-lg-7 col-xl-7 p-1">
 											<cfloop query="relm10">
