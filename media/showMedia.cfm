@@ -1297,7 +1297,7 @@
 										</ul>
 									</div>
 									<cfquery name="citation1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										SELECT distinct publication.publication_id,formatted_publication.formatted_publication, citation_remarks
+										SELECT distinct publication.publication_id,formatted_publication.formatted_publication
 										FROM publication
 											left join formatted_publication on publication.publication_id=formatted_publication.publication_id and format_style='long'
 										left join citation on citation.publication_id = publication.publication_id
