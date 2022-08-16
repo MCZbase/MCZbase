@@ -281,7 +281,7 @@ limitations under the License.
 											<span id="pwstatus" style="background-color:white;"></span>
 										</div>
 										<div class="col-12 col-md-6 mb-1 mt-2 mt-md-4">
-											<span id="savBtn"><input type="submit" value="Verify Password & Accept Invitation" class="btn btn-xs btn-secondary"></span>
+											<span id="savBtn"><input type="submit" value="Verify Password &amp; Accept Invitation" class="btn btn-xs btn-secondary"></span>
 										</div>
 									</div>
 								</form>
