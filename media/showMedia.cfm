@@ -1216,6 +1216,7 @@
 								</div>
 							</cfif>
 						</div>
+						</div>
 
 						<!---publication publication records--->
 						<div class="row mx-0 mt-3">
