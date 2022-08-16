@@ -624,7 +624,7 @@
 																	<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm4.media_id#">
-																	<div class="col-3 bg-white px-1 float-left">
+																	<div class="col-5 bg-white px-1 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextP = trim(title1)>
@@ -633,7 +633,7 @@
 																	<cfelse>
 																		<cfset showTitleTextP = "#showTitleTextP#" >
 																	</cfif>
-																	<div class="col-9 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relm4.media_id#</span>
+																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relm4.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextP#
 																	</div>
