@@ -384,13 +384,8 @@
 												<span class="font-weight-lessbold">Details</span>
 											</li>
 											<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
-												<span class="font-weight-lessbold">		
-													<cfif relm2.recordcount GT 2>
-														<cfset plural = "s">
-													<cfelse>
-														<cfset plural = "">
-													</cfif>
-													<cfset IDtitle = "Image Thumbnail#plural#">
+												<span class="font-weight-lessbold">
+													<cfset IDtitle = "This Media and Other Accession Media">
 													#IDtitle#
 												</span>
 											</li>
@@ -570,7 +565,7 @@
 							</cfquery>
 							</cfif>
 							<cfif len(permit.permit_id) gt 0>
-								<h3 class="w-100 my-0 px-2">Related Permits</h3>
+								<h3 class="w-100 mt-3 px-2">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
