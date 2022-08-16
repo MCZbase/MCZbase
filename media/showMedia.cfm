@@ -565,7 +565,7 @@
 							</cfquery>
 							</cfif>
 							<cfif len(permit.permit_id) gt 0>
-								<h3 class="w-100 mt-3 px-2">Related Permits</h3>
+								<h3 class="w-100 mt-3 mb-0 px-2">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
@@ -604,7 +604,7 @@
 													<span class="d-block d-md-none">Permit Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_num#">
 														#permit.permit_num#</a>
 												</div>--->
-												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-4 col-xl-4 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Permit Type</h3>
 														<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
@@ -614,7 +614,7 @@
 														<div class="col-12 pt-0 pb-1">#permit.permit_title#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-9 p-1">
+												<div class="col-12 col-md-7 col-xl-7 p-1">
 													<cfloop query="relm4">
 														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 															<cfif len(permit.permit_id) gt 0>
