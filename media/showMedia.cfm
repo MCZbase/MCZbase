@@ -1263,7 +1263,7 @@
 										left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on citation.collection_object_id = flat.collection_object_id
 										WHERE  publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 									</cfquery>
-							
+									<div class="row mx-0 py-0 border-top-teal">
 										<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90">
 											<a name="publication"></a>
 											<span class="d-inline d-lg-none font-weight-lessbold">Publication: </span>
@@ -1312,7 +1312,7 @@
 											</cfloop>
 											<div id="targetDiv"></div>
 										</div>
-								
+									</div>
 								</div>
 							<cfelse>
 								<div class="col-12">
