@@ -579,13 +579,13 @@
 												<li class="col-2 col-xl-1  px-1 list-group-item">
 													<span class="font-weight-lessbold">Permit ID</span>
 												</li>
-												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
+										<!---		<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Transaction&nbsp;ID</span>
-												</li>
+												</li>--->
 												<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Details</span>
 												</li>
-												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
+												<li class="col-6 col-xl-9 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">		
 														<cfset IDtitle = "This Media and Other Permit Media">
 														#IDtitle#
@@ -600,10 +600,10 @@
 													<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_id#">
 														#permit.permit_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+										<!---		<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Permit Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_num#">
 														#permit.permit_num#</a>
-												</div>
+												</div>--->
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Permit Type</h3>
