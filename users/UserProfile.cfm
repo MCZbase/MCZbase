@@ -268,19 +268,21 @@ limitations under the License.
 							<span class="small pl-1"> (Click "Save Search" from Specimen Results to save a search.)</span>
 						</h4>
 						<cfif isInv.allow is 1>
-							You&apos;ve been invited to become an Operator. Password restrictions apply.
-							This form does not change your password (you may do so <a href="/ChangePassword.cfm">here</a>),
-							but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.
-							<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
-								<input type="hidden" name="action" value="makeUser">
-								<div class="form-row pl-0">
-									<div class="col-12 mb-1">
-										<label for="pw" class="data-entry-label">Enter your password:</label>
-										<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')" class="data-entry-input reqdClr" required>
-										<span id="pwstatus" style="background-color:white;"></span>
-									</div>
-									<div class="col-12 mb-1">
-										<span id="savBtn"><input type="submit" value="Create Account" class="btn btn-secondary"></span>
+							<div class="col-12 col-md-8 col-xl-6 py-3 my-3 border-right border-left border-top border-bottom border-danger">
+								<p>You&apos;ve been invited to become an Operator. Password restrictions apply.</p>
+								<p class="font-weight-lessbold">This form does not change your password (you may do so <a href="/users/changePassword.cfm">here</a>),
+								but will provide information about the suitability of your password. You may need to change your password in order to successfully complete this form.</p>
+								<form name="getUserData" method="post" action="/users/UserProfile.cfm" onSubmit="return noenter();">
+									<input type="hidden" name="action" value="makeUser">
+									<div class="form-row pl-0">
+										<div class="col-12 col-md-6 mb-1 mt-2">
+											<label for="pw" class="data-entry-label">Enter your password:</label>
+											<input type="password" name="pw" id="pw" onkeyup="pwc(this.value,'#session.username#')" class="data-entry-input reqdClr" required>
+											<span id="pwstatus" style="background-color:white;"></span>
+										</div>
+										<div class="col-12 col-md-6 mb-1 mt-2 mt-md-4">
+											<span id="savBtn"><input type="submit" value="Verify Password & Accept Invitation" class="btn btn-xs btn-secondary"></span>
+										</div>
 									</div>
 								</div>
 							</form>
