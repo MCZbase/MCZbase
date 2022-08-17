@@ -215,7 +215,7 @@
 					</div>
 				</main>
 				<!---specimen specimen records--->
-				<div class="row mx-0 mt-3">
+				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
@@ -333,7 +333,7 @@
 				</div>
 
 				<!--- accn accn records --->
-				<div class="row mx-0 mt-3">
+				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
@@ -452,7 +452,7 @@
 				</div>
 
 				<!--- collecting event, collecting event records --->
-				<div class="row mx-0 mt-3">
+				<div class="row mx-0">
 					<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
 						from collecting_event 
@@ -647,7 +647,7 @@
 				</div>
 
 				<!--- loan loan records --->
-				<div class="row mx-0 mt-3">
+				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select  loan.transaction_id, loan_item.transaction_id,loan.loan_type,loan.loan_status,loan.loan_instructions,loan.return_due_date,loan.loan_description,loan.loan_number 
@@ -755,7 +755,7 @@
 				</div>
 
 				<!--- locality locality records --->
-				<div class="row mx-0 mt-3">
+				<div class="row mx-0">
 					<cfif media.media_id gt 0>
 					<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select locality.locality_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
@@ -864,7 +864,7 @@
 				</div>
 
 				<!---Borrow borrow records--->
-				<div class="row mx-0 mt-3">
+				<div class="row mx-0">
 					<a name="shows%20borrow"></a>
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, to_char(borrow.received_date,'yyyy-mm-dd') received_date,to_char(borrow.due_date,'yyyy-mm-dd') due_date, to_char(borrow.lenders_loan_date,'yyyy-mm-dd') lenders_loan_date, borrow.borrow_status
