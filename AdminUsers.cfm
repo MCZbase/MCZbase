@@ -326,7 +326,7 @@
 				where 
 					agent_name.agent_name_type='login' and
 					agent_name.agent_name=cf_users.username and
-					cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_id#">
+					cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.user_id#">
 			</cfquery>
 			<tr>
 				<td>Has User Profile:</td>
