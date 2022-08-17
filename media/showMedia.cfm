@@ -551,7 +551,7 @@
 						and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 				</cfquery>
 				<cfif len(permit.permit_id) gt 0>
-					<a name="documents%20loan"></a>
+					<a name="shows%20permit"></a>
 					<section class="mt-2 row mx-0">
 						<h3 class="w-100 mt-3 mb-0 px-2">Related Permits</h3>
 						<div class="col-12 px-0">
