@@ -319,18 +319,8 @@
 			<tr>
 				<td>Database User Status:</td>
 				<td>
-					<cfif len(isDbUser.username) gt 0>
-						Is User
-						<a href="/AdminUsers.cfm?username=#username#&action=lockUser">Lock Account</a>
-						<!---  check if user_search_table exists for this user --->
-						<cftry>
-							<cfquery name="checkUserSearchTable" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(*) ct from #isDbUser.username#.USER_SEARCH_TABLE
-							</cfquery>
-						<cfcatch>
-							Warning: #isDbUser.username#.USER_SEARCH_TABLE not found.
-						</cfcatch>
-						</cftry> 
+					<cfif len(getUsers.cf_user_data_user_id) GT 0 >
+						Yes
 					<cfelse>
 						<cfquery name="hasInvite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select user_id,allow from temp_allow_cf_user where user_id=#getUsers.user_id#
