@@ -316,6 +316,23 @@
 		</td>
 		<td valign="top">
 		<table border>
+			<cfquery name="isDbUser" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT username 
+				FROM all_users 
+				WHERE username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
+			</cfquery>
+			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					agent_id,
+					MCZBASE.get_agentnameoftype(agent_id) agent_name
+				FROM 
+					agent_name,
+					cf_users
+				where 
+					agent_name.agent_name_type='login' and
+					agent_name.agent_name=cf_users.username and
+					cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.user_id#">
+			</cfquery>
 			<tr>
 				<td>Database User Status:</td>
 				<td>
