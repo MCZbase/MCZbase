@@ -341,7 +341,7 @@
 			<tr>
 				<td>Has Agent Record:</td>
 				<td>
-					<cfif len(getAgent.recordcount) GT 0>
+					<cfif getAgent.recordcount GT 0>
 						<a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_name#</a>
 					<cfelse>
 						No
