@@ -276,10 +276,10 @@
 								</div>
 								<cfloop query="spec">
 									<div class="row mx-0 py-0 border-top-teal">
-										<div class="col-12 col-lg-2 col-xl-2 py-2 border-right small90"><a name="catalogitem"></a>
+										<div class="col-12 col-lg-2 py-2 border-right small90"><a name="catalogitem"></a>
 											<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 										</div>
-										<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
+										<div class="col-12 col-lg-3 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
 												<cfif len(spec.typestatus) gt 0>
@@ -298,7 +298,7 @@
 												<div class="col-12 pt-0 pb-1">#spec.geography#</div>
 											</div>
 										</div>
-										<div class="col-12 col-lg-7 col-xl-7 p-1">
+										<div class="col-12 col-lg-7 p-1">
 											<cfloop query="relm">
 												<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
 													<cfif len(media.media_id) gt 0>
@@ -366,7 +366,7 @@
 							<div class="search-box mt-1 pb-0 w-100">
 								<div class="search-box-header px-2 mt-0">
 									<ul class="list-group list-group-horizontal text-white">
-										<li class="col-2 col-xl-1  px-1 list-group-item">
+										<li class="col-2 col-xl-1 px-1 list-group-item">
 											<span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span>
 										</li>
 										<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
@@ -580,10 +580,11 @@
 								</div>
 								<cfloop query="permit">
 									<div class="row mx-0 border-top py-0 border-gray">
-										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+										<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
 											<span class="d-block d-md-none">Permit ID: </span>
 											<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_id#">
-												#permit.permit_id#</a>
+												#permit.permit_id#
+											</a>
 										</div>
 										<div class="col-12 col-md-3 col-xl-3 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
@@ -595,7 +596,7 @@
 												<div class="col-12 pt-0 pb-1">#permit.permit_title#</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-8 col-xl-8 p-1">
+										<div class="col-12 col-md-8 p-1">
 											<cfloop query="relm4">
 												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 													<cfif len(permit.permit_id) gt 0>
