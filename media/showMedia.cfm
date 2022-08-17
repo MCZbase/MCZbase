@@ -201,7 +201,7 @@
 					</div>
 					<div class="row mx-0">
 						<cfif len(media_rel.media_relationship) gt 0>
-							<div class="row mx-0 mt-0 mb-3">
+							<div class="row mx-0 mt-0 mb-2">
 								<h3 class="px-2 pt-0">Shown on records with relationship#plural#: </h3>
 								<ul class="list-group list-group-horizontal">
 									<li class="list-unstyled">
