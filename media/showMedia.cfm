@@ -214,8 +214,8 @@
 						</cfif>
 					</div>
 				</main>
+										
 				<!---specimen specimen records--->
-				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
@@ -236,7 +236,6 @@
 						and (media_relations.media_relationship like '%cataloged_item%')
 				</cfquery>
 				<cfif len(spec.guid) gt 0>
-
 					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri,
 							get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -254,214 +253,212 @@
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 						order by media.media_id
 					</cfquery>
-					<h3 class="w-100 my-0 px-2">Related Cataloged Items (#speccount.ct#)</h3>
-					<a name="shows%20cataloged_item"></a>
-					<a name="ledger%20entry%20for%20cataloged_item"></a>
-					<div class="search-box mt-1 pb-0 w-100">
-						<div class="search-box-header px-2 mt-0">
-							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-2 col-xl-2  px-1 list-group-item">
-									<span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-lg-none">s </span></span>
-								</li>
-								<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">Details</span>
-								</li>
-								<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
-									<span class="font-weight-lessbold">		
-										<cfset IDtitle = "This and Other Specimen Media">
-										#IDtitle#
-									</span>
-								</li>
-							</ul>
-						</div>
-						<cfloop query="spec">
-							<div class="row mx-0 py-0 border-top-teal">
-								<div class="col-12 col-lg-2 col-xl-2 py-2 border-right small90"><a name="catalogitem"></a>
-									<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+					<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
+					<section class="mt-2 row mx-0">
+						<h3 class="w-100 mt-3 mb-0 px-2">Related Cataloged Items (#speccount.ct#)</h3>
+						<div class="col-12 px-0">
+							<div class="search-box mt-1 pb-0 w-100">
+								<div class="search-box-header px-2 mt-0">
+									<ul class="list-group list-group-horizontal text-white">
+										<li class="col-2 col-xl-2  px-1 list-group-item">
+											<span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-lg-none">s </span></span>
+										</li>
+										<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">Details</span>
+										</li>
+										<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">		
+												<cfset IDtitle = "This and Other Specimen Media">
+												#IDtitle#
+											</span>
+										</li>
+									</ul>
 								</div>
-								<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
-									<div class="row mx-0">
-										<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
-										<cfif len(spec.typestatus) gt 0>
+								<cfloop query="spec">
+									<div class="row mx-0 py-0 border-top-teal">
+										<div class="col-12 col-lg-2 col-xl-2 py-2 border-right small90"><a name="catalogitem"></a>
+											<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+										</div>
+										<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
+												<cfif len(spec.typestatus) gt 0>
 
-											<div class="col-12 pt-0 pb-1">#spec.typestatus#</div>
-										<cfelse>
-											<div class="col-12 pt-0 pb-1">None</div>
-										</cfif>
-									</div>
-									<div class="row mx-0">
-										<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
-										<div class="col-12 pt-0 pb-1">#spec.name#</div>
-									</div>
-									<div class="row mx-0">
-										<h3 class="h5 mb-0">Location&nbsp;Data</h3>
-										<div class="col-12 pt-0 pb-1">#spec.geography#</div>
-									</div>
-								</div>
-								<div class="col-12 col-lg-7 col-xl-7 p-1">
-									<cfloop query="relm">
-										<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
-											<cfif len(media.media_id) gt 0>
-												<cfif relm.media_id eq '#media.media_id#'> 
-													<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-												<cfelse>	
-													<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
+													<div class="col-12 pt-0 pb-1">#spec.typestatus#</div>
+												<cfelse>
+													<div class="col-12 pt-0 pb-1">None</div>
 												</cfif>
-												<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-													<div class="col-5 bg-white px-1 float-left">
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
-													</div>
-													<cfset showTitleText1 = trim(title1)>
-														<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
-													<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-														">Media ID = #relm.media_id#</span>
-														<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
-														#showTitleText1#
-													</div>
+											</div>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
+												<div class="col-12 pt-0 pb-1">#spec.name#</div>
+											</div>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Location&nbsp;Data</h3>
+												<div class="col-12 pt-0 pb-1">#spec.geography#</div>
+											</div>
+										</div>
+										<div class="col-12 col-lg-7 col-xl-7 p-1">
+											<cfloop query="relm">
+												<div class="border-light col-12 col-md-6 col-lg-4 <cfif relm.recordcount lt #maxMedia#>col-xl-4<cfelse>col-xl-3</cfif> p-1 float-left"> 
+													<cfif len(media.media_id) gt 0>
+														<cfif relm.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray w-100 bg-white float-left px-1 pt-2">
+														</cfif>
+														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
+															<div class="col-5 bg-white px-1 float-left">
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock#
+															</div>
+															<cfset showTitleText1 = trim(title1)>
+																<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
+															<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+																">Media ID = #relm.media_id#</span>
+																<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
+																#showTitleText1#
+															</div>
+														</div>
+													</cfif>
+												</div>
+											</cfloop>
+											<div id="targetDiv"></div>
+										</div>
+									</div>
+								</cfloop>
+							</div>
+						</div>
+					</section>
+				</cfif>
+
+				<!--- accn accn records --->
+				<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 
+						accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,1 ,'preferred') as received_agent
+					from
+						accn
+						left join media_relations on media_relations.related_primary_key = accn.transaction_id
+						left join trans_agent on accn.transaction_ID = trans_agent.transaction_id
+					where 
+						media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and media_relations.media_relationship = 'documents accn'
+						and trans_agent.trans_agent_role = 'received from'
+				</cfquery>
+				<cfquery name="accncount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(accn.transaction_id) ct
+					from media_relations
+					left join accn on related_primary_key = transaction_id
+					where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and (media_relations.media_relationship like '%accn%')
+				</cfquery>
+				<cfif len(accn.transaction_id) gt 0>
+					<a name="shows%20collecting_event"></a>
+					<section class="mt-2 row mx-0">
+						<h3 class="w-100 mt-3 mb-0 px-2">Related Accessions (#accncount.ct#)</h3>
+						<div class="col-12 px-0">
+							<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct media.media_id, preview_uri, media.media_uri,
+								media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
+							from media_relations
+								 left join media on media_relations.media_id = media.media_id
+							where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
+							</cfquery>
+							<div class="search-box mt-1 pb-0 w-100">
+								<div class="search-box-header px-2 mt-0">
+									<ul class="list-group list-group-horizontal text-white">
+										<li class="col-2 col-xl-1  px-1 list-group-item">
+											<span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span>
+										</li>
+										<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">Accn&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
+										</li>
+										<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">Details</span>
+										</li>
+										<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
+											<span class="font-weight-lessbold">
+												<cfset IDtitle = "This Media and Other Accession Media">
+												#IDtitle#
+											</span>
+										</li>
+									</ul>
+								</div>
+								<cfloop query="accn">
+									<div class="row mx-0 border-top py-0 border-gray">
+										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+											<span class="d-block d-md-none">Transaction ID: </span>
+											<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
+												#accn.transaction_id#</a>
+										</div>
+										<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+											<span class="d-block d-md-none">Accession Number: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
+												#accn.accn_number#</a>
+										</div>
+										<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Accession Type</h3>
+												<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
+											</div>
+											<div class="row mx-0">
+												<h3 class="h5 mb-0">Accession Status</h3>
+												<div class="col-12 pt-0 pb-1">#accn.accn_status#</div>
+											</div>
+											<cfif len(accn.received_agent) gt 0>
+												<div class="row mx-0">
+													<h3 class="h5 mb-0">Agents Involved</h3>
+													<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
 												</div>
 											</cfif>
 										</div>
-									</cfloop>
-									<div id="targetDiv"></div>
-								</div>
-							</div>
-						</cfloop>
-					</div>
-				<cfelse>
-					<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Specimen Records</h3>
-				</cfif>
-				</div>
-
-				<!--- accn accn records --->
-				<div class="row mx-0">
-					<cfif media.media_id gt 0>
-						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select 
-								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,1 ,'preferred') as received_agent
-							from
-								accn
-								left join media_relations on media_relations.related_primary_key = accn.transaction_id
-								left join trans_agent on accn.transaction_ID = trans_agent.transaction_id
-							where 
-								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								and media_relations.media_relationship = 'documents accn'
-								and trans_agent.trans_agent_role = 'received from'
-						</cfquery>
-						<cfquery name="accncount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select count(accn.transaction_id) ct
-							from media_relations
-							left join accn on related_primary_key = transaction_id
-							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-								and (media_relations.media_relationship like '%accn%')
-						</cfquery>
-					</cfif>
-					<cfif len(accn.transaction_id) gt 0>
-						<h3 class="w-100 mt-3 mb-0 px-2">Related Accessions (#accncount.ct#)</h3>
-						<div class="col-12 px-0">
-						<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media.media_id, preview_uri, media.media_uri,
-							media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
-						from media_relations
-							 left join media on media_relations.media_id = media.media_id
-						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
-						</cfquery>
-						<div class="search-box mt-1 pb-0 w-100">
-							<div class="search-box-header px-2 mt-0">
-								<ul class="list-group list-group-horizontal text-white">
-									<li class="col-2 col-xl-1  px-1 list-group-item">
-										<span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span>
-									</li>
-									<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
-										<span class="font-weight-lessbold">Accn&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
-									</li>
-									<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
-										<span class="font-weight-lessbold">Details</span>
-									</li>
-									<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
-										<span class="font-weight-lessbold">
-											<cfset IDtitle = "This Media and Other Accession Media">
-											#IDtitle#
-										</span>
-									</li>
-								</ul>
-							</div>
-							<cfloop query="accn">
-								<div class="row mx-0 border-top py-0 border-gray">
-									<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-										<span class="d-block d-md-none">Transaction ID: </span>
-										<a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.transaction_id#">
-											#accn.transaction_id#</a>
-									</div>
-									<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-										<span class="d-block d-md-none">Accession Number: </span><a href="#relm2.auto_protocol#/#relm2.auto_host#/guid/#accn.accn_number#">
-											#accn.accn_number#</a>
-									</div>
-									<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
-										<div class="row mx-0">
-											<h3 class="h5 mb-0">Accession Type</h3>
-											<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
-										</div>
-										<div class="row mx-0">
-											<h3 class="h5 mb-0">Accession Status</h3>
-											<div class="col-12 pt-0 pb-1">#accn.accn_status#</div>
-										</div>
-										<cfif len(accn.received_agent) gt 0>
-											<div class="row mx-0">
-												<h3 class="h5 mb-0">Agents Involved</h3>
-												<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
-											</div>
-										</cfif>
-									</div>
-									<div class="col-12 col-md-6 col-xl-8 p-1">
-										<cfloop query="relm2">
-											<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
-												<cfif len(accn.transaction_id) gt 0>
-													<cfif relm2.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
-													<cfelse>	
-														<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
-													</cfif>
-													<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
-														<div class="col-5 bg-white px-1 float-left">
-															<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
-														</div>
-														<cfset showTitleText1 = trim(title1)>
-														<cfif len(showTitleText1) gt 170>
-															<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
-														<cfelse>
-															<cfset showTitleText1 = "#showTitleText1#" >
+										<div class="col-12 col-md-6 col-xl-8 p-1">
+											<cfloop query="relm2">
+												<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+													<cfif len(accn.transaction_id) gt 0>
+														<cfif relm2.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
 														</cfif>
-														<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
-															<span class="d-block font-weight-lessbold">Media ID: media/#relm2.media_id#</span>
-															<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
-															#showTitleText1#
+														<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
+															<div class="col-5 bg-white px-1 float-left">
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+															</div>
+															<cfset showTitleText1 = trim(title1)>
+															<cfif len(showTitleText1) gt 170>
+																<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+															<cfelse>
+																<cfset showTitleText1 = "#showTitleText1#" >
+															</cfif>
+															<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
+																<span class="d-block font-weight-lessbold">Media ID: media/#relm2.media_id#</span>
+																<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
+																#showTitleText1#
+															</div>
 														</div>
-													</div>
-												</cfif>
-											</div>
-										</cfloop>
-										<div id="targetDiv"></div>
+													</cfif>
+												</div>
+											</cfloop>
+											<div id="targetDiv"></div>
+										</div>
 									</div>
-								</div>
-							</cfloop>
+								</cfloop>
+							</div>
 						</div>
-						</div>
-					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Accessions</h3>
-					</cfif>
-				</div>
+					</section>
+				</cfif>
 
 				<!--- collecting event, collecting event records --->
-				<div class="row mx-0">
-					<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
-						from collecting_event 
-							left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and media_relations.media_relationship = 'shows collecting_event'
-					</cfquery>
-					<cfif len(collecting_event.collecting_event_id) gt 0>
-						<h3 class="w-100 my-0 px-2">Collecting Event Records with this Media</h1>
+				<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
+					from collecting_event 
+						left join media_relations on media_relations.related_primary_key = collecting_event.collecting_event_id
+					where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and media_relations.media_relationship = 'shows collecting_event'
+				</cfquery>
+				<cfif len(collecting_event.collecting_event_id) gt 0>
+					<a name="shows%20collecting_event"></a>
+					<section class="mt-2 row mx-0">
+						<h3 class="w-100 mt-3 mb-0 px-2">Collecting Event Records with this Media</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
@@ -542,23 +539,20 @@
 							</cfloop>
 						</div>
 						</div>
-					<cfelse>
-						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Collecting Events</h3>
-					</cfif>
-				</div>
+					</section>
+				</cfif>
 
 				<!--- permit permit records --->
-				<div class="row mx-0">
-					<cfif media.media_id gt 0>
-					<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
-						from permit
-							left join media_relations on media_relations.related_primary_key = permit.permit_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
-					</cfquery>
-					</cfif>
-					<cfif len(permit.permit_id) gt 0>
+				<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
+					from permit
+						left join media_relations on media_relations.related_primary_key = permit.permit_id
+					where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
+				</cfquery>
+				<cfif len(permit.permit_id) gt 0>
+					<a name="shows%20permit"></a>
+					<section class="mt-2 row mx-0">
 						<h3 class="w-100 mt-3 mb-0 px-2">Related Permits</h3>
 						<div class="col-12 px-0">
 							<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -573,10 +567,7 @@
 										<li class="col-2 col-xl-1  px-1 list-group-item">
 											<span class="font-weight-lessbold">Permit ID</span>
 										</li>
-								<!---		<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
-											<span class="font-weight-lessbold">Transaction&nbsp;ID</span>
-										</li>--->
-										<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
+										<li class="col-2 col-xl-3 px-1 list-group-item d-none d-lg-block">
 											<span class="font-weight-lessbold">Details</span>
 										</li>
 										<li class="col-6 col-xl-9 px-1 list-group-item d-none d-lg-block">
@@ -594,10 +585,6 @@
 											<a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_id#">
 												#permit.permit_id#</a>
 										</div>
-								<!---		<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-											<span class="d-block d-md-none">Permit Number: </span><a href="#relm4.auto_protocol#/#relm4.auto_host#/guid/#permit.permit_num#">
-												#permit.permit_num#</a>
-										</div>--->
 										<div class="col-12 col-md-3 col-xl-3 pt-2 pb-1 border-right small">
 											<div class="row mx-0">
 												<h3 class="h5 mb-0">Permit Type</h3>
@@ -641,25 +628,22 @@
 								</cfloop>
 							</div>
 						</div>
-					<cfelse>
-						<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Permits</h3>
-					</cfif>
-				</div>
+					</section>
+				</cfif>
 
 				<!--- loan loan records --->
-				<div class="row mx-0">
-					<cfif media.media_id gt 0>
-					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select  loan.transaction_id, loan_item.transaction_id,loan.loan_type,loan.loan_status,loan.loan_instructions,loan.return_due_date,loan.loan_description,loan.loan_number 
-						from loan
-							left join loan_item on loan_item.transaction_id = loan.transaction_id
-							left join media_relations on media_relations.related_primary_key = loan.transaction_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'documents loan')
-					</cfquery>
-					</cfif>
-					<cfif len(loan.transaction_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Related Loans</h1>
+				<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select  loan.transaction_id, loan_item.transaction_id,loan.loan_type,loan.loan_status,loan.loan_instructions,loan.return_due_date,loan.loan_description,loan.loan_number 
+					from loan
+						left join loan_item on loan_item.transaction_id = loan.transaction_id
+						left join media_relations on media_relations.related_primary_key = loan.transaction_id
+					where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and (media_relations.media_relationship = 'documents loan')
+				</cfquery>
+				<cfif len(loan.transaction_id) gt 0>
+				<a name="documents%20loan"></a>
+					<section class="mt-2 row mx-0">
+						<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Loans</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -749,24 +733,21 @@
 								</cfloop>
 							</div>
 						</div>
-					<cfelse>
-						<h3 class="h6 mt-3 w-100 px-5 font-italic sr-only">Not associated with Loans</h3>
-					</cfif>
-				</div>
+					</section>
+				</cfif>
 
 				<!--- locality locality records --->
-				<div class="row mx-0">
-					<cfif media.media_id gt 0>
-					<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select locality.locality_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
-						from locality
-							left join media_relations on media_relations.related_primary_key = locality.locality_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'shows locality')
-					</cfquery>
-					</cfif>
-					<cfif len(locality.locality_id) gt 0>
-						<h1 class="h3 w-100 my-0 px-2">Locality Records with this Media</h1>
+				<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select locality.locality_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
+					from locality
+						left join media_relations on media_relations.related_primary_key = locality.locality_id
+					where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and (media_relations.media_relationship = 'shows locality')
+				</cfquery>
+				<cfif len(locality.locality_id) gt 0>
+				<a name="shows%20locality"></a>
+					<section class="mt-2 row mx-0">
+						<h1 class="h3 w-100 mt-3 mb-0 px-2">Locality Records with this Media</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -856,25 +837,21 @@
 								</cfloop>
 							</div>
 						</div>
-					<cfelse>
-						<div class="col-12">
-							<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Localities</h3>
-						</div>
-					</cfif>
-				</div>
+					</section>
+				</cfif>
 
 				<!---Borrow borrow records--->
-				<div class="row mx-0">
-					<a name="shows%20borrow"></a>
-					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, to_char(borrow.received_date,'yyyy-mm-dd') received_date,to_char(borrow.due_date,'yyyy-mm-dd') due_date, to_char(borrow.lenders_loan_date,'yyyy-mm-dd') lenders_loan_date, borrow.borrow_status
-						from borrow 
-							left join media_relations on media_relations.related_primary_key = borrow.transaction_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-							and media_relations.media_relationship = 'documents borrow'
-					</cfquery>
-					<cfif len(borrow.transaction_id) gt 0>
-						<h3 class="w-100 my-0 px-2">Related Borrows</h1>
+				<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, to_char(borrow.received_date,'yyyy-mm-dd') received_date,to_char(borrow.due_date,'yyyy-mm-dd') due_date, to_char(borrow.lenders_loan_date,'yyyy-mm-dd') lenders_loan_date, borrow.borrow_status
+					from borrow 
+						left join media_relations on media_relations.related_primary_key = borrow.transaction_id
+					where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relations.media_relationship = 'documents borrow'
+				</cfquery>
+				<cfif len(borrow.transaction_id) gt 0>
+				<a name="documents%20borrow"></a>
+					<section class="mt-2 row mx-0">
+						<h3 class="w-100 mt-3 mb-0 px-2">Related Borrows</h1>
 						<div class="col-12 px-0">
 							<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -972,25 +949,22 @@
 								</cfloop>
 							</div>
 						</div>
-					<cfelse>
-						<div class="col-12">
-							<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Borrow</h3>
-						</div>
-					</cfif>
-				</div>
+					</section>
+				</cfif>
+
 
 				<!---Deaccession deaccesion records--->
-				<div class="row mx-0">
-					<a name="shows%20deaccession"></a>
-					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select *
-						from deaccession 
-							left join media_relations on media_relations.related_primary_key = deaccession.transaction_id
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relations.media_relationship = 'documents deaccession')
-					</cfquery>
-					<cfif len(deaccession.transaction_id) gt 0>
-						<h3 class="w-100 my-0 px-2">Related Deaccessions</h3>
+				<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select *
+					from deaccession 
+						left join media_relations on media_relations.related_primary_key = deaccession.transaction_id
+					where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and (media_relations.media_relationship = 'documents deaccession')
+				</cfquery>
+				<cfif len(deaccession.transaction_id) gt 0>
+				<a name="shows%20deaccession"></a>
+					<section class="mt-2 row mx-0">
+						<h3 class="w-100 mt-3 mb-0 px-2">Related Deaccessions</h3>
 						<div class="col-12 px-0">
 							<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -1075,29 +1049,24 @@
 								</cfloop>
 							</div>
 						</div>
-					<cfelse>
-						<div class="col-12">
-							<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Deaccession</h3>
-						</div>
-					</cfif>
-				</div>
-
+					</section>
+				</cfif>
 				<!---agent agent records created by--->
-				<div class="row mx-0">
-					<a name="shows%20agent"></a>
-					<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT distinct agent_name.agent_id, agent_name.agent_name, media_relations.media_relationship, agent_name.agent_name_type, media.auto_protocol, media.auto_host
-						FROM agent_name
-							left join agent on agent.agent_id = agent_name.agent_id
-							left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-							left join media on media_relations.media_id = media.media_id
-						WHERE media_relations.media_relationship like '%agent%'
-							and media_relations.media_relationship <> 'created by agent'
-							AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							AND agent_name.agent_name_type = 'preferred'
-						ORDER BY agent_name.agent_id
-					</cfquery>
-					<cfif len(agents.agent_id) gt 0>
+				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT distinct agent_name.agent_id, agent_name.agent_name, media_relations.media_relationship, agent_name.agent_name_type, media.auto_protocol, media.auto_host
+					FROM agent_name
+						left join agent on agent.agent_id = agent_name.agent_id
+						left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+						left join media on media_relations.media_id = media.media_id
+					WHERE media_relations.media_relationship like '%agent%'
+						and media_relations.media_relationship <> 'created by agent'
+						AND media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						AND agent_name.agent_name_type = 'preferred'
+					ORDER BY agent_name.agent_id
+				</cfquery>
+				<cfif len(agents.agent_id) gt 0>
+				<a name="shows%20agent"></a>
+					<section class="mt-2 row mx-0">
 						<h3 class="w-100 mt-3 mb-0 px-2">Related Agents </h3>
 						<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
 						<div class="search-box mt-1 pb-0 w-100">
@@ -1191,13 +1160,9 @@
 								</div>
 							</cfloop>
 						</div>
-					<cfelse>
-						<div class="col-12">
-							<h3 class="mt-3 w-100 px-5 font-italic sr-only">Not associated with Agent Records</h3>
-						</div>
-					</cfif>
-				</div>
-
+					</section>
+				</cfif>
+				
 			</cfloop>
 			</div>
 		</div>
