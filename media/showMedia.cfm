@@ -458,7 +458,7 @@
 				<cfif len(collecting_event.collecting_event_id) gt 0>
 					<a name="shows%20collecting_event"></a>
 					<section class="mt-2 row mx-0">
-						<h3 class="w-100 mt-3 mb-0 px-2">Collecting Event Records with this Media</h1>
+						<h3 class="w-100 mt-3 mb-0 px-2"> Related Collecting Events</h1>
 						<div class="col-12 px-0">
 						<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
@@ -484,7 +484,7 @@
 								</ul>
 							</div>
 							<cfloop query="collecting_event">
-								<div class="row mx-0 border-top py-2 border-gray">
+								<div class="row mx-0 border-top py-0 border-gray">
 									<div class="col-12 col-md-1 py-2 border-right small90">
 										<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.collecting_event_id#">
 											#collecting_event.collecting_event_id#</a>
