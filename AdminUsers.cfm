@@ -326,12 +326,12 @@
 				where 
 					agent_name.agent_name_type='login' and
 					agent_name.agent_name=cf_users.username and
-					cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_id#">
+					cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.user_id#">
 			</cfquery>
 			<tr>
 				<td>Has User Profile:</td>
 				<td>
-					<cfif len(getUsers.cf_user_profile_user_id) GT 0 >
+					<cfif len(getUsers.cf_user_data_user_id) GT 0 >
 						Yes
 					<cfelse>
 						No
@@ -380,6 +380,26 @@
 						</cfif>					
 					</td>
 				</tr>
+				<cfquery name="coldfusionUserRole" datasource="uam_god">
+					SELECT 
+						count(*) ct
+					FROM
+						dba_role_privs
+					WHERE
+						upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
+						AND
+						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+				</cfquery>
+				<tr>
+					<td>One of Us</td>
+					<td>
+						<cfif coldfusionUserRole.ct GT 0>
+							Yes
+						<cfelse>
+							No
+						</cfif>
+					</td>
+				</tr>
 				<tr>
 					<td colspan="2">Roles <a href="/AdminUsers.cfm?username=#username#&action=dbRole"><img src="/images/info.gif" border="0" /></a></td>
 				</tr>
@@ -392,23 +412,29 @@
 						upper(dba_role_privs.granted_role) = upper(cf_ctuser_roles.role_name) and
 						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 				</cfquery>
-				<cfloop query="roles">
+				<cfif roles.recordcount EQ 0>
 					<tr>
-						<td>
-							#role_name# 
-						</td>
-						<td>
-							<a href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#"><img src="/images/del.gif" border="0" /></a>
-						</td>
+						<td>None</td>
+						<td></td>
 					</tr>
-				</cfloop>
-				
+				<cfelse>
+					<cfloop query="roles">
+						<tr>
+							<td>
+								#role_name# 
+							</td>
+							<td>
+								<a class="btn btn-xs btn-warning" href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
+							</td>
+						</tr>
+					</cfloop>
+				</cfif>
 				<tr class="newRec">
 					<td colspan="2">Add Roles For This User</td>
 				</tr>
-				<tr class="newRec">
-					<td>
-						<form name="ar" method="post" action="/AdminUsers.cfm">
+				<form name="ar" method="post" action="/AdminUsers.cfm">
+					<tr class="newRec">
+						<td>
 							<input type="hidden" name="action" value="addRole" />
 							<input type="hidden" name="username" value="#getUsers.username#" />
 							<select name="role_name" size="1">
@@ -416,92 +442,110 @@
 									<option value="#role_name#">#role_name#</option>
 								</cfloop>
 							</select>
-					</td>
-					<td>
-						<input type="submit" 
-							value="Grant Role" 
-							class="savBtn"
-							onmouseover="this.className='savBtn btnhov'"
-							onmouseout="this.className='savBtn'">
-						<a href="Admin/user_roles.cfm"><img src="/images/info.gif" border="0" /></a>
-					</td>
-				</form>
-				</tr>
-			</cfif>
-		</table>
-		</td>
-		<cfquery name="user_croles" datasource="uam_god">
-			select granted_role role_name
-			from 
-			dba_role_privs,
-			cf_collection
-			where
-			upper(dba_role_privs.granted_role) = upper(cf_collection.portal_name) and
-			upper(grantee) = '#ucase(username)#'
-			order by granted_role
-		</cfquery>
-		<cfquery name="croles" datasource="uam_god">
-			select granted_role role_name
-			from 
-			dba_role_privs,
-			cf_collection
-			where
-			upper(dba_role_privs.granted_role) = upper(cf_collection.portal_name) 
-			group by granted_role
-			order by granted_role
-		</cfquery>
-		
-		<cfquery name="myroles" datasource="uam_god">
-			select granted_role role_name
-			from 
-			dba_role_privs,
-			cf_collection
-			where
-			upper(dba_role_privs.granted_role) = upper(cf_collection.portal_name) and
-			upper(grantee) = '#ucase(session.username)#'
-			group by granted_role
-			order by granted_role
-		</cfquery>
-		
-		
-		<td valign="top">
-			<table border>
-				<tr>
-					<th>Collection</th>
-					<th>Access</th>
-				</tr>
-				
-				<form name="ar" method="post" action="/AdminUsers.cfm">
-					<input type="hidden" name="action" value="addRole" />
-					<input type="hidden" name="username" value="#getUsers.username#" />
-					<tr>
-						<td>
-							<select name="role_name" size="1">
-								<cfloop query="croles">
-									<cfif not listfindnocase(valuelist(user_croles.role_name),role_name)
-											and listfindnocase(valuelist(myroles.role_name),role_name)>
-										<option value="#role_name#">#role_name#</option>
-									</cfif>
-								</cfloop>
-							</select>
 						</td>
 						<td>
 							<input type="submit" 
-								value="Grant Access" 
-								class="savBtn">
+								value="Grant Role" 
+								class="savBtn"
+								onmouseover="this.className='savBtn btnhov'"
+								onmouseout="this.className='savBtn'">
+							<a href="Admin/user_roles.cfm"><img src="/images/info.gif" border="0" /></a>
 						</td>
 					</tr>
 				</form>
-				<cfloop query="user_croles">
+			</cfif>
+		</table>
+		</td>
+		<cfif len(isDbUser.username) EQ 0>
+			<!--- user must be an oracle user to have any granted roles or vpd access --->
+			<td valign="top">
+				<table border>
+					<tr>
+						<th>Collection</th>
+						<th>Access</th>
+					</tr>
+					<tr>
+						<td>All</td>
+						<td>No VPD access</td>
+					</tr>
+				</table>
+			</td>
+		<cfelse>
+			<cfquery name="user_croles" datasource="uam_god">
+				select granted_role role_name
+				from 
+				dba_role_privs,
+				cf_collection
+				where
+				upper(dba_role_privs.granted_role) = upper(cf_collection.portal_name) and
+				upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
+				order by granted_role
+			</cfquery>
+			<cfquery name="croles" datasource="uam_god">
+				select granted_role role_name
+				from 
+				dba_role_privs,
+				cf_collection
+				where
+				upper(dba_role_privs.granted_role) = upper(cf_collection.portal_name) 
+				group by granted_role
+				order by granted_role
+			</cfquery>
+			
+			<cfquery name="myroles" datasource="uam_god">
+				select granted_role role_name
+				from 
+				dba_role_privs,
+				cf_collection
+				where
+				upper(dba_role_privs.granted_role) = upper(cf_collection.portal_name) and
+				upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+				group by granted_role
+				order by granted_role
+			</cfquery>
+			
+			<td valign="top">
+				<table border>
+					<tr>
+						<th>Collection</th>
+						<th>Access</th>
+					</tr>
+					<cfloop query="user_croles">
 						<tr>
 							<td>#role_name#</td>
 							<td>
-								<a href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#"><img src="/images/del.gif" border="0" /></a>
+								<a class="btn btn-warning btn-xs" href="/AdminUsers.cfm?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Revoke</a>
 							</td>
 						</tr>
-				</cfloop>					
-			</table>
-		</td>
+					</cfloop>					
+					<tr>
+						<td colspan="2">Grant access to collections</td>
+					</tr>
+					
+					<form name="ar" method="post" action="/AdminUsers.cfm">
+						<input type="hidden" name="action" value="addRole" />
+						<input type="hidden" name="username" value="#getUsers.username#" />
+						<tr>
+							<td>
+								<select name="role_name" size="1">
+									<cfloop query="croles">
+										<cfif not listfindnocase(valuelist(user_croles.role_name),role_name)
+												and listfindnocase(valuelist(myroles.role_name),role_name)>
+											<option value="#role_name#">#role_name#</option>
+										</cfif>
+									</cfloop>
+								</select>
+							</td>
+							<td>
+								<input type="submit" 
+									value="Grant Access" 
+									class="savBtn">
+							</td>
+						</tr>
+					</form>
+				</table>
+			</td>
+		</cfif>
 	</tr>
 </table>
 	</cfoutput>
