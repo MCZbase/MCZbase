@@ -359,12 +359,20 @@
 						</select>
 				</td>
 				<td>
-					<input type="submit" 
-						value="Grant Role" 
-						class="savBtn"
-						onmouseover="this.className='savBtn btnhov'"
-						onmouseout="this.className='savBtn'">
-					<a href="Admin/user_roles.cfm"><img src="/images/info.gif" border="0" /></a>
+					<cfquery name="hasInvite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select user_id,allow from temp_allow_cf_user where user_id=#getUsers.user_id#
+					</cfquery>
+					<cfif hasInvite.allow is 1>
+						Invited, <span class="text-warning">Awaiting User Action</span>
+					<cfelse>
+						<cfif getAgent.recordcount GT 0 AND len(getUsers.EMAIL) GT 0>
+							<a href="/AdminUsers.cfm?action=makeNewDbUser&username=#username#&user_id=#getUsers.user_id#">Invite</a> 
+						<cfelseif len(getUsers.EMAIL) EQ 0>
+							User must add an email to their profile to be invited.
+						<cfelse>
+							Needs a linked agent record to invite.
+						</cfif>
+					</cfif>
 				</td>
 			</form>
 			</tr>
@@ -494,8 +502,8 @@
 				cf_users.user_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">
 		</cfquery>
 		<cfif getTheirEmail.email is "">
-			<div class="error">
-				The user needs a valid email address in their profile before you can continue.
+			<div class="text-danger">
+				Error: Unable to invite. The user needs a valid email address in their profile before you can continue.
 			</div>
 			<cfabort>
 		</cfif>
@@ -510,8 +518,8 @@
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif getMyEmail.email is "">
-			<div class="error">
-				You need a valid email address in your profile before you can continue.
+			<div class="text-danger">
+				Error: Unable to invite. You need a valid email address in your profile before you can continue.
 			</div>
 			<cfabort>
 		</cfif>
@@ -527,8 +535,8 @@
 				cf_users.user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_id#">
 		</cfquery>
 		<cfif getAgent.agent_id is "" or getAgent.recordcount is not 1>
-			<div class="error">
-				The user needs a unique agent name of type login (found #getAgent.recordcount# matches).
+			<div class="text-danger">
+				Error: Unable to invite.  The user needs a unique agent name of type login (found #getAgent.recordcount# matches).
 			</div>
 			<cfabort>
 		</cfif>
@@ -552,6 +560,8 @@
 				#Application.PageProblemEmail# if you believe you have received this message in error.
 			</cfmail>
 			An invitation has been sent. <a href="/AdminUsers.cfm?Action=edit&username=#username#">continue</a>			
+		<cfelse>
+			<div>User not invited. <a href="/AdminUsers.cfm?Action=edit&username=#username#">Return to edit user</a>.</div>	
 		</cfif>
 	</cfoutput>
 </cfif>
