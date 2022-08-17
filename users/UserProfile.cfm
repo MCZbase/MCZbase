@@ -109,40 +109,40 @@ limitations under the License.
 					<cfquery name="makeUserCleanup" datasource="uam_god">
 						drop user <cfqueryparam value="#session.username#" cfsqltype="CF_SQL_VARCHAR"> 
 					</cfquery>
-					<cfcatch>
-						<!--- no action, insert may have failed, so may be no user to drop --->
-					</cfcatch>
-					</cftry>
-					<!--- create email message text --->
-					<cfsavecontent variable="errortext">
-						<h3>Error in creating user.</h3>
-						<p>#cfcatch.Message#</p>
-						<p>#cfcatch.Detail#</p>
-						<hr>
-						<cfif isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
-							<cfset ipaddress="#CGI.HTTP_X_Forwarded_For#">
-						<cfelseif isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
-							<cfset ipaddress="#CGI.Remote_Addr#">
-						<cfelse>
-							<cfset ipaddress='unknown'>
-						</cfif>
-						<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
-						<p>Client Dump:</p>
-						<hr>
-						<cfdump var="#client#" label="client">
-						<hr>
-						<p>URL Dump:</p>
-						<hr>
-						<cfdump var="#url#" label="url">
-						<p>CGI Dump:</p>
-						<hr>
-						<cfdump var="#CGI#" label="CGI">
-					</cfsavecontent>
-					<cfmail subject="Error" to="#Application.PageProblemEmail#" from="bad_authentication@#Application.fromEmail#" type="html">
-						#errortext#
-					</cfmail>
-					<h2 class="h3 text-warning">Error in creating user.</h2>
+				<cfcatch>
+					<!--- no action, insert may have failed, so may be no user to drop --->
+				</cfcatch>
+				</cftry>
+				<!--- create email message text --->
+				<cfsavecontent variable="errortext">
+					<h3>Error in creating user.</h3>
 					<p>#cfcatch.Message#</p>
+					<p>#cfcatch.Detail#</p>
+					<hr>
+					<cfif isdefined("CGI.HTTP_X_Forwarded_For") and #len(CGI.HTTP_X_Forwarded_For)# gt 0>
+						<cfset ipaddress="#CGI.HTTP_X_Forwarded_For#">
+					<cfelseif isdefined("CGI.Remote_Addr") and #len(CGI.Remote_Addr)# gt 0>
+						<cfset ipaddress="#CGI.Remote_Addr#">
+					<cfelse>
+						<cfset ipaddress='unknown'>
+					</cfif>
+					<p>ipaddress: <cfoutput><a href="http://network-tools.com/default.asp?prog=network&host=#ipaddress#">#ipaddress#</a></cfoutput></p>
+					<p>Client Dump:</p>
+					<hr>
+					<cfdump var="#client#" label="client">
+					<hr>
+					<p>URL Dump:</p>
+					<hr>
+					<cfdump var="#url#" label="url">
+					<p>CGI Dump:</p>
+					<hr>
+					<cfdump var="#CGI#" label="CGI">
+				</cfsavecontent>
+				<cfmail subject="Error" to="#Application.PageProblemEmail#" from="bad_authentication@#Application.fromEmail#" type="html">
+					#errortext#
+				</cfmail>
+				<h2 class="h3 text-warning">Error in creating user.</h2>
+				<p>#cfcatch.Message#</p>
 				<cfabort>
 			</cfcatch>
 		</cftry>
