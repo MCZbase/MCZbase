@@ -349,14 +349,11 @@
 			
 			<tr class="newRec">
 				<td>
-					<form name="ar" method="post" action="/AdminUsers.cfm">
-						<input type="hidden" name="action" value="addRole" />
-						<input type="hidden" name="username" value="#getUsers.username#" />
-						<select name="role_name" size="1">
-							<cfloop query="ctRoleName">
-								<option value="#role_name#">#role_name#</option>
-							</cfloop>
-						</select>
+					<cfif getAgent.recordcount GT 0>
+						<a href="/agents/Agent.cfm?agent_id=#getAgent.agent_id#">#getAgent.agent_name#</a>
+					<cfelse>
+						No
+					</cfif>
 				</td>
 				<td>
 					<cfquery name="hasInvite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
