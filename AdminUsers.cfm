@@ -331,7 +331,7 @@
 			<tr>
 				<td>Has User Profile:</td>
 				<td>
-					<cfif len(getUsers.cf_user_profile_user_id) GT 0 >
+					<cfif len(getUsers.cf_user_data_user_id) GT 0 >
 						Yes
 					<cfelse>
 						No
