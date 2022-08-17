@@ -570,7 +570,7 @@
 										<li class="col-2 col-xl-3 px-1 list-group-item d-none d-lg-block">
 											<span class="font-weight-lessbold">Details</span>
 										</li>
-										<li class="col-6 col-xl-9 px-1 list-group-item d-none d-lg-block">
+										<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 											<span class="font-weight-lessbold">		
 												<cfset IDtitle = "This Media and Other Permit Media">
 												#IDtitle#
