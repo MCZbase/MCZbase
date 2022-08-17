@@ -466,7 +466,7 @@
 							 left join media on media_relations.media_id = media.media_id
 						where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event.collecting_event_id#">
 						</cfquery>
-						<div class="search-box mt-1 w-100">
+						<div class="search-box pb-0 mt-1 w-100">
 							<div class="search-box-header px-2 mt-0">
 								<ul class="list-group list-group-horizontal text-white">
 									<li class="col-1 px-1 list-group-item">
