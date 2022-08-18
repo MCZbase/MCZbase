@@ -201,7 +201,7 @@
 						</div>
 					</main>
 					<div class="container-fluid">
-						<div class="row mx-0 my-0">
+						<div class="row mx-0 mb-3">
 							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="row mx-0">
 									<h3 class="px-2 pt-0">Shown on records with relationship#plural#: </h3>
