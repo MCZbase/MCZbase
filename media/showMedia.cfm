@@ -206,7 +206,7 @@
 							</cfif>
 							<div class="col-12 px-0 px-xl-5 mt-3">
 								<div class="row mx-0 border-bottom border-dark">
-									<h3 class="px-3 pt-0 ">Shown on records with relationship#plural#: </h3>
+									<h3 class="p-0 ">Shown on records with relationship#plural#: </h3>
 									<ul class="list-group list-group-horizontal">
 										<li class="list-unstyled">
 										<cfloop query="media_rel">
