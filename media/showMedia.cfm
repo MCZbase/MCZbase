@@ -31,7 +31,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<div class="container-fluid" id="content">
+	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
 				media_relationship
@@ -42,184 +42,185 @@
 				and media_relations.media_relationship <> 'created by agent'
 			ORDER BY media_relationship
 		</cfquery>
-		<div class="row mx-0">
+		<div class="container-fluid">
+			<div class="row">
 			<div class="col-12 px-0 pb-4">
-				<cfloop query="media">
-					<main>
-						<div class="row mx-0">
-							<div class="col-12 px-0 px-xl-5 mt-3">
-								<h1 class="h2 mt-2 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	
-									<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
-								</h1>
-								<div class="h4 px-0 mt-0">Media ID = media/#media.media_id#</div>
-							</div>
-							<div class="col-12 px-0 px-xl-5 mt-2 mb-2">
-								<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									media_label,
-									label_value,
-									agent_name,
-									media_label_id 
-								FROM
-									media_labels
-									left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
-								WHERE
-									media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								</cfquery>
-								<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									media_keywords.media_id,
-									keywords
-								FROM
-									media_keywords
-								WHERE
-									media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								</cfquery>
-								<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT source_media.media_id source_media_id, 
-										source_media.auto_filename source_filename,
-										source_media.media_uri source_media_uri,
-										media_relations.media_relationship
-									FROM
-										media_relations
-										left join media source_media on media_relations.media_id = source_media.media_id
-									WHERE
-										media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								</cfquery>
-								<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-									select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
-									from media_relations
-										left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
-										left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-										left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-										left join media media1 on media1.media_id = media_relations.media_id
-									where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-										and (media_relationship = 'shows cataloged_item')
-									and identification.accepted_id_fg = 1		
-								</cfquery>
-								<cfif len(media.media_id) gt 0>
-									<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-3 pt-3 pb-2">
-										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textFull")>
-										<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-									</div>
-								</cfif>
-								<div class="float-left col-12 px-0 col-xl-8 pl-xl-4">
-									<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
-									<table class="table border-none">
-										<thead class="thead-light">
-											<tr>
-												<th scope="col">Label</th>
-												<th scope="col">Value</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<th scope="row"><span class="text-uppercase">MEDIA TYPE:</span></th><td> #media.media_type#</td>
-											</tr>
-											<cfloop query="labels">
-											<tr>
-												<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
-											</tr>
-											</cfloop>
-											<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
-												from media_relations
-											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												and media_relationship in ('created by agent', 'shows cataloged_item')
-											</cfquery>
-											<cfloop query="relations">
-												<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-													<cfset labellist = "<th scope='row'><span class='text-uppercase'>#mr_label#:</span></th><td> #mr_value#</td>">
-												</cfif>
-											</cfloop>
-											<cfif len(keywords.keywords) gt 0>
-											<tr>
-												<th scope="row"><span class="text-uppercase">Keywords: </span></th><td> #keywords.keywords#</td>
-											</tr>
-											<cfelse>
-											</cfif>
-											<cfif listcontainsnocase(session.roles,"manage_media")>
-											<tr class="border mt-2 p-2">
-												<th scope="row"><span class="text-uppercase">Alt Text: </span></th><td>#media.alttag#</td>
-											</tr>
-											</cfif>
-										</tbody>
-									</table>
-								<!---TO DO  Create external media relationship table for additional renderings and query that for conditional around display--->
-									<cfif media.media_uri contains 'slide-atlas' AND media.media_uri contains 'morphosource'>
-										<cfset plural = "s">
-									<cfelse>
-										<cfset plural = "">
-									</cfif>
-									<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
-										<div class="row mx-0 mb-2">
-											<h3 class="h4 px-2 pt-0">Additional Rendering#plural# </h3>
-											<ul class="list-group list-group-horizontal col-12 px-0">
-											<cfif media.media_uri contains 'slide-atlas'>
-												<li class="list-unstyled col-3 px-0 border bg-light text-center">
-													<div id="content">
-														<div class="flip-card">
-															<div class="flip-card-inner">
-																<a href="##" id="flip-card-inner">
-																	<div class="flip-card-front">
-																		<div class="heightFlip font-weight-lessbold">Slide Atlas</div>
-																	</div>
-																</a>
-																<div class="flip-card-back">
-																	<a class="link-color px-1 text-center" href="http://www.google.com">Slide Atlas logo </a>
-																	<div class="">slide metadata</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</li>
-											</cfif>
-											<cfif media.media_uri contains 'morphosource'>
-												<li class="list-unstyled col-3 px-0 border bg-light text-center">
-													<div id="content">
-														<div class="flip-card">
-															<div class="flip-card-inner">
-																<a href="##" id="flip-card-inner">
-																	<div class="flip-card-front">
-																		<div class="heightFlip font-weight-lessbold">Morphosource</div>
-																	</div>
-																</a>
-																<div class="flip-card-back">
-																	<a class="link-color px-1 text-center" href="http://www.google.com">Morphosource logo </a>
-																	<div class="">slide metadata</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</li>
-											</cfif>
-											</ul>
-										</div>
-									</cfif>
-								</div>
-							</div>
+				<main class="content">
+					<div class="row mx-0">
+						<div class="col-12 px-0 px-xl-5 mt-3">
+							<h1 class="h2 mt-2 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	
+								<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
+							</h1>
+							<div class="h4 px-0 mt-0">Media ID = media/#media.media_id#</div>
 						</div>
-					</main>
-					<div class="container-fluid pb-3">
-						<div class="row mx-0">
-							<cfif len(media_rel.media_relationship) gt 0>
-								<cfif media_rel.recordcount GT 2>
+						<div class="col-12 px-0 px-xl-5 mt-2 mb-2">
+							<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								media_label,
+								label_value,
+								agent_name,
+								media_label_id 
+							FROM
+								media_labels
+								left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
+							WHERE
+								media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+							<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT
+								media_keywords.media_id,
+								keywords
+							FROM
+								media_keywords
+							WHERE
+								media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+							<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT source_media.media_id source_media_id, 
+									source_media.auto_filename source_filename,
+									source_media.media_uri source_media_uri,
+									media_relations.media_relationship
+								FROM
+									media_relations
+									left join media source_media on media_relations.media_id = source_media.media_id
+								WHERE
+									media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+							<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+								select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
+								from media_relations
+									left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
+									left join identification on identification.collection_object_id = cataloged_item.collection_object_id
+									left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+									left join media media1 on media1.media_id = media_relations.media_id
+								where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+									and (media_relationship = 'shows cataloged_item')
+								and identification.accepted_id_fg = 1		
+							</cfquery>
+							<cfif len(media.media_id) gt 0>
+								<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-3 pt-3 pb-2">
+									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textFull")>
+									<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+								</div>
+							</cfif>
+							<div class="float-left col-12 px-0 col-xl-8 pl-xl-4">
+								<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
+								<table class="table border-none">
+									<thead class="thead-light">
+										<tr>
+											<th scope="col">Label</th>
+											<th scope="col">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row"><span class="text-uppercase">MEDIA TYPE:</span></th><td> #media.media_type#</td>
+										</tr>
+										<cfloop query="labels">
+										<tr>
+											<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
+										</tr>
+										</cfloop>
+										<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
+											from media_relations
+										where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+											and media_relationship in ('created by agent', 'shows cataloged_item')
+										</cfquery>
+										<cfloop query="relations">
+											<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
+												<cfset labellist = "<th scope='row'><span class='text-uppercase'>#mr_label#:</span></th><td> #mr_value#</td>">
+											</cfif>
+										</cfloop>
+										<cfif len(keywords.keywords) gt 0>
+										<tr>
+											<th scope="row"><span class="text-uppercase">Keywords: </span></th><td> #keywords.keywords#</td>
+										</tr>
+										<cfelse>
+										</cfif>
+										<cfif listcontainsnocase(session.roles,"manage_media")>
+										<tr class="border mt-2 p-2">
+											<th scope="row"><span class="text-uppercase">Alt Text: </span></th><td>#media.alttag#</td>
+										</tr>
+										</cfif>
+									</tbody>
+								</table>
+							<!---TO DO  Create external media relationship table for additional renderings and query that for conditional around display--->
+								<cfif media.media_uri contains 'slide-atlas' AND media.media_uri contains 'morphosource'>
 									<cfset plural = "s">
 								<cfelse>
 									<cfset plural = "">
 								</cfif>
-								<div class="row mx-0">
-									<h3 class="px-2 pt-0">Shown on records with relationship#plural#: </h3>
-									<ul class="list-group list-group-horizontal">
-										<li class="list-unstyled">
-										<cfloop query="media_rel">
-											<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
-										</cfloop>
-										</li>
-									</ul>
-								</div>
-							</cfif>
+								<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
+									<div class="row mx-0 mb-2">
+										<h3 class="h4 px-2 pt-0">Additional Rendering#plural# </h3>
+										<ul class="list-group list-group-horizontal col-12 px-0">
+										<cfif media.media_uri contains 'slide-atlas'>
+											<li class="list-unstyled col-3 px-0 border bg-light text-center">
+												<div id="content">
+													<div class="flip-card">
+														<div class="flip-card-inner">
+															<a href="##" id="flip-card-inner">
+																<div class="flip-card-front">
+																	<div class="heightFlip font-weight-lessbold">Slide Atlas</div>
+																</div>
+															</a>
+															<div class="flip-card-back">
+																<a class="link-color px-1 text-center" href="http://www.google.com">Slide Atlas logo </a>
+																<div class="">slide metadata</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+										</cfif>
+										<cfif media.media_uri contains 'morphosource'>
+											<li class="list-unstyled col-3 px-0 border bg-light text-center">
+												<div id="content">
+													<div class="flip-card">
+														<div class="flip-card-inner">
+															<a href="##" id="flip-card-inner">
+																<div class="flip-card-front">
+																	<div class="heightFlip font-weight-lessbold">Morphosource</div>
+																</div>
+															</a>
+															<div class="flip-card-back">
+																<a class="link-color px-1 text-center" href="http://www.google.com">Morphosource logo </a>
+																<div class="">slide metadata</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
+										</cfif>
+										</ul>
+									</div>
+								</cfif>
+							</div>
 						</div>
+					</div>
+				</main>
+			</div>
+			<div class="col-12 px-0 pb-4">
+				<div class="row mx-0">
+					<cfif len(media_rel.media_relationship) gt 0>
+						<cfif media_rel.recordcount GT 2>
+							<cfset plural = "s">
+						<cfelse>
+							<cfset plural = "">
+						</cfif>
+						<div class="row mx-0">
+							<h3 class="px-2 pt-0">Shown on records with relationship#plural#: </h3>
+							<ul class="list-group list-group-horizontal">
+								<li class="list-unstyled">
+								<cfloop query="media_rel">
+									<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
+								</cfloop>
+								</li>
+							</ul>
+						</div>
+					</cfif>
+			
 						<!---specimen records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
@@ -934,6 +935,7 @@
 														</div>
 													</cfloop>
 													<div id="targetDiv"></div>
+
 												</div>
 											</div>
 										</cfloop>
@@ -1265,9 +1267,9 @@
 							</section>
 						</cfif>
 					</div>
-				</cfloop>
+		</div>
 			</div>
 		</div>
-	</div>
+	</cfloop>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
