@@ -372,7 +372,7 @@
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1 px-1 list-group-item">
-													<span class="font-weight-lessbold">Accession<span class="d-inline d-lg-none">s </span><span class="d-none d-lg-inline"> IDs </span></span>
+													<span class="font-weight-lessbold">Accession ID</span>
 												</li>
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Accn&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
@@ -412,6 +412,12 @@
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Agents Involved</h3>
 															<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
+														</div>
+													</cfif>
+													<cfif len(accn.received_agent) gt 0>
+														<div class="row mx-0">
+															<h3 class="h5 mb-0">Received Date</h3>
+															<div class="col-12 pt-0 pb-1">#accn.received_date#</div>
 														</div>
 													</cfif>
 												</div>
