@@ -260,7 +260,7 @@
 								order by media.media_id
 							</cfquery>
 							<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#)</h3>
 								<div class="col-12 px-0">
 									<div class="search-box rounded-0 mt-1 pb-0 w-100">
@@ -359,7 +359,7 @@
 						</cfquery>
 						<cfif len(accn.transaction_id) gt 0>
 							<a name="shows%20collecting_event"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Accessions (#accncount.ct#)</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -469,7 +469,7 @@
 						</cfquery>
 						<cfif len(collecting_event.collecting_event_id) gt 0>
 							<a name="shows%20collecting_event"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3"> Related Collecting Events</h1>
 								<div class="col-12 px-0">
 								<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -564,7 +564,7 @@
 						</cfquery>
 						<cfif len(permit.permit_id) gt 0>
 							<a name="shows%20permit"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -654,7 +654,7 @@
 						</cfquery>
 						<cfif len(permit.permit_id) gt 0>
 							<a name="shows%20permit"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -745,7 +745,7 @@
 						</cfquery>
 						<cfif len(loan.transaction_id) gt 0>
 						<a name="documents%20loan"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h1 class="h3 w-100 mt-3 mb-0 px-3">Related Loans</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -849,7 +849,7 @@
 						</cfquery>
 						<cfif len(locality.locality_id) gt 0>
 						<a name="shows%20locality"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h1 class="h3 w-100 mt-3 mb-0 px-3">Locality Records with this Media</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -954,7 +954,7 @@
 						</cfquery>
 						<cfif len(borrow.transaction_id) gt 0>
 						<a name="documents%20borrow"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Borrows</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1170,7 +1170,7 @@
 						</cfquery>
 						<cfif len(agents.agent_id) gt 0>
 						<a name="shows%20agent"></a>
-							<section class="mt-2 row mx-0">
+							<section class="my-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Agents </h3>
 								<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
 								<div class="search-box rounded-0 mt-1 pb-0 w-100">
@@ -1267,7 +1267,7 @@
 							</section>
 						</cfif>
 					</div>
-		</div>
+				</div>
 			</div>
 		</div>
 	</cfloop>
