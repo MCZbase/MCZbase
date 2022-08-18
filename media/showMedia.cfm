@@ -263,7 +263,7 @@
 							<section class="mt-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-2">Related Cataloged Items (#speccount.ct#)</h3>
 								<div class="col-12 px-0">
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-2  px-1 list-group-item">
@@ -369,7 +369,7 @@
 										 left join media on media_relations.media_id = media.media_id
 									where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
 									</cfquery>
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1 px-1 list-group-item">
@@ -478,7 +478,7 @@
 									 left join media on media_relations.media_id = media.media_id
 								where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event.collecting_event_id#">
 								</cfquery>
-								<div class="search-box border-radius-0 pb-0 mt-1 w-100">
+								<div class="search-box rounded-0 pb-0 mt-1 w-100">
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-1 px-1 list-group-item">
@@ -573,7 +573,7 @@
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
 									</cfquery>
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
@@ -663,7 +663,7 @@
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
 									</cfquery>
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
@@ -754,7 +754,7 @@
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan.transaction_id#">
 									</cfquery>
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
@@ -859,7 +859,7 @@
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality.locality_id#">
 									</cfquery>
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
@@ -963,7 +963,7 @@
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow.transaction_id#">
 									</cfquery>
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
@@ -1075,7 +1075,7 @@
 										 left join media on media_relations.media_id = media.media_id
 									where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
 									</cfquery>
-									<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
@@ -1173,7 +1173,7 @@
 							<section class="mt-2 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-2">Related Agents </h3>
 								<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
-								<div class="search-box border-radius-0 mt-1 pb-0 w-100">
+								<div class="search-box rounded-0 mt-1 pb-0 w-100">
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-2 col-xl-1  px-1 list-group-item">
