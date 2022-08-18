@@ -220,8 +220,8 @@
 					</div>
 				</main>
 			</div>
-			<div class="col-12 pb-4">
-				<div class="row mx-0">
+			<div class="col-12 pb-5">
+				<div class="row mx-0 mb-3">
 
 			
 						<!---specimen records--->
