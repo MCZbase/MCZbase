@@ -198,28 +198,31 @@
 								</cfif>
 							</div>
 						</div>
+						<cfif len(media_rel.media_relationship) gt 0>
+							<cfif media_rel.recordcount GT 2>
+								<cfset plural = "s">
+							<cfelse>
+								<cfset plural = "">
+							</cfif>
+							<div class="col-12 px-0 px-xl-5 mt-3">
+								<div class="row mx-0">
+									<h3 class="px-3 pt-0 border-bottom border-dark">Shown on records with relationship#plural#: </h3>
+									<ul class="list-group list-group-horizontal">
+										<li class="list-unstyled">
+										<cfloop query="media_rel">
+											<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
+										</cfloop>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</cfif>
 					</div>
 				</main>
 			</div>
 			<div class="col-12 px-0 pb-4 pt-3 border-top border-teal">
 				<div class="row mx-0">
-					<cfif len(media_rel.media_relationship) gt 0>
-						<cfif media_rel.recordcount GT 2>
-							<cfset plural = "s">
-						<cfelse>
-							<cfset plural = "">
-						</cfif>
-						<div class="row mx-0">
-							<h3 class="px-3 pt-0">Shown on records with relationship#plural#: </h3>
-							<ul class="list-group list-group-horizontal">
-								<li class="list-unstyled">
-								<cfloop query="media_rel">
-									<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
-								</cfloop>
-								</li>
-							</ul>
-						</div>
-					</cfif>
+
 			
 						<!---specimen records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1170,7 +1173,7 @@
 						</cfquery>
 						<cfif len(agents.agent_id) gt 0>
 						<a name="shows%20agent"></a>
-							<section class="my-2 row mx-0">
+							<section class="mt-2 mb-5 row mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Agents </h3>
 								<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
 								<div class="search-box rounded-0 mt-1 pb-0 w-100">
