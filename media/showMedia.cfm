@@ -44,7 +44,7 @@
 		</cfquery>
 		<div class="container-fluid">
 			<div class="row">
-			<div class="col-12 px-0 pb-4">
+			<div class="col-12 px-5 pb-4">
 				<main class="content">
 					<div class="row mx-0">
 						<div class="col-12 px-0 px-xl-5 mt-3">
