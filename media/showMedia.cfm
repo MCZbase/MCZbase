@@ -206,11 +206,11 @@
 							</cfif>
 							<div class="col-12 px-0 px-xl-5 mt-3">
 								<div class="row mx-0 border-bottom border-dark">
-									<h3 class="p-0 ">Shown on records with relationship#plural#: </h3>
+									<h3 class="p-0 h4">Shown on records with relationship#plural#: </h3>
 									<ul class="list-group list-group-horizontal">
 										<li class="list-unstyled">
 										<cfloop query="media_rel">
-											<a class="link-color px-1 h3" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
+											<a class="link-color px-1 h4" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
 										</cfloop>
 										</li>
 									</ul>
@@ -220,7 +220,7 @@
 					</div>
 				</main>
 			</div>
-			<div class="col-12 px-0 pb-4">
+			<div class="col-12 pb-4">
 				<div class="row mx-0">
 
 			
