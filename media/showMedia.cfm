@@ -201,7 +201,7 @@
 					</div>
 				</main>
 			</div>
-			<div class="col-12 px-0 pb-4">
+			<div class="col-12 px-0 pb-4 pt-3 border-top border-teal">
 				<div class="row mx-0">
 					<cfif len(media_rel.media_relationship) gt 0>
 						<cfif media_rel.recordcount GT 2>
@@ -210,7 +210,7 @@
 							<cfset plural = "">
 						</cfif>
 						<div class="row mx-0">
-							<h3 class="px-2 pt-0">Shown on records with relationship#plural#: </h3>
+							<h3 class="px-3 pt-0">Shown on records with relationship#plural#: </h3>
 							<ul class="list-group list-group-horizontal">
 								<li class="list-unstyled">
 								<cfloop query="media_rel">
@@ -261,7 +261,7 @@
 							</cfquery>
 							<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2">Related Cataloged Items (#speccount.ct#)</h3>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#)</h3>
 								<div class="col-12 px-0">
 									<div class="search-box rounded-0 mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
@@ -360,7 +360,7 @@
 						<cfif len(accn.transaction_id) gt 0>
 							<a name="shows%20collecting_event"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2">Related Accessions (#accncount.ct#)</h3>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Accessions (#accncount.ct#)</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct media.media_id, preview_uri, media.media_uri,
@@ -470,7 +470,7 @@
 						<cfif len(collecting_event.collecting_event_id) gt 0>
 							<a name="shows%20collecting_event"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2"> Related Collecting Events</h1>
+								<h3 class="w-100 mt-3 mb-0 px-3"> Related Collecting Events</h1>
 								<div class="col-12 px-0">
 								<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
@@ -565,7 +565,7 @@
 						<cfif len(permit.permit_id) gt 0>
 							<a name="shows%20permit"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2">Related Permits</h3>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
@@ -655,7 +655,7 @@
 						<cfif len(permit.permit_id) gt 0>
 							<a name="shows%20permit"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2">Related Permits</h3>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
@@ -746,7 +746,7 @@
 						<cfif len(loan.transaction_id) gt 0>
 						<a name="documents%20loan"></a>
 							<section class="mt-2 row mx-0">
-								<h1 class="h3 w-100 mt-3 mb-0 px-2">Related Loans</h1>
+								<h1 class="h3 w-100 mt-3 mb-0 px-3">Related Loans</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -850,7 +850,7 @@
 						<cfif len(locality.locality_id) gt 0>
 						<a name="shows%20locality"></a>
 							<section class="mt-2 row mx-0">
-								<h1 class="h3 w-100 mt-3 mb-0 px-2">Locality Records with this Media</h1>
+								<h1 class="h3 w-100 mt-3 mb-0 px-3">Locality Records with this Media</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -955,7 +955,7 @@
 						<cfif len(borrow.transaction_id) gt 0>
 						<a name="documents%20borrow"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2">Related Borrows</h1>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Borrows</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -1067,7 +1067,7 @@
 						<cfif len(deaccession.transaction_id) gt 0>
 						<a name="shows%20deaccession"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2">Related Deaccessions</h3>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Deaccessions</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -1171,7 +1171,7 @@
 						<cfif len(agents.agent_id) gt 0>
 						<a name="shows%20agent"></a>
 							<section class="mt-2 row mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-2">Related Agents </h3>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Agents </h3>
 								<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
 								<div class="search-box rounded-0 mt-1 pb-0 w-100">
 									<div class="search-box-header px-2 mt-0">
