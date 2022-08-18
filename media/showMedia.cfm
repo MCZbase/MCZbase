@@ -203,6 +203,11 @@
 					<div class="container-fluid pb-3">
 						<div class="row mx-0">
 							<cfif len(media_rel.media_relationship) gt 0>
+								<cfif media_rel.recordcount GT 2>
+									<cfset plural = "s">
+								<cfelse>
+									<cfset plural = "">
+								</cfif>
 								<div class="row mx-0">
 									<h3 class="px-2 pt-0">Shown on records with relationship#plural#: </h3>
 									<ul class="list-group list-group-horizontal">
@@ -215,7 +220,7 @@
 								</div>
 							</cfif>
 						</div>
-						<!---specimen specimen records--->
+						<!---specimen records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 							decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
@@ -331,7 +336,7 @@
 							</section>
 						</cfif>
 
-						<!--- accn accn records --->
+						<!---accn records --->
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
 								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,1 ,'preferred') as received_agent
@@ -447,7 +452,7 @@
 							</section>
 						</cfif>
 
-						<!--- collecting event, collecting event records --->
+						<!---collecting event records --->
 						<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
 							from collecting_event 
@@ -542,7 +547,7 @@
 							</section>
 						</cfif>
 
-						<!--- permit permit records --->
+						<!--- permit records --->
 						<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
 							from permit
@@ -632,7 +637,7 @@
 							</section>
 						</cfif>
 
-						<!--- loan loan records --->
+						<!--- loan records --->
 						<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select  loan.transaction_id, loan_item.transaction_id,loan.loan_type,loan.loan_status,loan.loan_instructions,loan.return_due_date,loan.loan_description,loan.loan_number 
 							from loan
@@ -737,7 +742,7 @@
 							</section>
 						</cfif>
 
-						<!--- locality locality records --->
+						<!--- locality records --->
 						<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select locality.locality_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
 							from locality
@@ -841,7 +846,7 @@
 							</section>
 						</cfif>
 
-						<!---Borrow borrow records--->
+						<!---Borrow records--->
 						<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select borrow.transaction_id, media_relations.media_id,borrow.lenders_trans_num_cde, to_char(borrow.received_date,'yyyy-mm-dd') received_date,to_char(borrow.due_date,'yyyy-mm-dd') due_date, to_char(borrow.lenders_loan_date,'yyyy-mm-dd') lenders_loan_date, borrow.borrow_status
 							from borrow 
@@ -953,7 +958,7 @@
 							</section>
 						</cfif>
 
-						<!---Deaccession deaccesion records--->
+						<!---Deaccession records--->
 						<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select *
 							from deaccession 
@@ -1052,7 +1057,7 @@
 							</section>
 						</cfif>
 
-						<!---agent agent records created by--->
+						<!---agent records created by--->
 						<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct agent_name.agent_id, agent_name.agent_name, media_relations.media_relationship, agent_name.agent_name_type, media.auto_protocol, media.auto_host
 							FROM agent_name
