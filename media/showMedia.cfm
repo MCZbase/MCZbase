@@ -145,6 +145,12 @@
 										</cfif>
 									</tbody>
 								</table>
+								<cfif len(media_rel.media_relationship) gt 0>
+								<cfif media_rel.recordcount GT 2>
+									<cfset plural = "s">
+								<cfelse>
+									<cfset plural = "">
+								</cfif>
 								<div class="row mx-0">	
 								<h3 class="px-0 pb-1 text-muted h4">Shown on records with relationship#plural#: </h3>
 									<ul class="list-group list-group-horizontal">
@@ -155,6 +161,7 @@
 										</li>
 									</ul>
 								</div>
+								</cfif>
 							<!---TO DO  Create external media relationship table for additional renderings and query that for conditional around display--->
 								<cfif media.media_uri contains 'slide-atlas' AND media.media_uri contains 'morphosource'>
 									<cfset plural = "s">
@@ -208,17 +215,10 @@
 								</cfif>
 							</div>
 						</div>
-						<cfif len(media_rel.media_relationship) gt 0>
-							<cfif media_rel.recordcount GT 2>
-								<cfset plural = "s">
-							<cfelse>
-								<cfset plural = "">
-							</cfif>
-							<div class="col-12 px-0 px-xl-5 mt-0">
-								<div class="row mx-0 border-bottom pt-3 border-dark">
-								</div>
+						<div class="col-12 px-0 px-xl-5 mt-0">
+							<div class="row mx-0 border-bottom pt-3 border-dark">
 							</div>
-						</cfif>
+						</div>
 					</div>
 				</main>
 			</div>
