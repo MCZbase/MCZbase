@@ -28,7 +28,7 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="row copyright_background">
-				<div class="col-8 col-md-5 col-lg-4 col-xl-3 px-0 mx-auto">
+				<div class="col-8 col-md-5 col-lg-4 col-xl-3 px-1 mx-auto">
 					<img alt="Harvard Museum of Comparative Zoology Logo" class="media-element file-default file-os-files-medium col-12" src="/shared/images/harvard_museum.png">
 					<div class="agreements text-center small mt-0">
 						<a href="https://mcz.harvard.edu/privacy-policy" class="policy_link d-inline-block px-2" aria-label="privacy_policy_link">Privacy</a> 
