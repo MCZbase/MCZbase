@@ -105,13 +105,11 @@ API
 					<cfabort>
 				<cfelse>
 					<cfif use_thumb EQ "true">
-						<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','https://mczbase.mcz.harvard.edu') >
 						<cfset mimeType = "#mime_type#">
 					<cfelse>
 						<!--- setup to rescale --->
-						<cfset source = replace(media_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-						<cfset source = replace(media_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+						<cfset source = replace(media_uri,'http://mczbase.mcz.harvard.edu','https://mczbase.mcz.harvard.edu') >
 						<cfset mimeType = "#mime_type#">
 					</cfif>
 				</cfif>
@@ -125,8 +123,7 @@ API
 					<cfset source = "">
 					<cfif use_thumb EQ "true">
 						<cfif len(media.preview_uri) GT 0>
-							<cfset source = replace(preview_uri,'https://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
-							<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','#Application.webDirectory#') >
+							<cfset source = replace(preview_uri,'http://mczbase.mcz.harvard.edu','https://mczbase.mcz.harvard.edu') >
 						</cfif>
 					</cfif>
 					<cfif len(source) EQ 0>
