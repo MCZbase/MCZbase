@@ -61,7 +61,7 @@ sho err
     <p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to relate to this media exist.</p>
     <p>Step 2: Upload a comma-delimited text file (csv).</p>
     <p>Include column headings, spelled exactly as below.  </p>
-<p></p><span class="likeLink" onclick="document.getElementById('template').style.display='block';"> view template</span></p>
+	 <p><span class="likeLink" onclick="document.getElementById('template').style.display='block';"> view template</span></p>
 	<div id="template" style="display:none;margin: 1em 0;">
 		<label for="t">Copy and save as a .csv file</label>
 		<textarea rows="2" cols="80" id="t">MEDIA_URI,MIME_TYPE,MEDIA_TYPE,PREVIEW_URI,MEDIA_RELATIONSHIPS,MEDIA_LABELS,MEDIA_LICENSE_ID, MASK_MEDIA</textarea>
@@ -79,7 +79,10 @@ sho err
 	<li>MASK_MEDIA</li>
 </ul>
 
+<p>MIME_TYPE must be one of the values in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMIME_TYPE">the MIME_TYPE controlled vocabulary</a>, and MEDIA_TYPE must be one of the values in <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_TYPE">the MEDIA_TYPE controlled vocabulary</a>, and the combination of the two of these should be sensible (e.g. image and image/jpeg, but not image and audio/mpeg)</a>
+
 <p>The format for MEDIA_RELATIONSHIPS is {media_relationship}={value}[;{media_relationship}={value}]</p>
+	 <p>See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_RELATIONSHIP">the MEDIA_RELATIONSHIP controlled vocabulary</a> for a list of allowed values.</p>
      <p style="margin-top:.5em;font-weight:bold;">Examples:</p>
 	<ul class="geol_hier" style="padding-bottom:1em;padding-top: .25em;">
 		<li>
@@ -103,6 +106,8 @@ sho err
 
 
     <p>The format for MEDIA_LABELS is {media_label}={value}[;{media_label}={value}]</p>
+	 <p>See <a href="/vocabularies/ControlledVocabulary.cfm?table=CTMEDIA_LABEL">the MEDIA_LABEL controlled vocabulary</a> for a list of allowed values.</p>
+	 <p>Notes: Made date must be in the form yyyy-mm-dd. More than one media label must be separated by a semicolon, and individual values must not themselves contain semicolons.  Check the data as presented after the file has been uploaded carefully to make sure that the individual media labels and values have been correctly parsed.</p>
     <p style="margin-top:.5em;font-weight:bold;">Examples:</p>
 	<ul  class="geol_hier" style="padding-top:.25em;padding-bottom: 1em;">
 		<li>
@@ -112,7 +117,7 @@ sho err
 			audio bit resolution=2;audio cut id=5
 		</li>
 		<li>
-			audio bit resolution=2;audio cut id=5;made date=7 January 1964
+			audio bit resolution=2;audio cut id=5;made date=1964-01-07
 		</li>
 	</ul>
         <p style="font-weight:bold;">Errors:</p>
@@ -237,7 +242,10 @@ sho err
 <cfloop query="d">
 	<cfset rec_stat="">
 	<cfquery name = "c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from media where media_uri = '#media_uri#'
+		SELECT *
+		FROM media 
+		WHERE
+			media_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#">
 	</cfquery>
 	<cfif c.RecordCount gt 0>
 		<cfset rec_stat=listappend(rec_stat,'MEDIA_URI already exists in MEDIA table',";")>
@@ -252,10 +260,14 @@ sho err
 			<cfset ln=listgetat(l,1,"=")>
 			<cfset lv=listgetat(l,2,"=")>
 			<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select MEDIA_LABEL from CTMEDIA_LABEL where MEDIA_LABEL='#ln#'
+				SELECT MEDIA_LABEL 
+				FROM CTMEDIA_LABEL 
+				WHERE MEDIA_LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">
 			</cfquery>
 			<cfif len(c.MEDIA_LABEL) is 0>
 				<cfset rec_stat=listappend(rec_stat,'Media label #ln# is invalid',";")>
+			<cfelseif ln EQ "made date" && refind("^[0-9]{4}-[0-9]{2}-[0-9]{2}$",lv) EQ 0>
+				<cfset rec_stat=listappend(rec_stat,'Media label #ln# must have a value in the form yyyy-mm-dd',";")>
 			<cfelse>
 				<cfquery name="i" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					insert into cf_temp_media_labels (
@@ -264,10 +276,10 @@ sho err
 						ASSIGNED_BY_AGENT_ID,
 						LABEL_VALUE
 					) values (
-						#key#,
-						'#ln#',
-						#session.myAgentId#,
-						'#lv#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ln#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lv#">
 					)
 				</cfquery>
 			</cfif>
@@ -590,9 +602,10 @@ sho err
 	Oops! You must fix everything below before proceeding (see STATUS column).
 	<cfdump var=#bad#>
 <cfelse>
-	Yay! Everything looks OK. Check it over in the tables below, then
+	Yay! Initial checks on your file passed. Carefully review the tables below, then
 	<a href="BulkloadMedia.cfm?action=load"><strong>click here</strong></a> to proceed.
 	<br>^^^ that thing. You must click it.
+	<br>
 	(Note that the table below is "flattened." Media entries are repeated for every Label and Relationship.)
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
