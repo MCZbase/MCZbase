@@ -1631,7 +1631,10 @@ limitations under the License.
 										<cfif getTransCount.ct GT 50>
 											<!--- started as handle Brendan without crashing page with limit of 5000, but grouping looks useful at much smaller sizes, using default search page limit of 50 --->
 											<cfset oversizeSet = true>
+											<!--- user may not be in vpn to see collection.collection_cde. 
 											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+											--->
+											<cfquery name="getTransactions" datasource="cf_dbuser">
 												SELECT
 													count(transaction_view.transaction_id) as ct, 
 													transaction_view.transaction_type,
@@ -1653,7 +1656,10 @@ limitations under the License.
 												ORDER BY transaction_view.transaction_type, collection.collection_cde 
 											</cfquery>
 										<cfelse>
+											<!--- user may not be in vpn to see collection.collection_cde. 
 											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+											--->
+											<cfquery name="getTransactions" datasource="cf_dbuser">
 												SELECT
 													transaction_view.transaction_id, 
 													transaction_view.transaction_type,
