@@ -1681,7 +1681,7 @@ limitations under the License.
 										</cfif>
 										<cfset totalTransCount = getTransCount.ct>
 										<cfif totalTransCount EQ 1><cfset plural=""><cfelse><cfset plural="s"></cfif>
-										<cfif totalTransCount GT 20 OR getTransactions.recordcount EQ 0>
+										<cfif (totalTransCount GT 20 AND totalTransCount LT 51) OR getTransactions.recordcount EQ 0>
 											<!--- cardState = collapsed --->
 											<cfset bodyClass = "collapse">
 											<cfset ariaExpanded ="false">
