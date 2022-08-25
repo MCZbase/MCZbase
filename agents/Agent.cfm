@@ -1722,7 +1722,7 @@ limitations under the License.
 																<li class="">
 																	<cfquery name="collVisible" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collVisible_result">
 																		SELECT count(*) ct
-																		FROM vpd_collection_cd 
+																		FROM vpd_collection_cde
 																		WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 																	</cfquery>
 																	<cfif collVisible.ct EQ 1>
