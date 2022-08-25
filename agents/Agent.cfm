@@ -1720,14 +1720,28 @@ limitations under the License.
 														<cfloop query="getTransactions">
 															<cfif oversizeSet IS true>
 																<li class="">
+																	<cfquery name="collVisible" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collVisible_result">
+																		SELECT count(*) ct
+																		FROM vpd_collection_cd 
+																		WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
+																	</cfquery>
+																	<cfif collVisible.ct EQ 1>
+																		<cfset collIsVisible = true>
+																	<cfelse>
+																		<cfset collIsVisible = false>
+																	</cfif>
 																	<cfif transaction_type IS "deaccession">
 																		<cfset targetStatus="deacc_status">
 																	<cfelse>
 																		<cfset targetStatus="#transaction_type#_status">
 																	</cfif>
-																	<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" target="_blank">
-																		#getTransactions.ct# 
-																	</a>
+																	<cfif collIsVisible>
+																		<a href="/Transactions.cfm?execute=true&action=find#transaction_type#&collection_id=#collection_id#&#targetStatus#=#status#&trans_agent_role_1=#trans_agent_role#&agent_1=#encodeForURL(prefName)#&agent_1_id=#agent_id#" target="_blank">
+																	</cfif>
+																			#getTransactions.ct# 
+																	<cfif collIsVisible>
+																		</a>
+																	</cfif>
 																	<span class="text-capitalize">#transaction_type#</span> 
 																	#trans_agent_role#
 																	#status# in #collection_cde#
