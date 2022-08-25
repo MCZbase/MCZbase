@@ -55,7 +55,7 @@ sho err
 --->
 
 <cfinclude template="/includes/_header.cfm">
-    <div style="width: 54em; margin: 0 auto;padding: 1em 0 3em 0;">
+    <div style="margin: 0 auto;padding: 1em 1em 3em 1em;">
 <cfif #action# is "nothing">
     <h3 class="wikilink">Bulkload Media</h3>
     <p>Step 1: Ensure that Media exists on the shared drive or external URL and that the records that you want to relate to this media exist.</p>
