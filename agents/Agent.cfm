@@ -1620,7 +1620,10 @@ limitations under the License.
 							<cfif listcontainsnocase(session.roles, "manage_transactions")>
 								<section class="accordion" id="transactionsSection">
 									<div class="card mb-2 bg-light" id="transactionsCard">
+										<!--- user may not be in vpn to see collection.collection_cde 
 										<cfquery name="getTransCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
+										--->
+										<cfquery name="getTransCount" datasource="uam_god">
 											SELECT count(distinct transaction_view.transaction_id) ct
 											FROM trans_agent
 												left outer join transaction_view on trans_agent.transaction_id = transaction_view.transaction_id
@@ -1634,7 +1637,7 @@ limitations under the License.
 											<!--- user may not be in vpn to see collection.collection_cde. 
 											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 											--->
-											<cfquery name="getTransactions" datasource="cf_dbuser">
+											<cfquery name="getTransactions" datasource="uam_god">
 												SELECT
 													count(transaction_view.transaction_id) as ct, 
 													transaction_view.transaction_type,
@@ -1659,7 +1662,7 @@ limitations under the License.
 											<!--- user may not be in vpn to see collection.collection_cde. 
 											<cfquery name="getTransactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTransactions_result">
 											--->
-											<cfquery name="getTransactions" datasource="cf_dbuser">
+											<cfquery name="getTransactions" datasource="uam_god">
 												SELECT
 													transaction_view.transaction_id, 
 													transaction_view.transaction_type,
