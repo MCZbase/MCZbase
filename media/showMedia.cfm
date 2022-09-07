@@ -169,8 +169,8 @@
 									<cfset plural = "">
 								</cfif>
 								<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
-									<div class="row mx-0 mb-2">
-										<h3 class="h4 px-1 pt-0">Additional Rendering#plural# </h3>
+									<div class="row mx-0 my-2">
+										<h3 class="h4 px-1 mb-1 pt-0">Additional Rendering#plural# </h3>
 										<ul class="list-group list-group-horizontal col-12 px-0">
 										<cfif media.media_uri contains 'slide-atlas'>
 											<li class="list-unstyled col-3 px-0 border bg-light text-center">
@@ -183,7 +183,7 @@
 																</div>
 															</a>
 															<div class="flip-card-back">
-																<a class="link-color px-1 text-center" href="https://images.slide-atlas.org/##item/5915d8d0dd98b578723a09bf">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
+																<a class="link-color px-0 text-center" href="https://images.slide-atlas.org/##item/5915d8d0dd98b578723a09bf">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
 																<div class="">Metadata on SlideAtlas: created date/updated/unique ID</div>
 															</div>
 														</div>
@@ -202,7 +202,7 @@
 																</div>
 															</a>
 															<div class="flip-card-back">
-																<a class="link-color px-1 text-center" href="http://www.google.com">Morphosource logo </a>
+																<a class="link-color px-0 text-center" href="http://www.google.com">Morphosource logo </a>
 																<div class="">slide metadata</div>
 															</div>
 														</div>
