@@ -179,12 +179,12 @@
 														<div class="flip-card-inner">
 															<a href="##" id="flip-card-inner">
 																<div class="flip-card-front">
-																	<div class="heightFlip font-weight-lessbold bg-dark text-white" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;">Slide Atlas</div>
+																	<div class="heightFlip font-weight-lessbold bg-dark text-white" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;">SlideAtlas</div>
 																</div>
 															</a>
 															<div class="flip-card-back">
 																<a class="link-color px-1 text-center" href="https://slide-atlas.org/">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
-																<div class="">slide metadata</div>
+																<div class="">#media.media_type#</div>
 															</div>
 														</div>
 													</div>
