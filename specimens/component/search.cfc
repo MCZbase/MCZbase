@@ -143,7 +143,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	listOfNumbers = REReplace(listOfNumbers, " ", ",","all");	// space to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
-	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,"\-]',"","all");
+	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-]',"","all");
 	// reduce repeating commas to a single comma
 	listOfNumbers = REReplace(listOfNumbers, ",,+",",","all");
 	// strip out leading/trailing commas
@@ -189,12 +189,15 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-A-5  // prefix with range alternative (A-1 to A-5)
 			// 1-a-5-a  // suffix with range alternative (1-a to 5-a)
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
-			atomParts = ListToArray(lparts[i],"-",false);
+			mayBeQuoted = lparts[i];
+			// stricter tolerance for other characters than used in value clause below, do not include " and : when constructing atomParts
+			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-]',"","all");
+			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
-			if (REFind('^".+"$',lparts[i]) GT 0) { 
+			if (REFind('^".+"$',mayBeQuoted) GT 0) { 
 				// atom is quoted, search baseFieldName
-				comparator = '"comparator": "="';
-				value = right(lparts[i],len(lparts[i])-1);
+				comparator = '"comparator": "like"';
+				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				value = left(value,len(value)-1);
 				if (left(value,1) IS "!") {
 					value = ucase(right(value,len(value)-1));
@@ -216,12 +219,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#lparts[i]#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
 				comma = ",";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// 1-2 numeric range
-					numeric = lparts[i];
+					numeric = partFromList;
 				} else if (REFind("^[A-Za-z]+[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// A1-5   // prefix with range (A-1 to A-4)
 					startNumBit = rereplace(atomParts[1],"[^0-9]]","","all");
