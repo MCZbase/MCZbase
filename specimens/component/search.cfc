@@ -128,10 +128,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	var wherePart = "";
 	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
 		baseFieldName = "CAT_NUM";
+		displayFieldName = "CAT_NUM";
 		suffixFieldName = "CAT_NUM_SUFFIX";
  	} else { 
 		suffixFieldName = "OTHER_ID_SUFFIX";
 		baseFieldName = "OTHER_ID_NUMBER";
+		displayFieldName = "DISPLAY_VALUE";
 	}
 
 	// Prepare list for parsing
@@ -141,7 +143,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	listOfNumbers = REReplace(listOfNumbers, " ", ",","all");	// space to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
-	listOfNumbers = REReplace(listOfNumbers, "[^0-9A-Za-z%,\-]","","all");
+	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,"\-]',"","all");
 	// reduce repeating commas to a single comma
 	listOfNumbers = REReplace(listOfNumbers, ",,+",",","all");
 	// strip out leading/trailing commas
@@ -200,7 +202,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
 					comparator = '"comparator": "like"';
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldName &'",'& comparator & ',"value": "#lparts[i]#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'",'& comparator & ',"value": "#lparts[i]#"}';
 				comma = ",";
 			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
@@ -214,7 +216,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldName &'","comparator": "=","value": "#lparts[i]#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#lparts[i]#"}';
 				comma = ",";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
