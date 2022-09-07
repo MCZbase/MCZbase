@@ -458,3 +458,58 @@ function openUpdateTextDialog(helloworld_id, dialogId) {
 		}
 	});
 }
+
+function openSlideAtlas(SlideAtlas_id, dialogId) { 
+	console.log("openUpdateTextDialog called");
+	console.log(helloworld_id);
+	console.log(dialogId);
+	var title = "In Viewer";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		minWidth: 520,
+		minHeight: 500,
+		draggable:true,
+		buttons: {
+			"Close Viewer": function() {
+				console.log("close dialog clicked");
+				$("#"+dialogId).dialog('close');
+				doReload(); 
+			}
+		},
+		open: function (event, ui) {
+			console.log("close dialog open event");
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			console.log("close dialog close event");
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		type: "post",
+		data: {
+			method: 'getTextDialogHtml',
+			returnformat: "plain",
+			helloworld_id: helloworld_id
+		},
+		success: function(data) {
+			console.log("dialog data returned, populating dialog div");
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"populating edit text dialog for hello world");
+		}
+	});
+}

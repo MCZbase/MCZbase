@@ -183,9 +183,10 @@
 																</div>
 															</a>
 															<div class="flip-card-back">
-																<a class="link-color px-0 text-center" href="https://images.slide-atlas.org/##item/5915d8d0dd98b578723a09bf">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
+																<button class="link-color px-0 text-center" onclick="openSlideAtlas('1','textDialogDiv');" class="btn btn-xs btn-transparent">Edit</button> SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></button>
 																<div class="">Metadata on SlideAtlas: created date/updated/unique ID</div>
 															</div>
+															<div id="textDialogDiv"></div>
 														</div>
 													</div>
 												</div>
