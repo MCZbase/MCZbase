@@ -202,7 +202,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
 					comparator = '"comparator": "like"';
 				}
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'",'& comparator & ',"value": "#lparts[i]#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
 				comma = ",";
 			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
