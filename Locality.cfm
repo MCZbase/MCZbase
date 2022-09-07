@@ -1318,7 +1318,7 @@ You do not have permission to create Higher Geographies
 					<label for="collecting_method">Collecting Method</label>
 					<input type="text" name="collecting_method" id="collecting_method"
 					  	<cfif isdefined("collecting_method")>
-							value="#collecting_method#"
+							value="#HTMLEditFormat(collecting_method)#"
 						</cfif>
 					size="92">
 				</td>
