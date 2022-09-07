@@ -128,10 +128,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	var wherePart = "";
 	if (prefixFieldName EQ "CAT_NUM_PREFIX") { 
 		baseFieldName = "CAT_NUM";
+		displayFieldName = "CAT_NUM";
 		suffixFieldName = "CAT_NUM_SUFFIX";
  	} else { 
 		suffixFieldName = "OTHER_ID_SUFFIX";
 		baseFieldName = "OTHER_ID_NUMBER";
+		displayFieldName = "DISPLAY_VALUE";
 	}
 
 	// Prepare list for parsing
@@ -141,7 +143,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	listOfNumbers = REReplace(listOfNumbers, " ", ",","all");	// space to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
-	listOfNumbers = REReplace(listOfNumbers, "[^0-9A-Za-z%,\-]","","all");
+	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-]',"","all");
 	// reduce repeating commas to a single comma
 	listOfNumbers = REReplace(listOfNumbers, ",,+",",","all");
 	// strip out leading/trailing commas
@@ -173,6 +175,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			prefix = "";
 			numeric= "";
 			suffix = "";
+			// "A96-5"// single number with prefix and multiple numeric parts
+			// "A96-%"// single number with prefix and wildcard match
 			// A      // just prefix
 			// 1      // just number
 			// 1-2    // numeric range 1 to 2
@@ -185,9 +189,25 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-A-5  // prefix with range alternative (A-1 to A-5)
 			// 1-a-5-a  // suffix with range alternative (1-a to 5-a)
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
-			atomParts = ListToArray(lparts[i],"-",false);
+			mayBeQuoted = lparts[i];
+			// stricter tolerance for other characters than used in value clause below, do not include " and : when constructing atomParts
+			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-]',"","all");
+			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
-			if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
+			if (REFind('^".+"$',mayBeQuoted) GT 0) { 
+				// atom is quoted, search baseFieldName
+				comparator = '"comparator": "like"';
+				value = right(mayBeQuoted,len(mayBeQuoted)-1);
+				value = left(value,len(value)-1);
+				if (left(value,1) IS "!") {
+					value = ucase(right(value,len(value)-1));
+					comparator = '"comparator": "not like"';
+				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
+					comparator = '"comparator": "like"';
+				}
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
+				comma = ",";
+			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
 				prefix = atomParts[1];
 			} else if (partCount EQ 1 and REFind("^[0-9]+$",atomParts[1])) { 
@@ -199,12 +219,12 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 				suffix = rereplace(atomParts[1],"[^A-Za-z]","","all");
 			} else if (partCount EQ 1 OR partCount GT 4) { 
 				// unexpected, and likely failure case, but try something
-				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldName &'","comparator": "=","value": "#lparts[i]#"}';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & displayFieldName &'","comparator": "=","value": "#partFromList#"}';
 				comma = ",";
 			} else if (partCount EQ 2) { 
 				if (REFind("^[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// 1-2 numeric range
-					numeric = lparts[i];
+					numeric = partFromList;
 				} else if (REFind("^[A-Za-z]+[0-9]+$",atomParts[1]) AND REFind("^[0-9]+$",atomParts[2])) { 
 					// A1-5   // prefix with range (A-1 to A-4)
 					startNumBit = rereplace(atomParts[1],"[^0-9]]","","all");

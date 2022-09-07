@@ -1129,7 +1129,7 @@ You do not have permission to create Higher Geographies
 		<label for="collecting_method">
 			Collecting Method
 		</label>
-		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#" size="92"></td>
+		<input type="text" name="collecting_method" id="collecting_method" value="#stripquotes(locDet.collecting_method)#" size="92"></td>
         </tr></table>
 		<label for="habitat_desc">
 			Habitat
@@ -1139,7 +1139,7 @@ You do not have permission to create Higher Geographies
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
 			onClick="document.location='Locality.cfm?Action=deleteCollEvent&collecting_event_id=#locDet.collecting_event_id#';">
-		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#locDet.verbatim_locality#&began_date=#locDet.began_date#&ended_date=#locDet.ended_date#&verbatim_date=#locDet.verbatim_date#&coll_event_remarks=#stripquotes(locDet.coll_event_remarks)#&collecting_source=#locDet.collecting_source#&collecting_method=#locDet.collecting_method#&habitat_desc=#locDet.habitat_desc#">
+		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#locDet.verbatim_locality#&began_date=#locDet.began_date#&ended_date=#locDet.ended_date#&verbatim_date=#locDet.verbatim_date#&coll_event_remarks=#stripquotes(locDet.coll_event_remarks)#&collecting_source=#locDet.collecting_source#&collecting_method=#HTMLEditFormat(locDet.collecting_method)#&habitat_desc=#locDet.habitat_desc#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#replace(dLoc,"'", "\'","all")#';">
 	</cfform>
 
@@ -1318,7 +1318,7 @@ You do not have permission to create Higher Geographies
 					<label for="collecting_method">Collecting Method</label>
 					<input type="text" name="collecting_method" id="collecting_method"
 					  	<cfif isdefined("collecting_method")>
-							value="#collecting_method#"
+							value="#HTMLEditFormat(collecting_method)#"
 						</cfif>
 					size="92">
 				</td>
