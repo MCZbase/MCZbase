@@ -173,6 +173,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			prefix = "";
 			numeric= "";
 			suffix = "";
+			// "A96-5"// single number with prefix and multiple numeric parts
+			// "A96-%"// single number with prefix and wildcard match
 			// A      // just prefix
 			// 1      // just number
 			// 1-2    // numeric range 1 to 2
@@ -187,7 +189,20 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
 			atomParts = ListToArray(lparts[i],"-",false);
 			partCount = ArrayLen(atomParts);
-			if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
+			if (REFind('^".+"$',lparts[i]) GT 0) { 
+				// atom is quoted, search baseFieldName
+				comparator = '"comparator": "="';
+				value = right(lparts[i],len(lparts[i])-1);
+				value = left(value,len(value)-1);
+				if (left(value,1) IS "!") {
+					value = ucase(right(value,len(value)-1));
+					comparator = '"comparator": "not like"';
+				} else if (value CONTAINS "%" OR value CONTAINS "_") { 
+					comparator = '"comparator": "like"';
+				}
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"and","field": "' & baseFieldName &'",'& comparator & ',"value": "#lparts[i]#"}';
+				comma = ",";
+			} else if (partCount EQ 1 and REFind("^[A-Za-z]+$",atomParts[1])) { 
 				// just a prefix.
 				prefix = atomParts[1];
 			} else if (partCount EQ 1 and REFind("^[0-9]+$",atomParts[1])) { 
