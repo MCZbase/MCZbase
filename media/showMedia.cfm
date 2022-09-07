@@ -183,8 +183,8 @@
 																</div>
 															</a>
 															<div class="flip-card-back">
-																<a class="link-color px-1 text-center" href="https://slide-atlas.org/">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
-																<div class="">#media.media_type#</div>
+																<a class="link-color px-1 text-center" href="https://images.slide-atlas.org/#item/59b98c3bdd98b50c9d1dc3fc">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
+																<div class="">Metadata on SlideAtlas: created/updated/unique ID</div>
 															</div>
 														</div>
 													</div>
