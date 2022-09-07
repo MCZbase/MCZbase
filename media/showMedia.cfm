@@ -170,7 +170,7 @@
 								</cfif>
 								<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
 									<div class="row mx-0 mb-2">
-										<h3 class="h4 px-2 pt-0">Additional Rendering#plural# </h3>
+										<h3 class="h4 px-1 pt-0">Additional Rendering#plural# </h3>
 										<ul class="list-group list-group-horizontal col-12 px-0">
 										<cfif media.media_uri contains 'slide-atlas'>
 											<li class="list-unstyled col-3 px-0 border bg-light text-center">
@@ -179,11 +179,11 @@
 														<div class="flip-card-inner">
 															<a href="##" id="flip-card-inner">
 																<div class="flip-card-front">
-																	<div class="heightFlip font-weight-lessbold">Slide Atlas</div>
+																	<div class="heightFlip font-weight-lessbold bg-dark text-white" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;">Slide Atlas</div>
 																</div>
 															</a>
 															<div class="flip-card-back">
-																<a class="link-color px-1 text-center" href="http://www.google.com">Slide Atlas logo </a>
+																<a class="link-color px-1 text-center" href="https://slide-atlas.org/">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
 																<div class="">slide metadata</div>
 															</div>
 														</div>
