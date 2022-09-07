@@ -1129,7 +1129,7 @@ You do not have permission to create Higher Geographies
 		<label for="collecting_method">
 			Collecting Method
 		</label>
-		<input type="text" name="collecting_method" id="collecting_method" value="#locDet.collecting_method#" size="92"></td>
+		<input type="text" name="collecting_method" id="collecting_method" value="#stripquotes(locDet.collecting_method)#" size="92"></td>
         </tr></table>
 		<label for="habitat_desc">
 			Habitat
