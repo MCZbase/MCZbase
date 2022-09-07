@@ -186,6 +186,34 @@
 																<a class="link-color px-0 text-center" href="https://images.slide-atlas.org/##item/5915d8d0dd98b578723a09bf">SlideAtlas <img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon"></a>
 																<div class="">Metadata on SlideAtlas: created date/updated/unique ID</div>
 															</div>
+															<script>
+																function addMediaViewerHere(targetid,title,relationLabel,transaction_id,relationship){
+																	console.log(targetid);
+																	var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+relationLabel+'&related_id='+transaction_id ;
+																	var amddialog = $('##'+targetid)
+																		.html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+																		.dialog({
+																			title: title,
+																			autoOpen: false,
+																			dialogClass: 'dialog_fixed,ui-widget-header',
+																			modal: true,
+																			height: 900,
+																			width: 1100,
+																			minWidth: 400,
+																			minHeight: 400,
+																			draggable:true,
+																			buttons: {
+																				"Ok": function () { 
+																					loadTransactionFormMedia(#transaction_id#,"loan"); 
+																					$(this).dialog("close"); 
+																				} 
+																			}
+																		});
+																	amddialog.dialog('open');
+																	console.log(transaction_id);
+																	console.log(relationship);
+																};
+															</script>
 														</div>
 													</div>
 												</div>
@@ -265,7 +293,7 @@
 								order by media.media_id
 							</cfquery>
 							<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#)</h3>
 								<div class="col-12 px-0">
 									<div class="search-box mt-1 pb-0 w-100">
@@ -364,7 +392,7 @@
 						</cfquery>
 						<cfif len(accn.transaction_id) gt 0>
 							<a name="shows%20collecting_event"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Accessions (#accncount.ct#)</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -474,7 +502,7 @@
 						</cfquery>
 						<cfif len(collecting_event.collecting_event_id) gt 0>
 							<a name="shows%20collecting_event"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row mx-0 w-100">
 								<h3 class="w-100 mt-3 mb-0 px-3"> Related Collecting Events</h1>
 								<div class="col-12 px-0">
 								<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -569,7 +597,7 @@
 						</cfquery>
 						<cfif len(permit.permit_id) gt 0>
 							<a name="shows%20permit"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -659,7 +687,7 @@
 						</cfquery>
 						<cfif len(permit.permit_id) gt 0>
 							<a name="shows%20permit"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -750,7 +778,7 @@
 						</cfquery>
 						<cfif len(loan.transaction_id) gt 0>
 						<a name="documents%20loan"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row w-100 mx-0">
 								<h1 class="h3 w-100 mt-3 mb-0 px-3">Related Loans</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -854,7 +882,7 @@
 						</cfquery>
 						<cfif len(locality.locality_id) gt 0>
 						<a name="shows%20locality"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row w-100 mx-0">
 								<h1 class="h3 w-100 mt-3 mb-0 px-3">Locality Records with this Media</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -959,7 +987,7 @@
 						</cfquery>
 						<cfif len(borrow.transaction_id) gt 0>
 						<a name="documents%20borrow"></a>
-							<section class="my-2 row mx-0">
+							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Borrows</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1071,7 +1099,7 @@
 						</cfquery>
 						<cfif len(deaccession.transaction_id) gt 0>
 						<a name="shows%20deaccession"></a>
-							<section class="mt-2 row mx-0">
+							<section class="mt-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Deaccessions</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1175,7 +1203,7 @@
 						</cfquery>
 						<cfif len(agents.agent_id) gt 0>
 						<a name="shows%20agent"></a>
-							<section class="mt-2 mb-5 row mx-0">
+							<section class="mt-2 mb-5 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Agents </h3>
 								<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
 								<div class="search-box mt-1 pb-0 w-100">
