@@ -472,6 +472,7 @@ input#Password {
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02rem;
 		margin-right:.25rem;
+		top: 4px;
 	}
 	.login-form {
 		width: 320px;

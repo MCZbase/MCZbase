@@ -3473,7 +3473,7 @@ text-truncate1 {
 }
 @media screen and (max-width: 576px) {
 	.count {
-		display: block;
+		display: inline-block;
 		line-height: 1rem;
 	}
 	.align-left-center {
