@@ -169,7 +169,7 @@ limitations under the License.
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
-			<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
+			<section class="container-fluid mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
 					<div class="search-box">
 						<div class="search-box-header">
