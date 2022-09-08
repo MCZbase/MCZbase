@@ -71,9 +71,11 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 .logout {
 	padding: 0 .25rem;
 	font-size: .85rem;
-	position: relative;
+	position: absolute;
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
+	top: 2.12rem;
+	right: 1.12rem;
 }
 .user {
 	font-size: .9rem;
@@ -326,7 +328,7 @@ input#Password {
 		right: 1rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
-		top: 4px;
+		top: 2.12rem;
 	}
 }
 @media screen and (max-width:991px) {
@@ -347,10 +349,10 @@ input#Password {
 		padding: 0 .45rem;
 		font-size: .85rem;
 		position: absolute;
-		right: 1rem;
+		right: 1.12rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
-		top: 4px;
+		top: 2.12rem;
 	}
 	.loginfld1 {
 		width:100px;
@@ -465,7 +467,6 @@ input#Password {
 	.logout {
 		padding: .12rem .45rem;
 		font-size: .78rem;
-/*		font-weight: bold;*/
 		position: absolute;
 		right: .25rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
