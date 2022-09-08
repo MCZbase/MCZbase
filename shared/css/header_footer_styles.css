@@ -352,7 +352,7 @@ input#Password {
 		right: 1.12rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
-		top: 2.12rem;
+		top: 4px;
 	}
 	.loginfld1 {
 		width:100px;
