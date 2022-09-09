@@ -515,7 +515,7 @@
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-1 px-1 list-group-item">
-												<span class="font-weight-lessbold">Collecting&nbsp;Event <span class="d-block d-lg-none">details</span><span class="d-none d-lg-block">&nbsp;ID</span></span>
+												<span class="font-weight-lessbold">Collecting&nbsp;Event <span class="d-inline-block d-lg-none">details</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
 											</li>
 											<li class="col-1 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Locality&nbsp;ID</span>
