@@ -883,7 +883,7 @@
 						<cfif len(locality.locality_id) gt 0>
 						<a name="shows%20locality"></a>
 							<section class="my-2 row w-100 mx-0">
-								<h1 class="h3 w-100 mt-3 mb-0 px-3">Locality Records with this Media</h1>
+								<h1 class="h3 w-100 mt-3 mb-0 px-3">Related Localities</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
@@ -901,10 +901,10 @@
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Locality&nbsp;ID</span>
 												</li>
-												<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
+												<li class="col-2 col-xl-3 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Details</span>
 												</li>
-												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
+												<li class="col-6 col-xl-7 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">		
 														<cfif relmloc.recordcount GT 2>
 															<cfset plural = "s">
@@ -928,7 +928,7 @@
 													<span class="d-block d-md-none">Locality ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.locality_id#">
 														#locality.locality_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Specific Locality</h3>
 														<div class="col-12 pt-0 pb-1">#locality.spec_locality#</div>
@@ -940,7 +940,7 @@
 														<div class="col-12 pt-0 pb-1">#locality.maximum_elevation#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 p-1">
+												<div class="col-12 col-md-6 col-xl-7 p-1">
 													<cfloop query="relmloc">
 														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 															<cfif len(locality.locality_id) gt 0>
@@ -1232,7 +1232,7 @@
 										<div class="row mx-0 py-0 border-top-teal">
 											<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
 												<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span>
-												<a href="#agents.agent_id#" class="font-weight-lessbold">/agents/Agent.cfm?agent_id=#agents.agent_id#</a>
+												<a href="/agents/Agent.cfm?agent_id=#agents.agent_id#" class="font-weight-lessbold">#agents.agent_id#</a>
 											</div>
 											<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
 												<div class="row mx-0">
