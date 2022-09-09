@@ -515,15 +515,15 @@
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-1 px-1 list-group-item">
-												<span class="font-weight-lessbold">Collecting&nbsp;Event&nbsp;ID</span>
+												<span class="font-weight-lessbold">Collecting&nbsp;Event <span class="d-block d-lg-none">details</span><span class="d-none d-lg-block">&nbsp;ID</span></span>
 											</li>
-											<li class="col-1 px-1 list-group-item">
+											<li class="col-1 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Locality&nbsp;ID</span>
 											</li>
-											<li class="col-3 px-1 list-group-item">
+											<li class="col-3 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Details</span>
 											</li>
-											<li class="col-7 px-1 list-group-item">
+											<li class="col-7 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">This and Other Collecting Event Media</span>
 											</li>
 										</ul>
@@ -531,10 +531,13 @@
 									<cfloop query="collecting_event">
 										<div class="row mx-0 border-top py-0 border-gray">
 											<div class="col-12 col-md-1 py-2 border-right small90">
+												
+												<span class="d-block d-md-none">Collecting Event ID: </span>
 												<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.collecting_event_id#">
 													#collecting_event.collecting_event_id#</a>
 											</div>
 											<div class="col-12 col-md-1 py-2 border-right small90">
+												<span class="d-block d-md-none">Locality ID: </span>
 												<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
@@ -874,7 +877,7 @@
 
 						<!--- locality records --->
 						<cfquery name="locality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select locality.locality_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
+							select locality.locality_id, locality.geog_auth_rec_id, locality.spec_locality, locality.maximum_elevation, locality.minimum_elevation
 							from locality
 								left join media_relations on media_relations.related_primary_key = locality.locality_id
 							where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -896,10 +899,10 @@
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold">Locality</span>
+													<span class="font-weight-lessbold">Locality ID</span>
 												</li>
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
-													<span class="font-weight-lessbold">Locality&nbsp;ID</span>
+													<span class="font-weight-lessbold">Geog Auth Rec ID</span>
 												</li>
 												<li class="col-2 col-xl-3 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Details</span>
@@ -925,8 +928,8 @@
 														#locality.locality_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">Locality ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.locality_id#">
-														#locality.locality_id#</a>
+													<span class="d-block d-md-none">Geog Auth Rec ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
+														#locality.geog_auth_rec_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
@@ -1212,10 +1215,13 @@
 											<li class="col-2 col-xl-1  px-1 list-group-item">
 												<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
 											</li>
+											<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block">
+												<span class="font-weight-lessbold">Preferred Name</span>
+											</li>
 											<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Details</span>
 											</li>
-											<li class="col-7 col-xl-8 px-1 list-group-item d-none d-lg-block">
+											<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">		
 													<cfif agents.recordcount GT 2>
 														<cfset plural = "s">
