@@ -1939,6 +1939,7 @@ input#readMore_check_id {
 	border-right: 1px solid #96ECED;
 	border-left: 1px solid #96EcED;
 	outline: 0;
+	font-weight: 600;
 }
 .tab-headers button[aria-selected='true']:focus {
 	border-right: 1px solid rgb(38 143 255 / 50%);
@@ -1960,6 +1961,9 @@ input#readMore_check_id {
 }
 .tab-content div[aria-hidden='false'] {
 	display: block;
+}
+.tab-content label {
+	font-weight: 500;
 }
 button[tabindex="-1"]:focus {
 	outline: 0 !important;
