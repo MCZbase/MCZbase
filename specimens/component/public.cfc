@@ -2314,7 +2314,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
-					<ul class="sd list-unstyled bg-light row mx-0 px-2 py-1 mb-0 border-top">
+					<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
 						<cfif len(loc_collevent.spec_locality) gt 0>
 							<li class="list-group-item col-5 px-0"><span class="font-italic my-0">Specific Locality: </span></li>
 							<li class="list-group-item col-7 px-0 last">#loc_collevent.spec_locality#</li>
