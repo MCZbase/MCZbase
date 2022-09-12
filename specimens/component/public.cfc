@@ -2699,7 +2699,7 @@ limitations under the License.
 				</cfquery>
 				<div class="col-12 float-left px-0">
 					<cfif localityMedia.recordcount gt 0>
-						<div class="row col-12 px-2 mx-0 py-1 small90" style="border-bottom: 1px solid ##ccc;"><em>Locality Media:</em></div>
+						<div class="col-12 px-0 mx-2 py-1 small90" style="border-top: 1px solid ##ccc;"><em>Locality Media:</em></div>
 						<cfloop query="localityMedia">
 							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-2 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
@@ -2709,7 +2709,7 @@ limitations under the License.
 						</cfloop>
 					</cfif>
 					<cfif collEventMedia.recordcount gt 0>
-						<div class="row col-12 px-2 mx-0 py-1 small90" style="border-bottom: 1px solid ##ccc;"><em>Collecting Event Media:</em></div>
+						<div class="col-12 px-0 mx-2 py-1 small90" style="border-top: 1px solid ##ccc;"><em>Collecting Event Media:</em></div>
 						<cfloop query="collEventMedia">
 							<div class="col-6 col-sm-3 px-1 col-lg-3 col-xl-2 mb-1 px-md-1 pt-1 float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
