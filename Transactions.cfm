@@ -531,7 +531,7 @@ limitations under the License.
 		<!--- Search form --->
 		<section class="container-fluid" role="search">
 			<div class="row">
-				<div class="col-12 pb-3">
+				<div class="col-12 mt-1 pb-3">
 					<h1 class="h3 smallcaps mb-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header px-1 pb-0">
