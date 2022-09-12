@@ -2673,7 +2673,7 @@ limitations under the License.
 									</cfif>
 									<cfset sep="; ">
 								</cfloop>
-								<li class="list-group-item border-bottom col-7 px-0 font-weight-lessbold">#collectors#</li>
+								<li class="list-group-item col-7 px-0 font-weight-lessbold">#collectors#</li>
 							</cfif>
 						</cfif>
 						</ul>
