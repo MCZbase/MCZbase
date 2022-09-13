@@ -466,7 +466,7 @@ limitations under the License.
 						<div class="card mb-2 bg-light">
 							<div id="otherIDsDialog"></div>
 							<cfset blockotherid = getOtherIDsHTML(collection_object_id = "#collection_object_id#")>
-							<cfif len(trim(#blockotherid#)) EQ 0> 
+							<cfif len(trim(#blockotherid#)) GT 0> 
 							<div class="card-header" id="headingOtherID">
 								<h3 class="h5 my-0">
 									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
@@ -487,17 +487,18 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
+							<cfif len(trim(#blockotherid#)) EQ 0> 
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 								<cfif len(trim(#blockotherid#)) GT 0> 
 									<div class="card-body" id="otherIDsCardBody">
 										#blockotherid# 
 									</div>
-			<!---					<cfelse>
+								<cfelse>
 									<div class="card-body py-0" id="otherIDsCardBody">
 										<ul class="list-group my-0">
 											<li class="small list-group-item py-0 font-italic">None</li>
 										</ul>
-									</div>--->
+									</div>
 								</cfif>
 							</div>
 							</cfif>
