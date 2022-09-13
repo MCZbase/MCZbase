@@ -470,7 +470,7 @@ limitations under the License.
 								<h3 class="h5 my-0">
 									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
 										Other Identifiers <cfif len(trim(#blockotherid#)) EQ 0> (None) </cfif>
-									</button>
+									</button>#blockotherid#
 									<cfif len(#blockotherid#) gt 1> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
