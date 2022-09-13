@@ -2723,7 +2723,6 @@ limitations under the License.
 						</cfloop>
 					</cfif>
 					<cfif collEventMedia.recordcount gt 0>
-						<div class="col-12 px-0 mx-2 py-1 small90 font-weight-lessbold" style="border-top: 1px solid ##ccc;">Collecting Event Media: </div>
 						<cfloop query="collEventMedia">
 							<div class="col-6 col-sm-3 px-1 col-lg-3 col-xl-2 mb-1 px-md-2 pt-1 float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
