@@ -2699,11 +2699,13 @@ limitations under the License.
 				</cfquery>
 				<cfif localityMedia.recordcount gt 0>
 					<cfset mediaType1 = "Locality">
+					<cfset conjunction = "">
 					<cfset mediaLabel="Media">
 					
 				</cfif>
 				<cfif collEventMedia.recordcount gt 0>
 					<cfset mediaType2 = "Collecting Event">
+					<cfset conjunction = "">
 					<cfset mediaLabel="Media">
 				</cfif>
 				<cfif collEventMedia.recordcount gt 0 and localityMedia.recordcount gt 0>
