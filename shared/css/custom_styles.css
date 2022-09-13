@@ -1096,7 +1096,9 @@ ul.sd li.list-group-item:last-child {
 	border-radius: 0;
 	border-bottom: 1px solid transparent;
 }
-
+.boder-top-gray {
+	border-top: 1px solid #ccc;
+}
 .jqx-widget-header {
 	background-color: #deebec !important;
 	/*	padding: .15em 0;*/

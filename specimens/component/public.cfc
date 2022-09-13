@@ -2677,7 +2677,6 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						</ul>
-
 				</div>
 				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
@@ -2717,8 +2716,8 @@ limitations under the License.
 					<cfset mediaType1 = "Locality">
 				<cfelse>
 				</cfif>
-				<div class="col-12 float-left px-0">
-					<div class="col-12 px-0 mx-2 py-1 small90 font-weight-lessbold" style="border-top: 1px solid ##ccc;">#mediaType1# #conjunction# #mediaType2# #mediaLabel#:</div>
+				<div class="w-100 float-left px-2">
+					<div class="col-12 px-0 py-1 small90 font-weight-lessbold border-top-gray">#mediaType1# #conjunction# #mediaType2# #mediaLabel#:</div>
 					<cfif localityMedia.recordcount gt 0>
 						<cfloop query="localityMedia">
 							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-2 mb-1 px-md-2 pt-1 float-left"> 
