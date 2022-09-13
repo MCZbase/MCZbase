@@ -2697,9 +2697,23 @@ limitations under the License.
 						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
 						MEDIA_RELATIONSHIP like '% collecting_event'
 				</cfquery>
+				<cfif localityMedia.recordcount gt 0>
+					<cfset mediaType1 = "Locality">
+					<cfset mediaLabel="Media">
+					
+				</cfif>
+				<cfif collEventMedia.recordcount gt 0>
+					<cfset mediaType2 = "Collecting Event">
+					<cfset mediaLabel="Media">
+				</cfif>
+				<cfif collEventMedia.recordcount gt 0 and localityMedia.recordcount gt 0>
+					<cfset conjunction = "and">
+					<cfset mediaLabel="Media">
+				<cfelse>
+				</cfif>
 				<div class="col-12 float-left px-0">
+					<div class="col-12 px-0 mx-2 py-1 small90 font-weight-lessbold" style="border-top: 1px solid ##ccc;">#mediaType1# #conjunction# #mediaType2# #mediaLabel#:</div>
 					<cfif localityMedia.recordcount gt 0>
-						<div class="col-12 px-0 mx-2 py-1 small90 font-weight-lessbold" style="border-top: 1px solid ##ccc;">Locality Media:</div>
 						<cfloop query="localityMedia">
 							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-2 mb-1 px-md-2 pt-1 float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
