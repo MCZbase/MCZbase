@@ -469,7 +469,7 @@ limitations under the License.
 							<div class="card-header" id="headingOtherID">
 								<h3 class="h5 my-0">
 									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
-										Other Identifiers
+										Other Identifiers <cfif len(trim(#blockotherid#)) EQ 0> (None) </cfif>
 									</button>
 									<cfif len(#blockotherid#) gt 1> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
@@ -492,12 +492,12 @@ limitations under the License.
 									<div class="card-body" id="otherIDsCardBody">
 										#blockotherid# 
 									</div>
-								<cfelse>
+								<!---<cfelse>
 									<div class="card-body py-0" id="otherIDsCardBody">
 										<ul class="list-group my-0">
 											<li class="small list-group-item py-0 font-italic">None</li>
 										</ul>
-									</div>
+									</div>--->
 								</cfif>
 							</div>
 						</cfif>
