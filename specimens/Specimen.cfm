@@ -486,22 +486,19 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-						<cfif len(#blockotherid#) EQ 0> 
-						<cfelse>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 								<cfif len(trim(#blockotherid#)) GT 0> 
 									<div class="card-body" id="otherIDsCardBody">
 										#blockotherid# 
 									</div>
-								<!---<cfelse>
+								<cfelse>
 									<div class="card-body py-0" id="otherIDsCardBody">
 										<ul class="list-group my-0">
 											<li class="small list-group-item py-0 font-italic">None</li>
 										</ul>
-									</div>--->
+									</div>
 								</cfif>
 							</div>
-						</cfif>
 						</div>
 					</div>
 					<!------------------------------------ parts ---------------------------------------------->
