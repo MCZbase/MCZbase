@@ -469,8 +469,8 @@ limitations under the License.
 							<div class="card-header" id="headingOtherID">
 								<h3 class="h5 my-0">
 									<button type="button" aria-label="OtherID Pane" class="headerLnk text-left w-100 h-100" aria-expanded="true" aria-controls="OtherIDsPane" data-toggle="collapse" data-target="##OtherIDsPane">
-										Other Identifiers <cfif len(trim(#blockotherid#)) EQ 0> (None) </cfif>
-									</button>#blockotherid#
+										Other Identifiers
+									</button>
 									<cfif len(#blockotherid#) gt 1> 
 										<cfif listcontainsnocase(session.roles,"manage_specimens")>
 											<a role="button" href="javascript:void(0)" class="anchorFocus btn btn-xs small py-0" onClick="openEditOtherIDsDialog(#collection_object_id#,'otherIDsDialog','#guid#',reloadOtherIDs)">
@@ -486,7 +486,8 @@ limitations under the License.
 									</cfif>
 								</h3>
 							</div>
-						<cfif len(trim(#blockotherid#)) EQ 0> 
+						<cfif len(#blockotherid#) EQ 0> 
+						<cfelse>
 							<div id="OtherIDsPane" class="collapse show" aria-labelledby="headingOtherID" data-parent="##accordionOtherID">
 								<cfif len(trim(#blockotherid#)) GT 0> 
 									<div class="card-body" id="otherIDsCardBody">
