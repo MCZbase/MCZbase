@@ -2710,11 +2710,15 @@ limitations under the License.
 					<cfset mediaLabel="Media">
 				</cfif>
 				<cfif collEventMedia.recordcount gt 0 and localityMedia.recordcount gt 0>
+					<cfset mediaType1 = "Locality">
+					<cfset mediaType2 = "Collecting Event">
 					<cfset conjunction = "and">
 					<cfset mediaLabel="Media">
-					<cfset mediaType2 = "Collecting Event">
-					<cfset mediaType1 = "Locality">
 				<cfelse>
+					<cfset mediaType1 = "">
+					<cfset mediaType2 = "">
+					<cfset conjunction = "">
+					<cfset mediaLabel="">
 				</cfif>
 				<div class="w-100 float-left px-2">
 					<div class="col-12 px-0 py-1 small90 font-weight-lessbold border-top-gray">#mediaType1# #conjunction# #mediaType2# #mediaLabel#:</div>
