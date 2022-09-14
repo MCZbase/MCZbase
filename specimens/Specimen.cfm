@@ -739,7 +739,7 @@ limitations under the License.
 							<div class="card-header" id="headingLedger">
 								<h3 class="h5 my-0">
 									<button type="button" aria-controls="ledgerPane" class="headerLnk text-left h-100 w-100" aria-label="ledger Pane" data-toggle="collapse" data-target="##ledgerPane" aria-expanded="true" >
-										Ledger and Field Notes
+										Documentation
 									</button>
 								</h3>
 							</div>

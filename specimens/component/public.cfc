@@ -1486,7 +1486,8 @@ limitations under the License.
 							</tr>
 							<cfif len(attribute_remark)gt 0>
 								<tr>
-									<td colspan="4" class="inputHeight"><span class="font-italic d-inline-block pb-1 pl-3 small90">Remarks:</span> #attribute_remark#</td>
+									<td colspan="1"></td>
+									<td colspan="3"><span class="inputHeight d-inline-block pb-1"><em>Remarks:</em> #attribute_remark#</span></td>
 								</tr>
 							</cfif>
 						</cfloop>
@@ -2233,63 +2234,63 @@ limitations under the License.
 					<ul class="sd list-unstyled row mx-0 px-2 py-1 mb-0">
 						<cfif len(loc_collevent.continent_ocean) gt 0>
 							<cfif find('Ocean',loc_collevent.continent_ocean) GT 0><cfset colabel="Ocean"><cfelse><cfset colabel="Continent"></cfif>
-							<li class="list-group-item col-5 px-0"><em>#colabel#:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.continent_ocean#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#colabel#:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.continent_ocean#</li>
 						</cfif>
 						<cfif len(loc_collevent.ocean_region) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Ocean Region:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.ocean_region#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Ocean Region:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.ocean_region#</li>
 						</cfif>
 						<cfif len(loc_collevent.ocean_subregion) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Ocean Subregion:</em></li>
+							<li class="list-group-item col-5 px-0 font-weight-lessbold">Ocean Subregion:</li>
 							<li class="list-group-item col-7 px-0">#loc_collevent.ocean_subregion#</li>
 						</cfif>
 						<cfif len(loc_collevent.sea) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.sea#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Sea:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.sea#</li>
 						</cfif>
 						<cfif len(loc_collevent.water_feature) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Water Feature:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.water_feature#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>Water Feature:</em></li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.water_feature#</li>
 						</cfif>
 						<cfif len(loc_collevent.country) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.country#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Country:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.country#</li>
 						</cfif>
 						<cfif len(loc_collevent.state_prov) gt 0>
-							<li class="list-group-item col-5 px-0"><em>State/Province:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.state_prov#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">State/Province:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.state_prov#</li>
 						</cfif>
 						<cfif len(loc_collevent.feature) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.feature#</li>
+							<li class="list-group-item col-5 col-xl-4 col-xl-4 px-0 font-weight-lessbold">Feature:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.feature#</li>
 						</cfif>
 						<cfif len(loc_collevent.county) gt 0>
-							<li class="list-group-item col-5 px-0"><em>County:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.county#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>County:</em></li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.county#</li>
 						</cfif>
 						<cfif len(loc_collevent.island_group) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.island_group#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Island Group:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.island_group#</li>
 						</cfif>
 						<cfif len(loc_collevent.island) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.island#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Island:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.island#</li>
 						</cfif>
 						<cfif len(loc_collevent.quad) gt 0>
-							<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.quad#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Quad:</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.quad#</li>
 						</cfif>
 						<cfif loc_collevent.country NEQ loc_collevent.sovereign_nation AND len(loc_collevent.sovereign_nation) GT 0 >
 							<cfif loc_collevent.country NEQ "United States" AND loc_collevent.sovereign_nation NEQ "United States of America">
-								<li class="list-group-item col-5 px-0"><em>Sovereign Nation:</em></li>
-								<li class="list-group-item col-7 px-0">#loc_collevent.sovereign_nation#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Sovereign Nation:</li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.sovereign_nation#</li>
 							</cfif>
 						</cfif>
 						<cfif len(loc_collevent.highergeographyid) gt 0>
-							<li class="list-group-item col-5 px-0"><em>dwc:highergeographyID:</em></li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">dwc:highergeographyID:</li>
 							<cfset geogLink = getGuidLink(guid=#loc_collevent.highergeographyid#,guid_type=#loc_collevent.highergeographyid_guid_type#)>
-							<li class="list-group-item col-7 px-0">
+							<li class="list-group-item col-7 col-xl-8 px-0">
 								#loc_collevent.highergeographyid# #geogLink#
 							</li>
 						</cfif>
@@ -2314,44 +2315,44 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="col-12 float-left px-0">
-					<ul class="sd list-unstyled bg-light row mx-0 px-2 py-1 mb-0 border-top">
+					<ul class="sd list-unstyled bg-light row mx-0 px-2 pt-1 mb-0 border-top">
 						<cfif len(loc_collevent.spec_locality) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="font-italic my-0">Specific Locality: </span></li>
-							<li class="list-group-item col-7 px-0 last">#loc_collevent.spec_locality#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Specific Locality: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 last">#loc_collevent.spec_locality#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatim_locality) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Verbatim Locality: </span></li>
-							<li class="list-group-item col-7 px-0 ">#loc_collevent.verbatim_locality#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_locality#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimcoordinates) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Verbatim Coordinates: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimcoordinates#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimcoordinates#</li>
 						</cfif>
 						<cfif len(loc_collevent.township) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">PLSS: </span></li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">PLSS: </li>
 							<cfif REFind("^[0-9]+$",loc_collevent.section)><cfset sec="S"><cfelse><cfset sec=""></cfif>
-							<li class="list-group-item col-7 px-0">#loc_collevent.section_part# #sec##loc_collevent.section# T#loc_collevent.township##ucase(loc_collevent.township_direction)#R#loc_collevent.range##ucase(loc_collevent.range_direction)# </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.section_part# #sec##loc_collevent.section# T#loc_collevent.township##ucase(loc_collevent.township_direction)#R#loc_collevent.range##ucase(loc_collevent.range_direction)# </li>
 						</cfif>
 						<cfif len(loc_collevent.max_depth) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Depth: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.min_depth# eq #loc_collevent.max_depth#>#loc_collevent.min_depth# #loc_collevent.depth_units#<cfelse>#loc_collevent.min_depth# - #loc_collevent.max_depth# #loc_collevent.depth_units#</cfif></li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Depth: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0"><cfif #loc_collevent.min_depth# eq #loc_collevent.max_depth#>#loc_collevent.min_depth# #loc_collevent.depth_units#<cfelse>#loc_collevent.min_depth# - #loc_collevent.max_depth# #loc_collevent.depth_units#</cfif></li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimdepth) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Verbatim Depth: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimdepth#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Depth: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimdepth#</li>
 						</cfif>
 						<cfif len(loc_collevent.minimum_elevation) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Elevation: </span></li>
-							<li class="list-group-item col-7 px-0"><cfif #loc_collevent.minimum_elevation# eq #loc_collevent.maximum_elevation#>#loc_collevent.minimum_elevation# #loc_collevent.orig_elev_units#<cfelse>#loc_collevent.minimum_elevation# - #loc_collevent.maximum_elevation# #loc_collevent.orig_elev_units#</cfif></li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Elevation: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0"><cfif #loc_collevent.minimum_elevation# eq #loc_collevent.maximum_elevation#>#loc_collevent.minimum_elevation# #loc_collevent.orig_elev_units#<cfelse>#loc_collevent.minimum_elevation# - #loc_collevent.maximum_elevation# #loc_collevent.orig_elev_units#</cfif></li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimelevation) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Verbatim Elevation: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatimelevation#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Elevation: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatimelevation#</li>
 						</cfif>
 						<cfif geology.recordcount GT 0> 
 							<cfloop query="geology">
 								<cfif len(geology.geo_att_value) GT 0>
-									<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">#geology.geology_attribute#: </span></li>
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">#geology.geology_attribute#: </li>
 									<cfset geo_determiner = geology.determiner>
 									<cfif geology.geo_att_determiner_id NEQ "0" AND len(geology.geo_att_determiner_id) GT 0>
 										<cfset geo_determiner = "<a href='/agents/agent.cfm?agent_id=#geology.geo_att_determiner_id#'>#geo_determiner#</a>">
@@ -2373,21 +2374,21 @@ limitations under the License.
 									<cfelse>
 										<cfset geoMethod="">
 									</cfif>
-									<li class="list-group-item col-7 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner##geoOnDate##geoMethod# #geology.geo_att_remark##geology_previous#</span></li>
+									<li class="list-group-item col-7 col-xl-8 px-0">#geology.geo_att_value#<span class="d-block small mb-0 pb-0"> #geo_determiner##geoOnDate##geoMethod# #geology.geo_att_remark##geology_previous#</span></li>
 								</cfif>
 							</cfloop>
 						</cfif>
 						<cfif len(loc_collevent.habitat_desc) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Habitat Description: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.habitat_desc#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Habitat Description: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.habitat_desc#</li>
 						</cfif>
 						<cfif len(microhabitat) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Microhabitat: </span></li>
-							<li class="list-group-item col-7 px-0">#microhabitat#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Microhabitat: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#microhabitat#</li>
 						</cfif>
 						<cfif len(loc_collevent.locality_remarks) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Locality Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.locality_remarks#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Locality Remarks: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.locality_remarks#</li>
 						</cfif>
 						<cfif len(coordlookup.dec_lat) gt 0>
 							<!--- georeference and metadata --->
@@ -2398,7 +2399,7 @@ limitations under the License.
 							<cfif coordlookup.max_error_distance EQ "301" AND coordlookup.max_error_units EQ "m">
 								<cfset warn301="<span class='d-block small mb-0 pb-0'>[Note: a coordinate uncertainty of 301m is given by Biogeomancer and GeoLocate when unable to determine an uncertainty] </span>">
 							</cfif>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Georeference: </span></li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Georeference: </li>
 							<cfset georef_determiner= coordlookup.lat_long_determined_by>
 							<cfif coordlookup.determined_by_agent_id NEQ "0" and len(coordlookup.determined_by_agent_id) GT 0>
 								<cfset georef_determiner = "<a href='/agents/agent.cfm?agent_id=#coordlookup.determined_by_agent_id#'>#georef_determiner#</a>">
@@ -2413,7 +2414,7 @@ limitations under the License.
 							<cfif len(georef_source) GT 0>
 								<cfset georef_source = " (Source: #georef_source#)">
 							</cfif>
-							<li class="list-group-item col-7 px-0">
+							<li class="list-group-item col-7 col-xl-8 px-0">
 								#dla#, #dlo# 
 								<cfif dla EQ "[Masked]">
 									<!--- don't display Not Specified for error radius --->
@@ -2428,31 +2429,31 @@ limitations under the License.
 							</li>
 
 							<cfif len(coordlookup.datum) GT 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Datum: </span></li>
-								<li class="list-group-item col-7 px-0">#coordlookup.datum#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Datum: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.datum#</li>
 							</cfif>
 
 							<cfif len(coordlookup.utm_zone) GT 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">UTM Coordinates: </span></li>
-								<li class="list-group-item col-7 px-0">#coordlookup.utm_zone# #coordlookup.utm_ew# #coordlookup.utm_ns#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">UTM Coordinates: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.utm_zone# #coordlookup.utm_ew# #coordlookup.utm_ns#</li>
 							</cfif>
 
 							<cfif len(coordlookup.extent) GT 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Extent: </span></li>
-								<li class="list-group-item col-7 px-0">#coordlookup.extent#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Extent: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.extent#</li>
 							</cfif>
 							<cfif len(coordlookup.gpsaccuracy) GT 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">GNSS/GPS Accuracy: </span></li>
-								<li class="list-group-item col-7 px-0">#coordlookup.gpsaccuracy#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">GNSS/GPS Accuracy: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.gpsaccuracy#</li>
 							</cfif>
 							<cfif len(coordlookup.spatialfit) GT 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Spatial Fit: </span></li>
-								<li class="list-group-item col-7 px-0">#coordlookup.spatialfit#</li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Spatial Fit: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.spatialfit#</li>
 							</cfif>
 
 							<cfif len(coordlookup.orig_lat_long_units) GT 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Coordinates Entered As: </span></li>
-								<li class="list-group-item col-7 px-0">
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Coordinates Entered As: </li>
+								<li class="list-group-item col-7 col-xl-8 px-0">
 									#coordlookup.orig_lat_long_units#
 									<cfif coordlookup.orig_lat_long_units NEQ "decimal degrees" and coordlookup.orig_lat_long_units NEQ "unknown">
 										<cfset originalForm = "">
@@ -2470,21 +2471,21 @@ limitations under the License.
 								</li>
 							</cfif>
 							<cfif len(loc_collevent.verbatimcoordinates) GT 0>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Verbatim Coordinates: </span></li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
 								<cfif len(loc_collevent.verbatimsrs) GT 0><cfset verbsrs="(Datum: #loc_collevent.verbatimsrs#)"><cfelse><cfset verbsrs=""></cfif>
-								<li class="list-group-item col-7 px-0">
+								<li class="list-group-item col-7 col-xl-8 px-0">
 									<span class="d-block small mb-0 pb-0">#loc_collevent.verbatimcoordinates# #verbsrs#</span>
 								</li>
 							</cfif>
 	
 							<cfif oneOfUs EQ 1>
 								<cfif len(coordlookup.error_polygon) GT 0>
-									<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Has Error Polygon: </span></li>
-									<li class="list-group-item col-7 px-0">Yes (see map)</li>
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Has Error Polygon: </li>
+									<li class="list-group-item col-7 col-xl-8 px-0">Yes (see map)</li>
 								</cfif>
 								<cfif len(coordlookup.verificationstatus) GT 0>
-									<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Georeference Verification Status: </span></li>
-									<li class="list-group-item col-7 px-0">#coordlookup.verificationstatus#</li>
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Georeference Verification Status: </li>
+									<li class="list-group-item col-7 col-xl-8 px-0">#coordlookup.verificationstatus#</li>
 								</cfif>
 								<cfif len(coordlookup.lat_long_verified_by) GT 0>
 									<cfset georef_determiner = coordlookup.lat_long_verified_by>
@@ -2492,17 +2493,17 @@ limitations under the License.
 										<cfset georef_verifier = "<a href='/agents/agent.cfm?agent_id=#coordlookup.verified_by_agent_id#'>#georef_determiner#</a>">
 									</cfif>
 									<cfif len(coordlookup.lat_long_verified_by) GT 0>
-										<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Georeference verified by: </span></li>
-										<li class="list-group-item col-7 px-0">#georef_verifier#</li>
+										<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Georeference verified by: </li>
+										<li class="list-group-item col-7 col-xl-8 px-0">#georef_verifier#</li>
 									</cfif>
 								</cfif>
 								<cfif len(coordlookup.geolocate_score) GT 0>
-									<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Geo-Locate Metadata: </span></li>
-									<li class="list-group-item col-7 px-0">Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#</li>
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Geo-Locate Metadata: </li>
+									<li class="list-group-item col-7 col-xl-8 px-0">Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#</li>
 								</cfif>
 								<cfif coordlookup.recordcount GT 1>
-									<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Unaccepted Georeferences: </span></li>
-									<li class="list-group-item col-7 px-0">
+									<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Unaccepted Georeferences: </li>
+									<li class="list-group-item col-7 col-xl-8 px-0">
 										#coordlookup.recordcount - 1#
 										<button onclick="toggleUnacceptedGeorefs();" role="button" class="btn btn-xs small py-0 ml-1 btn-secondary" id="unaccGeoToggleButton">Show</button>
 									</li>
@@ -2523,8 +2524,8 @@ limitations under the License.
 									<cfloop query="coordlookup">
 										<cfset i = i+1>
 										<cfif i GT 1>
-											<li class="list-group-item col-5 px-0 unacceptedGeoreferenceLI">
-												<span class="my-0 font-italic">Unaccepted: </span>
+											<li class="list-group-item col-5 col-xl-4 px-0 unacceptedGeoreferenceLI font-weight-lessbold">
+												Unaccepted: 
 											</li>
 											<cfset dla = left(#coordlookup.dec_lat#,10)>
 											<cfset dlo = left(#coordlookup.dec_long#,10)>
@@ -2543,15 +2544,15 @@ limitations under the License.
 											<cfif len(georef_source) GT 0>
 												<cfset georef_source = " (Source: #georef_source#)">
 											</cfif>
-											<li class="list-group-item col-7 px-0 unacceptedGeoreferenceLI">
+											<li class="list-group-item col-7 col-xl-8 px-0 unacceptedGeoreferenceLI">
 												#dla#, #dlo# (error radius: #coordlookup.max_error_distance##coordlookup.max_error_units#) 
 												<span class="d-block small mb-0 pb-0"> #georef_determiner##dateDet##georef_source##warn301#</span>
 											</li>
 											<cfif len(coordlookup.geolocate_score) GT 0>
-												<li class="list-group-item col-5 px-0 unacceptedGeoreferenceLI">
-													<span class="my-0 font-italic">Geo-Locate Metadata: </span>
+												<li class="list-group-item col-5 col-xl-4 px-0 unacceptedGeoreferenceLI font-weight-lessbold">
+													Geo-Locate Metadata: 
 												</li>
-												<li class="list-group-item col-7 px-0 unacceptedGeoreferenceLI">
+												<li class="list-group-item col-7 col-xl-8 px-0 unacceptedGeoreferenceLI">
 													Score: #coordlookup.geolocate_score# Precision: #coordlookup.geolocate_precision# Number of results: #coordlookup.geolocate_numresults# Pattern used: #coordlookup.geolocate_parsepattern#
 												</li>
 											</cfif>
@@ -2562,36 +2563,36 @@ limitations under the License.
 						</cfif>
 				
 						<cfif len(loc_collevent.collecting_method) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collecting Method: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_method#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Collecting Method: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.collecting_method#</li>
 						</cfif>
 						<cfif len(loc_collevent.collecting_source) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collecting Source: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_source#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Collecting Source: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.collecting_source#</li>
 						</cfif>
 						<cfif len(loc_collevent.began_date) gt 0>
 							<cfif loc_collevent.began_date eq #loc_collevent.ended_date#>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collected On: </span></li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Collected On: </li>
 							<cfelse>
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Began Date / Ended Date: </span></li>
+								<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Began Date / Ended Date: </li>
 							</cfif>
-							<li class="list-group-item col-7 px-0">#eventDate#</li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#eventDate#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatim_date) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Verbatim Date: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.verbatim_date#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Date: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.verbatim_date#</li>
 						</cfif>
 						<cfif len(loc_collevent.collecting_time) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Time Collected: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.collecting_time#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Time Collected: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.collecting_time#</li>
 						</cfif>
 						<cfif len(loc_collevent.coll_event_remarks) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collecting Event Remarks: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.coll_event_remarks#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Collecting Event Remarks: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.coll_event_remarks#</li>
 						</cfif>
 						<cfif len(loc_collevent.fish_field_number) gt 0>
-							<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Ich. Field Number: </span></li>
-							<li class="list-group-item col-7 px-0">#loc_collevent.fish_field_number#</li>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Ich. Field Number: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0">#loc_collevent.fish_field_number#</li>
 						</cfif>
 						<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
@@ -2610,12 +2611,12 @@ limitations under the License.
 						</cfquery>
 						<cfif collEventNumbers.recordcount gt 0>
 							<cfloop query="collEventNumbers">
-								<li class="list-group-item col-5 px-0"><span class="my-0 font-italic">Collecting Event/Field Number: </span></li>
+								<li class="list-group-item col-5 col-xl-4 px-0"><span class="my-0 font-italic">Collecting Event/Field Number: </span></li>
 								<cfset num_determiner= collEventNumbers.collector_agent_name>
 								<cfif len(collEventNumbers.collector_agent_id) GT 0 AND collEventNumbers.collector_agent_id NEQ "0">
 									<cfset num_determiner = "<a href='/agents/agent.cfm?agent_id=#collEventNumbers.collector_agent_id#'>#num_determiner#</a>">
 								</cfif>
-								<li class="list-group-item col-7 px-0">
+								<li class="list-group-item col-7 col-xl-8 px-0">
 									#collEventNumbers.coll_event_number# 
 									<span class="d-block small mb-0 pb-0"> (#collEventNumbers.number_series# of #num_determiner#)</span>
 								</li>
@@ -2638,26 +2639,26 @@ limitations under the License.
 								coll_order
 						</cfquery>
 						<cfif colls.recordcount EQ 0>
-							<li class="list-group-item col-5 px-0 font-weight-lessbold"><em>Collector: </em></li>
-							<li class="list-group-item col-7 px-0 font-weight-lessbold">
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold"><em>Collector: </em></li>
+							<li class="list-group-item col-7 col-xl-8 px-0 font-weight-lessbold">
 								None
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
 									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Add </a>
 								</cfif>
 							</li>
 						<cfelse>
-							<li class="list-group-item col-5 px-0">
+							<li class="list-group-item col-5 col-xl-4 px-0">
 								<cfset plural="s">
 								<cfif colls.recordcount EQ 1>
 									<cfset plural = "">
 								</cfif>
-								<span class="my-0 font-weight-lessbold"><em>Collector#plural#: </em></span>
+								<span class="my-0 font-weight-lessbold">Collector#plural#: </span>
 								<cfif listcontainsnocase(session.roles,"manage_specimens")>
 									<a href="javascript:void(0)" role="button" class="btn btn-xs small py-0 anchorFocus" onClick="openEditCollectorsDialog(#collection_object_id#,'collectorsDialog','#guid#',reloadLocality)"> Edit </a>
 								</cfif>
 							</li>
 							<cfif oneOfUs EQ 0 AND Findnocase("mask collector", check.encumbranceDetail)>
-								<li class="list-group-item col-7 px-0 font-weight-lessbold">[Masked]</li>
+								<li class="list-group-item col-7 col-xl-8 px-0 font-weight-lessbold">[Masked]</li>
 							<cfelse>
 								<cfset collectors = "">
 								<cfset sep="">
@@ -2673,11 +2674,10 @@ limitations under the License.
 									</cfif>
 									<cfset sep="; ">
 								</cfloop>
-								<li class="list-group-item col-7 px-0 font-weight-lessbold">#collectors#</li>
+								<li class="list-group-item col-7 col-xl-8 px-0 font-weight-lessbold">#collectors#</li>
 							</cfif>
 						</cfif>
 						</ul>
-
 				</div>
 				<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
@@ -2697,10 +2697,35 @@ limitations under the License.
 						RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loc_collevent.collecting_event_id#"> and
 						MEDIA_RELATIONSHIP like '% collecting_event'
 				</cfquery>
-				<div class="col-12 float-left px-0">
+				<cfif localityMedia.recordcount gt 0>
+					<cfset mediaType1 = "Locality">
+					<cfset mediaType2 = "">
+					<cfset conjunction = "">
+					<cfset mediaLabel="Media">
+					
+				</cfif>
+				<cfif collEventMedia.recordcount gt 0>
+					<cfset mediaType2 = "Collecting Event">
+					<cfset mediaType1 = "">
+					<cfset conjunction = "">
+					<cfset mediaLabel="Media">
+				</cfif>
+				<cfif collEventMedia.recordcount gt 0 and localityMedia.recordcount gt 0>
+					<cfset mediaType1 = "Locality">
+					<cfset mediaType2 = "Collecting Event">
+					<cfset conjunction = "and">
+					<cfset mediaLabel="Media:">
+				<cfelse>
+					<cfset mediaType1 = "">
+					<cfset mediaType2 = "">
+					<cfset conjunction = "">
+					<cfset mediaLabel="">
+				</cfif>
+				<div class="w-100 float-left px-2">
+					<div class="col-12 px-0 py-1 small90 font-weight-lessbold border-top-gray">#mediaType1# #conjunction# #mediaType2# #mediaLabel#</div>
 					<cfif localityMedia.recordcount gt 0>
 						<cfloop query="localityMedia">
-							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-2 mb-1 px-md-1 pt-1 float-left"> 
+							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-2 mb-1 px-md-2 pt-1 float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>
@@ -2709,7 +2734,7 @@ limitations under the License.
 					</cfif>
 					<cfif collEventMedia.recordcount gt 0>
 						<cfloop query="collEventMedia">
-							<div class="col-6 col-sm-3 px-1 col-lg-3 col-xl-2 mb-1 px-md-1 pt-1 float-left"> 
+							<div class="col-6 col-sm-3 px-1 col-lg-3 col-xl-2 mb-1 px-md-2 pt-1 float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
 									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textCaption")>
 								</div>

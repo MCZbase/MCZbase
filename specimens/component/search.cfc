@@ -195,8 +195,8 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
 			if (REFind('^".+"$',mayBeQuoted) GT 0) { 
-				// atom is quoted, search baseFieldName
-				comparator = '"comparator": "like"';
+				// atom is quoted, search displayFieldName
+				comparator = '"comparator": "="';
 				value = right(mayBeQuoted,len(mayBeQuoted)-1);
 				value = left(value,len(value)-1);
 				if (left(value,1) IS "!") {

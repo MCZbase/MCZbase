@@ -295,7 +295,7 @@ limitations under the License.
 			});
 		</script>
 	
-		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
+		<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
 				<ul class="navbar-nav nav-fill mr-auto">
@@ -810,7 +810,7 @@ limitations under the License.
 								<i class="fas fa-user-cog text-body"></i>
 							</cfif>
 							</a>
-							<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+							<ul aria-labelledby="dropdownMenu5" class="dropdown-menu dropdown-menu-right border-0 shadow">
 								<li>
 									<a href="/users/UserProfile.cfm" class="dropdown-item">User Profile</a>
 									<cfif session.roles contains "coldfusion_user">

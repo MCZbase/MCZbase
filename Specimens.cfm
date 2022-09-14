@@ -178,11 +178,11 @@ limitations under the License.
 	<div id="overlaycontainer" style="position: relative;">
 		<main id="content" class="container-fluid">
 			<div class="row">
-				<div class="col-12 pt-1 pb-3">
+				<div class="col-12 mt-1 pb-3">
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-					<h1 class="h3 smallcaps pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+					<h1 class="h3 smallcaps mb-1 pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
