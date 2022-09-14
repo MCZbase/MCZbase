@@ -2060,30 +2060,36 @@ limitations under the License.
 		//
 		// Set the row color based on type status
 		var keywordcellclass = function (row, columnfield, value) {
-			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (toptypestatuskind=='Primary') { 
-				return "primaryTypeCell";
-			} else if (toptypestatuskind=='Secondary') { 
-				return "secondaryTypeCell";
+			if (row>-1) { 
+				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
 			}
 		};
 		var fixedcellclass = function (row, columnfield, value) {
-			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (toptypestatuskind=='Primary') { 
-				return "primaryTypeCell";
-			} else if (toptypestatuskind=='Secondary') { 
-				return "secondaryTypeCell";
+			if (row>-1) { 
+				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
 			}
 		};
 		var buildercellclass = function (row, columnfield, value) {
-			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (toptypestatuskind=='Primary') { 
-				return "primaryTypeCell";
-			} else if (toptypestatuskind=='Secondary') { 
-				return "secondaryTypeCell";
+			if (row>-1) { 
+				var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
 			}
 		};
 	
