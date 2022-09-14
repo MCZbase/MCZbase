@@ -1780,7 +1780,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class=""></span>
-													<div id="keywordresultBMMapLinkContainer"></div>
+													<div id="builderresultBMMapLinkContainer"></div>
 													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output> 
 												</div>
 												<div class="row mt-0"> 
