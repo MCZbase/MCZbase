@@ -135,7 +135,7 @@
 					FROM
 						agent_name 
 					where
-						upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">	
+						upper(agent_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.ucasename#">	
 						and 
 						agent_name_type = 'login'
 				</cfquery>
@@ -150,7 +150,7 @@
 					FROM 
 						DBA_USERS
 					WHERE
-						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+						upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.ucasename#">
 				</cfquery>
 				<!--- users with an oracle schema can have the coldfusion_user role, and be "one of us" --->
 				<cfquery name="coldfusionUserRole" datasource="uam_god">
@@ -161,7 +161,7 @@
 					WHERE
 						upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
 						AND
-						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.ucasename#">
 				</cfquery>
 				<!--- users with an oracle schema can be granted access to VPDs for collections --->
 				<cfquery name="collectionRoles" datasource="uam_god">
@@ -172,7 +172,7 @@
 						collection
 					where
 						upper(dba_role_privs.granted_role) = upper(collection.institution_acronym) || '_' || upper(collection.collection_cde) and
-						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getUsers.ucasename#">
 				</cfquery>
 				<cfif oracleUser.ct GT 0>
 					<cfset operator = "Oracle User">
