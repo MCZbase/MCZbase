@@ -2138,7 +2138,7 @@ limitations under the License.
 	
 				var search = null;
 
-				if ($('##fixedSearchForm').serialize().length() > 7900) { 
+				if ($('##fixedSearchForm').serialize().length > 7900) { 
 					// POST to accomodate long catalog number lists
 					search = 
 					{
