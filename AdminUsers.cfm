@@ -394,7 +394,7 @@
 					WHERE
 						upper(dba_role_privs.granted_role) = 'COLDFUSION_USER'
 						AND
-						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucasename#">
+						upper(grantee) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(isDbUser.username)#">
 				</cfquery>
 				<tr>
 					<td>One of Us</td>
