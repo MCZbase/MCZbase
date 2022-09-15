@@ -71,11 +71,9 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 .logout {
 	padding: 0 .25rem;
 	font-size: .85rem;
-	position: absolute;
+	position: relative;
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
-	top: 2.12rem;
-	right: 1.12rem;
 }
 .user {
 	font-size: .9rem;
@@ -325,10 +323,11 @@ input#Password {
 		padding: 0 .45rem;
 		font-size: .85rem;
 		position: absolute;
-		right: 1rem;
+		right: 12rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
-		top: 2.12rem;
+		top: -2.12rem;
+		background-color: white;
 	}
 }
 @media screen and (max-width:991px) {
