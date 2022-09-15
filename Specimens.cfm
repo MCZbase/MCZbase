@@ -2097,7 +2097,16 @@ limitations under the License.
 		var fixedSearchLoaded = 0;
 		var keywordSearchLoaded = 0;
 		var builderSearchLoaded = 0;
-		
+	
+		function serializeFormAsJSON(formID) {
+		  const array = $('##'+formID).serializeArray();
+		  const json = {};
+		  $.each(array, function () {
+		    json[this.name] = this.value || "";
+		  });
+		  return json;
+		}
+	
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
@@ -2127,39 +2136,81 @@ limitations under the License.
 				console.log(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
 	
-				var search =
-				{
-					datatype: "json",
-					datafields:
-					[
-						<cfset separator = "">
-						<cfloop query="getFieldMetadata">
-							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							<cfelseif data_type EQ 'NUMBER' >
-								#separator#{name: '#ucase(column_name)#', type: 'number' }
-							<cfelse>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							</cfif>
-							<cfset separator = ",">
-						</cfloop>
-					],
-					beforeprocessing: function (data) {
-						if (data != null && data.length > 0) {
-							search.totalrecords = data[0].recordcount;
-						}
-					},
-					sort: function () {
-						$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
-					},
-					root: 'specimenRecord',
-					id: 'collection_object_id',
-					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-					timeout: 120000,  // units not specified, miliseconds?
-					loadError: function(jqXHR, textStatus, error) {
-						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
-					},
-					async: true
+				var search = null;
+
+				if ($('##fixedSearchForm').serialize().length() > 7900) { 
+					// POST to accomodate long catalog number lists
+					search = 
+					{
+						datatype: "json",
+						datafields:
+						[
+							<cfset separator = "">
+							<cfloop query="getFieldMetadata">
+								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								<cfelseif data_type EQ 'NUMBER' >
+									#separator#{name: '#ucase(column_name)#', type: 'number' }
+								<cfelse>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								</cfif>
+								<cfset separator = ",">
+							</cfloop>
+						],
+						beforeprocessing: function (data) {
+							if (data != null && data.length > 0) {
+								search.totalrecords = data[0].recordcount;
+							}
+						},
+						sort: function () {
+							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+						},
+						root: 'specimenRecord',
+						id: 'collection_object_id',
+						url: '/specimens/component/search.cfc',
+						type: 'POST',
+						data: serializeFormAsJSON('fixedSearchForm'),
+						timeout: 120000,  // units not specified, miliseconds?
+						loadError: function(jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+						},
+						async: true
+					};
+				} else { 
+					search = 
+					{
+						datatype: "json",
+						datafields:
+						[
+							<cfset separator = "">
+							<cfloop query="getFieldMetadata">
+								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								<cfelseif data_type EQ 'NUMBER' >
+									#separator#{name: '#ucase(column_name)#', type: 'number' }
+								<cfelse>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								</cfif>
+								<cfset separator = ",">
+							</cfloop>
+						],
+						beforeprocessing: function (data) {
+							if (data != null && data.length > 0) {
+								search.totalrecords = data[0].recordcount;
+							}
+						},
+						sort: function () {
+							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+						},
+						root: 'specimenRecord',
+						id: 'collection_object_id',
+						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
+						timeout: 120000,  // units not specified, miliseconds?
+						loadError: function(jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+						},
+						async: true
+					};
 				};
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);
