@@ -1780,7 +1780,7 @@ limitations under the License.
 													<div id="buildercolumnPickDialogButton"></div>
 													<div id="builderresultDownloadButtonContainer"></div>
 													<span id="buildermanageButton" class=""></span>
-													<div id="keywordresultBMMapLinkContainer"></div>
+													<div id="builderresultBMMapLinkContainer"></div>
 													<output id="builderactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 border-0"></output> 
 												</div>
 												<div class="row mt-0"> 
@@ -2060,30 +2060,36 @@ limitations under the License.
 		//
 		// Set the row color based on type status
 		var keywordcellclass = function (row, columnfield, value) {
-			var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
-			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (toptypestatuskind=='Primary') { 
-				return "primaryTypeCell";
-			} else if (toptypestatuskind=='Secondary') { 
-				return "secondaryTypeCell";
+			if (row>-1) { 
+				var rowData = jQuery("##keywordsearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
 			}
 		};
 		var fixedcellclass = function (row, columnfield, value) {
-			var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
-			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (toptypestatuskind=='Primary') { 
-				return "primaryTypeCell";
-			} else if (toptypestatuskind=='Secondary') { 
-				return "secondaryTypeCell";
+			if (row>-1) { 
+				var rowData = jQuery("##fixedsearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
 			}
 		};
 		var buildercellclass = function (row, columnfield, value) {
-			var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
-			var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
-			if (toptypestatuskind=='Primary') { 
-				return "primaryTypeCell";
-			} else if (toptypestatuskind=='Secondary') { 
-				return "secondaryTypeCell";
+			if (row>-1) { 
+				var rowData = jQuery("##buildersearchResultsGrid").jqxGrid('getrowdata',row);
+				var toptypestatuskind = rowData['TOPTYPESTATUSKIND'];
+				if (toptypestatuskind=='Primary') { 
+					return "primaryTypeCell";
+				} else if (toptypestatuskind=='Secondary') { 
+					return "secondaryTypeCell";
+				}
 			}
 		};
 	
