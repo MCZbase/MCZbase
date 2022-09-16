@@ -182,7 +182,7 @@ limitations under the License.
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-					<h1 class="h3 smallcaps mb-1 pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
@@ -1737,10 +1737,10 @@ limitations under the License.
 											</script>
 										</div>
 										<div class="form-row mb-3">
-											<div class="col-12">
-												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
-												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
+											<div class="col-12 py-2 py-sm-0">
+												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-2" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-2" aria-label="Reset this search form to inital values" disabled>Reset</button>
+												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 											</div>
 										</div>
 									</form>
