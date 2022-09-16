@@ -1273,14 +1273,14 @@ limitations under the License.
 										</div>
 									</aside>
 								</div>
-								<div role="search" class="container-fluid">
-									<form name= "keywordSearchForm" id="keywordSearchForm">
+								<div role="search">
+									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
-										<div class="row">
+										<div class="row mx-0">
 											<div class="input-group mt-1">
-												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3">
+												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0">
 													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
 													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
@@ -1323,7 +1323,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="form-row my-3">
+										<div class="row mx-0 my-3">
 											<div class="col-12">
 												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
@@ -1338,7 +1338,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 pt3px ml-2 ml-md-1">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="keywordresultCount" tabindex="0"></span> 
@@ -1379,7 +1379,7 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-							</section><!--- end keyword search/results panel --->
+							</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search" class="container-fluid">
