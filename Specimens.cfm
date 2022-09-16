@@ -1069,7 +1069,7 @@ limitations under the License.
 												<div class="form-row px-4 my-1 pb-1">
 													<div class="col-12 px-5">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
-														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
+														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-3 my-sm-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
 													</div>
 												</div>
@@ -1274,7 +1274,7 @@ limitations under the License.
 									</aside>
 								</div>
 								<div role="search">
-									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
+									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid border">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
