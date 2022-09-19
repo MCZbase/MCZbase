@@ -1066,8 +1066,8 @@ limitations under the License.
 												</div>
 											</cfif>
 											<div id="searchButtons">
-												<div class="form-row px-4 my-1 pb-1">
-													<div class="col-12 px-0 px-sm-5 py-2 py-sm-0">
+												<div class="form-row mx-0 px-4 my-1 pb-1">
+													<div class="col-12 px-0 py-2 py-sm-0">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
@@ -1307,11 +1307,11 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<div class="col-12 col-sm-7 col-md-7 col-xl-6 pl-md-0">
+												<div class="col-12 col-sm-7 col-md-7 col-xl-6 pl-md-0 mt-1 mt-sm-0">
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
-												<div class="col-12 col-xl-2">
+												<div class="col-12 col-xl-2  mt-1 mt-sm-0">
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<label class="data-entry-label" for="debug">Debug</label>
 														<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
@@ -1691,7 +1691,7 @@ limitations under the License.
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-3">';
 														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
-														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
+														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="Select Search category" selected></option></optgroup>';
 														<cfset category = "">
 														<cfset optgroupOpen = false>
 														<cfloop query="fields">
