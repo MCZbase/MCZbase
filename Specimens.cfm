@@ -1382,8 +1382,8 @@ limitations under the License.
 							</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-								<div role="search" class="container-fluid">
-									<form id="builderSearchForm">
+								<div role="search">
+									<form id="builderSearchForm" class="container-fluid">
 										<script>
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
@@ -1478,12 +1478,12 @@ limitations under the License.
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row mx-0">
-											<div class="mt-1 col-12 p-0 my-2" id="customFields">
+											<div class="mt-1 col-12 px-3 py-0 my-2" id="customFields">
 												<div class="form-row mb-2">
-													<div class="col-3 col-md-1 pt-3">
+													<div class="col-3 col-md-1">
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
-													<div class="col-5 col-md-1 pt-3">
+													<div class="col-5 col-md-1">
 														<label for="nestButton" class="data-entry-label sr-only">Nest</label>
 														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
@@ -1600,7 +1600,7 @@ limitations under the License.
 												<cfif builderMaxRows GT 1>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
-															<div class="form-row mb-2" id="builderRow#row#">
+															<div class="form-row mb-0" id="builderRow#row#">
 																<div class="col-12 col-md-1">
 																	&nbsp;
 																</div>
@@ -1737,7 +1737,7 @@ limitations under the License.
 											</script>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-12 py-2 py-sm-0">
+											<div class="col-12 px-3 py-2 py-sm-0">
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-2" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
 												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-2" aria-label="Reset this search form to inital values" disabled>Reset</button>
 												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
