@@ -1581,7 +1581,7 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
-														<label for="searchText1" class="data-entry-label mt-2 mt-sm-0">Search For</label>
+														<label for="searchText1" class="data-entry-label mt-1 mt-md-0">Search For</label>
 														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
@@ -1622,7 +1622,7 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-3">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
-																		<cfset category = "">
+																		<cfset category = "Select Search Categorgy">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
 																			<cfif category NEQ fields.search_category>
