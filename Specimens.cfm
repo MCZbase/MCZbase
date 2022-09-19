@@ -1691,7 +1691,7 @@ limitations under the License.
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-4">';
 														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
-														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="Select Search category" selected></option></optgroup>';
+														newControls = newControls + '<optgroup label="Select a field to search...."><option value="Search Field" placeholder="Select Search category" selected></option></optgroup>';
 														<cfset category = "">
 														<cfset optgroupOpen = false>
 														<cfloop query="fields">
@@ -1712,7 +1712,7 @@ limitations under the License.
 														newControls = newControls + '</select>';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-4">';
-														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
+														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Search For"/>';
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-1">';
