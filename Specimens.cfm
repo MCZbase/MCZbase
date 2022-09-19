@@ -1680,7 +1680,7 @@ limitations under the License.
 													$(".addCF").click(function(){
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
-														var newControls = '<div id="builderRow'+row+'"><div class="form-row mb-0 mt-1">';
+														var newControls = '<div id="builderRow'+row+'"><div class="form-row mb-0 mt-2">';
 														//newControls = newControls + '<div class="d-none d-md-inline-block col-md-1 px-0">&nbsp;';
 													//	newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-auto mt-3 mt-md-1">';
@@ -1689,7 +1689,7 @@ limitations under the License.
 														newControls = newControls + '<div class="col-3 col-md-2 mt-3 mt-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div></div>';
-														newControls= newControls + '<div class="form-row mb-2 pl-md-4"><div class="col-12 col-md-4 pl-md-3 ml-md-1">';
+														newControls= newControls + '<div class="form-row mb-2 pl-md-4 mt-1"><div class="col-12 col-md-4 pl-md-3 ml-md-1">';
 														newControls = newControls + '<label class="data-entry-label">Search Field</label><select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
 														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="" selected></option></optgroup>';
 														<cfset category = "">
@@ -1715,7 +1715,7 @@ limitations under the License.
 														newControls = newControls + '<label class="data-entry-label">Search For</label><input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder=""/>';
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-1">';
+														newControls= newControls + '<div class="col-12 col-md-1 mt-2 mt-md-3">';
 														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs btn-warning mr-auto'>Remove</button>`;
 														newControls = newControls + '</div>';
 														newControls = newControls + '</div></div>';
