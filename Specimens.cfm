@@ -1480,7 +1480,7 @@ limitations under the License.
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 px-3 py-0 my-0" id="customFields">
 												<div class="form-row mb-2">
-													<div class="col-12 pb-3">
+													<div class="col-12 pb-2">
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-5 col-md-auto mt-md-3">
@@ -1601,13 +1601,13 @@ limitations under the License.
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-0" id="builderRow#row#">
-																<div class="col-12 col-md-1">
+																<!---<div class="col-12 col-md-1">
 																	&nbsp;
-																</div>
-																<div class="col-12 col-md-1 mt-md-3">
+																</div>--->
+																<div class="col-12 col-md-auto mt-md-3">
 																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
 																</div>
-																<div class="col-6 col-md-1">
+																<div class="col-6 col-md-2">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
@@ -1620,7 +1620,7 @@ limitations under the License.
 																		<option value="or" #orSel# >or</option>
 																	</select>
 																</div>
-																<div class="col-12 col-md-3">
+																<div class="col-12 col-md-4">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
 																		<cfset category = "Select Search Category">
 																		<cfset optgroupOpen = false>
@@ -1659,14 +1659,14 @@ limitations under the License.
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-5">
+																<div class="col-12 col-md-4">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-12 col-md-1">
-																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
+																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
 														</cfif>
