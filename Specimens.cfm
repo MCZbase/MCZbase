@@ -1480,12 +1480,12 @@ limitations under the License.
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 px-3 py-0 my-0" id="customFields">
 												<div class="form-row mb-2">
-													<div class="col-3 col-md-1">
+													<div class="col-3 col-md-auto mt-md-3">
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
-													<div class="col-5 col-md-1">
+													<div class="col-5 col-md-1 mt-md-3 pl-0">
 														<label for="nestButton" class="data-entry-label sr-only">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary px-1 disabled" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
@@ -1524,7 +1524,7 @@ limitations under the License.
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" class="data-entry-label mt-2 mt-sm-0">Search Field</label>
+														<label for="field1" class="data-entry-label mt-2 mt-md-0">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
 															<cfif len(field1) EQ 0>
@@ -1604,10 +1604,10 @@ limitations under the License.
 																<div class="col-12 col-md-1">
 																	&nbsp;
 																</div>
-																<div class="col-12 col-md-1">
-																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+																<div class="col-12 col-md-1 mt-md-3">
+																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-6 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
