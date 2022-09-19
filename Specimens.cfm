@@ -1680,7 +1680,7 @@ limitations under the License.
 													$(".addCF").click(function(){
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
-														var newControls = '<div class="form-row mb-0 mt-1" id="builderRow'+row+'">';
+														var newControls = '<div class="row mx-0" id="builderRow'+row+'"><div class="form-row mb-0 mt-1">';
 														//newControls = newControls + '<div class="d-none d-md-inline-block col-md-1 px-0">&nbsp;';
 													//	newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-auto mt-3 mt-md-1">';
@@ -1718,7 +1718,7 @@ limitations under the License.
 														newControls= newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs btn-warning mr-auto'>Remove</button>`;
 														newControls = newControls + '</div>';
-														newControls = newControls + '</div>';
+														newControls = newControls + '</div></div>';
 														$("##customFields").append(newControls);
 														$("##builderMaxRows").val(row);
 														$('##field' + row).jqxComboBox({
