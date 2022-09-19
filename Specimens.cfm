@@ -1689,7 +1689,7 @@ limitations under the License.
 														newControls = newControls + '<div class="col-3 col-md-2 mt-3 mt-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div></div>';
-														newControls= newControls + '<div class="form-row mb-2 pl-md-4"><div class="col-12 col-md-4">';
+														newControls= newControls + '<div class="form-row mb-2 pl-md-4"><div class="col-12 col-md-4 pl-md-3 ml-md-1">';
 														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
 														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="" selected></option></optgroup>';
 														<cfset category = "">
