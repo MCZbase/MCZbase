@@ -1686,7 +1686,7 @@ limitations under the License.
 														newControls = newControls + '<div class="col-auto mt-3 mt-md-1">';
 														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-3 col-md-2 mt-3 mt-md-1">';
+														newControls = newControls + '<div class="col-4 col-md-2 mt-3 mt-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div></div>';
 														newControls= newControls + '<div class="form-row mb-2 pl-md-4 mt-1"><div class="col-12 col-md-4 pl-md-3 ml-md-1">';
