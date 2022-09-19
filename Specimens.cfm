@@ -1481,7 +1481,7 @@ limitations under the License.
 											<div class="mt-1 col-12 px-3 py-0 my-0" id="customFields">
 												<div class="form-row mb-2 mb-md-3">
 													<div class="col-12 pb-2">
-														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 float-right" target="_self" href="javascript:void(0);">Add Search Fields</a>
 													</div>
 													<div class="col-5 col-md-auto mt-md-3">
 														<label for="nestButton" class="data-entry-label sr-only">Nest</label>
