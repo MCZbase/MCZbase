@@ -335,7 +335,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset IDButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
@@ -476,7 +476,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "More Fields">
 												</cfif>
-												<div class="col-12 col-xl-1 px-xl-3 px-1 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">(#TaxaButton#)</button>
@@ -689,7 +689,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset GeogButton = "More Fields">
 												</cfif>
-												<div class="col-12 col-xl-1 px-xl-3 px-1 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Geography&nbsp;&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-0 btn-xs float-right small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">(#GeogButton#)</button>
@@ -832,7 +832,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset CollButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">(#CollButton#)</button>
@@ -929,7 +929,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="col-12 search-form-basic-odd px-4 py-2">
-												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
 													</div>
