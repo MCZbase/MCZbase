@@ -1681,9 +1681,9 @@ limitations under the License.
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
 														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
-														newControls = newControls + '<div class="d-none d-md-inline-block col-md-1">&nbsp;';
+														newControls = newControls + '<div class="d-none d-md-inline-block col-md-1 px-0">&nbsp;';
 														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-12 col-md-1 mt-3 mt-md-0">';
+														newControls = newControls + '<div class="col-12 col-md-1 mt-3 mt-md-0 pl-0">';
 														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
 														newControls = newControls + '<div class="col-6 col-md-1">';
