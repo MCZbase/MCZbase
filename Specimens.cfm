@@ -1480,12 +1480,12 @@ limitations under the License.
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 px-3 py-0 my-0" id="customFields">
 												<div class="form-row mb-2">
-													<div class="col-3 col-md-auto mt-md-3">
+													<div class="col-12 pb-3">
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
-													<div class="col-5 col-md-1 mt-md-3 pl-0">
+													<div class="col-5 col-md-auto mt-md-3">
 														<label for="nestButton" class="data-entry-label sr-only">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary px-1 disabled" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog('Not implemented yet');"> &gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
