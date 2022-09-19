@@ -1280,7 +1280,7 @@ limitations under the License.
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
 										<div class="row mx-0">
 											<div class="input-group mt-1">
-												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0">
+												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-0 pr-sm-0">
 													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
 													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
@@ -1524,7 +1524,7 @@ limitations under the License.
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" class="data-entry-label mt-2 mt-md-0">Search Field</label>
+														<label for="field1" class="data-entry-label mt-1 mt-md-0">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
 															<cfif len(field1) EQ 0>
@@ -1690,7 +1690,7 @@ limitations under the License.
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div></div>';
 														newControls= newControls + '<div class="form-row mb-2 pl-md-4"><div class="col-12 col-md-4 pl-md-3 ml-md-1">';
-														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
+														newControls = newControls + '<label class="data-entry-label">Search Field</label><select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
 														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="" selected></option></optgroup>';
 														<cfset category = "">
 														<cfset optgroupOpen = false>
@@ -1712,7 +1712,7 @@ limitations under the License.
 														newControls = newControls + '</select>';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-4">';
-														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Search For"/>';
+														newControls = newControls + '<label class="data-entry-label">Search For</label><input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder=""/>';
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-1">';
