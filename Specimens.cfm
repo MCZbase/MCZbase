@@ -1681,15 +1681,15 @@ limitations under the License.
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
 														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
-														newControls = newControls + '<div class="d-none d-md-inline-block col-md-1 px-0">&nbsp;';
-														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-12 col-md-1 mt-3 mt-md-0 pl-0">';
+														//newControls = newControls + '<div class="d-none d-md-inline-block col-md-1 px-0">&nbsp;';
+													//	newControls = newControls + '</div>';
+														newControls = newControls + '<div class="col-12 col-md-auto mt-3 mt-md-0 pl-0">';
 														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-6 col-md-1">';
+														newControls = newControls + '<div class="col-6 col-md-2">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-3">';
+														newControls= newControls + '<div class="col-12 col-md-4">';
 														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
 														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="Select Search category" selected></option></optgroup>';
 														<cfset category = "">
@@ -1711,12 +1711,12 @@ limitations under the License.
 														</cfif>
 														newControls = newControls + '</select>';
 														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-5">';
+														newControls= newControls + '<div class="col-12 col-md-4">';
 														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
+														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs btn-warning mr-auto'>Remove</button>`;
 														newControls = newControls + '</div>';
 														newControls = newControls + '</div>';
 														$("##customFields").append(newControls);
