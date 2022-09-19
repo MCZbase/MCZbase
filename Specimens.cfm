@@ -320,7 +320,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<div class="col-12 search-form-basic-odd py-2">
+											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -667,7 +667,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd py-2">
+											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
@@ -928,7 +928,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd py-2">
+											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
@@ -1067,7 +1067,7 @@ limitations under the License.
 											</cfif>
 											<div id="searchButtons">
 												<div class="form-row mx-0 px-4 my-1 pb-1">
-													<div class="col-12 px-0 py-2 py-sm-0">
+													<div class="col-12 px-2 py-2 py-sm-0">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
@@ -1083,7 +1083,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
@@ -1115,7 +1115,7 @@ limitations under the License.
 													<div id="fixedresultBMMapLinkContainer"></div>
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-												<div class="row mt-0"> 
+												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="fixedenableselection"></div>
@@ -1338,7 +1338,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row mx-0 mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 pt3px ml-2 ml-md-1">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="keywordresultCount" tabindex="0"></span> 
@@ -1370,7 +1370,7 @@ limitations under the License.
 													<div id="keywordresultBMMapLinkContainer"></div>
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
-												<div class="row mt-0"> 
+												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordenableselection"></div>
