@@ -1280,7 +1280,7 @@ limitations under the License.
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
 										<div class="row mx-0">
 											<div class="input-group mt-1">
-												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-0 pr-sm-0">
+												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
 													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
 													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
@@ -1665,7 +1665,7 @@ limitations under the License.
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
-																<div class="col-12 col-md-1">
+																<div class="col-12 col-md-1 pt-2 pt-md-3">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
