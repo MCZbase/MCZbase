@@ -1067,7 +1067,7 @@ limitations under the License.
 											</cfif>
 											<div id="searchButtons">
 												<div class="form-row px-4 my-1 pb-1">
-													<div class="col-12 px-5 py-2 py-sm-0">
+													<div class="col-12 px-0 px-sm-5 py-2 py-sm-0">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
@@ -1478,14 +1478,14 @@ limitations under the License.
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row mx-0">
-											<div class="mt-1 col-12 px-3 py-0 my-2" id="customFields">
+											<div class="mt-1 col-12 px-3 py-0 my-0" id="customFields">
 												<div class="form-row mb-2">
 													<div class="col-3 col-md-1">
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-5 col-md-1">
 														<label for="nestButton" class="data-entry-label sr-only">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
