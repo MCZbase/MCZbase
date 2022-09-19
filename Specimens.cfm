@@ -1480,12 +1480,12 @@ limitations under the License.
 										<div class="form-row mx-0">
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
-													<div class="col-12 col-md-1 pt-3">
+													<div class="col-2 col-md-1 pt-3">
 														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
-													<div class="col-12 col-md-1">
-														<label for="nestButton" class="data-entry-label">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+													<div class="col-2 col-md-1">
+														<label for="nestButton" class="data-entry-label sr-only">Nest</label>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
@@ -1524,7 +1524,7 @@ limitations under the License.
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" class="data-entry-label">Search Field</label>
+														<label for="field1" class="data-entry-label mt-2 mt-sm-0">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
 															<cfif len(field1) EQ 0>
@@ -1581,7 +1581,7 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
-														<label for="searchText1" class="data-entry-label">Search For</label>
+														<label for="searchText1" class="data-entry-label mt-2 mt-sm-0">Search For</label>
 														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
