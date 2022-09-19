@@ -1680,16 +1680,16 @@ limitations under the License.
 													$(".addCF").click(function(){
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
-														var newControls = '<div class="form-row mb-0" id="builderRow'+row+'">';
+														var newControls = '<div class="form-row mb-0 mt-1" id="builderRow'+row+'">';
 														//newControls = newControls + '<div class="d-none d-md-inline-block col-md-1 px-0">&nbsp;';
 													//	newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-12 col-md-auto mt-3 mt-md-0">';
+														newControls = newControls + '<div class="col-auto mt-3 mt-md-1">';
 														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-6 col-md-2">';
+														newControls = newControls + '<div class="col-3 col-md-2 mt-3 mt-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div></div>';
-														newControls= newControls + '<div class="form-row mb-2"><div class="col-12 col-md-4">';
+														newControls= newControls + '<div class="form-row mb-2 pl-md-4"><div class="col-12 col-md-4">';
 														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
 														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="" selected></option></optgroup>';
 														<cfset category = "">
