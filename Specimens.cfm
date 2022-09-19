@@ -1622,7 +1622,7 @@ limitations under the License.
 																</div>
 																<div class="col-12 col-md-3">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
-																		<cfset category = "Select Search Categorgy">
+																		<cfset category = "Select Search Category">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
 																			<cfif category NEQ fields.search_category>
@@ -1681,12 +1681,12 @@ limitations under the License.
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
 														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
-														newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
+														newControls = newControls + '<div class="d-none d-md-inline-block col-md-1">&nbsp;';
 														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + '<div class="col-12 col-md-1 mt-3 mt-md-0">';
 														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
 														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + '<div class="col-6 col-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
 														newControls= newControls + '</div>';
 														newControls= newControls + '<div class="col-12 col-md-3">';
