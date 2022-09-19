@@ -1946,6 +1946,7 @@ input#readMore_check_id {
 	border-left: 1px solid #96EcED;
 	outline: 0;
 	font-weight: 600;
+	bottom: -2px;
 }
 .tab-headers button[aria-selected='true']:focus {
 	border-right: 1px solid rgb(38 143 255 / 50%);
