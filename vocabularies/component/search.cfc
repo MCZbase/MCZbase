@@ -187,7 +187,7 @@ Function getCTAutocomplete.  Search for values in code tables, returning json su
 		<cfloop query="getCTField">
    	   <cfset rows = 0>
 			<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-				SELECT 
+				SELECT distinct
 					#getCTField.column_name# value
 				FROM 
 					#getCTField.table_name#
