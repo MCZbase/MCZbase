@@ -634,9 +634,12 @@
 										<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a>
 									</cfif>
 								</li>
+								<!--- maps.google.com no longer supports passing a kml file, would need to use the google map api instead --->
+								<!--- 
 								<li>
 									<a href="/bnhmMaps/kml.cfm?method=gmap&action=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a>
 								</li>
+								--->
 								<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select phylclass,genus || ' ' || species scientific_name 
 									from taxonomy 
