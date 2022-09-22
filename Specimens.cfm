@@ -1478,14 +1478,14 @@ limitations under the License.
 										<input type="hidden" name="method" value="executeBuilderSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="builderSearch" class="keeponclear">
 										<div class="form-row mx-0">
-											<div class="mt-1 col-12 px-3 py-0 my-0" id="customFields">
-												<div class="form-row mb-2 mb-md-3">
-													<div class="col-12 pb-2">
-														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 float-left" target="_self" href="javascript:void(0);">Add Search Term</a>
+											<div class="mt-1 col-12 p-0 my-2" id="customFields">
+												<div class="form-row mb-2">
+													<div class="col-12 col-md-1 pt-3">
+														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
-													<div class="col-5 col-md-auto mt-md-3">
-														<label for="nestButton" class="data-entry-label sr-only">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog('Not implemented yet');"> &gt;</button>
+													<div class="col-12 col-md-1">
+														<label for="nestButton" class="data-entry-label">Nest</label>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
@@ -1524,7 +1524,7 @@ limitations under the License.
 														<script>
 															var columnMetadata = JSON.parse('#columnMetadata#');
 														</script>
-														<label for="field1" class="data-entry-label mt-1 mt-md-0">Search Field</label>
+														<label for="field1" class="data-entry-label">Search Field</label>
 														<cfif not isDefined("field1")><cfset field1=""></cfif>
 														<select title="Select Field to search..." name="field1" id="field1" class="data-entry-select" required>
 															<cfif len(field1) EQ 0>
@@ -1581,7 +1581,7 @@ limitations under the License.
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
 														<cfif not isDefined("searchId1")><cfset searchId1=""></cfif>
 														<!--- TODO: Add javascript to modify inputs depending on selected field. --->
-														<label for="searchText1" class="data-entry-label mt-1 mt-md-0">Search For</label>
+														<label for="searchText1" class="data-entry-label">Search For</label>
 														<input type="text" class="form-control-sm d-flex data-entry-input mx-0" name="searchText1" id="searchText1" value="#encodeForHtml(searchText1)#" required>
 														<input type="hidden" name="searchId1" id="searchId1" value="#encodeForHtml(searchId1)#">
 														<input type="hidden" name="joinOperator1" id="joinOperator1" value="">
@@ -1600,14 +1600,14 @@ limitations under the License.
 												<cfif builderMaxRows GT 1>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
-															<div class="form-row mb-0" id="builderRow#row#">
-																<!---<div class="col-12 col-md-1">
+															<div class="form-row mb-2" id="builderRow#row#">
+																<div class="col-12 col-md-1">
 																	&nbsp;
-																</div>--->
-																<div class="col-12 col-md-auto mt-md-3">
-																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog('Not implemented yet');">Nest &gt;</button>
 																</div>
-																<div class="col-6 col-md-2">
+																<div class="col-12 col-md-1">
+																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+																</div>
+																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
 																		<cfif isDefined("joinOperator#row#") AND Evaluate("joinOperator#row#") EQ "or">
 																			<cfset orSel = "selected">
@@ -1620,9 +1620,9 @@ limitations under the License.
 																		<option value="or" #orSel# >or</option>
 																	</select>
 																</div>
-																<div class="col-12 col-md-4">
+																<div class="col-12 col-md-3">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
-																		<cfset category = "Select Search Category">
+																		<cfset category = "">
 																		<cfset optgroupOpen = false>
 																		<cfloop query="fields">
 																			<cfif category NEQ fields.search_category>
@@ -1659,14 +1659,14 @@ limitations under the License.
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-4">
+																<div class="col-12 col-md-5">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
-																<div class="col-12 col-md-1 pt-2 pt-md-3">
-																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs btn-warning mr-auto'>Remove</button>
+																<div class="col-12 col-md-1">
+																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
 																</div>
 															</div>
 														</cfif>
@@ -1680,18 +1680,18 @@ limitations under the License.
 													$(".addCF").click(function(){
 														var row = $("##builderMaxRows").val();
 														row = parseInt(row) + 1;
-														var newControls = '<div id="builderRow'+row+'"><div class="form-row mb-0 mt-3 pt-md-2 border-top">';
-														//newControls = newControls + '<div class="d-none d-md-inline-block col-md-1 px-0">&nbsp;';
-													//	newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-auto mt-3 mt-md-1">';
-														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary disabled" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
+														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
+														newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
 														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-4 col-md-2 mt-3 mt-md-1">';
+														newControls = newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
+														newControls = newControls + '</div>';
+														newControls = newControls + '<div class="col-12 col-md-1">';
 														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
-														newControls= newControls + '</div></div>';
-														newControls= newControls + '<div class="form-row mb-2 pl-md-4 mt-1"><div class="col-12 col-md-4 pl-md-3 ml-md-1">';
-														newControls = newControls + '<label class="data-entry-label">Search Field</label><select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
-														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" placeholder="" selected></option></optgroup>';
+														newControls= newControls + '</div>';
+														newControls= newControls + '<div class="col-12 col-md-3">';
+														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
+														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
 														<cfset category = "">
 														<cfset optgroupOpen = false>
 														<cfloop query="fields">
@@ -1711,14 +1711,14 @@ limitations under the License.
 														</cfif>
 														newControls = newControls + '</select>';
 														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-4">';
-														newControls = newControls + '<label class="data-entry-label">Search For</label><input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder=""/>';
+														newControls= newControls + '<div class="col-12 col-md-5">';
+														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
 														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-1 mt-2 mt-md-3">';
-														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs btn-warning mr-auto'>Remove</button>`;
+														newControls= newControls + '<div class="col-12 col-md-1">';
+														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
 														newControls = newControls + '</div>';
-														newControls = newControls + '</div></div>';
+														newControls = newControls + '</div>';
 														$("##customFields").append(newControls);
 														$("##builderMaxRows").val(row);
 														$('##field' + row).jqxComboBox({
@@ -1736,14 +1736,16 @@ limitations under the License.
 												});
 											</script>
 										</div>
-										<div class="form-row mx-0 mb-2">
-											<div class="col-12 px-3 py-2 py-sm-0">
-												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-2" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
-												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-2" aria-label="Reset this search form to inital values" disabled>Reset</button>
-												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
+										<div class="form-row mb-3">
+											<div class="col-12">
+												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="searchbuilder-search" aria-label="run the search builder search">Search <i class="fa fa-search"></i></button>
+												<button type="reset" class="btn btn-xs btn-outline-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values" disabled>Reset</button>
+												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=builderSearch';">New Search</button>
 											</div>
 										</div>
 									</form>
+
+
 								</div>
 								<!--- results for search builder search --->
 								<div class="container-fluid" id="builderSearchResultsSection">
