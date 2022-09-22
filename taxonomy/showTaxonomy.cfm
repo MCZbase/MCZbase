@@ -634,12 +634,31 @@
 										<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a>
 									</cfif>
 								</li>
+								<!--- maps.google.com no longer supports passing a kml file, would need to use the google map api instead --->
+								<!--- 
 								<li>
-									<a href="/bnhmMaps/kml.cfm?method=gmap&amp;ampaction=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a>
+									<a href="/bnhmMaps/kml.cfm?method=gmap&action=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a>
 								</li>
-								<li>
-									<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&scientific_name=#one.scientific_name#" class="external" target="_blank"> BerkeleyMapper + RangeMaps </a>
-								</li>
+								--->
+								<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select phylclass,genus || ' ' || species scientific_name 
+									from taxonomy 
+									where scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#one.scientific_name#">
+			 						group by phylclass,genus || ' ' || species
+								</cfquery>
+								<cfif getClass.recordcount is not 1 or (
+										getClass.phylclass is not 'Amphibia' and getClass.phylclass is not 'Mammalia' and getClass.phylclass is not 'Aves'
+								)>
+									<!--- link without range maps, as including them would result in an error --->
+									<li>
+										<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=false&scientific_name=#one.scientific_name#" class="external" target="_blank"> BerkeleyMapper </a>
+									</li>
+								<cfelse>
+									<!--- link with range maps --->
+									<li>
+										<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&scientific_name=#one.scientific_name#" class="external" target="_blank"> BerkeleyMapper + RangeMaps </a>
+									</li>
+								</cfif>
 							<cfelse>
 								<li>No specimens use this name in Identifications.</li>
 							</cfif>

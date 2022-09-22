@@ -182,7 +182,7 @@ limitations under the License.
 					<cfquery name="getSpecimenCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(collection_object_id) as cnt FROM cataloged_item
 					</cfquery>
-					<h1 class="h3 smallcaps mb-1 pl-1">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
+					<h1 class="h3 smallcaps mb-1 pl-3">Find Specimen Records <span class="count  font-italic color-green mx-0"><small> #getSpecimenCount.cnt# records</small><small class="sr-only">Tab into search form</small></span></h1>
 					<!--- populated with download dialog for external users --->
 					<div id="downloadAgreeDialogDiv"></div>
 					<!--- Tab header div --->
@@ -320,7 +320,7 @@ limitations under the License.
 										<input type="hidden" name="method" id="method_fixedSearch" value="executeFixedSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="fixedSearch" class="keeponclear">
 										<div class="container-flex">
-											<div class="col-12 search-form-basic-odd py-2">
+											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("other_id_type_1") and len(other_id_type_1) GT 0) 
 													OR (isDefined("other_id_number_1") and len(other_id_number_1) GT 0)>
@@ -335,8 +335,8 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset IDButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
-													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-0">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
+													<div class="small95 font-weight-bold d-inline-block-md text-dark mt-2 mb-0 py-0">
 														Identifiers&nbsp;&nbsp;
 														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") AND listfindnocase(session.roles,"collops") ) >
 															<button type="button" id="IDDetailCtl" class="btn btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleIDDetail(#toggleTo#);">(#IDButton#)</button>
@@ -453,7 +453,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-2">
+											<div class="col-12 px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("phylum") and len(phylum) GT 0)
 													OR (isDefined("phylclass") and len(phylclass) GT 0)
@@ -476,7 +476,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset TaxaButton = "More Fields">
 												</cfif>
-												<div class="col-12 col-xl-1 px-xl-3 px-1 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Taxonomy&nbsp;&nbsp;
 														<button type="button" id="TaxaDetailCtl" class="btn d-inline-block-md btn-xs px-0 float-right small py-0 border-0 btn-link" onclick="toggleTaxaDetail(#toggleTo#);">(#TaxaButton#)</button>
@@ -493,7 +493,7 @@ limitations under the License.
 															<div class="col-3">
 																<cfif not isdefined("current_id_only")><cfset current_id_only="any"></cfif>
 																<label for="current_id_only" class="data-entry-label small">Search</label>
-																<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight smaller px-0">
+																<select id="current_id_only" name="current_id_only" class="data-entry-select inputHeight small px-0">
 																	<cfif current_id_only EQ "current"><cfset current_selected = " selected "><cfset any_selected=""></cfif>
 																	<cfif current_id_only EQ "any"><cfset current_selected = ""><cfset any_selected=" selected "></cfif>
 																	<option value="any" #any_selected#>Any Id</option>
@@ -667,7 +667,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd py-2">
+											<div class="col-12 search-form-basic-odd px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("continent_ocean") and len(continent_ocean) GT 0)
 													OR (isDefined("country") and len(country) GT 0)
@@ -689,7 +689,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset GeogButton = "More Fields">
 												</cfif>
-												<div class="col-12 col-xl-1 px-xl-3 px-1 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-xl-3 px-2 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Geography&nbsp;&nbsp;
 														<button type="button" id="GeogDetailCtl" class="btn d-inline-block-md px-0 btn-xs float-right small py-0 border-0 btn-link" onclick="toggleGeogDetail(#toggleTo#);">(#GeogButton#)</button>
@@ -817,7 +817,7 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-2">
+											<div class="col-12 px-4 py-2">
 												<cfset hiddenHaveValue = false>
 												<cfif (isDefined("date_began_date") and len(date_began_date) GT 0)
 													OR (isDefined("date_ended_date") and len(date_ended_date) GT 0)>
@@ -832,7 +832,7 @@ limitations under the License.
 													<cfset toggleTo = "1">
 													<cfset CollButton = "More Fields">
 												</cfif> 
-												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block-md text-dark my-0 py-1">
 														Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 														<button type="button" id="CollDetailCtl" class="btn px-0 d-inline-block-md btn-xs float-right small py-0 border-0 btn-link" onclick="toggleCollDetail(#toggleTo#);">(#CollButton#)</button>
@@ -928,8 +928,8 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 search-form-basic-odd py-2">
-												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
+											<div class="col-12 search-form-basic-odd px-4 py-2">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
 													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
 														Specimen&nbsp;&nbsp;
 													</div>
@@ -1066,8 +1066,8 @@ limitations under the License.
 												</div>
 											</cfif>
 											<div id="searchButtons">
-												<div class="form-row px-4 my-1 pb-1">
-													<div class="col-12 px-5">
+												<div class="form-row mx-0 px-4 my-1 pb-1">
+													<div class="col-12 px-2 py-2 py-sm-0">
 														<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 my-2 mr-md-5" aria-label="run the fixed search" id="fixedsubmitbtn">Search <i class="fa fa-search"></i></button>
 														<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2 mr-md-2" aria-label="Reset this search form to inital values">Reset</button>
 														<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mx-0 my-2" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=fixedSearch';">New Search</button>
@@ -1083,7 +1083,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row mx-0 mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 ml-2 ml-md-1 pt3px">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="fixedresultCount" tabindex="0"></span> 
@@ -1115,7 +1115,7 @@ limitations under the License.
 													<div id="fixedresultBMMapLinkContainer"></div>
 													<output id="fixedactionFeedback" class="btn btn-xs btn-transparent my-2 px-2 mx-1 pt-1 border-0"></output>
 												</div>
-												<div class="row mt-0"> 
+												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="fixedsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="fixedenableselection"></div>
@@ -1273,14 +1273,14 @@ limitations under the License.
 										</div>
 									</aside>
 								</div>
-								<div role="search" class="container-fluid">
-									<form name= "keywordSearchForm" id="keywordSearchForm">
+								<div role="search">
+									<form name= "keywordSearchForm" id="keywordSearchForm" class="container-fluid">
 										<input id="result_id_keywordSearch" type="hidden" name="result_id" value="" class="excludeFromLink">
 										<input type="hidden" name="method" value="executeKeywordSearch" class="keeponclear excludeFromLink">
 										<input type="hidden" name="action" value="keywordSearch" class="keeponclear">
-										<div class="row">
+										<div class="row mx-0">
 											<div class="input-group mt-1">
-												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3">
+												<div class="input-group-btn col-12 col-sm-5 col-md-5 col-xl-3 mb-1 mb-sm-0 pr-sm-0 pr-md-3">
 													<label for="keywordCollection" class="data-entry-label">Limit to Collection(s)</label>
 													<div name="collection_cde" id="keywordCollection" class="w-100 data-entry-select"></div>
 													<cfif not isdefined("collection_cde")><cfset collection_cde=""></cfif>
@@ -1307,11 +1307,11 @@ limitations under the License.
 														});
 													</script> 
 												</div>
-												<div class="col-12 col-sm-7 col-md-7 col-xl-6 pl-md-0">
+												<div class="col-12 col-sm-7 col-md-7 col-xl-6 pl-md-0 mt-1 mt-sm-0">
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
 												</div>
-												<div class="col-12 col-xl-2">
+												<div class="col-12 col-xl-2  mt-1 mt-sm-0">
 													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 														<label class="data-entry-label" for="debug">Debug</label>
 														<select title="debug" name="debug" id="dbug" class="data-entry-select inputHeight">
@@ -1323,11 +1323,11 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="form-row my-3">
+										<div class="row mx-0 my-3">
 											<div class="col-12">
 												<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase</label>
 												<button type="submit" class="btn btn-xs btn-primary col-12 col-md-auto px-md-5 mx-0 mr-md-5 my-1" id="keySearch" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
-												<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Reset this search form to inital values">Reset</button>
+												<button type="reset" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-2 my-sm-1" aria-label="Reset this search form to inital values">Reset</button>
 												<button type="button" class="btn btn-xs btn-warning col-12 col-md-auto px-md-3 mr-md-2 mx-0 my-1" aria-label="Start a new specimen search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Specimens.cfm?action=keywordSearch';">New Search</button>
 											</div>
 										</div>
@@ -1338,7 +1338,7 @@ limitations under the License.
 									<div class="row mx-0">
 										<div class="col-12">
 											<div class="mb-3">
-												<div class="row mt-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
+												<div class="row mx-0 mt-0 mt-sm-1 mb-0 pb-2 pb-md-0 jqx-widget-header border px-2">
 													<h1 class="h4 pt3px ml-2 ml-md-1">
 														<span tabindex="0">Results:</span> 
 														<span class="pr-2 font-weight-normal" id="keywordresultCount" tabindex="0"></span> 
@@ -1370,7 +1370,7 @@ limitations under the License.
 													<div id="keywordresultBMMapLinkContainer"></div>
 													<output id="keywordactionFeedback" class="btn btn-xs btn-transparent px-2 my-2 mx-1 border-0"></output>
 												</div>
-												<div class="row mt-0"> 
+												<div class="row mx-0 mt-0"> 
 													<!--- Grid Related code is below along with search handlers --->
 													<div id="keywordsearchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 													<div id="keywordenableselection"></div>
@@ -1379,11 +1379,11 @@ limitations under the License.
 										</div>
 									</div>
 								</div>
-							</section><!--- end keyword search/results panel --->
+							</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
-								<div role="search" class="container-fluid">
-									<form id="builderSearchForm">
+								<div role="search">
+									<form id="builderSearchForm" class="container-fluid">
 										<script>
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
@@ -1744,6 +1744,8 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
+
+
 								</div>
 								<!--- results for search builder search --->
 								<div class="container-fluid" id="builderSearchResultsSection">
@@ -2097,7 +2099,16 @@ limitations under the License.
 		var fixedSearchLoaded = 0;
 		var keywordSearchLoaded = 0;
 		var builderSearchLoaded = 0;
-		
+	
+		function serializeFormAsJSON(formID) {
+		  const array = $('##'+formID).serializeArray();
+		  const json = {};
+		  $.each(array, function () {
+		    json[this.name] = this.value || "";
+		  });
+		  return json;
+		}
+	
 	
 		/* End Setup jqxgrids for search ****************************************************************************************/
 		$(document).ready(function() {
@@ -2127,39 +2138,81 @@ limitations under the License.
 				console.log(debug);*/
 				/*var datafieldlist = [ ];//add synchronous call to cf component*/
 	
-				var search =
-				{
-					datatype: "json",
-					datafields:
-					[
-						<cfset separator = "">
-						<cfloop query="getFieldMetadata">
-							<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							<cfelseif data_type EQ 'NUMBER' >
-								#separator#{name: '#ucase(column_name)#', type: 'number' }
-							<cfelse>
-								#separator#{name: '#ucase(column_name)#', type: 'string' }
-							</cfif>
-							<cfset separator = ",">
-						</cfloop>
-					],
-					beforeprocessing: function (data) {
-						if (data != null && data.length > 0) {
-							search.totalrecords = data[0].recordcount;
-						}
-					},
-					sort: function () {
-						$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
-					},
-					root: 'specimenRecord',
-					id: 'collection_object_id',
-					url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
-					timeout: 120000,  // units not specified, miliseconds?
-					loadError: function(jqXHR, textStatus, error) {
-						handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
-					},
-					async: true
+				var search = null;
+
+				if ($('##fixedSearchForm').serialize().length > 7900) { 
+					// POST to accomodate long catalog number lists
+					search = 
+					{
+						datatype: "json",
+						datafields:
+						[
+							<cfset separator = "">
+							<cfloop query="getFieldMetadata">
+								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								<cfelseif data_type EQ 'NUMBER' >
+									#separator#{name: '#ucase(column_name)#', type: 'number' }
+								<cfelse>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								</cfif>
+								<cfset separator = ",">
+							</cfloop>
+						],
+						beforeprocessing: function (data) {
+							if (data != null && data.length > 0) {
+								search.totalrecords = data[0].recordcount;
+							}
+						},
+						sort: function () {
+							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+						},
+						root: 'specimenRecord',
+						id: 'collection_object_id',
+						url: '/specimens/component/search.cfc',
+						type: 'POST',
+						data: serializeFormAsJSON('fixedSearchForm'),
+						timeout: 120000,  // units not specified, miliseconds?
+						loadError: function(jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+						},
+						async: true
+					};
+				} else { 
+					search = 
+					{
+						datatype: "json",
+						datafields:
+						[
+							<cfset separator = "">
+							<cfloop query="getFieldMetadata">
+								<cfif data_type EQ 'VARCHAR2' OR data_type EQ 'DATE'>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								<cfelseif data_type EQ 'NUMBER' >
+									#separator#{name: '#ucase(column_name)#', type: 'number' }
+								<cfelse>
+									#separator#{name: '#ucase(column_name)#', type: 'string' }
+								</cfif>
+								<cfset separator = ",">
+							</cfloop>
+						],
+						beforeprocessing: function (data) {
+							if (data != null && data.length > 0) {
+								search.totalrecords = data[0].recordcount;
+							}
+						},
+						sort: function () {
+							$("##fixedsearchResultsGrid").jqxGrid('updatebounddata','sort');
+						},
+						root: 'specimenRecord',
+						id: 'collection_object_id',
+						url: '/specimens/component/search.cfc?' + $('##fixedSearchForm').serialize(),
+						timeout: 120000,  // units not specified, miliseconds?
+						loadError: function(jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+						},
+						async: true
+					};
 				};
 	
 				var dataAdapter = new $.jqx.dataAdapter(search);

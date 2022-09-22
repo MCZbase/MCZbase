@@ -1477,7 +1477,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset type_status_value = "#type_status_value##typeseparator##types.type_status#">
 				<cfset typeseparator = ",">
 			</cfloop>
-		<cfelseif lcase(type_status) EQ "any primary">
+		<cfelseif lcase(type_status) EQ "any primary type">
 			<cfquery name="types" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="types_result">
 				SELECT type_status 
 				FROM ctcitation_type_status 
