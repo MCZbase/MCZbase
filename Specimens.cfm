@@ -1311,7 +1311,7 @@ limitations under the License.
 													<cfset searchCollClasses = "col-sm-7 col-md-7 col-xl-8 pr-1">
 												<cfelse>
 													<cfset searchCollClasses = "col-sm-5 col-md-5 col-xl-6">
-												<cfif>
+												</cfif>
 												<div class="col-12 #searchCollClasses# pl-md-0 mt-1 mt-sm-0">
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
 													<input id="searchText" type="text" class="data-entry-input" name="searchText" placeholder="Search term" aria-label="search text" value="#encodeForHtml(searchText)#">
