@@ -1490,7 +1490,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent('nestButton1','nestdepth1',1);">&gt;</button>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
@@ -1508,7 +1508,7 @@ limitations under the License.
 														}
 													</script>
 													<div class="col-12 col-md-4">
-														<span id="nestMarkerStart#row#"></span>
+														<span id="nestMarkerStart1"></span>
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, 
 																label, access_role, ui_function
