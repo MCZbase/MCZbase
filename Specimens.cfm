@@ -1745,7 +1745,7 @@ limitations under the License.
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
-												});
+												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
 													   addBuilderRow();
