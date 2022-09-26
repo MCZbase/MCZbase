@@ -1499,12 +1499,12 @@ limitations under the License.
 															var currentnestdepth = $('##nestdepth'+row).val();
 															$('##nestdepth'+row).val(currentnestdepth+1);
 															var nextRow = row + 1;
-															$('##nestMarkerStart'+row).val("(");
+															$('##nestMarkerStart'+row).html("(");
 															if (row==$('##builderMaxRows').val()) { 
 																// add a row, close ) on that row
 																addBuilderRow();
 															}
-															$('##nestMarkerEnd'+nextRow).val(")");
+															$('##nestMarkerEnd'+nextRow).html(")");
 														}
 													</script>
 													<div class="col-12 col-md-4">
