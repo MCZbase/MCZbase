@@ -1486,25 +1486,29 @@ limitations under the License.
 											<div class="mt-1 col-12 p-0 my-2" id="customFields">
 												<div class="form-row mb-2">
 													<div class="col-12 col-md-1 pt-3">
-														<a aria-label="Add more search criteria" class="btn btn-xs btn-primary addCF rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
+														<a aria-label="Add more search criteria" id="addRowButton" class="btn btn-xs btn-primary rounded px-2 mr-md-auto" target="_self" href="javascript:void(0);">Add</a>
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent('nestButton1','nestdepth1',1);">&gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
 													<script>
-														function indent(nestbutton,nestinput,row) {
+														function indent(row) {
+															var currentnestdepth = $('##nestdepth'+row).val();
+															$('##nestdepth'+row).val(currentnestdepth+1);
+															var nextRow = row + 1;
+															$('##nestMarkerStart'+row).val("(");
 															if (row==$('##builderMaxRows').val()) { 
 																// add a row, close ) on that row
+																addBuilderRow();
 															}
-															var currentnestdepth = $('##'+nestinput).val();
-															$('##'+nestinput).val(currentnestdepth+1);
-															$('##'+nestbutton).val("(");
+															$('##nestMarkerEnd'+nextRow).val(")");
 														}
 													</script>
 													<div class="col-12 col-md-4">
+														<span id="nestMarkerStart#row#"></span>
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, 
 																label, access_role, ui_function
@@ -1608,9 +1612,10 @@ limitations under the License.
 															<div class="form-row mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
 																	&nbsp;
+																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#eval('nestdepth1'+row)#">
 																</div>
 																<div class="col-12 col-md-1">
-																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog('Not implemented yet');">&gt;</button>
+																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="indent("+row+");">&gt;</button>
 																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
@@ -1624,6 +1629,7 @@ limitations under the License.
 																		<option value="and" #andSel# >and</option>
 																		<option value="or" #orSel# >or</option>
 																	</select>
+																	<span id="nestMarkerStart#row#"></span>
 																</div>
 																<div class="col-12 col-md-3">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
@@ -1669,6 +1675,7 @@ limitations under the License.
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
+																	<span id="nestMarkerEnd#row#"></span>
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
@@ -1680,63 +1687,68 @@ limitations under the License.
 
 											</div><!--- end customFields: new form rows get appended here --->
 											<script>
-												//this is the search builder main dropdown for all the columns found in flat
-												$(document).ready(function(){
-													$(".addCF").click(function(){
-														var row = $("##builderMaxRows").val();
-														row = parseInt(row) + 1;
-														var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
-														newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
-														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="messageDialog(\'Not implemented yet\');">&gt;</button>';
-														newControls = newControls + '</div>';
-														newControls = newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
-														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-3">';
-														newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
-														newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
-														<cfset category = "">
-														<cfset optgroupOpen = false>
-														<cfloop query="fields">
-															<cfif category NEQ fields.search_category>
-																<cfif optgroupOpen>
-																	newControls = newControls + '</optgroup>';
-																	<cfset optgroupOpen = false>
-																</cfif>
-																newControls = newControls + '<optgroup label="#fields.search_category#">';
-																<cfset optgroupOpen = true>
-																<cfset category = fields.search_category>
+												function addBuilderRow() { 
+													var row = $("##builderMaxRows").val();
+													row = parseInt(row) + 1;
+													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
+													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
+													newControls = newControls + '<input type="hidden" name="nestdepth'+row+'" id="nestdepth'+row+'">';
+													newControls = newControls + '</div>';
+													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="indent('+row+');">&gt;</button>';
+													newControls = newControls + '</div>';
+													newControls = newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + '<span id="nestMarkerStart'+row+'"></span>';
+													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
+													newControls= newControls + '</div>';
+													newControls= newControls + '<div class="col-12 col-md-3">';
+													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
+													newControls = newControls + '<optgroup label="Select a field to search...."><option value="" selected></option></optgroup>';
+													<cfset category = "">
+													<cfset optgroupOpen = false>
+													<cfloop query="fields">
+														<cfif category NEQ fields.search_category>
+															<cfif optgroupOpen>
+																newControls = newControls + '</optgroup>';
+																<cfset optgroupOpen = false>
 															</cfif>
-															newControls = newControls + '<option value="#fields.table_name#:#fields.column_alias#">#fields.label# (#fields.search_category#:#fields.table_name#)</option>';
-														</cfloop>
-														<cfif optgroupOpen>
-															newControls = newControls + '</optgroup>';
+															newControls = newControls + '<optgroup label="#fields.search_category#">';
+															<cfset optgroupOpen = true>
+															<cfset category = fields.search_category>
 														</cfif>
-														newControls = newControls + '</select>';
-														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-5">';
-														newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
-														newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
-														newControls= newControls + '</div>';
-														newControls= newControls + '<div class="col-12 col-md-1">';
-														newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
-														newControls = newControls + '</div>';
-														newControls = newControls + '</div>';
-														$("##customFields").append(newControls);
-														$("##builderMaxRows").val(row);
-														$('##field' + row).jqxComboBox({
-															autoComplete: true,
-															searchMode: 'containsignorecase',
-															width: '100%',
-															dropDownHeight: 400
-														});
-														var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
-														$('##field'+row).on("change", function(event) { 
-															var handleSelect = new Function(handleSelectString);
-															handleSelect();
-														});
+														newControls = newControls + '<option value="#fields.table_name#:#fields.column_alias#">#fields.label# (#fields.search_category#:#fields.table_name#)</option>';
+													</cfloop>
+													<cfif optgroupOpen>
+														newControls = newControls + '</optgroup>';
+													</cfif>
+													newControls = newControls + '</select>';
+													newControls= newControls + '</div>';
+													newControls= newControls + '<div class="col-12 col-md-5">';
+													newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
+													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
+													newControls = newControls + '<span id="nestMarkerEnd'+row+'"></span>';
+													newControls= newControls + '</div>';
+													newControls= newControls + '<div class="col-12 col-md-1">';
+													newControls = newControls + `<button type='button' onclick=' $("##builderRow` + row + `").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>`;
+													newControls = newControls + '</div>';
+													newControls = newControls + '</div>';
+													$("##customFields").append(newControls);
+													$("##builderMaxRows").val(row);
+													$('##field' + row).jqxComboBox({
+														autoComplete: true,
+														searchMode: 'containsignorecase',
+														width: '100%',
+														dropDownHeight: 400
+													});
+													var handleSelectString = "handleFieldSelection('field"+row+"',"+row+")";
+													$('##field'+row).on("change", function(event) { 
+														var handleSelect = new Function(handleSelectString);
+														handleSelect();
+													});
+												});
+												$(document).ready(function(){
+													$("##addRowButton").click(function(){
+													   addBuilderRow();
 													});
 												});
 											</script>
