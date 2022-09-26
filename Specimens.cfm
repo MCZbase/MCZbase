@@ -1700,8 +1700,8 @@ limitations under the License.
 													newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="indent('+row+');">&gt;</button>';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
-													newControls = newControls + '<span id="nestMarkerStart'+row+'"></span>';
 													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
+													newControls = newControls + '<span id="nestMarkerStart'+row+'"></span>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-3">';
 													newControls = newControls + '<select title="Select Field..." name="field'+row+'" id="field'+row+'" class="data-entry-select">';
