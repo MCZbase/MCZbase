@@ -1496,11 +1496,13 @@ limitations under the License.
 													</div>
 													<script>
 														function indent(row) {
+															console.log(row);
+															console.log($('##builderMaxRows').val());
 															var currentnestdepth = $('##nestdepth'+row).val();
 															$('##nestdepth'+row).val(currentnestdepth+1);
 															var nextRow = row + 1;
 															$('##nestMarkerStart'+row).html("(");
-															if (row==$('##builderMaxRows').val()) { 
+															if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
 																// add a row, close ) on that row
 																addBuilderRow();
 															}
