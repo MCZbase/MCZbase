@@ -1496,21 +1496,27 @@ limitations under the License.
 													</div>
 													<script>
 														function indent(row) {
-															console.log(row);
-															console.log($('##builderMaxRows').val());
-															var currentnestdepth = $('##nestdepth'+row).val();
-															$('##nestdepth'+row).val(currentnestdepth+1);
-															var nextRow = row + 1;
-															$('##nestMarkerStart'+row).html("(");
-															if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
-																// add a row, close ) on that row
-																addBuilderRow();
-															}
-															$('##nestMarkerEnd'+nextRow).html(")");
+															<cfif findNoCase('master',gitBranch) GT 0 >
+																messageDialog("Not implemented yet");
+															<cfelse>
+																console.log(row);
+																console.log($('##builderMaxRows').val());
+																var currentnestdepth = $('##nestdepth'+row).val();
+																$('##nestdepth'+row).val(currentnestdepth+1);
+																var nextRow = row + 1;
+																$('##nestMarkerStart'+row).html("(");
+																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
+																	// add a row, close ) on that row
+																	addBuilderRow();
+																}
+																$('##nestMarkerEnd'+nextRow).html(")");
+															</cfif>
 														}
 													</script>
-													<div class="col-12 col-md-4">
+													<div class="col-12 col-md-1">
 														<span id="nestMarkerStart1"></span>
+													</div>
+													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
 															SELECT search_category, table_name, column_name, column_alias, data_type, 
 																label, access_role, ui_function
@@ -1584,9 +1590,9 @@ limitations under the License.
 														</script>
 													</div>
 													<cfif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
-														<cfset searchcol="col-md-5">
+														<cfset searchcol="col-md-4">
 													<cfelse>
-														<cfset searchcol="col-md-6">
+														<cfset searchcol="col-md-5">
 													</cfif>
 													<div class="col-12 #searchcol#">
 														<cfif not isDefined("searchText1")><cfset searchText1=""></cfif>
@@ -1614,7 +1620,7 @@ limitations under the License.
 															<div class="form-row mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
 																	&nbsp;
-																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#eval('nestdepth1'+row)#">
+																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#Evaluate('nestdepth'+row)#">
 																</div>
 																<div class="col-12 col-md-1">
 																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="indent("+row+");">&gt;</button>
@@ -1631,6 +1637,8 @@ limitations under the License.
 																		<option value="and" #andSel# >and</option>
 																		<option value="or" #orSel# >or</option>
 																	</select>
+																</div>
+																<div class="col-12 col-md-1">
 																	<span id="nestMarkerStart#row#"></span>
 																</div>
 																<div class="col-12 col-md-3">
@@ -1672,11 +1680,13 @@ limitations under the License.
 																		});
 																	</script>
 																</div>
-																<div class="col-12 col-md-5">
+																<div class="col-12 col-md-3">
 																	<cfif isDefined("searchText#row#")><cfset sval = Evaluate("searchText#row#")><cfelse><cfset sval=""></cfif>
 																	<cfif isDefined("searchId#row#")><cfset sival = Evaluate("searchId#row#")><cfelse><cfset sival=""></cfif>
 																	<input type="text" class="data-entry-input" name="searchText#row#" id="searchText#row#" placeholder="Enter Value" value="#encodeForHtml(sval)#">
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
+																</div>
+																<div class="col-12 col-md-1">
 																	<span id="nestMarkerEnd#row#"></span>
 																</div>
 																<div class="col-12 col-md-1">
@@ -1701,6 +1711,8 @@ limitations under the License.
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<select title="Join Operator" name="JoinOperator'+row+'" id="joinOperator'+row+'" class="data-entry-select bg-white mx-0 d-flex"><option value="and">and</option><option value="or">or</option></select>';
+													newControls = newControls + '</div>';
+													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<span id="nestMarkerStart'+row+'"></span>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-3">';
@@ -1725,9 +1737,11 @@ limitations under the License.
 													</cfif>
 													newControls = newControls + '</select>';
 													newControls= newControls + '</div>';
-													newControls= newControls + '<div class="col-12 col-md-5">';
+													newControls= newControls + '<div class="col-12 col-md-3">';
 													newControls = newControls + '<input type="text" class="data-entry-input" name="searchText'+row+'" id="searchText'+row+'" placeholder="Enter Value"/>';
 													newControls = newControls + '<input type="hidden" name="searchId'+row+'" id="searchId'+row+'" >';
+													newControls = newControls + '</div>';
+													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<span id="nestMarkerEnd'+row+'"></span>';
 													newControls= newControls + '</div>';
 													newControls= newControls + '<div class="col-12 col-md-1">';
