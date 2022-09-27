@@ -1493,6 +1493,7 @@ limitations under the License.
 														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
 														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
+[#nestdepth1#]
 													</div>
 													<script>
 														function indent(row) {
@@ -1626,6 +1627,7 @@ limitations under the License.
 																		<cfset nestdepthval = "1">
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
+[#nestdepthval#]
 																</div>
 																<div class="col-12 col-md-1">
 																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="indent("+row+");">&gt;</button>
@@ -1709,7 +1711,7 @@ limitations under the License.
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
-													newControls = newControls + '<input type="hidden" name="nestdepth'+row+'" id="nestdepth'+row+'">';
+													newControls = newControls + '<input type="text" name="nestdepth'+row+'" id="nestdepth'+row+'">';
 													newControls = newControls + '</div>';
 													newControls = newControls + '<div class="col-12 col-md-1">';
 													newControls = newControls + '<button id="nestButton'+row+'" type="button" class="btn btn-xs btn-secondary" onclick="indent('+row+');">&gt;</button>';
