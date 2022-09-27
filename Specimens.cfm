@@ -1491,7 +1491,7 @@ limitations under the License.
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
 														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
-														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
+														<cfif not isDefined("nestdepth1")><cfset nestdepth1="1"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 [#nestdepth1#]
 													</div>
@@ -1504,13 +1504,13 @@ limitations under the License.
 																console.log($('##builderMaxRows').val());
 																var currentnestdepth = $('##nestdepth'+row).val();
 																console.log(currentnestdepth);
-																$('##nestdepth'+row).val(currentnestdepth+1);
+																$('##nestdepth'+row).val(parseInt(currentnestdepth)+1);
 																var nextRow = row + 1;
 																$('##nestMarkerStart'+row).html("(");
 																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
 																	// add a row, close ) on that row
 																	addBuilderRow();
-																	$('##nestdepth'+nextRow).val(currentnestdepth+1);
+																	$('##nestdepth'+nextRow).val(parseInt(currentnestdepth)+1);
 																}
 																$('##nestMarkerEnd'+nextRow).html(")");
 															</cfif>
