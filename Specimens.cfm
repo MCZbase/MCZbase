@@ -1386,10 +1386,39 @@ limitations under the License.
 								</div>
 							</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
+<!--- 
+Query:
+country = France
+and (family = 'Mustelidae' or family = 'Lophiidae')
+and collector = 'Brendan Haley'
+
+Current:
+ [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"2","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}] 
+
+Target:
+ [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
+--->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
+											// functions to support nesting
+											// get the last element off of a stack stored as a period separated string
+											// without altering the stack											
+											function nestDepthStackGetLast(stack) {
+												var result = stack;
+												if (result.includes(".")) { 
+													var resultArr = result.split(".");
+													result = resultArr[resultArr.length-1];
+												} 
+												return result;
+											}
+											// push value onto a stack stored as a period separated string.
+											function nestDepthStackPush(stack,value) {
+												var result = stack + "." + value;
+												return result;
+											}
+
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
@@ -1503,13 +1532,13 @@ limitations under the License.
 																console.log($('##builderMaxRows').val());
 																var currentnestdepth = $('##nestdepth'+row).val();
 																console.log(currentnestdepth);
-																$('##nestdepth'+row).val(parseInt(currentnestdepth)+1);
+																$('##nestdepth'+row).val(currentnestdepth+"."+1);
 																var nextRow = row + 1;
 																$('##nestMarkerStart'+row).html("(");
 																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
 																	// add a row, close ) on that row
 																	addBuilderRow();
-																	$('##nestdepth'+nextRow).val(parseInt(currentnestdepth)+1);
+																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
 																}
 																$('##nestMarkerEnd'+nextRow).html(")");
 															</cfif>
