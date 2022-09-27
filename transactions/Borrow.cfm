@@ -879,7 +879,7 @@ limitations under the License.
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 col-md-4 px-1 mt-1">
-												<label for="country_of_origin" class="data-entry-label">County of Origin</label>
+												<label for="country_of_origin" class="data-entry-label">Country of Origin</label>
 												<input type="text" class="data-entry-input" name="country_of_origin" id="country_of_origin" >
 											</div>
 											<div class="col-12 col-md-8 px-1 mt-1">

@@ -1310,7 +1310,7 @@ limitations under the License.
 												<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
 													<cfset searchCollClasses = "col-sm-5 col-md-5 col-xl-7">
 												<cfelse>
-													<cfset searchCollClasses = "col-sm-7 col-md-7 col-xl-9 pr-2">
+													<cfset searchCollClasses = "col-sm-7 col-md-7 col-xl-9">
 												</cfif>
 												<div class="col-12 #searchCollClasses# pl-md-0 mt-1 mt-sm-0">
 													<label for="searchText" class="data-entry-label">Keyword(s)</label>
