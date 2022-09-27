@@ -1620,7 +1620,7 @@ limitations under the License.
 															<div class="form-row mb-2" id="builderRow#row#">
 																<div class="col-12 col-md-1">
 																	&nbsp;
-																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#Evaluate('nestdepth'+row)#">
+																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#Evaluate('nestdepth' & row)#">
 																</div>
 																<div class="col-12 col-md-1">
 																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="indent("+row+");">&gt;</button>
