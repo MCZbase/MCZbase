@@ -816,6 +816,10 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		search_category, table_name, label
 	</cfquery>
 
+<!---
+https://mczbase-test.rc.fas.harvard.edu/Specimens.cfm?execute=true&builderMaxRows=4&action=builderSearch&nestdepth1=01&field1=TAXONOMY%3AGENUS&searchText1=%3DVulpes&debug=true&JoinOperator2=or&field2=TAXONOMY%3AGENUS&searchText2=%3DUrocyon&nestdepth3=1&JoinOperator3=and&field3=GEOG_AUTH_REC%3ASTATE_PROV&searchText3=%3DMassachusetts&JoinOperator4=or&field4=GEOG_AUTH_REC%3ASTATE_PROV&searchText4=%3DVermont
+--->
+
 	<cfloop index="i" from="1" to="#int(builderMaxRows)#">
 		<cfset hasEntry = true>
 		<cftry>
@@ -830,6 +834,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif hasEntry>
 			<cfset searchId = Evaluate("searchId"&i)>
 			<cfset joinWith = Evaluate("joinOperator"&i)>
+			<cfset nestdepth = Evaluate("nestdepth"&i)>
 			<cfif joinWith EQ "AND">
 				<cfset join='"join":"and",'>
 			<cfelseif joinWith EQ "OR">
@@ -838,7 +843,11 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 				<cfset join=''>
 			</cfif>
 			<cfset matched = false>
-			<cfset nest = 1>
+			<cfif len(nestdepth) GT 0>
+				<cfset nest=nestdepth>
+			<cfelse>
+				<cfset nest = 1>
+			</cfif>
 			<!--- Handle the hidden searchId fields, if present --->
 			<cfif isDefined("searchId") AND len(searchId) GT 0>
 				<!--- if a searchId{n} value was provided, use it instead of searchText{n} to support autocomplete field pairs --->
