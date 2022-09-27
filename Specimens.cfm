@@ -1710,6 +1710,7 @@ limitations under the License.
 											<script>
 												function addBuilderRow() { 
 													var row = $("##builderMaxRows").val();
+													var currentnestdepth = $('##nestdepth'+row).val();
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
@@ -1770,6 +1771,7 @@ limitations under the License.
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
+													$('##nestdepth'+row).val(currentnestdepth);
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
