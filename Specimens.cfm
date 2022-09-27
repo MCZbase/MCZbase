@@ -1503,12 +1503,14 @@ limitations under the License.
 																console.log(row);
 																console.log($('##builderMaxRows').val());
 																var currentnestdepth = $('##nestdepth'+row).val();
+																console.log(currentnestdepth);
 																$('##nestdepth'+row).val(currentnestdepth+1);
 																var nextRow = row + 1;
 																$('##nestMarkerStart'+row).html("(");
 																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
 																	// add a row, close ) on that row
 																	addBuilderRow();
+																	$('##nestdepth'+nextRow).val(currentnestdepth+1);
 																}
 																$('##nestMarkerEnd'+nextRow).html(")");
 															</cfif>
