@@ -839,7 +839,11 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="row mx-0">
-												<div class="form-group col-12 px-1 pt-2">
+												<div class="col-12 col-md-10 px-1 mt-1">
+													<label for="in_description" class="data-entry-label">Description</label>
+													<input type="text" class="data-entry-input reqdClr" name="description" id="in_description" required >
+												</div>
+												<div class="form-group col-12 col-md-2 px-1 pt-2">
 													<button class="btn btn-xs btn-primary mr-1" type="button" onclick=" addSpecSearchColRow();" value="Add Row">Add Row</button>
 													<span id="addItemFeedback" class="text-danger">&nbsp;</span>
 												</div>
@@ -971,7 +975,9 @@ limitations under the License.
 									{ name: 'DATA_LENGTH', type: 'string' },
 									{ name: 'LABEL', type: 'string' },
 									{ name: 'ACCESS_ROLE', type: 'string' },
-									{ name: 'UI_FUNCTION', type: 'string' }
+									{ name: 'UI_FUNCTION', type: 'string' },
+									{ name: 'EXAMPLE_VALUES', type: 'string' },
+									{ name: 'DESCRIPTION', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									var data = "method=updatecf_spec_search_cols";
@@ -986,6 +992,8 @@ limitations under the License.
 									data = data + "&label=" + rowdata.LABEL;
 									data = data + "&access_role=" + rowdata.ACCESS_ROLE;
 									data = data + "&ui_function=" + rowdata.UI_FUNCTION;
+									data = data + "&example_values=" + rowdata.EXAMPLE_VALUES;
+									data = data + "&description=" + rowdata.DESCRIPTION;
 									$.ajax({
 										dataType: 'json',
 										url: '/specimens/component/admin.cfc',
@@ -1069,6 +1077,8 @@ limitations under the License.
 										}
 									},
 									{text: 'UI Function', datafield: 'UI_FUNCTION', width: 100, hideable: true, hidden: getColHidProp('UI_FUNCTION', false) },
+									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 100, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
+									{text: 'Description', datafield: 'DESCRIPTION', width: 100, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
 									{text: 'ID', editable: false, datafield: 'ID', hideable: true, hidden: getColHidProp('ID', false), cellsrenderer: deleteCellRenderer }
 								],
 								rowdetails: true,

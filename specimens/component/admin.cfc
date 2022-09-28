@@ -41,7 +41,7 @@ limitations under the License.
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT COLUMN_NAME, SQL_ELEMENT, CATEGORY, CF_SPEC_RES_COLS_ID, DISP_ORDER,
-				LABEL, ACCESS_ROLE, HIDEABLE, HIDDEN, CELLSRENDERER, WIDTH, DATA_TYPE 
+				LABEL, ACCESS_ROLE, HIDEABLE, HIDDEN, CELLSRENDERER, WIDTH, DATA_TYPE
 			FROM cf_spec_res_cols_r
 			WHERE 
 				CF_SPEC_RES_COLS_ID is not null
@@ -193,7 +193,8 @@ limitations under the License.
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT ID, TABLE_NAME, TABLE_ALIAS, COLUMN_NAME, COLUMN_ALIAS, SEARCH_CATEGORY,
-				 DATA_TYPE, DATA_LENGTH, LABEL, ACCESS_ROLE, UI_FUNCTION
+				DATA_TYPE, DATA_LENGTH, LABEL, ACCESS_ROLE, UI_FUNCTION,
+				EXAMPLE_VALUES, DESCRIPTION
 			FROM cf_spec_search_cols
 			WHERE 
 				ID is not null
@@ -340,6 +341,7 @@ limitations under the License.
 	<cfargument name="DATA_TYPE" type="string" required="yes">
 	<cfargument name="DATA_LENGTH" type="string" required="yes">
 	<cfargument name="LABEL" type="string" required="yes">
+	<cfargument name="DESCRIPTION" type="string" required="yes">
 
 	<cftransaction>
 		<cftry>
@@ -357,7 +359,8 @@ limitations under the License.
 						DATA_LENGTH,
 						LABEL,
 						ACCESS_ROLE,
-						UI_FUNCTION
+						UI_FUNCTION,
+						DESCRIPTION
 					) VALUES (
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_NAME#">, 
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TABLE_ALIAS#">, 
@@ -368,7 +371,8 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DATA_LENGTH#">, 
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,  
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UI_FUNCTION#">  
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UI_FUNCTION#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">  
 					)
 				</cfquery>
 			<cfif doUpdate_result.recordcount NEQ 1>
@@ -409,6 +413,8 @@ limitations under the License.
 	<cfargument name="LABEL" type="string" required="yes">
 	<cfargument name="ACCESS_ROLE" type="string" required="yes">
 	<cfargument name="UI_FUNCTION" type="string" required="yes">
+	<cfargument name="EXAMPLE_VALUES" type="string" required="yes">
+	<cfargument name="DESCRIPTION" type="string" required="yes">
 
 	<cftransaction>
 		<cftry>
@@ -430,7 +436,9 @@ limitations under the License.
 					DATA_LENGTH = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#DATA_LENGTH#">, 
 					LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LABEL#">,
 					ACCESS_ROLE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACCESS_ROLE#">,
-					UI_FUNCTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UI_FUNCTION#">
+					UI_FUNCTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UI_FUNCTION#">,
+					EXAMPLE_VALUES = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#EXAMPLE_VALUES#">,
+					DESCRIPTION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#DESCRIPTION#">
 				WHERE
 					ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ID#">
 			</cfquery>
