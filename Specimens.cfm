@@ -1549,9 +1549,13 @@ Target:
 													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
-															SELECT search_category, table_name, column_name, column_alias, data_type, 
-																label, access_role, ui_function
+															SELECT search_category, cf_spec_search_cols.table_name, cf_spec_search_cols.column_name, column_alias, data_type, 
+																label, access_role, ui_function, all_col_comments.comments
 															FROM cf_spec_search_cols
+																left join all_col_comments 
+																	on cf_spec_search_cols.table_name = all_col_comments.table_name 
+																		and cf_spec_search_cols.column_name = all_col_comments.column_name
+																		and all_col_comments.owner = 'MCZBASE'
 															WHERE	
 																<cfif oneOfUs EQ 0>
 																	access_role = 'PUBLIC'
@@ -1560,7 +1564,7 @@ Target:
 																</cfif>
 																AND access_role <> 'HIDE'
 															ORDER BY
-																search_category, label, table_name
+																search_category, label, cf_spec_search_cols.table_name
 														</cfquery>
 														<cfset columnMetadata = "[">
 														<cfset comma = "">
@@ -1591,7 +1595,7 @@ Target:
 																	<cfset category = fields.search_category>
 																</cfif>
 																<cfif field1 EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
+																<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#) #fields.comments#</option>
 															</cfloop>
 															<cfif optgroupOpen>
 																</optgroup>
