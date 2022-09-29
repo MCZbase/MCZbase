@@ -609,8 +609,8 @@ limitations under the License.
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: false, hidden: false },
 									{text: 'Table Name', datafield: 'TABLE_NAME', width: 150, hideable: true, hidden: getColHidProp('TABLE_NAME', false) },
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
-									{text: 'Description', datafield: 'DESCRIPTION', width: 200, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
-									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 150, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
+									{text: 'Description', datafield: 'DESCRIPTION', width: 250, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
+									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 250, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
 									{text: 'Autocomplete', datafield: 'UI_FUNCTION', width: 50, hideable: true, hidden: getColHidProp('UI_FUNCTION', false), cellsrenderer: autocompleteCellRenderer },
 									{text: 'Access Role', datafield: 'ACCESS_ROLE', hideable: true, hidden: getColHidProp('ACCESS_ROLE', false) }
