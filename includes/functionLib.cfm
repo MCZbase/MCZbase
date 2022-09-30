@@ -33,9 +33,9 @@
 	      var r=trim(s);
 	      r = Replace(Replace(r,'[','%5B'),']','%5D');
 	      r = Replace(Replace(r,'(','%28'),')','%29');
-	      r = Replace(r,'!','%21');
-	      r = Replace(r,',','%2C');
-	      r = Replace(r,' ','%20');
+	      r = Replace(r,'!','%21','all');
+	      r = Replace(r,',','%2C','all');
+	      r = Replace(r,' ','%20','all');
 	      return r;
 	</cfscript>
 </cffunction>
