@@ -1386,10 +1386,39 @@ limitations under the License.
 								</div>
 							</section> <!--- end keyword search/results panel --->
 								<!---Query Builder tab panel--->
+<!--- 
+Query:
+country = France
+and (family = 'Mustelidae' or family = 'Lophiidae')
+and collector = 'Brendan Haley'
+
+Current:
+ [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"2","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}] 
+
+Target:
+ [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
+--->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
+											// functions to support nesting
+											// get the last element off of a stack stored as a period separated string
+											// without altering the stack											
+											function nestDepthStackGetLast(stack) {
+												var result = stack;
+												if (result.includes(".")) { 
+													var resultArr = result.split(".");
+													result = resultArr[resultArr.length-1];
+												} 
+												return result;
+											}
+											// push value onto a stack stored as a period separated string.
+											function nestDepthStackPush(stack,value) {
+												var result = stack + "." + value;
+												return result;
+											}
+
 											// bind autocomplete to text input/hidden input, and other actions on field selection
 											function handleFieldSelection(fieldSelect,rowNumber) { 
 												var selection = $('##'+fieldSelect).val();
@@ -1491,7 +1520,7 @@ limitations under the License.
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
 														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
-														<cfif not isDefined("nestdepth1")><cfset nestdepth1="0"></cfif>
+														<cfif not isDefined("nestdepth1")><cfset nestdepth1="1"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
 													<script>
@@ -1502,12 +1531,14 @@ limitations under the License.
 																console.log(row);
 																console.log($('##builderMaxRows').val());
 																var currentnestdepth = $('##nestdepth'+row).val();
-																$('##nestdepth'+row).val(currentnestdepth+1);
+																console.log(currentnestdepth);
+																$('##nestdepth'+row).val(currentnestdepth+"."+1);
 																var nextRow = row + 1;
 																$('##nestMarkerStart'+row).html("(");
 																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
 																	// add a row, close ) on that row
 																	addBuilderRow();
+																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
 																}
 																$('##nestMarkerEnd'+nextRow).html(")");
 															</cfif>
@@ -1518,9 +1549,13 @@ limitations under the License.
 													</div>
 													<div class="col-12 col-md-4">
 														<cfquery name="fields" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="fields_result">
-															SELECT search_category, table_name, column_name, column_alias, data_type, 
-																label, access_role, ui_function
+															SELECT search_category, cf_spec_search_cols.table_name, cf_spec_search_cols.column_name, column_alias, data_type, 
+																label, access_role, ui_function, all_col_comments.comments
 															FROM cf_spec_search_cols
+																left join all_col_comments 
+																	on cf_spec_search_cols.table_name = all_col_comments.table_name 
+																		and cf_spec_search_cols.column_name = all_col_comments.column_name
+																		and all_col_comments.owner = 'MCZBASE'
 															WHERE	
 																<cfif oneOfUs EQ 0>
 																	access_role = 'PUBLIC'
@@ -1529,7 +1564,7 @@ limitations under the License.
 																</cfif>
 																AND access_role <> 'HIDE'
 															ORDER BY
-																search_category, label, table_name
+																search_category, label, cf_spec_search_cols.table_name
 														</cfquery>
 														<cfset columnMetadata = "[">
 														<cfset comma = "">
@@ -1560,7 +1595,7 @@ limitations under the License.
 																	<cfset category = fields.search_category>
 																</cfif>
 																<cfif field1 EQ "#fields.table_name#:#fields.column_alias#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
-																<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#)</option>
+																<option value="#fields.table_name#:#fields.column_alias#" #selected#>#fields.label# (#fields.search_category#:#fields.table_name#) #fields.comments#</option>
 															</cfloop>
 															<cfif optgroupOpen>
 																</optgroup>
@@ -1626,6 +1661,7 @@ limitations under the License.
 																		<cfset nestdepthval = "1">
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
+[#nestdepthval#]
 																</div>
 																<div class="col-12 col-md-1">
 																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="indent("+row+");">&gt;</button>
@@ -1706,6 +1742,7 @@ limitations under the License.
 											<script>
 												function addBuilderRow() { 
 													var row = $("##builderMaxRows").val();
+													var currentnestdepth = $('##nestdepth'+row).val();
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
@@ -1766,6 +1803,7 @@ limitations under the License.
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
+													$('##nestdepth'+row).val(currentnestdepth);
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
