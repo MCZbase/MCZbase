@@ -1403,30 +1403,14 @@ Target:
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
 											// functions to support nesting
-											// get the last element off of a stack stored as a period separated string
-											// without altering the stack											
-											function nestDepthStackGetLast(stack) {
-												var result = stack;
-												if (result.includes(".")) { 
-													var resultArr = result.split(".");
-													result = resultArr[resultArr.length-1];
-												} 
-												return result;
-											}
-											// remove the last element off of a stack stored as a period separated string
-											// and return the stack 										
-											function nestDepthStackRemoveLast(stack) {
-												var result = stack;
-												if (result.includes(".")) { 
-													var resultArr = result.split(".");
-													resultArr.splice(-1);
-													result = resultArr.join(",");
-												} 
-												return result;
-											}
 											// push value onto a stack stored as a period separated string.
 											function nestDepthStackPush(stack,value) {
-												var result = stack + "." + value;
+												var result = "";
+												if (stack=="") { 
+													result = value;
+												} else {
+													result = stack + "." + value;
+												}
 												return result;
 											}
 
@@ -1530,7 +1514,7 @@ Target:
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="indent(1);" disabled>&gt;</button>
 														<cfif not isDefined("nestdepth1") OR len(trim(nestdepth1)) EQ 0><cfset nestdepth1="1"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
@@ -1552,6 +1536,9 @@ Target:
 																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
 																}
 																$('##nestMarkerEnd'+nextRow).html(")");
+																$('##nestButton'+row).prop("disabled",true);
+																$('##nestButton'+row).addClass("disabled");
+																
 															</cfif>
 														}
 														function promote(row) {
