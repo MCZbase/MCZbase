@@ -1765,6 +1765,8 @@ Target:
 												function addBuilderRow() { 
 													var row = $("##builderMaxRows").val();
 													var currentnestdepth = $('##nestdepth'+row).val();
+													$('##nestButton'+row).prop("disabled",true);
+													$('##nestButton'+row).addClass("disabled");
 													console.log(currentnestdepth);
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
