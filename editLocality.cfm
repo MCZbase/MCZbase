@@ -4,25 +4,25 @@
 	<cfhtmlhead text='<script src="#Application.protocol#://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
 </cfoutput>
 <cfoutput>
-        <script>
-                function useGL(glat,glon,gerr,gpoly){
-						if (gpoly=='')
-							{var gpoly_wkt='';}
-						else
-							{var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';}
-                        $("##MAX_ERROR_DISTANCE").val(gerr);
-                        $("##MAX_ERROR_UNITS").val('m');
-                        $("##DATUM").val('WGS84');
-                        $("##georeference_source").val('GeoLocate');
-                        $("##georeference_protocol").val('GeoLocate');
-                        $("##georefMethod").val('GEOLocate');
-                        $("##LAT_LONG_REF_SOURCE").val('GEOLocate');
-                        $("##dec_lat").val(glat);
-                        $("##dec_long").val(glon);
-						$("##errorPoly").val(gpoly_wkt);
-                        closeGeoLocate();
-                }
-        </script>
+	<script>
+		function useGL(glat,glon,gerr,gpoly){
+			if (gpoly=='')
+				{var gpoly_wkt='';}
+			else
+				{var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';}
+			$("##MAX_ERROR_DISTANCE").val(gerr);
+			$("##MAX_ERROR_UNITS").val('m');
+			$("##DATUM").val('WGS84');
+			$("##georeference_source").val('GeoLocate');
+			$("##georeference_protocol").val('GeoLocate');
+			$("##georefMethod").val('GEOLocate');
+			$("##LAT_LONG_REF_SOURCE").val('GEOLocate');
+			$("##dec_lat").val(glat);
+			$("##dec_long").val(glon);
+			$("##errorPoly").val(gpoly_wkt);
+			closeGeoLocate();
+		}
+	</script>
 </cfoutput>
 
 <cfif action is "nothing">
@@ -36,16 +36,16 @@
 		});
 		$.each($("input[id^='determined_date']"), function() {
 			$("##" + this.id).datepicker({dateFormat: "yy-mm-dd"});
-	    });
-	    $.each($("input[id^='geo_att_determined_date']"), function() {
+		});
+		$.each($("input[id^='geo_att_determined_date']"), function() {
 			$("##" + this.id).datepicker({dateFormat: "yy-mm-dd",showOn:"both",buttonImage:"images/cal_icon.png",buttonImageOnly: true});
-	    });
-	    $("input[id='wktFile'").change(function(){
-	    	console.log($("##ERROR_POLYGON1").val().length);
-	    	if ($("##ERROR_POLYGON1").val().length > 1)
-	    		{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');}
-	    		else {r=true;}
-	    	if (r==true){
+		});
+		$("input[id='wktFile'").change(function(){
+			console.log($("##ERROR_POLYGON1").val().length);
+			if ($("##ERROR_POLYGON1").val().length > 1)
+				{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');}
+				else {r=true;}
+			if (r==true){
 				    var url = $(this).val();
 				    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
 				    if ($(this).prop('files') && $(this).prop('files')[0]&& (ext == "wkt"))
