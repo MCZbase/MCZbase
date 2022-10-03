@@ -1814,11 +1814,12 @@ Target:
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
-													var nestDepthLast = nestDepthStackGetLast(currentnestdepth);
-													var nestDepthStack = nestDepthStackRemoveLast(currentnestdepth);
-													var nextNestDepthValue = parseInt(nestDepthLast) + 1;
-													nestDepthStack = nestDepthStackPush(`nestDepthStack.${nextNestDepthValue}`);  
-													$('##nestdepth'+row).val(nestDepthStack);
+													var nestDepthStack = currentnestdepth.split(".");
+													var nestDepthValue = nestDepthStack.pop();
+													if (nestDepthValue=="") {  nestDepthValue="1"; }
+													var nextNestDepthValue = parseInt(nestDepthValue);
+													nestDepthStack = nestDepthStackPush(nestDepthStack+`.${nextNestDepthValue}`);  
+													$('##nestdepth'+row).val(nestDepthStack.join("."));
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
