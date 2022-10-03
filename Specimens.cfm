@@ -1419,7 +1419,7 @@ Target:
 												var result = stack;
 												if (result.includes(".")) { 
 													var resultArr = result.split(".");
-													resultArr.slash(-1);
+													resultArr.splice(-1);
 													result = resultArr.join(",");
 												} 
 												return result;
