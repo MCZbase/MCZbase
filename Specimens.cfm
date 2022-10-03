@@ -1818,7 +1818,7 @@ Target:
 													var nestDepthValue = nestDepthStack.pop();
 													if (nestDepthValue=="") {  nestDepthValue="1"; }
 													var nextNestDepthValue = parseInt(nestDepthValue);
-													var newnestdepth  = nestDepthStackPush(nestDepthStack.join(".", nextNestDepthValue);  
+													var newnestdepth  = nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
 													$('##nestdepth'+row).val(newnestdepth);
 												};
 												$(document).ready(function(){
