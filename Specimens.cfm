@@ -1554,6 +1554,38 @@ Target:
 																$('##nestMarkerEnd'+nextRow).html(")");
 															</cfif>
 														}
+														function promote(row) {
+															<cfif findNoCase('master',gitBranch) GT 0 >
+																messageDialog("Not implemented yet");
+															<cfelse>
+																console.log(row);
+																console.log($('##builderMaxRows').val());
+																var currentnestdepth = $('##nestdepth'+row).val();
+																var nestDepthStack = currentnestdepth.split(".");
+																if (nestDepthStack.length > 1) { 
+																	nestDepthStack.pop();
+																}
+																var nestDepthValue = nestDepthStack.pop();
+																if (nestDepthValue=="") {  nestDepthValue="1"; }
+																var nextNestDepthValue = parseInt(nestDepthValue) + 1;
+																var newnestdepth  = nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+																if (newnestdepth.substr(0,1)==".") { 
+																	newnestdepth = newnestdepth.substr(1);
+																}
+																console.log(newnestdepth);
+																$('##nestdepth'+row).val(newnestdepth);
+																var nextRow = row + 1;
+																$('##nestMarkerStart'+row).html("(");
+																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
+																	// add a row, close ) on that row
+																	addBuilderRow();
+																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
+																}
+																if ($('##nestMarkerEnd'+row).html()==")") { ;
+																	$('##nestMarkerEnd'+row).html("");
+																}
+															</cfif>
+														}
 													</script>
 													<div class="col-12 col-md-1">
 														<span id="nestMarkerStart1"></span>
@@ -1829,6 +1861,7 @@ Target:
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
 													   addBuilderRow();
+														promote($('##builderMaxRows').val());
 													});
 												});
 											</script>
