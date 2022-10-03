@@ -1403,30 +1403,14 @@ Target:
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
 											// functions to support nesting
-											// get the last element off of a stack stored as a period separated string
-											// without altering the stack											
-											function nestDepthStackGetLast(stack) {
-												var result = stack;
-												if (result.includes(".")) { 
-													var resultArr = result.split(".");
-													result = resultArr[resultArr.length-1];
-												} 
-												return result;
-											}
-											// remove the last element off of a stack stored as a period separated string
-											// and return the stack 										
-											function nestDepthStackRemoveLast(stack) {
-												var result = stack;
-												if (result.includes(".")) { 
-													var resultArr = result.split(".");
-													resultArr.slash(-1);
-													result = resultArr.join(",");
-												} 
-												return result;
-											}
 											// push value onto a stack stored as a period separated string.
 											function nestDepthStackPush(stack,value) {
-												var result = stack + "." + value;
+												var result = "";
+												if (stack=="") { 
+													result = value;
+												} else {
+													result = stack + "." + value;
+												}
 												return result;
 											}
 
@@ -1530,8 +1514,8 @@ Target:
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
-														<cfif not isDefined("nestdepth1")><cfset nestdepth1="1"></cfif>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="indent(1);" disabled>&gt;</button>
+														<cfif not isDefined("nestdepth1") OR len(trim(nestdepth1)) EQ 0><cfset nestdepth1="1"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
 													<script>
@@ -1552,6 +1536,33 @@ Target:
 																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
 																}
 																$('##nestMarkerEnd'+nextRow).html(")");
+																$('##nestButton'+row).prop("disabled",true);
+																$('##nestButton'+row).addClass("disabled");
+															</cfif>
+														}
+														function promote(row) {
+															<cfif findNoCase('master',gitBranch) GT 0 >
+																messageDialog("Not implemented yet");
+															<cfelse>
+																console.log(row);
+																console.log($('##builderMaxRows').val());
+																var currentnestdepth = $('##nestdepth'+row).val();
+																var nestDepthStack = currentnestdepth.split(".");
+																if (nestDepthStack.length > 1) { 
+																	nestDepthStack.pop();
+																	var nestDepthValue = nestDepthStack.pop();
+																	if (nestDepthValue=="") {  nestDepthValue="1"; }
+																	var nextNestDepthValue = parseInt(nestDepthValue) + 1;
+																	var newnestdepth  = "" + nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+																	if (newnestdepth.substr(0,1)==".") { 
+																		newnestdepth = newnestdepth.substr(1);
+																	}
+																	console.log(newnestdepth);
+																	$('##nestdepth'+row).val(newnestdepth);
+																}
+																if ($('##nestMarkerEnd'+row).html()==")") { ;
+																	$('##nestMarkerEnd'+row).html("");
+																}
 															</cfif>
 														}
 													</script>
@@ -1754,6 +1765,9 @@ Target:
 												function addBuilderRow() { 
 													var row = $("##builderMaxRows").val();
 													var currentnestdepth = $('##nestdepth'+row).val();
+													$('##nestButton'+row).prop("disabled",true);
+													$('##nestButton'+row).addClass("disabled");
+													console.log(currentnestdepth);
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
@@ -1814,15 +1828,23 @@ Target:
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
-													var nestDepthLast = nestDepthStackGetLast(currentnestdepth);
-													var nestDepthStack = nestDepthStackRemoveLast(currentnestdepth);
-													var nextNestDepthValue = parseInt(nestDepthLast) + 1;
-													nestDepthStack = nestDepthStackPush(`nestDepthStack.${nextNestDepthValue}`);  
-													$('##nestdepth'+row).val(nestDepthStack);
+													var nestDepthStack = currentnestdepth.split(".");
+													var nestDepthValue = nestDepthStack.pop();
+													if (nestDepthValue=="") {  nestDepthValue="1"; }
+													var nextNestDepthValue = parseInt(nestDepthValue) + 1;
+													var newnestdepth = "" + nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+													console.log(newnestdepth);
+													if (newnestdepth!="" && newnestdepth.substr(0,1)==".") { 
+														console.log(newnestdepth.substr(1));
+														newnestdepth = newnestdepth.substr(1);
+													}
+													console.log(newnestdepth);
+													$('##nestdepth'+row).val(newnestdepth);
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
 													   addBuilderRow();
+														promote($('##builderMaxRows').val());
 													});
 												});
 											</script>
