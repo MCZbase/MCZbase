@@ -1538,7 +1538,6 @@ Target:
 																$('##nestMarkerEnd'+nextRow).html(")");
 																$('##nestButton'+row).prop("disabled",true);
 																$('##nestButton'+row).addClass("disabled");
-																
 															</cfif>
 														}
 														function promote(row) {
@@ -1831,8 +1830,10 @@ Target:
 													var nestDepthValue = nestDepthStack.pop();
 													if (nestDepthValue=="") {  nestDepthValue="1"; }
 													var nextNestDepthValue = parseInt(nestDepthValue) + 1;
-													var newnestdepth  = nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
-													if (newnestdepth.substr(0,1)==".") { 
+													var newnestdepth = nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+													console.log(newnestdepth);
+													if (newnestdepth!="" && newnestdepth.substr(0,1)==".") { 
+														console.log(newnestdepth.substr(1));
 														newnestdepth = newnestdepth.substr(1);
 													}
 													console.log(newnestdepth);
