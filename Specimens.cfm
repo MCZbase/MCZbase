@@ -1574,13 +1574,6 @@ Target:
 																}
 																console.log(newnestdepth);
 																$('##nestdepth'+row).val(newnestdepth);
-																var nextRow = row + 1;
-																$('##nestMarkerStart'+row).html("(");
-																if (row==$('##builderMaxRows').val() || (row==1 && $('##builderMaxRows').val()==2)) { 
-																	// add a row, close ) on that row
-																	addBuilderRow();
-																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
-																}
 																if ($('##nestMarkerEnd'+row).html()==")") { ;
 																	$('##nestMarkerEnd'+row).html("");
 																}
