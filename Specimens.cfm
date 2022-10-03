@@ -1818,8 +1818,11 @@ Target:
 													var nestDepthStack = currentnestdepth.split(".");
 													var nestDepthValue = nestDepthStack.pop();
 													if (nestDepthValue=="") {  nestDepthValue="1"; }
-													var nextNestDepthValue = parseInt(nestDepthValue);
+													var nextNestDepthValue = parseInt(nestDepthValue) + 1;
 													var newnestdepth  = nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+													if (newnestdepth.substr(0,1)==".") { 
+														newnestdepth = newnestdepth.substr(1);
+													}
 													console.log(newnestdepth);
 													$('##nestdepth'+row).val(newnestdepth);
 												};
