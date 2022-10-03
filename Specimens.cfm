@@ -1413,6 +1413,17 @@ Target:
 												} 
 												return result;
 											}
+											// remove the last element off of a stack stored as a period separated string
+											// and return the stack 										
+											function nestDepthStackRemoveLast(stack) {
+												var result = stack;
+												if (result.includes(".")) { 
+													var resultArr = result.split(".");
+													resultArr.slash(-1);
+													result = resultArr.join(",");
+												} 
+												return result;
+											}
 											// push value onto a stack stored as a period separated string.
 											function nestDepthStackPush(stack,value) {
 												var result = stack + "." + value;
@@ -1803,7 +1814,11 @@ Target:
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
-													$('##nestdepth'+row).val(currentnestdepth);
+													var nestDepthLast = nestDepthStackGetLast(currentnestdepth);
+													var nestDepthStack = nestDepthStackRemoveLast(currentnestdepth);
+													var nextNestDepthValue = parseInt(nestDepthLast) + 1;
+													nestDepthStack = nestDepthStackPush(`nestDepthStack.${nextNestDepthValue}`);  
+													$('##nestdepth'+row).val(nestDepthStack);
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
