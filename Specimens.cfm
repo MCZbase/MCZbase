@@ -1531,7 +1531,7 @@ Target:
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
 														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
-														<cfif not isDefined("nestdepth1")><cfset nestdepth1="1"></cfif>
+														<cfif not isDefined("nestdepth1") OR len(trim(nestdepth1)) EQ 0><cfset nestdepth1="1"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
 													<script>
@@ -1754,6 +1754,7 @@ Target:
 												function addBuilderRow() { 
 													var row = $("##builderMaxRows").val();
 													var currentnestdepth = $('##nestdepth'+row).val();
+													console.log(currentnestdepth);
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
@@ -1819,6 +1820,7 @@ Target:
 													if (nestDepthValue=="") {  nestDepthValue="1"; }
 													var nextNestDepthValue = parseInt(nestDepthValue);
 													var newnestdepth  = nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+													console.log(newnestdepth);
 													$('##nestdepth'+row).val(newnestdepth);
 												};
 												$(document).ready(function(){
