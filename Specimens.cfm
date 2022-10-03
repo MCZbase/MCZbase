@@ -1818,7 +1818,7 @@ Target:
 													var nestDepthValue = nestDepthStack.pop();
 													if (nestDepthValue=="") {  nestDepthValue="1"; }
 													var nextNestDepthValue = parseInt(nestDepthValue);
-													nestDepthStack = nestDepthStackPush(nestDepthStack+`.${nextNestDepthValue}`);  
+													nestDepthStack = nestDepthStackPush(nestDepthStack, nextNestDepthValue);  
 													$('##nestdepth'+row).val(nestDepthStack.join("."));
 												};
 												$(document).ready(function(){
