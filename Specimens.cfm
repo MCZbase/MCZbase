@@ -1682,11 +1682,30 @@ Target:
 																	<cfelse>
 																		<cfset nestdepthval = "1">
 																	</cfif> 
+																	<cfset nextRow = row + 1>
+																	<cfset closeParen = "">
+																	<cfif isDefined("nestdepth"&nextRow)>
+																		<cfset nextRownestdepthval = Evaluate("nestdepth" & nextRow)>
+																		<!--- check if next row is not incremented by one at current depth --->
+																		<cfset na ListToArray(nestdepthval,".")>
+																		<cfset nrna EQ ListToArray(nextRownestdepthval,".")>
+																		<cfif len(na) EQ len(nrna)>
+																			<cfif val(arrayLast(na)) + 1 EQ val(arrayLast(nrna))>
+																			<cfset closeParen = ")"> 
+																		<cfif>
+																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
-[#nestdepthval#]
+																	<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																		[#nestdepthval#]
+																	</cfif>
 																</div>
 																<div class="col-12 col-md-1">
-																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="indent("+row+");">&gt;</button>
+																	<cfif row LT builderMaxRows>
+																		<cfset disabled = "disabled">
+																	<cfelse>
+																		<cfset disabled = "">
+																	</cfif>
+																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary #disabled#" onclick="indent("+row+");" #disabled#>&gt;</button>
 																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
@@ -1702,7 +1721,11 @@ Target:
 																	</select>
 																</div>
 																<div class="col-12 col-md-1">
-																	<span id="nestMarkerStart#row#"></span>
+																	<span id="nestMarkerStart#row#">
+																		<cfif right(nestdepthval,2) IS ".1">
+																			(
+																		</cfif>
+																	</span>
 																</div>
 																<div class="col-12 col-md-3">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
@@ -1750,7 +1773,7 @@ Target:
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-12 col-md-1">
-																	<span id="nestMarkerEnd#row#"></span>
+																	<span id="nestMarkerEnd#row#">#closeParen#</span>
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
