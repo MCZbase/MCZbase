@@ -1690,7 +1690,7 @@ Target:
 																		<cfset na = ListToArray(nestdepthval,".")>
 																		<cfset nrna = ListToArray(nextRownestdepthval,".")>
 																		<cfif ArrayLen(na) EQ ArrayLen(nrna)>
-																			<cfif val(ArrayLast(na)) + 1 EQ val(ArrayLast(nrna))>
+																			<cfif val(na[ArrayLen(na)]) + 1 EQ val(nrna[ArrayLen(nrna)])>
 																				<cfset closeParen = ")"> 
 																			</cfif>
 																		</cfif>
