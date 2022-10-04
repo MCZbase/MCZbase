@@ -1672,6 +1672,7 @@ Target:
 													</cfif>
 												</div>
 												<cfif builderMaxRows GT 1>
+													<cfset parenOpen = 0>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-2" id="builderRow#row#">
@@ -1694,7 +1695,18 @@ Target:
 																				<cfset closeParen = ""> 
 																			<cfelse>
 																				<cfset closeParen = ")"> 
+																				<cfset parenOpen = parenOpen-1>
 																			</cfif>
+																		<cfelse>
+																			<cfif ArrayLen(na) GT ArrayLen(nrna)>
+																				<cfif parenOpen GT 0>
+																					<cfset closeParen = ")"> 
+																				</cfif>
+																			</cfif>
+																		</cfif>
+																	<cfelse>
+																		<cfif parenOpen GT 0>
+																			<cfset closeParen = ")"> 
 																		</cfif>
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
@@ -1727,6 +1739,7 @@ Target:
 																	<span id="nestMarkerStart#row#">
 																		<cfif right(nestdepthval,2) IS ".1">
 																			(
+																			<cfset parenOpen = parenOpen + 1>
 																		</cfif>
 																	</span>
 																</div>
