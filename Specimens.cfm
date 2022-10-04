@@ -1691,7 +1691,8 @@ Target:
 																		<cfset nrna = ListToArray(nextRownestdepthval,".")>
 																		<cfif len(na) EQ len(nrna)>
 																			<cfif val(arrayLast(na)) + 1 EQ val(arrayLast(nrna))>
-																			<cfset closeParen = ")"> 
+																				<cfset closeParen = ")"> 
+																			</cfif>
 																		</cfif>
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
