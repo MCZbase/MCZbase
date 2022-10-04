@@ -1701,6 +1701,7 @@ Target:
 																			<cfif ArrayLen(na) GT ArrayLen(nrna)>
 																				<cfif parenOpen GT 0>
 																					<cfset closeParen = ")"> 
+																					<cfset parenOpen = parenOpen-1>
 																				</cfif>
 																			</cfif>
 																		</cfif>
