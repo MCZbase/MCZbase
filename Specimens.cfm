@@ -1692,7 +1692,7 @@ Target:
 																		<cfif len(na) EQ len(nrna)>
 																			<cfif val(arrayLast(na)) + 1 EQ val(arrayLast(nrna))>
 																			<cfset closeParen = ")"> 
-																		<cfif>
+																		</cfif>
 																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
 																	<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
