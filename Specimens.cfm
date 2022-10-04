@@ -1392,16 +1392,15 @@ country = France
 and (family = 'Mustelidae' or family = 'Lophiidae')
 and collector = 'Brendan Haley'
 
-Current:
- [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"2","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}] 
-
-Target:
+Target JSON:
  [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
+											var treeMap = new Map();
+											treeMap.set("1",["1"]);
 											// functions to support nesting
 											// push value onto a stack stored as a period separated string.
 											function nestDepthStackPush(stack,value) {
