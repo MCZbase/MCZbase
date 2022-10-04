@@ -250,7 +250,7 @@
 									newCitation.cited_taxon_name_id.value='#getCited.cited_taxon_name_id#';
 									newCitation.type_status.value='#getCited.type_status#';
 									newCitation.occurs_page_number.value='#getCited.occurs_page_number#';
-									newCitation.citation_remarks.value='#stripQuotes(getCited.citation_remarks)#';
+									newCitation.citation_remarks.value='#encodeForHTML(getCited.citation_remarks)#';
 									newCitation.collection.value='#getCited.collection_id#';
 									newCitation.citation_page_uri.value='#getCited.citation_page_uri#';
 									">
@@ -465,7 +465,7 @@
 	</td>
 	<td>
 		<label for="citation_remarks">Remarks</label>
-		<input type="text" name="citation_remarks" id="citation_remarks" size="50" value="#stripQuotes(citation_remarks)#">
+		<input type="text" name="citation_remarks" id="citation_remarks" size="50" value="#encodeForHTML(citation_remarks)#">
 	</td>
 </tr>
 <tr>
