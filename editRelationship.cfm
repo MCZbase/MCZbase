@@ -36,7 +36,7 @@
 		biol_indiv_relations.collection_object_id = relatedSpecimenId.collection_object_id AND
 		thisSpecimenId.accepted_id_fg=1 AND
 		relatedSpecimenId.accepted_id_fg=1 AND
-		biol_indiv_relations.collection_object_id=#collection_object_id#
+		biol_indiv_relations.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <script>
 	function cloneCatalogedItem(collection_object_id){
@@ -217,15 +217,16 @@ To split a lot or create a parasite, you can
 	<cfloop list="#related_coll_object_id#" index="relCollObjId" delimiters=",">
 		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO biol_indiv_relations (
-			COLLECTION_OBJECT_ID, 
-			RELATED_COLL_OBJECT_ID, 
-			BIOL_INDIV_RELATIONSHIP, 
-			BIOL_INDIV_RELATION_REMARKS) 
+				COLLECTION_OBJECT_ID, 
+				RELATED_COLL_OBJECT_ID, 
+				BIOL_INDIV_RELATIONSHIP, 
+				BIOL_INDIV_RELATION_REMARKS) 
 			VALUES (
-			#COLLECTION_OBJECT_ID#, 
-			#relCollObjId#, 
-			'#biol_indiv_relationship#',
-			'#BIOL_INDIV_RELATION_REMARKS#')
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#COLLECTION_OBJECT_ID#">, 
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relCollObjId#">, 
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#biol_indiv_relationship#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BIOL_INDIV_RELATION_REMARKS#">
+			)
 		</cfquery>
 	</cfloop>
 	<cflocation url="editRelationship.cfm?collection_object_id=#collection_object_id#">
@@ -237,26 +238,27 @@ To split a lot or create a parasite, you can
 	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE biol_indiv_relations
 		SET
-		collection_object_id = #collection_object_id#,
-		RELATED_COLL_OBJECT_ID = #RELATED_COLL_OBJECT_ID#,
-			 BIOL_INDIV_RELATIONSHIP='#BIOL_INDIV_RELATIONSHIP#',
-			 biol_indiv_relation_remarks='#BIOL_INDIV_RELATION_REMARKS#'
-			WHERE
-			collection_object_id = #collection_object_id# AND
-			RELATED_COLL_OBJECT_ID = #origRelCollObjId# AND
-			BIOL_INDIV_RELATIONSHIP='#origReln#'
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">,
+			RELATED_COLL_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#RELATED_COLL_OBJECT_ID#">,
+			BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BIOL_INDIV_RELATIONSHIP#">,
+			biol_indiv_relation_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#BIOL_INDIV_RELATION_REMARKS#">
+		WHERE
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			AND RELATED_COLL_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#origRelCollObjId#">
+			AND BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origReln#">
 	</cfquery>
-	 <cflocation url="editRelationship.cfm?collection_object_id=#collection_object_id#">
+	<cflocation url="editRelationship.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
 </cfif>
 <!------------------------------------------------------------------------------>
 <cfif #Action# is "deleReln">
 <cfoutput>
 	<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	DELETE FROM biol_indiv_relations WHERE
-		collection_object_id = #collection_object_id# AND
-	RELATED_COLL_OBJECT_ID = #origRelCollObjId# AND
-		 BIOL_INDIV_RELATIONSHIP='#origReln#'
+		DELETE FROM biol_indiv_relations
+		WHERE
+			collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			AND RELATED_COLL_OBJECT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#origRelCollObjId#">
+			AND BIOL_INDIV_RELATIONSHIP=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origReln#">
 	</cfquery>
 	<cflocation url="editRelationship.cfm?collection_object_id=#collection_object_id#">
 </cfoutput>
