@@ -1687,8 +1687,8 @@ Target:
 																	<cfif isDefined("nestdepth"&nextRow)>
 																		<cfset nextRownestdepthval = Evaluate("nestdepth" & nextRow)>
 																		<!--- check if next row is not incremented by one at current depth --->
-																		<cfset na ListToArray(nestdepthval,".")>
-																		<cfset nrna EQ ListToArray(nextRownestdepthval,".")>
+																		<cfset na = ListToArray(nestdepthval,".")>
+																		<cfset nrna = ListToArray(nextRownestdepthval,".")>
 																		<cfif len(na) EQ len(nrna)>
 																			<cfif val(arrayLast(na)) + 1 EQ val(arrayLast(nrna))>
 																			<cfset closeParen = ")"> 
