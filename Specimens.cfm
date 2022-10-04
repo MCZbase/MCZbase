@@ -1392,30 +1392,24 @@ country = France
 and (family = 'Mustelidae' or family = 'Lophiidae')
 and collector = 'Brendan Haley'
 
-Current:
- [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"2","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}] 
-
-Target:
+Target JSON:
  [{"nest":"1","field": "COUNTRY","comparator": "=","value": "FRANCE"},{"nest":"2.1","join":"and","field": "FAMILY","comparator": "=","value": "MUSTELIDAE"},{"nest":"2.2","join":"or","field": "FAMILY","comparator": "=","value": "LOPHIIDAE"},{"nest":"3","join":"and","field": "COLLECTORS_AGENT_ID","comparator": "=","value": "15172"}]
 --->
 							<section id="builderSearchPanel" role="tabpanel" aria-labelledby="builderSearchTabButton" tabindex="-1" class="mx-0 #builderTabActive# unfocus"  #builderTabShow#>
 								<div role="search">
 									<form id="builderSearchForm" class="container-fluid">
 										<script>
+											var treeMap = new Map();
+											treeMap.set("1",["1"]);
 											// functions to support nesting
-											// get the last element off of a stack stored as a period separated string
-											// without altering the stack											
-											function nestDepthStackGetLast(stack) {
-												var result = stack;
-												if (result.includes(".")) { 
-													var resultArr = result.split(".");
-													result = resultArr[resultArr.length-1];
-												} 
-												return result;
-											}
 											// push value onto a stack stored as a period separated string.
 											function nestDepthStackPush(stack,value) {
-												var result = stack + "." + value;
+												var result = "";
+												if (stack=="") { 
+													result = value;
+												} else {
+													result = stack + "." + value;
+												}
 												return result;
 											}
 
@@ -1519,8 +1513,8 @@ Target:
 													</div>
 													<div class="col-12 col-md-1">
 														<label for="nestButton" class="data-entry-label">Nest</label>
-														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary" onclick="indent(1);">&gt;</button>
-														<cfif not isDefined("nestdepth1")><cfset nestdepth1="1"></cfif>
+														<button id="nestButton1" type="button" class="btn btn-xs btn-secondary disabled" onclick="indent(1);" disabled>&gt;</button>
+														<cfif not isDefined("nestdepth1") OR len(trim(nestdepth1)) EQ 0><cfset nestdepth1="1"></cfif>
 														<input type="hidden" name="nestdepth1" id="nestdepth1" value="#nestdepth1#">
 													</div>
 													<script>
@@ -1541,6 +1535,33 @@ Target:
 																	$('##nestdepth'+nextRow).val(currentnestdepth+"."+ 2);
 																}
 																$('##nestMarkerEnd'+nextRow).html(")");
+																$('##nestButton'+row).prop("disabled",true);
+																$('##nestButton'+row).addClass("disabled");
+															</cfif>
+														}
+														function promote(row) {
+															<cfif findNoCase('master',gitBranch) GT 0 >
+																messageDialog("Not implemented yet");
+															<cfelse>
+																console.log(row);
+																console.log($('##builderMaxRows').val());
+																var currentnestdepth = $('##nestdepth'+row).val();
+																var nestDepthStack = currentnestdepth.split(".");
+																if (nestDepthStack.length > 1) { 
+																	nestDepthStack.pop();
+																	var nestDepthValue = nestDepthStack.pop();
+																	if (nestDepthValue=="") {  nestDepthValue="1"; }
+																	var nextNestDepthValue = parseInt(nestDepthValue) + 1;
+																	var newnestdepth  = "" + nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+																	if (newnestdepth.substr(0,1)==".") { 
+																		newnestdepth = newnestdepth.substr(1);
+																	}
+																	console.log(newnestdepth);
+																	$('##nestdepth'+row).val(newnestdepth);
+																}
+																if ($('##nestMarkerEnd'+row).html()==")") { ;
+																	$('##nestMarkerEnd'+row).html("");
+																}
 															</cfif>
 														}
 													</script>
@@ -1650,6 +1671,7 @@ Target:
 													</cfif>
 												</div>
 												<cfif builderMaxRows GT 1>
+													<cfset parenOpen = 0>
 													<cfloop index="row" from="2" to="#builderMaxRows#">
 														<cfif isDefined("field#row#")>
 															<div class="form-row mb-2" id="builderRow#row#">
@@ -1660,11 +1682,45 @@ Target:
 																	<cfelse>
 																		<cfset nestdepthval = "1">
 																	</cfif> 
+																	<cfset nextRow = row + 1>
+																	<cfset closeParen = "">
+																	<cfif isDefined("nestdepth"&nextRow)>
+																		<cfset nextRownestdepthval = Evaluate("nestdepth" & nextRow)>
+																		<!--- check if next row is not incremented by one at current depth --->
+																		<cfset na = ListToArray(nestdepthval,".")>
+																		<cfset nrna = ListToArray(nextRownestdepthval,".")>
+																		<cfif ArrayLen(na) EQ ArrayLen(nrna)>
+																			<cfif val(na[ArrayLen(na)]) + 1 EQ val(nrna[ArrayLen(nrna)])>
+																				<cfset closeParen = ""> 
+																			<cfelse>
+																				<cfset closeParen = ")"> 
+																				<cfset parenOpen = parenOpen-1>
+																			</cfif>
+																		<cfelse>
+																			<cfif ArrayLen(na) GT ArrayLen(nrna)>
+																				<cfif parenOpen GT 0>
+																					<cfset closeParen = ")"> 
+																					<cfset parenOpen = parenOpen-1>
+																				</cfif>
+																			</cfif>
+																		</cfif>
+																	<cfelse>
+																		<cfif parenOpen GT 0>
+																			<cfset closeParen = ")"> 
+																		</cfif>
+																	</cfif> 
 																	<input type="hidden" name="nestdepth#row#" id="nestdepth#row#" value="#nestdepthval#">
-[#nestdepthval#]
+																	<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+																		[#nestdepthval#]
+																	</cfif>
 																</div>
 																<div class="col-12 col-md-1">
-																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary" onclick="indent("+row+");">&gt;</button>
+																	<cfif row LT builderMaxRows>
+																		<cfset disabled = "disabled">
+																	<cfelse>
+																		<cfset disabled = "">
+																	</cfif>
+																	<button id="nestButton#row#" type="button" class="btn btn-xs btn-secondary #disabled#" onclick="indent("+row+");" #disabled#>&gt;</button>
 																</div>
 																<div class="col-12 col-md-1">
 																	<select title="Join Operator" name="JoinOperator#row#" id="joinOperator#row#" class="data-entry-select bg-white mx-0 d-flex">
@@ -1680,7 +1736,12 @@ Target:
 																	</select>
 																</div>
 																<div class="col-12 col-md-1">
-																	<span id="nestMarkerStart#row#"></span>
+																	<span id="nestMarkerStart#row#">
+																		<cfif right(nestdepthval,2) IS ".1">
+																			(
+																			<cfset parenOpen = parenOpen + 1>
+																		</cfif>
+																	</span>
 																</div>
 																<div class="col-12 col-md-3">
 																	<select title="Select Field..." name="field#row#" id="field#row#" class="data-entry-select">
@@ -1728,7 +1789,7 @@ Target:
 																	<input type="hidden" name="searchId#row#" id="searchId#row#" value="#encodeForHtml(sival)#" >
 																</div>
 																<div class="col-12 col-md-1">
-																	<span id="nestMarkerEnd#row#"></span>
+																	<span id="nestMarkerEnd#row#">#closeParen#</span>
 																</div>
 																<div class="col-12 col-md-1">
 																	<button type='button' onclick=' $("##builderRow#row#").remove();' arial-label='remove' class='btn btn-xs px-3 btn-warning mr-auto'>Remove</button>
@@ -1743,6 +1804,9 @@ Target:
 												function addBuilderRow() { 
 													var row = $("##builderMaxRows").val();
 													var currentnestdepth = $('##nestdepth'+row).val();
+													$('##nestButton'+row).prop("disabled",true);
+													$('##nestButton'+row).addClass("disabled");
+													console.log(currentnestdepth);
 													row = parseInt(row) + 1;
 													var newControls = '<div class="form-row mb-2" id="builderRow'+row+'">';
 													newControls = newControls + '<div class="col-12 col-md-1">&nbsp;';
@@ -1803,11 +1867,23 @@ Target:
 														var handleSelect = new Function(handleSelectString);
 														handleSelect();
 													});
-													$('##nestdepth'+row).val(currentnestdepth);
+													var nestDepthStack = currentnestdepth.split(".");
+													var nestDepthValue = nestDepthStack.pop();
+													if (nestDepthValue=="") {  nestDepthValue="1"; }
+													var nextNestDepthValue = parseInt(nestDepthValue) + 1;
+													var newnestdepth = "" + nestDepthStackPush(nestDepthStack.join("."), nextNestDepthValue);  
+													console.log(newnestdepth);
+													if (newnestdepth!="" && newnestdepth.substr(0,1)==".") { 
+														console.log(newnestdepth.substr(1));
+														newnestdepth = newnestdepth.substr(1);
+													}
+													console.log(newnestdepth);
+													$('##nestdepth'+row).val(newnestdepth);
 												};
 												$(document).ready(function(){
 													$("##addRowButton").click(function(){
 													   addBuilderRow();
+														promote($('##builderMaxRows').val());
 													});
 												});
 											</script>

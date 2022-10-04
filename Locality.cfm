@@ -966,31 +966,31 @@ You do not have permission to create Higher Geographies
         <label for="verbatim_locality">
 			Verbatim Locality
 		</label>
-		<input type="text" name="verbatim_locality" id="verbatim_locality" value="#stripQuotes(locDet.verbatim_locality)#" size="115">
+		<input type="text" name="verbatim_locality" id="verbatim_locality" value="#encodeForHTML(locDet.verbatim_locality)#" size="115">
 		<table>
 			<tr>
 				<td><label for="verbatimCoordinates">Verbatim Coordinates (summary)<label>
-						<input type="text" name="verbatimCoordinates" value="#stripQuotes(locDet.verbatimCoordinates)#" id="verbatimCoordinates" size="115">
+						<input type="text" name="verbatimCoordinates" value="#encodeForHTML(locDet.verbatimCoordinates)#" id="verbatimCoordinates" size="115">
 				</td>
             </tr>
            </table>
            <table>
            <tr>
 				<td style="padding-right: 1.5em;"><label for="verbatimLatitude">Verbatim Latitude<label>
-						<input type="text" name="verbatimLatitude" value="#stripQuotes(locDet.verbatimLatitude)#" id="verbatimLatitude" size="30">
+						<input type="text" name="verbatimLatitude" value="#encodeForHTML(locDet.verbatimLatitude)#" id="verbatimLatitude" size="30">
 				</td>
 				<td><label for="verbatimLongitude">Verbatim Longitude<label>
-						<input type="text" name="verbatimLongitude" value="#stripQuotes(locDet.verbatimLongitude)#" id="verbatimLongitude" size="30">
+						<input type="text" name="verbatimLongitude" value="#encodeForHTML(locDet.verbatimLongitude)#" id="verbatimLongitude" size="30">
 				</td>
 			</tr>
            </table>
            <table>
 			<tr>
 				<td style="padding-right: 1.5em;"><label for="verbatimCoordinateSystem">Verbatim Coordinate System (e.g., decimal degrees)<label>
-						<input type="text" name="verbatimCoordinateSystem" value="#stripQuotes(locDet.verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" size="50">
+						<input type="text" name="verbatimCoordinateSystem" value="#encodeForHTML(locDet.verbatimCoordinateSystem)#" id="verbatimCoordinateSystem" size="50">
 				</td>
 				<td ><label for="verbatimSRS">Verbatim SRS (includes ellipsoid model/Datum)<label>
-						<input type="text" name="verbatimSRS" value="#stripQuotes(locDet.verbatimSRS)#" id="verbatimSRS" size="50">
+						<input type="text" name="verbatimSRS" value="#encodeForHTML(locDet.verbatimSRS)#" id="verbatimSRS" size="50">
 				</td>
 			</tr>
 		</table>
@@ -1005,7 +1005,7 @@ You do not have permission to create Higher Geographies
 			<tr>
 				<td>
 					<label for="verbatim_date">Verbatim Date</label>
-					<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#stripquotes(locDet.VERBATIM_DATE)#" class="reqdClr">
+					<input type="text" name="VERBATIM_DATE" id="verbatim_date" value="#encodeForHTML(locDet.VERBATIM_DATE)#" class="reqdClr">
              	</td>
 			</tr>
 		</table>
@@ -1013,11 +1013,11 @@ You do not have permission to create Higher Geographies
 			<tr>
 				<td style="padding-right: 1.5em;">
 					<label for="collecting_time">Collecting Time</label>
-					<input type="text" name="collecting_time" id="collecting_time" value="#locDet.collecting_time#" size="20">
+					<input type="text" name="collecting_time" id="collecting_time" value="#encodeForHTML(locDet.collecting_time)#" size="20">
 				</td>
 				<td>
 					<label for="ich_field_number">Ich. Field Number</label>
-					<input type="text" name="ich_field_number" id="ich_field_number" value="#locDet.fish_field_number#" size="20">
+					<input type="text" name="ich_field_number" id="ich_field_number" value="#encodeForHTML(locDet.fish_field_number)#" size="20">
 				</td>
 			</tr>
 		</table>
@@ -1025,11 +1025,11 @@ You do not have permission to create Higher Geographies
 			<tr>
 				<td style="padding-right: 1.5em;">
 					<label for="startDayOfYear">Start Day of Year</label>
-					<input type="text" name="startDayOfYear" id="startDayOfYear" value="#locDet.startDayOfYear#" size="20">
+					<input type="text" name="startDayOfYear" id="startDayOfYear" value="#encodeForHTML(locDet.startDayOfYear)#" size="20">
 				</td>
 				<td>
 					<label for="endDayOfYear">End Day of Year</label>
-					<input type="text" name="endDayOfYear" id="endDayOfYear" value="#locDet.endDayOfYear#" size="20">
+					<input type="text" name="endDayOfYear" id="endDayOfYear" value="#encodeForHTML(locDet.endDayOfYear)#" size="20">
 				</td>
 			</tr>
 		</table>
@@ -1039,13 +1039,13 @@ You do not have permission to create Higher Geographies
 					<label for="began_date">
 						Began Date/Time
 					</label>
-					<input type="text" name="began_date" id="began_date" value="#locDet.began_date#" size="20">
+					<input type="text" name="began_date" id="began_date" value="#locDet.began_date#" size="20" placeholder="YYYY-MM-DD">
 				</td>
 				<td>
 					<label for="ended_date">
 						Ended Date/Time
 					</label>
-					<input type="text" name="ended_date" id="ended_date" value="#locDet.ended_date#" size="20">
+					<input type="text" name="ended_date" id="ended_date" value="#locDet.ended_date#" size="20" placeholder="YYYY-MM-DD">
 				</td>
 			</tr>
 		</table>
@@ -1113,7 +1113,7 @@ You do not have permission to create Higher Geographies
 			</div>
 		</div>
 		<label for="coll_event_remarks">Remarks</label>
-		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#stripquotes(locDet.COLL_EVENT_REMARKS)#" size="115">
+		<input type="text" name="coll_event_remarks" id="coll_event_remarks" value="#encodeForHTML(locDet.COLL_EVENT_REMARKS)#" size="115">
 		<table>
         <tr>
         <td style="padding-right: 2em;"><label for="collecting_source">
@@ -1129,16 +1129,16 @@ You do not have permission to create Higher Geographies
 		<label for="collecting_method">
 			Collecting Method
 		</label>
-		<input type="text" name="collecting_method" id="collecting_method" value="#stripquotes(locDet.collecting_method)#" size="92"></td>
+		<input type="text" name="collecting_method" id="collecting_method" value="#encodeForHTML(locDet.collecting_method)#" size="92"></td>
         </tr></table>
 		<label for="habitat_desc">
 			Habitat
 		</label>
-		<input type="text" name="habitat_desc" id="habitat_desc" value="#locDet.habitat_desc#"  size="115">
+		<input type="text" name="habitat_desc" id="habitat_desc" value="#encodeForHTML(locDet.habitat_desc)#"  size="115">
         <br><br><input type="submit" value="Save" class="savBtn">
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
-			onClick="document.location='Locality.cfm?Action=deleteCollEvent&collecting_event_id=#locDet.collecting_event_id#';">
+			onClick="document.location='Locality.cfm?Action=deleteCollEvent&collecting_event_id=#encodeForURL(locDet.collecting_event_id)#';">
 		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#encodeForURL(locDet.verbatim_locality)#&began_date=#encodeForURL(locDet.began_date)#&ended_date=#encodeForURL(locDet.ended_date)#&verbatim_date=#encodeForURL(locDet.verbatim_date)#&coll_event_remarks=#encodeForURL(locDet.coll_event_remarks)#&collecting_source=#encodeForURL(locDet.collecting_source)#&collecting_method=#encodeForURL(locDet.collecting_method)#&habitat_desc=#encodeForURL(locDet.habitat_desc)#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#replace(dLoc,"'", "\'","all")#';">
 	</cfform>
@@ -1355,7 +1355,7 @@ You do not have permission to create Higher Geographies
 				</cfif>>
 			<input type="text" name="higher_geog" class="readClr"
 				<cfif isdefined("getHG.higher_geog")>
-					value = "#getHG.higher_geog#"
+					value = "#encodeForHTML(getHG.higher_geog)#"
 				</cfif>
 			size="50"  readonly="yes" >
 			<input type="button" value="Pick" class="picBtn"
@@ -1373,19 +1373,19 @@ You do not have permission to create Higher Geographies
            <label for="spec_locality">Specific Locality</label>
            <input type="text" name="spec_locality" id="spec_locality"
 				<cfif isdefined("spec_locality")>
-					value= "#spec_locality#"
+					value= "#encodeForHTML(spec_locality)#"
 				</cfif>
 			>
 			<label for="minimum_elevation">Minimum Elevation</label>
             <input type="text" name="minimum_elevation" id="minimum_elevation"
 				<cfif isdefined("minimum_elevation")>
-					value = "#minimum_elevation#"
+					value = "#encodeForHTML(minimum_elevation)#"
 				</cfif>
 			>
 			<label for="maximum_elevation">Maximum Elevation</label>
 			<input type="text" name="maximum_elevation" id="maximum_elevation"
 				<cfif isdefined("maximum_elevation")>
-					value = "#maximum_elevation#"
+					value = "#encodeForHTML(maximum_elevation)#"
 				</cfif>
 			>
 			<label for="orig_elev_units">Elevation Units</label>
