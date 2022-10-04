@@ -1691,6 +1691,8 @@ Target:
 																		<cfset nrna = ListToArray(nextRownestdepthval,".")>
 																		<cfif ArrayLen(na) EQ ArrayLen(nrna)>
 																			<cfif val(na[ArrayLen(na)]) + 1 EQ val(nrna[ArrayLen(nrna)])>
+																				<cfset closeParen = ""> 
+																			<cfelse>
 																				<cfset closeParen = ")"> 
 																			</cfif>
 																		</cfif>
