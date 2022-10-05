@@ -428,7 +428,7 @@ limitations under the License.
 											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
 											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
-											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
+											var centerpoint = new google.maps.LatLng(<cfif #points2.maxlong# gt 100>#points2.mylat#,#points2.mylng#<cfelse>32.103742,-41.471391</cfif>);
 											var mapOptions = {
 												zoom: 1,
 												minZoom: 1,
