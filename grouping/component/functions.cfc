@@ -257,4 +257,216 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	</cftry>
 </cffunction>
 
+<!--- Given the primary key value for underscore_coll_agent, remove that record of the relation
+ between an agent and an underscore collection.
+ @param underscore_coll_agent_id the primary key value of the row to remove.
+ @return a structure with status deleted, count of rows deleted and the id of the deleted row, or an http 500
+--->
+<cffunction name="removeAgentFromUndColl" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_coll_agent_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
+				delete from underscore_coll_agent 
+				where underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_agent_id#" >
+			</cfquery>
+			<cfset rows = deleteQuery_result.recordcount>
+			<cfif rows EQ 0>
+				<cfthrow message="No matching underscore_relation found for underscore_coll_agent_id=[#underscore_coll_agent_id#].">
+			<cfelseif rows GT 1>
+				<cfthrow message="More than one match found for underscore_coll_agent_id=[#underscore_coll_agent_id#].">
+				<cftransaction action="rollback">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["count"] = rows>
+			<cfset row["id"] = "#underscore_coll_agent_id#">
+			<cfset data[1] = row>
+		</cftransaction>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---- function addAgentToUndColl 
+
+  Given an underscore_collection_id, an agent_id and a role, add the agent in that
+  role to the named group.  
+	@param underscore_collection_id the pk of the named group to add the agent to.
+	@param agent_id the agent to link.
+   @param role the role in which to add that agent.
+   @param remarks text concerning the relationship of this agent to the named group.
+	@return a json structure containing status=success or an http 500.
+--->
+<cffunction name="addAgentToUndColl" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="role" type="string" required="yes">
+	<cfargument name="remarks" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="creatingAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="creatingAgent_result">
+				SELECT distinct(agent_id) 
+				FROM agent_name 
+				WHERE 
+					agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND agent_name_type = 'login'
+			</cfquery>
+			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				insert into underscore_coll_agent
+				( 
+					underscore_collection_id, 
+					agent_id,
+					role,
+					remarks,
+					created_by_agent_id
+				) values ( 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#role#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">,
+				)
+			</cfquery>
+			<cftransaction action="commit">
+			<cfset i = 1>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "success">
+			<cfset data[i] = row>
+			<cfreturn #serializeJSON(data)#>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Create an html form for creating a new relationship between an agent and a named group 
+      @param underscore_collection_id the named group to link the agent to.
+      @return an html form suitable for placement as the content of a jquery-ui dialog to create the new permit.
+---> 
+<cffunction name="getNewAgentRelationHtml" access="remote" returntype="string">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfthread name="getNewAgentRelationThread">
+		<cftry>
+			<cfquery name="getRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRoles_result">
+				SELECT 
+					role, description
+				FROM
+					ctunderscore_coll_agent_role
+			</cfquery>
+			<cfoutput>
+				<h2>Link an Agent to this named group.</h2>
+				<form id='newAgentRelationForm' onsubmit='addnewagentrel'>
+					<input type='hidden' name='method' value='addAgentToUndColl'>
+					<input type='hidden' name='returnformat' value='plain'>
+					<input type='hidden' name='underscore_collection_id' value='#underscore_collection_id#'>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
+							<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+							</label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+							<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+							<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="role" class="data-entry-label">Role</label>
+							<select name="role" aria-label="role of this agent in this named group" id="role" class="data-entry-select">
+								<cfloop query="getRoles">
+									<option value="#role#">#role# (#description#)</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12">
+							<label for="remarks" class="data-entry-label">Remarks</label>
+							<input type='text' name='remarks'id="remarks" class="data-entry-input" >
+						</div>
+					</div>
+					<!--- Note: Save Record button is created on containing dialog by openlinkagenttogroupingdialog() js function. --->
+					<script language='javascript' type='text/javascript'>
+						function addagentrel(event) { 
+							event.preventDefault();
+							return false; 
+						};
+					</script>
+				</form> 
+				<div id='permitAddResults'></div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getNewAgentRelationThread" />
+	<cfreturn getNewAgentRelationThread.output>
+</cffunction>
+
+<cffunction name="getAgentDivHTML" access="remote" returntype="string">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfthread name="getAgentDivThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agents_result">
+					SELECT
+						underscore_coll_agent_id,
+						agent_id,
+						MCZBASE.get_agentnameoftype(agent_id) agent_name,
+						role,
+						remarks,
+						created_by_agent_id,
+						MCZBASE.get_agentnameoftype(created_by_agent_id) creating_agent_name,
+						to_char(date_created,'YYYY-MM-DD') date_created
+					FROM
+						underscore_collection_agent
+					WHERE
+						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				</cfquery>
+				<ul>
+					<cfloop query="agents">
+						<li>
+							<a href="/agents/#agents.agent_id#" target="_blank">#agents.agent_name#</a>
+							(#agents.agent_role#) 
+							<button id="removeAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" aria-label="remove the agent #agents.agent_name# from this named grouping">Remove</button>
+						</li>
+					</cfloop>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAgentDivThread" />
+	<cfreturn getAgentDivThread.output>
+</cffunction>
+
 </cfcomponent>
