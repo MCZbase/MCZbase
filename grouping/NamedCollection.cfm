@@ -583,6 +583,7 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="saveNew">
+		<cfinclude template="/grouping/component/functions.cfc" runOnce="true">
 		<cftry>
 			<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value collection_name">
@@ -754,9 +755,6 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-6">
-										<!--- TODO: Multiple agents --->
-									</div>
 								</div>
 								<script>
 									function changed(){
@@ -801,6 +799,24 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
+							<script>
+								function reloadAgentBlock() { 
+									loadAgentDivHTML("#underscore_collection_id#","agentBlock"); 
+								}
+							</script>
+							<div class="form-row mb-0">
+								<cfset agentBlockContent = getAgentDivHTML(collection_object_id = "#collection_object_id#")>
+								<div class="col-12 col-md-6" id="agentBlock">#agentBlockContent#</div>
+								<div class="col-12 col-md-6">
+									<script>
+										function showAddDialog() { 
+											openlinkagenttogroupingdialog("agentDialogDiv", "#underscore_collection_id#", "#collection_name#", reloadAgentBlock);
+										}
+									</script>
+									<button id="add_agent_button" class="btn btn-xs btn-secondary" aria-label="add a new agent to this named grouping." onclick="showAddDialog();">Add</button>
+								</div>
+								<div id="agentDialogDiv"></div>
+							</div>
 						</div>
 					</div>
 					</section>
