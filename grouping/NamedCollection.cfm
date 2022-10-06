@@ -805,7 +805,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="form-row mb-0">
-								<cfset agentBlockContent = getAgentDivHTML(collection_object_id = "#collection_object_id#")>
+								<cfset agentBlockContent = getAgentDivHTML(underscore_collection_id = "#underscore_collection_id#")>
 								<div class="col-12 col-md-6" id="agentBlock">#agentBlockContent#</div>
 								<div class="col-12 col-md-6">
 									<script>
