@@ -1,5 +1,13 @@
 /** Scripts specific to named group (underscore_collection) pages. **/
 
+/** loadAgentDivHTML load a block of html listing agents related to 
+ a named grouping.
+ @param underscore_collection_id the primary key value for the named group 
+   for which to retrieve related agents.
+ @param targetDivId the id without a leading # selector for the element 
+   on the page the content of which to replace with the html listing 
+   agents.
+*/
 function loadAgentDivHTML(underscore_collection_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/grouping/component/functions.cfc",
@@ -16,6 +24,7 @@ function loadAgentDivHTML(underscore_collection_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
 // Create and open a dialog to create a new underscore_coll_agent record relating an agent to a named group
 function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, grouping_label, okcallback) { 
 	var title = "Add a new relationship between an agent and the " + grouping_label;
@@ -90,6 +99,30 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 		}, 
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading new name group agent dialog");
+		}
+	});
+}
+
+/** remove an agent from a relationship with a named group.
+  @param underscore_coll_agent_id the primary key of the underscore_collection_agent record
+  to delete.
+*/
+function removeUndColAgent(underscore_collection_agent_id, okcallback) { 
+	jQuery.ajax({
+		url : "/grouping/component/functions.cfc",
+		type : "post",
+		dataType : "json",
+		data :  { 
+			method: 'removeAgentFromUndColl',
+			underscore_collection_agent_id: underscore_collection_agent_id
+		},
+		success : function (data) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+		},
+		error: function(jqXHR,textStatus,error){
+			handleFail(jqXHR,textStatus,error,"removing agent-named group relationship");
 		}
 	});
 }

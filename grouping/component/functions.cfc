@@ -457,9 +457,12 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					</cfif>
 					<cfloop query="agents">
 						<li>
+							#agents.role#
 							<a href="/agents/#agents.agent_id#" target="_blank">#agents.agent_name#</a>
-							(#agents.role#) 
-							<button id="removeAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" aria-label="remove the agent #agents.agent_name# from this named grouping">Remove</button>
+							#remarks#
+							<button id="removeAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" 
+								onclick="removeUndColAgent('#underscore_collection_agent_id#', reloadAgentBlock);"
+								aria-label="remove the agent #agents.agent_name# from this named grouping">Remove</button>
 						</li>
 					</cfloop>
 				</ul>
