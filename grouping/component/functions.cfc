@@ -355,7 +355,11 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfreturn #serializeJSON(data)#>
 		<cfcatch>
 			<cftransaction action="rollback">
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfif cfcatch.detail CONTAINS "ORA-00001: unique constraint (MCZBASE.IDX_UCA_UNIQUE">
+				<cfset error_message = "Error: That agent already has the same role in this named grouping.  The combination of Agent + Role + NamedGroup must be unique.">
+			<cfelse>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			</cfif>
 			<cfset function_called = "#GetFunctionCalledName()#">
 			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 			<cfabort>
