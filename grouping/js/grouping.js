@@ -53,6 +53,7 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 						url: "/grouping/component/functions.cfc",
 						type: 'post',
 						returnformat: 'plain',
+						dataType: 'json',
 						data: datasub,
 						success: function(data) { 
 							if (jQuery.type(okcallback)==='function') {
