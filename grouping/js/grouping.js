@@ -34,7 +34,7 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 		height: h,
 		width: w,
 		minWidth: 400,
-		minHeight: 450,
+		minHeight: 200,
 		draggable:true,
 		buttons: {
 			"Save": function(){ 
