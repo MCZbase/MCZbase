@@ -333,7 +333,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#role#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">
 				)
 			</cfquery>
 			<cftransaction action="commit">
