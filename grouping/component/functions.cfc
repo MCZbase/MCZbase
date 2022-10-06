@@ -336,7 +336,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">
 				)
 			</cfquery>
-			<cfset pkval = add_result.generatedkey>
+			<cfset rowid = add_result.generatedkey>
 			<cftransaction action="commit">
 			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
 				SELECT role,
@@ -344,7 +344,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				FROM 
 					underscore_collection_agent
 				WHERE
-					underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pkval#">,
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">,
 			</cfquery>
 			<cfset i = 1>
 			<cfset row = StructNew()>

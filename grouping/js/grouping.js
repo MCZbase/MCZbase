@@ -58,6 +58,7 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 							if (jQuery.type(okcallback)==='function') {
 								okcallback();
 							};
+							console.log(data);
 							$("#agentAddResults").html("Saved " + data);
 						},
 						fail: function (jqXHR, textStatus,error) { 
