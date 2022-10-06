@@ -59,7 +59,7 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 								okcallback();
 							};
 							console.log(data);
-							$("#agentAddResults").html("Saved " + data[0].role + " " data[0].agent_name);
+							$("#agentAddResults").html("Saved " + data[0].role + " " + data[0].agent_name);
 						},
 						error:  function (jqXHR, textStatus,error) { 
 							$("#agentAddResults").html("Error");
