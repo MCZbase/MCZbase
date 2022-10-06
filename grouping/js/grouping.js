@@ -20,10 +20,9 @@ function loadAgentDivHTML(underscore_collection_id,targetDivId) {
 function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, grouping_label, okcallback) { 
 	var title = "Add a new relationship between an agent and the " + grouping_label;
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
-	var h = $(window).height();
+	var h = 300;
 	var w = $(window).width();
 	w = Math.floor(w *.9);
-	if (h>1100) { h=1100; } 
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
