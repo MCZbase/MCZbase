@@ -257,7 +257,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	</cftry>
 </cffunction>
 
-<!--- Given the primary key value for underscore_coll_agent, remove that record of the relation
+<!--- Given the primary key value for underscore_collection_agent, remove that record of the relation
  between an agent and an underscore collection.
  @param underscore_coll_agent_id the primary key value of the row to remove.
  @return a structure with status deleted, count of rows deleted and the id of the deleted row, or an http 500
@@ -267,7 +267,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cftry>
 		<cftransaction>
 			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
-				delete from underscore_coll_agent 
+				delete from underscore_collection_agent 
 				where underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_agent_id#" >
 			</cfquery>
 			<cfset rows = deleteQuery_result.recordcount>
@@ -321,7 +321,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					AND agent_name_type = 'login'
 			</cfquery>
 			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
-				insert into underscore_coll_agent
+				insert into underscore_collection_agent
 				( 
 					underscore_collection_id, 
 					agent_id,
