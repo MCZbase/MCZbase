@@ -806,7 +806,7 @@ limitations under the License.
 							</script>
 							<div class="form-row mb-0 mt-1 border">
 								<cfset agentBlockContent = getAgentDivHTML(underscore_collection_id = "#underscore_collection_id#")>
-								<div class="col-12" id="agentBlock">
+								<div class="col-12" id="agentBlockHeading">
 									<h2 class="h3">Agents with Roles in this Named Group</h2>
 								</div>
 								<div class="col-12" id="agentBlock">#agentBlockContent#</div>
