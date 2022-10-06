@@ -18,11 +18,12 @@ function loadAgentDivHTML(underscore_collection_id,targetDivId) {
 };
 // Create and open a dialog to create a new underscore_coll_agent record relating an agent to a named group
 function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, grouping_label, okcallback) { 
-	var title = "Add a new relationship between an agent and " + grouping_label;
+	var title = "Add a new relationship between an agent and the " + grouping_label;
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.9);
+	if (h>1100) { h=1100; } 
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,

@@ -384,8 +384,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 								<div class="input-group-prepend">
 									<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
-							<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="">
-							<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
+								<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="">
+								<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
+							</div>
 						</div>
 						<div class="col-12 col-md-6">
 							<label for="role" class="data-entry-label">Role</label>
