@@ -344,7 +344,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				FROM 
 					underscore_collection_agent
 				WHERE
-					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">,
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 			</cfquery>
 			<cfset i = 1>
 			<cfset row = StructNew()>
