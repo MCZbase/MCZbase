@@ -38,8 +38,8 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 		draggable:true,
 		buttons: {
 			"Save": function(){ 
-				var datasub = $('#newPermitForm').serialize();
-				if ($('#newPermitForm')[0].checkValidity()) {
+				var datasub = $('#newAgentRelationForm').serialize();
+				if ($('#newAgentRelationForm')[0].checkValidity()) {
 					$.ajax({
 						url: "/grouping/component/functions.cfc",
 						type: 'post',
@@ -53,6 +53,7 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 						},
 						fail: function (jqXHR, textStatus,error) { 
 							handleFail(jqXHR,textStatus,error,"saving underscore_collection_agent record");
+							$("#agentAddResults").html("Error");
 						}	
 					});
 		 		} else { 

@@ -413,7 +413,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						});
 					</script>
 				</form> 
-				<div id='permitAddResults'></div>
+				<div id='agentAddResults'></div>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
