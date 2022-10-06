@@ -804,16 +804,19 @@ limitations under the License.
 									loadAgentDivHTML("#underscore_collection_id#","agentBlock"); 
 								}
 							</script>
-							<div class="form-row mb-0">
+							<div class="form-row mb-0 border">
 								<cfset agentBlockContent = getAgentDivHTML(underscore_collection_id = "#underscore_collection_id#")>
-								<div class="col-12 col-md-6" id="agentBlock">#agentBlockContent#</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12" id="agentBlock">
+									<h2 class="h3">Agents with Roles in this Named Group</h2>
+								</div>
+								<div class="col-12" id="agentBlock">#agentBlockContent#</div>
+								<div class="col-12">
 									<script>
 										function showAddDialog() { 
 											openlinkagenttogroupingdialog("agentDialogDiv", "#underscore_collection_id#", "#collection_name#", reloadAgentBlock);
 										}
 									</script>
-									<button id="add_agent_button" class="btn btn-xs btn-secondary" aria-label="add a new agent to this named grouping." onclick="showAddDialog();">Add</button>
+									<button id="add_agent_button" class="btn btn-xs btn-secondary" aria-label="add a new agent to this named grouping." onclick="showAddDialog();">Add Agent</button>
 								</div>
 								<div id="agentDialogDiv"></div>
 							</div>
