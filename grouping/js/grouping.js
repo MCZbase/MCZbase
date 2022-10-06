@@ -107,14 +107,14 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
   @param underscore_coll_agent_id the primary key of the underscore_collection_agent record
   to delete.
 */
-function removeUndColAgent(underscore_collection_agent_id, okcallback) { 
+function removeUndColAgent(underscore_coll_agent_id, okcallback) { 
 	jQuery.ajax({
 		url : "/grouping/component/functions.cfc",
 		type : "post",
 		dataType : "json",
 		data :  { 
 			method: 'removeAgentFromUndColl',
-			underscore_collection_agent_id: underscore_collection_agent_id
+			underscore_coll_agent_id: underscore_coll_agent_id
 		},
 		success : function (data) {
 			if (jQuery.type(okcallback)==='function') {
