@@ -452,6 +452,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<ul>
+					<cfif agents.recordcount EQ 0>
+						<li>None.</li>
+					</cfif>
 					<cfloop query="agents">
 						<li>
 							<a href="/agents/#agents.agent_id#" target="_blank">#agents.agent_name#</a>
