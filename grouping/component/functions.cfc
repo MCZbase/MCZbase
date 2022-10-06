@@ -378,7 +378,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<input type='hidden' name='underscore_collection_id' value='#underscore_collection_id#'>
 					<div class="form-row">
 						<div class="col-12 col-md-6">
-							<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
+							<label for="underscore_agent_name#tn#" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
 							<h5 id="underscore_agent_view#tn#" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 							</label>
 							<div class="input-group">
@@ -409,7 +409,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							return false; 
 						};
 						$(document).ready(function() {
-							$(makeRichAgentPicker('underscore_agent_name#tn#', 'underscore_agent_id#tn#', 'underscore_agent_name_icon#tn#', 'underscore_agent_view#tn#', '#underscore_agent_id#'));
+							makeRichAgentPicker('underscore_agent_name#tn#', 'underscore_agent_id#tn#', 'underscore_agent_name_icon#tn#', 'underscore_agent_view#tn#', null);
 						});
 					</script>
 				</form> 
