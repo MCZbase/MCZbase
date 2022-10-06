@@ -60,10 +60,11 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 							};
 							console.log(data);
 							$("#agentAddResults").html("Saved " + data[0].role + " " data[0].agent_name);
-						}
-					}).fail( function (jqXHR, textStatus,error) { 
+						},
+						error:  function (jqXHR, textStatus,error) { 
 							$("#agentAddResults").html("Error");
 							handleFail(jqXHR,textStatus,error,"saving underscore_collection_agent record");
+						}
 					});	
 		 		} else { 
 					messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
