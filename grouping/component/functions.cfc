@@ -336,10 +336,21 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">
 				)
 			</cfquery>
+			<cfset pkval = add_result.generatedkey>
 			<cftransaction action="commit">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+				SELECT role,
+					mczbase.get_agentnameoftype(agent_id) as agent_name
+				FROM 
+					underscore_collection_agent
+				WHERE
+					underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pkval#">,
+			</cfquery>
 			<cfset i = 1>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "success">
+			<cfset row["agent_name"] = "#report.agent_name#">
+			<cfset row["role"] = "#report.role#">
 			<cfset data[i] = row>
 			<cfreturn #serializeJSON(data)#>
 		<cfcatch>
