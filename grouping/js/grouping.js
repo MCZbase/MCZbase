@@ -49,7 +49,7 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 							if (jQuery.type(okcallback)==='function') {
 								okcallback();
 							};
-							$("#"+dialogid+"_div").html(data);
+							$("#agentAddResults").html("Saved " + datasub['underscore_agent_name']);
 						},
 						fail: function (jqXHR, textStatus,error) { 
 							handleFail(jqXHR,textStatus,error,"saving underscore_collection_agent record");
