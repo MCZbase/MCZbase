@@ -430,7 +430,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfreturn cfthread["getNewAgentRelationThread#tn#"].output>
 </cffunction>
 
-<cffunction name="getAgentDivHTML" access="remote" returntype="string">
+<cffunction name="getAgentDivHTML" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 
 	<cfthread name="getAgentDivThread">
@@ -455,7 +455,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<cfloop query="agents">
 						<li>
 							<a href="/agents/#agents.agent_id#" target="_blank">#agents.agent_name#</a>
-							(#agents.agent_role#) 
+							(#agents.role#) 
 							<button id="removeAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" aria-label="remove the agent #agents.agent_name# from this named grouping">Remove</button>
 						</li>
 					</cfloop>
