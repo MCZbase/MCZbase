@@ -306,7 +306,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 --->
 <cffunction name="addAgentToUndColl" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
-	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="underscore_agent_id" type="string" required="yes">
 	<cfargument name="role" type="string" required="yes">
 	<cfargument name="remarks" type="string" required="yes">
 
@@ -330,7 +330,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					created_by_agent_id
 				) values ( 
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#role#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">,
