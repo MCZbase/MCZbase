@@ -367,7 +367,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				SELECT 
 					role, description
 				FROM
-					ctunderscore_coll_agent_role
+					CTUNDERSCORE_COLL_AGENT_ROLE
 			</cfquery>
 			<cfoutput>
 				<h2>Link an Agent to this named group.</h2>
