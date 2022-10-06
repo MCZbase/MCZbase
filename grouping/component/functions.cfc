@@ -361,7 +361,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 <cffunction name="getNewAgentRelationHtml" access="remote" returntype="string">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 
-	<cfthread name="getNewAgentRelationThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getNewAgentRelationThread#tn#">
 		<cftry>
 			<cfquery name="getRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRoles_result">
 				SELECT 
@@ -378,14 +379,14 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<div class="form-row">
 						<div class="col-12 col-md-6">
 							<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
-							<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+							<h5 id="underscore_agent_view#tn#" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 							</label>
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon#tn#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
-								<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="">
-								<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
+								<input type="text" name="underscore_agent_name" id="underscore_agent_name#tn#" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="">
+								<input type="hidden" name="underscore_agent_id" id="underscore_agent_id#tn#" value="">
 							</div>
 						</div>
 						<div class="col-12 col-md-6">
@@ -407,6 +408,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							event.preventDefault();
 							return false; 
 						};
+						$(document).ready(function() {
+							$(makeRichAgentPicker('underscore_agent_name#tn#', 'underscore_agent_id#tn#', 'underscore_agent_name_icon#tn#', 'underscore_agent_view#tn#', '#underscore_agent_id#'));
+						});
 					</script>
 				</form> 
 				<div id='permitAddResults'></div>
@@ -421,8 +425,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getNewAgentRelationThread" />
-	<cfreturn getNewAgentRelationThread.output>
+	<cfthread action="join" name="getNewAgentRelationThread#tn#" />
+	<cfreturn cfthread["getNewAgentRelationThread#tn#"].output>
 </cffunction>
 
 <cffunction name="getAgentDivHTML" access="remote" returntype="string">

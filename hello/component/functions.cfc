@@ -59,6 +59,8 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfthread name="getCounterThread#tn#" threadName="mediaWidgetThread#tn#">
 
 	Likewise, include #tn# in the names of the thread in all the other cfthread tags within this cffunction 
+	To obtain the output of the thread, use: 
+	<cfreturn cfthread["mediaWidgetThread#tn#"].output>
 
 	If the cffunction is called only once in a request (e.g. only from a javascript ajax handler, then the thread name
 		does not need to be unique.
