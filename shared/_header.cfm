@@ -177,6 +177,9 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/agents/">
 	<script type="text/javascript" src="/agents/js/agents.js"></script>
 </cfif>
+<cfif CGI.script_name IS "/grouping/NamedCollection.cfm">
+	<script type="text/javascript" src="/grouping/js/grouping.js"></script> 
+</cfif>
 <cfif not isdefined("session.header_color")>
 	<cfif NOT isDefined('setDbUser')>
 		<cfinclude template="/shared/loginFunctions.cfm">
