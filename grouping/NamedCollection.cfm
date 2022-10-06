@@ -583,7 +583,6 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="saveNew">
-		<cfinclude template="/grouping/component/functions.cfc" runOnce="true">
 		<cftry>
 			<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
 				<cfthrow type="Application" message="Error: No value provided for required value collection_name">
@@ -639,6 +638,7 @@ limitations under the License.
 		<cfif len(underscore_collection_id) EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
+			<cfinclude template="/grouping/component/functions.cfc" runOnce="true">
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
 				SELECT 
 					underscore_collection_id, collection_name, underscore_collection_type,
