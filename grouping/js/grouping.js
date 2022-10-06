@@ -76,21 +76,19 @@ function openlinkagenttogroupingdialog(dialogid, underscore_collection_id, group
 	});
 	thedialog.dialog('open');
 	datastr = {
-		method: "getNewPermitForTransHtml",
+		method: "getNewAgentRelationHtml",
 		returnformat: "plain",
-		relation_type: relation_type,
-		related_label: related_label,
-		related_id: related_id
+		underscore_collection_id: underscore_collection_id
 	};
 	jQuery.ajax({
-		url: "/transactions/component/functions.cfc",
+		url: "/grouping/component/functions.cfc",
 		type: "post",
 		data: datastr,
 		success: function (data) { 
 			$("#"+dialogid+"_div").html(data);
 		}, 
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading new permit dialog");
+			handleFail(jqXHR,textStatus,error,"loading new name group agent dialog");
 		}
 	});
 }
