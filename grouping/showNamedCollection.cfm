@@ -741,9 +741,11 @@ limitations under the License.
 										<ul>
 											<cfloop query="agentQuery">
 												<li>
-													#agentQuery.label# 
-													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
-													#agentQuery.remarks#
+													<span>
+														#agentQuery.label# 
+														<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
+														#agentQuery.remarks#
+													</span>
 												</li>
 											</cfloop>
 										</ul>
