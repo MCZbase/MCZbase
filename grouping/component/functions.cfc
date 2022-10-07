@@ -295,7 +295,6 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 </cffunction>
 
 <!---- function addAgentToUndColl 
-
   Given an underscore_collection_id, an agent_id and a role, add the agent in that
   role to the named group.  
 	@param underscore_collection_id the pk of the named group to add the agent to.
@@ -445,6 +444,12 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfreturn cfthread["getNewAgentRelationThread#tn#"].output>
 </cffunction>
 
+<!--- getAgentDivHTML obtain a block of html listing agents in their roles in a named group
+  including controls for editing the information. 
+	@param underscore_collection_id the primary key of the named group for which to list 
+    agents in their roles.
+	@return a block of html.
+--->
 <cffunction name="getAgentDivHTML" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 
@@ -460,11 +465,13 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						remarks,
 						created_by_agent_id,
 						MCZBASE.get_agentnameoftype(created_by_agent_id) creating_agent_name,
-						to_char(date_created,'YYYY-MM-DD') date_created
+						to_char(date_created,'YYYY-MM-DD') date_created,
+						collection_name
 					FROM
 						underscore_collection_agent
+						join underscore_collection on underscore_collection_agent.underscore_collection_id = underscore_collection.underscore_collection_id
 					WHERE
-						underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+						underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				</cfquery>
 				<ul>
 					<cfif agents.recordcount EQ 0>
@@ -475,6 +482,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							#agents.role#
 							<a href="/agents/#agents.agent_id#" target="_blank">#agents.agent_name#</a>
 							#remarks#
+							<button id="editAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" 
+								onclick="openeditagenttogroupingdialog('agentDialogDiv', '#underscore_coll_agent_id#', '#collection_name#', reloadAgentBlock);" 
+								aria-label="edit the agent #agents.agent_name# named grouping relationship">Edit</button>
 							<button id="removeAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" 
 								onclick="confirmDialog('Remove this agent from this named grouping?','Confirm Remove', function(){ removeUndColAgent('#underscore_coll_agent_id#', reloadAgentBlock);})"
 								aria-label="remove the agent #agents.agent_name# from this named grouping">Remove</button>
@@ -495,5 +505,163 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfthread action="join" name="getAgentDivThread" />
 	<cfreturn getAgentDivThread.output>
 </cffunction>
+
+<!---- function updateAgentToUndColl 
+  Update the relationship between a named group and an agent.  
+	@param underscore_coll_agent_id the pk of the agent-named group relationship to
+     update.
+	@param underscore_collection_id the pk of the named group the agent is related to.
+	@param agent_id the agent to link.
+   @param role the role of the agent in the named group.
+   @param remarks text concerning the relationship of this agent to the named group.
+	@return a json structure containing status=success or an http 500.
+--->
+<cffunction name="updateAgentToUndColl" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_coll_agent_id" type="string" required="yes">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="underscore_agent_id" type="string" required="yes">
+	<cfargument name="role" type="string" required="yes">
+	<cfargument name="remarks" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="update" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="update_result">
+				update underscore_collection_agent
+				SET
+					underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">,
+					role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#role#">, 
+					remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+				WHERE 
+					underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_agent_id#">,
+			</cfquery>
+			<cftransaction action="commit">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+				SELECT role,
+					mczbase.get_agentnameoftype(agent_id) as agent_name
+				FROM 
+					underscore_collection_agent
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfset i = 1>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "success">
+			<cfset row["agent_name"] = "#report.agent_name#">
+			<cfset row["role"] = "#report.role#">
+			<cfset data[i] = row>
+			<cfreturn #serializeJSON(data)#>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif cfcatch.detail CONTAINS "ORA-00001: unique constraint (MCZBASE.IDX_UCA_UNIQUE">
+				<cfset error_message = "Error: That agent already has the same role in this named grouping.  The combination of Agent + Role + NamedGroup must be unique.">
+			<cfelse>
+				<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			</cfif>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Create an html form for editing a relationship between an agent and a named group 
+      @param underscore_collection_id the named group to link the agent to.
+      @return an html form suitable for placement as the content of a jquery-ui dialog to create the new permit.
+---> 
+<cffunction name="updateAgentRelationHtml" access="remote" returntype="string">
+	<cfargument name="underscore_coll_agent_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="updateAgentRelationThread#tn#">
+		<cftry>
+			<cfquery name="getData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getData_result">
+				SELECT 
+					underscore_collection_id,
+					agent_id,
+					MCZBASE.get_agentnameoftype(agent_id) agent name,
+					role,
+					remarks,
+					created_by_agent_id,
+					MCZBASE.get_agentnameoftype(created_by_agent_id) created_by_name,
+					to_char(date_created,'yyyy-mm-dd') date_created
+				FROM
+					underscore_collection_agent
+				WHERE
+					underscore_coll_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_agent_id#">
+			</cfquery>
+			<cfquery name="getRoles" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getRoles_result">
+				SELECT 
+					role, description
+				FROM
+					CTUNDERSCORE_COLL_AGENT_ROLE
+			</cfquery>
+			<cfoutput query="getData">
+				<h2>Edit Link from #agent_name# to this named group.</h2>
+				<form id='editAgentRelationForm' onsubmit='updateagentrel'>
+					<input type='hidden' name='method' value='updateAgentToUndColl'>
+					<input type='hidden' name='returnformat' value='plain'>
+					<input type='hidden' name='underscore_coll_agent_id' value='#underscore_coll_agent_id#'>
+					<input type='hidden' name='underscore_collection_id' value='#underscore_collection_id#'>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="underscore_agent_name#tn#" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Named Group
+							<h5 id="underscore_agent_view#tn#" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+							</label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon#tn#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="underscore_agent_name" id="underscore_agent_name#tn#" class="form-control rounded-right data-entry-input form-control-sm reqdClr" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agent_name#" required>
+								<input type="hidden" name="underscore_agent_id" id="underscore_agent_id#tn#" value="#agent_id#">
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="role" class="data-entry-label">Role</label>
+							<select name="role" aria-label="role of this agent in this named group" id="role" class="data-entry-select reqdClr" required>
+								<cfloop query="getRoles">
+									<cfif getData.role EQ getRoles.role><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#getRoles.role#" #selected#>#getRoles.role# (#getRoles.description#)</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12">
+							<label for="remarks" class="data-entry-label">Remarks</label>
+							<input type='text' name='remarks'id="remarks" class="data-entry-input" value="#remarks#" >
+						</div>
+						<div class="col-12">
+							Record Created By <a href="/agents/#created_by_agent_id#" target="_blank">#created_by_name#</a> on #date_created#
+						</div>
+					</div>
+					<!--- Note: Save Record button is created on containing dialog by openlinkagenttogroupingdialog() js function. --->
+					<script language='javascript' type='text/javascript'>
+						function updateagentrel(event) { 
+							event.preventDefault();
+							return false; 
+						};
+						$(document).ready(function() {
+							makeRichAgentPicker('underscore_agent_name#tn#', 'underscore_agent_id#tn#', 'underscore_agent_name_icon#tn#', 'underscore_agent_view#tn#', '#agent_id#');
+						});
+					</script>
+				</form> 
+				<div id='agentUpdateResults'></div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="updateAgentRelationThread#tn#" />
+	<cfreturn cfthread["updateAgentRelationThread#tn#"].output>
+</cffunction>
+
 
 </cfcomponent>
