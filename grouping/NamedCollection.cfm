@@ -180,7 +180,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 mt-1 col-md-4">
-												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">An Agent Associated with this Named Group (use <i>[no agent data]</a> for no agent)
+												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">An Agent Associated with this Named Group 
 													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
