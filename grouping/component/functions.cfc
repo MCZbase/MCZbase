@@ -482,7 +482,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							#agents.role#
 							<a href="/agents/#agents.agent_id#" target="_blank">#agents.agent_name#</a>
 							#remarks#
-							<button id="editAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" 
+							<button id="editAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-secondary" 
 								onclick="openeditagenttogroupingdialog('agentDialogDiv', '#underscore_coll_agent_id#', '#collection_name#', reloadAgentBlock);" 
 								aria-label="edit the agent #agents.agent_name# named grouping relationship">Edit</button>
 							<button id="removeAgentButton#agents.underscore_coll_agent_id#" class="btn btn-xs btn-warning" 
@@ -587,7 +587,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					remarks,
 					created_by_agent_id,
 					MCZBASE.get_agentnameoftype(created_by_agent_id) created_by_name,
-					to_char(date_created,'yyyy-mm-dd') date_created
+					to_char(date_created,'YYYY-MM-DD') date_created
 				FROM
 					underscore_collection_agent
 				WHERE
