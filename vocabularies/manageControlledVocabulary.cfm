@@ -1329,6 +1329,173 @@
 				<cfset i=#i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="thisRec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT * FROM ctunderscore_collection_type 
+			ORDER BY
+				underscore_collection_type
+		</cfquery>
+		<p>
+			Types of Named Groups of Cataloged Items.
+		</p>
+		Create type of named group
+		<table class="newRec" border>
+			<tr>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Allowed Agent Roles</th>
+				<th></th>
+			</tr>
+			<form name="newType" method="post" action="CodeTableEditor.cfm">
+				<input type="hidden" name="action" value="newValue">
+				<input type="hidden" name="tbl" value="#tbl#">
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<textarea name="description" rows="4" cols="70"></textarea>
+					</td>
+					<td>
+						<input type="text" name="allowed_agent_roles" >
+					</td>
+					<td colspan="3">
+						<input type="submit" 
+							value="Create" 
+							class="insBtn">	
+					</td>
+				</tr>
+			</form>	
+		</table>
+		Edit types of named groups
+		<table border>
+			<tr>
+				<th>Type</th>
+				<th>Description</th>
+				<th>Allowed Agent Roles</th>
+				<th>&nbsp;</th>
+			</tr>
+			<cfset i=1>
+			<cfloop query="thisRec">
+				<form name="type#i#" method="post" action="CodeTableEditor.cfm">
+					<input type="hidden" name="action" value="replacedinbuttonclick">
+					<input type="hidden" name="tbl" value="#tbl#">
+					<input type="hidden" name="oldunderscore_collection_type" value="#underscore_collection_type#">
+					<tr>
+						<td>
+							<input type="text" name="underscore_collection_type" value="#underscore_collection_type#" >
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#" >
+						</td>
+						<td>
+							<input type="text" name="allowed_agent_roles" value="#allowed_agent_roles#" >
+						</td>
+						<td colspan="3">
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="type#i#.action.value='saveEdit';submit();">	
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+							 	onclick="type#i#.action.value='deleteValue';submit();">	
+						</td>
+					</tr>
+				</form>
+				<cfset i=#i#+1>
+			</cfloop>
+		</table>
+	<cfelseif tbl is "ctunderscore_coll_agent_role"><!---------------------------------------------------->
+		<!---   underscore_collection agent role table has sort order and labels, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT role, description, ordinal, label, inverse_label
+			FROM CTUNDERSCORE_COLL_AGENT_ROLE 
+			ORDER BY ordinal, role
+		</cfquery>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Role</th>
+					<th>Description</th>
+					<th>Sort Order</th>
+					<th>Label (group-label-agent)</th>
+					<th>Inverse Label (agent-label-group)</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" class="reqdClr" required>
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="text" name="ordinal" class="reqdClr" required>
+					</td>
+					<td>
+						<input type="text" name="label">
+					</td>
+					<td>
+						<input type="text" name="inverse_label">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Role</th>
+				<th>Description</th>
+				<th>Sort Order</th>
+				<th>Label (group-label-agent)</th>
+				<th>Inverse Label (agent-label-group)</th>
+				<th></th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#role#">
+						<td>
+							<input type="text" name="role" value="#role#" required class="reqdClr">
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#">
+						</td>
+						<td>
+							<input type="text" name="ordinal" value="#ordinal#" required class="reqdClr">
+						</td>
+						<td>
+							<input type="text" name="label" value="#label#">
+						</td>
+						<td>
+							<input type="text" name="inverse_label" value="#inverse_label#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelse><!---------------------------- normal CTs --------------->
 		<cfquery name="getCols" datasource="uam_god">
 			select column_name from sys.user_tab_columns where table_name='#tbl#'
@@ -1536,6 +1703,18 @@
 				partname = '#oldpartname#' AND
 				list_order = '#oldlist_order#'
 		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM ctunderscore_collection_type
+			WHERE
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#">
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_coll_agent_role">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM ctunderscore_coll_agent_role 
+			WHERE
+				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
+		</cfquery>
 	<cfelse>
 		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			DELETE FROM #tbl# 
@@ -1672,6 +1851,27 @@
 			WHERE
 				partname = '#oldpartname#' AND
 				list_order = '#oldlist_order#'
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE ctunderscore_collection_type SET 
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#" />,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				allowed_agent_roles = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#" />
+			WHERE
+				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#oldunderscore_collection_type#" />
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_coll_agent_role">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			UPDATE ctunderscore_coll_agent_role 
+			SET
+				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#role#">,
+				description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				ordinal = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#">,
+				label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#">,
+				inverse_label = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_label#">
+			WHERE
+				role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
 	<cfelse>
 		<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1859,6 +2059,36 @@
 			VALUES (
 				'#partname#',
 				#list_order#
+			)
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_collection_type">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctunderscore_collection_type (
+				underscore_collection_type,
+				description,
+				allowed_agent_roles
+				)
+			VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#allowed_agent_roles#">
+			)
+		</cfquery>
+	<cfelseif tbl is "ctunderscore_coll_agent_role">
+		<cfquery name="new" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctunderscore_coll_agent_role (
+				role,
+				description,
+				ordinal,
+				label,
+				inverse_label
+				)
+			VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ordinal#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#inverse_label#">
 			)
 		</cfquery>
 	<cfelse>
