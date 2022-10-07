@@ -43,7 +43,6 @@ limitations under the License.
 				collection_name,
 				underscore_collection_type,
 				description,
-				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -55,6 +54,9 @@ limitations under the License.
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0)>
 					left join #session.flatTableName# on underscore_relation.collection_object_id = #session.flatTableName#.collection_object_id
+				</cfif>
+				<cfif (isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0) OR (isDefined("underscore_agent_name") AND len(underscore_agent_name) GT 0)>
+					left join underscore_collection_agent on underscore_collection.underscore_collection_id = underscore_collection_agent.underscore_collection_id
 				</cfif>
 			WHERE
 				underscore_collection.underscore_collection_id is not null
@@ -72,9 +74,9 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
 					and 
-					( underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
-					<cfif isDefined("underscore_agent_name") and underscore_agent_name EQ "[no agent data]">
-					 or underscore_agent_id IS NULL	
+					( underscore_collection_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+					<cfif isDefined("underscore_agent_name") and underscore_agent_name EQ "[no agent name]">
+					 or underscore_collection_agent.underscore_collection_id IS NULL	
 					</cfif>
 					)
 				</cfif>
@@ -96,7 +98,6 @@ limitations under the License.
 				collection_name,
 				underscore_collection_type,
 				description,
-				underscore_agent_id, 
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')

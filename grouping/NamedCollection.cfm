@@ -180,7 +180,7 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-12 mt-1 col-md-4">
-												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">An Agent Associated with this Named Group (use NULL for no agent)
+												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label pb-0">An Agent Associated with this Named Group (use <i>[no agent data]</a> for no agent)
 													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
@@ -279,7 +279,6 @@ limitations under the License.
 									{ name: 'UNDERSCORE_COLLECTION_TYPE', type: 'string' },
 									{ name: 'VISIBILITY', type: 'string' },
 									{ name: 'DESCRIPTION', type: 'string' },
-									{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
 									{ name: 'AGENTNAME', type: 'string' },
 									{ name: 'SPECIMEN_COUNT', type: 'string' },
 									{ name: 'HTML_DESCRIPTION', type: 'string' }
@@ -339,7 +338,6 @@ limitations under the License.
 									{text: 'Type', datafield: 'UNDERSCORE_COLLECTION_TYPE', width: 100, hidable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_TYPE', false) },
 									{text: 'Visibility', datafield: 'VISIBILITY', width: 100, hidable: true, hidden: getColHidProp('VISIBILITY', true) },
 									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: getColHidProp('AGENTNAME', false) },
-									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_AGENT_ID', true) },
 									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false) },
 									{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: getColHidProp('HTML_DESCRIPTION', true) },
 									{text: 'Overview', datafield: 'DESCRIPTION', hideable: true, hidden: getColHidProp('DESCRIPTION', false) }
