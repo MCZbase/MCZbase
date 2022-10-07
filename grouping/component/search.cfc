@@ -43,11 +43,7 @@ limitations under the License.
 				collection_name,
 				underscore_collection_type,
 				description,
-				case 
-					when underscore_agent_id is null then '[No Agent]'
-					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-					end
-				as agentname,
+				GET_UNDCOLLAGENTS(underscore_collection.underscore_collection_id) as agentname,
 				displayed_media_id,
 				decode(mask_fg,1,'Hidden','Public') as visibility
 			FROM underscore_collection
@@ -98,10 +94,7 @@ limitations under the License.
 				collection_name,
 				underscore_collection_type,
 				description,
-				case 
-					when underscore_agent_id is null then '[No Agent]'
-					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-					end,
+				GET_UNDCOLLAGENTS(underscore_collection.underscore_collection_id),
 				displayed_media_id,
 				mask_fg
 			ORDER BY
