@@ -743,7 +743,7 @@ limitations under the License.
 												<li>
 													<span>
 														#agentQuery.label# 
-														<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
+														<a class="h4 px-2 py-2" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
 														#agentQuery.remarks#
 													</span>
 												</li>
