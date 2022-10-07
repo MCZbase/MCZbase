@@ -727,7 +727,8 @@ limitations under the License.
 												agent_id, 
 												MCZBASE.get_agentnameoftype(agent_id) agent_name,
 												remarks,
-												ctunderscore_coll_agent_role.label
+												ctunderscore_coll_agent_role.label,
+												ctunderscore_coll_agent_role.ordinal
 											FROM
 												underscore_collection_agent
 												left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
