@@ -141,10 +141,10 @@ function openeditagenttogroupingdialog(dialogid, underscore_coll_agent_id, group
 								okcallback();
 							};
 							console.log(data);
-							$("#agentAddResults").html("Saved " + data[0].role + " " + data[0].agent_name);
+							$("#agentUpdateResults").html("Saved " + data[0].role + " " + data[0].agent_name);
 						},
 						error:  function (jqXHR, textStatus,error) { 
-							$("#agentAddResults").html("Error");
+							$("#agentUpdateResults").html("Error");
 							handleFail(jqXHR,textStatus,error,"saving edited underscore_collection_agent record");
 						}
 					});	
