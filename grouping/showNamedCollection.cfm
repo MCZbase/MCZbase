@@ -744,8 +744,9 @@ limitations under the License.
 													#agentQuery.label# 
 													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
 													#agentQuery.remarks#
+												</li>
 											</cfloop>
-										</li>
+										</ul>
 									</div>
 									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
