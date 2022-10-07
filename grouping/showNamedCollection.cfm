@@ -41,13 +41,7 @@ limitations under the License.
 	<cfthrow message="No named group specified to show.">
 </cfif>
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
-	SELECT underscore_collection_id, collection_name, description, underscore_agent_id, html_description,
-		case 
-			when underscore_agent_id is null then '[No Agent]'
-		else 
-			MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
-		end
-		as agent_name,
+	SELECT underscore_collection_id, collection_name, description, html_description,
 		mask_fg
 	FROM underscore_collection
 	WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -727,17 +721,31 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="row pb-4">
-									<cfif len(underscore_agent_id) GT 0 >
-										<cfif getNamedGroup.agent_name NEQ "[No Agent]" >
-											<div class="col-12 pt-3 pb-2">
-												<h3 class="px-2 pb-1 border-bottom border-dark">
-												Associated Agent
-												</h3>
-												<p class="rounded-0"> 
-													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#underscore_agent_id#">#getNamedGroup.agent_name#</a> </p>
-											</div>
-										</cfif>
-									</cfif>
+									<div class="col-12 pt-3 pb-2">
+										<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result">
+											SELECT DISTINCT 
+												agent_id, 
+												MCZBASE.get_agentnameoftype(agent_id) agent_name,
+												remarks,
+												ctunderscore_coll_agent_role.label
+											FROM
+												underscore_collection_agent
+												left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
+											WHERE underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											ORDER BY ctunderscore_coll_agent_role.ordinal asc 
+										</cfquery>
+										<h3 class="px-2 pb-1 border-bottom border-dark">
+												Associated Agents
+										</h3>
+										<ul>
+											<cfloop query="agentQuery">
+												<li>
+													#agentQuery.label# 
+													<a class="h4 px-2 py-2 d-block" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
+													#agentQuery.remarks#
+											</cfloop>
+										</li>
+									</div>
 									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM

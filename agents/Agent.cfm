@@ -1108,11 +1108,16 @@ limitations under the License.
 								<section class="accordion" id="namedgroupSection"> 
 									<div class="card mb-2 bg-light">
 										<cfquery name="getNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select collection_name, underscore_collection_id, mask_fg
-											from underscore_collection 
+											select collection_name, 
+												underscore_collection.underscore_collection_id, 
+												mask_fg,
+												inverse_label
+											from underscore_collection_agent
+												join underscore_collection on underscore_collection_agent.underscore_collection_id = underscore_collection.underscore_collection_id
+												join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
 											WHERE
-												underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
-											order by collection_name
+												underscore_collection_agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+											order by collection_name, ordinal asc
 										</cfquery>
 										<cfif getnamedGroups.recordcount GT 20 OR getnamedGroups.recordcount eq 0>
 											<!--- cardState = collapsed --->
@@ -1140,9 +1145,9 @@ limitations under the License.
 													<ul class="list-group">
 														<cfloop query="getNamedGroups">
 															<cfif getNamedGroups.mask_fg EQ 0 OR  oneOfUs EQ 1>
-																<li class="list-group-item"><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
+																<li class="list-group-item">#inverse_relation#<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
 															<cfelse>
-																<li class="list-group-item">#collection_name#</li>
+																<li class="list-group-item">#inverse_relation# #collection_name#</li>
 															</cfif>
 														</cfloop>
 													</ul>

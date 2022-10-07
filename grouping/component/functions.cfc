@@ -20,7 +20,6 @@ Update an existing arbitrary collection record (underscore_collection).
 @param underscore_collection_id primary key of record to update
 @param collection_name the brief uman readable description of the arbitrary collection, must not be blank.
 @param description description of the collection
-@param underscore_agent_id the agent associated with this arbitrary collection
 @return json structure with status and id or http status 500
 --->
 		
@@ -31,7 +30,6 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfargument name="collection_name" type="string" required="yes">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="html_description" type="string" required="no">
-	<cfargument name="underscore_agent_id" type="string" required="no">
 	<cfargument name="displayed_media_id" type="string" required="no">
 	<cfargument name="mask_fg" type="string" required="no">
 	<cfset data = ArrayNew(1)>
@@ -45,11 +43,6 @@ Update an existing arbitrary collection record (underscore_collection).
 				underscore_collection_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_collection_type#">
 				<cfif isdefined("description")>
 					,description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
-				</cfif>
-				<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0>
-					,underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
-				<cfelse>
-					,underscore_agent_id = NULL
 				</cfif>
 				<cfif isdefined("displayed_media_id") and len(displayed_media_id) GT 0>
 					,displayed_media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
