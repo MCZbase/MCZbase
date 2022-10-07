@@ -582,7 +582,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				SELECT 
 					underscore_collection_id,
 					agent_id,
-					MCZBASE.get_agentnameoftype(agent_id) agent name,
+					MCZBASE.get_agentnameoftype(agent_id) agent_name,
 					role,
 					remarks,
 					created_by_agent_id,
