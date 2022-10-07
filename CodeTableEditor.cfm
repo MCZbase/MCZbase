@@ -1398,13 +1398,13 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="text" name="newData" >
+						<input type="text" name="newData" required class="reqdClr">
 					</td>
 					<td>
 						<input type="text" name="description">
 					</td>
 					<td>
-						<input type="text" name="ordinal">
+						<input type="text" name="ordinal" required class="reqdClr">
 					</td>
 					<td>
 						<input type="text" name="label">
