@@ -1401,6 +1401,9 @@
 						<input type="text" name="newData" >
 					</td>
 					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
 						<input type="text" name="ordinal">
 					</td>
 					<td>
@@ -1436,6 +1439,9 @@
 						<input type="hidden" name="origData" value="#role#">
 						<td>
 							<input type="text" name="role" value="#role#" required class="reqdClr">
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#">
 						</td>
 						<td>
 							<input type="text" name="ordinal" value="#ordinal#" required class="reqdClr">

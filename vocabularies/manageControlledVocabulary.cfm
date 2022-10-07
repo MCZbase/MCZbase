@@ -1427,10 +1427,13 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="text" name="newData" >
+						<input type="text" name="newData" class="reqdClr" required>
 					</td>
 					<td>
-						<input type="text" name="ordinal">
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="text" name="ordinal" class="reqdClr" required>
 					</td>
 					<td>
 						<input type="text" name="label">
@@ -1465,6 +1468,9 @@
 						<input type="hidden" name="origData" value="#role#">
 						<td>
 							<input type="text" name="role" value="#role#" required class="reqdClr">
+						</td>
+						<td>
+							<input type="text" name="description" value="#description#">
 						</td>
 						<td>
 							<input type="text" name="ordinal" value="#ordinal#" required class="reqdClr">
