@@ -171,7 +171,7 @@ function openeditagenttogroupingdialog(dialogid, underscore_coll_agent_id, group
 	datastr = {
 		method: "updateAgentRelationHtml",
 		returnformat: "plain",
-		underscore_collection_id: underscore_collection_id
+		underscore_coll_agent_id: underscore_coll_agent_id
 	};
 	jQuery.ajax({
 		url: "/grouping/component/functions.cfc",
