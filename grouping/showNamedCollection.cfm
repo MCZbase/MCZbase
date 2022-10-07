@@ -420,7 +420,7 @@ limitations under the License.
 										let map, heatmap;
 										function initMap() {
 											var ne = new google.maps.LatLng(<cfif #points2.maxlat# lt 68>#points2.maxlat#<cfelse> 65</cfif>, <cfif #points2.maxlat# lt 155>#points2.maxlong#<cfelse>155</cfif>);
-											var sw = new google.maps.LatLng(<cfif #points2.minlat# gt -58>#points2.minlat#<cfelse>-58</cfif>,<cfif #points2.minlat# gt -162>#points2.minlong#<cfelse>-162</cfif>);
+											var sw = new google.maps.LatLng(<cfif #points2.minlat# gt -58>#points2.minlat#<cfelse>-58</cfif>,<cfif #points2.minlat# gt -156>#points2.minlong#<cfelse>-156</cfif>);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
