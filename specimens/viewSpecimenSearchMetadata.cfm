@@ -543,7 +543,7 @@ limitations under the License.
 											table = ui_function_bits[1].replace(/[^A-Z_]/,"");
 										}
 										if (table.length>0) { 
-											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/vocabularies/ControlledVocabulary.cfm?table='+table+'" target="_blank">Yes</a></span>';
+											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/vocabularies/ControlledVocabulary.cfm?table=CT'+table+'" target="_blank">Yes</a></span>';
 										} else { 
 											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
 										}
