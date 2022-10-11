@@ -536,7 +536,20 @@ limitations under the License.
 								var result = "";
 								var ui_function = rowData['UI_FUNCTION'];
 								if (ui_function) {
-									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
+									if (ui_function.includes('makeCTFieldSearchAutocomplete')) { 
+                              var table = "";
+										var ui_function_bits = ui_function.split(',');
+										if (ui_function_bits.length==2) {
+											table = ui_function_bits[1].replace(/[^A-Z_]/,"");
+										}
+										if (table.length>0) { 
+											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/vocabularies/ControlledVocabulary.cfm?table='+table+'" target="_blank">Yes</a></span>';
+										} else { 
+											result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
+										}
+									} else { 
+										result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">Yes</span>';
+									}
 								} else { 
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 								}
