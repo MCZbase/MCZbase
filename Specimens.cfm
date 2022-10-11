@@ -1541,7 +1541,7 @@ Target JSON:
 														}
 														function promote(row) {
 															<cfif findNoCase('master',gitBranch) GT 0 >
-																messageDialog("Not implemented yet");
+																//messageDialog("Not implemented yet");
 															<cfelse>
 																console.log(row);
 																console.log($('##builderMaxRows').val());
