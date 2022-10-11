@@ -616,7 +616,7 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 120, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false) },
+									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 120, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false), cellsrenderer: categoryCellRenderer },
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: false, hidden: false },
 									{text: 'Table Name', datafield: 'TABLE_NAME', width: 150, hideable: true, hidden: getColHidProp('TABLE_NAME', false) },
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
