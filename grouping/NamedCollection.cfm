@@ -751,6 +751,9 @@ limitations under the License.
 								function reloadAgentBlock() { 
 									loadAgentDivHTML("#underscore_collection_id#","agentBlock"); 
 								}
+								function reloadCitationBlock() { 
+									loadCitationDivHTML("#underscore_collection_id#","citationBlock"); 
+								}
 							</script>
 							<div class="form-row mb-0 mt-1 border">
 								<cfset agentBlockContent = getAgentDivHTML(underscore_collection_id = "#underscore_collection_id#")>
@@ -767,6 +770,22 @@ limitations under the License.
 									<button id="add_agent_button" class="btn btn-xs btn-secondary" aria-label="add a new agent to this named grouping." onclick="showAddDialog();">Add Agent</button>
 								</div>
 								<div id="agentDialogDiv"></div>
+							</div>
+							<div class="form-row mb-0 mt-1 border">
+								<cfset citationBlockContent = getCitationDivHTML(underscore_collection_id = "#underscore_collection_id#")>
+								<div class="col-12" id="citationBlockHeading">
+									<h2 class="h3">Publications related to this Named Group</h2>
+								</div>
+								<div class="col-12" id="citationBlock">#citationBlockContent#</div>
+								<div class="col-12 pb-1">
+									<script>
+										function showAddCitationDialog() { 
+											opencitegroupingdialog("citationDialogDiv", "#underscore_collection_id#", "#collection_name#", reloadCitationBlock);
+										}
+									</script>
+									<button id="add_citation_button" class="btn btn-xs btn-secondary" aria-label="add a new citation to this named grouping." onclick="showAddCitationDialog();">Add Publication</button>
+								</div>
+								<div id="citationDialogDiv"></div>
 							</div>
 						</div>
 					</div>

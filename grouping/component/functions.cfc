@@ -250,6 +250,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	</cftry>
 </cffunction>
 
+<!--- ------------------------------------------------------------------------------------ --->
+
 <!--- Given the primary key value for underscore_collection_agent, remove that record of the relation
  between an agent and an underscore collection.
  @param underscore_coll_agent_id the primary key value of the row to remove.
@@ -265,7 +267,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			</cfquery>
 			<cfset rows = deleteQuery_result.recordcount>
 			<cfif rows EQ 0>
-				<cfthrow message="No matching underscore_relation found for underscore_coll_agent_id=[#underscore_coll_agent_id#].">
+				<cfthrow message="No matching underscore_collection_agent found for underscore_coll_agent_id=[#underscore_coll_agent_id#].">
 			<cfelseif rows GT 1>
 				<cfthrow message="More than one match found for underscore_coll_agent_id=[#underscore_coll_agent_id#].">
 				<cftransaction action="rollback">
@@ -360,10 +362,10 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	</cftransaction>
 </cffunction>
 
-<!----------------------------------------------------------------------------------------------------------------->
 <!--- Create an html form for creating a new relationship between an agent and a named group 
-      @param underscore_collection_id the named group to link the agent to.
-      @return an html form suitable for placement as the content of a jquery-ui dialog to create the new permit.
+	@param underscore_collection_id the named group to link the agent to.
+	@return an html form suitable for placement as the content of a jquery-ui dialog to create 
+		the new agent-named group relation.
 ---> 
 <cffunction name="getNewAgentRelationHtml" access="remote" returntype="string">
 	<cfargument name="underscore_collection_id" type="string" required="yes">
@@ -656,5 +658,258 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfreturn cfthread["updateAgentRelationThread#tn#"].output>
 </cffunction>
 
+<!--- ------------------------------------------------------------------------------------ --->
+
+<!--- Given the primary key value for underscore_collection_citation, remove that record of the relation
+ between a publication and an underscore collection.
+ @param underscore_coll_citation_id the primary key value of the row to remove.
+ @return a structure with status deleted, count of rows deleted and the id of the deleted row, or an http 500
+--->
+<cffunction name="removeCitationFromUndColl" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_coll_citation_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
+				delete from underscore_collection_citation 
+				where underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_citation_id#" >
+			</cfquery>
+			<cfset rows = deleteQuery_result.recordcount>
+			<cfif rows EQ 0>
+				<cfthrow message="No matching underscore collection citation found for underscore_coll_citation_id=[#underscore_coll_citation_id#].">
+			<cfelseif rows GT 1>
+				<cfthrow message="More than one match found for underscore_coll_agent_id=[#underscore_coll_citation_id#].">
+				<cftransaction action="rollback">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["count"] = rows>
+			<cfset row["id"] = "#underscore_coll_citation_id#">
+			<cfset data[1] = row>
+		</cftransaction>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---- function addCitationToUndColl 
+  Given an underscore_collection_id, a publication_id, page range, and a type, 
+   add the publication as a citation to the named group.  
+	@param underscore_collection_id the pk of the named group to add the citation to.
+	@param publication_id the publication to cite.
+   @param type the type of citation of the publication.
+   @param pages the page ranges for the of citation of the publication, if any.
+   @param remarks text concerning the relationship of this publication to the named group.
+	@return a json structure containing status=success or an http 500.
+--->
+<cffunction name="addCitationToUndColl" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+	<cfargument name="publication" type="string" required="yes">
+	<cfargument name="type" type="string" required="yes">
+	<cfargument name="pages" type="string" required="yes">
+	<cfargument name="remarks" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="creatingAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="creatingAgent_result">
+				SELECT distinct(agent_id) 
+				FROM agent_name 
+				WHERE 
+					agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+					AND agent_name_type = 'login'
+			</cfquery>
+			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+				insert into underscore_collection_citation
+				( 
+					underscore_collection_id, 
+					publication_id,
+					type,
+					pages,
+					remarks,
+					created_by_agent_id
+				) values ( 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pages#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">
+				)
+			</cfquery>
+			<cfset rowid = add_result.generatedkey>
+			<cftransaction action="commit">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+				SELECT role,
+					mczbase.getshortcitation(publication_id) as agent_name
+				FROM 
+					underscore_collection_citation
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfset i = 1>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "success">
+			<cfset row["agent_name"] = "#report.agent_name#">
+			<cfset row["role"] = "#report.role#">
+			<cfset data[i] = row>
+			<cfreturn #serializeJSON(data)#>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+</cffunction>
+
+
+<!--- Create an html form for creating a new citation of a publication for a named group 
+	@param underscore_collection_id the named group to link the publication to.
+	@return an html form suitable for placement as the content of a jquery-ui dialog to create 
+		the new publication-named group relation.
+---> 
+<cffunction name="getNewUndCollCitationHtml" access="remote" returntype="string">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getNewUndCollCitationThread#tn#">
+		<cftry>
+			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTypes_result">
+				SELECT 
+					type, description
+				FROM
+					CTUNDERSCORE_COLL_CITATION_TYPE
+			</cfquery>
+			<cfoutput>
+				<h2>Link a publication to this named group.</h2>
+				<form id='newCitationForm' onsubmit='addNewUndCollCitation'>
+					<input type='hidden' name='method' value='addCitationToUndColl'>
+					<input type='hidden' name='returnformat' value='plain'>
+					<input type='hidden' name='underscore_collection_id' value='#underscore_collection_id#'>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="underscore_agent_name#tn#" id="underscore_agent_name_label" class="data-entry-label">
+								Publication Associated with this Named Group
+							</label>
+							<input type="hidden" name="publication_id" id="publication_id">
+							<input type="text" id="publication" class="data-entry-input mb-1">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="role" class="data-entry-label">Type of Citation</label>
+							<select name="role" aria-label="how this publication is related to the named group" id="role" class="data-entry-select reqdClr" required >
+								<option value=""></option>
+								<cfloop query="getTypes">
+									<option value="#type#">#type# (#description#)</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-2">
+							<label for="remarks" class="data-entry-label">Page(s)</label>
+							<input type='text' name='pages'id="pages" class="data-entry-input" >
+						</div>
+						<div class="col-12">
+							<label for="remarks" class="data-entry-label">Remarks</label>
+							<input type='text' name='remarks'id="remarks" class="data-entry-input" >
+						</div>
+					</div>
+					<!--- Note: Save Record button is created on containing dialog by the create dialog js function. --->
+					<script language='javascript' type='text/javascript'>
+						function addNewUndCollCitation(event) { 
+							event.preventDefault();
+							return false; 
+						};
+						$(document).ready(function() {
+							makePublicationAutocompleteMeta('publication', 'publication_id'); 
+						});
+					</script>
+				</form> 
+				<div id='ciationAddResults'></div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getNewUndCollCitationThread#tn#" />
+	<cfreturn cfthread["getNewUndCollCitationThread#tn#"].output>
+</cffunction>
+
+<!--- getCitationDivHTML obtain a block of html listing publication citations of a named group
+  including controls for editing the information. 
+	@param underscore_collection_id the primary key of the named group for which to list 
+    citations.
+	@return a block of html.
+--->
+<cffunction name="getCitationDivHTML" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="underscore_collection_id" type="string" required="yes">
+
+	<cfthread name="getCitationDivThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations_result">
+					SELECT
+						underscore_coll_citation_id,
+						publication_id,
+						MCZBASE.getfullcitation(publication_id) publication,
+						MCZBASE.getshortcitation(publication_id) short_publication,
+						type,
+						pages,
+						remarks,
+						created_by_agent_id,
+						MCZBASE.get_agentnameoftype(created_by_agent_id) creating_agent_name,
+						to_char(date_created,'YYYY-MM-DD') date_created,
+						collection_name
+					FROM
+						underscore_collection_citation
+						join underscore_collection on underscore_collection_citation.underscore_collection_id = underscore_collection.underscore_collection_id
+					WHERE
+						underscore_collection_citation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				</cfquery>
+				<ul>
+					<cfif citations.recordcount EQ 0>
+						<li>None.</li>
+					</cfif>
+					<cfloop query="citations">
+						<li>
+							#citations.type#
+							<a href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.publication#</a>
+							#pages#
+							#remarks#
+							<button id="editGroupingCiteButton#citations.underscore_coll_citation_id#" class="btn btn-xs btn-secondary" 
+								onclick="openeditgroupingcitationdialog('citationDialogDiv', '#underscore_coll_citation_id#', '#collection_name#', reloadCitationBlock);" 
+								aria-label="edit the publication #citations.short_publication# named grouping relationship">Edit</button>
+							<button id="removeGroupingCiteButton#citations.underscore_coll_citation_id#" class="btn btn-xs btn-warning" 
+								onclick="confirmDialog('Remove the citation of #citations.short_publication# from this named grouping (#collection_name#)?','Confirm Remove', function(){ removeUndColCitation('#underscore_coll_citation_id#', reloadCitationBlock);})"
+								aria-label="remove the citation of #citations.short_publication# from this named grouping">Remove</button>
+						</li>
+					</cfloop>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getCitationDivThread" />
+	<cfreturn getCitationDivThread.output>
+</cffunction>
 
 </cfcomponent>
