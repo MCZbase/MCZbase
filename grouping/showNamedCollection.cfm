@@ -632,7 +632,7 @@ limitations under the License.
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 														<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="h4 mx-2 text-center">#collectingCt.recordcount# Collecting/Locality Images
+														<h3 class="h4 mx-2 text-center">#collectingCt# Collecting/Locality Images
 														</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
@@ -650,7 +650,7 @@ limitations under the License.
 																<input id="collecting_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
-															<div class="w-100 text-center smaller">of #collectingCt.recordcount#</div>
+															<div class="w-100 text-center smaller">of #collectingCt#</div>
 														</div>
 													</div>
 													<script>
