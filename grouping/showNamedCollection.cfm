@@ -162,7 +162,7 @@ limitations under the License.
 					on collecting_event.collecting_event_id = media_relations.related_primary_key 
 				left join media on media_relations.media_id = media.media_id 
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'locality')
+				AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'shows locality')
 				AND media.media_type = 'image'
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND media.auto_host = 'mczbase.mcz.harvard.edu'
