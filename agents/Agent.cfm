@@ -81,6 +81,7 @@ limitations under the License.
 		left join agent on agent.agent_id = collector.agent_id
 	WHERE 
 		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and collector.collector_role = 'c'
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
 		
