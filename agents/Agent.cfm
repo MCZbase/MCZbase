@@ -81,8 +81,10 @@ limitations under the License.
 		left join agent on agent.agent_id = collector.agent_id
 	WHERE 
 		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and collector.collector_role = 'c'
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
+	and collector.collector_role = 'c'
 		
 </cfquery>
 
@@ -706,6 +708,7 @@ limitations under the License.
 									left join collector on collector.collection_object_id = flat.collection_object_id
 									left join agent on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								and collector_role='c'
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
@@ -716,8 +719,8 @@ limitations under the License.
 									<script>
 										let map, heatmap;
 										function initMap() {
-											var ne = new google.maps.LatLng(<cfif #points2.maxlat# lt 65>#points2.maxlat#<cfelse> 65</cfif>, <cfif #points2.maxlong# lt 164>#points2.maxlong#<cfelse>164</cfif>);
-											var sw = new google.maps.LatLng(<cfif #points2.minlat# gt -60>#points2.minlat#<cfelse>-60</cfif>,<cfif #points2.minlong# gt -131>#points2.minlong#<cfelse>-131</cfif>);
+											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
+											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
