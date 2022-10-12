@@ -621,7 +621,7 @@ limitations under the License.
 													</script>
 												</cfif>
 												<cfif collectingImagesForCarousel.recordcount gt 0>
-													<cfset collectingCt = collectingImageForCarousel.recordcount>
+													<cfset collectingCt = collectingImagesForCarousel.recordcount>
 													<Cfif collectingCt GT 0>
 														<cfset otherImageTypes = otherImageTypes + 1>
 													</cfif>	
