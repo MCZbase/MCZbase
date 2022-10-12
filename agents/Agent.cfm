@@ -83,6 +83,7 @@ limitations under the License.
 		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
+	and collector.collector_role = 'c'
 		
 </cfquery>
 
@@ -706,6 +707,7 @@ limitations under the License.
 									left join collector on collector.collection_object_id = flat.collection_object_id
 									left join agent on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								and collector_role='c'
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
