@@ -153,16 +153,31 @@ limitations under the License.
 				MCZBASE.is_media_encumbered(media.media_id)  as encumb
 			FROM
 				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+				join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
-				left join collecting_event 
-					on flat.collecting_event_id = collecting_event.collecting_event_id 
-				left join media_relations 
-					on collecting_event.collecting_event_id = media_relations.related_primary_key 
-				left join media on media_relations.media_id = media.media_id 
+				join media_relations 
+					on flat.collecting_event_id = media_relations.related_primary_key 
+				join media on media_relations.media_id = media.media_id 
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'shows locality')
+				AND media_relations.media_relationship = 'shows collecting_event'
+				AND media.media_type = 'image'
+				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+				AND media.auto_host = 'mczbase.mcz.harvard.edu'
+			UNION
+			SELECT DISTINCT media_uri, media.media_id,
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb
+			FROM
+				underscore_collection
+				join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+				join media_relations 
+					on flat.locality_id = media_relations.related_primary_key 
+				join media on media_relations.media_id = media.media_id 
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND media_relations.media_relationship = 'shows locality'
 				AND media.media_type = 'image'
 				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND media.auto_host = 'mczbase.mcz.harvard.edu'
@@ -541,23 +556,7 @@ limitations under the License.
 										<div class="row bottom px-3"><!---for all three other image blocks--->
 											<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
 												<cfif agentImagesForCarousel.recordcount GT 0>
-													<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
-														SELECT DISTINCT media.media_id
-														FROM
-															underscore_collection
-															left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-															left join cataloged_item
-																on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-															left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-															left join media_relations on collector.agent_id = media_relations.related_primary_key
-															left join media on media_relations.media_id = media.media_id
-														WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-															AND collector.collector_role = 'c'
-															AND media_relations.media_relationship = 'shows agent'
-															AND media.media_type = 'image'
-															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-															AND media.auto_host = 'mczbase.mcz.harvard.edu'
-													</cfquery>													
+													<cfset agentCt = agentImagesForCarousel.recordcount>
 													<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
 														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
 														<cfset agent_media_id = agentImagesForCarousel.media_id>
@@ -565,7 +564,7 @@ limitations under the License.
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 														<div class="carousel_background border rounded float-left w-100 p-2">
-															<h3 class="h4 mx-2 text-center">#agentCt.recordcount# Agent Images </h3>
+															<h3 class="h4 mx-2 text-center">#agentCt# Agent Images </h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
@@ -583,7 +582,7 @@ limitations under the License.
 																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
-															<div class="w-100 text-center smaller">of #agentCt.recordcount#</div>
+															<div class="w-100 text-center smaller">of #agentCt#</div>
 														</div>
 													</div>
 													<script>
@@ -622,25 +621,8 @@ limitations under the License.
 													</script>
 												</cfif>
 												<cfif collectingImagesForCarousel.recordcount gt 0>
-													<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">
-														SELECT DISTINCT media.media_id
-														FROM
-															underscore_collection
-															left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-															left join cataloged_item
-																on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-																left join collecting_event 
-																on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
-																left join media_relations 
-																on collecting_event.collecting_event_id = media_relations.related_primary_key 
-															left join media on media_relations.media_id = media.media_id
-														WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-															AND media_relations.media_relationship = 'shows collecting_event'
-															AND media.media_type = 'image'
-															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-															AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-													</cfquery>
-													<cfif collectingCt.recordcount GT 0>
+													<cfset collectingCt = collectingImageForCarousel.recordcount>
+													<Cfif collectingCt GT 0>
 														<cfset otherImageTypes = otherImageTypes + 1>
 													</cfif>	
 													<cfloop query="collectingImagesForCarousel" startRow="1" endRow="1">
@@ -650,7 +632,7 @@ limitations under the License.
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 														<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="h4 mx-2 text-center">#collectingCt.recordcount# Collecting Images
+														<h3 class="h4 mx-2 text-center">#collectingCt.recordcount# Collecting/Locality Images
 														</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
