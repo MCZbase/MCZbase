@@ -519,7 +519,6 @@ limitations under the License.
 										}
 									</script>
 										
-										
 										<div class="col-12 px-0 float-left">
 											<div class="border rounded px-1 mx-1 pb-1">
 												<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
