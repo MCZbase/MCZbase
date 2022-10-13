@@ -1015,6 +1015,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					MCZBASE.getfullcitation(publication_id) long_citation,
 					type,
 					remarks,
+					pages,
 					citation_page_uri,
 					created_by_agent_id,
 					MCZBASE.get_agentnameoftype(created_by_agent_id) created_by_name,
