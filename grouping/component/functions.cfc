@@ -898,9 +898,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.publication#</a>
 							<cfif len(citation_page_uri) GT 0>
 								<cfif len(pages) EQ 0>
-									<a href="#encodeForURI(citation_page_uri)#" target="_blank">[Link]</a>
+									<a href="#encodeForURL(citation_page_uri)#" target="_blank">[Link]</a>
 								<cfelse>
-									<a href="#encodeForURI(citation_page_uri)#" target="_blank">#pages#</a>
+									<a href="#encodeForURL(citation_page_uri)#" target="_blank">#pages#</a>
 								</cfif>
 							<cfelse>
 								#pages#
