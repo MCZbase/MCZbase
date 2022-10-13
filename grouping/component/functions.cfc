@@ -956,7 +956,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">, 
 					remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
 					pages = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pages#">,
-					citation_page_uri = <cfqueryparam cfsqlcitation_page_uri="CF_SQL_VARCHAR" value="#citation_page_uri#">
+					citation_page_uri = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">
 				WHERE 
 					underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_citation_id#">
 			</cfquery>
