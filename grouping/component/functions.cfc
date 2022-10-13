@@ -787,7 +787,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				SELECT 
 					type, description
 				FROM
-					CTUNDERSCORE_COLL_CITATION_TYPE
+					CTUNDERSCORE_COLL_CIT_TYPE
 			</cfquery>
 			<cfoutput>
 				<h2>Link a publication to this named group.</h2>
