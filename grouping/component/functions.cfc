@@ -801,7 +801,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 								Publication Associated with this Named Group
 							</label>
 							<input type="hidden" name="publication_id" id="publication_id">
-							<input type="text" id="publication" name="publication" class="data-entry-input mb-1">
+							<input type="text" id="publication" name="publication" class="data-entry-input mb-1 reqdClr" required >
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="role" class="data-entry-label">Type of Citation</label>
