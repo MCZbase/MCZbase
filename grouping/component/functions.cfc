@@ -840,7 +840,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						});
 					</script>
 				</form> 
-				<div id='ciationAddResults'></div>
+				<div id='citationAddResults'></div>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1022,7 +1022,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 				FROM
 					underscore_collection_citation
 				WHERE
-					underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_ciation_id#">
+					underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_coll_citation_id#">
 			</cfquery>
 			<cfquery name="getTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTypes_result">
 				SELECT 

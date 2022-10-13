@@ -273,10 +273,10 @@ function opencitenamedgroupingdialog(dialogid, underscore_collection_id, groupin
 								okcallback();
 							};
 							console.log(data);
-							$("#ciationAddResults").html("Saved " + data[0].role + " " + data[0].agent_name);
+							$("#citationAddResults").html("Saved " + data[0].role + " " + data[0].agent_name);
 						},
 						error:  function (jqXHR, textStatus,error) { 
-							$("#ciationAddResults").html("Error");
+							$("#citationAddResults").html("Error");
 							handleFail(jqXHR,textStatus,error,"saving underscore_collection_citation record");
 						}
 					});	
