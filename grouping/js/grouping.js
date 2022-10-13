@@ -329,7 +329,7 @@ function removeUndCollCitation(underscore_coll_citation_id, okcallback) {
 		dataType : "json",
 		data :  { 
 			method: 'removeCitationFromUndColl',
-			underscore_coll_agent_id: underscore_coll_agent_id
+			underscore_coll_citation_id: underscore_coll_citation_id
 		},
 		success : function (data) {
 			if (jQuery.type(okcallback)==='function') {
