@@ -713,6 +713,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfargument name="publication" type="string" required="yes">
 	<cfargument name="type" type="string" required="yes">
 	<cfargument name="pages" type="string" required="yes">
+	<cfargument name="citation_page_uri" type="string" required="yes">
 	<cfargument name="remarks" type="string" required="yes">
 
 	<cfset data = ArrayNew(1)>
@@ -733,6 +734,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					type,
 					pages,
 					remarks,
+					citation_page_uri,
 					created_by_agent_id
 				) values ( 
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
@@ -740,6 +742,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pages#">,
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#citation_page_uri#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#creatingAgent.agent_id#">
 				)
 			</cfquery>
