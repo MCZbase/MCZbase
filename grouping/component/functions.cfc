@@ -804,8 +804,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							<input type="text" id="publication" name="publication" class="data-entry-input mb-1 reqdClr" required >
 						</div>
 						<div class="col-12 col-md-4">
-							<label for="role" class="data-entry-label">Type of Citation</label>
-							<select name="role" aria-label="how this publication is related to the named group" id="role" class="data-entry-select reqdClr" required >
+							<label for="type" class="data-entry-label">Type of Citation</label>
+							<select name="type" aria-label="how this publication is related to the named group" id="type" class="data-entry-select reqdClr" required >
 								<option value=""></option>
 								<cfloop query="getTypes">
 									<option value="#type#">#type# (#description#)</option>
