@@ -801,7 +801,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 								Publication Associated with this Named Group
 							</label>
 							<input type="hidden" name="publication_id" id="publication_id">
-							<input type="text" id="publication" class="data-entry-input mb-1">
+							<input type="text" id="publication" name="publication" class="data-entry-input mb-1">
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="role" class="data-entry-label">Type of Citation</label>
@@ -815,6 +815,10 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						<div class="col-12 col-md-2">
 							<label for="remarks" class="data-entry-label">Page(s)</label>
 							<input type='text' name='pages'id="pages" class="data-entry-input" >
+						</div>
+						<div class="col-12">
+							<label for="citation_page_uri" class="data-entry-label">URI for first page of citation</label>
+							<input type='text' name='citation_page_uri'id="citation_page_uri" class="data-entry-input" >
 						</div>
 						<div class="col-12">
 							<label for="remarks" class="data-entry-label">Remarks</label>
@@ -1045,7 +1049,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
-							<label for="pages" class="data-entry-label">Pages</label>
+							<label for="pages" class="data-entry-label">Page(s)</label>
 							<input type="text" name="pages" id="pages" class="data-entry-input" value="#pages#" >
 						</div>
 						<div class="col-12 col-md-6">
