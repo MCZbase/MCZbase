@@ -746,8 +746,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset rowid = add_result.generatedkey>
 			<cftransaction action="commit">
 			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
-				SELECT role,
-					mczbase.getshortcitation(publication_id) as agent_name
+				SELECT 
+					type,
+					mczbase.getshortcitation(publication_id) as publication
 				FROM 
 					underscore_collection_citation
 				WHERE
@@ -756,8 +757,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset i = 1>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "success">
-			<cfset row["agent_name"] = "#report.agent_name#">
-			<cfset row["role"] = "#report.role#">
+			<cfset row["publication"] = "#report.publication#">
+			<cfset row["type"] = "#report.type#">
 			<cfset data[i] = row>
 			<cfreturn #serializeJSON(data)#>
 		<cfcatch>
