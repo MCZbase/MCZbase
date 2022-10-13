@@ -1012,7 +1012,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					underscore_collection_id,
 					publication_id,
 					MCZBASE.getshortcitation(publication_id) short_citation,
-					MCZBASE.getlongcitation(publication_id) long_citation,
+					MCZBASE.getfullcitation(publication_id) long_citation,
 					type,
 					remarks,
 					citation_page_uri,
