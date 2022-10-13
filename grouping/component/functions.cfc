@@ -1040,7 +1040,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<div class="form-row">
 						<div class="col-12 col-md-6">
 							<label for="publication#tn#" id="publication_label" class="data-entry-label">Publication</label>
-							<input type="text" name="publication" id="publication#tn#" class="data-entry-input" value="#publication#" >
+							<input type="text" name="publication" id="publication#tn#" class="data-entry-input" value="#long_citation#" >
 							<input type='hidden' name='publication_id' id="publication_id#tn#" value='#publication_id#'>
 						</div>
 						<div class="col-12 col-md-6">
