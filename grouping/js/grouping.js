@@ -318,6 +318,86 @@ function opencitenamedgroupingdialog(dialogid, underscore_collection_id, groupin
 	});
 }
 
+// Create and open a dialog to edit an underscore_collection_citation record relating a publication to a named group
+function openeditgroupingcitationdialog(dialogid, underscore_coll_citation_id, grouping_label, okcallback) { 
+	var title = "Edit a citation of the " + grouping_label;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = 300;
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 200,
+		draggable:true,
+		buttons: {
+			"Save": function(){ 
+				var datasub = $('#editUndCollCitationForm').serialize();
+				if ($('#editUndCollCitationForm')[0].checkValidity()) {
+					$.ajax({
+						url: "/grouping/component/functions.cfc",
+						type: 'post',
+						returnformat: 'plain',
+						dataType: 'json',
+						data: datasub,
+						success: function(data) { 
+							if (jQuery.type(okcallback)==='function') {
+								okcallback();
+							};
+							console.log(data);
+							$("#citationUpdateResults").html("Saved " + data[0].role + " " + data[0].agent_name);
+						},
+						error:  function (jqXHR, textStatus,error) { 
+							$("#citationUpdateResults").html("Error");
+							handleFail(jqXHR,textStatus,error,"saving edited underscore_collection_citation record");
+						}
+					});	
+		 		} else { 
+					messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+		 		};
+		 	},
+		 	"Close Dialog": function() { 
+				if (jQuery.type(okcallback)==='function') {
+					okcallback();
+				}
+			 	$("#"+dialogid+"_div").html("");
+				$("#"+dialogid).dialog('close'); 
+				$("#"+dialogid).dialog('destroy'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+		} 
+	});
+	thedialog.dialog('open');
+	datastr = {
+		method: "updateCitationHtml",
+		returnformat: "plain",
+		underscore_coll_citation_id: underscore_coll_citation_id
+	};
+	jQuery.ajax({
+		url: "/grouping/component/functions.cfc",
+		type: "post",
+		data: datastr,
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading edit named group citation dialog");
+		}
+	});
+}
+
 /** remove a citation from a named group.
   @param underscore_coll_citation_id the primary key of the underscore_collection_citation record
   to delete.

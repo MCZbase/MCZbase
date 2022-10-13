@@ -1068,7 +1068,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 							Record Created By <a href="/agents/#created_by_agent_id#" target="_blank">#created_by_name#</a> on #date_created#
 						</div>
 					</div>
-					<!--- Note: Save Record button is created on containing dialog by openlinkagenttogroupingdialog() js function. --->
+					<!--- Note: Save Record button is created on containing dialog by openeditgroupingcitationdialog() js function. --->
 					<script language='javascript' type='text/javascript'>
 						function updatecitation(event) { 
 							event.preventDefault();
@@ -1079,7 +1079,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						});
 					</script>
 				</form> 
-				<div id="agentUpdateResults"></div>
+				<div id="citationUpdateResults"></div>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
