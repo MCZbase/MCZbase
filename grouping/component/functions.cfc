@@ -868,6 +868,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						type,
 						pages,
 						remarks,
+						citation_page_uri,
 						created_by_agent_id,
 						MCZBASE.get_agentnameoftype(created_by_agent_id) creating_agent_name,
 						to_char(date_created,'YYYY-MM-DD') date_created,
@@ -886,8 +887,17 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 						<li>
 							#citations.type#
 							<a href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.publication#</a>
-							#pages#
+							<cfif len(citation_page_uri) GT 0>
+								<cfif len(pages) EQ 0>
+									<a href="#encodeForURI(citation_page_uri)#" target="_blank">[Link]</a>
+								<cfelse>
+									<a href="#encodeForURI(citation_page_uri)#" target="_blank">#pages#</a>
+								</cfif>
+							<cfelse>
+								#pages#
+							</cfif>
 							#remarks#
+							<span class="small">[Created #date_created# by <a href="/agents/created_by_agent_id" target="_blank">#creating_agent_name#</a>]</span>
 							<button id="editGroupingCiteButton#citations.underscore_coll_citation_id#" class="btn btn-xs btn-secondary" 
 								onclick="openeditgroupingcitationdialog('citationDialogDiv', '#underscore_coll_citation_id#', '#collection_name#', reloadCitationBlock);" 
 								aria-label="edit the publication #citations.short_publication# named grouping relationship">Edit</button>
