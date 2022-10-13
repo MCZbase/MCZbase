@@ -273,7 +273,7 @@ function opencitenamedgroupingdialog(dialogid, underscore_collection_id, groupin
 								okcallback();
 							};
 							console.log(data);
-							$("#citationAddResults").html("Saved " + data[0].role + " " + data[0].agent_name);
+							$("#citationAddResults").html("Saved " + data[0].type + " " + data[0].publication);
 						},
 						error:  function (jqXHR, textStatus,error) { 
 							$("#citationAddResults").html("Error");
@@ -353,7 +353,7 @@ function openeditgroupingcitationdialog(dialogid, underscore_coll_citation_id, g
 								okcallback();
 							};
 							console.log(data);
-							$("#citationUpdateResults").html("Saved " + data[0].role + " " + data[0].agent_name);
+							$("#citationUpdateResults").html("Saved " + data[0].type + " " + data[0].publication);
 						},
 						error:  function (jqXHR, textStatus,error) { 
 							$("#citationUpdateResults").html("Error");

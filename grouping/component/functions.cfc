@@ -974,7 +974,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					type,
 					mczbase.getshortcitation(publication_id) as publication
 				FROM 
-					underscore_collection_agent
+					underscore_collection_citation
 				WHERE
 					underscore_coll_citation_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#underscore_coll_citation_id#">
 			</cfquery>
