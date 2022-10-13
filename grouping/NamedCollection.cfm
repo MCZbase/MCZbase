@@ -780,7 +780,7 @@ limitations under the License.
 								<div class="col-12 pb-1">
 									<script>
 										function showAddCitationDialog() { 
-											opencitegroupingdialog("citationDialogDiv", "#underscore_collection_id#", "#collection_name#", reloadCitationBlock);
+											opencitenamedgroupingdialog("citationDialogDiv", "#underscore_collection_id#", "#collection_name#", reloadCitationBlock);
 										}
 									</script>
 									<button id="add_citation_button" class="btn btn-xs btn-secondary" aria-label="add a new citation to this named grouping." onclick="showAddCitationDialog();">Add Publication</button>
