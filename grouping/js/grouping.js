@@ -317,3 +317,27 @@ function opencitenamedgroupingdialog(dialogid, underscore_collection_id, groupin
 		}
 	});
 }
+
+/** remove a citation from a named group.
+  @param underscore_coll_citation_id the primary key of the underscore_collection_citation record
+  to delete.
+*/
+function removeUndCollCitation(underscore_coll_citation_id, okcallback) { 
+	jQuery.ajax({
+		url : "/grouping/component/functions.cfc",
+		type : "post",
+		dataType : "json",
+		data :  { 
+			method: 'removeCitationFromUndColl',
+			underscore_coll_agent_id: underscore_coll_agent_id
+		},
+		success : function (data) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+		},
+		error: function(jqXHR,textStatus,error){
+			handleFail(jqXHR,textStatus,error,"removing publication-named group relationship");
+		}
+	});
+}

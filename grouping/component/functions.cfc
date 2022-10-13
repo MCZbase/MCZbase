@@ -908,7 +908,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 								onclick="openeditgroupingcitationdialog('citationDialogDiv', '#underscore_coll_citation_id#', '#collection_name#', reloadCitationBlock);" 
 								aria-label="edit the publication #citations.short_publication# named grouping relationship">Edit</button>
 							<button id="removeGroupingCiteButton#citations.underscore_coll_citation_id#" class="btn btn-xs btn-warning" 
-								onclick="confirmDialog('Remove the citation of #citations.short_publication# from this named grouping (#collection_name#)?','Confirm Remove', function(){ removeUndColCitation('#underscore_coll_citation_id#', reloadCitationBlock);})"
+								onclick="confirmDialog('Remove the citation of #citations.short_publication# from this named grouping (#collection_name#)?','Confirm Remove', function(){ removeUndCollCitation('#underscore_coll_citation_id#', reloadCitationBlock);})"
 								aria-label="remove the citation of #citations.short_publication# from this named grouping">Remove</button>
 						</li>
 					</cfloop>
