@@ -66,11 +66,13 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
-		<cfquery name="specimenImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 			SELECT distinct media.media_id, 
 				media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media.media_type,
+				media.mime_type
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -81,14 +83,20 @@ limitations under the License.
 				left join media on media_relations.media_id = media.media_id							
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND media_relations.media_relationship = 'shows cataloged_item'
-				AND media.media_type = 'image'
-				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND flat.guid is not null
 		</cfquery>
 		<cfquery name="specimenImagesForCarousel" dbtype="query">
 			SELECT * 
-			FROM specimenImagesForCarousel_raw 
+			FROM specimenMedia_raw 
 			WHERE encumb < 1
+				AND media_type = 'image'
+				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+		</cfquery>
+		<cfquery name="specimenNonImageMedia" dbtype="query">
+			SELECT * 
+			FROM specimenMedia_raw 
+			WHERE encumb < 1
+				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif specimenImagesForCarousel.recordcount GT 0>
@@ -1006,6 +1014,43 @@ limitations under the License.
 													<cfloop query="collectors">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 															<a class="h4" href="/agents/Agent.cfm?agent_id=#collectors.agent_id#">#collectors.agent_name#</a> 
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</cfif>
+									<cfif specimenNonImageMedia.recordcount GT 0>
+										<div class="col-12 pb-3">
+											<h3 class="border-bottom pb-1 border-dark px-2">Other Media</h3>
+											<cfif specimenNonImageMedia.recordcount gt 50>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForOtherMedia">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingOtherMedia">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseOtherMedia">
+																#specimenNonImageMedia.recordcount# Other Media
+																</button>
+															</h3>
+														</div>
+														<div class="card-body bg-white py-0">
+															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="collapse show">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<cfloop query="specimenNonImageMedia">
+																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																		#media_type# #mime_type#<a class="h4" href="/media/#specimenNonImageMedia.media_id#">#alt#</a>
+																	</li>
+																</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="specimenNonImageMedia">
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															#media_type# #mime_type#<a class="h4" href="/media/#specimenNonImageMedia.media_id#">#alt#</a>
 														</li>
 													</cfloop>
 												</ul>
