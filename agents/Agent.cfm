@@ -413,10 +413,10 @@ limitations under the License.
 														<cfset agent_alt = getMedia.alt>
 													</cfloop>
 													<div class="col-12 px-1 mx-md-auto my-3"><!---just for agent block--->
-														<div class="carousel_background">
+														<div class="carousel_background border rounded">
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
-																<div class="w-100 float-left px-3 h-auto">
+																<div class="w-100 float-left px-0 h-auto">
 																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
 																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
