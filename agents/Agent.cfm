@@ -365,11 +365,11 @@ limitations under the License.
 											
 											<cfif getMedia.recordcount GT 0>
 													<cfset agentCt = getMedia.recordcount>
-											<!---		<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
-														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
-														<cfset agent_media_id = agentImagesForCarousel.media_id>
-														<cfset agent_alt = agentImagesForCarousel.alt>
-													</cfloop>--->
+													<cfloop query="getMedia" startRow="1" endRow="1">
+														<cfset agent_media_uri = getMedia.media_uri>
+														<cfset agent_media_id = getMedia.media_id>
+														<cfset agent_descriptor = getMedia.descriptor>
+													</cfloop>
 													<div class="col-12 px-1 mx-md-auto my-3"><!---just for agent block--->
 														<div class="carousel_background border rounded float-left w-100 p-2">
 														<!---	<h3 class="h4 mx-2 text-center">#agentCt# Agent Images </h3>--->
@@ -378,11 +378,11 @@ limitations under the License.
 																<div class="w-100 float-left px-3 h-auto">
 																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
 																	<cfset sizeType='&width=1000&height=1000'>
-																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#media_id#">Media Details</a>
-																	<a id="agent_media_a" href="#media_uri#" class="d-block my-1 w-100" title="click to open full image">
-																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#media_id##sizeType#" class="mx-auto" alt="#alt#" height="100%" width="100%">
+																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
+																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
+																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_descriptor#" height="100%" width="100%">
 																	</a>
-																	<p id="media_desc" class="mt-2 small bg-light caption-sm">#descriptor#</p>
+																	<p id="media_desc" class="mt-2 small bg-light caption-sm">#agent_descriptor#</p>
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-0 pt-0 pb-1">
