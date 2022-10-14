@@ -117,7 +117,7 @@ limitations under the License.
 	<cfset comma = "">
 	<cfloop query="getMedia">
 		<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#getMedia.media_id#","media_uri":"#getMedia.media_uri#","getMedia.alt":"#altEscaped#"}'>
+		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#getMedia.media_id#","media_uri":"#getMedia.media_uri#","alt":"#altEscaped#"}'>
 		<cfset comma = ",">
 	</cfloop>
 	<cfset imageSetMetadata = "#imageSetMetadata#]">
@@ -399,7 +399,7 @@ limitations under the License.
 																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="media_desc" class="mt-2 small bg-light">#agent_alt#</p>
+																	<p id="agent_media_desc" class="mt-2 small bg-light">#agent_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-0 pt-0 pb-1">
