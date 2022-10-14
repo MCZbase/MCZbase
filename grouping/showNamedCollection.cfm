@@ -1029,7 +1029,7 @@ limitations under the License.
 												underscore_collection_citation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											ORDER BY
 												type, MCZBASE.getshortcitation(publication_id) short_publication
-										</cfquery
+										</cfquery>
 										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 											SELECT
 												distinct 
