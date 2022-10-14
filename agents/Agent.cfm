@@ -555,7 +555,7 @@ limitations under the License.
 										agent_name
 									FROM
 										group_member 
-										left join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
+										join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
 									WHERE
 										member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										<cfif oneOfUs NEQ 1>
