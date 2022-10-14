@@ -1039,7 +1039,7 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="specimenNonImageMedia">
 																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																		<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonUmageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																		<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 																		<div id="mediaBlock#media_id#" class="border rounded">
 																			#mediablock#
 																		</div>
@@ -1054,7 +1054,7 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="specimenNonImageMedia">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonUmageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+															<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 															<div id="mediaBlock#media_id#" class="border rounded">
 																#mediablock#
 															</div>
