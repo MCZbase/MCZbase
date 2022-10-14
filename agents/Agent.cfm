@@ -74,25 +74,7 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-<!---<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-	SELECT DISTINCT media.media_id, media.media_uri, 
-		MCZBASE.get_media_descriptor(media.media_id) as descriptor,
-		MCZBASE.is_media_encumbered(media.media_id)  as encumb
-	FROM
-		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-			on underscore_relation.collection_object_id = flat.collection_object_id
-		left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-		left join media_relations on collector.agent_id = media_relations.related_primary_key
-		left join media on media_relations.media_id = media.media_id
-	WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-		AND collector.collector_role = 'c'
-		AND media_relations.media_relationship = 'shows agent'
-		AND media.media_type = 'image'
-		AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-		AND media.auto_host = 'mczbase.mcz.harvard.edu'
-		AND flat.guid IS NOT NULL
-</cfquery>--->
-<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT media.media_id,
 		mczbase.get_media_descriptor(media.media_id) as alt,
 		mczbase.get_medialabel(media.media_id,'subject') as subject,
@@ -115,11 +97,7 @@ limitations under the License.
 		and mczbase.is_media_encumbered(media.media_id) < 1
 		
 </cfquery>
-<!---<cfquery name="agentImagesForCarousel" dbtype="query">
-	SELECT * 
-	FROM getMedia
-	WHERE encumb < 1
-</cfquery>--->
+
 <cfset imageSetMetadata = "[]">
 <cfif getMedia.recordcount GT 0>
 	<cfset imageSetMetadata = "[">
