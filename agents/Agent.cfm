@@ -110,16 +110,14 @@ limitations under the License.
 		and media.auto_host = 'mczbase.mcz.harvard.edu'
 		and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		and mczbase.is_media_encumbered(media.media_id) < 1
-		
 </cfquery>
-#getMedia.recordcount#
 <cfset imageSetMetadata = "[]">
 <cfif getMedia.recordcount GT 0>
 	<cfset imageSetMetadata = "[">
 	<cfset comma = "">
 	<cfloop query="getMedia">
 		<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#getMedia.media_id#","media_uri":"#getMedia.media_uri#","alt":"#altEscaped#"}'>
+		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#getMedia.media_id#","media_uri":"#getMedia.media_uri#","getMedia.alt":"#altEscaped#"}'>
 		<cfset comma = ",">
 	</cfloop>
 	<cfset imageSetMetadata = "#imageSetMetadata#]">
@@ -390,7 +388,7 @@ limitations under the License.
 														<cfset agent_media_id = getMedia.media_id>
 														<cfset agent_alt = getMedia.alt>
 													</cfloop>
-													<div class="col-12 px-1 mx-md-auto my-3"><!---just for agent block--->
+													<div class="col-12 px-0 mx-md-auto my-2"><!---just for agent block--->
 														<div class="carousel_background border rounded">
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
@@ -399,9 +397,9 @@ limitations under the License.
 																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
-																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
+																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="media_desc" class="mt-2 small bg-light caption-sm">#agent_alt#</p>
+																	<p id="media_desc" class="mt-2 small bg-light">#agent_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-0 pt-0 pb-1">
