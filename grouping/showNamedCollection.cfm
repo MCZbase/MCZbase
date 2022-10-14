@@ -1069,7 +1069,7 @@ limitations under the License.
 																		<h4 class="h5">Citations about the #collection_name#</h4>
 																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																			<cfloop query="directCitations">
-																				<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
+																				<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
 																			</cfloop>
 																		</ul>
 																	</cfif>
