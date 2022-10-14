@@ -363,8 +363,8 @@ limitations under the License.
 											
 		
 											
-											<cfif getMedia_result.recordcount GT 0>
-													<cfset agentCt = getMedia_result.recordcount>
+											<cfif getMedia.recordcount GT 0>
+													<cfset agentCt = getMedia.recordcount>
 											<!---		<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
 														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
 														<cfset agent_media_id = agentImagesForCarousel.media_id>
