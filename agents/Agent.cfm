@@ -361,20 +361,7 @@ limitations under the License.
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
 											
-											<cfswitch expression="#otherImageTypes#">
-											<cfcase value="1">
-												<cfset colClass = "col-xl-6 mx-auto float-none">
-											</cfcase>
-											<cfcase value="2">
-												<cfset colClass = "col-md-12 col-lg-6 mx-auto float-left">
-											</cfcase>
-											<cfcase value="3">
-												<cfset colClass = "col-md-12 col-xl-4 float-left">
-											</cfcase>
-											<cfdefaultcase>
-												<cfset colClass = "col-md-12 col-xl-4 float-left">
-											</cfdefaultcase>
-										</cfswitch>
+		
 											
 											<cfif getMedia_result.recordcount GT 0>
 													<cfset agentCt = getMedia_result.recordcount>
@@ -383,7 +370,7 @@ limitations under the License.
 														<cfset agent_media_id = agentImagesForCarousel.media_id>
 														<cfset agent_alt = agentImagesForCarousel.alt>
 													</cfloop>--->
-													<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
+													<div class="col-12 px-1 mx-md-auto my-3"><!---just for agent block--->
 														<div class="carousel_background border rounded float-left w-100 p-2">
 														<!---	<h3 class="h4 mx-2 text-center">#agentCt# Agent Images </h3>--->
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
