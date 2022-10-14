@@ -74,6 +74,67 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
+<!---<cfquery name="agentImagesForCarousel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+	SELECT DISTINCT media.media_id, media.media_uri, 
+		MCZBASE.get_media_descriptor(media.media_id) as descriptor,
+		MCZBASE.is_media_encumbered(media.media_id)  as encumb
+	FROM
+		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+			on underscore_relation.collection_object_id = flat.collection_object_id
+		left join collector on underscore_relation.collection_object_id = collector.collection_object_id
+		left join media_relations on collector.agent_id = media_relations.related_primary_key
+		left join media on media_relations.media_id = media.media_id
+	WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		AND collector.collector_role = 'c'
+		AND media_relations.media_relationship = 'shows agent'
+		AND media.media_type = 'image'
+		AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
+		AND media.auto_host = 'mczbase.mcz.harvard.edu'
+		AND flat.guid IS NOT NULL
+</cfquery>--->
+<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+	SELECT media.media_id,
+		mczbase.get_media_descriptor(media.media_id) as descriptor,
+		mczbase.get_medialabel(media.media_id,'subject') as subject,
+		media.media_uri,
+		media.preview_uri,
+		media.media_type,
+		CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 
+			THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) 
+			END as license_uri, 
+		CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 
+			THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) 
+			END as license_display, 
+		MCZBASE.get_media_credit(media.media_id) as credit 
+	FROM media_relations 
+		left join media on media_relations.media_id = media.media_id
+		left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+	WHERE media_relationship like 'shows agent'
+		and media.auto_host = 'mczbase.mcz.harvard.edu'
+		and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and mczbase.is_media_encumbered(media.media_id) < 1
+		
+</cfquery>
+<!---<cfquery name="agentImagesForCarousel" dbtype="query">
+	SELECT * 
+	FROM getMedia
+	WHERE encumb < 1
+</cfquery>--->
+<cfset imageSetMetadata = "[]">
+<cfif getMedia.recordcount GT 0>
+	<cfset imageSetMetadata = "[">
+	<cfset comma = "">
+	<cfloop query="getMedia">
+		<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
+		<cfset comma = ",">
+	</cfloop>
+	<cfset imageSetMetadata = "#imageSetMetadata#]">
+</cfif>
+<script>
+	var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
+	var currentAgentImage = 1;
+</script>
 <cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
 	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -319,23 +380,7 @@ limitations under the License.
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-										SELECT media.media_id,
-											mczbase.get_media_descriptor(media.media_id) as descriptor,
-											mczbase.get_medialabel(media.media_id,'subject') as subject,
-											media.media_uri,
-											media.preview_uri,
-											media.media_type,
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-											MCZBASE.get_media_credit(media.media_id) as credit 
-										FROM media_relations 
-											left join media on media_relations.media_id = media.media_id
-											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-										WHERE media_relationship like 'shows agent'
-											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											and mczbase.is_media_encumbered(media.media_id) < 1
-									</cfquery>
+									
 									<cfif getMedia.recordcount LT 1>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
@@ -371,8 +416,7 @@ limitations under the License.
 														<cfset agent_descriptor = getMedia.descriptor>
 													</cfloop>
 													<div class="col-12 px-1 mx-md-auto my-3"><!---just for agent block--->
-														<div class="carousel_background border rounded float-left w-100 p-2">
-														<!---	<h3 class="h4 mx-2 text-center">#agentCt# Agent Images </h3>--->
+														<div class="carousel_background">
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
