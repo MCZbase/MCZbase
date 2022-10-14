@@ -336,7 +336,7 @@ limitations under the License.
 											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 											and mczbase.is_media_encumbered(media.media_id) < 1
 									</cfquery>
-									<cfif getMedia.recordcount GT 2>
+									<cfif getMedia.recordcount LT 1>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -360,6 +360,78 @@ limitations under the License.
 											</ul>
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
+											
+											
+											
+											<cfif getMedia_result.recordcount GT 0>
+													<cfset agentCt = getMedia_result.recordcount>
+											<!---		<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
+														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
+														<cfset agent_media_id = agentImagesForCarousel.media_id>
+														<cfset agent_alt = agentImagesForCarousel.alt>
+													</cfloop>--->
+													<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
+														<div class="carousel_background border rounded float-left w-100 p-2">
+														<!---	<h3 class="h4 mx-2 text-center">#agentCt# Agent Images </h3>--->
+															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
+																<cfset i=1>
+																<div class="w-100 float-left px-3 h-auto">
+																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
+																	<cfset sizeType='&width=1000&height=1000'>
+																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#media_id#">Media Details</a>
+																	<a id="agent_media_a" href="#media_uri#" class="d-block my-1 w-100" title="click to open full image">
+																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#media_id##sizeType#" class="mx-auto" alt="#alt#" height="100%" width="100%">
+																	</a>
+																	<p id="media_desc" class="mt-2 small bg-light caption-sm">#descriptor#</p>
+																</div>
+															</div>
+															<div class="custom-nav text-center small bg-white mb-0 pt-0 pb-1">
+																<button id="previous_agent_image" type="button" class="border-0 btn-outline-primary rounded">&lt;&nbsp;prev </button>
+																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
+																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
+															</div>
+															<div class="w-100 text-center smaller">of #agentCt#</div>
+														</div>
+													</div>
+													<script>
+														var $inputAgent = document.getElementById('agent_image_number');
+														var $prevAgent = document.getElementById('previous_agent_image');
+														var $nextAgent = document.getElementById('next_agent_image');
+														function goPreviousAgent() { 
+															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+														}
+														function goNextAgent() { 
+															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+														}
+														function goAgent() { 
+															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
+														}
+														$(document).ready(function () {
+															$inputAgent.addEventListener('change', function (e) {
+																goAgent()
+															}, false)
+															$prevAgent.addEventListener('click', function (e) {
+																goPreviousAgent()
+															}, false)
+															$nextAgent.addEventListener('click', function (e) {
+																goNextAgent()
+															}, false)
+															$("##agent_media_img").scrollTop(function (event) {
+																event.preventDefault();
+																var ya = event.scrollTop;
+																if (ya > $nextAgent) { 
+																	currentAgentImage = 0;
+																} else { 
+																	goPreviousAgent();
+																}
+															});
+														});
+													</script>
+												</cfif>
+											
+											
+											
+											
 											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
 											<div id="mediaBlock#getMedia.media_id#" class="px-xl-5 px-md-0 px-sm-5 px-0">
 												#mediaBlock#
@@ -367,6 +439,14 @@ limitations under the License.
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
+								<script>
+								//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
+								$(window).on('load resize', function () {
+									var w = $(window).width();
+									$("##vslider-item")
+										.css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
+								});
+								</script>
 							</section>
 							<!--- emails/phone numbers --->
 							<cfif oneOfUs EQ 1>
