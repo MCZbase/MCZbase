@@ -74,7 +74,22 @@ limitations under the License.
 	WHERE
 		agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
 </cfquery>
-<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
+	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
+		left join collector on collector.collection_object_id = flat.collection_object_id
+		left join agent on agent.agent_id = collector.agent_id
+	WHERE 
+		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and collector.collector_role = 'c'
+		and flat.guid IS NOT NULL
+		and flat.dec_lat is not null
+	and collector.collector_role = 'c'
+		
+</cfquery>
+
+<cfoutput>
+	<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 	SELECT media.media_id,
 		mczbase.get_media_descriptor(media.media_id) as alt,
 		mczbase.get_medialabel(media.media_id,'subject') as subject,
@@ -113,21 +128,6 @@ limitations under the License.
 	var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
 	var currentAgentImage = 1;
 </script>
-<cfquery name="points" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
-	SELECT distinct flat.locality_id,flat.dec_lat as Latitude,flat.DEC_LONG as Longitude 
-	FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
-		left join collector on collector.collection_object_id = flat.collection_object_id
-		left join agent on agent.agent_id = collector.agent_id
-	WHERE 
-		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-		and collector.collector_role = 'c'
-		and flat.guid IS NOT NULL
-		and flat.dec_lat is not null
-	and collector.collector_role = 'c'
-		
-</cfquery>
-
-<cfoutput>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
