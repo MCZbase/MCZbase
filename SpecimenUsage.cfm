@@ -469,7 +469,7 @@
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication.publication_id#">
 	</cfquery>
 	<cfif undCollCitations.recordcount GT 0>
-		<cfset namedGroup = "<li>Named Groupings: " >
+		<cfset namedGroup = "<li>Named Groups: " >
 		<cfset separator = "">
 		<cfloop query="undCollCitations">
 			<cfset namedGroup = "#namedGroup##separator#<a href='/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#'>#collection_name#</a>" >
