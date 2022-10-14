@@ -97,14 +97,14 @@ limitations under the License.
 		and mczbase.is_media_encumbered(media.media_id) < 1
 		
 </cfquery>
-
+#getMedia.recordcount#
 <cfset imageSetMetadata = "[]">
 <cfif getMedia.recordcount GT 0>
 	<cfset imageSetMetadata = "[">
 	<cfset comma = "">
 	<cfloop query="getMedia">
 		<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#media_id#","media_uri":"#media_uri#","alt":"#altEscaped#"}'>
+		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#getMedia.media_id#","media_uri":"#getMedia.media_uri#","alt":"#altEscaped#"}'>
 		<cfset comma = ",">
 	</cfloop>
 	<cfset imageSetMetadata = "#imageSetMetadata#]">
