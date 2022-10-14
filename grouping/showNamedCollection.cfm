@@ -1066,7 +1066,7 @@ limitations under the License.
 															<div class="card-body bg-white py-0">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
 																	<cfif directCitations.recordCount GT 0>
-																		<h4 class="h5">Citations about #collection_name#</h4>
+																		<h4 class="h5">Citations about the #collection_name#</h4>
 																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																			<cfloop query="directCitations">
 																				<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
@@ -1087,7 +1087,7 @@ limitations under the License.
 													</div>
 												<cfelse>
 													<cfif directCitations.recordCount GT 0>
-														<h4 class="h5">Citations about #collection_name#</h4>
+														<h4 class="h5">Citations about the #collection_name#</h4>
 														<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 															<cfloop query="directCitations">
 																<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
