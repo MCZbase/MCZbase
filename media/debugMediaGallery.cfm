@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="row">
-			<div class="container-fluid mt-5"><h4 class="mb-0"> Background teal.  These examples are set with displayAs set to "thumb" and a captionAs as "textMid" in getMediaBlockHtml(). The placeholder images are given a maximum width, which keeps them thumbnail size (max of 150px) even if the container is larger and the size of the shared-drive images are their intrinsic sizes.  It is possible to allow these placeholder images to fill their container by increasing the max-width (See <cfset l_styles = "max-width:150px;max-height:auto;"> on line 1121 of media/components/search.cfc.) </h4>
+			<div class="container-fluid mt-5"><h4 class="mb-0"> Background teal.  These examples are set with displayAs set to "thumb" and a captionAs as "textShort" in getMediaBlockHtml(). The placeholder images are given a maximum width, which keeps them thumbnail size (max of 150px) even if the container is larger and the size of the shared-drive images are their intrinsic sizes.  It is possible to allow these placeholder images to fill their container by increasing the max-width (See <cfset l_styles = "max-width:150px;max-height:auto;"> on line 1121 of media/components/search.cfc.) </h4>
 			</div>
 			<cfloop query="examples">
 				<div class="col-12 col-sm-4 col-md-2 col-xl-2" style="background-color:aquamarine">
