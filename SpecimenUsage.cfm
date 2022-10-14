@@ -458,7 +458,7 @@
 		</cfif>
 
 	</h2>
-	<cfquery undCollCitations>
+	<cfquery name="undCollCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 		SELECT distinct 
 			collection_name, 
 			underscore_collection.underscore_collection_id
