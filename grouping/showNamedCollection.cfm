@@ -1013,6 +1013,23 @@ limitations under the License.
 										</div>
 									</cfif>
 									<div class="col-12 px-0">
+										<cfquery name="directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="directCitations_result">
+											SELECT
+												publication_id,
+												MCZBASE.getfullcitation(publication_id) formatted_publication,
+												MCZBASE.getshortcitation(publication_id) short_publication,
+												type,
+												pages,
+												remarks,
+												citation_page_uri
+											FROM
+												underscore_collection_citation
+												join underscore_collection on underscore_collection_citation.underscore_collection_id = underscore_collection.underscore_collection_id
+											WHERE
+												underscore_collection_citation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											ORDER BY
+												type, MCZBASE.getshortcitation(publication_id) short_publication
+										</cfquery
 										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 											SELECT
 												distinct 
@@ -1032,21 +1049,33 @@ limitations under the License.
 											ORDER BY
 												formatted_publication
 										</cfquery>
-										<cfif citations.recordcount GT 0>
+										<cfif citations.recordcount GT 0 OR directCitations.recordcount GT 0>
+											<cfset totalCitations = citations.recordcount + directCitations.recordcount>
 											<div class="col-12 pb-3">
 												<h3 class="border-bottom pb-1 border-dark px-2">Citations</h3>
-												<cfif citations.recordcount gt 50>
+												<cfif totalCitations GT 50>
 													<div class="accordion col-12 px-0 mb-3" id="accordionForCitations">
 														<div class="card mb-2 bg-light">
 															<div class="card-header py-0" id="headingCitations">
 																<h3 class="h4 my-0">
 																	<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCitations">
-																	#citations.recordcount# Citations
+																	#totalCitations# Citations
 																	</button>
 																</h3>
 															</div>
 															<div class="card-body bg-white py-0">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
+																	<cfif directCitations.recordCount GT 0>
+																		<cfset separator = "">
+																		<h4 class="h5">Citations about #collection_name#</h4>
+																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																			<cfloop query="directCitations">
+																				<li class="list-group-item col-12 col-md-12 float-left py-2">#separator##directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
+																				<cfset separator = ", ">
+																			</cfloop>
+																		</ul>
+																	</cfif>
+																	<h4 class="h5">Citations of cataloged items</h4>
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																	<cfloop query="citations">
 																		<li class="list-group-item col-12 col-md-12 float-left py-2"> 
@@ -1059,6 +1088,17 @@ limitations under the License.
 														</div>
 													</div>
 												<cfelse>
+													<cfif directCitations.recordCount GT 0>
+														<cfset separator = "">
+														<h4 class="h5">Citations about #collection_name#</h4>
+														<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+															<cfloop query="directCitations">
+																<li class="list-group-item col-12 col-md-12 float-left py-2">#separator##directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
+																<cfset separator = ", ">
+															</cfloop>
+														</ul>
+													</cfif>
+													<h4 class="h5">Citations of cataloged items</h4>
 													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 														<cfloop query="citations">
 															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#, </a> </li>
