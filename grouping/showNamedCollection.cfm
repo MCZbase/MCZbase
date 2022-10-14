@@ -713,35 +713,37 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="row pb-4">
-									<div class="col-12 pt-3 pb-2">
-										<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result">
-											SELECT DISTINCT 
-												agent_id, 
-												MCZBASE.get_agentnameoftype(agent_id) agent_name,
-												remarks,
-												ctunderscore_coll_agent_role.label,
-												ctunderscore_coll_agent_role.ordinal
-											FROM
-												underscore_collection_agent
-												left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
-											WHERE underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											ORDER BY ctunderscore_coll_agent_role.ordinal asc 
-										</cfquery>
-										<h3 class="px-2 pb-1 border-bottom border-dark">
+									<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result">
+										SELECT DISTINCT 
+											agent_id, 
+											MCZBASE.get_agentnameoftype(agent_id) agent_name,
+											remarks,
+											ctunderscore_coll_agent_role.label,
+											ctunderscore_coll_agent_role.ordinal
+										FROM
+											underscore_collection_agent
+											left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
+										WHERE underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										ORDER BY ctunderscore_coll_agent_role.ordinal asc 
+									</cfquery>
+									<cfif agentQuery.recordcount GT 0>
+										<div class="col-12 pt-3 pb-2">
+											<h3 class="px-2 pb-1 border-bottom border-dark">
 												Associated Agents
-										</h3>
-										<ul>
-											<cfloop query="agentQuery">
-												<li>
-													<span>
-														#agentQuery.label# 
-														<a class="h4 px-2 py-2" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
-														#agentQuery.remarks#
-													</span>
-												</li>
-											</cfloop>
-										</ul>
-									</div>
+											</h3>
+											<ul>
+												<cfloop query="agentQuery">
+													<li>
+														<span>
+															#agentQuery.label# 
+															<a class="h4 px-2 py-2" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
+															#agentQuery.remarks#
+														</span>
+													</li>
+												</cfloop>
+											</ul>
+										</div>
+									</cfif>
 									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
