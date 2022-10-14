@@ -398,7 +398,7 @@ limitations under the License.
 											</button>
 										</h2>
 									</div>
-									<div id="mediaCardBodyWrap" class="#bodyClass# px-3" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+									<div id="mediaCardBodyWrap" class="#bodyClass# px-2" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
 											<ul class="list-group">
 												<li class="list-group-item py-2">No media showing this agent</li>
@@ -419,7 +419,7 @@ limitations under the License.
 																<div class="w-100 float-left px-2 h-auto">
 																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
 																	<cfset sizeType='&width=1000&height=1000'>
-																	<a id="agent_detail_a" class="d-block py-2" href="/media/#agent_media_id#">Media Details</a>
+																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
