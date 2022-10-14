@@ -419,7 +419,7 @@ limitations under the License.
 																<div class="w-100 float-left px-0 h-auto">
 																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
 																	<cfset sizeType='&width=1000&height=1000'>
-																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
+																	<a id="agent_detail_a" class="d-block py-2" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
 																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
@@ -432,42 +432,43 @@ limitations under the License.
 																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
 															<div class="w-100 text-center smaller">of #agentCt#</div>
+															<script>
+																var $inputAgent = document.getElementById('agent_image_number');
+																var $prevAgent = document.getElementById('previous_agent_image');
+																var $nextAgent = document.getElementById('next_agent_image');
+																function goPreviousAgent() { 
+																	currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+																}
+																function goNextAgent() { 
+																	currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+																}
+																function goAgent() { 
+																	currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
+																}
+																$(document).ready(function () {
+																	$inputAgent.addEventListener('change', function (e) {
+																		goAgent()
+																	}, false)
+																	$prevAgent.addEventListener('click', function (e) {
+																		goPreviousAgent()
+																	}, false)
+																	$nextAgent.addEventListener('click', function (e) {
+																		goNextAgent()
+																	}, false)
+																	$("##agent_media_img").scrollTop(function (event) {
+																		event.preventDefault();
+																		var ya = event.scrollTop;
+																		if (ya > $nextAgent) { 
+																			currentAgentImage = 0;
+																		} else { 
+																			goPreviousAgent();
+																		}
+																	});
+																});
+															</script>
 														</div>
 													</div>
-													<script>
-														var $inputAgent = document.getElementById('agent_image_number');
-														var $prevAgent = document.getElementById('previous_agent_image');
-														var $nextAgent = document.getElementById('next_agent_image');
-														function goPreviousAgent() { 
-															currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
-														}
-														function goNextAgent() { 
-															currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
-														}
-														function goAgent() { 
-															currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
-														}
-														$(document).ready(function () {
-															$inputAgent.addEventListener('change', function (e) {
-																goAgent()
-															}, false)
-															$prevAgent.addEventListener('click', function (e) {
-																goPreviousAgent()
-															}, false)
-															$nextAgent.addEventListener('click', function (e) {
-																goNextAgent()
-															}, false)
-															$("##agent_media_img").scrollTop(function (event) {
-																event.preventDefault();
-																var ya = event.scrollTop;
-																if (ya > $nextAgent) { 
-																	currentAgentImage = 0;
-																} else { 
-																	goPreviousAgent();
-																}
-															});
-														});
-													</script>
+											
 												</cfif>
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
