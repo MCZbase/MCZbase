@@ -416,7 +416,7 @@ limitations under the License.
 														<div class="carousel_background border rounded">
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
-																<div class="w-100 float-left px-0 h-auto">
+																<div class="w-100 float-left px-2 h-auto">
 																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
 																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="agent_detail_a" class="d-block py-2" href="/media/#agent_media_id#">Media Details</a>
@@ -431,7 +431,7 @@ limitations under the License.
 																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
-															<div class="w-100 text-center smaller">of #agentCt#</div>
+															<div class="w-100 text-center smaller pb-1">of #agentCt#</div>
 															<script>
 																var $inputAgent = document.getElementById('agent_image_number');
 																var $prevAgent = document.getElementById('previous_agent_image');
