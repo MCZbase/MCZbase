@@ -1066,22 +1066,20 @@ limitations under the License.
 															<div class="card-body bg-white py-0">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
 																	<cfif directCitations.recordCount GT 0>
-																		<cfset separator = "">
 																		<h4 class="h5">Citations about #collection_name#</h4>
 																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																			<cfloop query="directCitations">
-																				<li class="list-group-item col-12 col-md-12 float-left py-2">#separator##directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
-																				<cfset separator = ", ">
+																				<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
 																			</cfloop>
 																		</ul>
 																	</cfif>
 																	<h4 class="h5">Citations of cataloged items</h4>
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
-																	<cfloop query="citations">
-																		<li class="list-group-item col-12 col-md-12 float-left py-2"> 
-																			<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a>
-																		</li>
-																	</cfloop>
+																		<cfloop query="citations">
+																			<li class="list-group-item col-12 col-md-12 float-left py-2"> 
+																				<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a>
+																			</li>
+																		</cfloop>
 																	</ul>
 																</div>
 															</div>
@@ -1089,19 +1087,17 @@ limitations under the License.
 													</div>
 												<cfelse>
 													<cfif directCitations.recordCount GT 0>
-														<cfset separator = "">
 														<h4 class="h5">Citations about #collection_name#</h4>
 														<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 															<cfloop query="directCitations">
-																<li class="list-group-item col-12 col-md-12 float-left py-2">#separator##directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
-																<cfset separator = ", ">
+																<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
 															</cfloop>
 														</ul>
 													</cfif>
 													<h4 class="h5">Citations of cataloged items</h4>
 													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 														<cfloop query="citations">
-															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#, </a> </li>
+															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> </li>
 														</cfloop>
 													</ul>
 												</cfif>
