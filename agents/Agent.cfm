@@ -94,7 +94,7 @@ limitations under the License.
 </cfquery>--->
 <cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
 	SELECT media.media_id,
-		mczbase.get_media_descriptor(media.media_id) as descriptor,
+		mczbase.get_media_descriptor(media.media_id) as alt,
 		mczbase.get_medialabel(media.media_id,'subject') as subject,
 		media.media_uri,
 		media.preview_uri,
@@ -405,15 +405,12 @@ limitations under the License.
 											</ul>
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
-											
-		
-											
 											<cfif getMedia.recordcount GT 0>
 													<cfset agentCt = getMedia.recordcount>
 													<cfloop query="getMedia" startRow="1" endRow="1">
 														<cfset agent_media_uri = getMedia.media_uri>
 														<cfset agent_media_id = getMedia.media_id>
-														<cfset agent_descriptor = getMedia.descriptor>
+														<cfset agent_alt = getMedia.alt>
 													</cfloop>
 													<div class="col-12 px-1 mx-md-auto my-3"><!---just for agent block--->
 														<div class="carousel_background">
@@ -424,9 +421,9 @@ limitations under the License.
 																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
-																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_descriptor#" height="100%" width="100%">
+																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
-																	<p id="media_desc" class="mt-2 small bg-light caption-sm">#agent_descriptor#</p>
+																	<p id="media_desc" class="mt-2 small bg-light caption-sm">#agent_alt#</p>
 																</div>
 															</div>
 															<div class="custom-nav text-center small bg-white mb-0 pt-0 pb-1">
@@ -472,14 +469,6 @@ limitations under the License.
 														});
 													</script>
 												</cfif>
-											
-											
-											
-											
-								<!---			<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
-											<div id="mediaBlock#getMedia.media_id#" class="px-xl-5 px-md-0 px-sm-5 px-0">
-												#mediaBlock#
-											</div>--->
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
