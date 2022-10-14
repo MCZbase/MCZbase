@@ -36,6 +36,7 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
@@ -66,11 +67,13 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
-		<cfquery name="specimenImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 			SELECT distinct media.media_id, 
 				media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media.media_type,
+				media.mime_type
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -81,14 +84,20 @@ limitations under the License.
 				left join media on media_relations.media_id = media.media_id							
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND media_relations.media_relationship = 'shows cataloged_item'
-				AND media.media_type = 'image'
-				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND flat.guid is not null
 		</cfquery>
 		<cfquery name="specimenImagesForCarousel" dbtype="query">
 			SELECT * 
-			FROM specimenImagesForCarousel_raw 
+			FROM specimenMedia_raw 
 			WHERE encumb < 1
+				AND media_type = 'image'
+				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+		</cfquery>
+		<cfquery name="specimenNonImageMedia" dbtype="query">
+			SELECT * 
+			FROM specimenMedia_raw 
+			WHERE encumb < 1
+				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif specimenImagesForCarousel.recordcount GT 0>
@@ -704,35 +713,37 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="row pb-4">
-									<div class="col-12 pt-3 pb-2">
-										<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result">
-											SELECT DISTINCT 
-												agent_id, 
-												MCZBASE.get_agentnameoftype(agent_id) agent_name,
-												remarks,
-												ctunderscore_coll_agent_role.label,
-												ctunderscore_coll_agent_role.ordinal
-											FROM
-												underscore_collection_agent
-												left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
-											WHERE underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											ORDER BY ctunderscore_coll_agent_role.ordinal asc 
-										</cfquery>
-										<h3 class="px-2 pb-1 border-bottom border-dark">
+									<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result">
+										SELECT DISTINCT 
+											agent_id, 
+											MCZBASE.get_agentnameoftype(agent_id) agent_name,
+											remarks,
+											ctunderscore_coll_agent_role.label,
+											ctunderscore_coll_agent_role.ordinal
+										FROM
+											underscore_collection_agent
+											left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
+										WHERE underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										ORDER BY ctunderscore_coll_agent_role.ordinal asc 
+									</cfquery>
+									<cfif agentQuery.recordcount GT 0>
+										<div class="col-12 pt-3 pb-2">
+											<h3 class="px-2 pb-1 border-bottom border-dark">
 												Associated Agents
-										</h3>
-										<ul>
-											<cfloop query="agentQuery">
-												<li>
-													<span>
-														#agentQuery.label# 
-														<a class="h4 px-2 py-2" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
-														#agentQuery.remarks#
-													</span>
-												</li>
-											</cfloop>
-										</ul>
-									</div>
+											</h3>
+											<ul>
+												<cfloop query="agentQuery">
+													<li>
+														<span>
+															#agentQuery.label# 
+															<a class="h4 px-2 py-2" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
+															#agentQuery.remarks#
+														</span>
+													</li>
+												</cfloop>
+											</ul>
+										</div>
+									</cfif>
 									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
@@ -1012,6 +1023,49 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
+									<cfif specimenNonImageMedia.recordcount GT 0>
+										<div class="col-12 pb-3">
+											<h3 class="border-bottom pb-1 border-dark px-2">Other Media</h3>
+											<cfif specimenNonImageMedia.recordcount gt 50>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForOtherMedia">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingOtherMedia">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseOtherMedia">
+																#specimenNonImageMedia.recordcount# Other Media
+																</button>
+															</h3>
+														</div>
+														<div class="card-body bg-white py-0">
+															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="collapse show">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<cfloop query="specimenNonImageMedia">
+																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																		<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																		<div id="mediaBlock#media_id#" class="border rounded">
+																			#mediablock#
+																		</div>
+																	</li>
+																</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="specimenNonImageMedia">
+														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+															<div id="mediaBlock#media_id#" class="border rounded">
+																#mediablock#
+															</div>
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</cfif>
 									<div class="col-12 px-0">
 										<cfquery name="directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="directCitations_result">
 											SELECT
@@ -1087,14 +1141,14 @@ limitations under the License.
 													</div>
 												<cfelse>
 													<cfif directCitations.recordCount GT 0>
-														<h4 class="h5">Citations about the #collection_name#</h4>
+														<h4 class="h5 mb-0 pt-0">Citations about the #collection_name#</h4>
 														<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 															<cfloop query="directCitations">
 																<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
 															</cfloop>
 														</ul>
 													</cfif>
-													<h4 class="h5">Citations of cataloged items</h4>
+													<h4 class="h5 mb-0 pt-2">Citations of cataloged items</h4>
 													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 														<cfloop query="citations">
 															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> </li>
