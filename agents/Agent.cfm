@@ -361,7 +361,20 @@ limitations under the License.
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
 											
-											
+											<cfswitch expression="#otherImageTypes#">
+											<cfcase value="1">
+												<cfset colClass = "col-xl-6 mx-auto float-none">
+											</cfcase>
+											<cfcase value="2">
+												<cfset colClass = "col-md-12 col-lg-6 mx-auto float-left">
+											</cfcase>
+											<cfcase value="3">
+												<cfset colClass = "col-md-12 col-xl-4 float-left">
+											</cfcase>
+											<cfdefaultcase>
+												<cfset colClass = "col-md-12 col-xl-4 float-left">
+											</cfdefaultcase>
+										</cfswitch>
 											
 											<cfif getMedia_result.recordcount GT 0>
 													<cfset agentCt = getMedia_result.recordcount>
@@ -432,10 +445,10 @@ limitations under the License.
 											
 											
 											
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
+								<!---			<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
 											<div id="mediaBlock#getMedia.media_id#" class="px-xl-5 px-md-0 px-sm-5 px-0">
 												#mediaBlock#
-											</div>
+											</div>--->
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
