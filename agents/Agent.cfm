@@ -398,7 +398,7 @@ limitations under the License.
 																	<cfset sizeType='&width=1000&height=1000'>
 																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
 																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
-																		<img id="media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
+																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
 																	</a>
 																	<p id="media_desc" class="mt-2 small bg-light caption-sm">#agent_alt#</p>
 																</div>
