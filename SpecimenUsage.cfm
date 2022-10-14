@@ -458,6 +458,27 @@
 		</cfif>
 
 	</h2>
+	<cfquery undCollCitations>
+		SELECT distinct 
+			collection_name, 
+			underscore_collection.underscore_collection_id
+		FROM
+			underscore_collection_citation
+			join underscore_collection on underscore_collection_citation.underscore_collection_id = underscore_collection.underscore_collection_id
+		WHERE
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication.publication_id#">
+	</cfquery>
+	<cfif undCollCitations.recordcount GT 0>
+		<cfset namedGroup = "<li>Named Groupings:" >
+		<cfset separator = "">
+		<cfloop query="undCollCitations">
+			<cfset namedGroup = "#namedGroup##separator#<a href='/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#'>#collection_name#</a>" >
+			<cfset separator = "; ">
+		</cfloop>
+		<cfset namedGroup = "#namedGroup#</li>" >
+	<cfelse>
+		<cfset namedGroup = "">
+	</cfif>
 	<cfquery name="pubs" dbtype="query">
 		SELECT
 			publication_id,
@@ -491,6 +512,7 @@
 						No Citations
 					</cfif>
 				</li>
+				#namedGroup#
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 					<li><a href="/Publication.cfm?publication_id=#publication_id#">Edit</a></li>
 					<li><a href="/Citation.cfm?publication_id=#publication_id#">Manage Citations</a></li>
