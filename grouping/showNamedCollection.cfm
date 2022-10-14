@@ -36,6 +36,7 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
@@ -1038,7 +1039,10 @@ limitations under the License.
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="specimenNonImageMedia">
 																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																		#media_type# #mime_type#<a class="h4" href="/media/#specimenNonImageMedia.media_id#">#alt#</a>
+																		<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																		<div id="mediaBlock#media_id#" class="border rounded">
+																			#mediablock#
+																		</div>
 																	</li>
 																</cfloop>
 																</ul>
@@ -1050,7 +1054,10 @@ limitations under the License.
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="specimenNonImageMedia">
 														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															#media_type# #mime_type#<a class="h4" href="/media/#specimenNonImageMedia.media_id#">#alt#</a>
+															<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+															<div id="mediaBlock#media_id#" class="border rounded">
+																#mediablock#
+															</div>
 														</li>
 													</cfloop>
 												</ul>
