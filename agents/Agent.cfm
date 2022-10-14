@@ -112,7 +112,6 @@ limitations under the License.
 		and mczbase.is_media_encumbered(media.media_id) < 1
 		
 </cfquery>
-#getMedia.recordcount#
 <cfset imageSetMetadata = "[]">
 <cfif getMedia.recordcount GT 0>
 	<cfset imageSetMetadata = "[">
