@@ -2045,7 +2045,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				media
 			where 
 				MCZBASE.is_media_encumbered(media.media_id)  < 1 
-				upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				and upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 				and media_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
 			order by auto_filename
 		</cfquery>
