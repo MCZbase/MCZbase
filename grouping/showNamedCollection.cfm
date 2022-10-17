@@ -43,7 +43,8 @@ limitations under the License.
 </cfif>
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 	SELECT underscore_collection_id, collection_name, description, html_description,
-		mask_fg
+		mask_fg,
+		displayed_media_id
 	FROM underscore_collection
 	WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 </cfquery>
@@ -68,12 +69,26 @@ limitations under the License.
 		</cfquery>
 		<cfset otherimagetypes = 0>
 		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+			<cfif len(displayed_media_id) GT 0>
 			SELECT distinct media.media_id, 
 				media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
 				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
 				media.media_type,
-				media.mime_type
+				media.mime_type,
+				1 as topsort
+			FROM media
+			WHERE
+				media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+			UNION
+			</cfif>
+			SELECT distinct media.media_id, 
+				media.media_uri, 
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media.media_type,
+				media.mime_type,
+				2 as topsort
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -85,6 +100,9 @@ limitations under the License.
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND media_relations.media_relationship = 'shows cataloged_item'
 				AND flat.guid is not null
+			<cfif len(displayed_media_id) GT 0>
+				AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+			</cfif>
 		</cfquery>
 		<cfquery name="specimenImagesForCarousel" dbtype="query">
 			SELECT * 
@@ -92,12 +110,14 @@ limitations under the License.
 			WHERE encumb < 1
 				AND media_type = 'image'
 				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+			ORDER BY topsort asc, media_id
 		</cfquery>
 		<cfquery name="specimenNonImageMedia" dbtype="query">
 			SELECT * 
 			FROM specimenMedia_raw 
 			WHERE encumb < 1
 				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+			ORDER BY media_id
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif specimenImagesForCarousel.recordcount GT 0>
