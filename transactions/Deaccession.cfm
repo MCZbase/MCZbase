@@ -862,8 +862,7 @@ limitations under the License.
 							<div class="col-12">
 								<h2 class="h3">
 									Media documenting this Deaccession
-<!--- TODO: Rework text --->
-									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attach deed of gift, collecting permits, etc., as permissions and rights documents, not here.</span>
+									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  DO NOT attach permissions and rights documents here.</span>
 								</h2>
 								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
