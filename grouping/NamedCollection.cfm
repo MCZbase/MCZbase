@@ -538,7 +538,7 @@ limitations under the License.
 										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" >
 										<script>
 											$(document).ready(function() {
-												makeMediaPickerOneControlMeta("displayed_media_id");
+												makeRichMediaPickerOneControlMeta("displayed_media_id",'image');
 											});
 										</script>
 									</div>

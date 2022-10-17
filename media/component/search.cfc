@@ -2021,4 +2021,54 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				
 				
 
+
+<!--- function getRichMediaAutocomplete backing for a media lookup autocomplete returns metadata 
+  and a media_id 
+  @param term search term value for finding media records, checks filename.
+  @param type limitation on media.media_type for returned values (type=image for just image files).
+  @return json structure containing id, value, and meta suitable for use with an autocomplete.
+--->
+<cffunction name="getRichMediaAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="type" type="string" required="no">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct 
+				media.media_id,
+				auto_filename,
+				media_type,
+				mime_type
+			from 
+				media
+			where 
+				MCZBASE.is_media_encumbered(media.media_id)  < 1 
+				upper(auto_filename) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				and media_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#">
+			order by auto_filename
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.media_id#">
+			<cfset row["value"] = "#search.media_id#" >
+			<cfset row["meta"] = "#search.media_id# #search.auto_filename# (#search.media_type#:#search.mime_type#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
