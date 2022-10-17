@@ -842,6 +842,44 @@ function makeRichMediaPickerOneControlMeta(valueControl,typeLimit) {
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
 };
+/** Make a text name control and media_id control into an autocomplete media_id picker, 
+ *  with media metadata displayed in the autocomplete,
+ *  includes media type and mime type in the metadata, can be limited by media_type.
+ *
+ *  @param type the type of media record to limit to, use empty value for no limitation.
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for an input that is to be the media_id field (without a leading # selector).
+ */
+function makeRichMediaPickerControlMeta(valueControl,idControl,typeLimit) { 
+	if (!typeLimit) { 
+		typeLimit = "";
+	} 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/media/component/search.cfc",
+				data: { 
+					term: request.term, 
+					type: typeLimit,
+					method: 'getRichMediaAutocomplete' 
+				},
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up media for a media_id picker");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+valueControl).val(result.item.value);
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
 
 
 /** Make a paired hidden id and text name control into an autocomplete publication picker.

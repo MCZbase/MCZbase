@@ -2054,7 +2054,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.media_id#">
-			<cfset row["value"] = "#search.media_id#" >
+			<cfset row["value"] = "#search.auto_filename#" >
 			<cfset row["meta"] = "#search.media_id# #search.auto_filename# (#search.media_type#:#search.mime_type#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
