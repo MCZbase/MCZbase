@@ -618,10 +618,13 @@ limitations under the License.
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
 				SELECT 
 					underscore_collection_id, collection_name, underscore_collection_type,
-					description, html_description,
+					underscore_collection.description, 
+					html_description,
 					displayed_media_id,
-					mask_fg
+					underscore_collection.mask_fg,
+					media.auto_filename displayed_media_filename
 				FROM underscore_collection
+					left join media on underscore_collection.displayed_media_id = media.media_id
 				WHERE
 					underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
@@ -705,14 +708,18 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-0">
-									<div class="col-12 col-md-2">
-										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image</label>
+									<div class="col-12 col-md-4">
+										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image (autocomplete on filename)</label>
 										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" value="#displayed_media_id#" >
 										<script>
 											$(document).ready(function() {
-												makeMediaPickerOneControlMeta("displayed_media_id");
+												makeRichMediaPickerOneControlMeta("displayed_media_id",'image');
 											});
 										</script>
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="displayed_media_filename" id="displayed_media_filename_label" class="data-entry-label">Filename of exemplar image</label>
+										<input type="text" id="displayed_media_filename" class="data-entry-input" aria-labelledby="displayed_media_filename_label" value="#displayed_media_filename#" readonly >
 									</div>
 								</div>
 								<script>
