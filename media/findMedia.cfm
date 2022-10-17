@@ -687,10 +687,12 @@ limitations under the License.
 								</div>
 									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-row mx-0 mb-2">
-										<label for="media_label_type" class="data-entry-label mb-0" id="nedia_label_type_label">Relationship
+										<label for="media_relationship_type" class="data-entry-label mb-0" id="nedia_relationship_type_label">Relationship
 											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												NULL, NOT NULL)
+												(
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
+												)
 											</span>
 										</label>
 										<cfset selectedrelationship_type= "#media_relationship_type#">
@@ -718,10 +720,12 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-row mx-0 mb-2">
-										<label for="media_label_type_1" class="data-entry-label mb-0" id="nedia_label_type_label_1">Relationship
+										<label for="media_relationship_type_1" class="data-entry-label mb-0" id="nedia_relationship_type_label_1">Relationship
 											<span class="small">
-												(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_label_value_1');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
-												NULL, NOT NULL)
+												(
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
+												)
 											</span>
 										</label>
 										<cfset selectedrelationship_type= "#media_relationship_type_1#">
