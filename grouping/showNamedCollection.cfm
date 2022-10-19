@@ -1065,6 +1065,7 @@ limitations under the License.
 									</cfif>
 									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount>
 									<cfif otherMediaCount GT 0>
+										<cfset shownMedia = "">
 										<div class="col-12 pb-3">
 											<h3 class="border-bottom pb-1 border-dark px-2">Other Media</h3>
 											<cfif otherMediaCount gt 50>
@@ -1081,28 +1082,37 @@ limitations under the License.
 															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="collapse show">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="specimenNonImageMedia">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																		<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
-																		<div id="mediaBlock#media_id#" class="border rounded">
-																			#mediablock#
-																		</div>
-																	</li>
+																	<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
 																</cfloop>
 																<cfloop query="agentNonImageMedia">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																		<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
-																		<div id="mediaBlock#media_id#" class="border rounded">
-																			#mediablock#
-																		</div>
-																	</li>
+																	<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,agentNonImageMedia.media_id)>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
 																</cfloop>
 																<cfloop query="collectingNonImageMedia">
-																	<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-																		<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
-																		<div id="mediaBlock#media_id#" class="border rounded">
-																			#mediablock#
-																		</div>
-																	</li>
+																	<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,collectingNonImageMedia.media_id)>
+																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
 																</cfloop>
 																</ul>
 															</div>
@@ -1112,28 +1122,37 @@ limitations under the License.
 											<cfelse>
 												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 													<cfloop query="specimenNonImageMedia">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
-															<div id="mediaBlock#media_id#" class="border rounded">
-																#mediablock#
-															</div>
-														</li>
+														<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
+															<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
+															<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																<div id="mediaBlock#media_id#" class="border rounded">
+																	#mediablock#
+																</div>
+															</li>
+														</cfif>
 													</cfloop>
 													<cfloop query="agentNonImageMedia">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
-															<div id="mediaBlock#media_id#" class="border rounded">
-																#mediablock#
-															</div>
-														</li>
+														<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
+															<cfset shownMedia = ListAppend(shownMedia,agentNonImageMedia.media_id)>
+															<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																<div id="mediaBlock#media_id#" class="border rounded">
+																	#mediablock#
+																</div>
+															</li>
+														</cfif>
 													</cfloop>
 													<cfloop query="collectingNonImageMedia">
-														<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
-															<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
-															<div id="mediaBlock#media_id#" class="border rounded">
-																#mediablock#
-															</div>
-														</li>
+														<cfif NOT ListContains(shownMedia,collectingNonImageMedia.media_id)>
+															<cfset shownMedia = ListAppend(shownMedia,collectingNonImageMedia.media_id)>
+															<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																<div id="mediaBlock#media_id#" class="border rounded">
+																	#mediablock#
+																</div>
+															</li>
+														</cfif>
 													</cfloop>
 												</ul>
 											</cfif>
