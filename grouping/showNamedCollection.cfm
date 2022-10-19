@@ -1084,7 +1084,7 @@ limitations under the License.
 																<cfloop query="specimenNonImageMedia">
 																	<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
 																		<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
 																			<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
 																				#mediablock#
@@ -1095,7 +1095,7 @@ limitations under the License.
 																<cfloop query="agentNonImageMedia">
 																	<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
 																		<cfset shownMedia = ListAppend(shownMedia,agentNonImageMedia.media_id)>
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
 																			<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
 																				#mediablock#
@@ -1106,7 +1106,7 @@ limitations under the License.
 																<cfloop query="collectingNonImageMedia">
 																	<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
 																		<cfset shownMedia = ListAppend(shownMedia,collectingNonImageMedia.media_id)>
-																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
 																			<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
 																				#mediablock#
@@ -1124,7 +1124,7 @@ limitations under the License.
 													<cfloop query="specimenNonImageMedia">
 														<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
 															<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
-															<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
 																<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 																<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
 																	#mediablock#
@@ -1135,7 +1135,7 @@ limitations under the License.
 													<cfloop query="agentNonImageMedia">
 														<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
 															<cfset shownMedia = ListAppend(shownMedia,agentNonImageMedia.media_id)>
-															<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
 																<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 																<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
 																	#mediablock#
@@ -1146,7 +1146,7 @@ limitations under the License.
 													<cfloop query="collectingNonImageMedia">
 														<cfif NOT ListContains(shownMedia,collectingNonImageMedia.media_id)>
 															<cfset shownMedia = ListAppend(shownMedia,collectingNonImageMedia.media_id)>
-															<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
+															<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
 																<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
 																<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
 																	#mediablock#
