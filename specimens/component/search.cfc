@@ -1090,6 +1090,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
+TODO: Limit collector on collector_type = c
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="date_began_date" type="string" required="no">
 	<cfargument name="date_ended_date" type="string" required="no">
@@ -1649,6 +1650,16 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+	</cfif>
+	<cfif (isDefined("collector_agent_id") AND len(collector_agent_id) GT 0) OR (isDefined("collector") AND len(collector) GT 0) >
+		<!--- limit collector searches to collectors --->
+		<cfset field = '"field": "COLLECTOR_ROLE"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = "c">
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
 	</cfif>
 
 	<cfif isDefined("publication_id") AND len(publication_id) GT 0>
