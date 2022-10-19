@@ -234,7 +234,7 @@ limitations under the License.
 					media_type <> 'image'
 					OR NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
 					OR auto_host <> 'mczbase.mcz.harvard.edu'
-				}
+				)
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif collectingImagesForCarousel.recordcount GT 0>
