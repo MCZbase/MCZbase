@@ -1086,7 +1086,7 @@ limitations under the License.
 																		<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
 																		<li class="list-group-item col-12 col-md-4 col-lg-3 float-left"> 
 																			<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
-																			<div id="mediaBlock#media_id#" class="border rounded">
+																			<div id="mediaBlock#media_id#" class="border rounded pt-2">
 																				#mediablock#
 																			</div>
 																		</li>
@@ -1212,14 +1212,14 @@ limitations under the License.
 															<div class="card-body bg-white py-0">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
 																	<cfif directCitations.recordCount GT 0>
-																		<h4 class="h5">Citations about the #collection_name#</h4>
+																		<h4 class="h5 mb-0 pl-2 pt-2">Citations about the #collection_name#</h4>
 																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																			<cfloop query="directCitations">
 																				<li class="list-group-item col-12 col-md-12 float-left py-2">#directCitations.type# <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
 																			</cfloop>
 																		</ul>
 																	</cfif>
-																	<h4 class="h5">Citations of cataloged items</h4>
+																	<h4 class="h5 mb-0 pl-2 pt-2">Citations of cataloged items</h4>
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																		<cfloop query="citations">
 																			<li class="list-group-item col-12 col-md-12 float-left py-2"> 
