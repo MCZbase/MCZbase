@@ -119,6 +119,39 @@
 				</cfloop>
 				</tbody>
 			</table>
+		<cfelseif table is "ctunderscore_coll_agent_role">
+			<table class="table table-responsive table-striped d-xl-table">
+				<thead class="thead-light">
+				<tr>
+					<th>
+						Role
+					</th>
+					<th>
+						Description
+					</th>
+					<th>
+						Label
+					</th>
+					<th>
+						Inverse Label
+					</th>
+					<th>
+						Display order
+					</th>
+				</tr>
+				</thead>
+				<tbody>
+				<cfloop query="docs">
+					<tr>
+						<td>#role#</td>
+						<td>#description#</td>
+						<td>#label#</td>
+						<td>#inverse_label#</td>
+						<td>#ordinal#</td>
+					</tr>
+				</cfloop>
+				</tbody>
+			</table>
 		<cfelseif table is "ctspecific_permit_type">
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
