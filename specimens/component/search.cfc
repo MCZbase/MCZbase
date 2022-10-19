@@ -1090,7 +1090,6 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="collector" type="string" required="no">
 	<cfargument name="collector_agent_id" type="string" required="no">
-TODO: Limit collector on collector_type = c
 	<cfargument name="verbatim_date" type="string" required="no">
 	<cfargument name="date_began_date" type="string" required="no">
 	<cfargument name="date_ended_date" type="string" required="no">
