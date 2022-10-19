@@ -1209,7 +1209,7 @@ limitations under the License.
 																	</button>
 																</h3>
 															</div>
-															<div class="card-body bg-white py-0">
+															<div class="card-body bg-white pb-0 pt-2">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
 																	<cfif directCitations.recordCount GT 0>
 																		<h4 class="h5 mb-0 pl-2 pt-2">Citations about the #collection_name#</h4>
