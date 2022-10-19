@@ -130,10 +130,10 @@
 						Description
 					</th>
 					<th>
-						Label
+						Label (group label agent)
 					</th>
 					<th>
-						Inverse Label
+						Inverse Label (agent label group)
 					</th>
 					<th>
 						Display order
