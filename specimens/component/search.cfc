@@ -191,7 +191,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
 			mayBeQuoted = lparts[i];
 			// stricter tolerance for other characters than used in value clause below, do not include " and : when constructing atomParts
-			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-]',"","all");
+			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-<>]',"","all");
 			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
 			if (REFind('^".+"$',mayBeQuoted) GT 0) { 
