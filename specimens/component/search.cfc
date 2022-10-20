@@ -213,6 +213,14 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (partCount EQ 1 and REFind("^[0-9]+$",atomParts[1])) { 
 				// just a number
 				numeric = atomParts[1];
+			} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
+				value = right(value,len(value)-1);
+				comparator = '"comparator": ">"';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
+			} else if (partCount EQ 1 and REFind("^<[0-9]+$",atomParts[1])) { 
+				value = right(value,len(value)-1);
+				comparator = '"comparator": "<"';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & displayFieldName &'",'& comparator & ',"value": "#value#"}';
 			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
 				// number and suffix
 				numeric = rereplace(atomParts[1],"[^0-9]]","","all");
