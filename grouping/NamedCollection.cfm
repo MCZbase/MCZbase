@@ -709,11 +709,11 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-4">
-										<label for="displayed_media_filename" id="displayed_media_filename_label" class="data-entry-label">Filename of exemplar image</label>
+										<label for="displayed_media_filename" id="displayed_media_filename_label" class="data-entry-label">Filename of first specimen image</label>
 										<input type="text" id="displayed_media_filename" class="data-entry-input" aria-labelledby="displayed_media_filename_label" value="#displayed_media_filename#" >
 									</div>
 									<div class="col-12 col-md-4">
-										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image</label>
+										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of first specimen image</label>
 										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input bg-light" aria-labelledby="displayed_media_id_label" value="#displayed_media_id#" readonly >
 									</div>
 									<script>
