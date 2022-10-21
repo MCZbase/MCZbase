@@ -1068,18 +1068,27 @@ limitations under the License.
 										<cfset shownMedia = "">
 										<div class="col-12 pb-3">
 											<h3 class="border-bottom pb-1 border-dark px-2">Other Media</h3>
-											<cfif otherMediaCount gt 50>
+											<cfif otherMediaCount gt 12>
+												<cfif otherMediaCount GT 24>
+													<!--- cardState = collapsed --->
+													<cfset bodyClass = "collapse">
+													<cfset ariaExpanded ="false">
+												<cfelse>
+													<!--- cardState = expanded --->
+													<cfset bodyClass = "collapse show">
+													<cfset ariaExpanded ="true">
+												</cfif>
 												<div class="accordion col-12 px-0 mb-3" id="accordionForOtherMedia">
 													<div class="card mb-2 bg-light">
 														<div class="card-header py-0" id="headingOtherMedia">
 															<h3 class="h4 my-0">
-																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseOtherMedia">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="#ariaExpanded#" data-target="##collapseOtherMedia">
 																#otherMediaCount# Other Media
 																</button>
 															</h3>
 														</div>
 														<div class="card-body bg-white py-0">
-															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="collapse show">
+															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="#bodyClass#">
 																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																<cfloop query="specimenNonImageMedia">
 																	<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
