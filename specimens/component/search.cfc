@@ -143,7 +143,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 	listOfNumbers = REReplace(listOfNumbers, " ", ",","all");	// space to comma
 	listOfNumbers = REReplace(listOfNumbers, "\*", "%","all");	// dos to sql wildcard
 	// strip out any other characters
-	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-]',"","all");
+	listOfNumbers = REReplace(listOfNumbers, '[^0-9A-Za-z%,:"\-<>]',"","all");
 	// reduce repeating commas to a single comma
 	listOfNumbers = REReplace(listOfNumbers, ",,+",",","all");
 	// strip out leading/trailing commas
@@ -191,7 +191,7 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			// A-1-5-a // prefix and suffix with range alternative  (A-1-a to A-5-a)
 			mayBeQuoted = lparts[i];
 			// stricter tolerance for other characters than used in value clause below, do not include " and : when constructing atomParts
-			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-]',"","all");
+			partFromList = REReplace(lparts[i], '[^0-9A-Za-z%\-<>]',"","all");
 			atomParts = ListToArray(partFromList,"-",false);
 			partCount = ArrayLen(atomParts);
 			if (REFind('^".+"$',mayBeQuoted) GT 0) { 
@@ -213,6 +213,14 @@ function ScriptPrefixedNumberListToJSON(listOfNumbers, integerFieldname, prefixF
 			} else if (partCount EQ 1 and REFind("^[0-9]+$",atomParts[1])) { 
 				// just a number
 				numeric = atomParts[1];
+			} else if (partCount EQ 1 and REFind("^>[0-9]+$",atomParts[1])) { 
+				value = right(mayBeQuoted,len(mayBeQuoted)-1);
+				comparator = '"comparator": ">"';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
+			} else if (partCount EQ 1 and REFind("^<[0-9]+$",atomParts[1])) { 
+				value = right(mayBeQuoted,len(mayBeQuoted)-1);
+				comparator = '"comparator": "<"';
+				wherebit = wherebit & comma & '{"nest":"#nestDepth#","join":"' & leadingJoin & '","field": "' & integerFieldName &'",'& comparator & ',"value": "#value#"}';
 			} else if (partCount EQ 1 and REFind("^[0-9]+[A-Za-z]+$",atomParts[1])) { 
 				// number and suffix
 				numeric = rereplace(atomParts[1],"[^0-9]]","","all");
@@ -1649,6 +1657,16 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
 		</cfif>
+	</cfif>
+	<cfif (isDefined("collector_agent_id") AND len(collector_agent_id) GT 0) OR (isDefined("collector") AND len(collector) GT 0) >
+		<!--- limit collector searches to collectors --->
+		<cfset field = '"field": "COLLECTOR_ROLE"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = "c">
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
 	</cfif>
 
 	<cfif isDefined("publication_id") AND len(publication_id) GT 0>

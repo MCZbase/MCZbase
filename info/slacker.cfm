@@ -7,6 +7,7 @@
 	<br><a href="slacker.cfm?action=loanNoSpec">Loans without Specimens</a>
 </cfif>
 <cfif action is "loanNoSpec">
+	<!--- TODO: Should be supported in transactions search --->
 	<cfquery name="data" datasource="uam_god">
 		select 
 			collection,loan_number,loan.transaction_id
