@@ -28,15 +28,21 @@ Function getPublications.  Search for publications by fields
 @return a json structure containing matching publications with ids, years, long format of publication, etc.
 --->
 <cffunction name="getPublications" access="remote" returntype="any" returnformat="json">
-	<cfargument name="text" type="string" required="yes">
-	<cfargument name="publication_type" type="string" required="yes">
-	<cfargument name="publication_title" type="string" required="yes">
-	<cfargument name="publication_remarks" type="string" required="yes">
-	<cfargument name="journal_name" type="string" required="yes">
-	<cfargument name="volume" type="string" required="yes">
-	<cfargument name="issue" type="string" required="yes">
-	<cfargument name="published_year" type="string" required="yes">
-	<cfargument name="to_published_year" type="string" required="yes">
+	<cfargument name="text" type="string" required="no">
+	<cfargument name="publication_type" type="string" required="no">
+	<cfargument name="publication_title" type="string" required="no">
+	<cfargument name="publication_remarks" type="string" required="no">
+	<cfargument name="is_peer_reviewed_fg" type="string" required="no">
+	<cfargument name="journal_name" type="string" required="no">
+	<cfargument name="volume" type="string" required="no">
+	<cfargument name="issue" type="string" required="no">
+	<cfargument name="published_year" type="string" required="no">
+	<cfargument name="to_published_year" type="string" required="no">
+	<cfargument name="cites_collection" type="string" required="no">
+	<cfargument name="cites_specimens" type="string" required="no">
+	<cfargument name="cited_taxon" type="string" required="no">
+	<cfargument name="accepted_for_cited_taxon" type="string" required="no">
+	<cfargument name="cited_collection_object_id" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -68,9 +74,16 @@ Function getPublications.  Search for publications by fields
 				<cfif isDefined("publication_type") AND len(publication_type) GT 0>
 					and publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
 				</cfif>
+				<cfif isDefined("is_peer_reviewed_fg") AND len(is_peer_reviewed_fg) GT 0>
+					and is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
+		<!--- TODO: include in output: 
+    		Links: Annotate, n Cited Specimens, Edit (internal), Manage Citations (internal)
+			short format.
+		--->
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
