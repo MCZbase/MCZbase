@@ -33,6 +33,9 @@ limitations under the License.
 	<cfif not isdefined("publication_title")> 
 		<cfset publication_title="">
 	</cfif>
+	<cfif not isdefined("text")> 
+		<cfset text="">
+	</cfif>
 	<cfif not isdefined("publication_remarks")> 
 		<cfset publication_remarks="">
 	</cfif>
@@ -96,6 +99,12 @@ limitations under the License.
 								<div class="form-row">
 									<div class="col-12 col-md-5">
 										<div class="form-group mb-2">
+											<label for="text" class="data-entry-label mb-0" id="text_label">Any Part of Citation</label>
+											<input type="text" id="text" name="text" class="data-entry-input" value="#encodeForHtml(text)#" aria-labelledby="text_label" >
+										</div>
+									</div>
+									<div class="col-12 col-md-5">
+										<div class="form-group mb-2">
 											<label for="publication_title" class="data-entry-label mb-0" id="publication_title_label">Title</label>
 											<input type="text" id="publication_title" name="publication_title" class="data-entry-input" value="#encodeForHtml(publication_title)#" aria-labelledby="publication_title_label" >
 										</div>
@@ -106,6 +115,8 @@ limitations under the License.
 											<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="data-entry-input" pattern="[0-9]+" title="publication_id is the numeric primary key for the publication record.">
 										</div>
 									</div>
+								</div>
+								<div class="form-row">
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="publication_type" class="data-entry-label mb-0" id="publication_type_label">Publication Type</label>
@@ -122,15 +133,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-1">
-										<div class="form-group mb-2">
-											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume<span></span></label>
-											<input type="text" id="number" name="number" class="data-entry-input" value="#encodeForHtml(volume)#">
-										</div>
-									</div>
-									<div class="col-12 col-md-2 col-xl-3">
+									<div class="col-12 col-md-4">
 										<div class="form-group mb-2">
 											<label for="journal_name" class="data-entry-label mb-0" id="journal_name_label">Journal<span></span></label>
 											<input type="text" id="journal_name" name="journal_name" class="data-entry-input" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
@@ -141,18 +144,22 @@ limitations under the License.
 											});
 										</script>
 									</div>
-								</div>
-								<div class="form-row">
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume <span class="small">(|,*,"",-)</span></label>
+											<input type="text" id="volume" name="volume" class="data-entry-input" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
+										</div>
+									</div>
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
 											<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="issue" name="issue" class="data-entry-input" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
 										</div>
 									</div>
-									<div class="col-12 col-md-3">
+									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume <span class="small">(|,*,"",-)</span></label>
-											<input type="text" id="volume" name="volume" class="data-entry-input" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
+											<label for="number" class="data-entry-label mb-0" id="number_label">Number<span></span></label>
+											<input type="text" id="number" name="number" class="data-entry-input" value="#encodeForHtml(volume)#">
 										</div>
 									</div>
 								</div>
