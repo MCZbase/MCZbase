@@ -196,11 +196,6 @@ limitations under the License.
 												</cfloop>
 											</select>
 											<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="data-entry-input col-6" value="#encodeForHtml(publication_attribute_value)#">
-											<script>
-												$(document).ready(function() {
-													makeAnyMediaLabelAutocomplete("publication_attribute_value","publication_attribute_type");
-												});
-											</script>
 										</div>
 									</div>
 								</div>
