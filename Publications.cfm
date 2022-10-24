@@ -278,9 +278,6 @@ limitations under the License.
 									</div>
 								</div>
 								<div id="columnPickDialogButton"></div>
-								<cfif Application.serverrole NEQ "production" >
-									<div id="gridCardToggleButton"></div>
-								</cfif>
 								<div id="resultDownloadButtonContainer"></div>
 								<output id="actionFeedback" class="btn btn-xs btn-transparent my-2 px-2 pt-1 mx-1 border-0"></output>
 							</div>
@@ -324,10 +321,6 @@ limitations under the License.
 				} else { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
-			};
-			function toggleCardView() { 
-				var currentState = $("##searchResultsGrid").jqxGrid('cardview');
-				$("##searchResultsGrid").jqxGrid({cardview: !currentState});
 			};
 	
 			$(document).ready(function() {
@@ -599,11 +592,6 @@ limitations under the License.
 				$("##columnPickDialogButton").html(
 					"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-xs btn-secondary my-2 mx-1' >Show/Hide Columns</button>"
 				);
-				<cfif Application.serverrole NEQ "production" >
-					$("##gridCardToggleButton").html(
-						"<button id='gridCardToggleButton' onclick=\" toggleCardView(); \" class='btn btn-xs btn-secondary my-2 mx-1' >Grid/Card View</button>"
-					);
-				</cfif>
 
 				<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 					$("##saveDialog").dialog({
