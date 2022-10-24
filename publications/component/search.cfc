@@ -32,7 +32,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="publication_type" type="string" required="yes">
 	<cfargument name="publication_title" type="string" required="yes">
 	<cfargument name="publication_remarks" type="string" required="yes">
-	<cfargument name="journal" type="string" required="yes">
+	<cfargument name="journal_name" type="string" required="yes">
 	<cfargument name="volume" type="string" required="yes">
 	<cfargument name="issue" type="string" required="yes">
 	<cfargument name="published_year" type="string" required="yes">
