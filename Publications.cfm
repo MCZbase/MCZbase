@@ -25,7 +25,7 @@ limitations under the License.
 	select publication_type  from ctpublication_type
 </cfquery>
 <cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select publication_attribute, issue  from ctpublication_attribute
+	select publication_attribute, description, control  from ctpublication_attribute
 </cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
