@@ -66,6 +66,7 @@ limitations under the License.
 	<cfif not isdefined("publication_attribute_value")>
 		<cfset publication_attribute_value="">
 	</cfif>
+	<cfset in_publication_type="#publication_type#">
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
