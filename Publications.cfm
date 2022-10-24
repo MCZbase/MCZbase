@@ -111,7 +111,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="publication_id" class="data-entry-label mb-0" id="mediaid_label">Publication ID</label>
+											<label for="publication_id" class="data-entry-label mb-0" id="publicationid_label">Publication ID</label>
 											<input type="text" id="publication_id" name="publication_id" value="#encodeForHtml(publication_id)#" class="data-entry-input" pattern="[0-9]+" title="publication_id is the numeric primary key for the publication record.">
 										</div>
 									</div>
@@ -450,8 +450,8 @@ limitations under the License.
 					});
 					$("##searchResultsGrid").on("bindingcomplete", function(event) {
 						// add a link out to this search, serializing the form as http get parameters
-						$('##resultLink').html('<a href="/media/findMedia.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-						gridLoaded('searchResultsGrid','media record');
+						$('##resultLink').html('<a href="/Publications.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						gridLoaded('searchResultsGrid','publication record');
 					});
 					$('##searchResultsGrid').on('rowexpand', function (event) {
 						//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -479,7 +479,7 @@ limitations under the License.
 			<cfif isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user") >
 			function populateSaveSearch() { 
 				// set up a dialog for saving the current search.
-				var uri = "/media/findMedia.cfm?execute=true&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
+				var uri = "/Publications.cfm?execute=true&" + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).not(".excludeFromLink").serialize();
 				$("##saveDialog").html(
 					"<div class='row'>"+ 
 					"<form id='saveForm'> " + 
