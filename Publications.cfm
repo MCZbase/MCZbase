@@ -430,8 +430,8 @@ limitations under the License.
 							{text: 'Editors', datafield: 'editors', width:100, hideable: true, hidden: getColHidProp('editors', true) },
 							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
-							{text: 'Type', datafield: 'publication_type', width;100, hideable: true, hidden: getColHidProp('publication_type', false) },
-							{text: 'Remarks', datafield: 'publication_remarks', width: 150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
+							{text: 'Type', datafield: 'publication_type', width:100, hideable: true, hidden: getColHidProp('publication_type', false) },
+							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
 							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
 						],
 						rowdetails: true,
