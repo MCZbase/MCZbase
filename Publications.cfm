@@ -42,6 +42,12 @@ limitations under the License.
 	<cfif not isdefined("publication_id")> 
 		<cfset publication_id="">
 	</cfif>
+	<cfif not isdefined("published_year")> 
+		<cfset published_year="">
+	</cfif>
+	<cfif not isdefined("to_published_year")> 
+		<cfset to_published_year="">
+	</cfif>
 	<cfif not isdefined("volume")> 
 		<cfset volume="">
 	</cfif>
