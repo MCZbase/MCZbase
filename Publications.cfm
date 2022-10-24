@@ -159,13 +159,13 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="published_year">Publication Year Start #asdate#</label>
+											<label class="data-entry-label mx-1 mb-0" for="published_year">Publication Year Start</label>
 											<input name="published_year" id="published_year" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(published_year)#" aria-label="start of range for publication year">
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End #asdate#</label>
+											<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End</label>
 											<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
