@@ -92,7 +92,7 @@ limitations under the License.
 
 						<div class="col-12 pt-3 px-4 pb-2">
 							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="getMedia">
+								<input type="hidden" name="method" value="getPublications">
 								<div class="form-row">
 									<div class="col-12 col-md-5">
 										<div class="form-group mb-2">
@@ -239,9 +239,9 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 pt-0">
-										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
+										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
+										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new publications search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Publications.cfm';" >New Search</button>
 									</div>
 								</div>
 	
@@ -358,52 +358,24 @@ limitations under the License.
 						datafields:
 						[
 							{ name: 'publication_id', type: 'string' },
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{ name: 'mask_media_fg', type: 'string' },
-							</cfif>
-							{ name: 'credit', type: 'string' },
-							{ name: 'licence_uri', type: 'string' },
-							{ name: 'licence_display', type: 'string' },
 							{ name: 'publication_type', type: 'string' },
-							{ name: 'mime_type', type: 'string' },
-							{ name: 'number', type: 'string' },
-							{ name: 'host', type: 'string' },
-							{ name: 'path', type: 'string' },
-							{ name: 'journal_name', type: 'string' },
-							{ name: 'extension', type: 'string' },
-							{ name: 'creator', type: 'string' },
-							{ name: 'owner', type: 'string' },
-							{ name: 'credit', type: 'string' },
-							{ name: 'dc_rights', type: 'string' },
-							{ name: 'relations', type: 'string' },
-							{ name: 'ac_issue', type: 'string' },
-							{ name: 'aspect', type: 'string' },
-							{ name: 'issue', type: 'string' },
-							{ name: 'made_date', type: 'string' },
-							{ name: 'subject', type: 'string' },
-							{ name: 'original_journal_name', type: 'string' },
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{ name: 'internal_remarks', type: 'string' },
-							</cfif>
-							{ name: 'remarks', type: 'string' },
-							{ name: 'spectrometer', type: 'string' },
-							{ name: 'light_source', type: 'string' },
-							{ name: 'spectrometer_reading_location', type: 'string' },
-							{ name: 'height', type: 'string' },
-							{ name: 'width', type: 'string' },
+							{ name: 'published_year', type: 'string' },
+							{ name: 'publication_title', type: 'string' },
 							{ name: 'publication_remarks', type: 'string' },
-							{ name: 'publication_title', type: 'string' }
+							{ name: 'formatted_publication', type: 'string' },
+							{ name: 'authors', type: 'string' },
+							{ name: 'editors', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
 							commit(true);
 						},
-						root: 'mediaRecord',
+						root: 'publicationsRecord',
 						id: 'publication_id',
-						url: '/media/component/search.cfc?' + $('##searchForm').serialize(),
+						url: '/publications/component/search.cfc?' + $('##searchForm').serialize(),
 						timeout: 60000,  // units not specified, miliseconds? 
 						loadError: function(jqXHR, textStatus, error) { 
 							$("##overlay").hide();
-							handleFail(jqXHR,textStatus,error,"running media search");
+							handleFail(jqXHR,textStatus,error,"running publications search");
 						},
 						async: true
 					};
@@ -458,40 +430,14 @@ limitations under the License.
 							],
 						</cfif>
 						columns: [
-							{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: linkIdCellRenderer },
-							{text: 'Preview URI', datafield: 'publication_remarks', width: 100, hidable: true, hidden: getColHidProp('publication_remarks', false), cellsrenderer: thumbCellRenderer },
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Visibility', datafield: 'mask_media_fg', width: 60, hidable: true, hidden: getColHidProp('mask_media_fg', true) },
-							</cfif>
-							{text: 'Media Type', datafield: 'publication_type', width: 100, hidable: true, hidden: getColHidProp('publication_type', false) },
-							{text: 'Mime Type', datafield: 'mime_type', width: 100, hidable: true, hidden: getColHidProp('mime_type', false) },
-							{text: 'Protocol', datafield: 'number', width: 80, hidable: true, hidden: getColHidProp('number', true) },
-							{text: 'Host', datafield: 'host', width: 80, hidable: true, hidden: getColHidProp('host', true) },
-							{text: 'Path', datafield: 'path', width: 80, hidable: true, hidden: getColHidProp('path', true) },
-							{text: 'Filename', datafield: 'journal_name', width: 100, hidable: true, hidden: getColHidProp('journal_name', true) },
-							{text: 'Extension', datafield: 'extension', width: 80, hidable: true, hidden: getColHidProp('extension', true) },
-							{text: 'Aspect', datafield: 'aspect', width: 100, hidable: true, hidden: getColHidProp('aspect', false) },
-							{text: 'Description', datafield: 'issue', width: 140, hidable: true, hidden: getColHidProp('issue', false) },
-							{text: 'Made Date', datafield: 'made_date', width: 100, hidable: true, hidden: getColHidProp('made_date', true) },
-							{text: 'Subject', datafield: 'subject', width: 100, hidable: true, hidden: getColHidProp('subject', true) },
-							{text: 'Original Filename', datafield: 'original_journal_name', width: 120, hidable: true, hidden: getColHidProp('original_journal_name', false) },
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								{text: 'Internal Remarks', datafield: 'internal_remarks', width: 100, hidable: true, hidden: getColHidProp('internal_remarks', true) },
-							</cfif>
-							{text: 'Remarks', datafield: 'remarks', width: 100, hidable: true, hidden: getColHidProp('remarks', true) },
-							{text: 'Spectrometer', datafield: 'spectrometer', width: 100, hidable: true, hidden: getColHidProp('spectrometer', true) },
-							{text: 'Light Source', datafield: 'light_source', width: 100, hidable: true, hidden: getColHidProp('light_source', true) },
-							{text: 'Spectrometer Reading Location', datafield: 'spectrometer_reading_location', width: 100, hidable: true, hidden: getColHidProp('spectrometer_reading_location', true) },
-							{text: 'height', datafield: 'height', width: 80, hidable: true, hidden: getColHidProp('height', false) },
-							{text: 'width', datafield: 'width', width: 80, hidable: true, hidden: getColHidProp('width', false) },
-							{text: 'Creator', datafield: 'creator', width: 100, hidable: true, hidden: getColHidProp('creator', true) },
-							{text: 'Owner', datafield: 'owner', width: 100, hidable: true, hidden: getColHidProp('owner', true) },
-							{text: 'Credit', datafield: 'credit', width: 100, hidable: true, hidden: getColHidProp('credit', true) },
-							{text: 'DC:rights', datafield: 'dc_rights', width: 100, hidable: true, hidden: getColHidProp('dc_rights', true) },
-							{text: 'License', datafield: 'license_display', width: 100, hidable: true, hidden: getColHidProp('license_display', true), cellsrenderer: licenceCellRenderer },
-							{text: 'Relations', datafield: 'relations', width: 200, hidable: true, hidden: getColHidProp('relations', true) },
-							{text: 'Alt Text', datafield: 'ac_issue', width: 200, hidable: true, hidden: getColHidProp('ac_issue', true) },
-							{text: 'Media URI', datafield: 'publication_title', hideable: true, hidden: getColHidProp('publication_title', false) }
+							{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false) },
+							{text: 'Authors', datafield: 'authors', width:100, hideable: true, hidden: getColHidProp('authors', false) },
+							{text: 'Editors', datafield: 'editors', width:100, hideable: true, hidden: getColHidProp('editors', true) },
+							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
+							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
+							{text: 'Type', datafield: 'publication_type', width;100, hideable: true, hidden: getColHidProp('publication_type', false) },
+							{text: 'Remarks', datafield: 'publication_remarks', width: 150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
+							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
 						],
 						rowdetails: true,
 						rowdetailstemplate: {
