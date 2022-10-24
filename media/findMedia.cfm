@@ -653,103 +653,103 @@ limitations under the License.
 								</cfif>
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-lg-5 col-xl-4">
-									<div class="form-group mb-2">
-										<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
-										<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-											<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
-												select distinct guid 
-												from 
-													<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
-													left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-												where 
-													specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-												OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-											</cfquery>
-											<cfloop query="guidLookup">
-												<cfif not listContains(related_cataloged_item,guidLookup.guid)>
-													<cfif len(related_cataloged_item) EQ 0>
-														<cfset related_cataloged_item = guidLookup.guid>
-													<cfelse>
-														<cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+										<div class="form-group mb-2">
+											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
+											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+													select distinct guid 
+													from 
+														<cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+														left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+													where 
+														specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+													OR flat.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+												</cfquery>
+												<cfloop query="guidLookup">
+													<cfif not listContains(related_cataloged_item,guidLookup.guid)>
+														<cfif len(related_cataloged_item) EQ 0>
+															<cfset related_cataloged_item = guidLookup.guid>
+														<cfelse>
+															<cfset related_cataloged_item = related_cataloged_item & "," & guidSearch.guid>
+														</cfif>
 													</cfif>
-												</cfif>
-											</cfloop>
-										</cfif>
-										<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item 
-											<span class="small">
-												(NOT NULL, accepts comma separated list)
-											</span>
-										</label>
-										<input type="text" name="related_cataloged_item" 
-											class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
-											onchange="$('##collection_object_id').val('');">
-									</div>
-								</div>
-									<div class="col-12 col-md-6 col-xl-4">
-										<div class="form-row mx-0 mb-2">
-										<label for="media_relationship_type" class="data-entry-label mb-0" id="nedia_relationship_type_label">Relationship
-											<span class="small">
-												(
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
-												)
-											</span>
-										</label>
-										<cfset selectedrelationship_type= "#media_relationship_type#">
-										<select id="media_relationship_type" name="media_relationship_type" class="data-entry-select col-6">
-											<option></option>
-											<cfloop query="ctmedia_relationship">
-												<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
-													<cfset selected="selected='true'">
-												<cfelse>
-													<cfset selected="">
-												</cfif>
-												<option value="#media_relationship#" #selected#>#media_relationship#</option>
-											</cfloop>
-										</select>
-										<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value)#">
-										<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
-										<script>
-											$(document).ready(function() {
-												$('##media_relationship_type').change(function() {
-													makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
-												});
-											});
-										</script>
-									</div>
+												</cfloop>
+											</cfif>
+											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item 
+												<span class="small">
+													(NOT NULL, accepts comma separated list)
+												</span>
+											</label>
+											<input type="text" name="related_cataloged_item" 
+												class="data-entry-input" value="#encodeForHtml(related_cataloged_item)#" id="related_cataloged_item" placeholder="MCZ:Coll:nnnnn"
+												onchange="$('##collection_object_id').val('');">
+										</div>
 									</div>
 									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-row mx-0 mb-2">
-										<label for="media_relationship_type_1" class="data-entry-label mb-0" id="nedia_relationship_type_label_1">Relationship
-											<span class="small">
-												(
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
-												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
-												)
-											</span>
-										</label>
-										<cfset selectedrelationship_type= "#media_relationship_type_1#">
-										<select id="media_relationship_type_1" name="media_relationship_type_1" class="data-entry-select col-6">
-											<option></option>
-											<cfloop query="ctmedia_relationship">
-												<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
-													<cfset selected="selected='true'">
-												<cfelse>
-													<cfset selected="">
-												</cfif>
-												<option value="#media_relationship#" #selected#>#media_relationship#</option>
-											</cfloop>
-										</select>
-										<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value_1)#">
-										<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
-										<script>
-											$(document).ready(function() {
-												$('##media_relationship_type_1').change(function() {
-													makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
+											<label for="media_relationship_type" class="data-entry-label mb-0" id="nedia_relationship_type_label">Relationship
+												<span class="small">
+													(
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
+													)
+												</span>
+											</label>
+											<cfset selectedrelationship_type= "#media_relationship_type#">
+											<select id="media_relationship_type" name="media_relationship_type" class="data-entry-select col-6">
+												<option></option>
+												<cfloop query="ctmedia_relationship">
+													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#media_relationship#" #selected#>#media_relationship#</option>
+												</cfloop>
+											</select>
+											<input type="text" id="media_relationship_value" name="media_relationship_value" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value)#">
+											<input type="hidden" id="media_relationship_id" name="media_relationship_id" value="#encodeForHtml(media_relationship_id)#">
+											<script>
+												$(document).ready(function() {
+													$('##media_relationship_type').change(function() {
+														makeAnyMediaRelationAutocomplete("media_relationship_value","media_relationship_type","media_relationship_id");
+													});
 												});
-											});
-										</script>
+											</script>
+										</div>
 									</div>
+									<div class="col-12 col-md-6 col-xl-4">
+										<div class="form-row mx-0 mb-2">
+											<label for="media_relationship_type_1" class="data-entry-label mb-0" id="nedia_relationship_type_label_1">Relationship
+												<span class="small">
+													(
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NULL';">NULL</a><span class="sr-only">use NULL to find media records without the selected relationship</span>, 
+													<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('media_relationship_value_1');e.value='NOT_NULL';">NOT_NULL</a><span class="sr-only">use NOT_NULL to find media records with the selected relationship to any record</span>
+													)
+												</span>
+											</label>
+											<cfset selectedrelationship_type= "#media_relationship_type_1#">
+											<select id="media_relationship_type_1" name="media_relationship_type_1" class="data-entry-select col-6">
+												<option></option>
+												<cfloop query="ctmedia_relationship">
+													<cfif selectedrelationship_type EQ ctmedia_relationship.media_relationship>
+														<cfset selected="selected='true'">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#media_relationship#" #selected#>#media_relationship#</option>
+												</cfloop>
+											</select>
+											<input type="text" id="media_relationship_value_1" name="media_relationship_value_1" class="data-entry-input col-6" value="#encodeForHtml(media_relationship_value_1)#">
+											<input type="hidden" id="media_relationship_id_1" name="media_relationship_id_1" value="#encodeForHtml(media_relationship_id_1)#">
+											<script>
+												$(document).ready(function() {
+													$('##media_relationship_type_1').change(function() {
+														makeAnyMediaRelationAutocomplete("media_relationship_value_1","media_relationship_type_1","media_relationship_id_1");
+													});
+												});
+											</script>
+										</div>
 									</div>
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
