@@ -519,7 +519,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-#datecolm# col-xl-#datecolx#">
 										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="made_date">Made Date End #asdate#</label>
+											<label class="data-entry-label mx-1 mb-0" for="to_made_date">Made Date End #asdate#</label>
 											<input type="text" name="to_made_date" id="to_made_date" value="#encodeForHtml(to_made_date)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
 										</div>
 									</div>
