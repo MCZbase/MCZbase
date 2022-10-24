@@ -21,14 +21,86 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
-Function getPublicationList.  Search for publications by name with a substring match on any name, returning json suitable for a dataadaptor.
+Function getPublications.  Search for publications by fields
+ returning json suitable for a dataadaptor.
 
-@param name publication name to search for.
+@param any_part any part of formatted publication string to search for.
+@return a json structure containing matching publications with ids, years, long format of publication, etc.
+--->
+<cffunction name="getPublications" access="remote" returntype="any" returnformat="json">
+	<cfargument name="text" type="string" required="yes">
+	<cfargument name="publication_type" type="string" required="yes">
+	<cfargument name="publication_title" type="string" required="yes">
+	<cfargument name="publication_remarks" type="string" required="yes">
+	<cfargument name="journal" type="string" required="yes">
+	<cfargument name="volume" type="string" required="yes">
+	<cfargument name="issue" type="string" required="yes">
+	<cfargument name="published_year" type="string" required="yes">
+	<cfargument name="to_published_year" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				publication.publication_id, 
+				publication_type, 
+				published_year, 
+				publication_title,
+				publication_remarks,
+				formatted_publication,
+				MCZbase.get_publication_authors(publication.publication_id) as authors,
+				MCZbase.get_publication_editors(publication.publication_id) as editors
+			FROM 
+				publication
+				left join formatted_publication on publication.publication_id = formatted_publication.publication_id
+			WHERE
+				format_style = 'long'
+				<cfif isDefined("text") AND len(text) GT 0>
+					and formatted_publication like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#text#%">
+				</cfif>
+				<cfif isDefined("publication_title") AND len(publication_title) GT 0>
+					and publication_title like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_title#%">
+				</cfif>
+				<cfif isDefined("publication_remarks") AND len(publication_remarks) GT 0>
+					and publication_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_remarks#%">
+				</cfif>
+				<cfif isDefined("publication_type") AND len(publication_type) GT 0>
+					and publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
+				</cfif>
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!---
+Function getPublicationList.  Search for publications by name with a substring match on text, returning json suitable for a dataadaptor.
+
+@param text in formatted_publication to search for.
 @return a json structure containing matching publications with ids, years, long format of publication, etc.
 --->
 <cffunction name="getPublicationList" access="remote" returntype="any" returnformat="json">
 	<cfargument name="text" type="string" required="yes">
-	<!--- perform wildcard search anywhere in publication_name.publication_name --->
+	<!--- perform wildcard search anywhere in formatted_publication.formatted_publication --->
 	<cfset text = "%#text#%"> 
 
 	<cfset data = ArrayNew(1)>
