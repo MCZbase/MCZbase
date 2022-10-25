@@ -216,7 +216,7 @@ limitations under the License.
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-lg-5 col-xl-4">
 										<div class="form-group mb-2">
-											<input type="hidden" id="collection_object_id" name="collection_object_id" value="#encodeForHtml(collection_object_id)#">
+											<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
 											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
 												<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
 													select distinct guid 

@@ -89,6 +89,14 @@ Function getPublications.  Search for publications by fields
 						on publication.publication_id = publication_attribute_type_att.publication_id
 							and publication_attribute_type_att.publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute_type#">
 				</cfif>
+				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0>
+					left join citation on publication.publication_id = citation.publication_id
+				<cfelse>
+					<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
+						left join citation on publication.publication_id = citation.publication_id
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on flat.citation.collection_object_id = flat.collection_object_id
+					</cfif>
+				</cfif>
 			WHERE
 				format_style = 'long'
 				<cfif isDefined("text") AND len(text) GT 0>
@@ -177,6 +185,18 @@ Function getPublications.  Search for publications by fields
 					<cfelse>
 						and publication_attribute_type_att.pub_att_value IS NOT NULL
 					</cfif>
+				</cfif>
+				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0>
+					<cfif cited_collection_object_id EQ "NULL">
+						and citation.collection_object_id IS NULL
+					<cfelseif cited_collection_object_id EQ "NOT NULL">
+						and citation.collection_object_id_att IS NOT NULL
+					<cfelse>
+						and citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_collection_object_id#">
+					</cfif>
+				</cfif>
+				<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
+					and flat.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_catalog_item#" list="yes">)
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
