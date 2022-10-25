@@ -140,7 +140,7 @@ limitations under the License.
 										</div>
 										<script>
 											$(document).ready(function() {
-												makeJournalAutocomplete("journal_name","journal_name");
+												makeJournalAutocomplete("journal_name");
 											});
 										</script>
 									</div>
@@ -501,7 +501,7 @@ limitations under the License.
 				$("##overlay").hide();
 				var now = new Date();
 				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-				var journal_name = searchType.replace(/[ ]/g,'_') + '_results_' + nowstring + '.csv';
+				var filename = searchType.replace(/[ ]/g,'_') + '_results_' + nowstring + '.csv';
 				// display the number of rows found
 				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 				var rowcount = datainformation.rowscount;
@@ -642,7 +642,7 @@ limitations under the License.
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary mx-1 my-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+journal_name+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-xs btn-secondary mx-1 my-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 		</script> 
 	</cfoutput>
