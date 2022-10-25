@@ -57,15 +57,14 @@ Function getPublications.  Search for publications by fields
 				publication_remarks,
 				formatted_publication,
 				MCZbase.get_publication_authors(publication.publication_id) as authors,
-				MCZbase.get_publication_editors(publication.publication_id) as editors
+				MCZbase.get_publication_editors(publication.publication_id) as editors,
+				jour_att.pub_att_value as journal_name
 			FROM 
 				publication
 				join formatted_publication on publication.publication_id = formatted_publication.publication_id
-				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-					left join publication_attributes jour_att 
-						on publication.publication_id = jour_att.publication_id
-							and jour_att.publication_attribute = 'journal name'
-				</cfif>
+				left join publication_attributes jour_att 
+					on publication.publication_id = jour_att.publication_id
+						and jour_att.publication_attribute = 'journal name'
 				<cfif isDefined("volume") AND len(volume) GT 0>
 					left join publication_attributes volume_att 
 						on publication.publication_id = volume_att.publication_id
@@ -85,6 +84,16 @@ Function getPublications.  Search for publications by fields
 				format_style = 'long'
 				<cfif isDefined("text") AND len(text) GT 0>
 					and formatted_publication like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#text#%">
+				</cfif>
+				<cfif isDefined("published_year") AND len(published_year) GT 0>
+					<cfif isDefined("to_published_year") AND len(to_published_year) GT 0>
+						and published_year between
+							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">
+								and
+							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#to_published_year#">
+					<cfelse>
+						and published_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">
+					</cfif>
 				</cfif>
 				<cfif isDefined("publication_title") AND len(publication_title) GT 0>
 					and publication_title like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_title#%">

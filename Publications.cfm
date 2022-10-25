@@ -359,7 +359,8 @@ limitations under the License.
 							{ name: 'publication_remarks', type: 'string' },
 							{ name: 'formatted_publication', type: 'string' },
 							{ name: 'authors', type: 'string' },
-							{ name: 'editors', type: 'string' }
+							{ name: 'editors', type: 'string' },
+							{ name: 'journal_name', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
 							commit(true);
@@ -409,21 +410,6 @@ limitations under the License.
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
-						<cfif Application.serverrole NEQ "production" >
-							cardview: false,
-							cardviewcolumns: [
-								{ width: 'auto', datafield: 'publication_id' },
-								{ width: 'auto', datafield: 'publication_remarks' },
-								{ width: 'auto', datafield: 'publication_type' },
-								{ width: 'auto', datafield: 'mime_type' },
-								{ width: 'auto', datafield: 'aspect' },
-								{ width: 'auto', datafield: 'issue' },
-								{ width: 'auto', datafield: 'original_journal_name' },
-								{ width: 'auto', datafield: 'height' },
-								{ width: 'auto', datafield: 'width' },
-								{ width: 'auto', datafield: 'publication_title' }
-							],
-						</cfif>
 						columns: [
 							{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false) },
 							{text: 'Authors', datafield: 'authors', width:100, hideable: true, hidden: getColHidProp('authors', false) },
@@ -431,6 +417,7 @@ limitations under the License.
 							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
 							{text: 'Type', datafield: 'publication_type', width:100, hideable: true, hidden: getColHidProp('publication_type', false) },
+							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', false) },
 							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
 							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
 						],
