@@ -388,4 +388,49 @@ Function getTypeStatusSearchAutocomplete.  Search for type status values, return
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getDOIAutocomplete.  Search for dois by name with a substring match
+   returning json suitable for jquery-ui autocomplete, with meta renderer.
+
+@param term doi to search for.
+@return a json structure containing id, meta, and value, with matching dois with match in both 
+  value and id, and doi plus short citation in meta.
+--->
+<cffunction name="getDOIAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT distinct
+				doi as id, 
+				doi as value,
+				MCZBASE.getshortcitation(publication_id) as short
+			FROM 
+				publication
+			WHERE
+				doi like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#doi#%">
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.id#">
+			<cfset row["value"] = "#search.value#" >
+			<cfset row["meta"] = "#search.value# (#search.short#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 </cfcomponent>

@@ -86,15 +86,8 @@ limitations under the License.
 				<div class="row mx-0 mb-3">
 					<div class="search-box">
 						<div class="search-box-header">
-							<h1 class="h3 text-white" id="formheading">Find Media Records</h1>
+							<h1 class="h3 text-white" id="formheading">Find Publication Records</h1>
 						</div>
-						<!--- setup date pickers --->
-						<script>
-							$(document).ready(function() {
-								$("##begin_date").datepicker({ dateFormat: 'yy-mm-dd'});
-								$("##end_date").datepicker({ dateFormat: 'yy-mm-dd'});
-							});
-						</script>
 
 						<div class="col-12 pt-3 px-4 pb-2">
 							<form name="searchForm" id="searchForm">
@@ -169,9 +162,14 @@ limitations under the License.
 								<div class="form-row">
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="doi">DOI</label>
-											<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#" class="data-entry-input" title="doi">
+											<label class="data-entry-label mx-1 mb-0" for="doi" id="doi_label">DOI</label>
+											<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#" class="data-entry-input" title="DOI (digital object identifier)">
 										</div>
+										<script>
+											$(document).ready(function() {
+												makeDOIAutocomplete("doi");
+											});
+										</script>
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
