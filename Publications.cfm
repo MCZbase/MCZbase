@@ -63,6 +63,9 @@ limitations under the License.
 	<cfif not isdefined("journal_name")> 
 		<cfset journal_name="">
 	</cfif>
+	<cfif not isdefined("doi")> 
+		<cfset doi="">
+	</cfif>
 	<cfif not isdefined("related_cataloged_item")>
 		<cfset related_cataloged_item="">
 	</cfif>
