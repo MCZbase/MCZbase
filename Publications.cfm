@@ -165,6 +165,12 @@ limitations under the License.
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-4 col-xl-2">
+										<div class="form-row mx-0 mb-2">
+											<label class="data-entry-label mx-1 mb-0" for="doi">DOI</label>
+											<input type="text" name="doi" id="doi" value="#encodeForHtml(doi)#" class="data-entry-input" title="doi">
+										</div>
+									</div>
+									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-group mb-2">
 											<label for="publication_remarks" class="data-entry-label mb-0" id="publication_remarks_label">Publication Remarks</label>
 											<input type="text" id="publication_remarks" name="publication_remarks" class="data-entry-input" value="#encodeForHtml(publication_remarks)#" aria-labelledby="publication_remarks_label" >
@@ -173,18 +179,18 @@ limitations under the License.
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="published_year">Publication Year Start</label>
-											<input name="published_year" id="published_year" type="text" class="datetimeinput col-10 col-md-10 col-lg-10 pr-0 col-xl-10 data-entry-input" placeholder="start yyyy-mm-dd or yyyy" value="#encodeForHtml(published_year)#" aria-label="start of range for publication year">
+											<input name="published_year" id="published_year" type="text" class="data-entry-input" placeholder="start yyyy" value="#encodeForHtml(published_year)#" aria-label="start of range for publication year">
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-2">
 										<div class="form-row mx-0 mb-2">
 											<label class="data-entry-label mx-1 mb-0" for="to_published_year">Publication Year End</label>
-											<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" class="datetimeinput col-10 pr-0 col-md-10 col-lg-10 col-xl-10 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" title="end of date range">
+											<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" class="data-entry-input" placeholder="end yyyy" title="end of date range">
 										</div>
 									</div>
 									<div class="col-12 col-md-4 col-xl-3">
 										<div class="form-row mx-0 mb-2">
-											<label for="publication_attribute_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Other Label
+											<label for="publication_attribute_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Attribute
 												<span class="small">
 													(<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('publication_attribute_value');e.value='='+e.value;">=</a><span class="sr-only">prefix with equals sign for exact match search</span>, 
 													NULL, NOT NULL)

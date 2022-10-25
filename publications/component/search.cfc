@@ -34,6 +34,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="publication_remarks" type="string" required="no">
 	<cfargument name="is_peer_reviewed_fg" type="string" required="no">
 	<cfargument name="journal_name" type="string" required="no">
+	<cfargument name="doi" type="string" required="no">
 	<cfargument name="volume" type="string" required="no">
 	<cfargument name="issue" type="string" required="no">
 	<cfargument name="number" type="string" required="no">
@@ -111,6 +112,15 @@ Function getPublications.  Search for publications by fields
 				</cfif>
 				<cfif isDefined("is_peer_reviewed_fg") AND len(is_peer_reviewed_fg) GT 0>
 					and is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
+				</cfif>
+				<cfif isDefined("doi") AND len(doi) GT 0>
+					<cfif doi EQ "NULL">
+						and doi IS NULL
+					<cfelseif doi EQ "NOT NULL">
+						and doi IS NOT NULL
+					<cfelse>
+						and doi like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#doi#%">
+					</cfif>
 				</cfif>
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
 					<cfif journal_name EQ "NULL">
