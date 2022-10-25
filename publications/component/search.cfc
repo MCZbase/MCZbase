@@ -61,7 +61,7 @@ Function getPublications.  Search for publications by fields
 				publication
 				join formatted_publication on publication.publication_id = formatted_publication.publication_id
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-					left join publication_attribute on publication.publication_id = publication_attribute.publication_id
+					left join publication_attributes on publication.publication_id = publication_attributes.publication_id
 				</cfif>
 			WHERE
 				format_style = 'long'
