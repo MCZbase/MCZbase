@@ -102,7 +102,11 @@ Function getPublications.  Search for publications by fields
 					and publication_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_remarks#%">
 				</cfif>
 				<cfif isDefined("publication_type") AND len(publication_type) GT 0>
-					and publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
+					<cfif left(publication_type,1) EQ "!">
+						and publication_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publication_type,len(publication_type)-1)#">
+					<cfelse>
+						and publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
+					</cfif>
 				</cfif>
 				<cfif isDefined("is_peer_reviewed_fg") AND len(is_peer_reviewed_fg) GT 0>
 					and is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
