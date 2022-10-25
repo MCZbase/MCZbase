@@ -48,7 +48,7 @@ Function getPublications.  Search for publications by fields
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT distinct
 				publication.publication_id, 
 				publication_type, 
 				published_year, 
@@ -59,7 +59,10 @@ Function getPublications.  Search for publications by fields
 				MCZbase.get_publication_editors(publication.publication_id) as editors
 			FROM 
 				publication
-				left join formatted_publication on publication.publication_id = formatted_publication.publication_id
+				join formatted_publication on publication.publication_id = formatted_publication.publication_id
+				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+					left join publication_attribute on publication.publication_id = publication_attribute.publication_id
+				</cfif>
 			WHERE
 				format_style = 'long'
 				<cfif isDefined("text") AND len(text) GT 0>
@@ -76,6 +79,10 @@ Function getPublications.  Search for publications by fields
 				</cfif>
 				<cfif isDefined("is_peer_reviewed_fg") AND len(is_peer_reviewed_fg) GT 0>
 					and is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
+				</cfif>
+				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+					and publication_attribute = 'journal name'
+					and pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
