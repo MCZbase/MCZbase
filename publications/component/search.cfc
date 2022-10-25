@@ -36,6 +36,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="journal_name" type="string" required="no">
 	<cfargument name="volume" type="string" required="no">
 	<cfargument name="issue" type="string" required="no">
+	<cfargument name="number" type="string" required="no">
 	<cfargument name="published_year" type="string" required="no">
 	<cfargument name="to_published_year" type="string" required="no">
 	<cfargument name="cites_collection" type="string" required="no">
@@ -61,7 +62,24 @@ Function getPublications.  Search for publications by fields
 				publication
 				join formatted_publication on publication.publication_id = formatted_publication.publication_id
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-					left join publication_attributes on publication.publication_id = publication_attributes.publication_id
+					left join publication_attributes jour_att 
+						on publication.publication_id = jour_att.publication_id
+							and jour_att.publication_attribute = 'journal name'
+				</cfif>
+				<cfif isDefined("volume") AND len(volume) GT 0>
+					left join publication_attributes issue_att 
+						on publication.publication_id = volume_att.publication_id
+							and volume_att.publication_attribute = 'volume'
+				</cfif>
+				<cfif isDefined("issue") AND len(issue) GT 0>
+					left join publication_attributes issue_att 
+						on publication.publication_id = issue_att.publication_id
+							and issue_att.publication_attribute = 'issue'
+				</cfif>
+				<cfif isDefined("number") AND len(number) GT 0>
+					left join publication_attributes number_att 
+						on publication.publication_id = number_att.publication_id
+							and number_att.publication_attribute = 'number'
 				</cfif>
 			WHERE
 				format_style = 'long'
@@ -81,8 +99,16 @@ Function getPublications.  Search for publications by fields
 					and is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
 				</cfif>
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-					and publication_attribute = 'journal name'
-					and pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
+					and jour_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
+				</cfif>
+				<cfif isDefined("volume") AND len(volume) GT 0>
+					and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+				</cfif>
+				<cfif isDefined("issue") AND len(issue) GT 0>
+					and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+				</cfif>
+				<cfif isDefined("number") AND len(number) GT 0>
+					and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
