@@ -40,14 +40,28 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="number" type="string" required="no">
 	<cfargument name="published_year" type="string" required="no">
 	<cfargument name="to_published_year" type="string" required="no">
-	<cfargument name="cites_collection" type="string" required="no">
+	<cfargument name="cites_collection" type="string" required="no"><!--- TODO --->
 	<cfargument name="cites_specimens" type="string" required="no">
-	<cfargument name="cited_taxon" type="string" required="no">
-	<cfargument name="accepted_for_cited_taxon" type="string" required="no">
+	<cfargument name="cited_taxon" type="string" required="no"><!--- TODO --->
+	<cfargument name="accepted_for_cited_taxon" type="string" required="no"><!--- TODO --->
 	<cfargument name="cited_collection_object_id" type="string" required="no">
+	<cfargument name="related_catalog_item" type="string" required="no">
 	<cfargument name="publication_attribute_type" type="string" required="no">
 	<cfargument name="publication_attribute_value" type="string" required="no">
 
+	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
+		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
+		// ignore cites specimens if a cited specimen is specified
+		<cfif isDefined("cites_specimens") AND len(cites_specimens) GT 0>
+			<cfif cites_specimens EQ "true">
+				<cfset cited_collection_object_id = "NOT NULL">
+			<cfelseif cites_specimens EQ "false">
+				<cfset cited_collection_object_id = "NULL">
+			</cfif>
+		</cfif>
+	</cfif>
+
+	</cfif>
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
