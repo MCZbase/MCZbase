@@ -45,6 +45,8 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="cited_taxon" type="string" required="no">
 	<cfargument name="accepted_for_cited_taxon" type="string" required="no">
 	<cfargument name="cited_collection_object_id" type="string" required="no">
+	<cfargument name="publication_attribute_type" type="string" required="no">
+	<cfargument name="publication_attribute_value" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -81,6 +83,11 @@ Function getPublications.  Search for publications by fields
 					left join publication_attributes number_att 
 						on publication.publication_id = number_att.publication_id
 							and number_att.publication_attribute = 'number'
+				</cfif>
+				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
+					left join publication_attributes publication_attribute_type_att 
+						on publication.publication_id = publication_attribute_type_att.publication_id
+							and publication_attribute_type_att.publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute_type#">
 				</cfif>
 			WHERE
 				format_style = 'long'
@@ -156,6 +163,19 @@ Function getPublications.  Search for publications by fields
 						and number_att.pub_att_value IS NOT NULL
 					<cfelse>
 						and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
+					<cfif isDefined("publication_attribute_value") AND len(publication_attribute_value) GT 0>
+						<cfif publication_attribute_type EQ "NULL">
+							and publication_attribute_type_att.pub_att_value IS NULL
+						<cfelseif publication_attribute_type EQ "NOT NULL">
+							and publication_attribute_type_att.pub_att_value IS NOT NULL
+						<cfelse>
+							and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_type#%">
+						</cfif>
+					<cfelse>
+						and publication_attribute_type_att.pub_att_value IS NOT NULL
 					</cfif>
 				</cfif>
 		</cfquery>
