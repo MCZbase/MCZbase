@@ -58,7 +58,8 @@ Function getPublications.  Search for publications by fields
 				formatted_publication,
 				MCZbase.get_publication_authors(publication.publication_id) as authors,
 				MCZbase.get_publication_editors(publication.publication_id) as editors,
-				jour_att.pub_att_value as journal_name
+				jour_att.pub_att_value as journal_name,
+				doi
 			FROM 
 				publication
 				join formatted_publication on publication.publication_id = formatted_publication.publication_id
@@ -112,16 +113,40 @@ Function getPublications.  Search for publications by fields
 					and is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
 				</cfif>
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-					and jour_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
+					<cfif journal_name EQ "NULL">
+						and jour_att.pub_att_value IS NULL
+					<cfelseif journal_name EQ "NOT NULL">
+						and jour_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and jour_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
+					</cfif>
 				</cfif>
 				<cfif isDefined("volume") AND len(volume) GT 0>
-					and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+					<cfif volume EQ "NULL">
+						and volume_att.pub_att_value IS NULL
+					<cfelseif volume EQ "NOT NULL">
+						and volume_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+					</cfif>
 				</cfif>
 				<cfif isDefined("issue") AND len(issue) GT 0>
-					and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+					<cfif issue EQ "NULL">
+						and issue_att.pub_att_value IS NULL
+					<cfelseif issue EQ "NOT NULL">
+						and issue_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+					</cfif>
 				</cfif>
 				<cfif isDefined("number") AND len(number) GT 0>
-					and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+					<cfif number EQ "NULL">
+						and number_att.pub_att_value IS NULL
+					<cfelseif number EQ "NOT NULL">
+						and number_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+					</cfif>
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>

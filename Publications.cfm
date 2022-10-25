@@ -135,7 +135,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="form-group mb-2">
-											<label for="journal_name" class="data-entry-label mb-0" id="journal_name_label">Journal<span></span></label>
+											<label for="journal_name" class="data-entry-label mb-0" id="journal_name_label">Journal <span class="small">(pick, substring, NULL, NOT NULL)</span></label>
 											<input type="text" id="journal_name" name="journal_name" class="data-entry-input" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
 										</div>
 										<script>
@@ -146,7 +146,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume <span class="small">(|,*,"",-)</span></label>
+											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="volume" name="volume" class="data-entry-input" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
 										</div>
 									</div>
@@ -158,7 +158,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="number" class="data-entry-label mb-0" id="number_label">Number<span></span></label>
+											<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(NULL, NOT NULL)</span></label>
 											<input type="text" id="number" name="number" class="data-entry-input" value="#encodeForHtml(volume)#">
 										</div>
 									</div>
@@ -360,6 +360,7 @@ limitations under the License.
 							{ name: 'formatted_publication', type: 'string' },
 							{ name: 'authors', type: 'string' },
 							{ name: 'editors', type: 'string' },
+							{ name: 'doi', type: 'string' },
 							{ name: 'journal_name', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
@@ -416,7 +417,8 @@ limitations under the License.
 							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
 							{text: 'Type', datafield: 'publication_type', width:100, hideable: true, hidden: getColHidProp('publication_type', false) },
-							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', false) },
+							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', true) },
+							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false) },
 							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
 							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
 						],
