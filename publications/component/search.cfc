@@ -67,7 +67,7 @@ Function getPublications.  Search for publications by fields
 							and jour_att.publication_attribute = 'journal name'
 				</cfif>
 				<cfif isDefined("volume") AND len(volume) GT 0>
-					left join publication_attributes issue_att 
+					left join publication_attributes volume_att 
 						on publication.publication_id = volume_att.publication_id
 							and volume_att.publication_attribute = 'volume'
 				</cfif>
