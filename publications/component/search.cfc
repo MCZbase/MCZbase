@@ -51,7 +51,7 @@ Function getPublications.  Search for publications by fields
 
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
-		// ignore cites specimens if a cited specimen is specified
+		<!--- ignore cites_specimens if a cited specimen is specified --->
 		<cfif isDefined("cites_specimens") AND len(cites_specimens) GT 0>
 			<cfif cites_specimens EQ "true">
 				<cfset cited_collection_object_id = "NOT NULL">
