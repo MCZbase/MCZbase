@@ -294,7 +294,7 @@ limitations under the License.
 						<cfif l_relationship_type EQ 'shows'>
 							AND cmr.media_relationship = 'shows cataloged_item'
 						<cfelseif l_relationship_type EQ 'documents'>
-							AND cmr.media_relationship = 'ledger entry for cataloged_item'
+							AND (cmr.media_relationship = 'ledger entry for cataloged_item' OR cmr.media_relationship = 'documents cataloged_item')
 						<cfelse>
 							AND cmr.media_relationship like '% cataloged_item'
 						</cfif>

@@ -538,7 +538,7 @@ limitations under the License.
 										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" >
 										<script>
 											$(document).ready(function() {
-												makeMediaPickerOneControlMeta("displayed_media_id");
+												makeRichMediaPickerOneControlMeta("displayed_media_id",'image');
 											});
 										</script>
 									</div>
@@ -618,10 +618,13 @@ limitations under the License.
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
 				SELECT 
 					underscore_collection_id, collection_name, underscore_collection_type,
-					description, html_description,
+					underscore_collection.description, 
+					html_description,
 					displayed_media_id,
-					mask_fg
+					underscore_collection.mask_fg,
+					media.auto_filename displayed_media_filename
 				FROM underscore_collection
+					left join media on underscore_collection.displayed_media_id = media.media_id
 				WHERE
 					underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
@@ -705,15 +708,19 @@ limitations under the License.
 									</script>
 								</div>
 								<div class="form-row mb-0">
-									<div class="col-12 col-md-2">
-										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of exemplar image</label>
-										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input" aria-labelledby="displayed_media_id_label" value="#displayed_media_id#" >
-										<script>
-											$(document).ready(function() {
-												makeMediaPickerOneControlMeta("displayed_media_id");
-											});
-										</script>
+									<div class="col-12 col-md-4">
+										<label for="displayed_media_filename" id="displayed_media_filename_label" class="data-entry-label">Filename of first specimen image</label>
+										<input type="text" id="displayed_media_filename" class="data-entry-input" aria-labelledby="displayed_media_filename_label" value="#displayed_media_filename#" >
 									</div>
+									<div class="col-12 col-md-4">
+										<label for="displayed_media_id" id="displayed_media_id_label" class="data-entry-label">MediaID of first specimen image</label>
+										<input type="text" id="displayed_media_id" name="displayed_media_id" class="data-entry-input bg-light" aria-labelledby="displayed_media_id_label" value="#displayed_media_id#" readonly >
+									</div>
+									<script>
+										$(document).ready(function() {
+											makeRichMediaPickerControlMeta("displayed_media_filename","displayed_media_id",'image');
+										});
+									</script>
 								</div>
 								<script>
 									function changed(){
@@ -751,6 +758,9 @@ limitations under the License.
 								function reloadAgentBlock() { 
 									loadAgentDivHTML("#underscore_collection_id#","agentBlock"); 
 								}
+								function reloadCitationBlock() { 
+									loadCitationDivHTML("#underscore_collection_id#","citationBlock"); 
+								}
 							</script>
 							<div class="form-row mb-0 mt-1 border">
 								<cfset agentBlockContent = getAgentDivHTML(underscore_collection_id = "#underscore_collection_id#")>
@@ -767,6 +777,22 @@ limitations under the License.
 									<button id="add_agent_button" class="btn btn-xs btn-secondary" aria-label="add a new agent to this named grouping." onclick="showAddDialog();">Add Agent</button>
 								</div>
 								<div id="agentDialogDiv"></div>
+							</div>
+							<div class="form-row mb-0 mt-1 border">
+								<cfset citationBlockContent = getCitationDivHTML(underscore_collection_id = "#underscore_collection_id#")>
+								<div class="col-12" id="citationBlockHeading">
+									<h2 class="h3">Publications related to this Named Group</h2>
+								</div>
+								<div class="col-12" id="citationBlock">#citationBlockContent#</div>
+								<div class="col-12 pb-1">
+									<script>
+										function showAddCitationDialog() { 
+											opencitenamedgroupingdialog("citationDialogDiv", "#underscore_collection_id#", "#collection_name#", reloadCitationBlock);
+										}
+									</script>
+									<button id="add_citation_button" class="btn btn-xs btn-secondary" aria-label="add a new citation to this named grouping." onclick="showAddCitationDialog();">Add Publication</button>
+								</div>
+								<div id="citationDialogDiv"></div>
 							</div>
 						</div>
 					</div>

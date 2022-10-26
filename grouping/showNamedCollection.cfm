@@ -36,13 +36,15 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfinclude template="/shared/_header.cfm">
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfset otherImageTypes = 0>
 <cfif not isDefined("underscore_collection_id") OR len(underscore_collection_id) EQ 0>
 	<cfthrow message="No named group specified to show.">
 </cfif>
 <cfquery name="getNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
 	SELECT underscore_collection_id, collection_name, description, html_description,
-		mask_fg
+		mask_fg,
+		displayed_media_id
 	FROM underscore_collection
 	WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 </cfquery>
@@ -66,11 +68,27 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
-		<cfquery name="specimenImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+			<cfif len(displayed_media_id) GT 0>
 			SELECT distinct media.media_id, 
 				media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media.media_type,
+				media.mime_type,
+				1 as topsort
+			FROM media
+			WHERE
+				media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+			UNION
+			</cfif>
+			SELECT distinct media.media_id, 
+				media.media_uri, 
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media.media_type,
+				media.mime_type,
+				2 as topsort
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -81,14 +99,25 @@ limitations under the License.
 				left join media on media_relations.media_id = media.media_id							
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND media_relations.media_relationship = 'shows cataloged_item'
-				AND media.media_type = 'image'
-				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
 				AND flat.guid is not null
+			<cfif len(displayed_media_id) GT 0>
+				AND media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#displayed_media_id#">
+			</cfif>
 		</cfquery>
 		<cfquery name="specimenImagesForCarousel" dbtype="query">
 			SELECT * 
-			FROM specimenImagesForCarousel_raw 
+			FROM specimenMedia_raw 
 			WHERE encumb < 1
+				AND media_type = 'image'
+				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+			ORDER BY topsort asc, media_id
+		</cfquery>
+		<cfquery name="specimenNonImageMedia" dbtype="query">
+			SELECT * 
+			FROM specimenMedia_raw 
+			WHERE encumb < 1
+				AND media_type <> 'image' AND NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+			ORDER BY media_id
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif specimenImagesForCarousel.recordcount GT 0>
@@ -109,7 +138,8 @@ limitations under the License.
 		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 			SELECT DISTINCT media.media_id, media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media_type, mime_type, auto_host
 			FROM
 				underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
@@ -121,15 +151,25 @@ limitations under the License.
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 				AND collector.collector_role = 'c'
 				AND media_relations.media_relationship = 'shows agent'
-				AND media.media_type = 'image'
-				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				AND media.auto_host = 'mczbase.mcz.harvard.edu'
 				AND flat.guid IS NOT NULL
 		</cfquery>
 		<cfquery name="agentImagesForCarousel" dbtype="query">
 			SELECT * 
 			FROM agentImagesForCarousel_raw 
 			WHERE encumb < 1
+				AND media_type = 'image'
+				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+				AND auto_host = 'mczbase.mcz.harvard.edu'
+		</cfquery>
+		<cfquery name="agentNonImageMedia" dbtype="query">
+			SELECT * 
+			FROM agentImagesForCarousel_raw 
+			WHERE encumb < 1
+				AND (
+					media_type <> 'image' 
+					OR NOT (mime_type =  'image/jpeg' OR mime_type = 'image/png')
+					OR auto_host <> 'mczbase.mcz.harvard.edu'
+				)
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif agentImagesForCarousel.recordcount GT 0>
@@ -150,27 +190,51 @@ limitations under the License.
 		<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 			SELECT DISTINCT media_uri, media.media_id,
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
-				MCZBASE.is_media_encumbered(media.media_id)  as encumb
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media_type, mime_type, auto_host
 			FROM
 				underscore_collection
-				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+				join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
 					on underscore_relation.collection_object_id = flat.collection_object_id
-				left join collecting_event 
-					on flat.collecting_event_id = collecting_event.collecting_event_id 
-				left join media_relations 
-					on collecting_event.collecting_event_id = media_relations.related_primary_key 
-				left join media on media_relations.media_id = media.media_id 
+				join media_relations 
+					on flat.collecting_event_id = media_relations.related_primary_key 
+				join media on media_relations.media_id = media.media_id 
 			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-				AND (media_relations.media_relationship = 'shows collecting_event' or media_relations.media_relationship = 'locality')
-				AND media.media_type = 'image'
-				AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-				AND media.auto_host = 'mczbase.mcz.harvard.edu'
+				AND media_relations.media_relationship = 'shows collecting_event'
+			UNION
+			SELECT DISTINCT media_uri, media.media_id,
+				MCZBASE.get_media_descriptor(media.media_id) as alt,
+				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
+				media_type, mime_type, auto_host
+			FROM
+				underscore_collection
+				join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat 
+					on underscore_relation.collection_object_id = flat.collection_object_id
+				join media_relations 
+					on flat.locality_id = media_relations.related_primary_key 
+				join media on media_relations.media_id = media.media_id 
+			WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				AND media_relations.media_relationship = 'shows locality'
 		</cfquery>
 		<cfquery name="collectingImagesForCarousel" dbtype="query">
 			SELECT * 
 			FROM collectingImagesForCarousel_raw 
 			WHERE encumb < 1
+				AND media_type = 'image'
+				AND (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+				AND auto_host = 'mczbase.mcz.harvard.edu'
+		</cfquery>
+		<cfquery name="collectingNonImageMedia" dbtype="query">
+			SELECT * 
+			FROM collectingImagesForCarousel_raw 
+			WHERE encumb < 1
+				AND (
+					media_type <> 'image'
+					OR NOT (mime_type = 'image/jpeg' OR mime_type = 'image/png')
+					OR auto_host <> 'mczbase.mcz.harvard.edu'
+				)
 		</cfquery>
 		<cfset imageSetMetadata = "[]">
 		<cfif collectingImagesForCarousel.recordcount GT 0>
@@ -504,7 +568,6 @@ limitations under the License.
 										}
 									</script>
 										
-										
 										<div class="col-12 px-0 float-left">
 											<div class="border rounded px-1 mx-1 pb-1">
 												<h2 class="px-3 text-center pt-2">Heat Map of Georeferenced Specimen Locations</h2>
@@ -541,23 +604,7 @@ limitations under the License.
 										<div class="row bottom px-3"><!---for all three other image blocks--->
 											<div class="col-12 px-0 mt-2 mb-3"><!---for all three other image blocks--->
 												<cfif agentImagesForCarousel.recordcount GT 0>
-													<cfquery name="agentCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentCt">
-														SELECT DISTINCT media.media_id
-														FROM
-															underscore_collection
-															left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-															left join cataloged_item
-																on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-															left join collector on underscore_relation.collection_object_id = collector.collection_object_id
-															left join media_relations on collector.agent_id = media_relations.related_primary_key
-															left join media on media_relations.media_id = media.media_id
-														WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-															AND collector.collector_role = 'c'
-															AND media_relations.media_relationship = 'shows agent'
-															AND media.media_type = 'image'
-															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-															AND media.auto_host = 'mczbase.mcz.harvard.edu'
-													</cfquery>													
+													<cfset agentCt = agentImagesForCarousel.recordcount>
 													<cfloop query="agentImagesForCarousel" startRow="1" endRow="1">
 														<cfset agent_media_uri = agentImagesForCarousel.media_uri>
 														<cfset agent_media_id = agentImagesForCarousel.media_id>
@@ -565,7 +612,7 @@ limitations under the License.
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3"><!---just for agent block--->
 														<div class="carousel_background border rounded float-left w-100 p-2">
-															<h3 class="h4 mx-2 text-center">#agentCt.recordcount# Agent Images </h3>
+															<h3 class="h4 mx-2 text-center">#agentCt# Agent Images </h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
 																<cfset i=1>
 																<div class="w-100 float-left px-3 h-auto">
@@ -583,7 +630,7 @@ limitations under the License.
 																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
-															<div class="w-100 text-center smaller">of #agentCt.recordcount#</div>
+															<div class="w-100 text-center smaller">of #agentCt#</div>
 														</div>
 													</div>
 													<script>
@@ -622,25 +669,8 @@ limitations under the License.
 													</script>
 												</cfif>
 												<cfif collectingImagesForCarousel.recordcount gt 0>
-													<cfquery name="collectingCt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result">
-														SELECT DISTINCT media.media_id
-														FROM
-															underscore_collection
-															left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-															left join cataloged_item
-																on underscore_relation.collection_object_id = cataloged_item.collection_object_id
-																left join collecting_event 
-																on collecting_event.collecting_event_id = cataloged_item.collecting_event_id 
-																left join media_relations 
-																on collecting_event.collecting_event_id = media_relations.related_primary_key 
-															left join media on media_relations.media_id = media.media_id
-														WHERE underscore_collection.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-															AND media_relations.media_relationship = 'shows collecting_event'
-															AND media.media_type = 'image'
-															AND (media.mime_type = 'image/jpeg' OR media.mime_type = 'image/png')
-															AND media.media_uri LIKE '%mczbase.mcz.harvard.edu%'
-													</cfquery>
-													<cfif collectingCt.recordcount GT 0>
+													<cfset collectingCt = collectingImagesForCarousel.recordcount>
+													<Cfif collectingCt GT 0>
 														<cfset otherImageTypes = otherImageTypes + 1>
 													</cfif>	
 													<cfloop query="collectingImagesForCarousel" startRow="1" endRow="1">
@@ -650,7 +680,7 @@ limitations under the License.
 													</cfloop>
 													<div class="col-12 px-1 #colClass# mx-md-auto my-3">
 														<div class="carousel_background border rounded float-left w-100 p-2">
-														<h3 class="h4 mx-2 text-center">#collectingCt.recordcount# Collecting Images
+														<h3 class="h4 mx-2 text-center">#collectingCt# Collecting/Locality Images
 														</h3>
 															<div class="vslider w-100 float-left bg-light" id="vslider-base2">
 																<div class="w-100 float-left px-3 h-auto">
@@ -668,7 +698,7 @@ limitations under the License.
 																<input id="collecting_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
 																<button id="next_collecting_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
 															</div>
-															<div class="w-100 text-center smaller">of #collectingCt.recordcount#</div>
+															<div class="w-100 text-center smaller">of #collectingCt#</div>
 														</div>
 													</div>
 													<script>
@@ -723,35 +753,37 @@ limitations under the License.
 									</cfif>
 								</div>
 								<div class="row pb-4">
-									<div class="col-12 pt-3 pb-2">
-										<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result">
-											SELECT DISTINCT 
-												agent_id, 
-												MCZBASE.get_agentnameoftype(agent_id) agent_name,
-												remarks,
-												ctunderscore_coll_agent_role.label,
-												ctunderscore_coll_agent_role.ordinal
-											FROM
-												underscore_collection_agent
-												left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
-											WHERE underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
-											ORDER BY ctunderscore_coll_agent_role.ordinal asc 
-										</cfquery>
-										<h3 class="px-2 pb-1 border-bottom border-dark">
+									<cfquery name="agentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentQuery_result">
+										SELECT DISTINCT 
+											agent_id, 
+											MCZBASE.get_agentnameoftype(agent_id) agent_name,
+											remarks,
+											ctunderscore_coll_agent_role.label,
+											ctunderscore_coll_agent_role.ordinal
+										FROM
+											underscore_collection_agent
+											left join ctunderscore_coll_agent_role on underscore_collection_agent.role = ctunderscore_coll_agent_role.role
+										WHERE underscore_collection_agent.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+										ORDER BY ctunderscore_coll_agent_role.ordinal asc 
+									</cfquery>
+									<cfif agentQuery.recordcount GT 0>
+										<div class="col-12 pt-3 pb-2">
+											<h3 class="px-2 pb-1 border-bottom border-dark">
 												Associated Agents
-										</h3>
-										<ul>
-											<cfloop query="agentQuery">
-												<li>
-													<span>
-														#agentQuery.label# 
-														<a class="h4 px-2 py-2" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
-														#agentQuery.remarks#
-													</span>
-												</li>
-											</cfloop>
-										</ul>
-									</div>
+											</h3>
+											<ul>
+												<cfloop query="agentQuery">
+													<li>
+														<span>
+															#agentQuery.label# 
+															<a class="h4 px-2 py-2" href="/agents/Agent.cfm?agent_id=#agentQuery.agent_id#">#agentQuery.agent_name#</a> 
+															#agentQuery.remarks#
+														</span>
+													</li>
+												</cfloop>
+											</ul>
+										</div>
+									</cfif>
 									<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
 										SELECT DISTINCT flat.phylclass as taxon, flat.phylclass as taxonlink, 'phylclass' as rank
 										FROM
@@ -1031,7 +1063,128 @@ limitations under the License.
 											</cfif>
 										</div>
 									</cfif>
+									<cfset otherMediaCount = specimenNonImageMedia.recordcount + agentNonImageMedia.recordcount + collectingNonImageMedia.recordcount>
+									<cfif otherMediaCount GT 0>
+										<cfset shownMedia = "">
+										<div class="col-12 pb-3">
+											<h3 class="border-bottom pb-1 border-dark px-2">Other Media</h3>
+											<cfif otherMediaCount gt 12>
+												<cfif otherMediaCount GT 24>
+													<!--- cardState = collapsed --->
+													<cfset bodyClass = "collapse">
+													<cfset ariaExpanded ="false">
+												<cfelse>
+													<!--- cardState = expanded --->
+													<cfset bodyClass = "collapse show">
+													<cfset ariaExpanded ="true">
+												</cfif>
+												<div class="accordion col-12 px-0 mb-3" id="accordionForOtherMedia">
+													<div class="card mb-2 bg-light">
+														<div class="card-header py-0" id="headingOtherMedia">
+															<h3 class="h4 my-0">
+																<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="#ariaExpanded#" data-target="##collapseOtherMedia">
+																#otherMediaCount# Other Media
+																</button>
+															</h3>
+														</div>
+														<div class="card-body bg-white py-0">
+															<div id="collapseOtherMedia" aria-labelledby="headingOtherMedia" data-parent="##accordionForOtherMedia" class="#bodyClass#">
+																<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																<cfloop query="specimenNonImageMedia">
+																	<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
+																</cfloop>
+																<cfloop query="agentNonImageMedia">
+																	<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,agentNonImageMedia.media_id)>
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
+																</cfloop>
+																<cfloop query="collectingNonImageMedia">
+																	<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
+																		<cfset shownMedia = ListAppend(shownMedia,collectingNonImageMedia.media_id)>
+																		<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																			<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																			<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																				#mediablock#
+																			</div>
+																		</li>
+																	</cfif>
+																</cfloop>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+											<cfelse>
+												<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+													<cfloop query="specimenNonImageMedia">
+														<cfif NOT ListContains(shownMedia,specimenNonImageMedia.media_id)>
+															<cfset shownMedia = ListAppend(shownMedia,specimenNonImageMedia.media_id)>
+															<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																<cfset mediablock= getMediaBlockHtml(media_id="#specimenNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																	#mediablock#
+																</div>
+															</li>
+														</cfif>
+													</cfloop>
+													<cfloop query="agentNonImageMedia">
+														<cfif NOT ListContains(shownMedia,agentNonImageMedia.media_id)>
+															<cfset shownMedia = ListAppend(shownMedia,agentNonImageMedia.media_id)>
+															<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																<cfset mediablock= getMediaBlockHtml(media_id="#agentNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																	#mediablock#
+																</div>
+															</li>
+														</cfif>
+													</cfloop>
+													<cfloop query="collectingNonImageMedia">
+														<cfif NOT ListContains(shownMedia,collectingNonImageMedia.media_id)>
+															<cfset shownMedia = ListAppend(shownMedia,collectingNonImageMedia.media_id)>
+															<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
+																<cfset mediablock= getMediaBlockHtml(media_id="#collectingNonImageMedia.media_id#",displayAs="thumb",captionAs="textShort")>
+																<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
+																	#mediablock#
+																</div>
+															</li>
+														</cfif>
+													</cfloop>
+												</ul>
+											</cfif>
+										</div>
+									</cfif>
 									<div class="col-12 px-0">
+										<cfquery name="directCitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="directCitations_result">
+											SELECT
+												publication_id,
+												MCZBASE.getfullcitation(publication_id) formatted_publication,
+												MCZBASE.getshortcitation(publication_id) short_publication,
+												type,
+												pages,
+												remarks,
+												citation_page_uri
+											FROM
+												underscore_collection_citation
+												join underscore_collection on underscore_collection_citation.underscore_collection_id = underscore_collection.underscore_collection_id
+											WHERE
+												underscore_collection_citation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+											ORDER BY
+												type, MCZBASE.getshortcitation(publication_id)
+										</cfquery>
 										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
 											SELECT
 												distinct 
@@ -1051,36 +1204,55 @@ limitations under the License.
 											ORDER BY
 												formatted_publication
 										</cfquery>
-										<cfif citations.recordcount GT 0>
+										<cfif citations.recordcount GT 0 OR directCitations.recordcount GT 0>
+											<cfset totalCitations = citations.recordcount + directCitations.recordcount>
 											<div class="col-12 pb-3">
 												<h3 class="border-bottom pb-1 border-dark px-2">Citations</h3>
-												<cfif citations.recordcount gt 50>
+												<cfif totalCitations GT 50>
 													<div class="accordion col-12 px-0 mb-3" id="accordionForCitations">
 														<div class="card mb-2 bg-light">
 															<div class="card-header py-0" id="headingCitations">
 																<h3 class="h4 my-0">
 																	<button type="button" class="headerLnk w-100 text-left" data-toggle="collapse" aria-expanded="true" data-target="##collapseCitations">
-																	#citations.recordcount# Citations
+																	#totalCitations# Citations
 																	</button>
 																</h3>
 															</div>
-															<div class="card-body bg-white py-0">
+															<div class="card-body bg-white pb-0 pt-2">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
+																	<cfif directCitations.recordCount GT 0>
+																		<h4 class="h5 mb-0 pl-2 pt-2">Citations about the #collection_name#</h4>
+																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+																			<cfloop query="directCitations">
+																				<li class="list-group-item col-12 col-md-12 float-left py-2"><span class="border-bottom mr-2">#directCitations.type#</span> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
+																			</cfloop>
+																		</ul>
+																	</cfif>
+																	<h4 class="h5 mb-0 pl-2 pt-2">Citations of cataloged items</h4>
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
-																	<cfloop query="citations">
-																		<li class="list-group-item col-12 col-md-12 float-left py-2"> 
-																			<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a>
-																		</li>
-																	</cfloop>
+																		<cfloop query="citations">
+																			<li class="list-group-item col-12 col-md-12 float-left py-2"> 
+																				<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a>
+																			</li>
+																		</cfloop>
 																	</ul>
 																</div>
 															</div>
 														</div>
 													</div>
 												<cfelse>
+													<cfif directCitations.recordCount GT 0>
+														<h4 class="h5 mb-0 pt-0">Citations about the #collection_name#</h4>
+														<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
+															<cfloop query="directCitations">
+																<li class="list-group-item col-12 col-md-12 float-left py-2"><span class="border-bottom mr-2">#directCitations.type#</span> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
+															</cfloop>
+														</ul>
+													</cfif>
+													<h4 class="h5 mb-0 pt-2">Citations of cataloged items</h4>
 													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 														<cfloop query="citations">
-															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#, </a> </li>
+															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> </li>
 														</cfloop>
 													</ul>
 												</cfif>

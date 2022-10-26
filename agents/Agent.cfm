@@ -81,12 +81,51 @@ limitations under the License.
 		left join agent on agent.agent_id = collector.agent_id
 	WHERE 
 		collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and collector.collector_role = 'c'
 		and flat.guid IS NOT NULL
 		and flat.dec_lat is not null
+	and collector.collector_role = 'c'
 		
 </cfquery>
 
 <cfoutput>
+	<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+	SELECT media.media_id,
+		mczbase.get_media_descriptor(media.media_id) as alt,
+		mczbase.get_medialabel(media.media_id,'subject') as subject,
+		media.media_uri,
+		media.preview_uri,
+		media.media_type,
+		CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 
+			THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) 
+			END as license_uri, 
+		CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 
+			THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) 
+			END as license_display, 
+		MCZBASE.get_media_credit(media.media_id) as credit 
+	FROM media_relations 
+		left join media on media_relations.media_id = media.media_id
+		left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
+	WHERE media_relationship like 'shows agent'
+		and media.auto_host = 'mczbase.mcz.harvard.edu'
+		and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+		and mczbase.is_media_encumbered(media.media_id) < 1
+</cfquery>
+<cfset imageSetMetadata = "[]">
+<cfif getMedia.recordcount GT 0>
+	<cfset imageSetMetadata = "[">
+	<cfset comma = "">
+	<cfloop query="getMedia">
+		<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
+		<cfset imageSetMetadata = '#imageSetMetadata##comma#{"media_id":"#getMedia.media_id#","media_uri":"#getMedia.media_uri#","alt":"#altEscaped#"}'>
+		<cfset comma = ",">
+	</cfloop>
+	<cfset imageSetMetadata = "#imageSetMetadata#]">
+</cfif>
+<script>
+	var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
+	var currentAgentImage = 1;
+</script>
 	<main class="container-xl px-0" id="content">
 		<div class="row mx-0">
 			<cfloop query="getAgent">
@@ -317,24 +356,8 @@ limitations under the License.
 							<!--- Media --->
 							<section class="accordion" id="mediaSection"> 
 								<div class="card mb-2 bg-light">
-									<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
-										SELECT media.media_id,
-											mczbase.get_media_descriptor(media.media_id) as descriptor,
-											mczbase.get_medialabel(media.media_id,'subject') as subject,
-											media.media_uri,
-											media.preview_uri,
-											media.media_type,
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-											CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
-											MCZBASE.get_media_credit(media.media_id) as credit 
-										FROM media_relations 
-											left join media on media_relations.media_id = media.media_id
-											left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
-										WHERE media_relationship like 'shows agent'
-											and related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-											and mczbase.is_media_encumbered(media.media_id) < 1
-									</cfquery>
-									<cfif getMedia.recordcount GT 2>
+									
+									<cfif getMedia.recordcount LT 1>
 										<!--- cardState = collapsed --->
 										<cfset bodyClass = "collapse">
 										<cfset ariaExpanded ="false">
@@ -351,20 +374,89 @@ limitations under the License.
 											</button>
 										</h2>
 									</div>
-									<div id="mediaCardBodyWrap" class="#bodyClass# px-3" aria-labelledby="mediaHeader" data-parent="##mediaSection">
+									<div id="mediaCardBodyWrap" class="#bodyClass# px-2" aria-labelledby="mediaHeader" data-parent="##mediaSection">
 										<cfif getMedia.recordcount eq 0>
 											<ul class="list-group">
 												<li class="list-group-item py-2">No media showing this agent</li>
 											</ul>
 										<cfelse>
 											<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textCaption" (truncated to 50 characters) --->
-											<cfset mediaBlock= getMediaBlockHtml(media_id="#getMedia.media_id#",size="350",captionAs="textCaption")>
-											<div id="mediaBlock#getMedia.media_id#" class="px-xl-5 px-md-0 px-sm-5 px-0">
-												#mediaBlock#
-											</div>
+											<cfif getMedia.recordcount GT 0>
+													<cfset agentCt = getMedia.recordcount>
+													<cfloop query="getMedia" startRow="1" endRow="1">
+														<cfset agent_media_uri = getMedia.media_uri>
+														<cfset agent_media_id = getMedia.media_id>
+														<cfset agent_alt = getMedia.alt>
+													</cfloop>
+													<div class="col-12 px-0 mx-md-auto my-2"><!---just for agent block--->
+														<div class="carousel_background border rounded">
+															<div class="vslider w-100 float-left bg-light" id="vslider-base1">
+																<cfset i=1>
+																<div class="w-100 float-left px-2 h-auto">
+																	<!---The href is determined by shared-scripts.js goImageByNumber function --placeholder is here--->
+																	<cfset sizeType='&width=1000&height=1000'>
+																	<a id="agent_detail_a" class="d-block pt-2" href="/media/#agent_media_id#">Media Details</a>
+																	<a id="agent_media_a" href="#agent_media_uri#" class="d-block my-1 w-100" title="click to open full image">
+																		<img id="agent_media_img" src="/media/rescaleImage.cfm?media_id=#agent_media_id##sizeType#" class="mx-auto" alt="#agent_alt#" height="100%" width="100%">
+																	</a>
+																	<p id="agent_media_desc" class="mt-2 small bg-light">#agent_alt#</p>
+																</div>
+															</div>
+															<div class="custom-nav text-center small bg-white mb-0 pt-0 pb-1">
+																<button id="previous_agent_image" type="button" class="border-0 btn-outline-primary rounded">&lt;&nbsp;prev </button>
+																<input id="agent_image_number" type="number" class="custom-input data-entry-input d-inline border border-light" value="1">
+																<button id="next_agent_image" type="button" class="border-0 btn-outline-primary rounded"> next&nbsp;&gt;</button>
+															</div>
+															<div class="w-100 text-center smaller pb-1">of #agentCt#</div>
+															<script>
+																var $inputAgent = document.getElementById('agent_image_number');
+																var $prevAgent = document.getElementById('previous_agent_image');
+																var $nextAgent = document.getElementById('next_agent_image');
+																function goPreviousAgent() { 
+																	currentAgentImage = goPreviousImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+																}
+																function goNextAgent() { 
+																	currentAgentImage = goNextImage(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#"); 
+																}
+																function goAgent() { 
+																	currentAgentImage = goImageByNumber(currentAgentImage, agentImageSetMetadata, "agent_media_img", "agent_media_desc", "agent_detail_a", "agent_media_a", "agent_image_number","#sizeType#");
+																}
+																$(document).ready(function () {
+																	$inputAgent.addEventListener('change', function (e) {
+																		goAgent()
+																	}, false)
+																	$prevAgent.addEventListener('click', function (e) {
+																		goPreviousAgent()
+																	}, false)
+																	$nextAgent.addEventListener('click', function (e) {
+																		goNextAgent()
+																	}, false)
+																	$("##agent_media_img").scrollTop(function (event) {
+																		event.preventDefault();
+																		var ya = event.scrollTop;
+																		if (ya > $nextAgent) { 
+																			currentAgentImage = 0;
+																		} else { 
+																			goPreviousAgent();
+																		}
+																	});
+																});
+															</script>
+														</div>
+													</div>
+											
+												</cfif>
 										</cfif>
 									</div><!--- end mediaCardBodyWrap --->
 								</div>
+								<script>
+								//  carousel fix for specimen images on small screens below.  I tried to fix this with the ratio select added to the query but that only works if there are a lot of images to choose from; for small images pools, where the most common ratio cannot be selected, this may still help.	
+								$(window).on('load resize', function () {
+									var w = $(window).width();
+									$("##vslider-item")
+										.css('max-height', w > 1280 ? 685 : w > 480 ? 400 : 315);
+								});
+								</script>
 							</section>
 							<!--- emails/phone numbers --->
 							<cfif oneOfUs EQ 1>
@@ -515,33 +607,31 @@ limitations under the License.
 													</cfloop>
 												</ul>
 											</cfif>
-											<cfif oneOfUs EQ 1>
-												<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
-														agent_remarks
-													FROM agent_relations 
-													WHERE
-														related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-														and agent_relationship not like '% duplicate of'
-													ORDER BY agent_relationship
-												</cfquery>
-												<cfif totalRelCount EQ 0>
-													<ul class="list-group">
-														<li class="list-group-item">None from other agents</li>
-													</ul>
-												<cfelse>
-													<ul class="list-group">
-														<cfloop query="getRevAgentRel">
-															<cfif len(getRevAgentRel.agent_remarks) GT 0>
-																<cfset rem=" [#getRevAgentRel.agent_remarks#]">
-																	<cfelse>
-																<cfset rem="">
-															</cfif>
-															<li class="list-group-item">
-																<a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
-														</cfloop>
-													</ul>
-												</cfif>
+											<cfquery name="getRevAgentRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT agent_relationship, agent_id as related_agent_id, MCZBASE.get_agentnameoftype(agent_id) as related_name,
+													agent_remarks
+												FROM agent_relations 
+												WHERE
+													related_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+													and agent_relationship not like '% duplicate of'
+												ORDER BY agent_relationship
+											</cfquery>
+											<cfif totalRelCount EQ 0>
+												<ul class="list-group">
+													<li class="list-group-item">None from other agents</li>
+												</ul>
+											<cfelse>
+												<ul class="list-group">
+													<cfloop query="getRevAgentRel">
+														<cfif len(getRevAgentRel.agent_remarks) GT 0>
+															<cfset rem=" [#getRevAgentRel.agent_remarks#]">
+																<cfelse>
+															<cfset rem="">
+														</cfif>
+														<li class="list-group-item">
+															<a href="/agents/Agent.cfm?agent_id=#related_agent_id#">#related_name#</a> #agent_relationship# #getAgent.preferred_agent_name##rem#</li>
+													</cfloop>
+												</ul>
 											</cfif>
 										</div>
 									</div><!--- end relationshipsCardBodyWrap --->
@@ -555,7 +645,7 @@ limitations under the License.
 										agent_name
 									FROM
 										group_member 
-										left join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
+										join preferred_agent_name on group_member.group_agent_id = preferred_agent_name.agent_id
 									WHERE
 										member_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 										<cfif oneOfUs NEQ 1>
@@ -706,6 +796,7 @@ limitations under the License.
 									left join collector on collector.collection_object_id = flat.collection_object_id
 									left join agent on agent.agent_id = collector.agent_id
 								WHERE collector.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+								and collector_role='c'
 							</cfquery>
 							<cfif points.recordcount gt 0>
 							<section class="accordion" id="collectorSection1">
@@ -716,8 +807,8 @@ limitations under the License.
 									<script>
 										let map, heatmap;
 										function initMap() {
-											var ne = new google.maps.LatLng(<cfif #points2.maxlat# lt 65>#points2.maxlat#<cfelse> 65</cfif>, <cfif #points2.maxlong# lt 164>#points2.maxlong#<cfelse>164</cfif>);
-											var sw = new google.maps.LatLng(<cfif #points2.minlat# gt -60>#points2.minlat#<cfelse>-60</cfif>,<cfif #points2.minlong# gt -131>#points2.minlong#<cfelse>-131</cfif>);
+											var ne = new google.maps.LatLng(#points2.maxlat#, #points2.maxlong#);
+											var sw = new google.maps.LatLng(#points2.minlat#,#points2.minlong#);
 											var bounds = new google.maps.LatLngBounds(sw, ne);
 											var centerpoint = new google.maps.LatLng(#points2.mylat#,#points2.mylng#);
 											var mapOptions = {
@@ -1145,9 +1236,9 @@ limitations under the License.
 													<ul class="list-group">
 														<cfloop query="getNamedGroups">
 															<cfif getNamedGroups.mask_fg EQ 0 OR  oneOfUs EQ 1>
-																<li class="list-group-item">#inverse_relation#<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
+																<li class="list-group-item">#inverse_label# <a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#underscore_collection_id#" target="_blank">#collection_name#</a></li>
 															<cfelse>
-																<li class="list-group-item">#inverse_relation# #collection_name#</li>
+																<li class="list-group-item">#inverse_label# #collection_name#</li>
 															</cfif>
 														</cfloop>
 													</ul>
