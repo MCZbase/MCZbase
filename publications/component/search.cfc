@@ -463,7 +463,7 @@ Function getDOIAutocomplete.  Search for dois by name with a substring match
 			FROM 
 				publication
 			WHERE
-				doi like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#doi#%">
+				doi like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
