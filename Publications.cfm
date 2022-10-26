@@ -237,7 +237,7 @@ limitations under the License.
 													</cfif>
 												</cfloop>
 											</cfif>
-											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Shows Cataloged Item 
+											<label for="related_cataloged_item" class="data-entry-label mb-0" id="related_cataloged_item_label">Cited Cataloged Item 
 												<span class="small">
 													(NOT NULL, accepts comma separated list)
 												</span>

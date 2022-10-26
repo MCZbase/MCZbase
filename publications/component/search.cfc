@@ -45,7 +45,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="cited_taxon" type="string" required="no"><!--- TODO --->
 	<cfargument name="accepted_for_cited_taxon" type="string" required="no"><!--- TODO --->
 	<cfargument name="cited_collection_object_id" type="string" required="no">
-	<cfargument name="related_catalog_item" type="string" required="no">
+	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="publication_attribute_type" type="string" required="no">
 	<cfargument name="publication_attribute_value" type="string" required="no">
 
@@ -209,7 +209,7 @@ Function getPublications.  Search for publications by fields
 					</cfif>
 				</cfif>
 				<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
-					and flat.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_catalog_item#" list="yes">)
+					and flat.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes">)
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
