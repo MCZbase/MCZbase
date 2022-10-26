@@ -92,7 +92,7 @@ Function getPublications.  Search for publications by fields
 						and jour_att.publication_attribute = 'journal name'
 				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
 					left join citation citation_coll on publication.publication_id = citation_coll.publication_id
-					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat_coll on flat.citation.collection_object_id = flat.collection_object_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat_coll on citation.collection_object_id = flat_coll.collection_object_id
 				</cfif>
 				<cfif isDefined("volume") AND len(volume) GT 0>
 					left join publication_attributes volume_att 
