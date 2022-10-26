@@ -159,7 +159,7 @@ limitations under the License.
 		<cfset media_relationship_id_1="">
 	</cfif>
 	<cfloop query="ctmedia_label">
-		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier'>
+		<cfif ctmedia_label.media_label NEQ 'description' and ctmedia_label.media_label NEQ 'dcterms:identifier' and ctmedia_label.media_label NEQ 'ac:resourceCreationTechnique'>
 			<cfset label = replace(ctmedia_label.media_label," ","_","all")>
 			<cfif not isdefined(label)>
 				<cfset "#label#" = "">
