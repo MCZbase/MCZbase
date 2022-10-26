@@ -962,7 +962,7 @@ function makeDOIAutocomplete(valueControl) {
 		source: function (request, response) { 
 			$.ajax({
 				url: "/publications/component/search.cfc",
-				data: { term: request.term, method: 'gettDOIAutocomplete' },
+				data: { term: request.term, method: 'getDOIAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, textStatus, error) {
