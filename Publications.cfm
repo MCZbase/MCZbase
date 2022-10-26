@@ -189,7 +189,7 @@ limitations under the License.
 											<input type="text" name="to_published_year" id="to_published_year" value="#encodeForHtml(to_published_year)#" class="data-entry-input" placeholder="end yyyy" title="end of date range">
 										</div>
 									</div>
-									<div class="col-12 col-md-4 col-xl-3">
+									<div class="col-12 col-md-4 col-xl-4">
 										<div class="form-row mx-0 mb-2">
 											<label for="publication_attribute_type" class="data-entry-label mb-0" id="nedia_label_type_label">Any Attribute
 												<span class="small">
@@ -248,6 +248,8 @@ limitations under the License.
 										</div>
 									</div>
 <!--- TODO cites_specimens --->
+<!--- TODO cites_collection --->
+<!--- TODO cited_taxon --->
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
@@ -308,7 +310,11 @@ limitations under the License.
 
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/media/' + rowData['publication_id'] + '">'+value+'</a></span>';
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
+				<cfelse>
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+</span>';
+				</cfif>
 			};
 			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -419,7 +425,7 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false) },
+							{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: linkIdCellRenderer},
 							{text: 'Authors', datafield: 'authors', width:100, hideable: true, hidden: getColHidProp('authors', false) },
 							{text: 'Editors', datafield: 'editors', width:100, hideable: true, hidden: getColHidProp('editors', true) },
 							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
