@@ -60,6 +60,13 @@ Function getPublications.  Search for publications by fields
 			</cfif>
 		</cfif>
 	</cfif>
+	<cfif related_cataloged_item EQ "NULL">
+		<cfset cited_collection_object_id = "NULL">
+		<cfset related_cataloged_item = "">
+	<cfelseif related_cataloged_item EQ "NOT NULL">
+		<cfset cited_collection_object_id = "NOT NULL">
+		<cfset related_cataloged_item = "">
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
