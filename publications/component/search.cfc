@@ -61,7 +61,6 @@ Function getPublications.  Search for publications by fields
 		</cfif>
 	</cfif>
 
-	</cfif>
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
