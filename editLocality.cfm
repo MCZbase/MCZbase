@@ -1735,37 +1735,37 @@
 
 		<cfif #thisAttribute# is "delete">
 			<cfquery name="deleteGeol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				delete from geology_attributes where geology_attribute_id=#thisID#
+				delete from geology_attributes where geology_attribute_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisID#">
 			</cfquery>
 		<cfelse>
 			<cfquery name="upGeol" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				update
 					geology_attributes
 				set
-					geology_attribute='#thisAttribute#',
-					geo_att_value='#stripQuotes(thisValue)#'
+					geology_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
+					geo_att_value=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisValue#">
 					<cfif len(#thisDeterminer#) gt 0>
-						,geo_att_determiner_id=#thisDeterminer#
+						,geo_att_determiner_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisDeterminer#">
 					<cfelse>
 						,geo_att_determiner_id=NULL
 					</cfif>
 					<cfif len(#thisDate#) gt 0>
-						,geo_att_determined_date='#dateformat(thisDate,"yyyy-mm-dd")#'
+						,geo_att_determined_date=<cfqueryparam cfsqltype="CF_SQL_DATE" value="#dateformat(thisDate,"yyyy-mm-dd")#">
 					<cfelse>
 						,geo_att_determined_date=NULL
 					</cfif>
 					<cfif len(#thisMethod#) gt 0>
-						,geo_att_determined_method='#stripQuotes(thisMethod)#'
+						,geo_att_determined_method=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisMethod#">
 					<cfelse>
 						,geo_att_determined_method=NULL
 					</cfif>
 					<cfif len(#thisRemark#) gt 0>
-						,geo_att_remark='#stripQuotes(thisRemark)#'
+						,geo_att_remark=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#stripQuotes(thisRemark)#">
 					<cfelse>
 						,geo_att_remark=NULL
 					</cfif>
 				where
-					geology_attribute_id=#thisID#
+					geology_attribute_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisID#">
 			</cfquery>
 		</cfif>
 	</cfloop>

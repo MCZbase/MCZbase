@@ -953,6 +953,29 @@ function makeTypeStatusSearchAutocomplete(valueControl) {
 		minLength: 3
 	});
 };
+/** Make a text name control into an autocomplete doi picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeDOIAutocomplete(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/publications/component/search.cfc",
+				data: { term: request.term, method: 'getDOIAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"looking up DOIs for a doi picker");
+				}
+			})
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
 
 /** Make a paired hidden id and text name control into an autocomplete project picker.
  *

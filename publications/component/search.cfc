@@ -21,14 +21,240 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
 <!---
-Function getPublicationList.  Search for publications by name with a substring match on any name, returning json suitable for a dataadaptor.
+Function getPublications.  Search for publications by fields
+ returning json suitable for a dataadaptor.
 
-@param name publication name to search for.
+@param any_part any part of formatted publication string to search for.
+@return a json structure containing matching publications with ids, years, long format of publication, etc.
+--->
+<cffunction name="getPublications" access="remote" returntype="any" returnformat="json">
+	<cfargument name="text" type="string" required="no">
+	<cfargument name="publication_type" type="string" required="no">
+	<cfargument name="publication_title" type="string" required="no">
+	<cfargument name="publication_remarks" type="string" required="no">
+	<cfargument name="is_peer_reviewed_fg" type="string" required="no">
+	<cfargument name="journal_name" type="string" required="no">
+	<cfargument name="doi" type="string" required="no">
+	<cfargument name="volume" type="string" required="no">
+	<cfargument name="issue" type="string" required="no">
+	<cfargument name="number" type="string" required="no">
+	<cfargument name="published_year" type="string" required="no">
+	<cfargument name="to_published_year" type="string" required="no">
+	<cfargument name="cites_collection" type="string" required="no"><!--- TODO --->
+	<cfargument name="cites_specimens" type="string" required="no">
+	<cfargument name="cited_taxon" type="string" required="no"><!--- TODO --->
+	<cfargument name="accepted_for_cited_taxon" type="string" required="no"><!--- TODO --->
+	<cfargument name="cited_collection_object_id" type="string" required="no">
+	<cfargument name="related_cataloged_item" type="string" required="no">
+	<cfargument name="publication_attribute_type" type="string" required="no">
+	<cfargument name="publication_attribute_value" type="string" required="no">
+
+	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
+		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
+		<!--- ignore cites_specimens if a cited specimen is specified --->
+		<cfif isDefined("cites_specimens") AND len(cites_specimens) GT 0>
+			<cfif cites_specimens EQ "true">
+				<cfset cited_collection_object_id = "NOT NULL">
+			<cfelseif cites_specimens EQ "false">
+				<cfset cited_collection_object_id = "NULL">
+			</cfif>
+		</cfif>
+	</cfif>
+	<cfif related_cataloged_item EQ "NULL">
+		<cfset cited_collection_object_id = "NULL">
+		<cfset related_cataloged_item = "">
+	<cfelseif related_cataloged_item EQ "NOT NULL">
+		<cfset cited_collection_object_id = "NOT NULL">
+		<cfset related_cataloged_item = "">
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT distinct
+				publication.publication_id, 
+				publication_type, 
+				published_year, 
+				publication_title,
+				publication_remarks,
+				formatted_publication,
+				MCZbase.get_publication_authors(publication.publication_id) as authors,
+				MCZbase.get_publication_editors(publication.publication_id) as editors,
+				jour_att.pub_att_value as journal_name,
+				doi
+			FROM 
+				publication
+				join formatted_publication on publication.publication_id = formatted_publication.publication_id
+				left join publication_attributes jour_att 
+					on publication.publication_id = jour_att.publication_id
+						and jour_att.publication_attribute = 'journal name'
+				<cfif isDefined("volume") AND len(volume) GT 0>
+					left join publication_attributes volume_att 
+						on publication.publication_id = volume_att.publication_id
+							and volume_att.publication_attribute = 'volume'
+				</cfif>
+				<cfif isDefined("issue") AND len(issue) GT 0>
+					left join publication_attributes issue_att 
+						on publication.publication_id = issue_att.publication_id
+							and issue_att.publication_attribute = 'issue'
+				</cfif>
+				<cfif isDefined("number") AND len(number) GT 0>
+					left join publication_attributes number_att 
+						on publication.publication_id = number_att.publication_id
+							and number_att.publication_attribute = 'number'
+				</cfif>
+				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
+					left join publication_attributes publication_attribute_type_att 
+						on publication.publication_id = publication_attribute_type_att.publication_id
+							and publication_attribute_type_att.publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute_type#">
+				</cfif>
+				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0>
+					left join citation on publication.publication_id = citation.publication_id
+				<cfelse>
+					<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
+						left join citation on publication.publication_id = citation.publication_id
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on flat.citation.collection_object_id = flat.collection_object_id
+					</cfif>
+				</cfif>
+			WHERE
+				format_style = 'long'
+				<cfif isDefined("text") AND len(text) GT 0>
+					and formatted_publication like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#text#%">
+				</cfif>
+				<cfif isDefined("published_year") AND len(published_year) GT 0>
+					<cfif isDefined("to_published_year") AND len(to_published_year) GT 0>
+						and published_year between
+							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">
+								and
+							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#to_published_year#">
+					<cfelse>
+						and published_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">
+					</cfif>
+				</cfif>
+				<cfif isDefined("publication_title") AND len(publication_title) GT 0>
+					and publication_title like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_title#%">
+				</cfif>
+				<cfif isDefined("publication_remarks") AND len(publication_remarks) GT 0>
+					and publication_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_remarks#%">
+				</cfif>
+				<cfif isDefined("publication_type") AND len(publication_type) GT 0>
+					<cfif left(publication_type,1) EQ "!">
+						and publication_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publication_type,len(publication_type)-1)#">
+					<cfelse>
+						and publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
+					</cfif>
+				</cfif>
+				<cfif isDefined("is_peer_reviewed_fg") AND len(is_peer_reviewed_fg) GT 0>
+					and is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
+				</cfif>
+				<cfif isDefined("doi") AND len(doi) GT 0>
+					<cfif doi EQ "NULL">
+						and doi IS NULL
+					<cfelseif doi EQ "NOT NULL">
+						and doi IS NOT NULL
+					<cfelse>
+						and doi like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#doi#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+					<cfif journal_name EQ "NULL">
+						and jour_att.pub_att_value IS NULL
+					<cfelseif journal_name EQ "NOT NULL">
+						and jour_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and jour_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("volume") AND len(volume) GT 0>
+					<cfif volume EQ "NULL">
+						and volume_att.pub_att_value IS NULL
+					<cfelseif volume EQ "NOT NULL">
+						and volume_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("issue") AND len(issue) GT 0>
+					<cfif issue EQ "NULL">
+						and issue_att.pub_att_value IS NULL
+					<cfelseif issue EQ "NOT NULL">
+						and issue_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("number") AND len(number) GT 0>
+					<cfif number EQ "NULL">
+						and number_att.pub_att_value IS NULL
+					<cfelseif number EQ "NOT NULL">
+						and number_att.pub_att_value IS NOT NULL
+					<cfelse>
+						and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
+					<cfif isDefined("publication_attribute_value") AND len(publication_attribute_value) GT 0>
+						<cfif publication_attribute_type EQ "NULL">
+							and publication_attribute_type_att.pub_att_value IS NULL
+						<cfelseif publication_attribute_type EQ "NOT NULL">
+							and publication_attribute_type_att.pub_att_value IS NOT NULL
+						<cfelse>
+							and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_type#%">
+						</cfif>
+					<cfelse>
+						and publication_attribute_type_att.pub_att_value IS NOT NULL
+					</cfif>
+				</cfif>
+				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0>
+					<cfif cited_collection_object_id EQ "NULL">
+						and citation.collection_object_id IS NULL
+					<cfelseif cited_collection_object_id EQ "NOT NULL">
+						and citation.collection_object_id_att IS NOT NULL
+					<cfelse>
+						and citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_collection_object_id#">
+					</cfif>
+				</cfif>
+				<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
+					and flat.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes">)
+				</cfif>
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<!--- TODO: include in output: 
+    		Links: Annotate, n Cited Specimens, Edit (internal), Manage Citations (internal)
+			short format.
+		--->
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!---
+Function getPublicationList.  Search for publications by name with a substring match on text, returning json suitable for a dataadaptor.
+
+@param text in formatted_publication to search for.
 @return a json structure containing matching publications with ids, years, long format of publication, etc.
 --->
 <cffunction name="getPublicationList" access="remote" returntype="any" returnformat="json">
 	<cfargument name="text" type="string" required="yes">
-	<!--- perform wildcard search anywhere in publication_name.publication_name --->
+	<!--- perform wildcard search anywhere in formatted_publication.formatted_publication --->
 	<cfset text = "%#text#%"> 
 
 	<cfset data = ArrayNew(1)>
@@ -222,4 +448,49 @@ Function getTypeStatusSearchAutocomplete.  Search for type status values, return
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getDOIAutocomplete.  Search for dois by name with a substring match
+   returning json suitable for jquery-ui autocomplete, with meta renderer.
+
+@param term doi to search for.
+@return a json structure containing id, meta, and value, with matching dois with match in both 
+  value and id, and doi plus short citation in meta.
+--->
+<cffunction name="getDOIAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT distinct
+				doi as id, 
+				doi as value,
+				MCZBASE.getshortcitation(publication_id) as short
+			FROM 
+				publication
+			WHERE
+				doi like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.id#">
+			<cfset row["value"] = "#search.value#" >
+			<cfset row["meta"] = "#search.value# (#search.short#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 </cfcomponent>

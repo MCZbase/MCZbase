@@ -93,7 +93,7 @@ Function getJournalAutocomplete.  Search for journals by name with a substring m
    returning json suitable for jquery-ui autocomplete.
 
 @param term journal name to search for.
-@return a json structure containing id and value, with matching journals with matched name in both value and id.
+@return a json structure containing id, meta, and value, with matching journals with matched name in both value and id.
 --->
 <cffunction name="getJournalAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -117,6 +117,7 @@ Function getJournalAutocomplete.  Search for journals by name with a substring m
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.id#">
 			<cfset row["value"] = "#search.value#" >
+			<cfset row["meta"] = "#search.value#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
