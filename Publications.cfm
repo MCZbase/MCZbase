@@ -266,8 +266,8 @@ limitations under the License.
 										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select collection, collection_cde, collection_id from collection order by collection
 										</cfquery>
-										<label for="cites_collection" class="data-entry-label align-left-center">Cites Collection</label>
-										<select name="cites_collection" id="cites_collection" size="1" class="data-entry-prepend-select pr-0">
+										<label for="cites_collection" class="data-entry-label">Cites Collection</label>
+										<select name="cites_collection" id="cites_collection" size="1" class="data-entry-select">
 											<option value=""></option>
 											<option value="NOT NULL">any collection</option>
 											<cfloop query="ctcollection">
