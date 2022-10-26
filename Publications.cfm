@@ -346,7 +346,7 @@ limitations under the License.
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
 				<cfelse>
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+</span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				</cfif>
 			};
 			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
