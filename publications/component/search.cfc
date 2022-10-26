@@ -89,6 +89,10 @@ Function getPublications.  Search for publications by fields
 				left join publication_attributes jour_att 
 					on publication.publication_id = jour_att.publication_id
 						and jour_att.publication_attribute = 'journal name'
+				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
+					left join citation citation_coll on publication.publication_id = citation_coll.publication_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat_coll on flat.citation.collection_object_id = flat.collection_object_id
+				</cfif>
 				<cfif isDefined("volume") AND len(volume) GT 0>
 					left join publication_attributes volume_att 
 						on publication.publication_id = volume_att.publication_id
@@ -217,6 +221,13 @@ Function getPublications.  Search for publications by fields
 				</cfif>
 				<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
 					and flat.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes">)
+				</cfif>
+				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
+					<cfif cites_collection EQ "NOT NULL">
+						and flat_coll.collection_cde IS NOT NULL
+					<cfelse>
+						and flat_coll.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cites_collection#">
+					</cfif>
 				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>

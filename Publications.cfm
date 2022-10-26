@@ -27,6 +27,9 @@ limitations under the License.
 <cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select publication_attribute, description, control  from ctpublication_attribute
 </cfquery>
+<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select publication_attribute, description, control  from ctpublication_attribute
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -71,6 +74,15 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("collection_object_id")>
 		<cfset collection_object_id="">
+	</cfif>
+	<cfif not isdefined("cites_specimens")>
+		<cfset cites_specimens="">
+	</cfif>
+	<cfif not isdefined("cites_collection")>
+		<cfset cites_collection="">
+	</cfif>
+	<cfif not isdefined("cited_taxon")>
+		<cfset cited_taxon="">
 	</cfif>
 	<cfif not isdefined("publication_attribute_type")>
 		<cfset publication_attribute_type="">
@@ -214,7 +226,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-6 col-lg-5 col-xl-4">
+									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-group mb-2">
 											<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
 											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
@@ -247,9 +259,30 @@ limitations under the License.
 												onchange="$('##collection_object_id').val('');">
 										</div>
 									</div>
-<!--- TODO cites_specimens --->
-<!--- TODO cites_collection --->
-<!--- TODO cited_taxon --->
+									<div class="col-12 col-md-6 col-xl-2">
+										<!--- TODO cites_specimens --->
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select collection, collection_cde, collection_id from collection order by collection
+										</cfquery>
+										<label for="cites_collection" class="data-entry-label align-left-center">Cites Collection</label>
+										<select name="cites_collection" id="cites_collection" size="1" class="data-entry-prepend-select pr-0">
+											<option value=""></option>
+											<option value="NOT NULL">any collection</option>
+											<cfloop query="ctcollection">
+												<cfif ctcollection.collection eq cites_collection >
+													<cfset selected="selected">
+												<cfelse>
+													<cfset selected="">
+												</cfif>
+												<option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										<!--- TODO cited_taxon --->
+									</div>
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
