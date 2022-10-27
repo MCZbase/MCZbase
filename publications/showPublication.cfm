@@ -58,7 +58,7 @@ limitations under the License.
 			IS_PEER_REVIEWED_FG ,
 			DOI,
 			mczbase.getshortcitation(publication_id) as short_citation, 
-			mczbase.getlongcitation(publication_id) as long_citation 
+			mczbase.getfullcitation(publication_id) as full_citation 
 		FROM publication
 		WHERE
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
@@ -92,7 +92,7 @@ limitations under the License.
 			<cfoutput query="getDetails"> 
 
 				<div class="pb-2">
-					<h1 class="h2 mt-3">#getDetails.long_citation#</h1>
+					<h1 class="h2 mt-3">#getDetails.full_citation#</h1>
 				</div>
 			
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
