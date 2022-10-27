@@ -84,7 +84,7 @@ Function getPublications.  Search for publications by fields
 				MCZbase.get_publication_editors(publication.publication_id) as editors,
 				jour_att.pub_att_value as journal_name,
 				doi,
-				MCZbase.getshortcitation(publication.publication_id) as short_ciitation,
+				MCZbase.getshortcitation(publication.publication_id) as short_citation,
 				0 as cited_specimen_count
 			FROM 
 				publication
