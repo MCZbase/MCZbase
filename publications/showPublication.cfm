@@ -80,11 +80,17 @@ limitations under the License.
 			citation_remarks, 
 			citation_page_uri, 
 			publication_id, 
-			'MCZ:' || collection_cde || ':' || cat_num as guid 
+			'MCZ:' || collection_cde || ':' || cat_num as guid,
+			cited_taxon_name_id,
+			display_name, 
+			author_text
 		FROM citation 
-			LEFT JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
+			JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
+		 	JOIN taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
 		WHERE 
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		ORDER BY
+			occurs_page_number asc, scientific_name
 	</cfquery>
 
 	<section class="row">
@@ -133,7 +139,7 @@ limitations under the License.
 							<cfelse>
 									<cfset page = "">
 							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#short_citation#</a> </li>
+							<li> <a href="/guid/#guid#">#guid#</a> #display_name# <span class="sm-caps">#author_text#</span> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#getDetails.short_citation#</a> </li>
 						</cfloop>
 					</cfif>
 				</ul>
