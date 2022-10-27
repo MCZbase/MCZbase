@@ -18,6 +18,7 @@ limitations under the License.
 --->
 <cfset pageTitle = "Publication Details">
 <cfinclude template = "/shared/_header.cfm">
+<cfinclude template="/media/component/search.cfc" runOnce="true">
 
 <main class="container py-3">
 	
