@@ -361,7 +361,7 @@ limitations under the License.
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var ct = rowData['cited_specimen_count'];
 				var id = rowData['publication_id'];
-				var cite = encodeURIComponent(rowData['short_citation']);
+				var short_citation = encodeURIComponent(rowData['short_citation']);
 				if (ct != "") { 
 					target = "/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1="+short_citation+"&searchId1="+id;
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + target + '">'+ct+' Cited Specimens</a></span>';
