@@ -125,26 +125,6 @@ limitations under the License.
 					</cfloop>
 				</ul>
 
-				<h2 class="h4">Cited MCZ Specimens:</h2>
-				<ul>
-					<cfif citedSpecimens.recordcount is 0>
-						<li><b>No cited MCZ specimens.</b></li>
-					<cfelse>
-						<cfloop query="citedSpecimens">
-							<cfif len(citedSpecimens.occurs_page_number) GT 0>
-								<cfif len(citedSpecimens.citation_page_uri) GT 0>
-									<cfset page = "p. <a href=#citation_page_uri#>#occurs_page_number#</a>" >
-								<cfelse>
-									<cfset page = "p. #occurs_page_number#">
-								</cfif>
-							<cfelse>
-									<cfset page = "">
-							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> #display_name# <span class="sm-caps">#author_text#</span> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#getDetails.short_citation#</a> </li>
-						</cfloop>
-					</cfif>
-				</ul>
-				
 				<div id="pubMediaDiv">
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="media_result">
 						SELECT
@@ -174,6 +154,27 @@ limitations under the License.
 					</div>
 				</div>
 								
+
+				<h2 class="h4">Cited MCZ Specimens:</h2>
+				<ul>
+					<cfif citedSpecimens.recordcount is 0>
+						<li><b>No cited MCZ specimens.</b></li>
+					<cfelse>
+						<cfloop query="citedSpecimens">
+							<cfif len(citedSpecimens.occurs_page_number) GT 0>
+								<cfif len(citedSpecimens.citation_page_uri) GT 0>
+									<cfset page = "p. <a href=#citation_page_uri#>#occurs_page_number#</a>" >
+								<cfelse>
+									<cfset page = "p. #occurs_page_number#">
+								</cfif>
+							<cfelse>
+									<cfset page = "">
+							</cfif>
+							<li> <a href="/guid/#guid#">#guid#</a> #display_name# <span class="sm-caps">#author_text#</span> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#getDetails.short_citation#</a> </li>
+						</cfloop>
+					</cfif>
+				</ul>
+				
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<div class="row">
 						<div class="col-12">
