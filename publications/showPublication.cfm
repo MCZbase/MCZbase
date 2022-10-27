@@ -163,7 +163,7 @@ limitations under the License.
 								<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 								<cfloop query="media">
 									<li class="list-group-item col-12 col-sm-6 col-md-4 col-lg-3 float-left"> 
-										<cfset mediablock= getMediaBlockHtml(media_id="#mediamedia_id#",displayAs="thumb",captionAs="textShort")>
+										<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="thumb",captionAs="textShort")>
 										<div id="mediaBlock#media_id#" class="border rounded pt-2 px-2">
 											#mediablock#
 										</div>
