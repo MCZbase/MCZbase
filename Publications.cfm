@@ -343,10 +343,10 @@ limitations under the License.
 
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
 				<cfelse>
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
 				</cfif>
 			};
 			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
