@@ -114,7 +114,7 @@ limitations under the License.
 
 				<ul>
 					<cfloop query="getAttributes">
-						<li><strong>#getAttributes.publication_attribute#: </strong> #getAtrributes.pub_att_value#</li>
+						<li><strong>#getAttributes.publication_attribute#: </strong> #getAttributes.pub_att_value#</li>
 					</cfloop>
 				</ul>
 
