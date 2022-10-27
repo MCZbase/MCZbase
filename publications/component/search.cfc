@@ -73,7 +73,7 @@ Function getPublications.  Search for publications by fields
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT distinct
+			SELECT 
 				publication.publication_id, 
 				publication_type, 
 				published_year, 
@@ -85,13 +85,14 @@ Function getPublications.  Search for publications by fields
 				jour_att.pub_att_value as journal_name,
 				doi,
 				MCZbase.getshortcitation(publication.publication_id) as short_citation,
-				0 as cited_specimen_count
+				count(distinct citation_counter.collection_object_id) as cited_specimen_count
 			FROM 
 				publication
 				join formatted_publication on publication.publication_id = formatted_publication.publication_id
 				left join publication_attributes jour_att 
 					on publication.publication_id = jour_att.publication_id
 						and jour_att.publication_attribute = 'journal name'
+				left join citation citation_counter on publication.publication_id = citation_counter.publication_id
 				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
 					left join citation citation_coll on publication.publication_id = citation_coll.publication_id
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat_coll on citation_coll.collection_object_id = flat_coll.collection_object_id
@@ -232,6 +233,20 @@ Function getPublications.  Search for publications by fields
 						and flat_coll.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cites_collection#">
 					</cfif>
 				</cfif>
+			GROUP BY
+				publication.publication_id, 
+				publication_type, 
+				published_year, 
+				publication_title,
+				publication_remarks,
+				formatted_publication,
+				MCZbase.get_publication_authors(publication.publication_id),
+				MCZbase.get_publication_editors(publication.publication_id),
+				jour_att.pub_att_value,
+				doi,
+				MCZbase.getshortcitation(publication.publication_id)
+			ORDER BY
+				published_year
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
