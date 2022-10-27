@@ -115,7 +115,7 @@ limitations under the License.
 				<ul>
 					<cfloop query="getAttributes">
 						<li><strong>#getAttributes.publication_attribute#: </strong> #getAtrributes.pub_att_value#</li>
-					<cfloop>
+					</cfloop>
 				</ul>
 
 				<h2 class="h4">Cited MCZ Specimens:</h2>
