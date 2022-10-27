@@ -343,30 +343,30 @@ limitations under the License.
 
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
-				<cfelse>
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
-				</cfif>
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
 			};
-			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var citationCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				var luri = rowData['licence_uri'];
-				if (luri != "") { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + luri + '">'+value+'</a></span>';
-				} else { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-				}
+				var id = rowData['publication_id'];
+				var cite = rowData['short_citation'];
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + id + '">'+cite+'</a></span>';
 			};
-			var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				var puri = rowData['publication_remarks'];
-				var muri = rowData['publication_title'];
-				var alt = rowData['ac_issue'];
-				if (puri != "") { 
-					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100%"></a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">Edit</a></span>';
+			};
+					
+
+			var countCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var ct = rowData['cited_specimen_count'];
+				var id = rowData['publication_id'];
+				var cite = encodeURIComponent(rowData['short_citation']);
+				if (ct != "") { 
+					target = "/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1="+short_citation+"&searchId1="+id;
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + target + '">'+ct+' Cited Specimens</a></span>';
 				} else { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+' Cited Specimens</span>';
 				}
 			};
 	
@@ -400,6 +400,7 @@ limitations under the License.
 						datafields:
 						[
 							{ name: 'publication_id', type: 'string' },
+							{ name: 'short_citation', type: 'string' },
 							{ name: 'publication_type', type: 'string' },
 							{ name: 'published_year', type: 'string' },
 							{ name: 'publication_title', type: 'string' },
@@ -408,6 +409,7 @@ limitations under the License.
 							{ name: 'authors', type: 'string' },
 							{ name: 'editors', type: 'string' },
 							{ name: 'doi', type: 'string' },
+							{ name: 'cited_specimen_count', type: 'string' },
 							{ name: 'journal_name', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
@@ -458,7 +460,14 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: linkIdCellRenderer},
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+								{text: 'Publication', datafield: 'short_citation', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
+								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: editCellRenderer},
+							<cfelse>
+								{text: 'Publication', datafield: 'short_citation', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
+								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', true), cellsrenderer: linkIdCellRenderer},
+							</cfif>
+							{text: 'Specimens', datafield: 'cited_specimen_count', width:100, hideable: true, hidden: getColHidProp('authors', false), cellsrenderer: countCellRenderer },
 							{text: 'Authors', datafield: 'authors', width:100, hideable: true, hidden: getColHidProp('authors', false) },
 							{text: 'Editors', datafield: 'editors', width:100, hideable: true, hidden: getColHidProp('editors', true) },
 							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
