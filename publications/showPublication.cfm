@@ -111,7 +111,9 @@ limitations under the License.
 			cited_taxon_name_id,
 			display_name, 
 			author_text,
-			scientific_name
+			scientific_name,
+			taxonomy.taxonid,
+			taxonid_guid_type,
 		FROM citation 
 			JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
 		 	JOIN taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
@@ -231,7 +233,12 @@ limitations under the License.
 									<cfset page = "">
 								</cfif>
 							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> <a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> <span class="sm-caps">#author_text#</span> #type_status# #page# #citedSpecimens.citation_remarks#</li>
+							<cfset taxonidLink ="">
+							<cfif len(citedSpecimens.taxonid) gt 0>
+								<cfset link = getGuidLink(guid=#citedSpecimens.taxonid#,guid_type=#citedSpecimens.taxonid_guid_type#)>
+								<cfset taxonidLink="<span>#link#</span> ">
+							</cfif>
+							<li> <a href="/guid/#guid#">#guid#</a> <a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> #<span class="sm-caps">#author_text#</span> #taxonidLink##type_status# #page# #citedSpecimens.citation_remarks#</li>
 						</cfloop>
 					</cfif>
 				</ul>
