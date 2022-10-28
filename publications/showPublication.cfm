@@ -110,7 +110,8 @@ limitations under the License.
 			'MCZ:' || collection_cde || ':' || cat_num as guid,
 			cited_taxon_name_id,
 			display_name, 
-			author_text
+			author_text,
+			scientific_name
 		FROM citation 
 			JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
 		 	JOIN taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
@@ -230,7 +231,7 @@ limitations under the License.
 									<cfset page = "">
 								</cfif>
 							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> #display_name# <span class="sm-caps">#author_text#</span> #type_status# #page# #citedSpecimens.citation_remarks#</li>
+							<li> <a href="/guid/#guid#">#guid#</a> <a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> <span class="sm-caps">#author_text#</span> #type_status# #page# #citedSpecimens.citation_remarks#</li>
 						</cfloop>
 					</cfif>
 				</ul>
