@@ -127,7 +127,7 @@ Function getPublications.  Search for publications by fields
 				</cfif>
 				<cfif isDefined("cited_taxon") AND len(cited_taxon) GT 0>
 					left join citation taxon_cite on publication.publication_id = taxon_cite.publication_id
-					left join taxonomy on taxon_cite.taxon_name_id = taxonomy.taxon_name_id
+					left join taxonomy on taxon_cite.cited_taxon_name_id = taxonomy.taxon_name_id
 				</cfif>
 				<cfif isDefined("accepted_for_cited_taxon") AND len(accepted_for_cited_taxon) GT 0>
 					left join citation accepted_taxon_cite on publication.publication_id = accepted_taxon_cite.publication_id
