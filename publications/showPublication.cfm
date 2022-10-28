@@ -222,7 +222,7 @@ limitations under the License.
 						<cfloop query="citedSpecimens">
 							<cfif len(citedSpecimens.occurs_page_number) GT 0>
 								<cfif len(citedSpecimens.citation_page_uri) GT 0>
-									<cfset page = "p. <a href=#citation_page_uri#>#occurs_page_number#</a>" >
+									<cfset page = "p. <a href='#citation_page_uri#'>#occurs_page_number#</a>" >
 								<cfelse>
 									<cfset page = "p. #occurs_page_number#">
 								</cfif>
@@ -236,7 +236,7 @@ limitations under the License.
 							<cfset taxonidLink ="">
 							<cfif len(citedSpecimens.taxonid) gt 0>
 								<cfset link = getGuidLink(guid=#citedSpecimens.taxonid#,guid_type=#citedSpecimens.taxonid_guid_type#)>
-								<cfset taxonidLink="<span>#link#</span> ">
+								<cfset taxonidLink = "<span>#link#</span> " >
 							</cfif>
 							<li> <a href="/guid/#guid#">#guid#</a> <a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> #<span class="sm-caps">#author_text#</span> #taxonidLink##type_status# #page# #citedSpecimens.citation_remarks#</li>
 						</cfloop>
