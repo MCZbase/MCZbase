@@ -162,7 +162,9 @@ limitations under the License.
 					<cfloop query="getLinks">
 						<li><strong>Link: </strong> <a href="#getLinks.link#">#getLinks.description#</a></li>
 					</cfloop>
-					<li><strong>Remarks: </strong> #getDetails.publication_remarks#</li>
+					<cfif len(getDetails.publication_remarks) GT 0>
+						<li><strong>Remarks: </strong> #getDetails.publication_remarks#</li>
+					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 						<li><strong>Location: </strong> #getDetails.publication_loc#</li>
 					</cfif>
