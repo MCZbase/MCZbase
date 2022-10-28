@@ -311,6 +311,8 @@ limitations under the License.
 
 									<!--- TODO: Author/Editor searches --->
 
+									<!--- TODO: peer reviewed only --->
+
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>

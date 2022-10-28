@@ -49,6 +49,10 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="publication_attribute_type" type="string" required="no">
 	<cfargument name="publication_attribute_value" type="string" required="no">
 
+	<!--- TODO: Author/Editor searches --->
+
+	<!--- TODO: peer reviewed only --->
+
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
 		<!--- ignore cites_specimens if a cited specimen is specified --->
@@ -261,8 +265,7 @@ Function getPublications.  Search for publications by fields
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<!--- TODO: include in output: 
-    		Links: Annotate, n Cited Specimens, Edit (internal), Manage Citations (internal)
-			short format.
+    		Link to: Manage Citations (internal)
 		--->
 		<cfloop query="search">
 			<cfset row = StructNew()>
