@@ -366,7 +366,7 @@ limitations under the License.
 					target = "/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1="+short_citation+"&searchId1="+id;
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + target + '">'+ct+'</a></span>';
 				} else { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+'</span>';
+					return '<span class="ml-1" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+'</span>';
 				}
 			};
 	
