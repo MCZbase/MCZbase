@@ -1208,6 +1208,35 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
 };
+/** Make a text name control into an autocomplete scientific name picker
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeScientificNameAutocomplete(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/taxonomy/component/search.cfc",
+				data: { term: request.term, method: 'getScientificNameAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a scientific name autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		change: function (event, ui) {
+			// clear the id control if the action wasn't a selection of an item on the list
+			if(!ui.item){ 
+				$('#'+idControl).val("");
+			}
+		},
+		minLength: 3
+	});
+};
 
 /** makeTaxonAutocomplete make an input control into a picker for a taxon field of arbitrary rank.
  *  This version of the function does not prefix the selected value with an = for exact match search.

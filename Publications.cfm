@@ -84,6 +84,9 @@ limitations under the License.
 	<cfif not isdefined("cited_taxon")>
 		<cfset cited_taxon="">
 	</cfif>
+	<cfif not isdefined("accepted_for_cited_taxon")>
+		<cfset accepted_for_cited_taxon="">
+	</cfif>
 	<cfif not isdefined("publication_attribute_type")>
 		<cfset publication_attribute_type="">
 	</cfif>
@@ -260,7 +263,14 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<!--- TODO cites_specimens --->
+										<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
+										<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
+											<option value=""></option>
+											<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+											<option value="true"#selected#>Yes</option>
+											<cfif cites_specimens EQ "false"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+											<option value="false"#selected#>No</option>
+										</select>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
 										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -281,7 +291,22 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<!--- TODO cited_taxon --->
+										<label for="cited_taxon" class="data-entry-label">Cited Scientific Name</label>
+										<input type="text" id="cited_taxon" name="cited_taxon" class="data-entry-input" value="#encodeForHtml(cited_taxon)# >
+										<script>
+											$(document).ready(function() {
+												makeScientificNameAutocomplete("cited_taxon");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="accepted_for_cited_taxon" class="data-entry-label">Current Scientific Name</label>
+										<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" class="data-entry-input" value="#encodeForHtml(accepted_for_cited_taxon)# >
+										<script>
+											$(document).ready(function() {
+												makeScientificNameAutocomplete("accepted_for_cited_taxon");
+											});
+										</script>
 									</div>
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
