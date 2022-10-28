@@ -362,11 +362,11 @@ limitations under the License.
 				var ct = rowData['cited_specimen_count'];
 				var id = rowData['publication_id'];
 				var short_citation = encodeURIComponent(rowData['short_citation']);
-				if (ct != "") { 
+				if (ct != "" && ct != "0") { 
 					target = "/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1="+short_citation+"&searchId1="+id;
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + target + '">'+ct+' Cited Specimens</a></span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + target + '">'+ct+'</a></span>';
 				} else { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+' Cited Specimens</span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+'</span>';
 				}
 			};
 	
@@ -467,7 +467,7 @@ limitations under the License.
 								{text: 'Publication', datafield: 'short_citation', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
 								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', true), cellsrenderer: linkIdCellRenderer},
 							</cfif>
-							{text: 'Specimens', datafield: 'cited_specimen_count', width:100, hideable: true, hidden: getColHidProp('authors', false), cellsrenderer: countCellRenderer },
+							{text: 'Cited Specimens', datafield: 'cited_specimen_count', width:100, hideable: true, hidden: getColHidProp('authors', false), cellsrenderer: countCellRenderer },
 							{text: 'Authors', datafield: 'authors', width:100, hideable: true, hidden: getColHidProp('authors', false) },
 							{text: 'Editors', datafield: 'editors', width:100, hideable: true, hidden: getColHidProp('editors', true) },
 							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
