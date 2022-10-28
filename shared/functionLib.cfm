@@ -269,7 +269,7 @@ limitations under the License.
 				publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
-			<cfset temp = QuerySetCell(result, "link", "/SpecimenUsage.cfm?publication_id=#related_primary_key#", i)>
+			<cfset temp = QuerySetCell(result, "link", "/publications/showPublication.cfm?publication_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "project">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select project_name data from
