@@ -355,8 +355,15 @@ limitations under the License.
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">Edit</a></span>';
 			};
-					
-
+			var doiCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var doi = rowData['doi'];
+				if (doi != "") { 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="https://doi.org/' + doi + '">'+doi+'</a></span>';
+				} else { 
+					return '<span class="ml-1" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "></span>';
+				}
+			};
 			var countCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var ct = rowData['cited_specimen_count'];
@@ -474,7 +481,7 @@ limitations under the License.
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
 							{text: 'Type', datafield: 'publication_type', width:120, hideable: true, hidden: getColHidProp('publication_type', false) },
 							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', true) },
-							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false) },
+							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false, cellsrenderer: doiCellRenderer) },
 							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
 							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
 						],
