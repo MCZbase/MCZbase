@@ -131,7 +131,11 @@ limitations under the License.
 						<cfif len(getAgents.agentguid) GT 0>
 							<cfset agentLinkOut = getGuidLink(guid=#getAgents.agentguid#,guid_type=#getAgents.agentguid_guid_type#)>
 						</cfif>
-						<li><strong>#getAgents.author_role#: </strong> <a href="/agents/Agent.cfm?agent_id=#getAgents.agent_id#>#getAgents.name#</a>#agentLinkOut#</li>
+						<li>
+							<strong>#getAgents.author_role#: </strong> 
+							<a href="/agents/Agent.cfm?agent_id=#getAgents.agent_id#">#getAgents.name#</a>
+							#agentLinkOut#
+						</li>
 					</cfloop>
 					<li><strong>Title: </strong> #getDetails.publication_title#</li>
 					<li><strong>Publication Type: </strong> #getDetails.publication_type#</li>
