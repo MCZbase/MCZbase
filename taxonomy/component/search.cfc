@@ -1018,11 +1018,14 @@ Function getHigherRankAutocomplete.  Search for distinct values of a particular 
 Function getScientificNameAutocomplete.  Search for taxonomy entries by scientific name with a substring match on scientific 
  name, returning json suitable for jquery-ui autocomplete.
 
-@param term substring match in scientific name to look for
+@param term substring match in scientific name to look for.
+@param include_authorship if the string false then return just scientific_name as the value, otherwise, return scientific_name and author_string 
+  as the value.
 @return a json structure containing id, meta, and value, with matching with matched name in value and id along with more detail in meta.
 --->
 <cffunction name="getScientificNameAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
+	<cfargument name="include_authorship" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -1047,7 +1050,11 @@ Function getScientificNameAutocomplete.  Search for taxonomy entries by scientif
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.taxon_name_id#">
-			<cfset row["value"] = "#search.scientific_name# #search.author_text#" >
+			<cfif isDefined("include_authorship") AND include_authorship EQ "false">
+				<cfset row["value"] = "#search.scientific_name#" >
+			<cfelse>
+				<cfset row["value"] = "#search.scientific_name# #search.author_text#" >
+			</cfif>
 			<cfset row["meta"] = "#search.scientific_name# #search.author_text# (#search.higher_taxa#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
