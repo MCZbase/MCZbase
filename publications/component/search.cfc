@@ -243,14 +243,14 @@ Function getPublications.  Search for publications by fields
 				</cfif>
 				<cfif isDefined("cited_taxon") AND len(cited_taxon) GT 0>
 					<cfif left(cited_taxon,1) EQ "=">
-						and taxonomy.scientific_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(cited_taxon,len(cited_taxon)-1)#">
+						and taxonomy.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(cited_taxon,len(cited_taxon)-1)#">
 					<cfelse>
 						and taxonomy.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#cited_taxon#%">
 					</cfif>
 				</cfif>
 				<cfif isDefined("accepted_for_cited_taxon") AND len(accepted_for_cited_taxon) GT 0>
 					<cfif left(accepted_for_cited_taxon,1) EQ "=">
-						and accepted_flat.scientific_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accepted_for_cited_taxon,len(accepted_for_cited_taxon)-1)#">
+						and accepted_flat.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accepted_for_cited_taxon,len(accepted_for_cited_taxon)-1)#">
 					<cfelse>
 						and accepted_flat.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accepted_for_cited_taxon#%">
 					</cfif>
