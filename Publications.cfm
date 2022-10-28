@@ -271,7 +271,7 @@ limitations under the License.
 											<option value=""></option>
 											<option value="NOT NULL">any collection</option>
 											<cfloop query="ctcollection">
-												<cfif ctcollection.collection eq cites_collection >
+												<cfif ctcollection.collection_cde eq cites_collection >
 													<cfset selected="selected">
 												<cfelse>
 													<cfset selected="">
