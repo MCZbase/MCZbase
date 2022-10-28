@@ -76,6 +76,8 @@ limitations under the License.
 			publication_author_name
 			join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
 			join agent on agent_name.agent_id = agent.agent_id
+		WHERE
+			publication_author_name.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		ORDER BY
 			author_role asc, author_position asc
 	</cfquery>
