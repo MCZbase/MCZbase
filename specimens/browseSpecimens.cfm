@@ -112,7 +112,7 @@ limitations under the License.
 			underscore_collection.underscore_collection_id, underscore_collection.mask_fg,
 			underscore_collection.description, underscore_collection.underscore_collection_type,
 			underscore_collection.displayed_media_id
-		ORDER BY underscore_collection_type, lower(collection_name)
+		ORDER BY lower(collection_name)
 	</cfquery>
 </cfif>
 <cfquery name="primaryTypes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">

@@ -486,7 +486,7 @@
 						<li><b>No related publications recorded.</b></li>
 					<cfelse>
 						<cfloop query="tax_pub">
-							<li> <a href="/SpecimenUsage.cfm?publication_id=#publication_id#"> #formatted_publication# </a> </li>
+							<li> <a href="/publications/showPublication.cfm?publication_id=#publication_id#"> #formatted_publication# </a> </li>
 						</cfloop>
 					</cfif>
 				</ul>
@@ -505,7 +505,7 @@
 							<cfelse>
 									<cfset page = "">
 							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#short_citation#</a> </li>
+							<li> <a href="/guid/#guid#">#guid#</a> #type_status# #page# in <a href="/publications/showPublication.cfm?publication_id=#publication_id#">#short_citation#</a> </li>
 						</cfloop>
 					</cfif>
 				</ul>

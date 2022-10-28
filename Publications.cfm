@@ -27,6 +27,9 @@ limitations under the License.
 <cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select publication_attribute, description, control  from ctpublication_attribute
 </cfquery>
+<cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select publication_attribute, description, control  from ctpublication_attribute
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -71,6 +74,15 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("collection_object_id")>
 		<cfset collection_object_id="">
+	</cfif>
+	<cfif not isdefined("cites_specimens")>
+		<cfset cites_specimens="">
+	</cfif>
+	<cfif not isdefined("cites_collection")>
+		<cfset cites_collection="">
+	</cfif>
+	<cfif not isdefined("cited_taxon")>
+		<cfset cited_taxon="">
 	</cfif>
 	<cfif not isdefined("publication_attribute_type")>
 		<cfset publication_attribute_type="">
@@ -214,7 +226,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row">
-									<div class="col-12 col-md-6 col-lg-5 col-xl-4">
+									<div class="col-12 col-md-6 col-xl-4">
 										<div class="form-group mb-2">
 											<input type="hidden" id="collection_object_id" name="cited_collection_object_id" value="#encodeForHtml(collection_object_id)#">
 											<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
@@ -247,9 +259,30 @@ limitations under the License.
 												onchange="$('##collection_object_id').val('');">
 										</div>
 									</div>
-<!--- TODO cites_specimens --->
-<!--- TODO cites_collection --->
-<!--- TODO cited_taxon --->
+									<div class="col-12 col-md-6 col-xl-2">
+										<!--- TODO cites_specimens --->
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select collection, collection_cde, collection_id from collection order by collection
+										</cfquery>
+										<label for="cites_collection" class="data-entry-label">Cites Collection</label>
+										<select name="cites_collection" id="cites_collection" size="1" class="data-entry-select">
+											<option value=""></option>
+											<option value="NOT NULL">any collection</option>
+											<cfloop query="ctcollection">
+												<cfif ctcollection.collection_cde eq cites_collection >
+													<cfset selected="selected">
+												<cfelse>
+													<cfset selected="">
+												</cfif>
+												<option value="#ctcollection.collection_cde#" #selected#>#ctcollection.collection#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 col-xl-2">
+										<!--- TODO cited_taxon --->
+									</div>
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
@@ -310,30 +343,37 @@ limitations under the License.
 
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
-				<cfelse>
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+</span>';
-				</cfif>
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
 			};
-			var licenceCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var citationCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				var luri = rowData['licence_uri'];
-				if (luri != "") { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + luri + '">'+value+'</a></span>';
+				var id = rowData['publication_id'];
+				var cite = rowData['short_citation'];
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + id + '">'+cite+'</a></span>';
+			};
+			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/Publication.cfm/?publication_id=' + rowData['publication_id'] + '">Edit</a></span>';
+			};
+			var doiCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var doi = rowData['doi'];
+				if (doi != "") { 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="https://doi.org/' + doi + '">'+doi+'</a></span>';
 				} else { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					return '<span class="ml-1" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "></span>';
 				}
 			};
-			var thumbCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+			var countCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				var puri = rowData['publication_remarks'];
-				var muri = rowData['publication_title'];
-				var alt = rowData['ac_issue'];
-				if (puri != "") { 
-					return '<span style="margin-top: 0px; float: ' + columnproperties.cellsalign + '; "><a class="pl-0" target="_blank" href="'+ muri + '"><img src="'+puri+'" alt="'+alt+'" width="100%"></a></span>';
+				var ct = rowData['cited_specimen_count'];
+				var id = rowData['publication_id'];
+				var short_citation = encodeURIComponent(rowData['short_citation']);
+				if (ct != "" && ct != "0") { 
+					target = "/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1="+short_citation+"&searchId1="+id;
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="' + target + '">'+ct+'</a></span>';
 				} else { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					return '<span class="ml-1" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+'</span>';
 				}
 			};
 	
@@ -367,6 +407,7 @@ limitations under the License.
 						datafields:
 						[
 							{ name: 'publication_id', type: 'string' },
+							{ name: 'short_citation', type: 'string' },
 							{ name: 'publication_type', type: 'string' },
 							{ name: 'published_year', type: 'string' },
 							{ name: 'publication_title', type: 'string' },
@@ -375,6 +416,7 @@ limitations under the License.
 							{ name: 'authors', type: 'string' },
 							{ name: 'editors', type: 'string' },
 							{ name: 'doi', type: 'string' },
+							{ name: 'cited_specimen_count', type: 'string' },
 							{ name: 'journal_name', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
@@ -425,14 +467,21 @@ limitations under the License.
 						altrows: true,
 						showtoolbar: false,
 						columns: [
-							{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: linkIdCellRenderer},
-							{text: 'Authors', datafield: 'authors', width:100, hideable: true, hidden: getColHidProp('authors', false) },
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+								{text: 'Publication', datafield: 'short_citation', width:150, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
+								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: editCellRenderer},
+							<cfelse>
+								{text: 'Publication', datafield: 'short_citation', width:150, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
+								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', true), cellsrenderer: linkIdCellRenderer},
+							</cfif>
+							{text: 'Specimens Cited', datafield: 'cited_specimen_count', width:80, hideable: true, hidden: getColHidProp('authors', false), cellsrenderer: countCellRenderer },
+							{text: 'Authors', datafield: 'authors', width:150, hideable: true, hidden: getColHidProp('authors', false) },
 							{text: 'Editors', datafield: 'editors', width:100, hideable: true, hidden: getColHidProp('editors', true) },
-							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
+							{text: 'Year', datafield: 'published_year', width:65, hideable: true, hidden: getColHidProp('published_year', false) },
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
-							{text: 'Type', datafield: 'publication_type', width:100, hideable: true, hidden: getColHidProp('publication_type', false) },
+							{text: 'Type', datafield: 'publication_type', width:120, hideable: true, hidden: getColHidProp('publication_type', false) },
 							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', true) },
-							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false) },
+							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false), cellsrenderer: doiCellRenderer },
 							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
 							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
 						],

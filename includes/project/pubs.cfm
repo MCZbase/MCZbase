@@ -56,7 +56,7 @@
 							No Citations
 						</cfif>
 					</li>
-					<li><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">Details</a></li>
+					<li><a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details</a></li>
 					<cfquery name="links" dbtype="query">
 						select description, link 
 						from pubs

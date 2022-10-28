@@ -319,9 +319,10 @@ limitations under the License.
 								</cfif>	
 								<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
+									<a class="dropdown-item" href="/Publications.cfm">Publications</a>
+									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects (old)</a><!--- old --->
 								<cfelse>
-									<a class="dropdown-item bg-warning" href="">Publications</a>
+									<a class="dropdown-item" href="/Publications.cfm">Publications</a>
 									<a class="dropdown-item bg-warning" href="">Projects</a>
 								</cfif>	
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>

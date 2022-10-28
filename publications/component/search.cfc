@@ -60,6 +60,7 @@ Function getPublications.  Search for publications by fields
 			</cfif>
 		</cfif>
 	</cfif>
+	<cfif NOT isDefined("related_cataloged_item")><cfset related_cataloged_item = ""></cfif>
 	<cfif related_cataloged_item EQ "NULL">
 		<cfset cited_collection_object_id = "NULL">
 		<cfset related_cataloged_item = "">
@@ -72,7 +73,7 @@ Function getPublications.  Search for publications by fields
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT distinct
+			SELECT 
 				publication.publication_id, 
 				publication_type, 
 				published_year, 
@@ -82,13 +83,20 @@ Function getPublications.  Search for publications by fields
 				MCZbase.get_publication_authors(publication.publication_id) as authors,
 				MCZbase.get_publication_editors(publication.publication_id) as editors,
 				jour_att.pub_att_value as journal_name,
-				doi
+				doi,
+				MCZbase.getshortcitation(publication.publication_id) as short_citation,
+				MCZBASE.count_citations_for_pub(publication.publication_id) as cited_specimen_count
 			FROM 
 				publication
 				join formatted_publication on publication.publication_id = formatted_publication.publication_id
+					and formatted_publication.format_style = 'long'
 				left join publication_attributes jour_att 
 					on publication.publication_id = jour_att.publication_id
 						and jour_att.publication_attribute = 'journal name'
+				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
+					left join citation citation_coll on publication.publication_id = citation_coll.publication_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat_coll on citation_coll.collection_object_id = flat_coll.collection_object_id
+				</cfif>
 				<cfif isDefined("volume") AND len(volume) GT 0>
 					left join publication_attributes volume_att 
 						on publication.publication_id = volume_att.publication_id
@@ -118,7 +126,7 @@ Function getPublications.  Search for publications by fields
 					</cfif>
 				</cfif>
 			WHERE
-				format_style = 'long'
+				publication.publication_id is not null
 				<cfif isDefined("text") AND len(text) GT 0>
 					and formatted_publication like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#text#%">
 				</cfif>
@@ -218,6 +226,15 @@ Function getPublications.  Search for publications by fields
 				<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
 					and flat.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#related_cataloged_item#" list="yes">)
 				</cfif>
+				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
+					<cfif cites_collection EQ "NOT NULL">
+						and flat_coll.collection_cde IS NOT NULL
+					<cfelse>
+						and flat_coll.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cites_collection#">
+					</cfif>
+				</cfif>
+			ORDER BY
+				published_year
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>

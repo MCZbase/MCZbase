@@ -10,7 +10,7 @@
 <cfset title = "Edit Publication">
 <cfoutput>
 <h3 class="linkPubDetail">
-    <a class="detailsLink" href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">See Publication Details</a></h3>
+    <a class="detailsLink" href="/publications/showPublication.cfm?publication_id=#publication_id#">See Publication Details</a></h3>
 
 <cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type

@@ -217,7 +217,7 @@
 					<tr>
 						<td>
 							<h5 class="my-1">
-								<a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#publication_title#</a>
+								<a href="/publications/showPublication.cfm?publication_id=#publication_id#">#publication_title#</a>
 							</h5>
 							<cfquery name="itemAnno" dbtype="query">
 								select * from tax where publication_id = #publication_id#
