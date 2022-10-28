@@ -68,7 +68,7 @@ limitations under the License.
 		SELECT
 			agent_name.agent_id, 
 			author_role,
-			MCZBASE.get_agentnameoftype(agent_nameagent_id,'author') as name,
+			MCZBASE.get_agentnameoftype(agent_name.agent_id,'author') as name,
 			agentguid,
 			agentguid_guid_type
 		FROM
