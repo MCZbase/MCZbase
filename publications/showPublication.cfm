@@ -238,7 +238,11 @@ limitations under the License.
 								<cfset link = getGuidLink(guid=#citedSpecimens.taxonid#,guid_type=#citedSpecimens.taxonid_guid_type#)>
 								<cfset taxonidLink = "<span>#link#</span> " >
 							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> <a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> #<span class="sm-caps">#author_text#</span> #taxonidLink##type_status# #page# #citedSpecimens.citation_remarks#</li>
+							<li> 
+								<a href="/guid/#guid#">#guid#</a> 
+								<a href="/name/#encodeForURL(scientific_name)#">#display_name#</a> <span class="sm-caps">#author_text#</span> 
+								#taxonidLink##type_status# #page# #citedSpecimens.citation_remarks#
+							</li>
 						</cfloop>
 					</cfif>
 				</ul>
