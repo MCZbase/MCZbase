@@ -1226,7 +1226,8 @@ function makeScientificNameAutocomplete(valueControl) {
 			})
 		},
 		select: function (event, result) {
-			$('#'+idControl).val("=" + result.item.id);
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
 		},
 		change: function (event, ui) {
 			// clear the id control if the action wasn't a selection of an item on the list
