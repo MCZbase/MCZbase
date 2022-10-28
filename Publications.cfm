@@ -496,10 +496,10 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-								{text: 'Publication', datafield: 'short_citation', width:150, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
-								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: editCellRenderer},
+								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
+								{text: 'ID', datafield: 'publication_id', width:100, hideable: false, cellsrenderer: editCellRenderer},
 							<cfelse>
-								{text: 'Publication', datafield: 'short_citation', width:150, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
+								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
 								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', true), cellsrenderer: linkIdCellRenderer},
 							</cfif>
 							{text: 'Specimens Cited', datafield: 'cited_specimen_count', width:80, hideable: true, hidden: getColHidProp('authors', false), cellsrenderer: countCellRenderer },
