@@ -1212,9 +1212,11 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
  * intended for use with a scientific name search, prepends = to input control on selection from picklist.
  *
  *  @param include_authorship if false, matched value is just the scientific_name, otherwise scientific_name plus author_text.
+ *  @param scope allows limitation to some use of taxonomy records, see getScientificNameAutocomplete method documentation
+ *    for supported values of scope.
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  */
-function makeScientificNameAutocomplete(valueControl, include_authorship) { 
+function makeScientificNameAutocomplete(valueControl, include_authorship, scope) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -1222,6 +1224,7 @@ function makeScientificNameAutocomplete(valueControl, include_authorship) {
 				data: { 
 					term: request.term, 
 					include_authorship: include_authorship,
+					scope: scope,
 					method: 'getScientificNameAutocomplete' 
 				},
 				dataType: 'json',

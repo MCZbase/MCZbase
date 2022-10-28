@@ -295,7 +295,7 @@ limitations under the License.
 										<input type="text" id="cited_taxon" name="cited_taxon" class="data-entry-input" value="#encodeForHtml(cited_taxon)#" >
 										<script>
 											$(document).ready(function() {
-												makeScientificNameAutocomplete("cited_taxon","false");
+												makeScientificNameAutocomplete("cited_taxon","false","cited");
 											});
 										</script>
 									</div>
@@ -304,7 +304,7 @@ limitations under the License.
 										<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" class="data-entry-input" value="#encodeForHtml(accepted_for_cited_taxon)#" >
 										<script>
 											$(document).ready(function() {
-												makeScientificNameAutocomplete("accepted_for_cited_taxon","false");
+												makeScientificNameAutocomplete("accepted_for_cited_taxon","false","");
 											});
 										</script>
 									</div>
