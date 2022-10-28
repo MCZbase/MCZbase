@@ -65,7 +65,7 @@ limitations under the License.
 		WHERE
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDetails_result">
+	<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgents_result">
 		SELECT
 			agent_name.agent_id, 
 			author_role,
@@ -88,6 +88,15 @@ limitations under the License.
 			PUBLICATION_ATTRIBUTE ,
 			PUB_ATT_VALUE  
 		FROM publication_attributes
+		WHERE
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+	</cfquery>
+	<cfquery name="getLinks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLinks_result">
+		SELECT
+			publication_url_id,
+			description,
+			link
+		FROM publication_url
 		WHERE
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
@@ -150,6 +159,9 @@ limitations under the License.
 					<cfif getDetails.is_peer_reviewed_fg EQ 0>
 						<li><strong>Peer Reviewed: </strong> No</li>
 					</cfif>
+					<cfloop query="getLinks">
+						<li><strong>Link: </strong> <a href="#getLinks.link#">#getLinks.description#</a></li>
+					</cfloop>
 					<li><strong>Remarks: </strong> #getDetails.publication_remarks#</li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 						<li><strong>Location: </strong> #getDetails.publication_loc#</li>
