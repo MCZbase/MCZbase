@@ -64,6 +64,20 @@ limitations under the License.
 		WHERE
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
+	<cfquery name="getAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDetails_result">
+		SELECT
+			agent_name.agent_id, 
+			author_role,
+			MCZBASE.get_agentnameoftype(agent_nameagent_id,'author') as name,
+			agentguid,
+			agentguid_guid_type
+		FROM
+			publication_author_name
+			join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
+			join agent on agent_name.agent_id = agent.agent_id
+		ORDER BY
+			author_role asc, author_position asc
+	</cfquery>
 	<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
 		SELECT
 			PUBLICATION_ATTRIBUTE_ID ,
@@ -109,6 +123,13 @@ limitations under the License.
 				<ul>
 					<li><strong>Short Citation: </strong> #getDetails.short_citation#</li>
 					<li><strong>Year Published: </strong> #getDetails.published_year#</li>
+					<cfloop query="getAgents">
+						<cfset agentLinkOut = "">
+						<cfif len(getAgents.agentguid) GT 0>
+							<cfset agentLinkOut = getGuidLink(guid=#getAgents.agentguid#,guid_type=#getAgents.agentguid_guid_type#)>
+						</cfif>
+						<li><strong>#getAgents.author_role#: </strong> <a href="/agents/Agent.cfm?agent_id=#getAgents.agent_id#>#getAgents.name#</a>#agentLinkOut#</li>
+					</cfloop>
 					<li><strong>Title: </strong> #getDetails.publication_title#</li>
 					<li><strong>Publication Type: </strong> #getDetails.publication_type#</li>
 					<li><strong>DOI: </strong> 
@@ -119,7 +140,9 @@ limitations under the License.
 							</a>
 						</cfif>
 					</li>
-					<li><strong>Peer Reviewed: </strong> #getDetails.is_peer_reviewed_fg#</li>
+					<cfif getDetails.is_peer_reviewed_fg EQ 0>
+						<li><strong>Peer Reviewed: </strong> No</li>
+					</cfif>
 					<li><strong>Remarks: </strong> #getDetails.publication_remarks#</li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 						<li><strong>Location: </strong> #getDetails.publication_loc#</li>
@@ -167,7 +190,7 @@ limitations under the License.
 					<cfset target="Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1=#encodeForURL(getDetails.short_citation)#&searchId1=#getDetails.publication_id#">
 					<cfset specCount = " <a href='#target#'>(#citedSpecimens.recordCount#)</a>" >
 				</cfif>
-				<h2 class="h4">Cited MCZ Specimens#specCount#:</h2>
+				<h2 class="h4">Cited MCZ Specimens#specCount# in #getDetails.short_citation#:</h2>
 				<ul>
 					<cfif citedSpecimens.recordcount is 0>
 						<li><b>No cited MCZ specimens.</b></li>
