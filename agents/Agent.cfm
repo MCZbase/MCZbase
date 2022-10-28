@@ -2064,7 +2064,7 @@ limitations under the License.
 													<cfloop query="publicationAuthor">
 														<cfif citation_count EQ 1><cfset citplural =""><cfelse><cfset citplural="s"></cfif>
 														<li class="border bg-white list-group-item d-flex justify-content-between align-items-center mt-1">
-															<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_blank">#formatted_publication#</a>
+															<a href="/publications/showPublication.cfm?publication_id=#publication_id#" target="_blank">#formatted_publication#</a>
 															<cfif citation_count eq 0>
 																<cfelse>
 																<span class="badge badge-primary badge-pill pb-1">

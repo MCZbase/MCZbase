@@ -110,7 +110,7 @@
 				<p class="indent">
 					#formatted_publication#
 					<br>
-					<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">Details (This link may not work. These data are suspect. That's why they're here.)</a>
+					<a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details (This link may not work. These data are suspect. That's why they're here.)</a>
 					<br>
 					<a href="/Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 				</p>

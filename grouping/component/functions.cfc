@@ -895,7 +895,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					<cfloop query="citations">
 						<li>
 							#citations.type#
-							<a href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#" target="_blank">#citations.publication#</a>
+							<a href="/publications/showPublication.cfm?publication_id=#citations.publication_id#" target="_blank">#citations.publication#</a>
 							<cfif len(citation_page_uri) GT 0>
 								<cfif len(pages) EQ 0>
 									<a href="#citation_page_uri#" target="_blank">[Link]</a>

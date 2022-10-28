@@ -1224,7 +1224,7 @@ limitations under the License.
 																		<h4 class="h5 mb-0 pl-2 pt-2">Citations about the #collection_name#</h4>
 																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																			<cfloop query="directCitations">
-																				<li class="list-group-item col-12 col-md-12 float-left py-2"><span class="border-bottom mr-2">#directCitations.type#</span> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
+																				<li class="list-group-item col-12 col-md-12 float-left py-2"><span class="border-bottom mr-2">#directCitations.type#</span> <a class="h4" href="/publications/showPublication.cfm?publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
 																			</cfloop>
 																		</ul>
 																	</cfif>
@@ -1232,7 +1232,7 @@ limitations under the License.
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																		<cfloop query="citations">
 																			<li class="list-group-item col-12 col-md-12 float-left py-2"> 
-																				<a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a>
+																				<a class="h4" href="/publications/showPublication.cfm?publication_id=#citations.publication_id#">#citations.formatted_publication#</a>
 																			</li>
 																		</cfloop>
 																	</ul>
@@ -1245,14 +1245,14 @@ limitations under the License.
 														<h4 class="h5 mb-0 pt-0">Citations about the #collection_name#</h4>
 														<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 															<cfloop query="directCitations">
-																<li class="list-group-item col-12 col-md-12 float-left py-2"><span class="border-bottom mr-2">#directCitations.type#</span> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
+																<li class="list-group-item col-12 col-md-12 float-left py-2"><span class="border-bottom mr-2">#directCitations.type#</span> <a class="h4" href="/publications/showPublication.cfm?publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
 															</cfloop>
 														</ul>
 													</cfif>
 													<h4 class="h5 mb-0 pt-2">Citations of cataloged items</h4>
 													<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 														<cfloop query="citations">
-															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/SpecimenUsage.cfm?action=search&publication_id=#citations.publication_id#">#citations.formatted_publication#</a> </li>
+															<li class="list-group-item col-12 col-md-12 float-left py-2"> <a class="h4" href="/publications/showPublication.cfm?publication_id=#citations.publication_id#">#citations.formatted_publication#</a> </li>
 														</cfloop>
 													</ul>
 												</cfif>

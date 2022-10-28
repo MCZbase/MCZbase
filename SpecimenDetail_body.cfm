@@ -482,7 +482,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 					<cfloop query="citations">
 						<div class="detailBlock">
 							<span class="detailData">
-								<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+								<a href="/publications/showPublication.cfm?publication_id=#publication_id#"
 									target="_mainFrame">
 										#formatted_publication#</a>,
 								<cfif len(occurs_page_number) gt 0>
