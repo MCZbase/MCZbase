@@ -180,9 +180,13 @@ limitations under the License.
 									<cfset page = "p. #occurs_page_number#">
 								</cfif>
 							<cfelse>
+								<cfif len(citedSpecimens.citation_page_uri) GT 0>
+									<cfset page = "p. <a href=#citation_page_uri#>[link]</a>" >
+								<cfelse>
 									<cfset page = "">
+								</cfif>
 							</cfif>
-							<li> <a href="/guid/#guid#">#guid#</a> #display_name# <span class="sm-caps">#author_text#</span> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#getDetails.short_citation#</a> </li>
+							<li> <a href="/guid/#guid#">#guid#</a> #display_name# <span class="sm-caps">#author_text#</span> #type_status# #page# in <a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#getDetails.short_citation#</a> #citedSpecimens.citation_remarks#</li>
 						</cfloop>
 					</cfif>
 				</ul>
