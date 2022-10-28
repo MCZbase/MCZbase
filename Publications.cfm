@@ -461,18 +461,18 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-								{text: 'Publication', datafield: 'short_citation', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
+								{text: 'Publication', datafield: 'short_citation', width:150, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
 								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: editCellRenderer},
 							<cfelse>
-								{text: 'Publication', datafield: 'short_citation', width:100, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
+								{text: 'Publication', datafield: 'short_citation', width:150, hideable: true, hidden: getColHidProp('publication_id', false), cellsrenderer: citationCellRenderer },
 								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', true), cellsrenderer: linkIdCellRenderer},
 							</cfif>
-							{text: 'Cited Specimens', datafield: 'cited_specimen_count', width:100, hideable: true, hidden: getColHidProp('authors', false), cellsrenderer: countCellRenderer },
-							{text: 'Authors', datafield: 'authors', width:100, hideable: true, hidden: getColHidProp('authors', false) },
+							{text: 'Specimens Cited', datafield: 'cited_specimen_count', width:80, hideable: true, hidden: getColHidProp('authors', false), cellsrenderer: countCellRenderer },
+							{text: 'Authors', datafield: 'authors', width:150, hideable: true, hidden: getColHidProp('authors', false) },
 							{text: 'Editors', datafield: 'editors', width:100, hideable: true, hidden: getColHidProp('editors', true) },
-							{text: 'Year', datafield: 'published_year', width:80, hideable: true, hidden: getColHidProp('published_year', false) },
+							{text: 'Year', datafield: 'published_year', width:65, hideable: true, hidden: getColHidProp('published_year', false) },
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
-							{text: 'Type', datafield: 'publication_type', width:100, hideable: true, hidden: getColHidProp('publication_type', false) },
+							{text: 'Type', datafield: 'publication_type', width:120, hideable: true, hidden: getColHidProp('publication_type', false) },
 							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', true) },
 							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false) },
 							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
