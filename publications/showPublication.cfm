@@ -113,7 +113,7 @@ limitations under the License.
 			author_text,
 			scientific_name,
 			taxonomy.taxonid,
-			taxonid_guid_type,
+			taxonid_guid_type
 		FROM citation 
 			JOIN cataloged_item on CITATION.COLLECTION_OBJECT_ID = CATALOGED_ITEM.COLLECTION_OBJECT_ID
 		 	JOIN taxonomy on citation.cited_taxon_name_id = taxonomy.taxon_name_id
