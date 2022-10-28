@@ -111,7 +111,14 @@ limitations under the License.
 					<li><strong>Year Published: </strong> #getDetails.published_year#</li>
 					<li><strong>Title: </strong> #getDetails.publication_title#</li>
 					<li><strong>Publication Type: </strong> #getDetails.publication_type#</li>
-					<li><strong>DOI: </strong> #getDetails.doi#</li>
+					<li><strong>DOI: </strong> 
+						<cfif len(getDetails.doi) GT 0>
+							<a target="_blank" href='https://doi.org/#getDetails.doi#'>
+								#getDetails.doi#
+								<img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon">
+							</a>
+						</cfif>
+					</li>
 					<li><strong>Peer Reviewed: </strong> #getDetails.is_peer_reviewed_fg#</li>
 					<li><strong>Remarks: </strong> #getDetails.publication_remarks#</li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
@@ -154,8 +161,13 @@ limitations under the License.
 					</div>
 				</div>
 								
-
-				<h2 class="h4">Cited MCZ Specimens:</h2>
+				<cfif citedSpecimens.recordcount is 0>
+					<cfset specCount = "">
+				<cfelse>
+					<cfset target="Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1=#encodeForURL(getDetails.short_citation)#&searchId1=#getDetails.publication_id#">
+					<cfset specCount = " <a href='#target#'>(#citedSpecimens.recordCount#)</a>" >
+				</cfif>
+				<h2 class="h4">Cited MCZ Specimens#specCount#:</h2>
 				<ul>
 					<cfif citedSpecimens.recordcount is 0>
 						<li><b>No cited MCZ specimens.</b></li>
