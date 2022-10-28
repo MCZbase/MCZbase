@@ -89,7 +89,7 @@ Function getPublications.  Search for publications by fields
 			FROM 
 				publication
 				join formatted_publication on publication.publication_id = formatted_publication.publication_id
-					and formattted_publication.format_style = 'long'
+					and formatted_publication.format_style = 'long'
 				left join publication_attributes jour_att 
 					on publication.publication_id = jour_att.publication_id
 						and jour_att.publication_attribute = 'journal name'
