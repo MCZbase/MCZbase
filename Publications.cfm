@@ -410,6 +410,12 @@ limitations under the License.
 										<script>
 											$(document).ready(function() {
 												makeNamedCollectionPicker("cited_named_group","cited_named_group_id");
+												$('##cited_named_group').blur( function () {
+													// prevent an invisible cited_named_group_id from being included in the search.
+													if ($('##cited_named_group').val().trim() == "") { 
+														$('##cited_named_group_id').val("");
+													}
+												});
 											});
 										</script>
 									</div>
