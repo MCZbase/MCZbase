@@ -316,7 +316,7 @@ limitations under the License.
 										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" size="1" class="data-entry-select">
 											<option value=""></option>
 											<!--- Note, only including No option, as flag field has not null constraint, but is very seldom set, so may be missleading if yes is selected --->
-											<cfif is_peer_reviewed_fg = 0 > <cfset selected="selected"> <cfelse> <cfset selected=""> </cfif>
+											<cfif is_peer_reviewed_fg EQ 0 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 											<option value="0" #selected#>No</option>
 										</select>
 									</div>
