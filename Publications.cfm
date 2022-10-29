@@ -512,6 +512,7 @@ limitations under the License.
 							{ name: 'short_citation', type: 'string' },
 							{ name: 'publication_type', type: 'string' },
 							{ name: 'published_year', type: 'string' },
+							{ name: 'publisher', type: 'string' },
 							{ name: 'publication_title', type: 'string' },
 							{ name: 'publication_remarks', type: 'string' },
 							{ name: 'formatted_publication', type: 'string' },
@@ -584,6 +585,7 @@ limitations under the License.
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
 							{text: 'Type', datafield: 'publication_type', width:120, hideable: true, hidden: getColHidProp('publication_type', false) },
 							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', true) },
+							{text: 'Publisher', datafield: 'publisher', width:100, hideable: true, hidden: getColHidProp('publisher', true) },
 							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false), cellsrenderer: doiCellRenderer },
 							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
 							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
@@ -674,6 +676,12 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
+				<!--- leave off columns where hidable = false --->
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+					columns = columns - 3;
+				<cfelse>
+					columns = columns - 1;
+				</cfif>
 				var halfcolumns = Math.round(columns.length/2);
 				var columnListSource = [];
 				for (i = 1; i < halfcolumns; i++) {
