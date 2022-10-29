@@ -264,9 +264,6 @@ Function getPublications.  Search for publications by fields
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
-		<!--- TODO: include in output: 
-    		Link to: Manage Citations (internal)
-		--->
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >

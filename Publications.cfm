@@ -311,7 +311,15 @@ limitations under the License.
 
 									<!--- TODO: Author/Editor searches --->
 
-									<!--- TODO: peer reviewed only --->
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed</label>
+										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" size="1" class="data-entry-select">
+											<option value=""></option>
+											<!--- Note, only including No option, as flag field has not null constraint, but is very seldom set, so may be missleading if yes is selected --->
+											<cfif is_peer_reviewed_fg = 0 > <cfset selected="selected"> <cfelse> <cfset selected=""> </cfif>
+											<option value="0" #selected#>No</option>
+										</select>
+									</div>
 
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
