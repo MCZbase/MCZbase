@@ -38,6 +38,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="volume" type="string" required="no">
 	<cfargument name="issue" type="string" required="no">
 	<cfargument name="number" type="string" required="no">
+	<cfargument name="begin_page" type="string" required="no">
 	<cfargument name="published_year" type="string" required="no">
 	<cfargument name="to_published_year" type="string" required="no">
 	<cfargument name="cites_collection" type="string" required="no"><!--- TODO --->
@@ -120,6 +121,11 @@ Function getPublications.  Search for publications by fields
 					left join publication_attributes number_att 
 						on publication.publication_id = number_att.publication_id
 							and number_att.publication_attribute = 'number'
+				</cfif>
+				<cfif isDefined("begin_page") AND len(begin_page) GT 0>
+					left join publication_attributes begin_page_att 
+						on publication.publication_id = begin_page_att.publication_id
+							and begin_page_att.publication_attribute = 'begin page'
 				</cfif>
 				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
 					left join publication_attributes publication_attribute_type_att 
@@ -246,6 +252,21 @@ Function getPublications.  Search for publications by fields
 							and issue_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issue,len(issue)-1)#">
 						<cfelse>
 							and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("begin_page") AND len(begin_page) GT 0>
+					<cfif begin_page EQ "NULL">
+						and begin_page_att.pub_att_value IS NULL
+					<cfelseif begin_page EQ "NOT NULL">
+						and begin_page_att.pub_att_value IS NOT NULL
+					<cfelse>
+						<cfif left(begin_page,1) EQ "!">
+							and begin_page_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(begin_page,len(begin_page)-1)#">
+						<cfelseif left(begin_page,1) EQ "=">
+							and begin_page_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(begin_page,len(begin_page)-1)#">
+						<cfelse>
+							and begin_page_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#begin_page#%">
 						</cfif>
 					</cfif>
 				</cfif>
