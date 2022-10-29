@@ -135,7 +135,7 @@ Function getPublications.  Search for publications by fields
 						on publication.publication_id = publication_attribute_type_att.publication_id
 							and publication_attribute_type_att.publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute_type#">
 				</cfif>
-				<cfif isDefined("type_status") AND len(type_status) GT 0)>
+				<cfif isDefined("type_status") AND len(type_status) GT 0>
 					left join citation type_status_citation on publication.publication_id = type_status_citation.publication_id
 				</cfif>
 				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0 >
