@@ -48,6 +48,18 @@ limitations under the License.
 	<cfif not isdefined("publication_id")> 
 		<cfset publication_id="">
 	</cfif>
+	<cfif not isdefined("author_agent_name")>
+		<cfset author_agent_name="">
+	</cfif>
+	<cfif not isdefined("author_agent_id")>
+		<cfset author_agent_id="">
+	</cfif>
+	<cfif not isdefined("editor_agent_name")>
+		<cfset editor_agent_name="">
+	</cfif>
+	<cfif not isdefined("editor_agent_id")>
+		<cfset editor_agent_id="">
+	</cfif>
 	<cfif not isdefined("published_year")> 
 		<cfset published_year="">
 	</cfif>
@@ -312,7 +324,44 @@ limitations under the License.
 										</script>
 									</div>
 
-									<!--- TODO: Author/Editor searches --->
+									<div class="col-12 col-md-4 col-xl-3">
+										<div class="form-group mb-2">
+											<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
+												<h5 id="author_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+											</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-lightgreen" id="author_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="author_agent_name" id="author_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="author_agent_name_label" value="#encodeForHtml(author_agent_name)#">
+												<input type="hidden" name="author_agent_id" id="author_agent_id" value="#encodeForHtml(author_agent_id)#">
+											</div>
+										</div>
+									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeConstrainedRichAgentPicker('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author'));
+										});
+									</script>
+									<div class="col-12 col-md-4 col-xl-3">
+										<div class="form-group mb-2">
+											<label for="editor_agent_name" id="editor_agent_name_label" class="data-entry-label mb-0 pb-0 small">Editor
+												<h5 id="editor_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+											</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-lightgreen" id="editor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="editor_agent_name" id="editor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="editor_agent_name_label" value="#encodeForHtml(editor_agent_name)#">
+												<input type="hidden" name="editor_agent_id" id="editor_agent_id" value="#encodeForHtml(editor_agent_id)#">
+											</div>
+										</div>
+									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeConstrainedRichAgentPicker('editor_agent_name', 'editor_agent_id', 'editor_agent_name_icon', 'editor_agent_view', '#editor_agent_id#','editor'));
+										});
+									</script>
 
 									<div class="col-12 col-md-6 col-xl-2">
 										<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed</label>

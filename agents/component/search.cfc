@@ -687,6 +687,10 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
  with a _renderItem overriden to display more detail on the picklist, and just the agent name as the selected value.
 
 @param term agent name to search for.
+@param constraint limit agents to those agents where the constraint applies, supports:  permit_issued_by_agent,
+	permit_issued_to_agent, permit_contact_agent, transaction_agent, project_agent, media_agent, media_creator_agent, 
+	determiner, collector, preparator, author, editor.
+@param show_agent_id if no value provided, then do not include the agent_id in the meta, otherwise included the agent_id in the meta.
 @return a json structure containing id and value, with matching agents with matched name in value and agent_id in id, and matched name 
   with * and preferred name in meta.
 --->
@@ -745,6 +749,10 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("preparator") AND constraint EQ 'preparator'>
 					join collector on agent.agent_id = collector.agent_id
 				</cfif>
+				<cfif (isdefined("author") AND constraint EQ 'author') OR ( isdefined("editor") AND constraint EQ 'editor' )>
+					join agent_name pub_agent_name on agent.agent_id = pub_agent_name.agent_id
+					join publication_author_name on pub_agent_name.agent_name_id = publication_author_name.agent_name_id
+				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_by_agent' or constraint EQ 'permit_contact_agent' )>
@@ -775,6 +783,12 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("preparator") AND constraint EQ 'preparator'>
 					AND collector.collector_role = 'p'
 				</cfif>
+				<cfif isdefined("author") AND constraint EQ 'author'>
+					and publication_author_name.author_role = 'author'
+				</cfif>
+				<cfif isdefined("editor") AND constraint EQ 'editor'>
+					and publication_author_name.author_role = 'editor'
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -786,7 +800,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 			<cfif show_agent_id >
 				<cfset agent_id_bit = " [#search.agent_id#]">
 			<cfelse>
-				<cfset agent_id_bit = " [#search.agent_id#]">
+				<cfset agent_id_bit = "">
 			</cfif>
 			<cfif search.preferred_agent_name EQ search.agent_name >
 				<cfset row["meta"] = "#search.agent_name# #edited_marker##agent_id_bit#" >

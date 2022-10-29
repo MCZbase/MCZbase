@@ -48,8 +48,10 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="publication_attribute_type" type="string" required="no">
 	<cfargument name="publication_attribute_value" type="string" required="no">
-
-	<!--- TODO: Author/Editor searches --->
+	<cfargument name="author_agent_name" type="string" required="no">
+	<cfargument name="author_agent_id" type="string" required="no">
+	<cfargument name="editor_agent_name" type="string" required="no">
+	<cfargument name="editor_agent_id" type="string" required="no">
 
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
@@ -134,6 +136,19 @@ Function getPublications.  Search for publications by fields
 				<cfif isDefined("accepted_for_cited_taxon") AND len(accepted_for_cited_taxon) GT 0>
 					left join citation accepted_taxon_cite on publication.publication_id = accepted_taxon_cite.publication_id
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> accepted_flat on accepted_taxon_cite.collection_object_id = accepted_flat.collection_object_id
+				</cfif>
+				<cfif (isDefined("author_agent_id") AND len(author_agent_id) GT 0) OR (isDefined("author_agent_name") AND len(author_agent_name) GT 0) >
+					left join publication_author_name on publication.publication_id = publication_author_name.publication_id
+					left join agent_name pubagent_name on publication_author_name.agent_name_id = pubagent_name.agent_name_id
+					<cfif isDefined("author_agent_name") AND len(author_agent_name) GT 0 >
+						left join agent_name anyagentname on pubagent_name.agent_id = anyagentname.agent_id 
+					</cfif>
+				<cfif (isDefined("editor_agent_id") AND len(editor_agent_id) GT 0) OR (isDefined("editor_agent_name") AND len(editor_agent_name) GT 0) >
+					left join publication_author_name publication_editor_name on publication.publication_id = publication_editor_name.publication_id
+					left join agent_name pubeditor_name on publication_editor_name.agent_name_id = pubeditor_name.agent_name_id
+					<cfif isDefined("editor_agent_name") AND len(editor_agent_name) GT 0 >
+						left join agent_name anyeditoragentname on pubeditor_name.agent_id = anyeditoragentname.agent_id 
+					</cfif>
 				</cfif>
 			WHERE
 				publication.publication_id is not null
@@ -256,6 +271,16 @@ Function getPublications.  Search for publications by fields
 					<cfelse>
 						and accepted_flat.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accepted_for_cited_taxon#%">
 					</cfif>
+				</cfif>
+				<cfif isDefined("author_agent_id") AND len(author_agent_id) GT 0>
+					and pubagent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_agent_id#">
+				<cfifelse isDefined("author_agent_name") AND len(author_agent_name) GT 0>
+					and anyagentname like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#author_agent_name#%">
+				</cfif>
+				<cfif isDefined("editor_agent_id") AND len(editor_agent_id) GT 0>
+					and pubeditor_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_agent_id#">
+				<cfifelse isDefined("editor_agent_name") AND len(editor_agent_name) GT 0>
+					and anyeditoragentname like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#author_agent_name#%">
 				</cfif>
 			ORDER BY
 				published_year
