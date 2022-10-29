@@ -208,7 +208,7 @@ Function getPublications.  Search for publications by fields
 				<cfif isDefined("publisher") AND len(publisher) GT 0>
 					<cfif publisher EQ "NULL">
 						and publisher_att.pub_att_value IS NULL
-					<cfelseif publisher_name EQ "NOT NULL">
+					<cfelseif publisher EQ "NOT NULL">
 						and publisher_att.pub_att_value IS NOT NULL
 					<cfelse>
 						<cfif left(publisher,1) EQ "!">
