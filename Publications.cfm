@@ -369,9 +369,9 @@ limitations under the License.
 										<label for="type_status" class="data-entry-label">Citation Type Status</label>
 										<select name="type_status" id="type_status" size="1" class="data-entry-select">
 											<option value=""></option>
-											<cfloop query="cfcitation_type_status">
-												<cfif in_type_status EQ cfcitation_type_status.type_status><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-												<option value="#cfcitation_type_status.type_status#"#selected#>#cfcitation_type_status.type_status#</option>
+											<cfloop query="ctcitation_type_status">
+												<cfif in_type_status EQ ctcitation_type_status.type_status><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="#ctcitation_type_status.type_status#"#selected#>#ctcitation_type_status.type_status#</option>
 											</cfloop>
 										</select>
 									</div>
