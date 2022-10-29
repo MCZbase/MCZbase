@@ -56,6 +56,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="publisher" type="string" required="no">
 	<cfargument name="taxon_publication" type="string" required="no">
 	<cfargument name="cited_named_group_id" type="string" required="no">
+	<cfargument name="type_status" type="string" required="no">
 
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
@@ -134,7 +135,10 @@ Function getPublications.  Search for publications by fields
 						on publication.publication_id = publication_attribute_type_att.publication_id
 							and publication_attribute_type_att.publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute_type#">
 				</cfif>
-				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0>
+				<cfif isDefined("type_status") AND len(type_status) GT 0)>
+					left join citation type_status_citation on publication.publication_id = type_status_citation.publication_id
+				</cfif>
+				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0 >
 					left join citation on publication.publication_id = citation.publication_id
 				<cfelse>
 					<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
@@ -312,6 +316,9 @@ Function getPublications.  Search for publications by fields
 					<cfelse>
 						and publication_attribute_type_att.pub_att_value IS NOT NULL
 					</cfif>
+				</cfif>
+				<cfif isDefined("type_status") AND len(type_status) GT 0)>
+					and type_status_citation.type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">
 				</cfif>
 				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0>
 					<cfif cited_collection_object_id EQ "NULL">

@@ -33,6 +33,11 @@ limitations under the License.
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select publication_attribute, description, control  from ctpublication_attribute
 </cfquery>
+<cfquery name="ctcitation_type_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select type_status, category, ordinal  
+	from ctcitation_type_status
+	order by category, ordinal
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -126,7 +131,11 @@ limitations under the License.
 	<cfif not isdefined("taxon_publication")>
 		<cfset taxon_publication="">
 	</cfif>
+	<cfif not isdefined("type_status")>
+		<cfset type_status="">
+	</cfif>
 	<cfset in_publication_type="#publication_type#">
+	<cfset in_type_status="#type_status#">
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
@@ -357,13 +366,13 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
-										<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
+										<label for="type_status" class="data-entry-label">Citation Type Status</label>
+										<select name="type_status" id="type_status" size="1" class="data-entry-select">
 											<option value=""></option>
-											<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-											<option value="true"#selected#>Yes</option>
-											<cfif cites_specimens EQ "false"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-											<option value="false"#selected#>No</option>
+											<cfloop query="cfcitation_type_status">
+												<cfif in_type_status EQ cfcitation_type_status.type_status><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="#cfcitation_type_status.type_status#"#selected#>#cfcitation_type_status.type_status#</option>
+											</cfloop>
 										</select>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
@@ -403,6 +412,16 @@ limitations under the License.
 										</script>
 									</div>
 
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
+										<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
+											<option value=""></option>
+											<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+											<option value="true"#selected#>Yes</option>
+											<cfif cites_specimens EQ "false"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+											<option value="false"#selected#>No</option>
+										</select>
+									</div>
 									<div class="col-12 col-md-6 col-xl-3">
 										<label for="cited_named_group" class="data-entry-label">Citation for Named Group <span class="small">(pick)</span></label>
 										<input type="text" id="cited_named_group" name="cited_named_group" class="data-entry-input" value="#encodeForHtml(cited_named_group)#" >
