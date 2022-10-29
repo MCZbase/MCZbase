@@ -360,7 +360,13 @@ Function getPublications.  Search for publications by fields
 					and underscore_collection_citation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_named_group_id#">
 				</cfif>
 				<cfif isDefined("taxon_publication") AND len(taxon_publication) GT 0>
-					and pub_taxon.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_publication#">
+					<cfif taxon_publication EQ "NULL">
+						and pub_taxon.taxon_name_id IS NULL
+					<cfelseif taxon_publication EQ "NOT NULL">
+						and pub_taxon.taxon_name_id IS NOT NULL
+					<cfelse>
+						and pub_taxon.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#taxon_publication#%">
+					</cfif>
 				</cfif>
 			ORDER BY
 				published_year

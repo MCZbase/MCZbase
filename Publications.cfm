@@ -404,7 +404,7 @@ limitations under the License.
 									</div>
 
 									<div class="col-12 col-md-6 col-xl-3">
-										<label for="cited_named_group" class="data-entry-label">Citation for Named Group</label>
+										<label for="cited_named_group" class="data-entry-label">Citation for Named Group <span class="small">(pick)</span></label>
 										<input type="text" id="cited_named_group" name="cited_named_group" class="data-entry-input" value="#encodeForHtml(cited_named_group)#" >
 										<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
 										<script>
@@ -414,7 +414,7 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-6 col-xl-3">
-										<label for="taxon_publication" class="data-entry-label">Citation For Taxon</label>
+										<label for="taxon_publication" class="data-entry-label">Citation For Taxon <span class="small">(pick, NULL, NOT NULL)</span></label>
 										<input type="text" id="taxon_publication" name="taxon_publication" class="data-entry-input" value="#encodeForHtml(taxon_publication)#" >
 										<script>
 											$(document).ready(function() {
