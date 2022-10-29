@@ -406,6 +406,11 @@ limitations under the License.
 					return '<span class="ml-1" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+'</span>';
 				}
 			};
+			var manageCitationsCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var publication_id = rowData['publication_id'];
+				return '<a class="ml-1 px-2 btn btn-xs btn-outline-primary" target="_blank" href="/Citation.cfm?publication_id=#publication_id#">Manage</a>';
+			};
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
@@ -500,6 +505,9 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
 								{text: 'ID', datafield: 'publication_id', width:100, hideable: false, cellsrenderer: editCellRenderer},
+								{text: 'Citations', datafield: 'Citations', width:80, columntype: 'button', hideable: false, editable: false, 
+									cellsrenderer: manageCitationsCellRenderer
+								},
 							<cfelse>
 								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
 								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', true), cellsrenderer: linkIdCellRenderer},
