@@ -82,7 +82,7 @@ Function getPublications.  Search for publications by fields
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT distinct
 				publication.publication_id, 
 				publication_type, 
 				published_year, 
