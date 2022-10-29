@@ -138,13 +138,13 @@ Function getPublications.  Search for publications by fields
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> accepted_flat on accepted_taxon_cite.collection_object_id = accepted_flat.collection_object_id
 				</cfif>
 				<cfif (isDefined("author_agent_id") AND len(author_agent_id) GT 0) OR (isDefined("author_agent_name") AND len(author_agent_name) GT 0) >
-					left join publication_author_name on publication.publication_id = publication_author_name.publication_id
+					left join publication_author_name on publication.publication_id = publication_author_name.publication_id and publication_author_name.author_role = 'author'
 					left join agent_name pubagent_name on publication_author_name.agent_name_id = pubagent_name.agent_name_id
 					<cfif isDefined("author_agent_name") AND len(author_agent_name) GT 0 >
 						left join agent_name anyagentname on pubagent_name.agent_id = anyagentname.agent_id 
 					</cfif>
 				<cfif (isDefined("editor_agent_id") AND len(editor_agent_id) GT 0) OR (isDefined("editor_agent_name") AND len(editor_agent_name) GT 0) >
-					left join publication_author_name publication_editor_name on publication.publication_id = publication_editor_name.publication_id
+					left join publication_author_name publication_editor_name on publication.publication_id = publication_editor_name.publication_id and publication_editor_name.author_role = 'editor'
 					left join agent_name pubeditor_name on publication_editor_name.agent_name_id = pubeditor_name.agent_name_id
 					<cfif isDefined("editor_agent_name") AND len(editor_agent_name) GT 0 >
 						left join agent_name anyeditoragentname on pubeditor_name.agent_id = anyeditoragentname.agent_id 
