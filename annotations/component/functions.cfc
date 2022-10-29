@@ -407,8 +407,16 @@ limitations under the License.
 					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
 				</cfquery>
 			</cfcase>
+			<cfcase value="publication">
+				<cfset annotatable = true>
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 'Publication:' || MCZBASE.getshortcitation(publication_id) as annorecord
+					from publication
+					where publication_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
+				</cfquery>
+			</cfcase>
 			<cfdefaultcase>
-				<cfthrow message="Only annotation of collection objects and taxa are supported at this time">
+				<cfthrow message="Only annotation of collection objects, publications, and taxa are supported at this time">
 			</cfdefaultcase>
 		</cfswitch>
 	<cfcatch>
@@ -444,6 +452,8 @@ limitations under the License.
 						collection_object_id,
 					<cfelseif target_type EQ 'taxon_name'>
 						taxon_name_id,
+					<cfelseif target_type EQ 'publication'>
+						publication_id,
 					</cfif>
 					annotation,
 					target_table, 
