@@ -25,7 +25,9 @@ limitations under the License.
 	select publication_type  from ctpublication_type
 </cfquery>
 <cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select publication_attribute, description, control  from ctpublication_attribute
+	select publication_attribute, description, control  
+	from ctpublication_attribute
+	where publication_attribute not in ('journal name','issue','number','publisher')
 </cfquery>
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select publication_attribute, description, control  from ctpublication_attribute
@@ -676,13 +678,14 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
+				var columnslength = columns.length
 				<!--- leave off columns where hidable = false --->
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-					columns = columns - 3;
+					columnslength = columnslength - 3;
 				<cfelse>
-					columns = columns - 1;
+					columnslength = columnslength - 1;
 				</cfif>
-				var halfcolumns = Math.round(columns.length/2);
+				var halfcolumns = Math.round(columnslength/2);
 				var columnListSource = [];
 				for (i = 1; i < halfcolumns; i++) {
 					var text = columns[i].text;
@@ -706,7 +709,7 @@ limitations under the License.
 					$("##" + gridId).jqxGrid('endupdate');
 				});
 				var columnListSource1 = [];
-				for (i = halfcolumns; i < columns.length; i++) {
+				for (i = halfcolumns; i < columnslength; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
