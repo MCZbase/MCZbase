@@ -54,6 +54,8 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="editor_agent_name" type="string" required="no">
 	<cfargument name="editor_agent_id" type="string" required="no">
 	<cfargument name="publisher" type="string" required="no">
+	<cfargument name="taxon_publication" type="string" required="no">
+	<cfargument name="cited_named_group_id" type="string" required="no">
 
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
@@ -161,6 +163,13 @@ Function getPublications.  Search for publications by fields
 					<cfif isDefined("editor_agent_name") AND len(editor_agent_name) GT 0 >
 						left join agent_name anyeditoragentname on pubeditor_name.agent_id = anyeditoragentname.agent_id 
 					</cfif>
+				</cfif>
+				<cfif isDefined("cited_named_group_id") AND len(cited_named_group_id) GT 0>
+					left join underscore_collection_citation.citation on publication.publication_id = underscore_collection_citation.publication_id
+				</cfif>
+				<cfif isDefined("taxon_publication") AND len(taxon_publication) GT 0>
+					left join taxonomy_publication on publication.publication_id = taxonomy_publication.publication_id
+					left join taxonomy pub_taxon on taxonomy_publication.taxon_name_id = pub_taxon.taxon_name_id
 				</cfif>
 			WHERE
 				publication.publication_id is not null
@@ -346,6 +355,12 @@ Function getPublications.  Search for publications by fields
 					and pubeditor_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_agent_id#">
 				<cfelseif isDefined("editor_agent_name") AND len(editor_agent_name) GT 0>
 					and anyeditoragentname like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#author_agent_name#%">
+				</cfif>
+				<cfif isDefined("cited_named_group_id") AND len(cited_named_group_id) GT 0>
+					and underscore_collection_citation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_named_group_id#">
+				</cfif>
+				<cfif isDefined("taxon_publication") AND len(taxon_publication) GT 0>
+					and pub_taxon.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_publication#">
 				</cfif>
 			ORDER BY
 				published_year

@@ -117,6 +117,15 @@ limitations under the License.
 	<cfif not isdefined("publication_attribute_value")>
 		<cfset publication_attribute_value="">
 	</cfif>
+	<cfif not isdefined("cited_named_group")>
+		<cfset cited_named_group="">
+	</cfif>
+	<cfif not isdefined("cited_named_group_id")>
+		<cfset cited_named_group_id="">
+	</cfif>
+	<cfif not isdefined("taxon_publication")>
+		<cfset taxon_publication="">
+	</cfif>
 	<cfset in_publication_type="#publication_type#">
 	<!--- Search Form ---> 
 	<cfoutput>
@@ -394,6 +403,25 @@ limitations under the License.
 										</script>
 									</div>
 
+									<div class="col-12 col-md-6 col-xl-3">
+										<label for="cited_named_group" class="data-entry-label">Citation for Named Group</label>
+										<input type="text" id="cited_named_group" name="cited_named_group" class="data-entry-input" value="#encodeForHtml(cited_named_group)#" >
+										<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
+										<script>
+											$(document).ready(function() {
+												makeNamedCollectionPicker("cited_named_group","cited_named_group_id");
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-6 col-xl-3">
+										<label for="taxon_publication" class="data-entry-label">Citation For Taxon</label>
+										<input type="text" id="taxon_publication" name="taxon_publication" class="data-entry-input" value="#encodeForHtml(taxon_publication)#" >
+										<script>
+											$(document).ready(function() {
+												makeScientificNameAutocomplete("taxon_publication","false","taxonomy_publication");
+											});
+										</script>
+									</div>
 
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
