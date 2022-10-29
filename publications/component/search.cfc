@@ -276,7 +276,7 @@ Function getPublications.  Search for publications by fields
 							<cfelseif left(publication_attribute_value,1) EQ "=">
 								and publication_attribute_type_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publication_attribute_value,len(publication_attribute_value)-1)#">
 							<cfelse>
-								and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_type#%">
+								and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_value#%">
 							</cfif>
 						</cfif>
 					<cfelse>
