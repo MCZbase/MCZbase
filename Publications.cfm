@@ -28,6 +28,7 @@ limitations under the License.
 	select publication_attribute, description, control  
 	from ctpublication_attribute
 	where publication_attribute not in ('journal name','issue','number','publisher')
+	order by publication_attribute desc
 </cfquery>
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select publication_attribute, description, control  from ctpublication_attribute
