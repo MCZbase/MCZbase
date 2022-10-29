@@ -52,6 +52,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="author_agent_id" type="string" required="no">
 	<cfargument name="editor_agent_name" type="string" required="no">
 	<cfargument name="editor_agent_id" type="string" required="no">
+	<cfargument name="publisher" type="string" required="no">
 
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
@@ -87,6 +88,7 @@ Function getPublications.  Search for publications by fields
 				MCZbase.get_publication_authors(publication.publication_id) as authors,
 				MCZbase.get_publication_editors(publication.publication_id) as editors,
 				jour_att.pub_att_value as journal_name,
+				publisher_att.pub_att_value as publisher,
 				doi,
 				MCZbase.getshortcitation(publication.publication_id) as short_citation,
 				MCZBASE.count_citations_for_pub(publication.publication_id) as cited_specimen_count
@@ -97,6 +99,9 @@ Function getPublications.  Search for publications by fields
 				left join publication_attributes jour_att 
 					on publication.publication_id = jour_att.publication_id
 						and jour_att.publication_attribute = 'journal name'
+				left join publication_attributes publisher_att 
+					on publication.publication_id = publisher_att.publication_id
+						and publisher_att.publication_attribute = 'publisher'
 				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
 					left join citation citation_coll on publication.publication_id = citation_coll.publication_id
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat_coll on citation_coll.collection_object_id = flat_coll.collection_object_id
@@ -198,6 +203,20 @@ Function getPublications.  Search for publications by fields
 						and jour_att.pub_att_value IS NOT NULL
 					<cfelse>
 						and jour_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("publisher") AND len(publisher) GT 0>
+					<cfif publisher EQ "NULL">
+						and publisher_att.pub_att_value IS NULL
+					<cfelseif publisher_name EQ "NOT NULL">
+						and publisher_att.pub_att_value IS NOT NULL
+					<cfelse>
+						<cfif left(publisher,1) EQ "!">
+							<!--- behavior: has a publisher, but not the specified one --->
+							and publisher_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publisher,len(publisher)-1)#">
+						<cfelse>
+							and publisher_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publisher#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("volume") AND len(volume) GT 0>

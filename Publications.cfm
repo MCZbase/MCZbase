@@ -48,6 +48,9 @@ limitations under the License.
 	<cfif not isdefined("publication_id")> 
 		<cfset publication_id="">
 	</cfif>
+	<cfif not isdefined("publisher")> 
+		<cfset publisher="">
+	</cfif>
 	<cfif not isdefined("author_agent_name")>
 		<cfset author_agent_name="">
 	</cfif>
@@ -362,6 +365,10 @@ limitations under the License.
 											$(makeConstrainedRichAgentPicker('editor_agent_name', 'editor_agent_id', 'editor_agent_name_icon', 'editor_agent_view', '#editor_agent_id#','editor'));
 										});
 									</script>
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="publisher" class="data-entry-label">Publisher <span class="small">(!,NULL,NOT NULL)</span></label>
+										<input type="text" id="publisher" name="publisher" class="data-entry-input" value="#encodeForHtml(publisher)#" >
+									</div>
 
 									<div class="col-12 col-md-6 col-xl-2">
 										<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed</label>
