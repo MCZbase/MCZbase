@@ -317,7 +317,7 @@ Function getPublications.  Search for publications by fields
 						and publication_attribute_type_att.pub_att_value IS NOT NULL
 					</cfif>
 				</cfif>
-				<cfif isDefined("type_status") AND len(type_status) GT 0)>
+				<cfif isDefined("type_status") AND len(type_status) GT 0 >
 					and type_status_citation.type_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type_status#">
 				</cfif>
 				<cfif isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0>
