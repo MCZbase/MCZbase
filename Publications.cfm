@@ -385,7 +385,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<label for="cited_taxon" class="data-entry-label">Cited Scientific Name</label>
+										<label for="cited_taxon" class="data-entry-label">Specimen Cited Scientific Name</label>
 										<input type="text" id="cited_taxon" name="cited_taxon" class="data-entry-input" value="#encodeForHtml(cited_taxon)#" >
 										<script>
 											$(document).ready(function() {
@@ -394,7 +394,7 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<label for="accepted_for_cited_taxon" class="data-entry-label">Current Scientific Name</label>
+										<label for="accepted_for_cited_taxon" class="data-entry-label">Specimen Current Scientific Name</label>
 										<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" class="data-entry-input" value="#encodeForHtml(accepted_for_cited_taxon)#" >
 										<script>
 											$(document).ready(function() {
