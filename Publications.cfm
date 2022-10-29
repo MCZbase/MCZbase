@@ -288,7 +288,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Issue <span class="small">(=,!,NULL, NOT NULL)</span></label>
+											<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page <span class="small">(=,!,NULL, NOT NULL)</span></label>
 											<input type="text" id="begin_page" name="begin_page" class="data-entry-input" value="#encodeForHtml(begin_page)#" aria-labelledby="begin_page_label" >
 										</div>
 									</div>
