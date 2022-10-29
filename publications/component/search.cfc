@@ -225,7 +225,13 @@ Function getPublications.  Search for publications by fields
 					<cfelseif volume EQ "NOT NULL">
 						and volume_att.pub_att_value IS NOT NULL
 					<cfelse>
-						and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+						<cfif left(volume,1) EQ "!">
+							and volume_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(volume,len(volume)-1)#">
+						<cfelseif left(volume,1) EQ "=">
+							and volume_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(volume,len(volume)-1)#">
+						<cfelse>
+							and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("issue") AND len(issue) GT 0>
@@ -234,7 +240,13 @@ Function getPublications.  Search for publications by fields
 					<cfelseif issue EQ "NOT NULL">
 						and issue_att.pub_att_value IS NOT NULL
 					<cfelse>
-						and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+						<cfif left(issue,1) EQ "!">
+							and issue_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issue,len(issue)-1)#">
+						<cfelseif left(issue,1) EQ "=">
+							and issue_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issue,len(issue)-1)#">
+						<cfelse>
+							and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("number") AND len(number) GT 0>
@@ -243,17 +255,29 @@ Function getPublications.  Search for publications by fields
 					<cfelseif number EQ "NOT NULL">
 						and number_att.pub_att_value IS NOT NULL
 					<cfelse>
-						and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+						<cfif left(number,1) EQ "!">
+							and number_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
+						<cfelseif left(number,1) EQ "=">
+							and number_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
+						<cfelse>
+							and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
 					<cfif isDefined("publication_attribute_value") AND len(publication_attribute_value) GT 0>
-						<cfif publication_attribute_type EQ "NULL">
+						<cfif publication_attribute_value EQ "NULL">
 							and publication_attribute_type_att.pub_att_value IS NULL
-						<cfelseif publication_attribute_type EQ "NOT NULL">
+						<cfelseif publication_attribute_value EQ "NOT NULL">
 							and publication_attribute_type_att.pub_att_value IS NOT NULL
 						<cfelse>
-							and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_type#%">
+							<cfif left(publication_attribute_value,1) EQ "!">
+								and publication_attribute_type_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publication_attribute_value,len(publication_attribute_value)-1)#">
+							<cfelseif left(publication_attribute_value,1) EQ "=">
+								and publication_attribute_type_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publication_attribute_value,len(publication_attribute_value)-1)#">
+							<cfelse>
+								and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_type#%">
+							</cfif>
 						</cfif>
 					<cfelse>
 						and publication_attribute_type_att.pub_att_value IS NOT NULL
