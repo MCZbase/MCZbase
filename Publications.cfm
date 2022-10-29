@@ -54,6 +54,9 @@ limitations under the License.
 	<cfif not isdefined("to_published_year")> 
 		<cfset to_published_year="">
 	</cfif>
+	<cfif not isdefined("is_peer_reviewed_fg")> 
+		<cfset is_peer_reviewed_fg="">
+	</cfif>
 	<cfif not isdefined("volume")> 
 		<cfset volume="">
 	</cfif>
