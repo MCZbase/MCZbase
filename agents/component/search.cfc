@@ -740,16 +740,16 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'media_creator_agent'>
 					left join media_relations on agent.agent_id = media_relations.related_primary_key
 				</cfif>
-				<cfif isdefined("determiner") AND constraint EQ 'determiner'>
+				<cfif isdefined("constraint") AND constraint EQ 'determiner'>
 					join identification_agent on agent.agent_id = identification_agent.agent_id
 				</cfif>
-				<cfif isdefined("collector") AND constraint EQ 'collector'>
+				<cfif isdefined("constraint") AND constraint EQ 'collector'>
 					join collector on agent.agent_id = collector.agent_id
 				</cfif>
-				<cfif isdefined("preparator") AND constraint EQ 'preparator'>
+				<cfif isdefined("constraint") AND constraint EQ 'preparator'>
 					join collector on agent.agent_id = collector.agent_id
 				</cfif>
-				<cfif (isdefined("author") AND constraint EQ 'author') OR ( isdefined("editor") AND constraint EQ 'editor' )>
+				<cfif isdefined("constraint") AND ( constraint EQ 'author' OR constraint EQ 'editor' )>
 					join agent_name pub_agent_name on agent.agent_id = pub_agent_name.agent_id
 					join publication_author_name on pub_agent_name.agent_name_id = publication_author_name.agent_name_id
 				</cfif>
@@ -774,19 +774,19 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				<cfif isdefined("constraint") AND constraint EQ 'media_creator_agent'>
 					AND media_relations.media_relationship = 'created by agent'
 				</cfif>
-				<cfif isdefined("determier") AND constraint EQ 'determiner'>
+				<cfif isdefined("constraint") AND constraint EQ 'determiner'>
 					AND identification_agent.agent_id IS NOT NULL
 				</cfif>
-				<cfif isdefined("collector") AND constraint EQ 'collector'>
+				<cfif isdefined("constraint") AND constraint EQ 'collector'>
 					AND collector.collector_role = 'c'
 				</cfif>
-				<cfif isdefined("preparator") AND constraint EQ 'preparator'>
+				<cfif isdefined("constraint") AND constraint EQ 'preparator'>
 					AND collector.collector_role = 'p'
 				</cfif>
-				<cfif isdefined("author") AND constraint EQ 'author'>
+				<cfif isdefined("constraint") AND constraint EQ 'author'>
 					and publication_author_name.author_role = 'author'
 				</cfif>
-				<cfif isdefined("editor") AND constraint EQ 'editor'>
+				<cfif isdefined("constraint") AND constraint EQ 'editor'>
 					and publication_author_name.author_role = 'editor'
 				</cfif>
 		</cfquery>
