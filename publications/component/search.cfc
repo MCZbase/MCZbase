@@ -365,7 +365,11 @@ Function getPublications.  Search for publications by fields
 					<cfelseif taxon_publication EQ "NOT NULL">
 						and pub_taxon.taxon_name_id IS NOT NULL
 					<cfelse>
-						and pub_taxon.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#taxon_publication#%">
+						<cfif left(taxon_publication,1) EQ "=">
+							and pub_taxon.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(taxon_publication,len(taxon_publication)-1)#">
+						<cfelse>
+							and pub_taxon.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#taxon_publication#%">
+						</cfif>
 					</cfif>
 				</cfif>
 			ORDER BY
