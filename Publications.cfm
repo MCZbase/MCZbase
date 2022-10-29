@@ -504,7 +504,7 @@ limitations under the License.
 						columns: [
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
-								{text: 'ID', datafield: 'publication_id', width:100, hideable: false, cellsrenderer: editCellRenderer},
+								{text: 'ID', datafield: 'publication_id', width:60, hideable: false, cellsrenderer: editCellRenderer},
 								{text: 'Citations', datafield: 'Citations', width:80, hideable: false, editable: false, cellsrenderer: manageCitationsCellRenderer, exportable: false },
 							<cfelse>
 								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
