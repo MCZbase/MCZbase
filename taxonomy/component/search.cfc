@@ -1021,7 +1021,8 @@ Function getScientificNameAutocomplete.  Search for taxonomy entries by scientif
 @param term substring match in scientific name to look for.
 @param include_authorship if the string false then return just scientific_name as the value, otherwise, return scientific_name and author_string 
   as the value.
-@param scope allows names to be limited to some scope of use, supports cited to just return names used in citations.
+@param scope allows names to be limited to some scope of use, supports cited to just return names used in citations, and taxonomy_publication
+  to return names with taxonomy_publication records.
 @return a json structure containing id, meta, and value, with matching with matched name in value and id along with more detail in meta.
 --->
 <cffunction name="getScientificNameAutocomplete" access="remote" returntype="any" returnformat="json">
@@ -1048,6 +1049,8 @@ Function getScientificNameAutocomplete.  Search for taxonomy entries by scientif
 				)
 				<cfif isDefined("scope") AND scope EQ "cited">
 					AND taxon_name_id in (select cited_taxon_name_id from citation)
+				<cfelseif isDefined("scope") AND scope EQ "taxonomy_publication">
+					AND taxon_name_id in (select taxon_name_id from taxonomy_publication)
 				</cfif>
 			ORDER BY
 				taxonomy.scientific_name

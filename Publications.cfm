@@ -33,6 +33,11 @@ limitations under the License.
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select publication_attribute, description, control  from ctpublication_attribute
 </cfquery>
+<cfquery name="ctcitation_type_status" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select type_status, category, ordinal  
+	from ctcitation_type_status
+	order by category, ordinal
+</cfquery>
 
 <div id="overlaycontainer" style="position: relative;"> 
 	<!--- ensure fields have empty values present if not defined. --->
@@ -117,7 +122,20 @@ limitations under the License.
 	<cfif not isdefined("publication_attribute_value")>
 		<cfset publication_attribute_value="">
 	</cfif>
+	<cfif not isdefined("cited_named_group")>
+		<cfset cited_named_group="">
+	</cfif>
+	<cfif not isdefined("cited_named_group_id")>
+		<cfset cited_named_group_id="">
+	</cfif>
+	<cfif not isdefined("taxon_publication")>
+		<cfset taxon_publication="">
+	</cfif>
+	<cfif not isdefined("type_status")>
+		<cfset type_status="">
+	</cfif>
 	<cfset in_publication_type="#publication_type#">
+	<cfset in_type_status="#type_status#">
 	<!--- Search Form ---> 
 	<cfoutput>
 		<main id="content">
@@ -348,20 +366,20 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
-										<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
+										<label for="type_status" class="data-entry-label">Citation Type Status</label>
+										<select name="type_status" id="type_status" size="1" class="data-entry-select">
 											<option value=""></option>
-											<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-											<option value="true"#selected#>Yes</option>
-											<cfif cites_specimens EQ "false"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-											<option value="false"#selected#>No</option>
+											<cfloop query="ctcitation_type_status">
+												<cfif in_type_status EQ ctcitation_type_status.type_status><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+												<option value="#ctcitation_type_status.type_status#"#selected#>#ctcitation_type_status.type_status#</option>
+											</cfloop>
 										</select>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
 										<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select collection, collection_cde, collection_id from collection order by collection
 										</cfquery>
-										<label for="cites_collection" class="data-entry-label">Cites Collection</label>
+										<label for="cites_collection" class="data-entry-label">Cites Specimen in Collection</label>
 										<select name="cites_collection" id="cites_collection" size="1" class="data-entry-select">
 											<option value=""></option>
 											<option value="NOT NULL">any collection</option>
@@ -376,7 +394,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<label for="cited_taxon" class="data-entry-label">Cited Scientific Name</label>
+										<label for="cited_taxon" class="data-entry-label">Specimen Cited Scientific Name</label>
 										<input type="text" id="cited_taxon" name="cited_taxon" class="data-entry-input" value="#encodeForHtml(cited_taxon)#" >
 										<script>
 											$(document).ready(function() {
@@ -385,7 +403,7 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-6 col-xl-2">
-										<label for="accepted_for_cited_taxon" class="data-entry-label">Current Scientific Name</label>
+										<label for="accepted_for_cited_taxon" class="data-entry-label">Specimen Current Scientific Name</label>
 										<input type="text" id="accepted_for_cited_taxon" name="accepted_for_cited_taxon" class="data-entry-input" value="#encodeForHtml(accepted_for_cited_taxon)#" >
 										<script>
 											$(document).ready(function() {
@@ -394,6 +412,41 @@ limitations under the License.
 										</script>
 									</div>
 
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="cites_specimens" class="data-entry-label">Cites Specimens</label>
+										<select name="cites_specimens" id="cites_specimens" size="1" class="data-entry-select">
+											<option value=""></option>
+											<cfif cites_specimens EQ "true"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+											<option value="true"#selected#>Yes</option>
+											<cfif cites_specimens EQ "false"><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+											<option value="false"#selected#>No</option>
+										</select>
+									</div>
+									<div class="col-12 col-md-6 col-xl-3">
+										<label for="cited_named_group" class="data-entry-label">Citation for Named Group <span class="small">(pick)</span></label>
+										<input type="text" id="cited_named_group" name="cited_named_group" class="data-entry-input" value="#encodeForHtml(cited_named_group)#" >
+										<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
+										<script>
+											$(document).ready(function() {
+												makeNamedCollectionPicker("cited_named_group","cited_named_group_id");
+												$('##cited_named_group').blur( function () {
+													// prevent an invisible cited_named_group_id from being included in the search.
+													if ($('##cited_named_group').val().trim() == "") { 
+														$('##cited_named_group_id').val("");
+													}
+												});
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-6 col-xl-3">
+										<label for="taxon_publication" class="data-entry-label">Citation For Taxon <span class="small">(pick=, substring, NULL, NOT NULL)</span></label>
+										<input type="text" id="taxon_publication" name="taxon_publication" class="data-entry-input" value="#encodeForHtml(taxon_publication)#" >
+										<script>
+											$(document).ready(function() {
+												makeScientificNameAutocomplete("taxon_publication","false","taxonomy_publication");
+											});
+										</script>
+									</div>
 
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
