@@ -49,6 +49,10 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="publication_attribute_type" type="string" required="no">
 	<cfargument name="publication_attribute_value" type="string" required="no">
 
+	<!--- TODO: Author/Editor searches --->
+
+	<!--- TODO: peer reviewed only --->
+
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
 		<!--- ignore cites_specimens if a cited specimen is specified --->
@@ -122,8 +126,16 @@ Function getPublications.  Search for publications by fields
 				<cfelse>
 					<cfif isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0>
 						left join citation on publication.publication_id = citation.publication_id
-						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on flat.citation.collection_object_id = flat.collection_object_id
+						left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on citation.collection_object_id = flat.collection_object_id
 					</cfif>
+				</cfif>
+				<cfif isDefined("cited_taxon") AND len(cited_taxon) GT 0>
+					left join citation taxon_cite on publication.publication_id = taxon_cite.publication_id
+					left join taxonomy on taxon_cite.cited_taxon_name_id = taxonomy.taxon_name_id
+				</cfif>
+				<cfif isDefined("accepted_for_cited_taxon") AND len(accepted_for_cited_taxon) GT 0>
+					left join citation accepted_taxon_cite on publication.publication_id = accepted_taxon_cite.publication_id
+					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> accepted_flat on accepted_taxon_cite.collection_object_id = accepted_flat.collection_object_id
 				</cfif>
 			WHERE
 				publication.publication_id is not null
@@ -233,14 +245,27 @@ Function getPublications.  Search for publications by fields
 						and flat_coll.collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cites_collection#">
 					</cfif>
 				</cfif>
+				<cfif isDefined("cited_taxon") AND len(cited_taxon) GT 0>
+					<cfif left(cited_taxon,1) EQ "=">
+						and taxonomy.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(cited_taxon,len(cited_taxon)-1)#">
+					<cfelse>
+						and taxonomy.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#cited_taxon#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("accepted_for_cited_taxon") AND len(accepted_for_cited_taxon) GT 0>
+					<cfif left(accepted_for_cited_taxon,1) EQ "=">
+						and accepted_flat.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accepted_for_cited_taxon,len(accepted_for_cited_taxon)-1)#">
+					<cfelse>
+						and accepted_flat.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accepted_for_cited_taxon#%">
+					</cfif>
+				</cfif>
 			ORDER BY
 				published_year
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<!--- TODO: include in output: 
-    		Links: Annotate, n Cited Specimens, Edit (internal), Manage Citations (internal)
-			short format.
+    		Link to: Manage Citations (internal)
 		--->
 		<cfloop query="search">
 			<cfset row = StructNew()>

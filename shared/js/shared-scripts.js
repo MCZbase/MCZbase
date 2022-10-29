@@ -1208,6 +1208,42 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
 };
+/** Make a text name control into an autocomplete scientific name picker, displays authorship in meta, but not in selection
+ * intended for use with a scientific name search, prepends = to input control on selection from picklist.
+ *
+ *  @param include_authorship if false, matched value is just the scientific_name, otherwise scientific_name plus author_text.
+ *  @param scope allows limitation to some use of taxonomy records, see getScientificNameAutocomplete method documentation
+ *    for supported values of scope.
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makeScientificNameAutocomplete(valueControl, include_authorship, scope) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/taxonomy/component/search.cfc",
+				data: { 
+					term: request.term, 
+					include_authorship: include_authorship,
+					scope: scope,
+					method: 'getScientificNameAutocomplete' 
+				},
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, textStatus, error) {
+					handleFail(jqXHR,textStatus,error,"making a scientific name autocomplete");
+				}
+			})
+		},
+		select: function (event, result) {
+			event.preventDefault();
+			$('#'+valueControl).val("=" + result.item.value);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
 
 /** makeTaxonAutocomplete make an input control into a picker for a taxon field of arbitrary rank.
  *  This version of the function does not prefix the selected value with an = for exact match search.
