@@ -38,6 +38,7 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="volume" type="string" required="no">
 	<cfargument name="issue" type="string" required="no">
 	<cfargument name="number" type="string" required="no">
+	<cfargument name="begin_page" type="string" required="no">
 	<cfargument name="published_year" type="string" required="no">
 	<cfargument name="to_published_year" type="string" required="no">
 	<cfargument name="cites_collection" type="string" required="no"><!--- TODO --->
@@ -48,10 +49,11 @@ Function getPublications.  Search for publications by fields
 	<cfargument name="related_cataloged_item" type="string" required="no">
 	<cfargument name="publication_attribute_type" type="string" required="no">
 	<cfargument name="publication_attribute_value" type="string" required="no">
-
-	<!--- TODO: Author/Editor searches --->
-
-	<!--- TODO: peer reviewed only --->
+	<cfargument name="author_agent_name" type="string" required="no">
+	<cfargument name="author_agent_id" type="string" required="no">
+	<cfargument name="editor_agent_name" type="string" required="no">
+	<cfargument name="editor_agent_id" type="string" required="no">
+	<cfargument name="publisher" type="string" required="no">
 
 	<cfif NOT (isDefined("cited_collection_object_id") AND len(cited_collection_object_id) GT 0) 
 		AND NOT (isDefined("related_cataloged_item") AND len(related_cataloged_item) GT 0) >
@@ -87,6 +89,7 @@ Function getPublications.  Search for publications by fields
 				MCZbase.get_publication_authors(publication.publication_id) as authors,
 				MCZbase.get_publication_editors(publication.publication_id) as editors,
 				jour_att.pub_att_value as journal_name,
+				publisher_att.pub_att_value as publisher,
 				doi,
 				MCZbase.getshortcitation(publication.publication_id) as short_citation,
 				MCZBASE.count_citations_for_pub(publication.publication_id) as cited_specimen_count
@@ -97,6 +100,9 @@ Function getPublications.  Search for publications by fields
 				left join publication_attributes jour_att 
 					on publication.publication_id = jour_att.publication_id
 						and jour_att.publication_attribute = 'journal name'
+				left join publication_attributes publisher_att 
+					on publication.publication_id = publisher_att.publication_id
+						and publisher_att.publication_attribute = 'publisher'
 				<cfif isDefined("cites_collection") AND len(cites_collection) GT 0>
 					left join citation citation_coll on publication.publication_id = citation_coll.publication_id
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat_coll on citation_coll.collection_object_id = flat_coll.collection_object_id
@@ -115,6 +121,11 @@ Function getPublications.  Search for publications by fields
 					left join publication_attributes number_att 
 						on publication.publication_id = number_att.publication_id
 							and number_att.publication_attribute = 'number'
+				</cfif>
+				<cfif isDefined("begin_page") AND len(begin_page) GT 0>
+					left join publication_attributes begin_page_att 
+						on publication.publication_id = begin_page_att.publication_id
+							and begin_page_att.publication_attribute = 'begin page'
 				</cfif>
 				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
 					left join publication_attributes publication_attribute_type_att 
@@ -136,6 +147,20 @@ Function getPublications.  Search for publications by fields
 				<cfif isDefined("accepted_for_cited_taxon") AND len(accepted_for_cited_taxon) GT 0>
 					left join citation accepted_taxon_cite on publication.publication_id = accepted_taxon_cite.publication_id
 					left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> accepted_flat on accepted_taxon_cite.collection_object_id = accepted_flat.collection_object_id
+				</cfif>
+				<cfif (isDefined("author_agent_id") AND len(author_agent_id) GT 0) OR (isDefined("author_agent_name") AND len(author_agent_name) GT 0) >
+					left join publication_author_name on publication.publication_id = publication_author_name.publication_id and publication_author_name.author_role = 'author'
+					left join agent_name pubagent_name on publication_author_name.agent_name_id = pubagent_name.agent_name_id
+					<cfif isDefined("author_agent_name") AND len(author_agent_name) GT 0 >
+						left join agent_name anyagentname on pubagent_name.agent_id = anyagentname.agent_id 
+					</cfif>
+				</cfif>
+				<cfif (isDefined("editor_agent_id") AND len(editor_agent_id) GT 0) OR (isDefined("editor_agent_name") AND len(editor_agent_name) GT 0) >
+					left join publication_author_name publication_editor_name on publication.publication_id = publication_editor_name.publication_id and publication_editor_name.author_role = 'editor'
+					left join agent_name pubeditor_name on publication_editor_name.agent_name_id = pubeditor_name.agent_name_id
+					<cfif isDefined("editor_agent_name") AND len(editor_agent_name) GT 0 >
+						left join agent_name anyeditoragentname on pubeditor_name.agent_id = anyeditoragentname.agent_id 
+					</cfif>
 				</cfif>
 			WHERE
 				publication.publication_id is not null
@@ -186,13 +211,33 @@ Function getPublications.  Search for publications by fields
 						and jour_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
 					</cfif>
 				</cfif>
+				<cfif isDefined("publisher") AND len(publisher) GT 0>
+					<cfif publisher EQ "NULL">
+						and publisher_att.pub_att_value IS NULL
+					<cfelseif publisher EQ "NOT NULL">
+						and publisher_att.pub_att_value IS NOT NULL
+					<cfelse>
+						<cfif left(publisher,1) EQ "!">
+							<!--- behavior: has a publisher, but not the specified one --->
+							and publisher_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publisher,len(publisher)-1)#">
+						<cfelse>
+							and publisher_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publisher#%">
+						</cfif>
+					</cfif>
+				</cfif>
 				<cfif isDefined("volume") AND len(volume) GT 0>
 					<cfif volume EQ "NULL">
 						and volume_att.pub_att_value IS NULL
 					<cfelseif volume EQ "NOT NULL">
 						and volume_att.pub_att_value IS NOT NULL
 					<cfelse>
-						and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+						<cfif left(volume,1) EQ "!">
+							and volume_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(volume,len(volume)-1)#">
+						<cfelseif left(volume,1) EQ "=">
+							and volume_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(volume,len(volume)-1)#">
+						<cfelse>
+							and volume_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#volume#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("issue") AND len(issue) GT 0>
@@ -201,7 +246,28 @@ Function getPublications.  Search for publications by fields
 					<cfelseif issue EQ "NOT NULL">
 						and issue_att.pub_att_value IS NOT NULL
 					<cfelse>
-						and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+						<cfif left(issue,1) EQ "!">
+							and issue_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issue,len(issue)-1)#">
+						<cfelseif left(issue,1) EQ "=">
+							and issue_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issue,len(issue)-1)#">
+						<cfelse>
+							and issue_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issue#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("begin_page") AND len(begin_page) GT 0>
+					<cfif begin_page EQ "NULL">
+						and begin_page_att.pub_att_value IS NULL
+					<cfelseif begin_page EQ "NOT NULL">
+						and begin_page_att.pub_att_value IS NOT NULL
+					<cfelse>
+						<cfif left(begin_page,1) EQ "!">
+							and begin_page_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(begin_page,len(begin_page)-1)#">
+						<cfelseif left(begin_page,1) EQ "=">
+							and begin_page_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(begin_page,len(begin_page)-1)#">
+						<cfelse>
+							and begin_page_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#begin_page#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("number") AND len(number) GT 0>
@@ -210,17 +276,29 @@ Function getPublications.  Search for publications by fields
 					<cfelseif number EQ "NOT NULL">
 						and number_att.pub_att_value IS NOT NULL
 					<cfelse>
-						and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+						<cfif left(number,1) EQ "!">
+							and number_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
+						<cfelseif left(number,1) EQ "=">
+							and number_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
+						<cfelse>
+							and number_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("publication_attribute_type") AND len(publication_attribute_type) GT 0>
 					<cfif isDefined("publication_attribute_value") AND len(publication_attribute_value) GT 0>
-						<cfif publication_attribute_type EQ "NULL">
+						<cfif publication_attribute_value EQ "NULL">
 							and publication_attribute_type_att.pub_att_value IS NULL
-						<cfelseif publication_attribute_type EQ "NOT NULL">
+						<cfelseif publication_attribute_value EQ "NOT NULL">
 							and publication_attribute_type_att.pub_att_value IS NOT NULL
 						<cfelse>
-							and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_type#%">
+							<cfif left(publication_attribute_value,1) EQ "!">
+								and publication_attribute_type_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publication_attribute_value,len(publication_attribute_value)-1)#">
+							<cfelseif left(publication_attribute_value,1) EQ "=">
+								and publication_attribute_type_att.pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publication_attribute_value,len(publication_attribute_value)-1)#">
+							<cfelse>
+								and publication_attribute_type_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_attribute_value#%">
+							</cfif>
 						</cfif>
 					<cfelse>
 						and publication_attribute_type_att.pub_att_value IS NOT NULL
@@ -259,14 +337,21 @@ Function getPublications.  Search for publications by fields
 						and accepted_flat.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accepted_for_cited_taxon#%">
 					</cfif>
 				</cfif>
+				<cfif isDefined("author_agent_id") AND len(author_agent_id) GT 0>
+					and pubagent_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_agent_id#">
+				<cfelseif isDefined("author_agent_name") AND len(author_agent_name) GT 0>
+					and anyagentname like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#author_agent_name#%">
+				</cfif>
+				<cfif isDefined("editor_agent_id") AND len(editor_agent_id) GT 0>
+					and pubeditor_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_agent_id#">
+				<cfelseif isDefined("editor_agent_name") AND len(editor_agent_name) GT 0>
+					and anyeditoragentname like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#author_agent_name#%">
+				</cfif>
 			ORDER BY
 				published_year
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
-		<!--- TODO: include in output: 
-    		Link to: Manage Citations (internal)
-		--->
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >

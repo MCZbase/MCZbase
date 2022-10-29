@@ -25,7 +25,10 @@ limitations under the License.
 	select publication_type  from ctpublication_type
 </cfquery>
 <cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select publication_attribute, description, control  from ctpublication_attribute
+	select publication_attribute, description, control  
+	from ctpublication_attribute
+	where publication_attribute not in ('journal name','volume','issue','number','publisher','begin page')
+	order by publication_attribute asc
 </cfquery>
 <cfquery name="collections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select publication_attribute, description, control  from ctpublication_attribute
@@ -48,11 +51,29 @@ limitations under the License.
 	<cfif not isdefined("publication_id")> 
 		<cfset publication_id="">
 	</cfif>
+	<cfif not isdefined("publisher")> 
+		<cfset publisher="">
+	</cfif>
+	<cfif not isdefined("author_agent_name")>
+		<cfset author_agent_name="">
+	</cfif>
+	<cfif not isdefined("author_agent_id")>
+		<cfset author_agent_id="">
+	</cfif>
+	<cfif not isdefined("editor_agent_name")>
+		<cfset editor_agent_name="">
+	</cfif>
+	<cfif not isdefined("editor_agent_id")>
+		<cfset editor_agent_id="">
+	</cfif>
 	<cfif not isdefined("published_year")> 
 		<cfset published_year="">
 	</cfif>
 	<cfif not isdefined("to_published_year")> 
 		<cfset to_published_year="">
+	</cfif>
+	<cfif not isdefined("is_peer_reviewed_fg")> 
+		<cfset is_peer_reviewed_fg="">
 	</cfif>
 	<cfif not isdefined("volume")> 
 		<cfset volume="">
@@ -62,6 +83,9 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("number")> 
 		<cfset number="">
+	</cfif>
+	<cfif not isdefined("begin_page")> 
+		<cfset begin_page="">
 	</cfif>
 	<cfif not isdefined("journal_name")> 
 		<cfset journal_name="">
@@ -157,19 +181,19 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume <span class="small">(NULL, NOT NULL)</span></label>
+											<label for="volume" class="data-entry-label mb-0" id="volume_label">Volume <span class="small">(=,!,NULL, NOT NULL)</span></label>
 											<input type="text" id="volume" name="volume" class="data-entry-input" value="#encodeForHtml(volume)#" aria-labelledby="volume_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue <span class="small">(NULL, NOT NULL)</span></label>
+											<label for="issue" class="data-entry-label mb-0 " id="issue_label">Issue <span class="small">(=,!,NULL, NOT NULL)</span></label>
 											<input type="text" id="issue" name="issue" class="data-entry-input" value="#encodeForHtml(issue)#" aria-labelledby="issue_label" >
 										</div>
 									</div>
 									<div class="col-12 col-md-2">
 										<div class="form-group mb-2">
-											<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(NULL, NOT NULL)</span></label>
+											<label for="number" class="data-entry-label mb-0" id="number_label">Number <span class="small">(=,!,NULL, NOT NULL)</span></label>
 											<input type="text" id="number" name="number" class="data-entry-input" value="#encodeForHtml(volume)#">
 										</div>
 									</div>
@@ -227,6 +251,67 @@ limitations under the License.
 											<input type="text" id="publication_attribute_value" name="publication_attribute_value" class="data-entry-input col-6" value="#encodeForHtml(publication_attribute_value)#">
 										</div>
 									</div>
+
+
+									<div class="col-12 col-md-4 col-xl-3">
+										<div class="form-group mb-2">
+											<label for="author_agent_name" id="author_agent_name_label" class="data-entry-label mb-0 pb-0 small">Author
+												<h5 id="author_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+											</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-lightgreen" id="author_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="author_agent_name" id="author_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="author_agent_name_label" value="#encodeForHtml(author_agent_name)#">
+												<input type="hidden" name="author_agent_id" id="author_agent_id" value="#encodeForHtml(author_agent_id)#">
+											</div>
+										</div>
+									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeConstrainedRichAgentPicker('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author'));
+										});
+									</script>
+									<div class="col-12 col-md-4 col-xl-3">
+										<div class="form-group mb-2">
+											<label for="editor_agent_name" id="editor_agent_name_label" class="data-entry-label mb-0 pb-0 small">Editor
+												<h5 id="editor_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+											</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller bg-lightgreen" id="editor_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="editor_agent_name" id="editor_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="editor_agent_name_label" value="#encodeForHtml(editor_agent_name)#">
+												<input type="hidden" name="editor_agent_id" id="editor_agent_id" value="#encodeForHtml(editor_agent_id)#">
+											</div>
+										</div>
+									</div>
+									<div class="col-12 col-md-2">
+										<div class="form-group mb-2">
+											<label for="begin_page" class="data-entry-label mb-0 " id="begin_page_label">Begin Page <span class="small">(=,!,NULL, NOT NULL)</span></label>
+											<input type="text" id="begin_page" name="begin_page" class="data-entry-input" value="#encodeForHtml(begin_page)#" aria-labelledby="begin_page_label" >
+										</div>
+									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeConstrainedRichAgentPicker('editor_agent_name', 'editor_agent_id', 'editor_agent_name_icon', 'editor_agent_view', '#editor_agent_id#','editor'));
+										});
+									</script>
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="publisher" class="data-entry-label">Publisher <span class="small">(!,NULL,NOT NULL)</span></label>
+										<input type="text" id="publisher" name="publisher" class="data-entry-input" value="#encodeForHtml(publisher)#" >
+									</div>
+
+									<div class="col-12 col-md-6 col-xl-2">
+										<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed</label>
+										<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" size="1" class="data-entry-select">
+											<option value=""></option>
+											<!--- Note, only including No option, as flag field has not null constraint, but is very seldom set, so may be missleading if yes is selected --->
+											<cfif is_peer_reviewed_fg EQ 0 ><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+											<option value="0" #selected#>No</option>
+										</select>
+									</div>
+
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-6 col-xl-4">
@@ -309,9 +394,6 @@ limitations under the License.
 										</script>
 									</div>
 
-									<!--- TODO: Author/Editor searches --->
-
-									<!--- TODO: peer reviewed only --->
 
 									<div class="col-12 pt-0">
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
@@ -406,6 +488,11 @@ limitations under the License.
 					return '<span class="ml-1" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+ct+'</span>';
 				}
 			};
+			var manageCitationsCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var publication_id = rowData['publication_id'];
+				return '<a class="ml-1 mt-2 px-2 btn btn-xs btn-outline-primary" target="_blank" href="/Citation.cfm?publication_id='+publication_id+'">Manage</a>';
+			};
 	
 			$(document).ready(function() {
 				/* Setup date time input controls */
@@ -440,6 +527,7 @@ limitations under the License.
 							{ name: 'short_citation', type: 'string' },
 							{ name: 'publication_type', type: 'string' },
 							{ name: 'published_year', type: 'string' },
+							{ name: 'publisher', type: 'string' },
 							{ name: 'publication_title', type: 'string' },
 							{ name: 'publication_remarks', type: 'string' },
 							{ name: 'formatted_publication', type: 'string' },
@@ -499,7 +587,8 @@ limitations under the License.
 						columns: [
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
-								{text: 'ID', datafield: 'publication_id', width:100, hideable: false, cellsrenderer: editCellRenderer},
+								{text: 'ID', datafield: 'publication_id', width:60, hideable: false, cellsrenderer: editCellRenderer},
+								{text: 'Citations', datafield: 'Citations', width:80, hideable: false, editable: false, cellsrenderer: manageCitationsCellRenderer, exportable: false },
 							<cfelse>
 								{text: 'Publication', datafield: 'short_citation', width:150, hideable: false, cellsrenderer: citationCellRenderer },
 								{text: 'ID', datafield: 'publication_id', width:100, hideable: true, hidden: getColHidProp('publication_id', true), cellsrenderer: linkIdCellRenderer},
@@ -511,6 +600,7 @@ limitations under the License.
 							{text: 'Title', datafield: 'publication_title', width:300, hideable: true, hidden: getColHidProp('publication_title', true) },
 							{text: 'Type', datafield: 'publication_type', width:120, hideable: true, hidden: getColHidProp('publication_type', false) },
 							{text: 'Journal', datafield: 'journal_name', width:100, hideable: true, hidden: getColHidProp('journal_name', true) },
+							{text: 'Publisher', datafield: 'publisher', width:100, hideable: true, hidden: getColHidProp('publisher', true) },
 							{text: 'DOI', datafield: 'doi', width:100, hideable: true, hidden: getColHidProp('doi', false), cellsrenderer: doiCellRenderer },
 							{text: 'Remarks', datafield: 'publication_remarks', width:150, hidable: true, hidden: getColHidProp('publication_remarks', true) },
 							{text: 'Citation', datafield: 'formatted_publication', hidable: true, hidden: getColHidProp('formatted_publication', false) }
@@ -601,7 +691,14 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
-				var halfcolumns = Math.round(columns.length/2);
+				var columnslength = columns.length
+				<!--- leave off columns where hidable = false --->
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+					columnslength = columnslength - 3;
+				<cfelse>
+					columnslength = columnslength - 1;
+				</cfif>
+				var halfcolumns = Math.round(columnslength/2);
 				var columnListSource = [];
 				for (i = 1; i < halfcolumns; i++) {
 					var text = columns[i].text;
@@ -625,7 +722,7 @@ limitations under the License.
 					$("##" + gridId).jqxGrid('endupdate');
 				});
 				var columnListSource1 = [];
-				for (i = halfcolumns; i < columns.length; i++) {
+				for (i = halfcolumns; i < columnslength; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
