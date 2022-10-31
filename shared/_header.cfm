@@ -791,6 +791,11 @@ limitations under the License.
 							</cfif>
 							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
 							<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+								<a class="dropdown-item" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=!HIDE">Specimen Search Builder Help</a>
+							<cfelse>
+								<a class="dropdown-item" href="/specimens/viewSpecimenSearchMetadata.cfm?action=search&execute=true&method=getcf_spec_search_cols&access_role=PUBLIC">Specimen Search Builder Help</a>
+							</cfif>
 							<a class="dropdown-item" href="/collections/index.cfm">Holdings</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 								<a class="dropdown-item" href="/Reports/listReports.cfm">List of Label Reports</a>
