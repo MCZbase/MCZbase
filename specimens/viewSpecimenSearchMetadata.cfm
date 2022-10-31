@@ -631,7 +631,7 @@ limitations under the License.
 								columns: [
 									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 120, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false), cellsrenderer: categoryCellRenderer },
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: false, hidden: false },
-									{text: 'Description', datafield: 'DESCRIPTION', width: 350, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
+									{text: 'Description', datafield: 'DESCRIPTION', width: 400, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
 									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 250, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
 									{text: 'Autocomplete', datafield: 'UI_FUNCTION', width: 50, hideable: true, hidden: getColHidProp('UI_FUNCTION', false), cellsrenderer: autocompleteCellRenderer },
 									{text: 'Table Name', datafield: 'TABLE_NAME', width: 150, hideable: true, hidden: getColHidProp('TABLE_NAME', false) },
