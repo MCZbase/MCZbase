@@ -611,6 +611,7 @@ limitations under the License.
 							$("##searchResultsGrid").jqxGrid({
 								width: '100%',
 								autoheight: 'true',
+								autorowheight: 'true',
 								source: dataAdapter,
 								filterable: true,
 								sortable: true,
