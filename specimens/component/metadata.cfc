@@ -195,8 +195,13 @@ limitations under the License.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT ID, TABLE_NAME, TABLE_ALIAS, COLUMN_NAME, COLUMN_ALIAS, SEARCH_CATEGORY,
 				DATA_TYPE, DATA_LENGTH, LABEL, ACCESS_ROLE, UI_FUNCTION,
-				EXAMPLE_VALUES, DESCRIPTION
+				EXAMPLE_VALUES, DESCRIPTION,
+				all_col_comments.comments definition
 			FROM cf_spec_search_cols
+            left join all_col_comments
+            	on cf_spec_search_cols.table_name = all_col_comments.table_name
+            		and cf_spec_search_cols.column_name = all_col_comments.column_name
+            		and all_col_comments.owner = 'MCZBASE'
 			WHERE 
 				ID is not null
 				<cfif isdefined("search_category") AND len(search_category) GT 0>
