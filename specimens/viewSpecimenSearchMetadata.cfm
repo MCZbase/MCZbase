@@ -407,7 +407,7 @@ limitations under the License.
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
 								<div class="search-box-header">
-									<h1 class="h3 text-white" id="formheading">View Specimen Search Fields</h1>
+									<h1 class="h3 text-white" id="formheading">View Specimen Search Fields (specimen search builder help)</h1>
 								</div>
 								<div class="col-12 px-4 pt-3 pb-2">
 									<form name="searchForm" id="searchForm">
@@ -633,10 +633,10 @@ limitations under the License.
 								columns: [
 									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 110, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false), cellsrenderer: categoryCellRenderer },
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: false, hidden: false },
-									{text: 'Description', datafield: 'DESCRIPTION', width: 400, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
+									{text: 'Search Description', datafield: 'DESCRIPTION', width: 400, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
 									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 240, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
 									{text: 'Autocomplete', datafield: 'UI_FUNCTION', width: 60, hideable: true, hidden: getColHidProp('UI_FUNCTION', false), cellsrenderer: autocompleteCellRenderer },
-									{text: 'Definition', datafield: 'DEFINITION', width: 200, hideable: true, hidden: getColHidProp('DEFINITION', false) },
+									{text: 'Field Definition', datafield: 'DEFINITION', width: 200, hideable: true, hidden: getColHidProp('DEFINITION', false) },
 									{text: 'Table Name', datafield: 'TABLE_NAME', width: 140, hideable: true, hidden: getColHidProp('TABLE_NAME', false) },
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
