@@ -193,10 +193,25 @@ limitations under the License.
 
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT ID, TABLE_NAME, TABLE_ALIAS, COLUMN_NAME, COLUMN_ALIAS, SEARCH_CATEGORY,
-				DATA_TYPE, DATA_LENGTH, LABEL, ACCESS_ROLE, UI_FUNCTION,
-				EXAMPLE_VALUES, DESCRIPTION
+			SELECT cf_spec_search_cols.ID, 
+				cf_spec_search_cols.TABLE_NAME, 
+				cf_spec_search_cols.TABLE_ALIAS, 
+				cf_spec_search_cols.COLUMN_NAME, 
+				cf_spec_search_cols.COLUMN_ALIAS, 
+				cf_spec_search_cols.SEARCH_CATEGORY,
+				cf_spec_search_cols.DATA_TYPE, 
+				cf_spec_search_cols.DATA_LENGTH, 
+				cf_spec_search_cols.LABEL, 
+				cf_spec_search_cols.ACCESS_ROLE, 
+				cf_spec_search_cols.UI_FUNCTION,
+				cf_spec_search_cols.EXAMPLE_VALUES, 
+				cf_spec_search_cols.DESCRIPTION,
+				all_col_comments.comments definition
 			FROM cf_spec_search_cols
+            left join all_col_comments
+            	on cf_spec_search_cols.table_name = all_col_comments.table_name
+            		and cf_spec_search_cols.column_name = all_col_comments.column_name
+            		and all_col_comments.owner = 'MCZBASE'
 			WHERE 
 				ID is not null
 				<cfif isdefined("search_category") AND len(search_category) GT 0>
@@ -218,35 +233,35 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("table_name") AND len(table_name) GT 0>
 					<cfif left(table_name,1) is "=">
-						AND upper(table_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(table_name,len(table_name)-1))#">
+						AND upper(cf_spec_search_cols.table_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(table_name,len(table_name)-1))#">
 					<cfelseif left(table_name,1) is "~">
-						AND utl_match.jaro_winkler(table_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(table_name,len(table_name)-1)#">) >= 0.90
+						AND utl_match.jaro_winkler(cf_spec_search_cols.table_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(table_name,len(table_name)-1)#">) >= 0.90
 					<cfelseif left(table_name,1) is "!~">
-						AND utl_match.jaro_winkler(table_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(table_name,len(table_name)-1)#">) < 0.90
+						AND utl_match.jaro_winkler(cf_spec_search_cols.table_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(table_name,len(table_name)-1)#">) < 0.90
 					<cfelseif left(table_name,1) is "!">
-						AND upper(table_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(table_name,len(table_name)-1))#">
+						AND upper(cf_spec_search_cols.table_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(table_name,len(table_name)-1))#">
 					<cfelse>
 						<cfif find(',',table_name) GT 0>
-							AND upper(table_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(table_name)#" list="yes"> )
+							AND upper(cf_spec_search_cols.table_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(table_name)#" list="yes"> )
 						<cfelse>
-							AND upper(table_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(table_name)#%">
+							AND upper(cf_spec_search_cols.table_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(table_name)#%">
 						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isdefined("column_name") AND len(column_name) GT 0>
 					<cfif left(column_name,1) is "=">
-						AND upper(column_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(column_name,len(column_name)-1))#">
+						AND upper(cf_spec_search_cols.column_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(column_name,len(column_name)-1))#">
 					<cfelseif left(column_name,1) is "~">
-						AND utl_match.jaro_winkler(column_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(column_name,len(column_name)-1)#">) >= 0.90
+						AND utl_match.jaro_winkler(cf_spec_search_cols.column_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(column_name,len(column_name)-1)#">) >= 0.90
 					<cfelseif left(column_name,1) is "!~">
-						AND utl_match.jaro_winkler(column_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(column_name,len(column_name)-1)#">) < 0.90
+						AND utl_match.jaro_winkler(cf_spec_search_cols.column_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(column_name,len(column_name)-1)#">) < 0.90
 					<cfelseif left(column_name,1) is "!">
-						AND upper(column_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(column_name,len(column_name)-1))#">
+						AND upper(cf_spec_search_cols.column_name) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(column_name,len(column_name)-1))#">
 					<cfelse>
 						<cfif find(',',column_name) GT 0>
-							AND upper(column_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(column_name)#" list="yes"> )
+							AND upper(cf_spec_search_cols.column_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(column_name)#" list="yes"> )
 						<cfelse>
-							AND upper(column_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(column_name)#%">
+							AND upper(cf_spec_search_cols.column_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(column_name)#%">
 						</cfif>
 					</cfif>
 				</cfif>
@@ -305,7 +320,7 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
-			ORDER BY SEARCH_CATEGORY, COLUMN_NAME
+			ORDER BY SEARCH_CATEGORY, cf_spec_search_cols.COLUMN_NAME
 		</cfquery>
 
 		<cfset rows = 0>

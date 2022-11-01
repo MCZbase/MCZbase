@@ -584,7 +584,8 @@ limitations under the License.
 									{ name: 'ACCESS_ROLE', type: 'string' },
 									{ name: 'UI_FUNCTION', type: 'string' },
 									{ name: 'EXAMPLE_VALUES', type: 'string' },
-									{ name: 'DESCRIPTION', type: 'string' }
+									{ name: 'DESCRIPTION', type: 'string' },
+									{ name: 'DEFINITION', type: 'string' }
 								],
 								root: 'cf_spec_search_cols_Record',
 								id: 'ID',
@@ -611,6 +612,7 @@ limitations under the License.
 							$("##searchResultsGrid").jqxGrid({
 								width: '100%',
 								autoheight: 'true',
+								autorowheight: 'true',
 								source: dataAdapter,
 								filterable: true,
 								sortable: true,
@@ -629,12 +631,13 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 120, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false), cellsrenderer: categoryCellRenderer },
+									{text: 'Category', datafield: 'SEARCH_CATEGORY', width: 110, hideable: true, hidden: getColHidProp('SEARCH_CATEGORY', false), cellsrenderer: categoryCellRenderer },
 									{text: 'Label', datafield: 'LABEL', width: 250, hideable: false, hidden: false },
 									{text: 'Description', datafield: 'DESCRIPTION', width: 400, hideable: true, hidden: getColHidProp('DESCRIPTION', false) },
-									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 250, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
-									{text: 'Autocomplete', datafield: 'UI_FUNCTION', width: 50, hideable: true, hidden: getColHidProp('UI_FUNCTION', false), cellsrenderer: autocompleteCellRenderer },
-									{text: 'Table Name', datafield: 'TABLE_NAME', width: 150, hideable: true, hidden: getColHidProp('TABLE_NAME', false) },
+									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 240, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
+									{text: 'Autocomplete', datafield: 'UI_FUNCTION', width: 60, hideable: true, hidden: getColHidProp('UI_FUNCTION', false), cellsrenderer: autocompleteCellRenderer },
+									{text: 'Definition', datafield: 'DEFINITION', width: 200, hideable: true, hidden: getColHidProp('DEFINITION', false) },
+									{text: 'Table Name', datafield: 'TABLE_NAME', width: 140, hideable: true, hidden: getColHidProp('TABLE_NAME', false) },
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
 									{text: 'Access Role', datafield: 'ACCESS_ROLE', hideable: true, hidden: getColHidProp('ACCESS_ROLE', false) }
