@@ -132,7 +132,10 @@ limitations under the License.
 				</div>
 			
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-					<p> <a class="btn btn-xs btn-primary" href="/Publication.cfm?action=edit&publication_id=#getDetails.publication_id#">Edit Publication Record</a></p>
+					<p> 
+						<a class="btn btn-xs btn-primary" href="/Publication.cfm?action=edit&publication_id=#getDetails.publication_id#">Edit Publication Record</a>
+						<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#getDetails.publication_id#">Manage Citations</a>
+					</p>
 				</cfif>
 				
 				<ul>
@@ -211,7 +214,7 @@ limitations under the License.
 				<cfif citedSpecimens.recordcount is 0>
 					<cfset specCount = "">
 				<cfelse>
-					<cfset target="Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1=#encodeForURL(getDetails.short_citation)#&searchId1=#getDetails.publication_id#">
+					<cfset target="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=CITATION%3ACITATIONS_PUBLICATION_ID&searchText1=#encodeForURL(getDetails.short_citation)#&searchId1=#getDetails.publication_id#">
 					<cfset specCount = " <a href='#target#'>(#citedSpecimens.recordCount#)</a>" >
 				</cfif>
 				<h2 class="h4">Cited MCZ Specimens#specCount# in #getDetails.short_citation#:</h2>
