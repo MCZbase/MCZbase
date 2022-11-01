@@ -407,7 +407,7 @@ limitations under the License.
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
 								<div class="search-box-header">
-									<h1 class="h3 text-white" id="formheading">View Specimen Search Fields</h1>
+									<h1 class="h3 text-white" id="formheading">View Specimen Search Fields (specimen search builder help)</h1>
 								</div>
 								<div class="col-12 px-4 pt-3 pb-2">
 									<form name="searchForm" id="searchForm">
