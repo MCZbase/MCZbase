@@ -352,8 +352,8 @@ limitations under the License.
 			<input type="button" value="Delete Publication" class="delBtn" onclick="editPub.action.value='deletePub';confirmDelete('editPub');">
 	   </form>
 
- </div>
-
+			</section>
+		</main>
 	</cfoutput>
 </cfcase>
 <cfcase value="deletePub">
@@ -400,10 +400,8 @@ limitations under the License.
 		<cftry>
 	</cftransaction>
 </cfcase>
-
-<!---------------------------------------------------------------------------------------------------------->
-<cfif action is "newPub">
-	<cfset title = "Create New Publication">
+<cfcase value="newPub">
+	<!---------------------------------------------------------------------------------------------------------->
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
@@ -525,10 +523,12 @@ limitations under the License.
 		}
 	</script>
 	<cfoutput>
-
-
-      <h2 class="wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
-		</h2>
+		<main class="container py-3" id="content" >
+			<section class="row border rounded my-2">
+				<h1 class="h2 mt-3">
+					Create New Publication
+					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+				</h1>
 
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
@@ -654,18 +654,19 @@ limitations under the License.
 			</div>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
-
+			</section>
+		</main>
 	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------------->
-<cfif action is "createPub">
-<cfoutput>
-	<cftransaction>
-		<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select sq_publication_id.nextval p from dual
-		</cfquery>
-		<cfset pid=p.p>a
-		<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+</cfcase>
+<cfcase value="createPub">
+	<!---------------------------------------------------------------------------------------------------------->
+	<cfoutput>
+		<cftransaction>
+			<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_publication_id.nextval p from dual
+			</cfquery>
+			<cfset pid=p.p>a
+			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into publication (
 				publication_id,
 				published_year,
@@ -759,7 +760,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_desc#">)
 			</cfquery>
 		</cfif>
-	</cftransaction>
+		</cftransaction>
 	<cfinvoke component="/component/publication" method="shortCitation" returnVariable="shortCitation">
 		<cfinvokeargument name="publication_id" value="#pid#">
 		<cfinvokeargument name="returnFormat" value="plain">
@@ -790,8 +791,9 @@ limitations under the License.
 			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#longCitation#">
 		)
 	</cfquery>
-	<cflocation url="Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
-</cfoutput>
-</cfif>
+		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
+	</cfoutput>
+</cfcase>
+</cfswitch>
 
 <cfinclude template="shared/_footer.cfm">
