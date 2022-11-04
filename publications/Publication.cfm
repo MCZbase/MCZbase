@@ -108,8 +108,8 @@ limitations under the License.
        			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 				</h1>
 				<p> 
-					<a class="btn btn-xs btn-primary" href="/publications/showPublication.cfm?publication_id=#getDetails.publication_id#">View Publication Details</a>
-					<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#getDetails.publication_id#">Manage Citations</a>
+					<a class="btn btn-xs btn-primary" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
+					<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 				</p>
 				<form class="col-12" name="editPub" method="post" action="Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
