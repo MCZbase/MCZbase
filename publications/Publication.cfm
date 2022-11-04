@@ -43,7 +43,7 @@ limitations under the License.
 	</cfif>
 	<cfset pageTitle = "Edit Publication#shortCitation#">
 </cfif>
-<cfinclude template="shared/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 
 <cfswitch expression="#action#">
 <cfcase value="edit">
@@ -796,4 +796,4 @@ limitations under the License.
 </cfcase>
 </cfswitch>
 
-<cfinclude template="shared/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
