@@ -397,7 +397,7 @@ limitations under the License.
 		<cfcatch>
 			<cftransaction action="rollback">
 		</cfcatch>
-		<cftry>
+		</cftry>
 	</cftransaction>
 </cfcase>
 <cfcase value="newPub">
