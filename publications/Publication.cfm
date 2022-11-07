@@ -117,31 +117,37 @@ limitations under the License.
 					<div class="form-row mb-2">
 						<div class="col-12">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
-				<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="70">#pub.publication_title#</textarea>
-				</td>
-				<td>
-					<span class="infoLink" onclick="italicize('publication_title')">italicize selected text</span>
-					<br><span class="infoLink" onclick="bold('publication_title')">bold selected text</span>
-					<br><span class="infoLink" onclick="superscript('publication_title')">superscript selected text</span>
-					<br><span class="infoLink" onclick="subscript('publication_title')">subscript selected text</span>
-				</td>
-			</tr>
-		</table>
-		<label for="publication_type">Publication Type</label>
-		<select name="publication_type" id="publication_type" class="reqdClr">
-			<option value=""></option>
-			<cfloop query="ctpublication_type">
-				<option <cfif publication_type is pub.publication_type> selected="selected" </cfif>
-					value="#publication_type#">#publication_type#</option>
-			</cfloop>
-		</select>
-		<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
-		<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr">
-			<option <cfif pub.is_peer_reviewed_fg is 1> selected="selected" </cfif>value="1">yes</option>
-			<option <cfif pub.is_peer_reviewed_fg is 0> selected="selected" </cfif>value="0">no</option>
-		</select>
-		<label for="published_year">Published Year</label>
-		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
+							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" required>#pub.publication_title#</textarea>
+						</div>
+						<script>
+							$(document).ready(function () {
+								$('##publication_title').jqxEditor({lineBreak:"p",tools:"bold italic superscript subscript"});
+							});
+						</script>
+					</div>
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-6">
+							<label for="publication_type" class="data-entry-label">Publication Type</label>
+								<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" required>
+									<option value=""></option>
+									<cfloop query="ctpublication_type">
+										<cfif publication_type is pub.publication_type><cfset selected='selected="selected"'><cfelse><cfset selected=''> </cfif>
+										<option value="#publication_type#" #selected#>#publication_type#</option>
+									</cfloop>
+							</select>
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="published_year" class="data-entry-label">Published Year</label>
+							<input type="text" name="published_year" id="published_year" class="data-entry-input" value="#pub.published_year#">
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
+							<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr data-entry-select">
+								<option <cfif pub.is_peer_reviewed_fg is 1> selected="selected" </cfif>value="1">yes</option>
+								<option <cfif pub.is_peer_reviewed_fg is 0> selected="selected" </cfif>value="0">no</option>
+							</select>
+						</div>
+					</div>
 <script>
    // TODO: Move back into ajax.js and rebuild ajax.min.js
    function findDOI(publication_title){
@@ -178,7 +184,7 @@ limitations under the License.
 		<label for="publication_loc">Storage Location</label>
 		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
 		<label for="publication_remarks">Remark</label>
-		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#stripQuotes(pub.publication_remarks)#">
+		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#encodeForHtml(pub.publication_remarks)#">
 		</div>
 		<div class="cellDiv">
 		<span >Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
@@ -205,7 +211,7 @@ limitations under the License.
 							<input type="text" name="author_name_#i#" id="author_name_#i#" class="reqdClr" size="50"
 								onchange="findAgentName('author_id_#i#',this.name,this.value)"
 			 					onkeypress="return noenter(event);"
-			 					value="#agent_name#">
+			 					value="#encodeForHtml(agent_name)#">
 						</td>
 						<td>
 							<span class="infoLink" onclick="deleteAgent(#i#)">Delete</span>
