@@ -129,7 +129,7 @@ limitations under the License.
 										switch(name) { 
 											case "superscript":
 												return {
-													type: button,
+													type: 'button',
 													tooltip: 'Make selected text superscript',
 													init: function (widget) {
 														widget.jqxButton({ height: 25, width: 20 });
