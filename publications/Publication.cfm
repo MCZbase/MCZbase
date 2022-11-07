@@ -142,7 +142,8 @@ limitations under the License.
 													},
 													action: function (widget, editor) {
 														// add <sup> and </sup> tags
-														console.log(widget);
+														console.log(editor);
+														editor.sub = 'true'
 														console.log(editor);
 													}			 										
 												}
