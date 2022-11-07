@@ -143,12 +143,25 @@ limitations under the License.
 													action: function (widget, editor) {
 														// add <sup> and </sup> tags
 														console.log(editor);
-														editor.sub = 'true'
-														console.log(editor);
 													}			 										
 												}
 											case "subscript":
 												return { 
+													type: 'button',
+													tooltip: 'Make selected text subscript',
+													init: function (widget) {
+														widget.jqxButton({ height: 25, width: 20 });
+														widget.html("<span style='line-height: 24px;'>x<sub>a</sub></span>");
+													},
+													refresh: function (widget, style) {
+														// toggle the button based on the selection 
+														console.log(widget);
+														console.log(style);
+													},
+													action: function (widget, editor) {
+														// add <sub> and </sub> tags
+														console.log(editor);
+													}			 										
 												}
 										}
 									}
