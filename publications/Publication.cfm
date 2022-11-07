@@ -122,7 +122,36 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function () {
-								$('##publication_title').jqxEditor({lineBreak:"p",tools:"bold italic superscript subscript"});
+								$('##publication_title').jqxEditor({
+									lineBreak:"p",
+									tools:"bold italic superscript subscript",
+									createCommand: function(name) { 
+										switch(name) { 
+											case "superscript":
+												return {
+													type: button,
+													tooltip: 'Make selected text superscript',
+													init: function (widget) {
+														widget.jqxButton({ height: 25, width: 20 });
+														widget.html("<span style='line-height: 24px;'>x<sup>a</sup></span>");
+													},
+													refresh: function (widget, style) {
+														// toggle the button based on the selection 
+														console.log(widget);
+														console.log(style);
+													},
+													action: function (widget, editor) {
+														// add <sup> and </sup> tags
+														console.log(widget);
+														console.log(editor);
+													}			 										
+												}
+											case "subscript":
+												return { 
+												}
+										}
+									}
+								});
 							});
 						</script>
 					</div>
