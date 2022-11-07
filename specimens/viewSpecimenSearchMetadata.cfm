@@ -559,7 +559,7 @@ limitations under the License.
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var result = "";
 								var category = rowData['SEARCH_CATEGORY'];
-								if (category=='Accessions' || category=='Attributes') {
+								if (category=='Accessions' || category=='Attributes' || category='Cataloged Item') {
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/documentation/er_diagrams/'+value.toLowerCase().replace(' ','_')+'.png" target="blank">'+value+'</a></span>';
 								} else { 
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
