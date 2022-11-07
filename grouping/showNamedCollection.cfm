@@ -865,6 +865,7 @@ limitations under the License.
 												on underscore_relation.collection_object_id = flat.collection_object_id
 										WHERE underscore_relation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 											and flat.continent_ocean like '%Ocean%'
+											and flat.continent_ocean <> 'Oceania'
 										ORDER BY flat.continent_ocean asc
 									</cfquery>
 									<cfif marine.recordcount GT 0>

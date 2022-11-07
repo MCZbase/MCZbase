@@ -1,0 +1,771 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"  width="1033" height="506">
+<defs id="dmw_defs" >
+<svg id="fk_sym" viewBox="0 0 48.665 48.665" style="enable-background:new 0 0 48.665 48.665;" >
+<g>
+<path d="M40.332,31.592c-2.377,0-4.515,1-6.033,2.598l-17.737-8.686c0.061-0.406,0.103-0.82,0.103-1.246    c0-0.414-0.04-0.818-0.098-1.215l17.711-8.589c1.519,1.609,3.666,2.619,6.054,2.619c4.603,0,8.333-3.731,8.333-8.333    c0-4.603-3.73-8.333-8.333-8.333s-8.333,3.73-8.333,8.333c0,0.414,0.04,0.817,0.098,1.215l-17.709,8.589    c-1.519-1.609-3.666-2.619-6.054-2.619C3.73,15.925,0,19.656,0,24.258c0,4.603,3.73,8.333,8.333,8.333    c2.377,0,4.515-1,6.033-2.596l17.736,8.685c-0.062,0.406-0.104,0.82-0.104,1.245c0,4.604,3.73,8.333,8.333,8.333    s8.333-3.729,8.333-8.333C48.665,35.322,44.935,31.592,40.332,31.592z" fill="#13bf3b"/>
+</g>
+</svg>
+<svg id="pk_sym" viewBox="0 0 480.509 480.509" style="enable-background:new 0 0 480.509 480.509;" >
+<g>
+<path d="M418.119,331.046c4.094,4.374,7.766,8.186,10.996,11.416c3.237,3.238,6.714,6.376,10.427,9.422   c3.71,3.042,6.427,4.568,8.135,4.568c3.241,0,9.517-4.661,18.843-13.99c9.328-9.321,13.989-15.604,13.989-18.842   c0-1.523-2.714-5.421-8.138-11.704c-5.421-6.276-12.364-13.702-20.838-22.271c-8.473-8.565-16.703-16.744-24.694-24.55   c-8.001-7.81-15.8-15.373-23.417-22.703c-7.611-7.327-11.992-11.56-13.135-12.703c-1.902-1.902-4.093-2.853-6.563-2.853   c-3.237,0-9.521,4.661-18.843,13.988c-9.328,9.322-13.989,15.605-13.989,18.843c0,1.711,1.522,4.421,4.568,8.138   c3.046,3.71,6.188,7.187,9.421,10.424c3.23,3.23,7.047,6.899,11.42,10.992c4.377,4.093,6.848,6.423,7.423,6.995l-27.408,27.404   L254.954,222.268c24.94-33.498,37.408-68.236,37.408-104.211c0-31.024-9.761-56.293-29.263-75.801   c-19.512-19.511-44.778-29.265-75.805-29.265c-30.454,0-60.244,9.042-89.363,27.119c-29.121,18.083-52.727,41.686-70.808,70.808   C9.042,140.038,0,169.828,0,200.28c0,31.029,9.753,56.286,29.265,75.803c19.511,19.517,44.777,29.27,75.801,29.27   c35.976,0,70.71-12.467,104.212-37.407l191.574,191.579c5.332,5.328,11.796,7.994,19.417,7.994c7.991,0,15.704-3.72,23.12-11.14   c7.426-7.426,11.143-15.129,11.143-23.127c0-7.617-2.666-14.092-7.994-19.417l-62.811-62.811l27.405-27.404   C411.699,324.195,414.033,326.666,418.119,331.046z M221.556,161.458c-10.656,10.657-23.601,15.987-38.828,15.987   c-7.996,0-15.896-1.812-23.7-5.43c3.617,7.808,5.426,15.706,5.426,23.7c0,15.229-5.327,28.171-15.987,38.828   c-10.66,10.655-23.606,15.986-38.831,15.986c-15.227,0-28.168-5.325-38.828-15.986c-10.657-10.657-15.987-23.599-15.987-38.828   c0-15.227,5.327-28.171,15.987-38.828C81.464,146.23,94.409,140.9,109.636,140.9c7.992,0,15.893,1.809,23.695,5.424   c-3.616-7.804-5.424-15.706-5.424-23.699c0-15.227,5.327-28.171,15.987-38.828c10.66-10.657,23.604-15.987,38.831-15.987   c15.227,0,28.171,5.327,38.828,15.987c10.657,10.66,15.987,23.601,15.987,38.828C237.539,137.852,232.209,150.797,221.556,161.458z   " fill="#ff8345"/>
+</g>
+</svg>
+<svg id="uk_sym" viewBox="0 0 490 490" style="enable-background:new 0 0 490 490;" >
+<g>
+	<polygon points="236.99,11.41 0,246.348 236.99,478.678 236.99,350.609 129.864,245 236.99,139.391  " fill="#0064fb"/>
+<polygon points="253.01,478.59 490,243.651 253.01,11.322 253.01,139.391 360.136,245 253.01,350.609  " fill="#0064fb"/>
+</g>
+</svg>
+<svg id="link_sym" viewBox="0 0 1000 900" style="enable-background:new 0 0 1000 900;" >
+<g>
+<path fill="black" d="M660.224 422.656c6.976 16.192-0.512 35.008-16.768 42.048-16.128 6.976-34.944-0.448-41.984-16.768-8.448-19.776-20.736-37.696-36.224-53.248-64.64-64.64-177.344-64.64-241.92 0l-145.216 145.28c-66.688 66.688-66.688 175.232 0 241.984 66.688 66.688 175.104 66.752 241.92 0l92.8-92.864c12.48-12.48 32.768-12.48 45.248 0s12.48 32.768 0 45.248l-92.8 92.864c-91.648 91.648-240.832 91.52-332.416 0-91.712-91.648-91.712-240.832 0-332.48l145.216-145.28c44.352-44.416 103.424-68.864 166.272-68.864s121.792 24.448 166.208 68.864c21.248 21.312 38.016 45.952 49.664 73.216zM891.136 401.344l-145.216 145.216c-88.768 88.832-243.712 88.832-332.416 0-21.312-21.312-38.080-45.952-49.728-73.216-7.040-16.256 0.448-35.072 16.704-42.048 16.064-6.784 35.008 0.512 41.984 16.768 8.512 19.776 20.8 37.696 36.288 53.248 64.64 64.64 177.344 64.64 241.92 0l145.216-145.216c66.688-66.688 66.688-175.232 0-241.984-66.752-66.624-175.168-66.688-241.92 0l-92.8 92.864c-12.48 12.48-32.768 12.48-45.248 0s-12.48-32.768 0-45.248l92.8-92.864c45.824-45.824 105.984-68.736 166.208-68.736s120.448 22.912 166.272 68.736c91.584 91.648 91.584 240.768-0.064 332.48z" />
+</g>
+</svg>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath707_0_">
+<rect x="0" y="0" width="361" height="45" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath708_0_">
+<rect x="0" y="0" width="157" height="34" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath258_0_">
+<rect x="0" y="0" width="241" height="38" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath194_0_">
+<rect x="0" y="0" width="288" height="70" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath169_0_">
+<rect x="0" y="0" width="177" height="24" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath192_0_">
+<rect x="0" y="0" width="247" height="60" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath9_0_">
+<rect x="0" y="0" width="138" height="79" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath191_0_">
+<rect x="0" y="0" width="251" height="39" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath14_0_">
+<rect x="0" y="0" width="637" height="157" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath514_0_">
+<rect x="0" y="0" width="227" height="50" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath321_0_">
+<rect x="0" y="0" width="239" height="33" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath195_0_">
+<rect x="0" y="0" width="133" height="63" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath29_0_">
+<rect x="0" y="0" width="174" height="159" />
+</clipPath>
+<clipPath clipPathUnits="userSpaceOnUse" id="clipPath8_0_">
+<rect x="0" y="0" width="194" height="127" />
+</clipPath>
+</defs>
+<g stroke-linecap="butt" >
+<path stroke="rgb(218,68,231)" fill="none" stroke-opacity="1.0"  stroke-dasharray="2,6" stroke-width="1" d="M577 224 L577 177" />
+<polygon stroke="rgb(218,68,231)" stroke-dasharray="none" points="577 224 574 218 580 218" fill="rgb(218,68,231)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M583.0 177.0 L577.0 189.0 L571.0 177.0 M583.0 189.5999994277954 L571.0 189.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(218,68,231)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(218,68,231)" fill="none" stroke-opacity="1.0"  stroke-dasharray="2,6" stroke-width="1" d="M161 189 L161 152" />
+<polygon stroke="rgb(218,68,231)" stroke-dasharray="none" points="161 189 158 183 164 183" fill="rgb(218,68,231)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M167.0 152.0 L161.0 164.0 L155.0 152.0 M167.0 164.5999994277954 L155.0 164.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(218,68,231)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M412 293 L412 177" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="412 293 409 287 415 287" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M418.0 177.0 L412.0 189.0 L406.0 177.0 M418.0 189.5999994277954 L406.0 189.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(218,68,231)" fill="none" stroke-opacity="1.0"  stroke-dasharray="2,6" stroke-width="1" d="M644 263 L743 263" />
+<polygon stroke="rgb(218,68,231)" stroke-dasharray="none" points="644 263 650 260 650 266" fill="rgb(218,68,231)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M743.0 269.0 L731.0 263.0 L743.0 257.0 M730.4000005722046 269.0 L730.4000005722046 257.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(218,68,231)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M210 88 L394 88" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="210 88 216 85 216 91" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M394.0 94.0 L382.0 88.0 L394.0 82.0 M381.4000005722046 94.0 L381.4000005722046 82.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M89 152 L89 262" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="89 152 92 158 86 158" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M83.0 262.0 L89.0 250.0 L95.0 262.0 M83.0 249.4000005722046 L95.0 249.4000005722046" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M507 375 L430 375" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="507 375 501 378 501 372" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M430.0 369.0 L442.0 375.0 L430.0 381.0 M442.5999994277954 369.0 L442.5999994277954 381.0" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g stroke-linecap="butt" >
+<path stroke="rgb(0,0,0)" fill="none" stroke-opacity="1.0"  stroke-width="1" d="M577 363 L577 287" />
+<polygon stroke="rgb(0,0,0)" stroke-dasharray="none" points="577 363 574 357 580 357" fill="rgb(0,0,0)" stroke-width="1" stroke-opacity="1.0"  />
+<path stroke-dasharray="none" d="M583.0 287.0 L577.0 299.0 L571.0 287.0 M583.0 299.5999994277954 L571.0 299.5999994277954" fill="white" stroke-width="1" stroke-opacity="1.0" stroke="rgb(0,0,0)" />
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath258_0_)" transform="translate(744,359)" >
+<rect x="0" y="0" width="240" height="37" />
+<text id="20EBEB6A-0AF281ECA806" x="73" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTLENGTH_UNITS
+</text>
+<line x1="0" y1="17" x2="239" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LENGTH_UNITS
+</text>
+<text x="125" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (2 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath194_0_)" transform="translate(743,240)" >
+<rect x="0" y="0" width="287" height="69" />
+<text id="31AB35CB-8F2F33616E7C" x="65" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTATTRIBUTE_CODE_TABLES
+</text>
+<line x1="0" y1="17" x2="286" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_TYPE
+</text>
+<text x="155" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VALUE_CODE_TABLE
+</text>
+<text x="155" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+UNITS_CODE_TABLE
+</text>
+<text x="155" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath169_0_)" transform="translate(507,363)" >
+<rect x="0" y="0" width="176" height="23" />
+<text id="376D34F3-806C7907708E" x="55" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION
+</text>
+<line x1="0" y1="17" x2="175" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+U
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_CDE
+</text>
+<text x="169" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (10 BYTE)
+</text>
+<polygon points="169,20 165,12 173,12" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath192_0_)" transform="translate(744,402)" >
+<rect x="0" y="0" width="246" height="59" />
+<text id="442F66C2-C1245E2FE55D" x="81" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTAREA_UNITS
+</text>
+<line x1="0" y1="17" x2="245" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AREA_UNITS
+</text>
+<text x="111" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (15 BYTE)
+</text>
+<line x1="0" y1="36" x2="245" y2="36" fill="none" stroke="rgb(64,64,64)"/>
+<text x="5" y="49" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Code table for units of area (length squared).
+</text>
+</g>
+<g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath9_0_)" transform="translate(20,262)" >
+<rect x="0" y="0" width="137" height="78" />
+<text id="7606D3FF-86DFCD7E1FF1" x="31" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME
+</text>
+<polygon points="130,2 126,10 134,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="136" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME_ID
+</text>
+<text x="193" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="332" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surrogate numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_ID
+</text>
+<text x="193" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="332" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+FK for agent to which this name belongs.
+
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME_TYPE
+</text>
+<text x="193" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (18 CHAR)
+</text>
+<text x="332" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The type of name
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME
+</text>
+<text x="193" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (184 CHAR)
+</text>
+<text x="332" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The value of the name
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath191_0_)" transform="translate(743,467)" >
+<rect x="0" y="0" width="250" height="38" />
+<text id="78FB47CB-1F065DDDD997" x="81" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTANGLE_UNITS
+</text>
+<line x1="0" y1="17" x2="249" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+LENGTH_UNITS
+</text>
+<text x="125" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (15 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath14_0_)" transform="translate(394,20)" >
+<rect x="0" y="0" width="636" height="156" />
+<text id="92788E61-C75EDAF672DB" x="284" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTES
+</text>
+<polygon points="629,2 625,10 633,10" stroke-dasharray="none" stroke="rgb(0,0,255)" fill="rgb(0,0,255)" stroke-width="1" />
+<line x1="0" y1="17" x2="635" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_ID
+</text>
+<text x="191" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="332" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Surroagte numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_OBJECT_ID
+</text>
+<text x="191" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="332" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+collection object to which this attribute applies
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DETERMINED_BY_AGENT_ID
+</text>
+<text x="191" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="332" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+agent who asserted the attribute value
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_TYPE
+</text>
+<text x="191" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="332" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+the kind of atrribute
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_VALUE
+</text>
+<text x="191" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="332" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+the value of the attribute
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_UNITS
+</text>
+<text x="191" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="332" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+units, if any, for the attribute value.
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_REMARK
+</text>
+<text x="191" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="332" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+remarks concerning the attribute value
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DETERMINED_DATE
+</text>
+<text x="191" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DATE
+</text>
+<text x="332" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+date on which the attribute value was determined.
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DETERMINATION_METHOD
+</text>
+<text x="191" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="332" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+method by which the attribute value was determined
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath321_0_)" transform="translate(744,317)" >
+<rect x="0" y="0" width="238" height="32" />
+<text id="9D480FDB-DFF538AC3779" x="72" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTWEIGHT_UNITS
+</text>
+<line x1="0" y1="17" x2="237" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+WEIGHT_UNITS
+</text>
+<text x="123" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (15 CHAR)
+</text>
+</g>
+<g  fill="rgb(255,255,180)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath195_0_)" transform="translate(511,224)" >
+<rect x="0" y="0" width="132" height="62" />
+<text id="C97833BD-18160FE91E1B" x="20" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CTATTRIBUTE_TYPE
+</text>
+<line x1="0" y1="17" x2="131" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ATTRIBUTE_TYPE
+</text>
+<text x="132" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+PF
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_CDE
+</text>
+<text x="132" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (10 BYTE)
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+DESCRIPTION
+</text>
+<text x="132" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 CHAR)
+</text>
+</g>
+<g  fill="rgb(204,255,204)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath29_0_)" transform="translate(256,293)" >
+<rect x="0" y="0" width="173" height="158" />
+<text id="F66B8097-064CF835A3F5" x="38" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+CATALOGED_ITEM
+</text>
+<line x1="0" y1="17" x2="172" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+PF
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_OBJECT_ID
+</text>
+<text x="173" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="312" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+cataloged items are a subtype of collection objects.
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CAT_NUM
+</text>
+<text x="173" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 CHAR)
+</text>
+<text x="312" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The catalog number of the cataloged item, including any prefix or suffix.  Automatically assembled from cat_num_prefix, cat_num_integer, and cat_num_suffix.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+ACCN_ID
+</text>
+<text x="173" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="312" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The accession under which this cataloged item was brought into the museum.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTING_EVENT_ID
+</text>
+<text x="173" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="312" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The collecting event in which this cataloged item was collected.
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_CDE
+</text>
+<text x="173" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (10 BYTE)
+</text>
+<text x="312" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The collection code for the collection within which this cataloged item is held.  Autopopulated convenience field with value obtained from collection.
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CATALOGED_ITEM_TYPE
+</text>
+<text x="173" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (2 BYTE)
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+COLLECTION_ID
+</text>
+<text x="173" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="312" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Foreign key to the collection within which this cataloged item is held.  Enforces virtual private database limitiations on collection.
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="2" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CAT_NUM_PREFIX
+</text>
+<text x="173" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="312" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The prefix portion of the catalog number, if any.  Including any separator.  Example &quot;R-&quot;
+</text>
+<text x="16" y="134" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="134" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CAT_NUM_INTEGER
+</text>
+<text x="173" y="134" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="312" y="134" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The numeric portion of the catalog number.
+</text>
+<text x="16" y="147" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="147" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CAT_NUM_SUFFIX
+</text>
+<text x="173" y="147" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (60 CHAR)
+</text>
+<text x="312" y="147" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The suffix portion of the catalog number, if any. Including any separator.  Example &quot;-a&quot;
+</text>
+</g>
+<g  fill="rgb(204,255,255)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath8_0_)" transform="translate(16,25)" >
+<rect x="0" y="0" width="193" height="126" />
+<text id="FF69C42F-B6612910D935" x="78" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+AGENT
+</text>
+<line x1="0" y1="17" x2="192" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="30" fill="rgb(0,0,255)" fill-opacity="1.0" font-size="10" stroke="none">
+P
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_ID
+</text>
+<text x="202" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+<text x="343" y="30" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+surrogate numeric primary key
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="2" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+F
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_TYPE
+</text>
+<text x="202" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (30 BYTE)
+</text>
+<text x="343" y="43" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+person, or other type of agent.  Agents of type person have corresponding record in the person table.
+</text>
+<text x="16" y="56" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="56" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_REMARKS
+</text>
+<text x="202" y="56" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="343" y="56" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Internal biographical information and other internal remarks.
+</text>
+<text x="16" y="69" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+*
+</text>
+<text x="27" y="69" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+PREFERRED_AGENT_NAME_ID
+</text>
+<text x="202" y="69" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER
+</text>
+<text x="343" y="69" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The prefered form of the name of the agent.
+</text>
+<text x="16" y="82" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="82" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+EDITED
+</text>
+<text x="202" y="82" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+CHAR (1 CHAR)
+</text>
+<text x="343" y="82" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+agent record has been vetted (if value is 1)
+</text>
+<text x="16" y="95" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="95" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENTGUID_GUID_TYPE
+</text>
+<text x="202" y="95" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (255 BYTE)
+</text>
+<text x="343" y="95" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+The type of GUID (e.g. ORCID or VIAF) found in AGENTGUID.
+</text>
+<text x="16" y="108" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="108" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENTGUID
+</text>
+<text x="202" y="108" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (900 BYTE)
+</text>
+<text x="343" y="108" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+A globaly unique indetifier for this agent, suitable for serving in Darwin Core as dwciri:identifiedBy, dwciri:recordedBy, dwciri:georeferencedBy etc.
+</text>
+<text x="16" y="121" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="121" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+BIOGRAPHY
+</text>
+<text x="202" y="121" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (4000 BYTE)
+</text>
+<text x="343" y="121" fill="rgb(64,64,64)" fill-opacity="1.0" font-size="10" stroke="none">
+Biographical information to be provided to the public.
+</text>
+</g>
+<g  fill="rgb(150,255,150)" stroke="rgb(0,0,255)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath514_0_)" transform="translate(112,189)" >
+<rect x="0" y="0" width="226" height="49" rx="20" ry="20" />
+<text id="9879AC86-04297A826DD3" x="42" y="13" fill="rgb(0,0,255)" font-weight="bold"  fill-opacity="1.0" font-size="10" stroke="none">
+PREFERRED_AGENT_NAME
+</text>
+<line x1="0" y1="17" x2="225" y2="17" fill="none" stroke="rgb(0,0,255)"/>
+<text x="16" y="30" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="30" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_NAME
+</text>
+<text x="118" y="30" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+VARCHAR2 (184 CHAR)
+</text>
+<text x="16" y="43" fill="rgb(255,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+
+</text>
+<text x="27" y="43" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+AGENT_ID
+</text>
+<text x="118" y="43" fill="rgb(0,128,0)" fill-opacity="1.0" font-size="10" stroke="none">
+NUMBER (15)
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath707_0_)" transform="translate(672,189)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M316 0 L361 7 L361 45 L0 45 L0 0 L316 0 L316 7 L361 7" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+Atrribute units and values have constraints imposed from a set of code 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+tables based on the attribute type.  For example, an attribute type of 
+</text>
+<text x="2" y="39" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+tail length is constrained to use length units for the attribute units.
+</text>
+</g>
+<g  fill="rgb(225,225,225)" stroke="rgb(0,0,0)" fill-opacity="1.0" stroke-opacity="1.0" clip-path="url(#clipPath708_0_)" transform="translate(483,310)" >
+<path stroke="rgb(0,0,0)" stroke-width="1" d="M138 0 L157 5 L157 34 L0 34 L0 0 L138 0 L138 5 L157 5" />
+<text x="2" y="13" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+Allowed attribute types are 
+</text>
+<text x="2" y="26" fill="rgb(0,0,0)" fill-opacity="1.0" font-size="10" stroke="none">
+constrained by department.
+</text>
+</g>
+
+</svg>
