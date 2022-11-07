@@ -2616,7 +2616,7 @@ limitations under the License.
 						</cfquery>
 						<cfif collEventNumbers.recordcount gt 0>
 							<cfloop query="collEventNumbers">
-								<li class="list-group-item col-5 col-xl-4 px-0"><span class="my-0 font-italic">Collecting Event/Field Number: </span></li>
+								<li class="list-group-item col-5 col-xl-4 px-0"><span class="my-0 font-weight-lessbold">Collecting Event/Field Number: </span></li>
 								<cfset num_determiner= collEventNumbers.collector_agent_name>
 								<cfif len(collEventNumbers.collector_agent_id) GT 0 AND collEventNumbers.collector_agent_id NEQ "0">
 									<cfset num_determiner = "<a href='/agents/agent.cfm?agent_id=#collEventNumbers.collector_agent_id#'>#num_determiner#</a>">
