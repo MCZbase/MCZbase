@@ -43,7 +43,7 @@ limitations under the License.
 	</cfif>
 	<cfset pageTitle = "Edit Publication#shortCitation#">
 </cfif>
-<cfset includeJQXEditor="true>
+<cfset includeJQXEditor="true">
 <cfinclude template="/shared/_header.cfm">
 
 <cfswitch expression="#action#">
