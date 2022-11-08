@@ -55,12 +55,6 @@ limitations under the License.
 	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_attribute from ctpublication_attribute order by publication_attribute
 	</cfquery>
-	<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select media_type from ctmedia_type order by media_type
-	</cfquery>
-	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select mime_type from ctmime_type order by mime_type
-	</cfquery>
 
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
@@ -77,30 +71,31 @@ limitations under the License.
 		FROM publication
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="auth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
-			publication_author_name.PUBLICATION_AUTHOR_NAME_ID PUBLICATION_AUTHOR_NAME_ID,
-			publication_author_name.AGENT_NAME_ID AGENT_NAME_ID,
-			publication_author_name.AUTHOR_POSITION AUTHOR_POSITION,
-			publication_author_name.AUTHOR_ROLE AUTHOR_ROLE,
-			agent_name.AGENT_ID AGENT_ID,
-			agent_name.AGENT_NAME_TYPE AGENT_NAME_TYPE,
-			agent_name.AGENT_NAME AGENT_NAME  
-		FROM publication_author_name
-			join agent_name on publication_author_name.agent_name_id=agent_name.agent_name_id 
-		WHERE
-			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-		ORDER BY author_position
+	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT count(*) ct, 'cataloged item' as type 
+		FROM citation
+		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		UNION
+		SELECT count(*) ct, 'named group' as type 
+		FROM underscore_collection_citation
+		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		UNION
+		SELECT count(*) ct, 'taxon' as type 
+		FROM taxonomy_publication
+		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		UNION
+		SELECT count(*) ct, 'project' as type 
+		FROM project_publication
+		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		UNION
+		SELECT count(*) ct, 'identification sensu' as type 
+		FROM identification
+		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT
-			publication_attribute_id,
-			publication_id,
-			publication_attribute,
-			pub_att_value
-		FROM publication_attributes 
-		where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-	</cfquery>
+	<cfset useCount = 0>
+	<cfloop query="uses">
+		<cfset useCount = useCount + uses.ct>
+	</cfloop>
 	<cfoutput>
 		<main class="container py-3" id="content" >
 			<section class="row border rounded my-2">
@@ -218,20 +213,58 @@ limitations under the License.
         });
 }
 </script>
-    <label for="doi">Digital Object Identifier (DOI)</label>
-    <input type="text" id="doi" name="doi" value="#pub.doi#" size="80">
-               <cfif len(pub.doi) gt 0>
-                        <a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
-         		<!---cfelse>
-                  <a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.formatted_publication)#')">add DOI</a--->
-                </cfif>
-		<label for="publication_loc">Storage Location</label>
-		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
-		<label for="publication_remarks">Remark</label>
-		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#encodeForHtml(pub.publication_remarks)#">
-		</div>
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-4">
+							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
+							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
+							<cfif len(pub.doi) gt 0>
+								<a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
+							<!---
+							<cfelse>
+								<a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.formatted_publication)#')">add DOI</a>
+							--->
+							</cfif>
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="publication_loc" class="data-entry-label">Storage Location</label>
+							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input" value="#encodeForHtml(pub.publication_loc)#">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="publication_remarks" class="data-entry-label">Remark</label>
+							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input" value="#encodeForHtml(pub.publication_remarks)#">
+						</div>
+					</div>
+					<div class="form-row mb-2">
+						<div class="col-12 col-md-10">
+							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick="editPub.action.value='saveEdit';editPub.submit();">
+						</div>
+						<cfif useCount EQ 0>
+							<div class="col-12 col-md-2">
+								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPub.action.value='deletePub';confirmDelete('editPub');">
+							</div>
+						</cfif>
+					</div>
+				</form>
+
+		<!--- TODO: Move authors to backing method  --->
+		<cfquery name="auth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 
+				publication_author_name.PUBLICATION_AUTHOR_NAME_ID PUBLICATION_AUTHOR_NAME_ID,
+				publication_author_name.AGENT_NAME_ID AGENT_NAME_ID,
+				publication_author_name.AUTHOR_POSITION AUTHOR_POSITION,
+				publication_author_name.AUTHOR_ROLE AUTHOR_ROLE,
+				agent_name.AGENT_ID AGENT_ID,
+				agent_name.AGENT_NAME_TYPE AGENT_NAME_TYPE,
+				agent_name.AGENT_NAME AGENT_NAME  
+			FROM publication_author_name
+				join agent_name on publication_author_name.agent_name_id=agent_name.agent_name_id 
+			WHERE
+				publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			ORDER BY author_position
+		</cfquery>
 		<div class="cellDiv">
-		<span >Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
+			<span >Authors</span>: 
+			<span class="infoLink" onclick="addAgent()">Add Row</span>
 			<table id="authTab">
 				<tr>
 					<th>Role</th>
@@ -265,9 +298,21 @@ limitations under the License.
 				<input type="hidden" name="numberAuthors" id="numberAuthors" value="#i#">
 			</table>
 		</div>
+
+		<!--- TODO: Move attributes to backing method --->
+		<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				publication_attribute_id,
+				publication_id,
+				publication_attribute,
+				pub_att_value
+			FROM publication_attributes 
+			WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		</cfquery>
 		<div class="cellDiv">
-		<span>Attributes</span>:
-			Add: <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
+			<span>Attributes</span>:
+			Add: 
+			<select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
 				<option value=""></option>
 				<cfloop query="ctpublication_attribute">
 					<option value="#publication_attribute#">#publication_attribute#</option>
@@ -315,9 +360,16 @@ limitations under the License.
 				</cfloop>
 			</table>
 		</div>
-
 		<input type="hidden" name="origNumberAttributes" id="origNumberAttributes" value="#i#">
 		<input type="hidden" name="numberAttributes" id="numberAttributes" value="#i#">
+
+		<!---- TODO: move media to backing method --->
+		<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select media_type from ctmedia_type order by media_type
+		</cfquery>
+		<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select mime_type from ctmime_type order by mime_type
+		</cfquery>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		    select distinct
 		        media.media_id,
@@ -369,6 +421,8 @@ limitations under the License.
 				<div class="thumb_spcr">&nbsp;</div>
 			</div>
 		</cfif>
+
+		<!---- TODO: move add/link media to dialog --->
 		<div class="cellDiv">
 			Add Media:
 			<div style="font-size:small">
@@ -398,9 +452,17 @@ limitations under the License.
 		</div>
 			<input type="hidden" name="origNumberLinks" id="origNumberLinks" value="#i#">
 			<input type="hidden" name="numberLinks" id="numberLinks" value="#i#">
-			<input type="button" value="Save" class="savBtn" onclick="editPub.action.value='saveEdit';editPub.submit();">&nbsp;&nbsp;
-			<input type="button" value="Delete Publication" class="delBtn" onclick="editPub.action.value='deletePub';confirmDelete('editPub');">
-	   </form>
+
+			<cfif useCount EQ 0>
+				<h2 class="h3>This publication record is not linked to any MCZbase records</h2>
+			<cfelse>
+				<h2 class="h3>This publication record is used in:</h2>
+				<ul>
+					<cfloop query="uses">
+						<li>#uses.ct# citations of a #uses.type#</li>
+					</cfloop>
+				</ul>
+			</cfif>
 
 			</section>
 		</main>
