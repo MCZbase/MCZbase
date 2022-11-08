@@ -19,30 +19,60 @@ limitations under the License.
 <cf_rolecheck>
 
 
-<!---------------------------------------------------------------------------------------------------------->
-<cfif action is "saveEdit">
-<cfoutput>
-	<cftransaction>
-  		<cfif len(doi) gt 0>
-			<cfinvoke component="/component/functions" method="checkDOI" returnVariable="isok">
-				<cfinvokeargument name="doi" value="#doi#">
-			</cfinvoke>
-			<cfif isok is not "true">
-				<cfthrow message = "DOI #doi# failed validation with StatusCode #isok#">
-			</cfif>
-		</cfif>
-		<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update publication set
-				published_year=<cfif len(published_year) gt 0>#published_year#<cfelse>NULL</cfif>,
-				publication_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
-				publication_loc=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
-				publication_title=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
-				publication_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
-				is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">,
-				doi = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">
-			where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-		</cfquery>
+<cffunction name="savePublication" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="published_year" type="string" required="no">
+	<cfargument name="publication_type" type="string" required="yes">
+	<cfargument name="publication_title" type="string" required="yes">
+	<cfargument name="publication_remarks" type="string" required="yes">
+	<cfargument name="is_peer_reviewed_fg" type="string" required="yes">
+	<cfargument name="doi" type="string" required="yes">
+	<cfargument name="publication_loc" type="string" required="yes">
 
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+  			<cfif len(doi) gt 0>
+				<cfinvoke component="/component/functions" method="checkDOI" returnVariable="isok">
+					<cfinvokeargument name="doi" value="#doi#">
+				</cfinvoke>
+				<cfif isok is not "true">
+					<cfthrow message = "DOI #doi# failed validation with StatusCode #isok#">
+				</cfif>
+			</cfif>
+			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE publication 
+				SET
+					published_year=
+						<cfif isDefined("published_year") AND len(published_year) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_" value="#published_year#">,
+						<cfelse>
+							NULL,
+						</cfif>
+					publication_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
+					publication_loc=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
+					publication_title=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
+					publication_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
+					is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">,
+					doi = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">
+				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#publication_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 <!---------------------------------------------------------------------------------------------------------->
 		<cfif len(media_uri) gt 0>
