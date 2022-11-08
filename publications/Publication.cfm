@@ -48,6 +48,7 @@ limitations under the License.
 
 <cfswitch expression="#action#">
 <cfcase value="edit">
+	<cfinclude template="/publications/component/functions.cfc" runonce="true">
 	<!---------------------------------------------------------------------------------------------------------->
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
@@ -246,58 +247,10 @@ limitations under the License.
 					</div>
 				</form>
 
-		<!--- TODO: Move authors to backing method  --->
-		<cfquery name="auth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 
-				publication_author_name.PUBLICATION_AUTHOR_NAME_ID PUBLICATION_AUTHOR_NAME_ID,
-				publication_author_name.AGENT_NAME_ID AGENT_NAME_ID,
-				publication_author_name.AUTHOR_POSITION AUTHOR_POSITION,
-				publication_author_name.AUTHOR_ROLE AUTHOR_ROLE,
-				agent_name.AGENT_ID AGENT_ID,
-				agent_name.AGENT_NAME_TYPE AGENT_NAME_TYPE,
-				agent_name.AGENT_NAME AGENT_NAME  
-			FROM publication_author_name
-				join agent_name on publication_author_name.agent_name_id=agent_name.agent_name_id 
-			WHERE
-				publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-			ORDER BY author_position
-		</cfquery>
-		<div class="cellDiv">
-			<span >Authors</span>: 
-			<span class="infoLink" onclick="addAgent()">Add Row</span>
-			<table id="authTab">
-				<tr>
-					<th>Role</th>
-					<th>Name</th>
-					<th></th>
-				</tr>
-				<cfset i=0>
-				<cfloop query="auth">
-					<cfset i=i+1>
-					<input type="hidden" name="publication_author_name_id#i#" id="publication_author_name_id#i#" value="#publication_author_name_id#">
-					<input type="hidden" name="author_position#i#" id="author_position#i#" value="#author_position#">
-					<input type="hidden" name="author_id_#i#" id="author_id_#i#" value="#agent_name_id#">
-					<tr id="authortr#i#">
-						<td>
-							<select name="author_role_#i#" id="author_role_#i#">
-								<option <cfif author_role is "author"> selected="selected" </cfif>value="author">author</option>
-								<option <cfif author_role is "editor"> selected="selected" </cfif>value="editor">editor</option>
-							</select>
-						</td>
-						<td>
-							<input type="text" name="author_name_#i#" id="author_name_#i#" class="reqdClr" size="50"
-								onchange="findAgentName('author_id_#i#',this.name,this.value)"
-			 					onkeypress="return noenter(event);"
-			 					value="#encodeForHtml(agent_name)#">
-						</td>
-						<td>
-							<span class="infoLink" onclick="deleteAgent(#i#)">Delete</span>
-						</td>
-					</tr>
-				</cfloop>
-				<input type="hidden" name="numberAuthors" id="numberAuthors" value="#i#">
-			</table>
-		</div>
+				<!--- TODO: Move authors to backing method  --->
+				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
+				<div id="authorBlock">#authorBlockContent#</div>
+
 
 		<!--- TODO: Move attributes to backing method --->
 		<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

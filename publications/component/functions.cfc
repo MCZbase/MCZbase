@@ -74,6 +74,7 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="addMedia" access="remote" returntype="any" returnformat="json">
 <!---------------------------------------------------------------------------------------------------------->
 		<cfif len(media_uri) gt 0>
 			<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -112,52 +113,92 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_desc#">)
 			</cfquery>
 		</cfif>
-<!---------------------------------------------------------------------------------------------------------->
-		<cfloop from="1" to="#numberAuthors#" index="n">
-			<cfset thisAgentNameId = #evaluate("author_id_" & n)#>
-			<cfif isdefined("author_role_#n#")>
-				<cfset thisAuthorRole = #evaluate("author_role_" & n)#>
-			<cfelse>
-				<cfset thisAuthorRole = "">
-			</cfif>
-			<cfif isdefined("publication_author_name_id#n#")>
-				<cfset thisRowId = #evaluate("publication_author_name_id" & n)#>
-			<cfelse>
-				<cfset thisRowId ="">
-			</cfif>
-			<cfif isdefined("author_position#n#")>
-				<cfset thisAuthPosn = #evaluate("author_position" & n)#>
-			<cfelse>
-				<cfset thisAuthPosn=n>
-			</cfif>
-			<cfif thisAgentNameId is -1 and thisRowId gt 0>
-				<!--- deleting --->
-				<cfquery name="delAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_author_name 
-					where
+</cfunction>
+
+
+<cffunction name="getAuthorsForPubHtml" access="remote" returntype="string">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfthread name="getAuthorsForPubThread">
+
+		<cftry>
+			<cfquery name="getAuthorsEditors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAuthorsEditors_result">
+				SELECT
+					publication_author_name.PUBLICATION_AUTHOR_NAME_ID PUBLICATION_AUTHOR_NAME_ID,
+					publication_author_name.AGENT_NAME_ID AGENT_NAME_ID,
+					publication_author_name.AUTHOR_POSITION AUTHOR_POSITION,
+					publication_author_name.AUTHOR_ROLE AUTHOR_ROLE,
+					agent_name.AGENT_ID AGENT_ID,
+					agent_name.AGENT_NAME_TYPE AGENT_NAME_TYPE,
+					agent_name.AGENT_NAME AGENT_NAME
+				FROM publication_author_name
+					join agent_name on publication_author_name.agent_name_id=agent_name.agent_name_id 
+				WHERE
 					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-					and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
-				</cfquery>
-				<cfquery name="incAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update publication_author_name 
-					set author_position=author_position-1 
-					where
-						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-						and author_position > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAuthPosn#">
-				</cfquery>
-			<cfelseif thisAgentNameId gt 0 and thisRowId gt 0>
-				<!--- updating --->
-				<cfquery name="upAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update
-						publication_author_name
-					set
-						agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
-						author_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
-					where
-						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-						and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
-				</cfquery>
-			<cfelseif thisAgentNameId gt 0 and len(thisRowId) is 0>
+				ORDER BY author_role, author_position
+			</cfquery>
+			<cfquery name="getAuthors" dbtype="query">
+				SELECT *
+				FROM getAuthorsEditors
+				WHERE 
+					author_role = 'author'
+			</cfquery>
+			<cfquery name="getEditors" dbtype="query">
+				SELECT *
+				FROM getAuthorsEditors
+				WHERE 
+					author_role = 'editor'
+			</cfquery>
+			<cfoutput>
+				<div class="col-12">
+					<h3 class="h4" >Authors</h3> 
+					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Author</button>
+					<!--- TODO: Add author/editor dialog --->
+					<ul>
+						<cfloop query="getAuthors">
+							<li>
+								<a href="agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
+								#author_position#
+								<!--- TODO: Edit --->
+								<!--- TODO: move --->
+								<!--- TODO: remove --->
+							</li>
+						<cfloop>
+					</ul>
+				</div>
+				<div class="col-12">
+					<h3 class="h4" >Editors</h3> 
+					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Editor</button>
+					<!--- TODO: Add author/editor dialog --->
+					<ul>
+						<cfloop query="getEditors">
+							<li>
+								<a href="agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
+								#author_position#
+								<!--- TODO: Edit --->
+								<!--- TODO: move --->
+								<!--- TODO: remove --->
+							</li>
+						<cfloop>
+					</ul>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAuthorsForPubThread" />
+	<cfreturn getAuthorsForPubThread.output>
+</cffunction>
+</cfunction>
+
+<cffunction name="addAuthor" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
 				<!--- inserting --->
 				<cfquery name="insAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					insert into publication_author_name (
@@ -172,8 +213,40 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
 					)
 				</cfquery>
-			</cfif>
-		</cfloop>
+</cfunction>
+<cffunction name="removeAuthor" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+				<!--- deleting --->
+				<cfquery name="delAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					delete from publication_author_name 
+					where
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
+				</cfquery>
+				<cfquery name="incAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update publication_author_name 
+					set author_position=author_position-1 
+					where
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						and author_position > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAuthPosn#">
+				</cfquery>
+</cfunction>
+<cffunction name="updateAuthor" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+				<!--- updating --->
+				<cfquery name="upAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					update
+						publication_author_name
+					set
+						agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
+						author_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
+					where
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
+				</cfquery>
+</cfunction>
+
+
 <!---------------------------------------------------------------------------------------------------------->
 		<cfloop from="1" to="#numberAttributes#" index="n">
 			<cfif isdefined("attribute_type#n#")>
