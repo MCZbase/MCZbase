@@ -240,9 +240,9 @@ limitations under the License.
 												</div>
 												<div id="#id_for_dialog#"></div>
 												<div class="col-9 px-0 pt-4 float-left">
-													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
-													</button>
-													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
+											<!---		<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
+													</button>--->
+													<button class="btn btn-xs btn-primary float-left mt-2" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
 													</button>
 												</div>
 											</div>
