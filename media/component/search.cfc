@@ -1703,11 +1703,19 @@ imgStyleClass=value
 													class="savBtn btn-xs btn-primary">
 											</td>
 										</tr>
-										<tr><input class="btn btn-xs btn-primary float-left" type="button" value="Save New Label"></tr>
+										
 								</form>
 							</div>
 							<cfset i=i+1>
 						</cfloop>
+						<table>
+							<tr>
+								<td>
+									<input class="btn btn-xs btn-primary float-left" type="button" value="Save New Label">
+								</td>
+							</tr>
+						</table>
+						
 					<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
 					</div><!---end id labels--->
 				
