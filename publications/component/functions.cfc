@@ -162,7 +162,7 @@ limitations under the License.
 								<!--- TODO: move --->
 								<!--- TODO: remove --->
 							</li>
-						<cfloop>
+						</cfloop>
 					</ul>
 				</div>
 				<div class="col-12">
