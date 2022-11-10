@@ -1664,7 +1664,7 @@ imgStyleClass=value
 							<div class="form-row col-12 px-0 mx-0 mb-0" id="labelDiv__#i#" >		
 								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-									<cfif getLabels.recordcount EQ 0>
+									<!---<!---<cfif getLabels.recordcount EQ 0>
 										<tr>
 											<td>None</td>
 											<td></td>
@@ -1676,12 +1676,12 @@ imgStyleClass=value
 													#media_label# 
 												</td>
 												<td>
-													<a class="btn btn-xs btn-warning" href="/search.cfc?action=remmedialabel&media_label=#media_label#&label_value=#label_value#&media_id=#getlabels.media_label_id#">Delete</a>
+													<a class="btn btn-xs btn-warning" href="/Media.cfm?action=remmedialabel&media_label=#media_label#&label_value=#label_value#&media_id=#getlabels.media_label_id#">Delete</a>
 												</td>
 											</tr>
 										</cfloop>
-									</cfif>
-									<form name="ar" method="post" action="/search.cfc">
+									</cfif>--->
+									<form name="ar" method="post" action="/Media.cfm">
 										<tr class="newRec">
 											<td>
 												<input type="hidden" name="action" value="addLabel" />
@@ -1700,7 +1700,7 @@ imgStyleClass=value
 											<td>
 												<input type="submit" 
 													value="Save Label" 
-													class="savBtn"
+													class="savBtn small90"
 													onmouseover="this.className='savBtn btnhov'"
 													onmouseout="this.className='savBtn'">
 											</td>
