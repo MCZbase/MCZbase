@@ -1681,29 +1681,26 @@ imgStyleClass=value
 											</tr>
 										</cfloop>
 									</cfif>--->
-									<form name="labelForm" method="post" action="/Media.cfm">
-										<tr class="newRec col-12 px-0">
-											<td class="col-3 px-0">
-												<input type="hidden" name="action" value="addLabel" />
-												<input type="hidden" name="username" value="#getLabels.media_label_id#" />
-												<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select float-left">
-													<cfloop query="ctmedia_label">
-														<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-													</cfloop>
-												</select>
-											</td>
-											<td class="col-5 px-0">
-												<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled float-left px-1">
-											</td>
-											<td class="col-4">
+								<form name="labelForm" method="post" action="/Media.cfm">
+									<tr class="newRec col-12 px-0">
+										<td class="col-3 px-0">
+											<input type="hidden" name="action" value="addLabel" />
+											<input type="hidden" name="username" value="#getLabels.media_label_id#" />
+											<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select float-left">
+												<cfloop query="ctmedia_label">
+													<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td class="col-5 px-0">
+											<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled float-left px-1">
+										</td>
+										<td class="col-12 col-md-4">
 											<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit"></input>
-												<input type="submit" 
-													value="Save Label" 
-													class="savBtn btn-xs btn-primary">
-											</td>
-										</tr>
-										
+											<input type="submit" value="Save Label" class="savBtn btn-xs btn-primary">
+										</td>
+									</tr>
 								</form>
 							</div>
 							<cfset i=i+1>
