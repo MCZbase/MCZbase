@@ -113,7 +113,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_desc#">)
 			</cfquery>
 		</cfif>
-</cfunction>
+</cffunction>
 
 
 <cffunction name="getAuthorsForPubHtml" access="remote" returntype="string">
@@ -195,7 +195,6 @@ limitations under the License.
 	<cfthread action="join" name="getAuthorsForPubThread" />
 	<cfreturn getAuthorsForPubThread.output>
 </cffunction>
-</cfunction>
 
 <cffunction name="addAuthor" access="remote" returntype="any" returnformat="json">
 	<cfargument name="publication_id" type="string" required="yes">
@@ -213,7 +212,7 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
 					)
 				</cfquery>
-</cfunction>
+</cffunction>
 <cffunction name="removeAuthor" access="remote" returntype="any" returnformat="json">
 	<cfargument name="publication_id" type="string" required="yes">
 				<!--- deleting --->
@@ -230,7 +229,7 @@ limitations under the License.
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 						and author_position > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAuthPosn#">
 				</cfquery>
-</cfunction>
+</cffunction>
 <cffunction name="updateAuthor" access="remote" returntype="any" returnformat="json">
 	<cfargument name="publication_id" type="string" required="yes">
 				<!--- updating --->
@@ -244,7 +243,7 @@ limitations under the License.
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 						and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
 				</cfquery>
-</cfunction>
+</cffunction>
 
 
 <!---------------------------------------------------------------------------------------------------------->
