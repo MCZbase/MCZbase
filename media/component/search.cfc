@@ -1694,15 +1694,10 @@ imgStyleClass=value
 												<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-12 col-md-6 col-xl-7 float-left px-1">
 											</td>
 											<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
-											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
-										</tr>
-										<tr>	
-											<td>
+											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit"></input>
 												<input type="submit" 
 													value="Save Label" 
-													class="savBtn small90"
-													onmouseover="this.className='savBtn btnhov'"
-													onmouseout="this.className='savBtn'">
+													class="savBtn btn-xs btn-primary">
 											</td>
 										</tr>
 								</form>
