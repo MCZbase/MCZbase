@@ -1695,7 +1695,7 @@ imgStyleClass=value
 											<td class="col-4 px-0">
 												<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled float-left px-1">
 											</td>
-											<td class="col-4 px-0">
+											<td class="col-4">
 											<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit"></input>
 												<input type="submit" 
@@ -1703,15 +1703,14 @@ imgStyleClass=value
 													class="savBtn btn-xs btn-primary">
 											</td>
 										</tr>
+										<tr><input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes"></tr>
 								</form>
 							</div>
 							<cfset i=i+1>
 						</cfloop>
 					<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
 					</div><!---end id labels--->
-					<div class="col-12 px-0 mt-2 float-left">
-						<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
-					</div>
+				
 					<script>
 						(function () {
 							var previous;
