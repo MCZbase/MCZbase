@@ -5171,6 +5171,10 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["agent_name"] = "#search.agent_name#">
 			<cfset row["agent_id"] = "#search.agent_id#">
+			<!--- Note: JSStringFormat is needed to escape \n characters in the formatted_addr before calling serializeJSON,
+ 				but this ends up with " characters being double escaped and breaking javascript downstream, so 
+				working around this by replacing " with ' in the json.  This is not a general solution but a workaround
+				for this particular setting.  See BugID: 5464. --->
 			<cfset row["formatted_addr"] = "#JSStringFormat(replace(search.formatted_addr,'"',"'","all"))#">
 			<cfset row["addr_id"] = "#search.addr_id#">
 			<cfset row["valid_addr_fg"] = "#search.valid_addr_fg#">
