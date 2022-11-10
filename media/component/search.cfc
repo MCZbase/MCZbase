@@ -1676,7 +1676,7 @@ imgStyleClass=value
 													#media_label# 
 												</td>
 												<td>
-													<a class="btn btn-xs btn-warning" href="/search.cfc?action=remmedialabel&media_label=#media_label#&label_value=#label_value#&media_id=#getlabels.media_id#">Delete</a>
+													<a class="btn btn-xs btn-warning" href="/search.cfc?action=remmedialabel&media_label=#media_label#&label_value=#label_value#&media_id=#getlabels.media_label_id#">Delete</a>
 												</td>
 											</tr>
 										</cfloop>
@@ -1685,7 +1685,7 @@ imgStyleClass=value
 										<tr class="newRec">
 											<td>
 												<input type="hidden" name="action" value="addLabel" />
-												<input type="hidden" name="username" value="#getLabels.media_id#" />
+												<input type="hidden" name="username" value="#getLabels.media_label_id#" />
 												<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-12 col-md-3 float-left">
 													<cfloop query="ctmedia_label">
 														<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
