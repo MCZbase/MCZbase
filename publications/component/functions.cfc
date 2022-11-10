@@ -178,7 +178,7 @@ limitations under the License.
 								<!--- TODO: move --->
 								<!--- TODO: remove --->
 							</li>
-						<cfloop>
+						</cfloop>
 					</ul>
 				</div>
 			</cfoutput>
