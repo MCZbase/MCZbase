@@ -492,7 +492,7 @@
     <cfif len(book_title.pub_att_value) gt 0>
        <cfset enclosingTitle = book_title.pub_att_value>
     </cfif>
-    <cfif len(enclosingTitle) gt 0>
+    <cfif isDefined("enclosingTitle") AND len(enclosingTitle) gt 0>
       <cfset r=r & ' <i>In</i> '>
       <cfif e.recordcount gt 1>
         <cfset editor = '. (eds.)' >
