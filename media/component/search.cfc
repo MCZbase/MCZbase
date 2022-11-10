@@ -1661,7 +1661,7 @@ imgStyleClass=value
 						</cfif>
 						<cfloop query="labels">
 							<cfset d=media_label>
-							<div class="form-row col-12 px-0 mx-0 mb-2" id="labelDiv__#i#" >		
+							<div class="form-row col-12 px-0 mx-0 mb-0" id="labelDiv__#i#" >		
 								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 								<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-12 col-md-3 float-left">
@@ -1675,7 +1675,7 @@ imgStyleClass=value
 							</div>
 							<cfset i=i+1>
 						</cfloop>
-						<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+					<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
 					</div><!---end id labels--->
 					<div class="col-12 px-0 float-left">
 						<input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes">
