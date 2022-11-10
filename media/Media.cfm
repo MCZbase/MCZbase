@@ -86,7 +86,7 @@ limitations under the License.
 	<cfset param = "<div class='text-success'>Some text #media_id#</div>">
 	<cfset id_for_counter = "counterElement">
 	<cfset id_for_dialog = "textDialogDiv">
-		<cfoutput>
+<!---		<cfoutput>
 			<section id="content" class="container-fluid">
 			<div class="row">
 				<div class="col-12">
@@ -98,16 +98,16 @@ limitations under the License.
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12">--->
 					<!---  invoke the loadHello function to just do a ajax replace of the counterBlock --->
-					<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#','#id_for_dialog#');">Reload counterBlock</button>
-
+					<!---<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#','#id_for_dialog#');">Reload counterBlock</button>
+--->
 					<!--- invoke the increment counter function with the doReload function as a callback --->
-					<button class="btn btn-primary btn-xs" onClick="incrementCounters(doReload);">Increment Counter and Reload</button>
+<!---					<button class="btn btn-primary btn-xs" onClick="incrementCounters(doReload);">Increment Counter and Reload</button>--->
 
 					<!--- invoke the increment counter function to replace the html of an element with the id of the counter element (also provided as a parameter to getCounterHtml()) --->
-					<button class="btn btn-primary btn-xs" onClick="incrementCountersUpdate('#id_for_counter#');">Increment Counter</button> 
-				</div>
+					<!---<button class="btn btn-primary btn-xs" onClick="incrementCountersUpdate('#id_for_counter#');">Increment Counter</button> --->
+<!---				</div>
 			</div>
 			<script>
 				function doReload() { 
@@ -116,7 +116,7 @@ limitations under the License.
 				}
 			</script> 
 		</section>
-		</cfoutput>
+		</cfoutput>--->
 	
 
 		<cfoutput>
@@ -229,7 +229,13 @@ limitations under the License.
 								<div class="form-row my-1">
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
 										<h2>
-											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
+											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | 
+												<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",id_for_counter="#id_for_counter#",id_for_dialog="#id_for_dialog#")>
+											<span id="counterBlock">
+												#counterBlockContent#
+											</span>
+											<div id="#id_for_dialog#"></div>
+												<span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
 										</h2>
 										<div class="row">
 											<div class="col-12">
@@ -237,7 +243,8 @@ limitations under the License.
 												<div id="relationsBlock">
 													#relationsBlockContent#
 												</div>
-												<div class="col-9 px-0 float-left">
+												<div id="#id_for_dialog#"></div>
+												<div class="col-9 px-0 pt-2 float-left">
 													<button class="btn btn-xs btn-primary float-left" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>
 													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
