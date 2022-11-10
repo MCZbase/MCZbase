@@ -1683,7 +1683,7 @@ imgStyleClass=value
 									</cfif>--->
 									<form name="labelForm" method="post" action="/Media.cfm">
 										<tr class="newRec col-12 px-0">
-											<td class="col-4 px-0">
+											<td class="col-3 px-0">
 												<input type="hidden" name="action" value="addLabel" />
 												<input type="hidden" name="username" value="#getLabels.media_label_id#" />
 												<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select float-left">
@@ -1692,7 +1692,7 @@ imgStyleClass=value
 													</cfloop>
 												</select>
 											</td>
-											<td class="col-4 px-0">
+											<td class="col-5 px-0">
 												<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled float-left px-1">
 											</td>
 											<td class="col-4">
@@ -1703,7 +1703,7 @@ imgStyleClass=value
 													class="savBtn btn-xs btn-primary">
 											</td>
 										</tr>
-										<tr><input class="btn btn-xs btn-primary float-left" type="button" value="Save Label Changes"></tr>
+										<tr><input class="btn btn-xs btn-primary float-left" type="button" value="Save New Label"></tr>
 								</form>
 							</div>
 							<cfset i=i+1>
