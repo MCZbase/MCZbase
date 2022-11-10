@@ -229,7 +229,7 @@ limitations under the License.
 								<div class="form-row my-1">
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
 										<h2>
-											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold float-left" style="font-size: 1rem;">Media Relationships | <a class="btnLink" type="button" >Add Row</a> <a class="btnLink" type="button" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</a>
+											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label float-left"><span class="font-weight-bold h5">Media Relationships |</span> <a class="btn-link small90" type="button" >Add Row</a> &bull; <a class="btn-link small90" type="button" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</a>
 											</label>
 										</h2>
 										<div class="row">
