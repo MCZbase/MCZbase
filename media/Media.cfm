@@ -263,9 +263,9 @@ limitations under the License.
 										<div class="row">
 											<div class="col-12">
 												<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
-												<table id="labelBlock">
+												<div id="labelBlock">
 													#labelBlockContent#
-												</table>
+												</div>
 											</div>
 										</div>
 									</div><!---end col-6--->	
