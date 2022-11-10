@@ -1664,14 +1664,48 @@ imgStyleClass=value
 							<div class="form-row col-12 px-0 mx-0 mb-0" id="labelDiv__#i#" >		
 								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-								<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-12 col-md-3 float-left">
-									<cfloop query="ctmedia_label">
-										<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-									</cfloop>
-								</select>
-								<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-12 col-md-6 col-xl-7 float-left px-1">
-								<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
-								<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
+									<cfif getLabels.recordcount EQ 0>
+										<tr>
+											<td>None</td>
+											<td></td>
+										</tr>
+									<cfelse>
+										<cfloop query="getLabels">
+											<tr>
+												<td>
+													#media_label# 
+												</td>
+												<td>
+													<a class="btn btn-xs btn-warning" href="/search.cfc?action=remrole&role_name=#role_name#&username=#username#&user_id=#getUsers.user_id#">Delete</a>
+												</td>
+											</tr>
+										</cfloop>
+									</cfif>
+									<form name="ar" method="post" action="/AdminUsers.cfm">
+										<tr class="newRec">
+											<td>
+												<input type="hidden" name="action" value="addRole" />
+												<input type="hidden" name="username" value="#getUsers.username#" />
+												<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select col-12 col-md-3 float-left">
+													<cfloop query="ctmedia_label">
+														<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+													</cfloop>
+												</select>
+												<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled col-12 col-md-6 col-xl-7 float-left px-1">
+											</td>
+											<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
+											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit" style="width:60px;"></input>
+										</tr>
+										<tr>	
+											<td>
+												<input type="submit" 
+													value="Save Label" 
+													class="savBtn"
+													onmouseover="this.className='savBtn btnhov'"
+													onmouseout="this.className='savBtn'">
+											</td>
+										</tr>
+								</form>
 							</div>
 							<cfset i=i+1>
 						</cfloop>
