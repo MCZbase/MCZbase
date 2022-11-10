@@ -178,7 +178,7 @@ Function getPublications.  Search for publications by fields
 			WHERE
 				publication.publication_id is not null
 				<cfif isDefined("text") AND len(text) GT 0>
-					and formatted_publication like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#text#%">
+					and upper(formatted_publication) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(text)#%">
 				</cfif>
 				<cfif isDefined("published_year") AND len(published_year) GT 0>
 					<cfif isDefined("to_published_year") AND len(to_published_year) GT 0>
@@ -191,10 +191,10 @@ Function getPublications.  Search for publications by fields
 					</cfif>
 				</cfif>
 				<cfif isDefined("publication_title") AND len(publication_title) GT 0>
-					and publication_title like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_title#%">
+					and upper(publication_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(publication_title)#%">
 				</cfif>
 				<cfif isDefined("publication_remarks") AND len(publication_remarks) GT 0>
-					and publication_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publication_remarks#%">
+					and upper(publication_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(publication_remarks)#%">
 				</cfif>
 				<cfif isDefined("publication_type") AND len(publication_type) GT 0>
 					<cfif left(publication_type,1) EQ "!">
@@ -221,7 +221,7 @@ Function getPublications.  Search for publications by fields
 					<cfelseif journal_name EQ "NOT NULL">
 						and jour_att.pub_att_value IS NOT NULL
 					<cfelse>
-						and jour_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#journal_name#%">
+						and upper(jour_att.pub_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(journal_name)#%">
 					</cfif>
 				</cfif>
 				<cfif isDefined("publisher") AND len(publisher) GT 0>
@@ -343,14 +343,14 @@ Function getPublications.  Search for publications by fields
 					<cfif left(cited_taxon,1) EQ "=">
 						and taxonomy.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(cited_taxon,len(cited_taxon)-1)#">
 					<cfelse>
-						and taxonomy.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#cited_taxon#%">
+						and upper(taxonomy.scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(cited_taxon)#%">
 					</cfif>
 				</cfif>
 				<cfif isDefined("accepted_for_cited_taxon") AND len(accepted_for_cited_taxon) GT 0>
 					<cfif left(accepted_for_cited_taxon,1) EQ "=">
 						and accepted_flat.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accepted_for_cited_taxon,len(accepted_for_cited_taxon)-1)#">
 					<cfelse>
-						and accepted_flat.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accepted_for_cited_taxon#%">
+						and upper(accepted_flat.scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(accepted_for_cited_taxon)#%">
 					</cfif>
 				</cfif>
 				<cfif isDefined("author_agent_id") AND len(author_agent_id) GT 0>
@@ -375,7 +375,7 @@ Function getPublications.  Search for publications by fields
 						<cfif left(taxon_publication,1) EQ "=">
 							and pub_taxon.scientific_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(taxon_publication,len(taxon_publication)-1)#">
 						<cfelse>
-							and pub_taxon.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#taxon_publication#%">
+							and upper(pub_taxon.scientific_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(taxon_publication)#%">
 						</cfif>
 					</cfif>
 				</cfif>
