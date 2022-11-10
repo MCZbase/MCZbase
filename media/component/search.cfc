@@ -1664,7 +1664,7 @@ imgStyleClass=value
 							<div class="form-row col-12 px-0 mx-0 mb-0" id="labelDiv__#i#" >		
 								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-									<!---<!---<cfif getLabels.recordcount EQ 0>
+<!---									<cfif getLabels.recordcount EQ 0>
 										<tr>
 											<td>None</td>
 											<td></td>
