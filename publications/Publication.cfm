@@ -22,6 +22,12 @@ limitations under the License.
 <cfif NOT isdefined("action") or len(action) EQ 0>
 	<cfset action="edit">
 </cfif>
+<cfif action EQ "edit">
+	<cfif NOT isDefined("publication_id") OR len(publication_id) EQ 0>
+		<!--- redirect to publciations search page --->
+		<cflocation url="/Publications.cfm" addtoken="false">
+	</cfif>
+</cfif>
 <cfif action EQ "new">
 	<cfset pageTitle = "New Publication">
 <cfelse>
