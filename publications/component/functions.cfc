@@ -247,6 +247,7 @@ limitations under the License.
 
 
 <!---------------------------------------------------------------------------------------------------------->
+<!---
 		<cfloop from="1" to="#numberAttributes#" index="n">
 			<cfif isdefined("attribute_type#n#")>
 				<cfset thisAttribute = #evaluate("attribute_type" & n)#>
@@ -288,7 +289,9 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 		</cfloop>
+--->
 <!---------------------------------------------------------------------------------------------------------->
+<!---
 		<cfloop from="1" to="#numberLinks#" index="n">
 			<cfif isdefined("link#n#")>
 				<cfset thisLink = #evaluate("link" & n)#>
@@ -333,9 +336,10 @@ limitations under the License.
 			</cfif>
 		</cfloop>
 	</cftransaction>
-
+--->
 <!---------------------------------------------------------------------------------------------------------->
-	<!--- now get the formatted publications --->
+<!--- now get the formatted publications --->
+<!--- 
 	<cfinvoke component="/component/publication" method="shortCitation" returnVariable="shortCitation">
 		<cfinvokeargument name="publication_id" value="#publication_id#">
 		<cfinvokeargument name="returnFormat" value="plain">
@@ -360,6 +364,6 @@ limitations under the License.
 			and format_style = 'long'
 	</cfquery>
 	<cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
-
+--->
 
 </cfcomponent>
