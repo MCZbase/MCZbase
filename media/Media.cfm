@@ -229,13 +229,8 @@ limitations under the License.
 								<div class="form-row my-1">
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
 										<h2>
-											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | 
-												<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",id_for_counter="#id_for_counter#",id_for_dialog="#id_for_dialog#")>
-											<span id="counterBlock">
-												#counterBlockContent#
-											</span>
-											<div id="#id_for_dialog#"></div>
-												<span class="text-dark small90 font-weight-normal"  onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records. Click the buttons to rows and delete row(s).</span></label>
+											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold float-left" style="font-size: 1rem;">Media Relationships | <button class="btn btn-xs btn-primary float-left" type="button" >Add Row</button> <button class="btn btn-xs btn-primary float-left" type="button" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</button>
+											</label>
 										</h2>
 										<div class="row">
 											<div class="col-12">
