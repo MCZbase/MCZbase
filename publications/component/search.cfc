@@ -324,7 +324,7 @@ Function getPublications.  Search for publications by fields
 					<cfif cited_collection_object_id EQ "NULL">
 						and citation.collection_object_id IS NULL
 					<cfelseif cited_collection_object_id EQ "NOT NULL">
-						and citation.collection_object_id_att IS NOT NULL
+						and citation.collection_object_id IS NOT NULL
 					<cfelse>
 						and citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cited_collection_object_id#">
 					</cfif>
