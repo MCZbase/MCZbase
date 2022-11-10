@@ -1683,7 +1683,7 @@ imgStyleClass=value
 									</cfif>--->
 								<form name="labelForm" method="post" action="/Media.cfm">
 									<div class="newRec col-12 px-0">
-										<div class="col-3 px-0">
+										<div class="col-3 px-0 float-left">
 											<input type="hidden" name="action" value="addLabel" />
 											<input type="hidden" name="username" value="#getLabels.media_label_id#" />
 											<select name="label__#i#" id="label__#i#" size="1" class="inputDisabled data-entry-select float-left">
@@ -1692,10 +1692,10 @@ imgStyleClass=value
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-5 px-0">
+										<div class="col-5 px-0 float-left">
 											<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled float-left px-1">
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-4 float-left">
 											<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit"></input>
 											<input type="submit" value="Save" class="savBtn btn-xs btn-primary">
