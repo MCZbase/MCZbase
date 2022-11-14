@@ -142,73 +142,75 @@
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
-         
-<div class="container-fluid container-xl">
-	<div class="row mx-0">
-		<div class="col-12 mt-3 pb-5">
-			<h1 class="h2 px-1 pb-2">Edit Media Browse Bulkloader</h2>
-			<table class="table table-responsive">
-			<tr>
-				<td>
-					<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
-					<ul>
-						<li>
-							<strong>Edit in SQL</strong>
-							<br>Allows mass updates based on existing values. Will only load 500 records at one time.
-						</li>
-						<li>
-							<strong>Edit in AJAX grid</strong>
-							<br>Opens an AJAX table. Click headers to sort. Drag columns. Doubleclick cells to edit.
-							Saves automatically on change. Slow to load.
-						</li>
-					</ul>
-				</td>
-				<td>
-					<form name="f" method="post" action="browseBulk.cfm">
-					<table class="browsingBulk">
-						<tr>
-							<td align="center">
-								<input type="hidden" name="action" value="viewTable" />
-								<label for="enteredby">Entered By</label>
-								<select name="enteredby" multiple="multiple" size="12" id="enteredby">
-									<option value="#delimitedAdminForGroups#" selected="selected">All</option>
-									<cfloop list="#adminForUsers#" index='agent_name'>
-										<option value="'#agent_name#'">#agent_name#</option>
-									</cfloop>
-								</select>
-							</td>
-							<td align="center">
-								<label for="accn">Accession</label>
-								<select name="accn" multiple="multiple" size="12" id="accn">
-									<option value="" selected>All</option>
-									<cfloop query="ctAccn">
-										<option value="'#accn#'">#accn#</option>
-									</cfloop>
-								</select>
-							</td>
-							<td align="center">
-								<label for="colln">Collection</label>
-								<select name="colln" multiple="multiple" size="12" id="colln">
-									<option value="" selected>All</option>
-									<cfloop query="ctColln">
-										<option value="'#colln#'">#colln#</option>
-									</cfloop>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								
-					 			<input type="button" value="SQL" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
-								<input type="button" value="AJAX grid" class="lnkBtn" onclick="f.action.value='ajaxGrid';f.submit();">
-							</td>
-						</tr>
+		<div class="container-fluid container-xl">
+			<div class="row mx-0">
+				<div class="col-12 mt-3 pb-5">
+					<h1 class="h2 px-1 pb-2">Edit Media Browse Bulkloader</h2>
+					<table class="table table-responsive">
+					<tr>
+						<td>
+							<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
+							<ul>
+								<li>
+									<strong>Edit in SQL</strong>
+									<br>Allows mass updates based on existing values. Will only load 500 records at one time.
+								</li>
+								<li>
+									<strong>Edit in AJAX grid</strong>
+									<br>Opens an AJAX table. Click headers to sort. Drag columns. Doubleclick cells to edit.
+									Saves automatically on change. Slow to load.
+								</li>
+							</ul>
+						</td>
+						<td>
+							<form name="f" method="post" action="browseBulk.cfm">
+							<table class="browsingBulk">
+								<tr>
+									<td align="center">
+										<input type="hidden" name="action" value="viewTable" />
+										<label for="enteredby">Entered By</label>
+										<select name="enteredby" multiple="multiple" size="12" id="enteredby">
+											<option value="#delimitedAdminForGroups#" selected="selected">All</option>
+											<cfloop list="#adminForUsers#" index='agent_name'>
+												<option value="'#agent_name#'">#agent_name#</option>
+											</cfloop>
+										</select>
+									</td>
+									<td align="center">
+										<label for="accn">Accession</label>
+										<select name="accn" multiple="multiple" size="12" id="accn">
+											<option value="" selected>All</option>
+											<cfloop query="ctAccn">
+												<option value="'#accn#'">#accn#</option>
+											</cfloop>
+										</select>
+									</td>
+									<td align="center">
+										<label for="colln">Collection</label>
+										<select name="colln" multiple="multiple" size="12" id="colln">
+											<option value="" selected>All</option>
+											<cfloop query="ctColln">
+												<option value="'#colln#'">#colln#</option>
+											</cfloop>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+
+										<input type="button" value="SQL" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
+										<input type="button" value="AJAX grid" class="lnkBtn" onclick="f.action.value='ajaxGrid';f.submit();">
+									</td>
+								</tr>
+							</table>
+							</form>
+						</td>
+
+					</tr>
 					</table>
-					</form>
-				</td>
-		
-			</tr>
-		</table>
+				</div>
+			</div>
+		</div>
 	</cfoutput>
 </cfif>
 <!----------------------------------------------------------->
