@@ -367,11 +367,13 @@
 	<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12">
-					<div class="col-12 col-md-4 mt-3 pb-3 float-left">
+					<div class="col-12 mt-3 pb-3 float-left">
 						<p>Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive. You must provide all three values for the filter to apply.</p>
 						<p>Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such 
 							that records will never load. Don't.</p>
 						<p>Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
+					</div>
+					<div class="col-12 col-md-4 mt-3 pb-3 float-left">
 						<p>Click the table headers to sort. Operator values:</p>
 							<ul class="geol_hier">
 								<li>=: single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
