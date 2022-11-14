@@ -146,7 +146,7 @@ limitations under the License.
 
 	<cfif len(query) GT 0>
 		<cfset lookupURI="https://www.crossref.org/openurl?pid=#getEmail.email#&#query#&redirect=false&multihit=true">
-	</cfelse>
+	<cfelse>
 		<cfthrow message="nothing found to look up.">
 	</cfif>
 
