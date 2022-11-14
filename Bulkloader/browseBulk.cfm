@@ -532,26 +532,24 @@
 							</table>
 						</form>
 
-						<div class="blTabDiv">
-							<table border id="t" class="sortable table table-responsive px-0 mx-0">
+						<table border id="t" class="table table-responsive">
+							<tr>
+							<cfloop query="cNames">
+								<th>#column_name#</th>
+							</cfloop>
+							<cfloop query="data">
 								<tr>
+								<cfquery name="thisRec" dbtype="query">
+									select * from data where collection_object_id=#data.collection_object_id#
+								</cfquery>
 								<cfloop query="cNames">
-									<th>#column_name#</th>
-								</cfloop>
-								<cfloop query="data">
-									<tr>
-									<cfquery name="thisRec" dbtype="query">
-										select * from data where collection_object_id=#data.collection_object_id#
-									</cfquery>
-									<cfloop query="cNames">
-										<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-										<td>#thisData#</td>
-									</cfloop>
-									</tr>
+									<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+									<td>#thisData#</td>
 								</cfloop>
 								</tr>
-							</table>
-						</div>
+							</cfloop>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
