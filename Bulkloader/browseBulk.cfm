@@ -1,4 +1,4 @@
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <script src="/includes/sorttable.js"></script>
 <cfset title="Browse/Edit Bulkloaded Data">
 <style>
@@ -393,7 +393,7 @@
 			<input type="hidden" name="colln" value="#colln#">
 		</cfif>
 		<h2>Create Filter:</h2>
-		<table border>
+		<table class="table table-responsive border">
 			<tr>
 				<th>
 					Column
@@ -721,4 +721,4 @@ Mark some of the records in this bulkloader batch:
 
 </cfoutput>
 </cfif>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
