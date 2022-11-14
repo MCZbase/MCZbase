@@ -499,7 +499,7 @@
 								<input type="hidden" name="op3" value="#op3#">
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
-							<table border>
+							<table class="table table-responsive">
 								<tr>
 									<th>
 										Column
