@@ -204,7 +204,7 @@ limitations under the License.
 							<cfif len(pub.doi) gt 0>
 								<a class="external" target="_blank" href="https://doi.org/#pub.doi#">#pub.doi#</a>
 							<cfelse>
-								<a id="doiLookupButton" class="btn btn-xs btn-secondary" onclick="lookupDOI('#encodeForUrl(pub.publication_id)#')">find DOI</a>
+								<a id="doiLookupButton" class="btn btn-xs btn-secondary" onclick="lookupDOI('#encodeForUrl(pub.publication_id)#','doi','doiLinkDiv')">find DOI</a>
 							</cfif>
 						</div>
 						<div class="col-12 col-md-4">
@@ -234,7 +234,6 @@ limitations under the License.
 					</div>
 					<script>
 						function handleChange(){
-							console.log("changed form value saveResultDiv");
 							$('##saveResultDiv').html('Unsaved changes.');
 							$('##saveResultDiv').addClass('text-danger');
 							$('##saveResultDiv').removeClass('text-success');
@@ -271,11 +270,11 @@ limitations under the License.
 						};
 					</script>
 				</form>
-			</section>
-			<section name="authorsSection" class="row border rounded mx-0 my-2" title="Authors of this publication">
-				<!--- TODO: Move authors to backing method  --->
-				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
-				<div id="authorBlock">#authorBlockContent#</div>
+				<section name="authorsSection" class="row border rounded mx-0 my-2" title="Authors of this publication">
+					<!--- TODO: Move authors to backing method  --->
+					<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
+					<div id="authorBlock">#authorBlockContent#</div>
+				</section>
 			</section>
 
 
