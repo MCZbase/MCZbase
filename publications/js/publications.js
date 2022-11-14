@@ -29,6 +29,27 @@ function monitorForChanges(formId,changeFunction) {
 	$('#'+formId+' textarea').on("change",changeFunction);
 }
 
-function lookupDOI(publication_id) {
-
+function lookupDOI(publication_id, doiInput, doiLinkDiv) {
+	jQuery.ajax({
+		dataType: "json",
+		url: "/publications/component/functions.cfc",
+		data: { 
+			method : "crossRefLookup",
+			publication_id : publication_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error looking up DOI: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			console.log(result);
+			var match = result[0].match;
+			if (match=='1') {
+				var doi = result[0].doi;
+				$('#'+doiInput).val(doi);
+				$('#'+doiLinkDiv).html("<a class='external' target='_blank' href='https://doi.org/"+doi+"'>"+doi+"</a>");
+			}
+		}
+	});
 }
