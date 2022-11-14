@@ -114,9 +114,10 @@ limitations under the License.
 					<a class="btn btn-xs btn-primary" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
 					<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 				</p>
-				<form class="col-12" name="editPub" method="post" action="Publication.cfm">
+				<form class="col-12" name="editPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
+					<input type="hidden" name="method" value="savePublication">
 					<div class="form-row mb-2">
 						<div class="col-12">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
@@ -243,22 +244,60 @@ limitations under the License.
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-10">
-							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick="editPub.action.value='saveEdit';editPub.submit();">
+							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick="saveEdits();">
+							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 						</div>
-						<cfif useCount EQ 0>
-							<div class="col-12 col-md-2">
-								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPub.action.value='deletePub';confirmDelete('editPub');">
-							</div>
-						</cfif>
+						<div class="col-12 col-md-2">
+							<cfif useCount EQ 0>
+								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPubForm.action.value='deletePub';confirmDelete('editPubForm');">
+							<cfelse>
+								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs disabled" disabled>
+							</cfif>
+						</div>
 					</div>
+					<script>
+						$(document).ready(function() {
+							monitorForChanges('editPubForm',handleChange);
+						});
+						function saveEdits(){ 
+							editPubForm.action.value='saveEdit';
+							$('##saveResultDiv').html('Saving....');
+							$('##saveResultDiv').addClass('text-warning');
+							$('##saveResultDiv').removeClass('text-success');
+							$('##saveResultDiv').removeClass('text-danger');
+							jQuery.ajax({
+								url : "/publications/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data : $('##editLoanForm').serialize(),
+								success : function (data) {
+									$('##saveResultDiv').html('Saved.');
+									$('##saveResultDiv').addClass('text-success');
+									$('##saveResultDiv').removeClass('text-danger');
+									$('##saveResultDiv').removeClass('text-warning');
+									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+								},
+								error: function(jqXHR,textStatus,error){
+									$('##saveResultDiv').html('Error.');
+									$('##saveResultDiv').addClass('text-danger');
+									$('##saveResultDiv').removeClass('text-success');
+									$('##saveResultDiv').removeClass('text-warning');
+									handleFail(jqXHR,textStatus,error,'saving loan record');
+								}
+							});
+						};
+					</script>
 				</form>
-
+			</section>
+			<section name="authorsSection" class="row border rounded mx-0 my-2" title="Authors of this publication">
 				<!--- TODO: Move authors to backing method  --->
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
 				<div id="authorBlock">#authorBlockContent#</div>
+			</section>
 
 
-		<!--- TODO: Move attributes to backing method --->
+			<section name="attributesSection" class="row border rounded mx-0 my-2" title="Attributes of this publication">
+				<!--- TODO: Move attributes to backing method --->
 		<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				publication_attribute_id,
@@ -321,8 +360,10 @@ limitations under the License.
 		</div>
 		<input type="hidden" name="origNumberAttributes" id="origNumberAttributes" value="#i#">
 		<input type="hidden" name="numberAttributes" id="numberAttributes" value="#i#">
+			</section>
 
-		<!---- TODO: move media to backing method --->
+			<section name="mediaSection" class="row border rounded mx-0 my-2" title="Media of this publication">
+				<!---- TODO: move media to backing method --->
 		<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select media_type from ctmedia_type order by media_type
 		</cfquery>
@@ -412,17 +453,19 @@ limitations under the License.
 			<input type="hidden" name="origNumberLinks" id="origNumberLinks" value="#i#">
 			<input type="hidden" name="numberLinks" id="numberLinks" value="#i#">
 
-			<cfif useCount EQ 0>
-				<h2 class="h3>This publication record is not linked to any MCZbase records</h2>
-			<cfelse>
-				<h2 class="h3>This publication record is used in:</h2>
-				<ul>
-					<cfloop query="uses">
-						<li>#uses.ct# citations of a #uses.type#</li>
-					</cfloop>
-				</ul>
-			</cfif>
+			</section>
 
+			<section name="useSection" class="row border rounded mx-0 my-2" title="Citations and other uses of this publication">
+				<cfif useCount EQ 0>
+					<h2 class="h3>This publication record is not linked to any MCZbase records</h2>
+				<cfelse>
+					<h2 class="h3>This publication record is used in:</h2>
+					<ul>
+						<cfloop query="uses">
+							<li>#uses.ct# citations of a #uses.type#</li>
+						</cfloop>
+					</ul>
+				</cfif>
 			</section>
 		</main>
 	</cfoutput>
