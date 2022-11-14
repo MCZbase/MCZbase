@@ -383,7 +383,7 @@
 							NOTE: This form will load at most 500 records. Your browser will thank me.
 						</p>
 					</div>
-					<div class="col-12 col-md-6 mt-3 pb-3 float-left">
+					<div class="col-12 col-md-8 mt-3 pb-3 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="sqlTab">
 							<input type="hidden" name="enteredby" value="#enteredby#">
@@ -500,7 +500,7 @@
 								<input type="hidden" name="op3" value="#op3#">
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
-							<table border>
+							<table class="table table-responsive border rounded">
 								<tr>
 									<th>
 										Column
