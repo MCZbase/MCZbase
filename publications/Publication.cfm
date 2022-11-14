@@ -195,42 +195,14 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-<script>
-   // TODO: Move back into ajax.js and rebuild ajax.min.js
-   function findDOI(publication_title){
-        // super-simple + specialized call to get a DOI from title @ edit publication
-        var guts = "/picks/findDOI.cfm?publication_title=" + publication_title;
-        $("<iframe src='" + guts + "' id='dialog' class='popupDialog' style='width:600px;height:600px;'></iframe>").dialog({
-                autoOpen: true,
-                closeOnEscape: true,
-                height: 'auto',
-                modal: true,
-                position: ['center', 'center'],
-                title: 'Find DOI',
-                        width:800,
-                        height:600,
-                close: function() {
-                        $( this ).remove();
-                }
-        }).width(800-10).height(600-10);
-        $(window).resize(function() {
-                $(".ui-dialog-content").dialog("option", "position", ['center', 'center']);
-        });
-        $(".ui-widget-overlay").click(function(){
-            $(".ui-dialog-titlebar-close").trigger('click');
-        });
-}
-</script>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-4">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
 							<cfif len(pub.doi) gt 0>
 								<a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
-							<!---
 							<cfelse>
-								<a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.formatted_publication)#')">add DOI</a>
-							--->
+								<a id="addadoiplease" class="red likeLink" onclick="lookupDOI('#encodeForUrl(pub.publication_id)#')">find DOI</a>
 							</cfif>
 						</div>
 						<div class="col-12 col-md-4">
