@@ -88,7 +88,7 @@ limitations under the License.
 	<!--- obtain data on publication to put into url for crossref --->
 	<cfquery name="getPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
-			title,
+			publication_title,
 			published_year as year,
 			get_publication_attribute(publication_id,'begin page') as spage,
 			get_publication_attribute(publication_id,'journal name') as jtitle,
@@ -123,7 +123,9 @@ limitations under the License.
 		<cfif len(getPub.jtitle) GT 0>
 			<cfset query="&title=#getPub.jtitle#">
 		<cfelse>
-			<cfset query="&stitle=#getPub.title#">
+			<cfif len(getPub.publication_title) GT 0>
+				<cfset query="&stitle=#getPub.publication_title#">
+			</cfif>
 		</cfif>
 		<cfif len(getPub.spage) GT 0 >
 			<cfset query="#query#&spage=#getPub.spage#">
