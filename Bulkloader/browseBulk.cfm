@@ -364,10 +364,10 @@
                   )
             order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 	</cfquery>
-	<div class="container-fluid container-xl">
+	<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12">
-					<div class="col-12 mt-3 pb-3 float-left">
+					<div class="col-12 col-md-4 mt-3 pb-3 float-left">
 						<p>Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive. You must provide all three values for the filter to apply.</p>
 						<p>Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such 
 							that records will never load. Don't.</p>
@@ -383,7 +383,7 @@
 							NOTE: This form will load at most 500 records. Your browser will thank me.
 						</p>
 					</div>
-					<div class="col-12 mt-3 pb-3 float-left">
+					<div class="col-12 col-md-8 mt-3 pb-3 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="sqlTab">
 							<input type="hidden" name="enteredby" value="#enteredby#">
