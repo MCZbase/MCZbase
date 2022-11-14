@@ -98,8 +98,10 @@ https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20P
 	<cfset xmlReturn = cfhttp.filecontent>
 	<!--- return results --->
 	<cfset return = xmlParse(xmlReturn)>
-	<cfset query_result = XmlSearch(return,"/crossref_result/query_result/")>
+	<cfdump var="#return#">
+	<cfset query_result = XmlSearch(return,"/crossref_result/query_result")>
 	<cfdump var="#query_result#">
+   #len(query_result)#
 
 	<cfreturn ''>
 </cffunction>
