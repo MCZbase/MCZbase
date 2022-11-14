@@ -50,4 +50,5 @@ function lookupDOI(publication_id, doiInput, doiLinkDiv) {
 				$('#'+doiLinkDiv).html("<a class='external' target='_blank' href='https://doi.org/"+doi+"'>"+doi+"</a>");
 			}
 		}
+	});
 }

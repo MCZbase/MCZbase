@@ -270,15 +270,15 @@ limitations under the License.
 						};
 					</script>
 				</form>
-				<section name="authorsSection" class="row border rounded mx-0 my-2" title="Authors of this publication">
-					<!--- TODO: Move authors to backing method  --->
-					<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
-					<div id="authorBlock">#authorBlockContent#</div>
-				</section>
 			</section>
 
+			<section name="authorsSection" class="row border rounded my-2" title="Authors of this publication">
+				<!--- TODO: Move authors to backing method  --->
+				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
+				<div id="authorBlock">#authorBlockContent#</div>
+			</section>
 
-			<section name="attributesSection" class="row border rounded mx-0 my-2" title="Attributes of this publication">
+			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
 				<!--- TODO: Move attributes to backing method --->
 		<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
