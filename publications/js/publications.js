@@ -43,9 +43,10 @@ function lookupDOI(publication_id, doiInput, doiLinkDiv) {
 			messageDialog("Error looking up DOI: " + status + " " + jqXHR.responseText ,'Error: '+ status);
 		},
 		success: function (result) {
-			var match = result.match;
+			console.log(result);
+			var match = result[0].match;
 			if (match=='1') {
-				var doi = result.doi;
+				var doi = result[0].doi;
 				$('#'+doiInput).val(doi);
 				$('#'+doiLinkDiv).html("<a class='external' target='_blank' href='https://doi.org/"+doi+"'>"+doi+"</a>");
 			}
