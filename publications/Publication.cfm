@@ -114,7 +114,7 @@ limitations under the License.
 					<a class="btn btn-xs btn-primary" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
 					<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 				</p>
-				<form class="col-12" name="editPubForm" method="post" action="Publication.cfm">
+				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
@@ -199,20 +199,26 @@ limitations under the License.
 						<div class="col-12 col-md-4">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-4" id="doiLinkDiv">
+							<label class="data-entry-label"><a href="https://www.crossref.org/guestquery/" target="_blank">Search CrossRef</a></label>
 							<cfif len(pub.doi) gt 0>
-								<a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
+								<a class="external" target="_blank" href="https://doi.org/#pub.doi#">#pub.doi#</a>
 							<cfelse>
-								<a id="addadoiplease" class="red likeLink" onclick="lookupDOI('#encodeForUrl(pub.publication_id)#')">find DOI</a>
+								<a id="doiLookupButton" class="btn btn-xs btn-secondary" onclick="lookupDOI('#encodeForUrl(pub.publication_id)#','doi','doiLinkDiv')">find DOI</a>
 							</cfif>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="publication_loc" class="data-entry-label">Storage Location</label>
 							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input" value="#encodeForHtml(pub.publication_loc)#">
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-12">
 							<label for="publication_remarks" class="data-entry-label">Remark</label>
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input" value="#encodeForHtml(pub.publication_remarks)#">
 						</div>
+					</div>
+					<div class="form-row mb-2" id="attributesForPublicationDiv">
+						<!--- TODO: Expected attributes for publication type --->
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-10">
@@ -228,6 +234,12 @@ limitations under the License.
 						</div>
 					</div>
 					<script>
+						function handleChange(){
+							$('##saveResultDiv').html('Unsaved changes.');
+							$('##saveResultDiv').addClass('text-danger');
+							$('##saveResultDiv').removeClass('text-success');
+							$('##saveResultDiv').removeClass('text-warning');
+						};
 						$(document).ready(function() {
 							monitorForChanges('editPubForm',handleChange);
 						});
@@ -241,7 +253,7 @@ limitations under the License.
 								url : "/publications/component/functions.cfc",
 								type : "post",
 								dataType : "json",
-								data : $('##editLoanForm').serialize(),
+								data : $('##editPubForm').serialize(),
 								success : function (data) {
 									$('##saveResultDiv').html('Saved.');
 									$('##saveResultDiv').addClass('text-success');
@@ -260,14 +272,14 @@ limitations under the License.
 					</script>
 				</form>
 			</section>
-			<section name="authorsSection" class="row border rounded mx-0 my-2" title="Authors of this publication">
+
+			<section name="authorsSection" class="row border rounded my-2" title="Authors of this publication">
 				<!--- TODO: Move authors to backing method  --->
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
 				<div id="authorBlock">#authorBlockContent#</div>
 			</section>
 
-
-			<section name="attributesSection" class="row border rounded mx-0 my-2" title="Attributes of this publication">
+			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
 				<!--- TODO: Move attributes to backing method --->
 		<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -428,9 +440,9 @@ limitations under the License.
 
 			<section name="useSection" class="row border rounded mx-0 my-2" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
-					<h2 class="h3>This publication record is not linked to any MCZbase records</h2>
+					<h2 class="h3">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
-					<h2 class="h3>This publication record is used in:</h2>
+					<h2 class="h3">This publication record is used in:</h2>
 					<ul>
 						<cfloop query="uses">
 							<li>#uses.ct# citations of a #uses.type#</li>
