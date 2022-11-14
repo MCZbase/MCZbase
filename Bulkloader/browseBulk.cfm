@@ -533,7 +533,7 @@
 						</form>
 
 						<div class="blTabDiv">
-							<table border id="t" class="table table-responsive">
+							<table border id="t" class="sortable table table-responsive px-0 mx-0">
 								<tr>
 								<cfloop query="cNames">
 									<th>#column_name#</th>
