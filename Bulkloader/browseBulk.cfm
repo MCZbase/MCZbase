@@ -367,10 +367,10 @@
 	<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12">
-					<div class="col-12 mt-3 pb-3 float-left">
-						<p>Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive. You must provide all three values for the filter to apply. Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such that records will never load. Don't. Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
+					<div class="col-12 mt-3 pb-2 float-left">
+						<p>Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such that records will never load. Don't. Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
 					</div>
-					<div class="col-12 col-md-4 mt-3 pb-3 float-left">
+					<div class="col-12 col-md-4 mt-2 pb-2 float-left">
 						<p>Click the table headers to sort. Operator values:</p>
 							<ul class="geol_hier">
 								<li>=: single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
@@ -382,7 +382,7 @@
 							NOTE: This form will load at most 500 records. Your browser will thank me.
 						</p>
 					</div>
-					<div class="col-12 col-md-8 mt-3 pb-3 float-left">
+					<div class="col-12 col-md-6 mt-3 pb-3 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="sqlTab">
 							<input type="hidden" name="enteredby" value="#enteredby#">
@@ -393,11 +393,9 @@
 								<input type="hidden" name="colln" value="#colln#">
 							</cfif>
 							<h2>Create Filter:</h2>
-							<table class="table table-responsive border">
+							<table class="table table-responsive">
 								<tr>
-									<th>
-										Column
-									</th>
+									<th>Column</th>
 									<th>Operator</th>
 									<th>Value</th>
 								</tr>
@@ -533,27 +531,24 @@
 								</tr>
 							</table>
 						</form>
-
-						<div class="blTabDiv">
-							<table border id="t" class="sortable table">
+						<table id="t" class="sortable table table-responsive">
+							<tr>
+							<cfloop query="cNames">
+								<th>#column_name#</th>
+							</cfloop>
+							<cfloop query="data">
 								<tr>
+								<cfquery name="thisRec" dbtype="query">
+									select * from data where collection_object_id=#data.collection_object_id#
+								</cfquery>
 								<cfloop query="cNames">
-									<th>#column_name#</th>
-								</cfloop>
-								<cfloop query="data">
-									<tr>
-									<cfquery name="thisRec" dbtype="query">
-										select * from data where collection_object_id=#data.collection_object_id#
-									</cfquery>
-									<cfloop query="cNames">
-										<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-										<td>#thisData#</td>
-									</cfloop>
-									</tr>
+									<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+									<td>#thisData#</td>
 								</cfloop>
 								</tr>
-							</table>
-						</div>
+							</cfloop>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
