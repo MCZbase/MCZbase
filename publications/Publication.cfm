@@ -201,7 +201,7 @@ limitations under the License.
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-4" id="doiLinkDiv">
-							<label class="data-entry-label"></label>
+							<label class="data-entry-label"><a href="https://www.crossref.org/guestquery/" target="_blank">Search CrossRef</a></label>
 							<cfif len(pub.doi) gt 0>
 								<a class="external" target="_blank" href="https://doi.org/#pub.doi#">#pub.doi#</a>
 							<cfelse>
