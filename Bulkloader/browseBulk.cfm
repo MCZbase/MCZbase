@@ -364,192 +364,199 @@
                   )
             order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 	</cfquery>
-	<div style="width:48em; margin:0 auto; padding: 1em 0;">
-		<p>Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive. You must provide all three values for the filter to apply.</p>
-		<p>Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such 
-            that records will never load. Don't.</p>
-        <p>Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
-        <p>Click the table headers to sort. Operator values:</p>
-		<ul class="geol_hier">
-			<li>=: single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
-			<li>like: partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
-			<li>in: comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
-			<li>between: range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>	
-		</ul>
-		<p>
-			NOTE: This form will load at most 500 records. Your browser will thank me.
-		</p>
-        </div>
+	<div class="container-fluid container-xl">
+			<div class="row mx-0">
+				<div class="col-12">
+					<div class="col-12 mt-3 pb-3 float-left">
+						<p>Use the top form to filter the table to the records you are interested in. All values are ANDed together. Everything is case-sensitive. You must provide all three values for the filter to apply.</p>
+						<p>Then use the bottom form to update them. Values are case sensitive. There is no control here - you can easily update such 
+							that records will never load. Don't.</p>
+						<p>Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
+						<p>Click the table headers to sort. Operator values:</p>
+							<ul class="geol_hier">
+								<li>=: single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
+								<li>like: partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
+								<li>in: comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
+								<li>between: range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
+							</ul>
+						<p>
+							NOTE: This form will load at most 500 records. Your browser will thank me.
+						</p>
+					</div>
+					<div class="col-12 mt-3 pb-3 float-left">
+						<form name="filter" method="post" action="browseBulk.cfm">
+							<input type="hidden" name="action" value="sqlTab">
+							<input type="hidden" name="enteredby" value="#enteredby#">
+							<cfif isdefined("accn") and len(accn) gt 0>
+								<input type="hidden" name="accn" value="#accn#">
+							</cfif>
+							<cfif isdefined("colln") and len(colln) gt 0>
+								<input type="hidden" name="colln" value="#colln#">
+							</cfif>
+							<h2>Create Filter:</h2>
+							<table class="table table-responsive border">
+								<tr>
+									<th>
+										Column
+									</th>
+									<th>Operator</th>
+									<th>Value</th>
+								</tr>
+								<tr>
+									<td>
+										<select name="c1" size="1">
+											<option value=""></option>
+											<cfloop query="cNames">
+												<option 
+													<cfif isdefined("c1") and c1 is column_name> selected="selected" </cfif>value="#column_name#">#column_name#</option>
+											</cfloop>
+										</select>
+									</td>
+									<td>
+										<select name="op1" size="1">
+											<option <cfif isdefined("op1") and op1 is "="> selected="selected" </cfif>value="=">=</option>
+											<option <cfif isdefined("op1") and op1 is "like"> selected="selected" </cfif>value="like">like</option>
+											<option <cfif isdefined("op1") and op1 is "in"> selected="selected" </cfif>value="in">in</option>
+											<option <cfif isdefined("op1") and op1 is "between"> selected="selected" </cfif>value="between">between</option>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="v1" <cfif isdefined("v1")> value="#v1#"</cfif> size="50">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<select name="c2" size="1">
+											<option value=""></option>
+											<cfloop query="cNames">
+												<option 
+													<cfif isdefined("c2") and #c2# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
+											</cfloop>
+										</select>
+									</td>
+									<td>
+										<select name="op2" size="1">
+											<option <cfif isdefined("op2") and op2 is "="> selected="selected" </cfif>value="=">=</option>
+											<option <cfif isdefined("op2") and op2 is "like"> selected="selected" </cfif>value="like">like</option>
+											<option <cfif isdefined("op2") and op2 is "in"> selected="selected" </cfif>value="in">in</option>
+											<option <cfif isdefined("op2") and op2 is "between"> selected="selected" </cfif>value="between">between</option>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="v2" <cfif isdefined("v2")> value="#v2#"</cfif> size="50">
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<select name="c3" size="1">
+											<option value=""></option>
+											<cfloop query="cNames">
+												<option 
+													<cfif isdefined("c3") and #c3# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
+											</cfloop>
+										</select>
+									</td>
+									<td>
+										<select name="op3" size="1">
+											<option <cfif isdefined("op3") and op3 is "="> selected="selected" </cfif>value="=">=</option>
+											<option <cfif isdefined("op3") and op3 is "like"> selected="selected" </cfif>value="like">like</option>
+											<option <cfif isdefined("op3") and op3 is "in"> selected="selected" </cfif>value="in">in</option>
+											<option <cfif isdefined("op3") and op3 is "between"> selected="selected" </cfif>value="between">between</option>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="v3" <cfif isdefined("v3")> value="#v3#"</cfif> size="50">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">
+										<input type="submit" value="Filter">
+									</td>
+								</tr>
+							</table>
+						</form>
+						<h2>Update data in table below:</h2>
+						<form name="up" method="post" action="browseBulk.cfm">
+							<input type="hidden" name="action" value="runSQLUp">
+							<input type="hidden" name="enteredby" value="#enteredby#">
+							<cfif isdefined("accn") and len(accn) gt 0>
+								<input type="hidden" name="accn" value="#accn#">
+							</cfif>
+							<cfif isdefined("colln") and len(colln) gt 0>
+								<input type="hidden" name="colln" value="#colln#">
+							</cfif>
+							<cfif isdefined("c1") and len(#c1#) gt 0 and isdefined("op1") and len(#op1#) gt 0 and isdefined("v1") and len(#v1#) gt 0>
+								<input type="hidden" name="c1" value="#c1#">
+								<input type="hidden" name="op1" value="#op1#">
+								<input type="hidden" name="v1" value="#v1#">			
+							</cfif>
+							<cfif isdefined("c2") and len(#c2#) gt 0 and isdefined("op2") and len(#op2#) gt 0 and isdefined("v2") and len(#v2#) gt 0>
+								<input type="hidden" name="c2" value="#c2#">
+								<input type="hidden" name="op2" value="#op2#">
+								<input type="hidden" name="v2" value="#v2#">			
+							</cfif>
+							<cfif isdefined("c3") and len(#c3#) gt 0 and isdefined("op3") and len(#op3#) gt 0 and isdefined("v3") and len(#v3#) gt 0>
+								<input type="hidden" name="c3" value="#c3#">
+								<input type="hidden" name="op3" value="#op3#">
+								<input type="hidden" name="v3" value="#v3#">			
+							</cfif>
+							<table border>
+								<tr>
+									<th>
+										Column
+									</th>
+									<th>Update To</th>
+									<th>Value</th>
+								</tr>
+								<tr>
+									<td>
+										<select name="uc1" size="1">
+											<option value=""></option>
+											<cfloop query="cNames">
+												<option value="#column_name#">#column_name#</option>
+											</cfloop>
+										</select>
+									</td>
+									<td>
+										-->
+									</td>
+									<td>
+										<input type="text" name="uv1" id="uv1" size="50">
+										<span class="infoLink" onclick="document.getElementById('uv1').value='NULL';">NULL</span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">
+										<input type="submit" value="Update">
+									</td>
+								</tr>
+							</table>
+						</form>
 
-	<form name="filter" method="post" action="browseBulk.cfm">
-		<input type="hidden" name="action" value="sqlTab">
-		<input type="hidden" name="enteredby" value="#enteredby#">
-		<cfif isdefined("accn") and len(accn) gt 0>
-			<input type="hidden" name="accn" value="#accn#">
-		</cfif>
-		<cfif isdefined("colln") and len(colln) gt 0>
-			<input type="hidden" name="colln" value="#colln#">
-		</cfif>
-		<h2>Create Filter:</h2>
-		<table class="table table-responsive border">
-			<tr>
-				<th>
-					Column
-				</th>
-				<th>Operator</th>
-				<th>Value</th>
-			</tr>
-			<tr>
-				<td>
-					<select name="c1" size="1">
-						<option value=""></option>
-						<cfloop query="cNames">
-							<option 
-								<cfif isdefined("c1") and c1 is column_name> selected="selected" </cfif>value="#column_name#">#column_name#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					<select name="op1" size="1">
-						<option <cfif isdefined("op1") and op1 is "="> selected="selected" </cfif>value="=">=</option>
-						<option <cfif isdefined("op1") and op1 is "like"> selected="selected" </cfif>value="like">like</option>
-						<option <cfif isdefined("op1") and op1 is "in"> selected="selected" </cfif>value="in">in</option>
-						<option <cfif isdefined("op1") and op1 is "between"> selected="selected" </cfif>value="between">between</option>
-					</select>
-				</td>
-				<td>
-					<input type="text" name="v1" <cfif isdefined("v1")> value="#v1#"</cfif> size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<select name="c2" size="1">
-						<option value=""></option>
-						<cfloop query="cNames">
-							<option 
-								<cfif isdefined("c2") and #c2# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					<select name="op2" size="1">
-						<option <cfif isdefined("op2") and op2 is "="> selected="selected" </cfif>value="=">=</option>
-						<option <cfif isdefined("op2") and op2 is "like"> selected="selected" </cfif>value="like">like</option>
-						<option <cfif isdefined("op2") and op2 is "in"> selected="selected" </cfif>value="in">in</option>
-						<option <cfif isdefined("op2") and op2 is "between"> selected="selected" </cfif>value="between">between</option>
-					</select>
-				</td>
-				<td>
-					<input type="text" name="v2" <cfif isdefined("v2")> value="#v2#"</cfif> size="50">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<select name="c3" size="1">
-						<option value=""></option>
-						<cfloop query="cNames">
-							<option 
-								<cfif isdefined("c3") and #c3# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					<select name="op3" size="1">
-						<option <cfif isdefined("op3") and op3 is "="> selected="selected" </cfif>value="=">=</option>
-						<option <cfif isdefined("op3") and op3 is "like"> selected="selected" </cfif>value="like">like</option>
-						<option <cfif isdefined("op3") and op3 is "in"> selected="selected" </cfif>value="in">in</option>
-						<option <cfif isdefined("op3") and op3 is "between"> selected="selected" </cfif>value="between">between</option>
-					</select>
-				</td>
-				<td>
-					<input type="text" name="v3" <cfif isdefined("v3")> value="#v3#"</cfif> size="50">
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<input type="submit" value="Filter">
-				</td>
-			</tr>
-		</table>
-	</form>
-	<h2>Update data in table below:</h2>
-	<form name="up" method="post" action="browseBulk.cfm">
-		<input type="hidden" name="action" value="runSQLUp">
-		<input type="hidden" name="enteredby" value="#enteredby#">
-		<cfif isdefined("accn") and len(accn) gt 0>
-			<input type="hidden" name="accn" value="#accn#">
-		</cfif>
-		<cfif isdefined("colln") and len(colln) gt 0>
-			<input type="hidden" name="colln" value="#colln#">
-		</cfif>
-		<cfif isdefined("c1") and len(#c1#) gt 0 and isdefined("op1") and len(#op1#) gt 0 and isdefined("v1") and len(#v1#) gt 0>
-			<input type="hidden" name="c1" value="#c1#">
-			<input type="hidden" name="op1" value="#op1#">
-			<input type="hidden" name="v1" value="#v1#">			
-		</cfif>
-		<cfif isdefined("c2") and len(#c2#) gt 0 and isdefined("op2") and len(#op2#) gt 0 and isdefined("v2") and len(#v2#) gt 0>
-			<input type="hidden" name="c2" value="#c2#">
-			<input type="hidden" name="op2" value="#op2#">
-			<input type="hidden" name="v2" value="#v2#">			
-		</cfif>
-		<cfif isdefined("c3") and len(#c3#) gt 0 and isdefined("op3") and len(#op3#) gt 0 and isdefined("v3") and len(#v3#) gt 0>
-			<input type="hidden" name="c3" value="#c3#">
-			<input type="hidden" name="op3" value="#op3#">
-			<input type="hidden" name="v3" value="#v3#">			
-		</cfif>
-		<table border>
-			<tr>
-				<th>
-					Column
-				</th>
-				<th>Update To</th>
-				<th>Value</th>
-			</tr>
-			<tr>
-				<td>
-					<select name="uc1" size="1">
-						<option value=""></option>
-						<cfloop query="cNames">
-							<option value="#column_name#">#column_name#</option>
-						</cfloop>
-					</select>
-				</td>
-				<td>
-					-->
-				</td>
-				<td>
-					<input type="text" name="uv1" id="uv1" size="50">
-                    <span class="infoLink" onclick="document.getElementById('uv1').value='NULL';">NULL</span>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="3">
-					<input type="submit" value="Update">
-				</td>
-			</tr>
-		</table>
-	</form>
-	
-	<div class="blTabDiv">
-		<table border id="t" class="sortable">
-			<tr>
-			<cfloop query="cNames">
-				<th>#column_name#</th>
-			</cfloop>
-			<cfloop query="data">
-				<tr>
-				<cfquery name="thisRec" dbtype="query">
-					select * from data where collection_object_id=#data.collection_object_id#
-				</cfquery>
-				<cfloop query="cNames">
-					<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-					<td>#thisData#</td>
-				</cfloop>
-				</tr>
-			</cfloop>
-			</tr>
-		</table>
-	</div>
+						<div class="blTabDiv">
+							<table border id="t" class="sortable">
+								<tr>
+								<cfloop query="cNames">
+									<th>#column_name#</th>
+								</cfloop>
+								<cfloop query="data">
+									<tr>
+									<cfquery name="thisRec" dbtype="query">
+										select * from data where collection_object_id=#data.collection_object_id#
+									</cfquery>
+									<cfloop query="cNames">
+										<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+										<td>#thisData#</td>
+									</cfloop>
+									</tr>
+								</cfloop>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 </cfoutput>
 </cfif>
 <!-------------------------->
