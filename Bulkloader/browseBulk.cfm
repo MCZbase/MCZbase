@@ -144,9 +144,9 @@
 		</cfquery>
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
-				<div class="col-12 mt-3 pb-5">
+				<div class="col-12 mt-3 pb-5 float-left">
 					<h1 class="h2 px-0 mt-3 pb-2">Edit Media Browse Bulkloader</h2>
-					<div class="col-12 col-md-5 px-0">
+					<div class="col-12 col-md-5 px-0 pr-md-3">
 						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
 								<li>
@@ -160,9 +160,9 @@
 								</li>
 							</ul>
 					</div>
-					<div class="col-12 col-md-7 px-0">
+					<div class="col-12 col-md-auto px-0 float-left">
 						<form name="f" method="post" action="browseBulk.cfm">
-							<table class="table">
+							<table class="table table-responsive">
 								<tr>
 									<td align="center">
 										<input type="hidden" name="action" value="viewTable" />
