@@ -275,7 +275,6 @@ limitations under the License.
 									$('##saveResultDiv').addClass('text-success');
 									$('##saveResultDiv').removeClass('text-danger');
 									$('##saveResultDiv').removeClass('text-warning');
-									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
 								},
 								error: function(jqXHR,textStatus,error){
 									$('##saveResultDiv').html('Error.');
