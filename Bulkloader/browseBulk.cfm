@@ -505,35 +505,37 @@
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
 							<table class="table table-responsive">
-								<tr>
-									<th>
-										Column
-									</th>
-									<th>Update To</th>
-									<th>Value</th>
-								</tr>
-								<tr>
-									<td>
-										<select name="uc1" size="1">
-											<option value=""></option>
-											<cfloop query="cNames">
-												<option value="#column_name#">#column_name#</option>
-											</cfloop>
-										</select>
-									</td>
-									<td>
-										<span style="font-size: 30px;" class="px-3">→</span>
-									</td>
-									<td>
-										<input type="text" name="uv1" id="uv1" size="50">
-										<span class="infoLink" onclick="document.getElementById('uv1').value='NULL';">NULL</span>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<input type="submit" value="Update">
-									</td>
-								</tr>
+								<thead>
+									<tr>
+										<th>Column</th>
+										<th>Update To</th>
+										<th>Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<select name="uc1" size="1">
+												<option value=""></option>
+												<cfloop query="cNames">
+													<option value="#column_name#">#column_name#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td>
+											<span style="font-size: 30px;" class="px-3">→</span>
+										</td>
+										<td>
+											<input type="text" name="uv1" id="uv1" size="50">
+											<span class="infoLink" onclick="document.getElementById('uv1').value='NULL';">NULL</span>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<input type="submit" value="Update">
+										</td>
+									</tr>
+								</tbody>
 							</table>
 						</form>
 
