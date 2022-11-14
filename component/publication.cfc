@@ -30,6 +30,20 @@
 		</cfquery>
     <cfreturn p.pt>
   </cfif>
+  <cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from publication_attributes where publication_id=#publication_id#
+	</cfquery>
+  <cfquery name="publishedYearRange" dbtype="query">
+		select pub_att_value from atts where publication_attribute='published year range'
+  </cfquery>
+  <cfset publicationYear = "">
+  <cfif publishedYearRange.recordcount EQ 1>
+		<cfset publicationYear = publishedYearRange.pub_att_value>
+  <cfelse>
+		<cfif len(p.published_year) GT 0>
+			<cfset publicationYear = "#p.published_year#">
+		</cfif>
+  </cfif>
   <cfif a.recordcount is 1>
     <cfset as=a.last_name>
   <cfelseif a.recordcount is 2>
@@ -37,7 +51,7 @@
   <cfelse>
     <cfset as=a.last_name[1] & ' et al.'>
   </cfif>
-  <cfset r=as & ' ' & p.published_year>
+  <cfset r=as & ' ' & publicationYear>
   <cfreturn r>
 </cffunction>
 <!------------------------------------------------------------------------------------------------>
@@ -114,6 +128,17 @@
   <cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from publication_attributes where publication_id=#publication_id#
 	</cfquery>
+  <cfquery name="publishedYearRange" dbtype="query">
+		select pub_att_value from atts where publication_attribute='published year range'
+  </cfquery>
+  <cfset publicationYear = "">
+  <cfif publishedYearRange.recordcount EQ 1>
+	<cfset publicationYear = publishedYearRange.pub_att_value>
+  <cfelse>
+	<cfif len(p.published_year) GT 0>
+		<cfset publicationYear = "#p.published_year#">
+	</cfif>
+  </cfif>
   <cfquery name="journal" dbtype="query">
 		select pub_att_value from atts where publication_attribute='journal name'
 	</cfquery>
@@ -180,8 +205,8 @@
     <cfset publication_title=p.publication_title>
   </cfif>
   <cfset r=as & '. '>
-  <cfif len(p.published_year) gt 0>
-    <cfset r=r & p.published_year & '. '>
+  <cfif len(publicationYear) gt 0>
+    <cfset r=r & publicationYear & '. '>
     </cfif>
     <cfset r=r & publication_title>
     <cfset r=r & ' ' & journal.pub_att_value & ''>
@@ -229,7 +254,7 @@
 
 <!--- Begin Journal Section--->
        <cfelseif p.publication_type is "journal section">
-    <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ', ' >
+    <cfset r=as & '. ' & publicationYear & '. ' & publication_title & ', ' >
     <cfif len(journalsection.pub_att_value) gt 0>
       <cfset r=r & ' <i>In</i> ' & es>
       <cfif e.recordcount gt 1>
@@ -280,8 +305,8 @@
     <cfset publication_title=p.publication_title>
   </cfif>
   <cfset r=as & '. '>
-  <cfif len(p.published_year) gt 0>
-    <cfset r=r & p.published_year & '.  '>
+  <cfif len(publicationYear) gt 0>
+    <cfset r=r & publicationYear & '.  '>
     </cfif>
     <cfset r=r & publication_title>
     <cfif len(journal.pub_att_value) gt 0>
@@ -347,8 +372,8 @@
     <cfset publication_title=p.publication_title>
   </cfif>
   <cfset r=as & '. '>
-  <cfif len(p.published_year) gt 0>
-    <cfset r=r & p.published_year & '.  '>
+  <cfif len(publicationYear) gt 0>
+    <cfset r=r & publicationYear & '.  '>
     </cfif>
     <cfset r=r & publication_title>
     <cfif len(p.doi) gt 0>
@@ -364,7 +389,7 @@
 
    <!--- Begin Annual Report--->
     <cfelseif p.publication_type is "annual report">
-    <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ', ' >
+    <cfset r=as & '. ' & publicationYear & '. ' & publication_title & ', ' >
     <cfif len(journal.pub_att_value) gt 0>
 	<cfset r=r & ' <i>' & journal.pub_att_value & '.</i>'>
     </cfif>
@@ -378,7 +403,7 @@
    <!--- End Annual Report--->
          <!--- Begin Newsletter--->
        <cfelseif p.publication_type is "newsletter">
-    <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ' ' >
+    <cfset r=as & '. ' & publicationYear & '. ' & publication_title & ' ' >
      <cfif len(volume.pub_att_value) gt 0>
       <cfset r=r & ' ' & volume.pub_att_value & ''>
     </cfif>
@@ -411,7 +436,7 @@
     <cfset publication_title=p.publication_title>
   </cfif>
   <cfset publication_title=replace(publication_title,' In: ',' <i>In:</i> ')>
-    <cfset r=as & '. ' & p.published_year & '. '>
+    <cfset r=as & '. ' & publicationYear & '. '>
     <cfif e.recordcount gt 1>
       <cfset editor = ', Eds. ' >
       <cfset r=r & es & editor >
@@ -462,12 +487,12 @@
       <cfelse>
          <cfset publication_title=p.publication_title>
       </cfif>
-      <cfset r=as & '. ' & p.published_year & '. ' & publication_title & ' '>
+      <cfset r=as & '. ' & publicationYear & '. ' & publication_title & ' '>
     <cfset r=r & ' Pp. ' & 	begin.pub_att_value & '-' & end.pub_att_value & '. '>
     <cfif len(book_title.pub_att_value) gt 0>
        <cfset enclosingTitle = book_title.pub_att_value>
     </cfif>
-    <cfif len(enclosingTitle) gt 0>
+    <cfif isDefined("enclosingTitle") AND len(enclosingTitle) gt 0>
       <cfset r=r & ' <i>In</i> '>
       <cfif e.recordcount gt 1>
         <cfset editor = '. (eds.)' >
@@ -524,8 +549,8 @@
 
     <cfelse>
     <cfset r=as>
-    <cfif len(p.published_year) gt 0>
-      <cfset r=r & '. ' & p.published_year>
+    <cfif len(publicationYear) gt 0>
+      <cfset r=r & '. ' & publicationYear>
     </cfif>
     <cfset r=r & '. ' & publication_title & '.'>
   </cfif>

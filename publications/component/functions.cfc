@@ -74,6 +74,32 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- lookup potential DOI matches in crossref ---> 
+<cffunction name="crossRefLookup" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+	
+	<!--- find email for current user to include in crossref as pid --->
+
+	<!--- obtain data on publication to put into url for crossref
+	
+	<!--- make request to crossref --->
+
+	<cfset lookupURI="https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false"
+<!---
+ 
+https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false
+
+
+--->
+	<cfhttp url="#lookupURI#" />
+	<!--- parse returned xml --->
+	<cfset xmlReturn = cfhttp.filecontent>
+	<!--- return results --->
+	<cfset return = xmlParse(xmlReturn)>
+
+	<cfreturn ''>
+</cffunction>
+
 <cffunction name="addMedia" access="remote" returntype="any" returnformat="json">
 <!---------------------------------------------------------------------------------------------------------->
 		<cfif len(media_uri) gt 0>
