@@ -80,7 +80,7 @@ limitations under the License.
 	
 	<!--- find email for current user to include in crossref as pid --->
 
-	<!--- obtain data on publication to put into url for crossref
+	<!--- obtain data on publication to put into url for crossref --->
 	
 	<!--- make request to crossref --->
 	<!--- crossref metadata lookup resources: https://www.crossref.org/services/metadata-retrieval/#00356 --->
