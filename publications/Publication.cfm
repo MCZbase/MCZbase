@@ -253,7 +253,7 @@ limitations under the License.
 								url : "/publications/component/functions.cfc",
 								type : "post",
 								dataType : "json",
-								data : $('##editLoanForm').serialize(),
+								data : $('##editPubForm').serialize(),
 								success : function (data) {
 									$('##saveResultDiv').html('Saved.');
 									$('##saveResultDiv').addClass('text-success');
