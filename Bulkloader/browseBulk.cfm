@@ -145,11 +145,9 @@
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5">
-					<h1 class="h2 px-1 pb-2">Edit Media Browse Bulkloader</h2>
-					<table class="table table-responsive">
-					<tr>
-						<td>
-							<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
+					<h1 class="h2 px-0 mt-3 pb-2">Edit Media Browse Bulkloader</h2>
+					<div class="col-12 col-md-5 px-0">
+						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
 								<li>
 									<strong>Edit in SQL</strong>
@@ -161,14 +159,14 @@
 									Saves automatically on change. Slow to load.
 								</li>
 							</ul>
-						</td>
-						<td>
-							<form name="f" method="post" action="browseBulk.cfm">
-							<table class="browsingBulk">
+					</div>
+					<div class="col-12 col-md-7 px-0">
+						<form name="f" method="post" action="browseBulk.cfm">
+							<table class="table">
 								<tr>
 									<td align="center">
 										<input type="hidden" name="action" value="viewTable" />
-										<label for="enteredby">Entered By</label>
+										<label for="enteredby" class="data-entry-label">Entered By</label>
 										<select name="enteredby" multiple="multiple" size="12" id="enteredby">
 											<option value="#delimitedAdminForGroups#" selected="selected">All</option>
 											<cfloop list="#adminForUsers#" index='agent_name'>
@@ -177,7 +175,7 @@
 										</select>
 									</td>
 									<td align="center">
-										<label for="accn">Accession</label>
+										<label for="accn" class="data-entry-label">Accession</label>
 										<select name="accn" multiple="multiple" size="12" id="accn">
 											<option value="" selected>All</option>
 											<cfloop query="ctAccn">
@@ -186,7 +184,7 @@
 										</select>
 									</td>
 									<td align="center">
-										<label for="colln">Collection</label>
+										<label for="colln" class="data-entry-label">Collection</label>
 										<select name="colln" multiple="multiple" size="12" id="colln">
 											<option value="" selected>All</option>
 											<cfloop query="ctColln">
@@ -196,18 +194,15 @@
 									</td>
 								</tr>
 								<tr>
-									<td colspan="2">
-
+									<td colspan="3">
 										<input type="button" value="SQL" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
 										<input type="button" value="AJAX grid" class="lnkBtn" onclick="f.action.value='ajaxGrid';f.submit();">
 									</td>
 								</tr>
 							</table>
-							</form>
-						</td>
+						</form>
+					</div>
 
-					</tr>
-					</table>
 				</div>
 			</div>
 		</div>
