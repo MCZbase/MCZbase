@@ -162,7 +162,7 @@
 					</div>
 					<div class="col-12 col-md-auto px-0 float-left">
 						<form name="f" method="post" action="browseBulk.cfm">
-							<table class="table table-responsive">
+							<table class="">
 								<tr>
 									<td align="center">
 										<input type="hidden" name="action" value="viewTable" />
