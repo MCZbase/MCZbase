@@ -169,7 +169,7 @@
 										<input type="hidden" name="action" value="viewTable" />
 										<label for="enteredby" class="data-entry-label">Entered By</label>
 										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="">
-											<option value="#delimitedAdminForGroups#" selected="selected">All</option>
+											<option value="#delimitedAdminForGroups#" selected="selected" class="p-1">All</option>
 											<cfloop list="#adminForUsers#" index='agent_name'>
 												<option value="'#agent_name#'" class="p-1">#agent_name#</option>
 											</cfloop>
