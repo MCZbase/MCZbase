@@ -180,16 +180,16 @@
 										<select name="accn" multiple="multiple" size="12" id="accn" class="">
 											<option value="" selected class="p-1">All</option>
 											<cfloop query="ctAccn">
-												<option value="'#accn#'">#accn#</option>
+												<option value="'#accn#'" class="p-1">#accn#</option>
 											</cfloop>
 										</select>
 									</td>
 									<td align="center">
 										<label for="colln" class="data-entry-label">Collection</label>
 										<select name="colln" multiple="multiple" size="12" id="colln" class="">
-											<option value="" selected>All</option>
+											<option value="" selected class="p-1">All</option>
 											<cfloop query="ctColln">
-												<option value="'#colln#'">#colln#</option>
+												<option value="'#colln#'" class="p-1">#colln#</option>
 											</cfloop>
 										</select>
 									</td>
