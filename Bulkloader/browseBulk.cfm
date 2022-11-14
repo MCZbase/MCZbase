@@ -395,82 +395,86 @@
 							</cfif>
 							<h2>Create Filter:</h2>
 							<table class="table table-responsive">
+								<thead>
 								<tr>
 									<th>Column</th>
 									<th>Operator</th>
 									<th>Value</th>
 								</tr>
-								<tr>
-									<td>
-										<select name="c1" size="1">
-											<option value=""></option>
-											<cfloop query="cNames">
-												<option 
-													<cfif isdefined("c1") and c1 is column_name> selected="selected" </cfif>value="#column_name#">#column_name#</option>
-											</cfloop>
-										</select>
-									</td>
-									<td>
-										<select name="op1" size="1">
-											<option <cfif isdefined("op1") and op1 is "="> selected="selected" </cfif>value="=">=</option>
-											<option <cfif isdefined("op1") and op1 is "like"> selected="selected" </cfif>value="like">like</option>
-											<option <cfif isdefined("op1") and op1 is "in"> selected="selected" </cfif>value="in">in</option>
-											<option <cfif isdefined("op1") and op1 is "between"> selected="selected" </cfif>value="between">between</option>
-										</select>
-									</td>
-									<td>
-										<input type="text" name="v1" <cfif isdefined("v1")> value="#v1#"</cfif> size="50">
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<select name="c2" size="1">
-											<option value=""></option>
-											<cfloop query="cNames">
-												<option 
-													<cfif isdefined("c2") and #c2# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
-											</cfloop>
-										</select>
-									</td>
-									<td>
-										<select name="op2" size="1">
-											<option <cfif isdefined("op2") and op2 is "="> selected="selected" </cfif>value="=">=</option>
-											<option <cfif isdefined("op2") and op2 is "like"> selected="selected" </cfif>value="like">like</option>
-											<option <cfif isdefined("op2") and op2 is "in"> selected="selected" </cfif>value="in">in</option>
-											<option <cfif isdefined("op2") and op2 is "between"> selected="selected" </cfif>value="between">between</option>
-										</select>
-									</td>
-									<td>
-										<input type="text" name="v2" <cfif isdefined("v2")> value="#v2#"</cfif> size="50">
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<select name="c3" size="1">
-											<option value=""></option>
-											<cfloop query="cNames">
-												<option 
-													<cfif isdefined("c3") and #c3# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
-											</cfloop>
-										</select>
-									</td>
-									<td>
-										<select name="op3" size="1">
-											<option <cfif isdefined("op3") and op3 is "="> selected="selected" </cfif>value="=">=</option>
-											<option <cfif isdefined("op3") and op3 is "like"> selected="selected" </cfif>value="like">like</option>
-											<option <cfif isdefined("op3") and op3 is "in"> selected="selected" </cfif>value="in">in</option>
-											<option <cfif isdefined("op3") and op3 is "between"> selected="selected" </cfif>value="between">between</option>
-										</select>
-									</td>
-									<td>
-										<input type="text" name="v3" <cfif isdefined("v3")> value="#v3#"</cfif> size="50">
-									</td>
-								</tr>
-								<tr>
-									<td colspan="3">
-										<input type="submit" value="Filter">
-									</td>
-								</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<select name="c1" size="1">
+												<option value=""></option>
+												<cfloop query="cNames">
+													<option 
+														<cfif isdefined("c1") and c1 is column_name> selected="selected" </cfif>value="#column_name#">#column_name#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td>
+											<select name="op1" size="1">
+												<option <cfif isdefined("op1") and op1 is "="> selected="selected" </cfif>value="=">=</option>
+												<option <cfif isdefined("op1") and op1 is "like"> selected="selected" </cfif>value="like">like</option>
+												<option <cfif isdefined("op1") and op1 is "in"> selected="selected" </cfif>value="in">in</option>
+												<option <cfif isdefined("op1") and op1 is "between"> selected="selected" </cfif>value="between">between</option>
+											</select>
+										</td>
+										<td>
+											<input type="text" name="v1" <cfif isdefined("v1")> value="#v1#"</cfif> size="50">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<select name="c2" size="1">
+												<option value=""></option>
+												<cfloop query="cNames">
+													<option 
+														<cfif isdefined("c2") and #c2# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td>
+											<select name="op2" size="1">
+												<option <cfif isdefined("op2") and op2 is "="> selected="selected" </cfif>value="=">=</option>
+												<option <cfif isdefined("op2") and op2 is "like"> selected="selected" </cfif>value="like">like</option>
+												<option <cfif isdefined("op2") and op2 is "in"> selected="selected" </cfif>value="in">in</option>
+												<option <cfif isdefined("op2") and op2 is "between"> selected="selected" </cfif>value="between">between</option>
+											</select>
+										</td>
+										<td>
+											<input type="text" name="v2" <cfif isdefined("v2")> value="#v2#"</cfif> size="50">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<select name="c3" size="1">
+												<option value=""></option>
+												<cfloop query="cNames">
+													<option 
+														<cfif isdefined("c3") and #c3# is #column_name#> selected="selected" </cfif>value="#column_name#">#column_name#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td>
+											<select name="op3" size="1">
+												<option <cfif isdefined("op3") and op3 is "="> selected="selected" </cfif>value="=">=</option>
+												<option <cfif isdefined("op3") and op3 is "like"> selected="selected" </cfif>value="like">like</option>
+												<option <cfif isdefined("op3") and op3 is "in"> selected="selected" </cfif>value="in">in</option>
+												<option <cfif isdefined("op3") and op3 is "between"> selected="selected" </cfif>value="between">between</option>
+											</select>
+										</td>
+										<td>
+											<input type="text" name="v3" <cfif isdefined("v3")> value="#v3#"</cfif> size="50">
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<input type="submit" value="Filter">
+										</td>
+									</tr>
+								</tbody>
 							</table>
 						</form>
 					</div>
@@ -500,7 +504,7 @@
 								<input type="hidden" name="op3" value="#op3#">
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
-							<table class="table table-responsive border rounded">
+							<table class="table table-responsive">
 								<tr>
 									<th>
 										Column
