@@ -532,7 +532,7 @@
 							</table>
 						</form>
 
-						<table border id="t" class="table table-responsive">
+						<table id="t" class="table mt-3 border rounded table-responsive">
 							<tr>
 							<cfloop query="cNames">
 								<th>#column_name#</th>
