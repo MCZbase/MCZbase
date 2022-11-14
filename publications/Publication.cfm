@@ -199,20 +199,25 @@ limitations under the License.
 						<div class="col-12 col-md-4">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-4" id="doiLinkDiv">
 							<cfif len(pub.doi) gt 0>
-								<a class="infoLink external" target="_blank" href="https://doi.org/#pub.doi#">[ open DOI ]</a>
+								<a class="external" target="_blank" href="https://doi.org/#pub.doi#">#pub.doi#</a>
 							<cfelse>
-								<a id="addadoiplease" class="red likeLink" onclick="lookupDOI('#encodeForUrl(pub.publication_id)#')">find DOI</a>
+								<a id="doiLookupButton" class="btn btn-xs btn-secondary" onclick="lookupDOI('#encodeForUrl(pub.publication_id)#')">find DOI</a>
 							</cfif>
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="publication_loc" class="data-entry-label">Storage Location</label>
 							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input" value="#encodeForHtml(pub.publication_loc)#">
 						</div>
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-12">
 							<label for="publication_remarks" class="data-entry-label">Remark</label>
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input" value="#encodeForHtml(pub.publication_remarks)#">
 						</div>
+					</div>
+					<div class="form-row mb-2" id="attributesForPublicationDiv">
+						<!--- TODO: Expected attributes for publication type --->
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-10">
@@ -229,6 +234,7 @@ limitations under the License.
 					</div>
 					<script>
 						function handleChange(){
+							console.log("changed form value saveResultDiv");
 							$('##saveResultDiv').html('Unsaved changes.');
 							$('##saveResultDiv').addClass('text-danger');
 							$('##saveResultDiv').removeClass('text-success');
