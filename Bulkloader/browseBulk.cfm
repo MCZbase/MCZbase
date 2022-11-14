@@ -1,7 +1,9 @@
 <cfset pageTitle="Edit Bulkloaded Data">
-	<cfinclude template="/shared/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <script src="/includes/sorttable.js"></script>
-
+<cfif not isdefined("action")>
+	<cfset action="nothing">
+</cfif>
 <style>
 .blTabDiv {
 	width: 100%;
