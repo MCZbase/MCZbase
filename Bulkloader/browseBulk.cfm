@@ -1,5 +1,5 @@
-<cfset title="Browse/Edit Bulkloaded Data">
-<cfinclude template="/shared/_header.cfm">
+<cfset pageTitle="Edit Bulkloaded Data">
+	<cfinclude template="/shared/_header.cfm">
 <script src="/includes/sorttable.js"></script>
 
 <style>
