@@ -167,7 +167,7 @@
 									<td align="center">
 										<input type="hidden" name="action" value="viewTable" />
 										<label for="enteredby" class="data-entry-label">Entered By</label>
-										<select name="enteredby" multiple="multiple" size="12" id="enteredby">
+										<select name="enteredby" multiple="multiple" size="20" id="enteredby" class="px-2">
 											<option value="#delimitedAdminForGroups#" selected="selected">All</option>
 											<cfloop list="#adminForUsers#" index='agent_name'>
 												<option value="'#agent_name#'">#agent_name#</option>
@@ -176,7 +176,7 @@
 									</td>
 									<td align="center">
 										<label for="accn" class="data-entry-label">Accession</label>
-										<select name="accn" multiple="multiple" size="12" id="accn">
+										<select name="accn" multiple="multiple" size="20" id="accn" class="px-2">
 											<option value="" selected>All</option>
 											<cfloop query="ctAccn">
 												<option value="'#accn#'">#accn#</option>
@@ -185,7 +185,7 @@
 									</td>
 									<td align="center">
 										<label for="colln" class="data-entry-label">Collection</label>
-										<select name="colln" multiple="multiple" size="12" id="colln">
+										<select name="colln" multiple="multiple" size="20" id="colln" class="px-2">
 											<option value="" selected>All</option>
 											<cfloop query="ctColln">
 												<option value="'#colln#'">#colln#</option>
