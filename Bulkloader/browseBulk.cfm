@@ -171,14 +171,14 @@
 										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="">
 											<option value="#delimitedAdminForGroups#" selected="selected">All</option>
 											<cfloop list="#adminForUsers#" index='agent_name'>
-												<option value="'#agent_name#'" class="py-1">#agent_name#</option>
+												<option value="'#agent_name#'" class="p-1">#agent_name#</option>
 											</cfloop>
 										</select>
 									</td>
 									<td align="center">
 										<label for="accn" class="data-entry-label">Accession</label>
 										<select name="accn" multiple="multiple" size="12" id="accn" class="">
-											<option value="" selected class="py-1">All</option>
+											<option value="" selected class="p-1">All</option>
 											<cfloop query="ctAccn">
 												<option value="'#accn#'">#accn#</option>
 											</cfloop>
