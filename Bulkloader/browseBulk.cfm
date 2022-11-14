@@ -162,12 +162,12 @@
 					</div>
 					<div class="col-12 col-md-auto px-0 float-left">
 						<form name="f" method="post" action="browseBulk.cfm">
-							<table class="table table-responsive" style="min-height: 500px;">
+							<table class="table table-responsive">
 								<tr>
 									<td align="center">
 										<input type="hidden" name="action" value="viewTable" />
 										<label for="enteredby" class="data-entry-label">Entered By</label>
-										<select name="enteredby" multiple="multiple" size="20" id="enteredby" class="px-2">
+										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="">
 											<option value="#delimitedAdminForGroups#" selected="selected">All</option>
 											<cfloop list="#adminForUsers#" index='agent_name'>
 												<option value="'#agent_name#'">#agent_name#</option>
@@ -176,7 +176,7 @@
 									</td>
 									<td align="center">
 										<label for="accn" class="data-entry-label">Accession</label>
-										<select name="accn" multiple="multiple" size="20" id="accn" class="px-2">
+										<select name="accn" multiple="multiple" size="12" id="accn" class="">
 											<option value="" selected>All</option>
 											<cfloop query="ctAccn">
 												<option value="'#accn#'">#accn#</option>
@@ -185,7 +185,7 @@
 									</td>
 									<td align="center">
 										<label for="colln" class="data-entry-label">Collection</label>
-										<select name="colln" multiple="multiple" size="20" id="colln" class="px-2">
+										<select name="colln" multiple="multiple" size="12" id="colln" class="">
 											<option value="" selected>All</option>
 											<cfloop query="ctColln">
 												<option value="'#colln#'">#colln#</option>
