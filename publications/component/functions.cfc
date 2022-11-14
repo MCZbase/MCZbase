@@ -18,7 +18,6 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 
-
 <cffunction name="savePublication" access="remote" returntype="any" returnformat="json">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="published_year" type="string" required="no">
@@ -80,19 +79,76 @@ limitations under the License.
 	
 	<cfset data = ArrayNew(1)>
 	<!--- find email for current user to include in crossref as pid --->
+	<cfquery name="getEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select email from cf_user_data,cf_users
+		where cf_user_data.user_id = cf_users.user_id and
+		cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+	</cfquery>
 
 	<!--- obtain data on publication to put into url for crossref --->
+	<cfquery name="getPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
+			title,
+			published_year as year,
+			get_publication_attribute(publication_id,'begin page') as spage,
+			get_publication_attribute(publication_id,'journal name') as jtitle,
+			get_publication_attribute(publication_id,'volume') as volume,
+			get_publication_attribute(publication_id,'issue') as issue
+		FROM
+			publication
+		WHERE
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+	</cfquery>
+	<cfquery name="getAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT person.last_name as aulast
+		FROM
+			publication_author_name p
+			join agent_name an on p.agent_name_id = an.agent_name_id
+			join person on an.agent_id = person.person_id
+		WHERE
+			p.author_role = 'author' and p.author_position = 1 and
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+	</cfquery>
 	
 	<!--- make request to crossref --->
 	<!--- crossref metadata lookup resources: https://www.crossref.org/services/metadata-retrieval/#00356 --->
 
 	<!--- crossref OpenURL documentation: https://www.crossref.org/documentation/retrieve-metadata/openurl/ --->
+	<!--- example:
+		https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false&multihit=true
+	--->
 
-	<cfset lookupURI="https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false">
+	<cfset query = "">
+	<cfif getPub.recordcount GT 0>
+		<cfif len(getPub.jtitle) GT 0>
+			<cfset query="&title=#getPub.jtitle#">
+		<cfelse>
+			<cfset query="&stitle=#getPub.title#">
+		</cfif>
+		<cfif len(getPub.spage) GT 0 >
+			<cfset query="#query#&spage=#getPub.spage#">
+		</cfif>
+		<cfif len(getPub.year) GT 0 >
+			<cfset query="#query#&date=#getPub.year#">
+		</cfif>
+		<cfif len(getPub.volume) GT 0 >
+			<cfset query="#query#&volume=#getPub.volume#">
+		</cfif>
+		<cfif len(getPub.issue) GT 0 >
+			<cfset query="#query#&issue=#getPub.issue#">
+		</cfif>
+	</cfif>
+	<cfif getAuthor.recordcount GT 0>
+		<cfif len(getAuthor.aulast) GT 0 >
+			<cfset query="#query#&aulast=#getAuthor.aulast#">
+		</cfif>
+	</cfif>
 
-<!---
-https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false
---->
+	<cfif len(query) GT 0>
+		<cfset lookupURI="https://www.crossref.org/openurl?pid=#getEmail.email#&#query#&redirect=false&multihit=true">
+	</cfelse>
+		<cfthrow message="nothing found to look up.">
+	</cfif>
 
 	<cfhttp url="#lookupURI#"></cfhttp>
 	<!--- parse returned xml --->
@@ -107,6 +163,7 @@ https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20P
 		<cfset row["doi"] = "#doi#">
 		<cfset data[1] = row>
 	<cfelseif arrayLen(body) GT 1>
+		<cfdump var="#return#">
 	<cfelse>
 		<cfset row = StructNew()>
 		<cfset row["match"] = "0">
