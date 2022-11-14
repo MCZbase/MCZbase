@@ -499,7 +499,7 @@
 								<input type="hidden" name="op3" value="#op3#">
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
-							<table class="table table-responsive">
+							<table border>
 								<tr>
 									<th>
 										Column
@@ -531,24 +531,27 @@
 								</tr>
 							</table>
 						</form>
-						<table id="t" class="sortable table table-responsive">
-							<tr>
-							<cfloop query="cNames">
-								<th>#column_name#</th>
-							</cfloop>
-							<cfloop query="data">
+
+						<div class="blTabDiv">
+							<table border id="t" class="sortable table table-responsive">
 								<tr>
-								<cfquery name="thisRec" dbtype="query">
-									select * from data where collection_object_id=#data.collection_object_id#
-								</cfquery>
 								<cfloop query="cNames">
-									<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-									<td>#thisData#</td>
+									<th>#column_name#</th>
+								</cfloop>
+								<cfloop query="data">
+									<tr>
+									<cfquery name="thisRec" dbtype="query">
+										select * from data where collection_object_id=#data.collection_object_id#
+									</cfquery>
+									<cfloop query="cNames">
+										<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+										<td>#thisData#</td>
+									</cfloop>
+									</tr>
 								</cfloop>
 								</tr>
-							</cfloop>
-							</tr>
-						</table>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
