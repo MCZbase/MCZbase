@@ -19,7 +19,7 @@ function orapwCheck(p,u) {
 	} 
 	for(var i=0;i<p.length;i++){
 		if(!p.charAt(i).match(regExp)){
-			msg="Password may contain only A-Z, a-z, 0-9, and !&nbsp;$&nbsp;%&nbsp;&&nbsp;(&nbsp;)&nbsp;`&nbsp;*&nbsp;+&nbsp;,&nbsp;-&nbsp;/&nbsp;:&nbsp;;&nbsp;<&nbsp;=&nbsp;?&nbsp;>&nbsp;_&nbsp;.";
+			msg="Password may contain only A-Z, a-z, 0-9, and !,$,%,&,*,?,_,-,(,),<,>,=,/,:,;. "
 		}
 	}
 	if (msg=="") { 
