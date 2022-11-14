@@ -475,6 +475,8 @@
 								</tr>
 							</table>
 						</form>
+					</div>
+					<div class="col-12 my-3 float-left">
 						<h2>Update data in table below:</h2>
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
@@ -534,7 +536,7 @@
 						</form>
 
 						<div class="blTabDiv">
-							<table border id="t" class="sortable">
+							<table border id="t" class="sortable table">
 								<tr>
 								<cfloop query="cNames">
 									<th>#column_name#</th>
