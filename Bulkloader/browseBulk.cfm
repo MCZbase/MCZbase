@@ -543,7 +543,7 @@
 								</cfquery>
 								<cfloop query="cNames">
 									<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-									<td>#thisData#</td>
+									<td><cfif len(#thisData#) gt 0>#thisData#<cfelse>&bull;</cfelse></cfif></td>
 								</cfloop>
 								</tr>
 							</cfloop>
