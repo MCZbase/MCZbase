@@ -83,8 +83,11 @@ limitations under the License.
 	<!--- obtain data on publication to put into url for crossref
 	
 	<!--- make request to crossref --->
+	<!--- crossref metadata lookup resources: https://www.crossref.org/services/metadata-retrieval/#00356 --->
 
-	<cfset lookupURI="https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false"
+	<!--- crossref OpenURL documentation: https://www.crossref.org/documentation/retrieve-metadata/openurl/ --->
+
+	<cfset lookupURI="https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false">
 <!---
  
 https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20Paleontology&aulast=Hodnett&date=2018&spage=1&redirect=false
@@ -96,6 +99,7 @@ https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20P
 	<cfset xmlReturn = cfhttp.filecontent>
 	<!--- return results --->
 	<cfset return = xmlParse(xmlReturn)>
+	<cfdump var="#return#">
 
 	<cfreturn ''>
 </cffunction>
