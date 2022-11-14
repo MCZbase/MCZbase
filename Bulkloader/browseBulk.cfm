@@ -504,7 +504,7 @@
 								<input type="hidden" name="op3" value="#op3#">
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
-							<table class="table table-responsive">
+							<table class="table table-responsive sortable">
 								<thead>
 									<tr>
 										<th>Column</th>
