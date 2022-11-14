@@ -228,6 +228,12 @@ limitations under the License.
 						</div>
 					</div>
 					<script>
+						function handleChange(){
+							$('##saveResultDiv').html('Unsaved changes.');
+							$('##saveResultDiv').addClass('text-danger');
+							$('##saveResultDiv').removeClass('text-success');
+							$('##saveResultDiv').removeClass('text-warning');
+						};
 						$(document).ready(function() {
 							monitorForChanges('editPubForm',handleChange);
 						});
@@ -428,9 +434,9 @@ limitations under the License.
 
 			<section name="useSection" class="row border rounded mx-0 my-2" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
-					<h2 class="h3>This publication record is not linked to any MCZbase records</h2>
+					<h2 class="h3">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
-					<h2 class="h3>This publication record is used in:</h2>
+					<h2 class="h3">This publication record is used in:</h2>
 					<ul>
 						<cfloop query="uses">
 							<li>#uses.ct# citations of a #uses.type#</li>
