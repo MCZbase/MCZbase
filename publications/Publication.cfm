@@ -114,7 +114,7 @@ limitations under the License.
 					<a class="btn btn-xs btn-primary" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
 					<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 				</p>
-				<form class="col-12" name="editPubForm" method="post" action="Publication.cfm">
+				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
