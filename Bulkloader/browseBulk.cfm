@@ -178,7 +178,7 @@
 									<td align="center">
 										<label for="accn" class="data-entry-label">Accession</label>
 										<select name="accn" multiple="multiple" size="12" id="accn" class="">
-											<option value="" selected>All</option>
+											<option value="" selected class="py-1">All</option>
 											<cfloop query="ctAccn">
 												<option value="'#accn#'">#accn#</option>
 											</cfloop>
