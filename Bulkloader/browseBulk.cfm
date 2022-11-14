@@ -142,6 +142,7 @@
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
+	
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 float-left">
@@ -170,7 +171,7 @@
 										<select name="enteredby" multiple="multiple" size="12" id="enteredby" class="">
 											<option value="#delimitedAdminForGroups#" selected="selected">All</option>
 											<cfloop list="#adminForUsers#" index='agent_name'>
-												<option value="'#agent_name#'">#agent_name#</option>
+												<option value="'#agent_name#'" class="py-1">#agent_name#</option>
 											</cfloop>
 										</select>
 									</td>
