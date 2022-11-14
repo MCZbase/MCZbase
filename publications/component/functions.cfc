@@ -78,6 +78,7 @@ limitations under the License.
 <cffunction name="crossRefLookup" access="remote" returntype="any" returnformat="json">
 	<cfargument name="publication_id" type="string" required="yes">
 	
+	<cfset data = ArrayNew(1)>
 	<!--- find email for current user to include in crossref as pid --->
 
 	<!--- obtain data on publication to put into url for crossref --->
@@ -99,12 +100,21 @@ https://www.crossref.org/openurl?pid=bdim@oeb.harvard.edu&title=Journal%20of%20P
 	<!--- return results --->
 	<cfset return = xmlParse(xmlReturn)>
 	<cfset body = return.crossref_result.query_result.body >
-	<cfdump var="#body#">
-	<cfoutput>
-   	#arrayLen(body)#
-	</cfoutput>
+	<cfif arrayLen(body) EQ 1>
+		<cfset doi = return.crossref_result.query_result.body.query.doi>
+		<cfset row = StructNew()>
+		<cfset row["match"] = "1">
+		<cfset row["doi"] = "#doi#">
+		<cfset data[1] = row>
+	<cfelseif arrayLen(body) GT 1>
+	<cfelse>
+		<cfset row = StructNew()>
+		<cfset row["match"] = "0">
+		<cfset row["doi"] = "">
+		<cfset data[1] = row>
+	</cfif>
 
-	<cfreturn ''>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <cffunction name="addMedia" access="remote" returntype="any" returnformat="json">
