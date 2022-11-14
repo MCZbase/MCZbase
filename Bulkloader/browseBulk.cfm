@@ -146,7 +146,7 @@
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 float-left">
 					<h1 class="h2 px-0 mt-3 pb-2">Edit Media Browse Bulkloader</h2>
-					<div class="col-12 col-md-5 px-0 pr-md-3">
+					<div class="col-12 col-md-5 px-0 pr-md-3 float-left">
 						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
 								<li>
@@ -162,7 +162,7 @@
 					</div>
 					<div class="col-12 col-md-auto px-0 float-left">
 						<form name="f" method="post" action="browseBulk.cfm">
-							<table class="table table-responsive">
+							<table class="table table-responsive" style="min-height: 500px;">
 								<tr>
 									<td align="center">
 										<input type="hidden" name="action" value="viewTable" />
