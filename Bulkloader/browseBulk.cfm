@@ -148,9 +148,9 @@
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
-			<cfinput type="button" onClick="javascript:getAllSelectedRows('empListing',true)" name="getRows" value="Get Selected Rows">
-				<cfinput type="button" onClick="javascript:clearAllSelectedRows('empListing')" name="clearRows" value="Clear Selected Rows">
-				<cfinput type="button" onClick="javascript:deleteAllSelectedRows('empListing')" name="deleteRows" value="Delete Selected Rows">
+			<cfinput type="button" class="btn btn-xs" onClick="javascript:getAllSelectedRows('empListing',true)" name="getRows" value="Get Selected Rows">
+				<cfinput type="button" class="btn btn-xs mx-1" onClick="javascript:clearAllSelectedRows('empListing')" name="clearRows" value="Clear Selected Rows">
+				<cfinput type="button" class="btn btn-xs mx-1" onClick="javascript:deleteAllSelectedRows('empListing')" name="deleteRows" value="Delete Selected Rows">
 		</cfform>
 	</cfoutput>
 	</div>
