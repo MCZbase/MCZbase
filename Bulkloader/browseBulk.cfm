@@ -80,7 +80,7 @@
 </cfif>
 <cfif action is "ajaxGrid">
 	<div class="mt-4 container-fluid px-4">
-	<h1 class="h2">Table of Results <span class="small">There are	#numRows# rows </span></h1>
+	<h1 class="h2">Table of Results</h1>
 	<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
@@ -580,7 +580,7 @@
 <cfset ColNameList = valuelist(cNames.column_name)>
 <cfset GridName = "blGrid">
 <cfset numRows = #ArrayLen(form.blGrid.rowstatus.action)#>
-
+<h3>#numRows# rows updated</h3>
 <!--- loop for each record --->
 <cfloop from="1" to="#numRows#" index="i">
 	<!--- and for each column --->
