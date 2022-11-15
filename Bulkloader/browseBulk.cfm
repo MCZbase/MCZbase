@@ -80,28 +80,6 @@
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
-	<cfajaxproxy cfc="component.Bulkloader" jsclassname="emputils">
-	<script language="javascript">
-		var emp = new emputils();
-		var deleteAllSelectedRows = function(grid)
-		{
-		emp.setHTTPMethod("POST");
-		emp.deleteEmployees(getAllSelectedRows(grid,false));
-		ColdFusion.Grid.refresh(grid);
-		}
-		var getAllSelectedRows = function(grid,showalert)
-		{
-		obj = ColdFusion.Grid.getSelectedRows(grid);
-		jsonbj = ColdFusion.JSON.encode(obj);
-		if(showalert)
-		alert(jsonbj);
-		return obj;
-		}
-		var clearAllSelectedRows = function(grid)
-		{
-		ColdFusion.Grid.clearSelectedRows(grid);
-		}
-	</script>
 	<div class="mt-4 container-fluid mb-2 px-4">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
 	<cfoutput>
@@ -125,8 +103,6 @@
 		<cfset args.selectmode = "edit">
 		<cfset args.format="html">
 		<cfset args.delete="true">
-		<cfset args.name="empListing">
-		<cfset args.multirowselect="yes">
 		<cfset args.title="Bulkloader">
 		<cfset args.onChange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
@@ -148,9 +124,7 @@
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
-			<cfinput type="button" class="btn btn-xs" onClick="javascript:saveGridUpdate('empListing',true)" name="saveRows" value="Save Selected Rows">
-				<cfinput type="button" class="btn btn-xs mx-1" onClick="javascript:clearAllSelectedRows('empListing')" name="clearRows" value="Clear Selected Rows">
-				<cfinput type="button" class="btn btn-xs mx-1" onClick="javascript:deleteAllSelectedRows('empListing')" name="deleteRows" value="Delete Selected Rows">
+	
 		</cfform>
 	</cfoutput>
 	</div>
