@@ -714,7 +714,7 @@ Mark some of the records in this bulkloader batch:
 				<cfinput type="hidden" name="accn" value="#accn#">
 				<cfinput type="hidden" name="colln" value="#colln#">
 				<cfinput type="hidden" name="returnAction" value="viewTable">
-				<cfgrid query="data"  name="blGrid" class="col-12 px-0" height="400" selectmode="edit">
+				<cfgrid query="data"  name="blGrid" width="1400" height="400" selectmode="edit">
 					<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
 					<!----
 					<cfgridcolumn name="loaded" select="yes">
