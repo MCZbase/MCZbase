@@ -127,7 +127,7 @@
 		<cfset args.deleteButton="Delete Selected Row">
 		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 		&nbsp;~&nbsp;<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
-		<cfform method="post" action="browseBulk.cfm">
+		<cfform method="post" action="browseBulk.cfm" onSubmit=""return fixMe()>
 			<cfinput type="hidden" name="returnAction" value="ajaxGrid">
 			<cfinput type="hidden" name="action" value="saveGridUpdate">
 			<cfinput type="hidden" name="enteredby" value="#enteredby#">
@@ -135,13 +135,16 @@
 			<cfinput type="hidden" name="colln" value="#colln#">
 			<cfgrid attributeCollection="#args#">
 				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-				<cfgridcolumn name="collection_object_id" select="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
+				<cfgridcolumn name="collection_object_id" select="yes" display="no" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 					hrefkey="collection_object_id" target="_blank" header="Key">
 				<cfloop list="#ColNameList#" index="thisName">
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
+			<cfinput type="hidden" name="selected" id="selected">
+			<input name="submit" type="submit" value="Submit">
 		</cfform>
+		
 	</cfoutput>
 	</div>
 </cfif>
@@ -624,26 +627,7 @@
 </cfoutput>
 </cfif>
 			
-<!-------------------------->
-<cfif #action# is "deleteGridUpdate">
-<cfoutput>
-<cfquery name="cNames" datasource="uam_god">
-	select column_name from user_tab_cols where table_name='BULKLOADER'
-</cfquery>
-<cfset ColNameList = valuelist(cNames.column_name)>
-<cfset GridName = "blGrid">
-<cfset numRows = #ArrayLen(form.blGrid.rowstatus.action)#>
-<h3>#numRows# rows deleted</h3>
-<!--- loop for each record --->
-<cfloop from="1" to="#numRows#" index="i">
-	<!--- and for each column --->
-	<cfset thisCollObjId = evaluate("Form.#GridName#.collection_object_id[#i#]")>
-	<cfset sql ='delete BULKLOADER SET collection_object_id = #thisCollObjId#'>	
-	<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
-</cfloop>
-<cflocation url="browseBulk.cfm?action=#returnAction#&enteredby=#enteredby#&accn=#accn#&colln=#colln#">
-</cfoutput>
-</cfif>
+
 <!-------------------------------------------------------------->
 <cfif #action# is "upBulk">
 <cfoutput>
