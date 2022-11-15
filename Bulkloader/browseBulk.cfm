@@ -88,7 +88,7 @@
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
 		<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-		<cfset args.width="1400">
+		<cfset args.width="1300">
 		<cfset args.stripeRows = true>
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
