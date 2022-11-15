@@ -538,12 +538,16 @@
 								</tbody>
 							</table>
 						</form>
-						<div class="blTabDiv">
-						<table id="t" class="sortable w-100 table mt-3 table-responsive">
+
+						<table id="t" class="table mt-3 table-responsive">
+							<thead>
 							<tr>
 							<cfloop query="cNames">
 								<th>#column_name#</th>
 							</cfloop>
+								</tr>
+							</thead>
+							<tbody>
 							<cfloop query="data">
 								<tr>
 								<cfquery name="thisRec" dbtype="query">
@@ -555,9 +559,8 @@
 								</cfloop>
 								</tr>
 							</cfloop>
-							</tr>
+							</tbody>
 						</table>
-						</div>
 					</div>
 				</div>
 			</div>
