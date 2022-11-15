@@ -99,7 +99,6 @@
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
 		<cfset args.format="html">
-			<cfset args.width="100">
 		<cfset args.onchange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
 		<cfset args.name="blGrid">
@@ -116,7 +115,7 @@
 				<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 					hrefkey="collection_object_id" target="_blank" header="Key">
 				<cfloop list="#ColNameList#" index="thisName">
-					<cfgridcolumn name="#thisName#">
+					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
 		</cfform>
