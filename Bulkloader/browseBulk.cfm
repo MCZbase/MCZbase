@@ -15,6 +15,7 @@
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -webkit-box-sizing:border-box; }
+	
 </style>
 <!-------------------------------------------------------------->
 <cfif action is "loadAll">
@@ -101,6 +102,7 @@
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
 		<cfset args.format="html">
+		<cfset args.multirowselect="yes">
 		<cfset args.onchange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
 		<cfset args.name="blGrid">
@@ -734,8 +736,8 @@ Mark some of the records in this bulkloader batch:
 		</cfloop>
 
 	<cfinput type="submit" name="save" value="Save Changes In Grid">
-	<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
-	&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+	<a style="padding: 0 5px;" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
+	&nbsp;~&nbsp;<a style="padding: 0 5px;" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 	</cfgrid>
 		
 </cfform>
