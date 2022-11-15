@@ -80,7 +80,7 @@
 </cfif>
 <cfif action is "ajaxGrid">
 	<div class="mt-4 container-fluid px-4">
-	<h1 class="h2">Table of Results</h1>
+	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
 	<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
