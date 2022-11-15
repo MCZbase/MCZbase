@@ -80,6 +80,27 @@
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
+	<script language="javascript">
+		var emp = new emputils();
+		var deleteAllSelectedRows = function(grid)
+		{
+		emp.setHTTPMethod("POST");
+		emp.deleteEmployees(getAllSelectedRows(grid,false));
+		ColdFusion.Grid.refresh(grid);
+		}
+		var getAllSelectedRows = function(grid,showalert)
+		{
+		obj = ColdFusion.Grid.getSelectedRows(grid);
+		jsonbj = ColdFusion.JSON.encode(obj);
+		if(showalert)
+		alert(jsonbj);
+		return obj;
+		}
+		var clearAllSelectedRows = function(grid)
+		{
+		ColdFusion.Grid.clearSelectedRows(grid);
+		}
+	</script>
 	<div class="mt-4 container-fluid mb-2 px-4">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
 	<cfoutput>
@@ -102,11 +123,14 @@
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
 		<cfset args.format="html">
+		<cfset args.delete="true">
+		<cfset args.name="empListing">
 		<cfset args.multirowselect="yes">
+		<cfset args.title="Bulkloader">
 		<cfset args.onchange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
 		<cfset args.name="blGrid">
-			<cfset args.pageSize="20">
+			<cfset args.pageSize="25">
 		<a class="px-1" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 		&nbsp;~&nbsp;<a class="px-1" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 		<cfform method="post" action="browseBulk.cfm">
@@ -115,13 +139,17 @@
 			<cfinput type="hidden" name="enteredby" value="#enteredby#">
 			<cfinput type="hidden" name="accn" value="#accn#">
 			<cfinput type="hidden" name="colln" value="#colln#">
-			<cfgrid attributeCollection="#args#"><!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
+			<cfgrid attributeCollection="#args#">
+				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
 				<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 					hrefkey="collection_object_id" target="_blank" header="Key">
 				<cfloop list="#ColNameList#" index="thisName">
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
+			<cfinput type="button" onClick="javascript:getAllSelectedRows('empListing',true)" name="getRows" value="Get Selected Rows">
+				<cfinput type="button" onClick="javascript:clearAllSelectedRows('empListing')" name="clearRows" value="Clear Selected Rows">
+				<cfinput type="button" onClick="javascript:deleteAllSelectedRows('empListing')" name="deleteRows" value="Delete Selected Rows">
 		</cfform>
 	</cfoutput>
 	</div>
@@ -736,8 +764,8 @@ Mark some of the records in this bulkloader batch:
 		</cfloop>
 
 	<cfinput type="submit" name="save" value="Save Changes In Grid">
-	<a style="padding: 0 5px;" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
-	&nbsp;~&nbsp;<a style="padding: 0 5px;" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+	<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
+	&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 	</cfgrid>
 		
 </cfform>
