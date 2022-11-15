@@ -124,7 +124,7 @@
 		<cfset args.pageSize="25">
 		
 		<cfset args.multirowselect="Yes">
-		<cfset args.deleteButton="Delete Select Row">
+		<cfset args.deleteButton="Delete Selected Row">
 		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 		&nbsp;~&nbsp;<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 		<cfform method="post" action="browseBulk.cfm">
@@ -141,9 +141,6 @@
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
-			<cfif isdefined("form.multirowselect") is true>
-				<cfinput type="submit" name="gridEntered">
-			</cfif>
 		</cfform>
 	</cfoutput>
 	</div>
