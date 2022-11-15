@@ -80,7 +80,8 @@
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
-	<div class="mt-4 container-fluid mb-2 px-4">
+	<div class="mt-4 container-fluid px-4">
+		<div class="row mx-0">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
 		<p class="px-1">Default: All columns visible. Click any column header to select the columns visible. There is a delay, especially for many rows.</p>
 	<cfoutput>
@@ -131,6 +132,7 @@
 		</cfform>
 		
 	</cfoutput>
+	</div>
 	</div>
 </cfif>
 <!-------------------------------------------------------->
