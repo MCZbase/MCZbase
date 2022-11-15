@@ -353,21 +353,20 @@
 		#preservesinglequotes(sql)#	
 	</cfquery>
 	<cfquery name="cNames" datasource="uam_god">
-        select user_tab_cols.column_name from user_tab_cols
-               left outer join BULKLOADER_FIELD_ORDER
-               on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-            where user_tab_cols.table_name='BULKLOADER' 
-                  and 
-                  (
-                     (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
-                     or BULKLOADER_FIELD_ORDER.column_name is null
-                  )
-            order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+		select user_tab_cols.column_name from user_tab_cols
+				left outer join BULKLOADER_FIELD_ORDER
+				on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+			where user_tab_cols.table_name='BULKLOADER' 
+				and 
+				(
+					(BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+						or BULKLOADER_FIELD_ORDER.column_name is null
+				)
+			order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 	</cfquery>
 	<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12">
-					
 					<div class="col-12 mt-3 pb-2 float-left"><h1 class="h2">Filter and Update Column Values in Bulk</h1>
 						<p>Use the top form to filter the table to the records of interest. All values are ANDed together and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values here are also case sensitive. There is no control over entries here - you can easily update such that records will never load. Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
 					</div>
@@ -538,29 +537,26 @@
 								</tbody>
 							</table>
 						</form>
-
-						<table id="t" class="table mt-3 table-responsive">
-							<thead>
+						<div class="blTabDiv">
+							<table border id="t" class="sortable">
 								<tr>
 								<cfloop query="cNames">
 									<th>#column_name#</th>
 								</cfloop>
-								</tr>
-							</thead>
-							<tbody>
-							<cfloop query="data">
-								<tr>
-								<cfquery name="thisRec" dbtype="query">
-									select * from data where collection_object_id=#data.collection_object_id#
-								</cfquery>
-								<cfloop query="cNames">
-									<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-									<td>#thisData#</td>
+								<cfloop query="data">
+									<tr>
+									<cfquery name="thisRec" dbtype="query">
+										select * from data where collection_object_id=#data.collection_object_id#
+									</cfquery>
+									<cfloop query="cNames">
+										<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+										<td>#thisData#</td>
+									</cfloop>
+									</tr>
 								</cfloop>
 								</tr>
-							</cfloop>
-							</tbody>
-						</table>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
