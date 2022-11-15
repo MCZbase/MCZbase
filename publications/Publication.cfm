@@ -281,15 +281,6 @@ limitations under the License.
 
 			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
 				<!--- TODO: Move attributes to backing method --->
-		<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				publication_attribute_id,
-				publication_id,
-				publication_attribute,
-				pub_att_value
-			FROM publication_attributes 
-			WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-		</cfquery>
 		<div class="cellDiv">
 			<span>Attributes</span>:
 			Add: 
