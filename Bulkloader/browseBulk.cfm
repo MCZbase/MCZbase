@@ -9,6 +9,12 @@
 	width: 100%;
 	overflow-x:scroll;
 }
+.x-border-box,
+.x-border-box * {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -webkit-box-sizing:border-box; }
 </style>
 <!-------------------------------------------------------------->
 <cfif action is "loadAll">
@@ -75,16 +81,16 @@
 <cfif action is "ajaxGrid">
 	<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
-        select user_tab_cols.column_name from user_tab_cols
-               left outer join BULKLOADER_FIELD_ORDER
-               on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-            where user_tab_cols.table_name='BULKLOADER' 
-                  and 
-                  (
-                     (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
-                     or BULKLOADER_FIELD_ORDER.column_name is null
-                  )
-            order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+			select user_tab_cols.column_name from user_tab_cols
+				left outer join BULKLOADER_FIELD_ORDER
+				on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+			where user_tab_cols.table_name='BULKLOADER' 
+				and 
+				(
+					(BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+					or BULKLOADER_FIELD_ORDER.column_name is null
+				)
+			order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
 		<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
@@ -142,7 +148,6 @@
 				institution_acronym || ':' || collection_cde 
 			order by institution_acronym || ':' || collection_cde
 		</cfquery>
-	
 		<div class="container-fluid container-xl">
 			<div class="row mx-0">
 				<div class="col-12 mt-3 pb-5 float-left">
@@ -216,10 +221,10 @@
 			Not enough information. <cfabort>
 		</cfif>
 		<cfif uv1 is "NULL">
-	        <cfset sql = "update bulkloader set #uc1# = NULL where enteredby IN (#enteredby#)">
-	    <cfelse>
-	        <cfset sql = "update bulkloader set #uc1# = '#uv1#' where enteredby IN (#enteredby#)">
-	    </cfif>
+			<cfset sql = "update bulkloader set #uc1# = NULL where enteredby IN (#enteredby#)">
+		<cfelse>
+		<cfset sql = "update bulkloader set #uc1# = '#uv1#' where enteredby IN (#enteredby#)">
+		</cfif>
 		<cfif isdefined("accn") and len(accn) gt 0>
 			<cfset sql = "#sql# AND accn IN (#accn#)">
 		</cfif>
@@ -364,9 +369,9 @@
 				)
 			order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 	</cfquery>
-	<div class="container-fluid">
+		<div class="container-fluid">
 			<div class="row mx-0">
-				<div class="col-12">
+				<div class="col-12 px-0">
 					<div class="col-12 mt-3 pb-2 float-left"><h1 class="h2">Filter and Update Column Values in Bulk</h1>
 						<p>Use the top form to filter the table to the records of interest. All values are ANDed together and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values here are also case sensitive. There is no control over entries here - you can easily update such that records will never load. Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
 					</div>
@@ -572,7 +577,7 @@
 <cfset ColNameList = valuelist(cNames.column_name)>
 <cfset GridName = "blGrid">
 <cfset numRows = #ArrayLen(form.blGrid.rowstatus.action)#>
-<p></p>there are	#numRows# rows updated
+there are	#numRows# rows updated
 <!--- loop for each record --->
 <cfloop from="1" to="#numRows#" index="i">
 	<!--- and for each column --->
@@ -657,16 +662,16 @@
 	#preservesinglequotes(sql)#	
 </cfquery>
 <cfquery name="cNames" datasource="uam_god">
-        select user_tab_cols.column_name from user_tab_cols
-               left outer join BULKLOADER_FIELD_ORDER
-               on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-            where user_tab_cols.table_name='BULKLOADER' 
-                  and 
-                  (
-                     (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
-                     or BULKLOADER_FIELD_ORDER.column_name is null
-                  )
-            order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+	select user_tab_cols.column_name from user_tab_cols
+		   left outer join BULKLOADER_FIELD_ORDER
+		   on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+		where user_tab_cols.table_name='BULKLOADER' 
+			  and 
+			  (
+				 (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+				 or BULKLOADER_FIELD_ORDER.column_name is null
+			  )
+		order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 </cfquery>
 <!---
 <div style="background-color:##FFFFCC;">
