@@ -396,7 +396,7 @@ limitations under the License.
 				and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
 			</cfquery>
 			<cfif deleteAuthor_result.recordcount NEQ 1>
-				<cfthrow message = "error deleting publication_author_name record [#encodeForHtml(publication_author_name_id#]">
+				<cfthrow message = "error deleting publication_author_name record [#encodeForHtml(publication_author_name_id)#]">
 			</cfif>
 			<!--- update the ordinal positon of the rest of the list.  --->
 			<cfquery name="reorder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reorder_result">
