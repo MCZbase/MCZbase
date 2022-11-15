@@ -541,10 +541,10 @@
 
 						<table id="t" class="table mt-3 table-responsive">
 							<thead>
-							<tr>
-							<cfloop query="cNames">
-								<th>#column_name#</th>
-							</cfloop>
+								<tr>
+								<cfloop query="cNames">
+									<th>#column_name#</th>
+								</cfloop>
 								</tr>
 							</thead>
 							<tbody>
