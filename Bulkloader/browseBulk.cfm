@@ -80,7 +80,7 @@
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
-	<cfajaxproxy cfc="emp" jsclassname="emputils">
+	<cfajaxproxy cfc="cfc:component.Bulkloader.editRecord" jsclassname="emputils">
 	<script language="javascript">
 		var emp = new emputils();
 		var deleteAllSelectedRows = function(grid)
