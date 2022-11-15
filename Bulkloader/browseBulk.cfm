@@ -127,7 +127,7 @@
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
-	
+	<cfinput type="submit" name="gridEntered">
 		</cfform>
 	</cfoutput>
 	</div>
