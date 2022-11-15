@@ -158,6 +158,8 @@ limitations under the License.
 	<!--- return results --->
 	<cfset return = xmlParse(xmlReturn)>
 	<cfset body = return.crossref_result.query_result.body >
+	<!--- TODO Check for status unresolved/no query_result.body.doi --->
+   <cfset status = return.crossref_result.query_result.body.query.XMLAttributes.status >
 	<cfif arrayLen(body) EQ 1>
 		<cftry>
 			<cfset doi = return.crossref_result.query_result.body.query.doi.XmlText>
