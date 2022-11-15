@@ -88,7 +88,7 @@
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
 		<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-		<cfset args.width="1200">
+		<cfset args.width="100%">
 		<cfset args.stripeRows = true>
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
@@ -657,16 +657,16 @@
 	#preservesinglequotes(sql)#	
 </cfquery>
 <cfquery name="cNames" datasource="uam_god">
-        select user_tab_cols.column_name from user_tab_cols
-               left outer join BULKLOADER_FIELD_ORDER
-               on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-            where user_tab_cols.table_name='BULKLOADER' 
-                  and 
-                  (
-                     (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
-                     or BULKLOADER_FIELD_ORDER.column_name is null
-                  )
-            order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+	select user_tab_cols.column_name from user_tab_cols
+		   left outer join BULKLOADER_FIELD_ORDER
+		   on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+		where user_tab_cols.table_name='BULKLOADER' 
+			  and 
+			  (
+				 (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+				 or BULKLOADER_FIELD_ORDER.column_name is null
+			  )
+		order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 </cfquery>
 <!---
 <div style="background-color:##FFFFCC;">
@@ -700,16 +700,12 @@ Mark some of the records in this bulkloader batch:
 </form>
 </div>
 ---->
-<hr /><cfset ColNameList = valuelist(cNames.column_name)>
+<cfset ColNameList = valuelist(cNames.column_name)>
 <cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
 <!---
 <cfset ColNameList = replace(ColNameList,"LOADED","","all")>
 <cfset ColNameList = replace(ColNameList,"ENTEREDBY","","all")>
 --->
-<hr />
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-12">
 			<cfform method="post" action="browseBulk.cfm">
 				<cfinput type="hidden" name="action" value="saveGridUpdate">
 				<cfinput type="hidden" name="enteredby" value="#enteredby#">
@@ -730,9 +726,7 @@ Mark some of the records in this bulkloader batch:
 				&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 				</cfgrid>
 			</cfform>
-		</div>
-	</div>
-</div>
+	
 </cfoutput>
 </cfif>
 <cfinclude template="/shared/_footer.cfm">
