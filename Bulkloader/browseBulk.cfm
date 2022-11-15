@@ -504,14 +504,14 @@
 								<input type="hidden" name="op3" value="#op3#">
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
-							<table class="table table-responsive sortable">
-								<thead>
+							<table class=" sortable table table-responsive">
+								
 									<tr>
 										<th>Column</th>
 										<th>Update To</th>
 										<th>Value</th>
 									</tr>
-								</thead>
+								
 								<tbody>
 									<tr>
 										<td>
