@@ -79,6 +79,7 @@
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
+	<div class="blTabDiv container-fluid px-4">
 	<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
@@ -120,6 +121,7 @@
 			</cfgrid>
 		</cfform>
 	</cfoutput>
+	</div>
 </cfif>
 <!-------------------------------------------------------->
 <cfif action IS "nothing">
