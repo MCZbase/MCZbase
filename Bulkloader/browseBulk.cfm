@@ -538,8 +538,8 @@
 								</tbody>
 							</table>
 						</form>
-
-						<table id="t" class="sortable table mt-3 table-responsive">
+						<div class="blTabDiv">
+						<table id="t" class="sortable w-100 table mt-3 table-responsive">
 							<tr>
 							<cfloop query="cNames">
 								<th>#column_name#</th>
@@ -557,6 +557,7 @@
 							</cfloop>
 							</tr>
 						</table>
+						</div>
 					</div>
 				</div>
 			</div>
