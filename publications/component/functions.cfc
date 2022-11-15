@@ -159,11 +159,16 @@ limitations under the License.
 	<cfset return = xmlParse(xmlReturn)>
 	<cfset body = return.crossref_result.query_result.body >
 	<cfif arrayLen(body) EQ 1>
-		<cfset doi = return.crossref_result.query_result.body.query.doi.XmlText>
-		<cfset row = StructNew()>
-		<cfset row["match"] = "1">
-		<cfset row["doi"] = "#doi#">
-		<cfset data[1] = row>
+		<cftry>
+			<cfset doi = return.crossref_result.query_result.body.query.doi.XmlText>
+			<cfset row = StructNew()>
+			<cfset row["match"] = "1">
+			<cfset row["doi"] = "#doi#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cfdump var="#return#">
+		</cfcatch>
+		</cftry>
 	<cfelseif arrayLen(body) GT 1>
 		<cfdump var="#return#">
 	<cfelse>
