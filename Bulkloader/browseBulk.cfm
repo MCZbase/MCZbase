@@ -82,7 +82,7 @@
 <cfif action is "ajaxGrid">
 	<div class="my-4 container-fluid px-4">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
-		<p class="px-1">Default: All columns visible. Click any column header to select the columns visible. There is a delay, especially for many rows.</p>
+		<p class="px-1">Default: All columns visible. Hover on any column header to select the columns visible. There is a delay, especially for many rows.</p>
 	<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
@@ -124,7 +124,7 @@
 				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
 				<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 					hrefkey="collection_object_id" target="_blank" header="Key">
-				<cfloop list="#ColNameList#" index="thisName">
+				<cfloop list="#ColNameList#" index="thisName" startrow="1" endrow="10">
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
