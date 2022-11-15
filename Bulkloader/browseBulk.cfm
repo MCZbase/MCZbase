@@ -504,14 +504,14 @@
 								<input type="hidden" name="op3" value="#op3#">
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
-							<table class=" sortable table table-responsive">
-								
+							<table class="table table-responsive">
+								<thead>
 									<tr>
 										<th>Column</th>
 										<th>Update To</th>
 										<th>Value</th>
 									</tr>
-								
+								</thead>
 								<tbody>
 									<tr>
 										<td>
@@ -539,7 +539,7 @@
 							</table>
 						</form>
 
-						<table id="t" class="table mt-3 table-responsive">
+						<table id="t" class="sortable table mt-3 table-responsive">
 							<thead>
 							<tr>
 							<cfloop query="cNames">
