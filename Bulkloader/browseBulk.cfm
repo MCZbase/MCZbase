@@ -103,7 +103,7 @@
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
 		<cfset args.format="html">
-		<cfset args.gridLines = yes>
+		<cfset args.gridLines = "yes">
 	<!---	<cfset args.delete="yes">--->
 		<cfset args.title="Bulkloader">
 		<cfset args.onChange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
