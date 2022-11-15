@@ -271,12 +271,22 @@ limitations under the License.
 			</section>
 
 			<section name="authorsSection" class="row border rounded my-2" title="Authors of this publication">
+				<script>
+					function reloadAuthors(){ 
+						loadAuthorsDivHTML(#publication_id#,'authorBlock');
+					}
+				</script>
 				<!--- TODO: Move authors to backing method  --->
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
 				<div id="authorBlock">#authorBlockContent#</div>
 			</section>
 
 			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
+				<script>
+					function reloadAttributes(){ 
+						loadAttributesDivHTML(#publication_id#,'attributesBlock');
+					}
+				</script>
 				<!--- TODO: Move attributes to backing method --->
 				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>
 				<div id="attributesBlock">#attribBlockContent#</div>
@@ -370,9 +380,11 @@ limitations under the License.
 			<label for="media_desc">Media Description</label>
 			<input type="text" name="media_desc" id="media_desc" size="80" class="reqdClr">
 		</div>
-			<input type="hidden" name="origNumberLinks" id="origNumberLinks" value="#i#">
-			<input type="hidden" name="numberLinks" id="numberLinks" value="#i#">
 
+			</section>
+
+			<section name="uriSection" class="row border rounded mx-0 my-2" title="Links for this publication">
+				<!--- TODO Publication URI support --->
 			</section>
 
 			<section name="useSection" class="row border rounded mx-0 my-2" title="Citations and other uses of this publication">

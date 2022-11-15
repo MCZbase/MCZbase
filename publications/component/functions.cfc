@@ -227,7 +227,11 @@ limitations under the License.
 		</cfif>
 </cffunction>
 
-
+<!--- getAuthorsForPubHtml obtain a block of html for editing the authors and editors
+   of a publication 
+ @param publication_id the publication for which to obtain authors/editors
+ @return html listing authors and editors for the specified publication in a form for editing
+---->
 <cffunction name="getAuthorsForPubHtml" access="remote" returntype="string">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAuthorsForPubThread">
@@ -418,7 +422,7 @@ limitations under the License.
 					and author_position > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_position#">
 			</cfquery>
 			<cfset row = StructNew()>
-			<cfset row["status"] = "added">
+			<cfset row["status"] = "deleted">
 			<cfset row["updates"] = "#reorder_result.recordcount#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
@@ -632,7 +636,10 @@ limitations under the License.
 					<cfloop query="atts">
 						<!--- TODO: Edit --->
 						<!--- TODO: Delete --->
-						<li>#atts.publication_attribute#: #atts.pub_att_value#</li>
+						<li>
+							#atts.publication_attribute#: #atts.pub_att_value#
+							<button class="btn btn-xs btn-primary" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
+						</li>
 					</cfloop>
 				</ul>
 			</cfoutput>
@@ -650,6 +657,42 @@ limitations under the License.
 	<cfreturn getAttributesForPubThread.output>
 </cffunction>
 
+<!--- deleteAttribute delete a publication_attribute record.
+  @param publication_attribute_id the primary key value of the row to delete.
+  @return a structure with status=deleted
+    or if an exception was raised, an http response with http statuscode of 500.
+--->
+<cffunction name="deleteAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_attribute_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- delete the target attribute --->
+			<cfquery name="deleteAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
+				delete from publication_attribute
+				where
+				publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfif deleteAuthor_result.recordcount NEQ 1>
+				<cfthrow message = "error deleting publication_attribute record [#encodeForHtml(publication_attribute_id)#]">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!---------------------------------------------------------------------------------------------------------->
 <!---
 		<cfloop from="1" to="#numberAttributes#" index="n">
@@ -664,11 +707,6 @@ limitations under the License.
 			<cfelse>
 				<cfset thisAttId = "">
 			</cfif>
-			<cfif thisAttVal is "deleted">
-				<cfquery name="delAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_attributes 
-					where publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAttId#">
-				</cfquery>
 			<cfelseif thisAttId gt 0>
 				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update
