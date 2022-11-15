@@ -88,7 +88,7 @@
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
 		<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-		<cfset args.width="1300">
+		<cfset args.width="1200">
 		<cfset args.stripeRows = true>
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
@@ -657,16 +657,16 @@
 	#preservesinglequotes(sql)#	
 </cfquery>
 <cfquery name="cNames" datasource="uam_god">
-	select user_tab_cols.column_name from user_tab_cols
-		   left outer join BULKLOADER_FIELD_ORDER
-		   on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
-		where user_tab_cols.table_name='BULKLOADER' 
-			  and 
-			  (
-				 (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
-				 or BULKLOADER_FIELD_ORDER.column_name is null
-			  )
-		order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
+        select user_tab_cols.column_name from user_tab_cols
+               left outer join BULKLOADER_FIELD_ORDER
+               on user_tab_cols.column_name = BULKLOADER_FIELD_ORDER.column_name
+            where user_tab_cols.table_name='BULKLOADER' 
+                  and 
+                  (
+                     (BULKLOADER_FIELD_ORDER.SHOW = 1 and BULKLOADER_FIELD_ORDER.department = 'All')
+                     or BULKLOADER_FIELD_ORDER.column_name is null
+                  )
+            order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 </cfquery>
 <!---
 <div style="background-color:##FFFFCC;">
@@ -700,12 +700,14 @@ Mark some of the records in this bulkloader batch:
 </form>
 </div>
 ---->
-<cfset ColNameList = valuelist(cNames.column_name)>
+<hr /><cfset ColNameList = valuelist(cNames.column_name)>
 <cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
 <!---
 <cfset ColNameList = replace(ColNameList,"LOADED","","all")>
 <cfset ColNameList = replace(ColNameList,"ENTEREDBY","","all")>
 --->
+<hr />
+
 			<cfform method="post" action="browseBulk.cfm">
 				<cfinput type="hidden" name="action" value="saveGridUpdate">
 				<cfinput type="hidden" name="enteredby" value="#enteredby#">
