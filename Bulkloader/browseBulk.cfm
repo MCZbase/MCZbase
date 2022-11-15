@@ -82,6 +82,7 @@
 <cfif action is "ajaxGrid">
 	<div class="mt-4 container-fluid mb-2 px-4">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
+		<p>Click any column header to select the columns visible. There is a delay, especially for many rows.</p>
 	<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
