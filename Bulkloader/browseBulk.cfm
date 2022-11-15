@@ -94,7 +94,7 @@
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
 		<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-		<cfset args.width="1200">
+	<!---	<cfset args.width="1200">--->
 		<cfset args.stripeRows = true>
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
@@ -673,6 +673,7 @@ there are	#numRows# rows updated
 			  )
 		order by BULKLOADER_FIELD_ORDER.sort_order, user_tab_cols.internal_column_id
 </cfquery>
+<div class="container-fluid px-4">
 <!---
 <div style="background-color:##FFFFCC;">
 Mark some of the records in this bulkloader batch:
@@ -718,7 +719,7 @@ Mark some of the records in this bulkloader batch:
 	<cfinput type="hidden" name="accn" value="#accn#">
 	<cfinput type="hidden" name="colln" value="#colln#">
 	<cfinput type="hidden" name="returnAction" value="viewTable">
-	<div class="container-fluid px-4">
+
 	<cfgrid query="data"  name="blGrid" selectmode="edit">
 		<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
 		<!----
@@ -733,9 +734,9 @@ Mark some of the records in this bulkloader batch:
 	<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
 	&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 	</cfgrid>
-			</div>
+		
 </cfform>
-
+</div>
 </cfoutput>
 </cfif>
 <cfinclude template="/shared/_footer.cfm">
