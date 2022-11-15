@@ -7,7 +7,7 @@
 <style>
 .blTabDiv {
 	width: 100%;
-	overflow:scroll;
+	overflow-x:scroll;
 }
 </style>
 <!-------------------------------------------------------------->
