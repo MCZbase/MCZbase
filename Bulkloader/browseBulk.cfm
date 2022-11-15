@@ -84,7 +84,19 @@
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
 		<p class="px-1">Default: All columns visible. Click any column header to select the columns visible. There is a delay, especially for many rows.</p>
 	<cfoutput>
-		
+		<script>
+			function bulkldr() {
+			obj = ColdFusion.Grid.getSelectedRows('gridkey');
+			var selected = "";
+			for(var i=0; i<obj.length; i++) {
+			if(selected == "") selected = obj[i].collection_object_ID;
+			else selected += "," + obj[i].collection_object_ID;
+			}
+				console.dir(obj[i])
+			document.getElementById('selected').value = selected;
+			return true;
+			}
+			</script>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
 				left outer join BULKLOADER_FIELD_ORDER
@@ -112,7 +124,7 @@
 		<cfset args.pageSize="25">
 		
 		<cfset args.multirowselect="Yes">
-		<cfset args.deleteButton="Delete Highlighted Row">
+		<cfset args.deleteButton="Delete Select Row">
 		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 		&nbsp;~&nbsp;<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 		<cfform method="post" action="browseBulk.cfm">
