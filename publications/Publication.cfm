@@ -59,9 +59,6 @@ limitations under the License.
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select publication_attribute from ctpublication_attribute order by publication_attribute
-	</cfquery>
 
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
@@ -281,59 +278,8 @@ limitations under the License.
 
 			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
 				<!--- TODO: Move attributes to backing method --->
-		<div class="cellDiv">
-			<span>Attributes</span>:
-			Add: 
-			<select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
-				<option value=""></option>
-				<cfloop query="ctpublication_attribute">
-					<option value="#publication_attribute#">#publication_attribute#</option>
-				</cfloop>
-			</select>
-			<table id="attTab" style="padding-bottom: 1em;">
-				<tr>
-					<th>Attribute</th>
-					<th>Value</th>
-					<th></th>
-				</tr>
-				<cfset i=0>
-				<cfloop query="atts">
-					<cfset i=i+1>
-					<input type="hidden" name="publication_attribute_id#i#"
-								class="reqdClr" id="publication_attribute_id#i#" value="#publication_attribute_id#">
-
-					<cfinvoke component="/component/functions" method="getPubAttributes" returnVariable="attvalist">
-						<cfinvokeargument name="attribute" value="#publication_attribute#">
-						<cfinvokeargument name="returnFormat" value="plain">
-					</cfinvoke>
-					<tr id="attRow#i#">
-						<td>
-							<input type="hidden" name="attribute_type#i#"
-								class="reqdClr" id="attribute_type#i#" value="#publication_attribute#">
-							#publication_attribute#
-						</td>
-						<td>
-							<cfif isquery(attvalist)>
-								<select name="attribute#i#" id="attribute#i#" class="reqdClr">
-									<cfloop query="attvalist">
-										<option <cfif v is atts.pub_att_value> selected="selected" </cfif>value="#v#">#v#</option>
-									</cfloop>
-								</select>
-							<cfelseif not isobject(attvalist)>
-								<input type="text" name="attribute#i#" id="attribute#i#" class="reqdClr" value="#pub_att_value#" size="50">
-							<cfelse>
-								error: 	<cfdump var="#attvalist#">
-							</cfif>
-						</td>
-						<td>
-							<span class="infoLink" onclick="deletePubAtt(#i#)">Delete</span>
-						</td>
-					</tr>
-				</cfloop>
-			</table>
-		</div>
-		<input type="hidden" name="origNumberAttributes" id="origNumberAttributes" value="#i#">
-		<input type="hidden" name="numberAttributes" id="numberAttributes" value="#i#">
+				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>
+				<div id="attributesBlock">#attribBlockContent#</div>
 			</section>
 
 			<section name="mediaSection" class="row border rounded mx-0 my-2" title="Media of this publication">

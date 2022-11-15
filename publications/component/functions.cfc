@@ -583,6 +583,9 @@ limitations under the License.
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAttributesForPubThread">
 		<cftry>
+			<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select publication_attribute from ctpublication_attribute order by publication_attribute
+			</cfquery>
 			<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="atts_result">
 				SELECT
 					publication_attribute_id,
@@ -591,9 +594,37 @@ limitations under the License.
 					pub_att_value
 				FROM publication_attributes 
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-		</cfquery>
+			</cfquery>
+			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT ctpublication_attribute.publication_attribute 
+				FROM ctpublication_attribute 
+				WHERE
+					ctpublication_attribute.publication_attribute NOT IN (
+						SELECT distinct publication_attribute 
+						FROM publication_attributes
+						WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					)
+				ORDER BY ctpublication_attribute.publication_attribute
+			</cfquery>
 			<cfoutput>
-
+				<h2 class="h3">Attributes</h2>
+				<label for="new_attr" class="data-entry-label">Add</a>
+				<script>
+					<!--- TODO: Implement addAttribute, ? move to dialog --->
+				</script>
+				<select name="new_attr" id="new_attr" onchange="addAttribute(this.value)">
+					<option value=""></option>
+					<cfloop query="available_pub_att">
+						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute#</option>
+					</cfloop>
+				</select>
+				<ul>
+					<cfloop query="atts">
+						<!--- TODO: Edit --->
+						<!--- TODO: Delete --->
+						<li>#atts.publication_attribute#: #atts.pub_att_value#</li>
+					</cfloop>
+				</ul>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
