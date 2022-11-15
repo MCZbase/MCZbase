@@ -158,8 +158,6 @@ limitations under the License.
 	<!--- return results --->
 	<cfset return = xmlParse(xmlReturn)>
 	<cfset body = return.crossref_result.query_result.body >
-	<!--- TODO Check for status unresolved/no query_result.body.doi --->
-   <cfset status = return.crossref_result.query_result.body.query.XMLAttributes.status >
 	<cfif arrayLen(body) EQ 1>
 		<cftry>
 			<cfset doi = return.crossref_result.query_result.body.query.doi.XmlText>
@@ -168,10 +166,15 @@ limitations under the License.
 			<cfset row["doi"] = "#doi#">
 			<cfset data[1] = row>
 		<cfcatch>
+   		<cfset status = return.crossref_result.query_result.body.query.XMLAttributes.status >
+			<cfif status EQ "unresolved">
+				<cfthrow message = "No matches found">
+			</cfif>
 			<cfdump var="#return#">
 		</cfcatch>
 		</cftry>
 	<cfelseif arrayLen(body) GT 1>
+		<!--- TODO: Handle multiple possible matches --->
 		<cfdump var="#return#">
 	<cfelse>
 		<cfset row = StructNew()>
