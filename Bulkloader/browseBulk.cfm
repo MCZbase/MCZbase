@@ -79,7 +79,7 @@
 	</cfoutput>
 </cfif>
 <cfif action is "ajaxGrid">
-	<div class="mt-4 container-fluid px-4">
+	<div class="mt-4 container-fluid mb-2 px-4">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
 	<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
