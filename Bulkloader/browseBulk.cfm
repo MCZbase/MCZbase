@@ -728,7 +728,7 @@ Mark some of the records in this bulkloader batch:
 				&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 				</cfgrid>
 			</cfform>
-	
+		</div>
 </cfoutput>
 </cfif>
 <cfinclude template="/shared/_footer.cfm">
