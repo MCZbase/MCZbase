@@ -384,7 +384,6 @@ limitations under the License.
 					publication_author_name
 				WHERE
 					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
-					
 			</cfquery>
 			<cfif lookup.recordcount NEQ 1>
 				<cfthrow message = "error finding publication_author_name record to delete">
@@ -426,7 +425,118 @@ limitations under the License.
 </cffunction>
 
 
-<!--- TODO: method to move an author or editor up or down in the list. --->
+<!--- moveAuthor move an author or editor to a specified position in the list. 
+
+--->
+<cffunction name="moveAuthor" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_author_name_id" type="string" required="yes">
+	<cfargument name="to_position" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="lookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+				SELECT
+					publication_id,
+					author_position,
+					author_role
+				FROM
+					publication_author_name
+				WHERE
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
+			</cfquery>
+			<cfif lookup.recordcount NEQ 1>
+				<cfthrow message = "error finding publication_author_name record to move">
+			</cfif>
+			<cfif author_position EQ to_position>
+				<!--- no action --->
+				<cfthrow message = "no change, old position and new position are the same.">
+			</cfif>
+			<cfif author_position EQ 1 OR to_position EQ 1>
+				<!--- lookup agent and first/second author name forms --->
+				<cfquery name="lookupAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAgent_result">
+					SELECT
+						agent.agent_id,
+						fan.agent_name_id first_author_agent_name_id,
+						san.agent_name_id second_author_agent_name_id
+					FROM
+						agent_name author_agent_name
+						join agent on author_agent_name.agent_id = agent.agent_id
+						left join agent_name fan on agent.agent_id = fan.agent_id and fan.agent_name_type = 'first author'
+						left join agent_name san on agent.agent_id = san.agent_id and san.agent_name_type = 'second author'
+				</cfquery>
+			</cfif>
+			<cfif author_position EQ 1>
+				<!--- does a second author form of name exist for the agent --->
+				<cfthrow message = "Move from first author not implemented yet.">
+			<cfelse>
+				<cfif to_position EQ 1>
+					<!--- does a first author form of name exist for the agent --->
+					<cfthrow message = "Move to first author not implemented yet.">
+				<cfelse>
+					<!--- increment everyone from to_position up by 1 --->
+					<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="up_result">
+						UPDATE
+							publication_author_name
+						SET
+							author_position = author_position + 1
+						WHERE
+							publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+							and author_role = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_role#">
+							and author_position >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#to_position#">
+					</cfquery>
+					<cfif author_position GT to_position>
+						<!--- move to to_position --->
+						<cfquery name="mv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mv_result">
+							UPDATE
+								publication_author_name
+							SET
+								author_position = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#to_position#">
+							WHERE
+								publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
+						</cfquery>
+					<cfelse>	
+						<!--- author_position LT to_position --->
+						<!--- move to to_position+1 --->
+						<cfset target = to_position + 1>
+						<cfquery name="mv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mv_result">
+							UPDATE
+								publication_author_name
+							SET
+								author_position = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target#">
+							WHERE
+								publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
+						</cfquery>
+					</cfif>
+					<!--- move everyone above author_position down by 1 --->
+					<cfquery name="dn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dn_result">
+						UPDATE
+							publication_author_name
+						SET
+							author_position = author_position - 1
+						WHERE
+							publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+							and author_role = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_role#">
+							and author_position >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_position#">
+					</cfquery>
+				</cfif>
+			</cfif>
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "moved">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 
 
 <!--- updateAuthor update a publication_author_name record without changing ordinal position. 
