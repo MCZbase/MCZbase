@@ -111,8 +111,8 @@
 		<cfset args.pageSize="25">
 		<cfset args.multirowselect="Yes">
 		<cfset args.deleteButton="Delete Highlighted Row">
-		<a class="px-1 h5" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
-		&nbsp;~&nbsp;<a class="px-1 h5" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
+		&nbsp;~&nbsp;<a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 		<cfform method="post" action="browseBulk.cfm">
 			<cfinput type="hidden" name="returnAction" value="ajaxGrid">
 			<cfinput type="hidden" name="action" value="saveGridUpdate">
@@ -606,6 +606,27 @@
 	<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
+</cfloop>
+<cflocation url="browseBulk.cfm?action=#returnAction#&enteredby=#enteredby#&accn=#accn#&colln=#colln#">
+</cfoutput>
+</cfif>
+			
+<!-------------------------->
+<cfif #action# is "deleteGridUpdate">
+<cfoutput>
+<cfquery name="cNames" datasource="uam_god">
+	select column_name from user_tab_cols where table_name='BULKLOADER'
+</cfquery>
+<cfset ColNameList = valuelist(cNames.column_name)>
+<cfset GridName = "blGrid">
+<cfset numRows = #ArrayLen(form.blGrid.rowstatus.action)#>
+<h3>#numRows# rows deleted</h3>
+<!--- loop for each record --->
+<cfloop from="1" to="#numRows#" index="i">
+	<!--- and for each column --->
+	<cfset thisCollObjId = evaluate("Form.#GridName#.collection_object_id[#i#]")>
+	<cfset sql ='delete BULKLOADER SET collection_object_id = #thisCollObjId#'>	
+	<cfset sql ="#sql# WHERE collection_object_id = #thisCollObjId#">
 </cfloop>
 <cflocation url="browseBulk.cfm?action=#returnAction#&enteredby=#enteredby#&accn=#accn#&colln=#colln#">
 </cfoutput>
