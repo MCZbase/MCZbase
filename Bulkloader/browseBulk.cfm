@@ -707,27 +707,27 @@ Mark some of the records in this bulkloader batch:
 <cfset ColNameList = replace(ColNameList,"ENTEREDBY","","all")>
 --->
 <hr />
+<cfform method="post" action="browseBulk.cfm">
+	<cfinput type="hidden" name="action" value="saveGridUpdate">
+	<cfinput type="hidden" name="enteredby" value="#enteredby#">
+	<cfinput type="hidden" name="accn" value="#accn#">
+	<cfinput type="hidden" name="colln" value="#colln#">
+	<cfinput type="hidden" name="returnAction" value="viewTable">
+	<cfgrid query="data"  name="blGrid" width="1200" height="400" selectmode="edit">
+		<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
+		<!----
+		<cfgridcolumn name="loaded" select="yes">
+		<cfgridcolumn name="ENTEREDBY" select="yes">
+		---->
+		<cfloop list="#ColNameList#" index="thisName">
+			<cfgridcolumn name="#thisName#">
+		</cfloop>
+	<cfinput type="submit" name="save" value="Save Changes In Grid">
+	<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
+	&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
+	</cfgrid>
+</cfform>
 
-			<cfform method="post" action="browseBulk.cfm">
-				<cfinput type="hidden" name="action" value="saveGridUpdate">
-				<cfinput type="hidden" name="enteredby" value="#enteredby#">
-				<cfinput type="hidden" name="accn" value="#accn#">
-				<cfinput type="hidden" name="colln" value="#colln#">
-				<cfinput type="hidden" name="returnAction" value="viewTable">
-				<cfgrid query="data"  name="blGrid" width="1400" height="400" selectmode="edit">
-					<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
-					<!----
-					<cfgridcolumn name="loaded" select="yes">
-					<cfgridcolumn name="ENTEREDBY" select="yes">
-					---->
-					<cfloop list="#ColNameList#" index="thisName">
-						<cfgridcolumn name="#thisName#">
-					</cfloop>
-				<cfinput type="submit" name="save" value="Save Changes In Grid">
-				<a href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=viewTable">Mark all to load</a>
-				&nbsp;~&nbsp;<a href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
-				</cfgrid>
-			</cfform>
 </cfoutput>
 </cfif>
 <cfinclude template="/shared/_footer.cfm">
