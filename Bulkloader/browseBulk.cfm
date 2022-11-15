@@ -128,7 +128,7 @@
 		<cfset args.name="empListing">
 		<cfset args.multirowselect="yes">
 		<cfset args.title="Bulkloader">
-		<cfset args.onSubmit = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
+		<cfset args.onChange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
 		<cfset args.name="blGrid">
 			<cfset args.pageSize="25">
