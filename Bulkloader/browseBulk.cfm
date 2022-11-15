@@ -84,6 +84,7 @@
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
 		<p class="px-1">Default: All columns visible. Click any column header to select the columns visible. There is a delay, especially for many rows.</p>
 	<cfoutput>
+		
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
 				left outer join BULKLOADER_FIELD_ORDER
@@ -109,6 +110,7 @@
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
 		<cfset args.name="blGrid">
 		<cfset args.pageSize="25">
+		
 		<cfset args.multirowselect="Yes">
 		<cfset args.deleteButton="Delete Highlighted Row">
 		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
@@ -127,7 +129,9 @@
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
 			</cfgrid>
-	<cfinput type="submit" name="gridEntered">
+			<cfif isdefined("form.multirowselect") is true>
+				<cfinput type="submit" name="gridEntered">
+			</cfif>
 		</cfform>
 	</cfoutput>
 	</div>
