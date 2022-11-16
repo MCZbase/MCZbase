@@ -98,20 +98,20 @@
 		</cfquery>
 		<cfset ColNameList = valuelist(cNames.column_name)>
 		<cfset ColNameList = replace(ColNameList,"COLLECTION_OBJECT_ID","","all")>
-	<!---	<cfset args.width="1200">--->
+
 		<cfset args.stripeRows = true>
 		<cfset args.selectColor = "##D9E8FB">
 		<cfset args.selectmode = "edit">
 		<cfset args.format="html">
 		<cfset args.gridLines = "yes">
-	<!---	<cfset args.delete="yes">--->
+		<cfset args.delete="yes">
 		<cfset args.title="Bulkloader">
 		<cfset args.onChange = "cfc:component.Bulkloader.editRecord({cfgridaction},{cfgridrow},{cfgridchanged})">
 		<cfset args.bind="cfc:component.Bulkloader.getPage({cfgridpage},{cfgridpagesize},{cfgridsortcolumn},{cfgridsortdirection},{accn},{enteredby},{colln})">
 		<cfset args.name="blGrid">
 		<cfset args.pageSize="25">
-<!---		<cfset args.multirowselect="Yes">
-		<cfset args.deleteButton="Delete Selected Row">--->
+<!---		<cfset args.multirowselect="Yes">--->
+		<cfset args.deleteButton="Delete Selected Row">
 		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 		 <span class="h4">&nbsp;~&nbsp;</span> <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 		<cfform method="post" action="browseBulk.cfm">
@@ -123,7 +123,7 @@
 			<cfgrid attributeCollection="#args#">
 				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
 				<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
-					hrefkey="collection_object_id" target="_blank" header="Key Temp Value" autoExpand="yes">
+					hrefkey="collection_object_id" target="_blank" header="Key (temp value)" headeritalics="true">
 				<cfloop list="#ColNameList#" index="thisName" >
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
