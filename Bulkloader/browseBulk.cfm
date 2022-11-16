@@ -496,7 +496,7 @@
 						</form>
 					</div>
 					<div class="col-12 my-3 float-left">
-						<h2>Update data in table below: <span class="h4 font-italic text-info">(Use "control" + "F" to bring a column header or value into focus)</span></h2> 
+						<h2>Update data in table below: <span class="h4 font-italic text-info">(To check updates: Use "control" + "F" to bring a column header or value into focus)</span></h2> 
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
