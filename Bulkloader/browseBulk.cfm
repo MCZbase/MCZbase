@@ -400,7 +400,7 @@
 							NOTE: This form will load at most 500 records. 
 						</p>
 					</div>
-					<div class="col-12 col-md-8 mt-3 pb-3 float-left">
+					<div class="col-12 col-md-8 mt-1 pb-3 float-left">
 						<form name="filter" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="sqlTab">
 							<input type="hidden" name="enteredby" value="#enteredby#">
@@ -495,7 +495,7 @@
 							</table>
 						</form>
 					</div>
-					<div class="col-12 my-3 float-left">
+					<div class="col-12 mb-3 mt-0 float-left">
 						<h2>Update data in table below: </h2> 
 						<h3 class="h4 font-italic text-info">To check updates: Use "control" + "F" to bring a column header or value into focus.</h3>
 						<h3 class="h4 font-italic text-info">To update to an empty column, click "NULL" for the value.</h3>
