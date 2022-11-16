@@ -391,7 +391,7 @@
 					<div class="col-12 col-md-4 mt-2 pb-2 float-left">
 						<p>Operator values:</p>
 							<ul class="geol_hier">
-								<li><b>=</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
+								<li><b>&#61;</b> : single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
 								<li><b>like</b> : partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
 								<li><b>in</b> : comma-delimited list ("one,two" --> "<strong>one</strong>" OR "<strong>two</strong>")</li>
 								<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
