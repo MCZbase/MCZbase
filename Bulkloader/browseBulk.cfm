@@ -124,8 +124,9 @@
 				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
 				<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 					hrefkey="collection_object_id" target="_blank" header="Key">
-				<cfloop list="#ColNameList#" index="thisName">
+				<cfloop list="#ColNameList#" index="i" from="1" to="#ListLen(thisName)#">
 					<cfgridcolumn name="#thisName#" width="150">
+					<cfgridrow data="#ListGetAt(thisName, i)#">
 				</cfloop>
 			</cfgrid>
 		</cfform>
