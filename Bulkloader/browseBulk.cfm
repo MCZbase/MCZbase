@@ -84,7 +84,8 @@
 	<div class="container-fluid">
 		<div class="col-12 p-4">
 	<h1 class="h2">Grid of New Cataloged Items to be Loaded</h1>
-		<p class="px-1">Default: All columns visible. Hover on any column header to see the option menu. Sort or use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</p>
+		<p class="px-1">Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</p>
+		<p class="px-1">On page load, rows are sorted by the Key. Clicking on column header sorts by that column. Also, sort through option menu next to each column header. Hover to see it. </p>
 		<p class="px-1">Double click columns to edit.</p>
 		<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
