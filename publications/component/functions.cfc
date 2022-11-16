@@ -670,7 +670,7 @@ limitations under the License.
 		<cftry>
 			<!--- delete the target attribute --->
 			<cfquery name="deleteAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
-				delete from publication_attribute
+				delete from publication_attributes
 				where
 				publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
 			</cfquery>
