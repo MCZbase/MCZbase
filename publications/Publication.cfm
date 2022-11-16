@@ -244,7 +244,6 @@ limitations under the License.
 							<cfif len(pub.doi) GT 0>
 								<cfset crossref = "#crossref#&doi=#encodeForURL(pub.doi)#">
 							</cfif>
-							<cfif 
 							<label class="data-entry-label"><a href="https://www.crossref.org/#crossref#" target="_blank">Search CrossRef</a></label>
 							<cfif len(pub.doi) gt 0>
 								<a class="external" target="_blank" href="https://doi.org/#pub.doi#">#pub.doi#</a>
