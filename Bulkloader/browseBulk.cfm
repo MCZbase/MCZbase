@@ -84,10 +84,11 @@
 	<div class="container-fluid">
 		<div class="col-12 p-4">
 	<h1 class="h2">Grid of New Cataloged Items to be Loaded</h1>
-		<h2 class="h3">Tips for finding and editing data</h2>
-		<p class="px-1">Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</p>
-		<p class="px-1">On page load, rows are sorted by the Key. Clicking on column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </p>
-			<p class="px-1">Double click fields to edit. Use "control" + "F" to bring field to focus on your screen.  This is less helpful for inserting values into empty columns because it doesn't find column headers. </p>
+		<h2 class="h4">Tips for finding and editing data</h2>
+		<ul>
+			<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
+			<li>On page load, rows are sorted by the Key. Clicking on column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
+			<li>Double click fields to edit. Use "control" + "F" to bring field to focus on your screen.  This is less helpful for inserting values into empty columns because it doesn't find column headers. </li>
 		<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
