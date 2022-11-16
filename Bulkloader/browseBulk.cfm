@@ -219,7 +219,7 @@
 								</tr>
 								<tr>
 									<td colspan="3">
-										<input type="button" value="SQL" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
+										<input type="button" value="SQL Table" class="lnkBtn" onclick="f.action.value='sqlTab';f.submit();">
 										<input type="button" value="AJAX grid" class="lnkBtn" onclick="f.action.value='ajaxGrid';f.submit();">
 									</td>
 								</tr>
