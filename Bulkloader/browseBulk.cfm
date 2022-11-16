@@ -15,8 +15,8 @@
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -webkit-box-sizing:border-box; }
-	.x-grid-col {min-width: 100px;}
-	
+.x-grid-col {min-width: 100px;}
+.x	
 </style>
 <!-------------------------------------------------------------->
 <cfif action is "loadAll">
@@ -123,9 +123,9 @@
 			<cfgrid attributeCollection="#args#">
 				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
 				<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
-					hrefkey="collection_object_id" target="_blank" header="Key_(tempID)" textcolor="##006ee3" >
-				<cfloop list="#ColNameList#" index="thisName" >
-					<cfgridcolumn name="#thisName#" width="135">
+					hrefkey="collection_object_id" target="_blank" header="Key_(tempID)" textcolor="##006ee3" autoExpand="yes">
+				<cfloop list="#ColNameList#" index="thisName">
+					<cfgridcolumn name="#thisName#" width="135" autoExpand="no">
 				</cfloop>
 			</cfgrid>
 		</cfform>
