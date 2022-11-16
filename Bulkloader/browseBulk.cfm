@@ -15,6 +15,7 @@
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -webkit-box-sizing:border-box; }
+	.x-grid-col {min-width: 100px;}
 	
 </style>
 <!-------------------------------------------------------------->
