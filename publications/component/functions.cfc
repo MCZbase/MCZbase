@@ -693,6 +693,57 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- updateAttribute update a publication_attribute record.
+  @param publication_attribute_id the primary key value of the row to update.
+  @param publication_id the publication to which the attribute applies (optional,
+   as the likely case is an update of attribute value for a record, rather than changing
+   the publication to which an attribute is applied).
+  @param publication_attribute the attribute to update.
+  @param pub_att_value the value of the attribute to update.
+  @return a structure with status=updated and id=publication_attribute_id
+    or if an exception was raised, an http response with http statuscode of 500.
+--->
+<cffunction name="updateAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_attribute_id" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="no">
+	<cfargument name="publication_attribute" type="string" required="yes">
+	<cfargument name="pub_att_value" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- update the target attribute --->
+			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
+				UPDATE publication_attributes
+				SET
+					<cfif isDefined("publication_id") AND len(publication_id) GT 0 >
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+					</cfif>
+					publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
+					pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pub_att_value#">
+				WHERE
+					publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfif deleteAttribute_result.recordcount NEQ 1>
+				<cfthrow message = "error updating publication_attribute record [#encodeForHtml(publication_attribute_id)#]">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#publication_attribute_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!---------------------------------------------------------------------------------------------------------->
 <!---
 		<cfloop from="1" to="#numberAttributes#" index="n">
