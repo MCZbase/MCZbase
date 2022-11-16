@@ -389,7 +389,7 @@
 						<p>Use the top form to filter the table to the records of interest. All values are ANDed together and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values here are also case sensitive. There is no control over entries here - you can easily update such that records will never load. Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
 					</div>
 					<div class="col-12 col-md-4 mt-2 pb-2 float-left">
-						<p>Click the table headers to sort. Operator values:</p>
+						<p>Operator values:</p>
 							<ul class="geol_hier">
 								<li>=: single case-sensitive exact match ("something"-->"<strong>something</strong>")</li>
 								<li>like: partial string match ("somet" --> "<strong>somet</strong>hing", "got<strong>somet</strong>oo", "<strong>somet</strong>ime", etc.)</li>
@@ -496,7 +496,9 @@
 						</form>
 					</div>
 					<div class="col-12 my-3 float-left">
-						<h2>Update data in table below: <span class="h4 font-italic text-info">(To check updates: Use "control" + "F" to bring a column header or value into focus)</span></h2> 
+						<h2>Update data in table below: </h2> 
+						<h3 class="h4 font-italic text-info">To check updates: Use "control" + "F" to bring a column header or value into focus.</h3>
+						<h3 class="h4 font-italic text-info">To update to an empty column, click "NULL" for the value.</h3>
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
