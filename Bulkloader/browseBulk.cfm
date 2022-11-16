@@ -84,7 +84,7 @@
 	<div class="container-fluid">
 		<div class="col-12 p-4">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
-		<p class="px-1">Default: All columns visible. Hover on any column header to select the columns visible. There is a delay, especially when there are many rows/pages in the grid.</p>
+		<p class="px-1">Default: All columns visible. Hover on any column header and use the "Columns" button to select the columns visible. Double click columns There is a delay, especially when there are many rows/pages in the grid.</p>
 		<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
@@ -496,7 +496,7 @@
 						</form>
 					</div>
 					<div class="col-12 my-3 float-left">
-						<h2>Update data in table below:</h2>
+						<h2>Update data in table below: <span class="small90">(Use control + F to bring a column header into focus)</span></h2> 
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
