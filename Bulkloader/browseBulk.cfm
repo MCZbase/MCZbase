@@ -122,8 +122,8 @@
 			<cfinput type="hidden" name="colln" value="#colln#">
 			<cfgrid attributeCollection="#args#">
 				<!--- enteredby2 instead of enteredby as DataEntry.cfm overwrites enteredby --->
-				<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
-					hrefkey="collection_object_id" target="_blank" header="Key" width="150">
+				<cfgridcolumn name="collection_object_id" select="no" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
+					hrefkey="collection_object_id" target="_blank" header="Key" autoExpand="yes">
 				<cfloop list="#ColNameList#" index="thisName" >
 					<cfgridcolumn name="#thisName#" width="150">
 				</cfloop>
