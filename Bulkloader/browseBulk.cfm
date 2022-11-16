@@ -559,7 +559,7 @@
 							<table border id="t" class="sortable">
 								<tr>
 								<cfloop query="cNames">
-									<th>#column_name#</th>
+									<th class="px-2">#column_name#</th>
 								</cfloop>
 								<cfloop query="data">
 									<tr>
@@ -568,7 +568,7 @@
 									</cfquery>
 									<cfloop query="cNames">
 										<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-										<td>#thisData#</td>
+										<td class="px-2">#thisData#</td>
 									</cfloop>
 									</tr>
 								</cfloop>
