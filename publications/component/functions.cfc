@@ -674,7 +674,7 @@ limitations under the License.
 				where
 				publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
 			</cfquery>
-			<cfif deleteAuthor_result.recordcount NEQ 1>
+			<cfif deleteAttribute_result.recordcount NEQ 1>
 				<cfthrow message = "error deleting publication_attribute record [#encodeForHtml(publication_attribute_id)#]">
 			</cfif>
 			<cfset row = StructNew()>
