@@ -232,7 +232,7 @@ limitations under the License.
  @param publication_id the publication for which to obtain authors/editors
  @return html listing authors and editors for the specified publication in a form for editing
 ---->
-<cffunction name="getAuthorsForPubHtml" access="remote" returntype="string">
+<cffunction name="getAuthorsForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAuthorsForPubThread">
 
@@ -593,7 +593,7 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<cffunction name="getAttributesForPubHtml" access="remote" returntype="string">
+<cffunction name="getAttributesForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAttributesForPubThread">
 		<cftry>
