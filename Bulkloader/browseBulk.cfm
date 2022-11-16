@@ -739,7 +739,7 @@ Mark some of the records in this bulkloader batch:
 			<cfgridcolumn name="collection_object_id" select="no" href="/DataEntry.cfm?action=editEnterData&ImAGod=yes&pMode=edit" hrefkey="collection_object_id" target="_blank">
 			<!----
 			<cfgridcolumn name="loaded" select="yes">---->
-			<cfgridcolumn name="ENTEREDBY" select="yes">
+	<!---		<cfgridcolumn name="ENTEREDBY" select="yes">--->
 			
 			<cfloop list="#ColNameList#" index="thisName">
 				<cfgridcolumn name="#thisName#">
