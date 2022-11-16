@@ -84,7 +84,7 @@
 	<div class="container-fluid">
 		<div class="col-12 p-4">
 	<h1 class="h2">Grid of New Cataloged Items to be Loaded</h1>
-		<h2 class="h4">Tips for finding and editing data</h2>
+		<h2 class="h4"><u>Tips for finding and editing data</u></h2>
 		<ul class="pb-3">
 			<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
 			<li>On page load, rows are sorted by the Key. Clicking on column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
