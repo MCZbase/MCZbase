@@ -89,6 +89,7 @@
 			<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
 			<li>On page load, rows are sorted by the Key. Clicking on column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
 			<li>Double click fields to edit. Use "control" + "F" to bring field to focus on your screen.  This is less helpful for inserting values into empty columns because it doesn't find column headers. </li>
+		</ul>
 		<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
