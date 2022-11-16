@@ -556,7 +556,8 @@
 							</table>
 						</form>
 						<div class="blTabDiv">
-							<table border id="t" class="sortable">
+							<table border id="t"> 
+				<!---				   class="sortable">--->
 								<tr>
 								<cfloop query="cNames">
 									<th class="px-2">#column_name#</th>
