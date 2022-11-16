@@ -84,7 +84,8 @@
 	<div class="container-fluid">
 		<div class="col-12 p-4">
 	<h1 class="h2">Table of New Cataloged Items to be Loaded</h1>
-		<p class="px-1">Default: All columns visible. Hover on any column header and use the "Columns" button to select the columns visible. Double click columns There is a delay, especially when there are many rows/pages in the grid.</p>
+		<p class="px-1">Default: All columns visible. Hover on any column header and use the "Columns" button to select the columns visible. There is a delay, especially when there are many rows/pages in the grid.</p>
+		<p>Double click columns to edit.</p>
 		<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
 			select user_tab_cols.column_name from user_tab_cols
@@ -170,7 +171,7 @@
 							<ul>
 								<li>
 									<h2 class="h3">Edit in SQL</h2>
-									<p>Allows mass updates based on existing values. Will only load 500 records at one time.   Watch your browser loading indicator for signs of it finishing to load before trying to update data. Use control + F to find columns and data values in table.</p>
+									<p>Allows mass updates based on existing values. Will only load 500 records at one time.   Watch your browser's loading indicator for signs of it finishing to load before trying to update data. Use control + F to find column headers and data values in table.</p>
 								</li>
 								<li class="mt-2">
 									<h2 class="h3">Edit in AJAX grid</h2>
