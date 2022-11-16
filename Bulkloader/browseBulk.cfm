@@ -412,7 +412,7 @@
 							</cfif>
 							<h2>Create Filter:</h2>
 							<table class="table table-responsive">
-								<thead>
+								<thead class="thead-light">
 								<tr>
 									<th>Column</th>
 									<th>Operator</th>
@@ -522,7 +522,7 @@
 								<input type="hidden" name="v3" value="#v3#">			
 							</cfif>
 							<table class="table table-responsive">
-								<thead>
+								<thead class="thead-light">
 									<tr>
 										<th>Column</th>
 										<th>Update To</th>
@@ -558,21 +558,24 @@
 						<div class="blTabDiv">
 							<table border id="t"> 
 				<!---				   class="sortable">--->
-								<tr>
+								<tr><thead class="thead-light">
 								<cfloop query="cNames">
 									<th class="px-2">#column_name#</th>
 								</cfloop>
-								<cfloop query="data">
-									<tr>
-									<cfquery name="thisRec" dbtype="query">
-										select * from data where collection_object_id=#data.collection_object_id#
-									</cfquery>
-									<cfloop query="cNames">
-										<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-										<td class="px-2">#thisData#</td>
-									</cfloop>
-									</tr>
-								</cfloop>
+									</thead>
+									<tbody>
+										<cfloop query="data">
+											<tr>
+											<cfquery name="thisRec" dbtype="query">
+												select * from data where collection_object_id=#data.collection_object_id#
+											</cfquery>
+											<cfloop query="cNames">
+												<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+												<td class="px-2">#thisData#</td>
+											</cfloop>
+											</tr>
+										</cfloop>
+									</tbody>
 								</tr>
 							</table>
 						</div>
