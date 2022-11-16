@@ -557,11 +557,14 @@
 						</form>
 						<div class="blTabDiv">
 							<table border id="t"> 
-				<!---				   class="sortable">--->
-								<tr><thead class="thead-light">
-								<cfloop query="cNames">
-									<th class="px-2">#column_name#</th>
-								</cfloop>
+				<!---				   class="sortable">  Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. It also won't work for styling to have the <tr> wrapped around the whole table without <thead> and <tbody> --->
+							<!---	<tr>--->
+									<thead class="thead-light">
+										<tr>
+											<cfloop query="cNames">
+												<th class="px-2">#column_name#</th>
+											</cfloop>
+										</tr>
 									</thead>
 									<tbody>
 										<cfloop query="data">
@@ -576,7 +579,7 @@
 											</tr>
 										</cfloop>
 									</tbody>
-								</tr>
+								<!---</tr>--->
 							</table>
 						</div>
 					</div>
