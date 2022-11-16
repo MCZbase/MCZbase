@@ -169,13 +169,13 @@
 						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
 								<li>
-									<strong>Edit in SQL</strong>
-									<br>Allows mass updates based on existing values. Will only load 500 records at one time.
+									<h2 class="h3">Edit in SQL</h2>
+									<p>Allows mass updates based on existing values. Will only load 500 records at one time. <b>Slow to load when more than a 15.</b>  What your browser loading indicator for sign of it finishing to load before trying to update data.</p>
 								</li>
-								<li>
-									<strong>Edit in AJAX grid</strong>
-									<br>Opens an AJAX table. Click headers to sort. Drag columns. Doubleclick cells to edit.
-									Saves automatically on change. Slow to load.
+								<li class="mt-2">
+									<h2 class="h3">Edit in AJAX grid</h2>
+									<p>Opens an AJAX table. Click headers to sort. Drag columns. Doubleclick cells to edit.
+										Saves automatically on change. <b>This grid is slow to load for large record numbers.</b></p>
 								</li>
 							</ul>
 					</div>
