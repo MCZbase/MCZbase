@@ -498,7 +498,7 @@
 					<div class="col-12 mb-3 mt-0 float-left">
 						<h2>Update data in table below: </h2> 
 						<h3 class="h4 font-italic text-info">To check updates: Use "control" + "F" to bring a column header or value into focus.</h3>
-						<h3 class="h4 font-italic text-info">To update to an empty column, click "NULL" for the value.</h3>
+						<h3 class="h4 font-italic text-info">To empty a column, click "NULL" for the value and update.</h3>
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
