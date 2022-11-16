@@ -174,7 +174,7 @@
 						<p>Pick any or all of enteredby agent, accession, or collection to edit and approve entered or loaded data.</p>
 							<ul>
 								<li>
-									<h2 class="h3">Edit in SQL</h2>
+									<h2 class="h3">Edit in SQL Table</h2>
 									<p>Allows mass updates based on existing values. Will only load 500 records at one time.   Watch your browser's loading indicator for signs of it finishing to load before trying to update data. Use "control" + "F" to find data values in table.</p>
 								</li>
 								<li class="mt-2">
