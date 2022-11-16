@@ -391,7 +391,7 @@
 			<div class="row mx-0">
 				<div class="col-12 px-0">
 					<div class="col-12 mt-4 pb-2 float-left"><h1 class="h2">Filter and Update Column Values in Bulk</h1>
-						<p>Use the top form to filter the table to the records of interest. All values are joined with "AND" and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values in the update form are also case sensitive. There is no control over entries here - you can easily update such that records will never load. Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</p>
+						<p>Use the top form to filter the table to the records of interest. All values are joined with "AND" and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values in the update form are also case sensitive. There is no control over entries here - you can easily update such that records will never load. <span class="text-info font-weight-lessbold">Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</span></p>
 					</div>
 					<div class="col-12 col-md-4 mt-2 pb-2 float-left">
 						<p>Operator values:</p>
