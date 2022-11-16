@@ -397,7 +397,7 @@
 								<li>between: range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
 							</ul>
 						<p>
-							NOTE: This form will load at most 500 records. Your browser will thank me.
+							NOTE: This form will load at most 500 records. 
 						</p>
 					</div>
 					<div class="col-12 col-md-8 mt-3 pb-3 float-left">
@@ -496,7 +496,7 @@
 						</form>
 					</div>
 					<div class="col-12 my-3 float-left">
-						<h2>Update data in table below: <span class="small90">(Use control + F to bring a column header into focus)</span></h2> 
+						<h2>Update data in table below: <span class="h4 font-italic text-info">(Use "control" + "F" to bring a column header or value into focus)</span></h2> 
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
