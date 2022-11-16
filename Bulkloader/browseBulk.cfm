@@ -556,7 +556,7 @@
 							</table>
 						</form>
 						<div class="blTabDiv">
-							<table border id="t"> 
+							<table class="table" id="t"> 
 				<!---				   class="sortable">  Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. It also won't work for styling to have the <tr> wrapped around the whole table without <thead> and <tbody> --->
 							<!---	<tr>--->
 									<thead class="thead-light">
