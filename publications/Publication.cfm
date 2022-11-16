@@ -71,7 +71,11 @@ limitations under the License.
 			is_peer_reviewed_fg,
 			doi,
 			mczbase.getshortcitation(publication_id) as short_citation, 
-			mczbase.getfullcitation(publication_id) as full_citation 
+			mczbase.getfullcitation(publication_id) as full_citation,
+			get_publication_attribute(publication_id,'begin page') as spage,
+			get_publication_attribute(publication_id,'journal name') as jtitle,
+			get_publication_attribute(publication_id,'volume') as volume,
+			get_publication_attribute(publication_id,'issue') as issue
 		FROM publication
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
@@ -95,6 +99,16 @@ limitations under the License.
 		SELECT count(*) ct, 'identification sensu' as type 
 		FROM identification
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+	</cfquery>
+	<cfquery name="getAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT person.last_name as aulast
+		FROM
+			publication_author_name p
+			join agent_name an on p.agent_name_id = an.agent_name_id
+			join person on an.agent_id = person.person_id
+		WHERE
+			p.author_role = 'author' and p.author_position = 1 and
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
 	<cfset useCount = 0>
 	<cfloop query="uses">
@@ -198,7 +212,40 @@ limitations under the License.
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-4" id="doiLinkDiv">
-							<label class="data-entry-label"><a href="https://www.crossref.org/guestquery/" target="_blank">Search CrossRef</a></label>
+							<cfset crossref = "guestquery/">
+							<cfif pub.publication_type EQ "book" OR pub.publication_type EQ "book section">
+								<cfset crossref = "#crossref#?search_type=books">
+							<cfelse>
+								<cfset crossref = "#crossref#?search_type=journal">
+							</cfif>
+							<cfif getAuthor.recordcount GT 0>
+								<cfset crossref = "#crossref#&auth=#getAuthor.aulast#">
+								<cfset crossref = "#crossref#&auth2=#getAuthor.aulast#">
+							</cfif>
+							<cfif len(pub.jtitle) GT 0>
+								<cfset crossref = "#crossref#&title=#encodeForURL(pub.jtitle)#">
+							</cfif>
+							<cfif len(pub.volume) GT 0>
+								<cfset crossref = "#crossref#&volume=#encodeForURL(pub.volume)#">
+							</cfif>
+							<cfif len(pub.issue) GT 0>
+								<cfset crossref = "#crossref#&issue=#encodeForURL(pub.issue)#">
+							</cfif>
+							<cfif len(pub.spage) GT 0>
+								<cfset crossref = "#crossref#&page=#encodeForURL(pub.spage)#">
+							</cfif>
+							<cfif len(pub.published_year) GT 0>
+								<cfset crossref = "#crossref#&year=#encodeForURL(pub.published_year)#">
+							</cfif>
+							<cfif len(pub.publication_title) GT 0>
+								<cfset crossref = "#crossref#&atitle=#encodeForURL(pub.publication_title)#">
+								<cfset crossref = "#crossref#&atitle2=#encodeForURL(pub.publication_title)#">
+							</cfif>
+							<cfif len(pub.doi) GT 0>
+								<cfset crossref = "#crossref#&doi=#encodeForURL(pub.doi)#">
+							</cfif>
+							<cfif 
+							<label class="data-entry-label"><a href="https://www.crossref.org/#crossref#" target="_blank">Search CrossRef</a></label>
 							<cfif len(pub.doi) gt 0>
 								<a class="external" target="_blank" href="https://doi.org/#pub.doi#">#pub.doi#</a>
 							<cfelse>
