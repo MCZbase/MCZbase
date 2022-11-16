@@ -110,6 +110,7 @@
 		<cfset args.name="blGrid">
 		<cfset args.pageSize="25">
 		<cfset args.multirowselect="no">
+		<cfset args.autoWidth="no">
 		<a class="px-1 h4" href="browseBulk.cfm?action=loadAll&enteredby=#enteredby#&accn=#accn#&colln=#colln#&returnAction=ajaxGrid">Mark all to load</a>
 		 <span class="h4">&nbsp;~&nbsp;</span> <a class="px-1 h4" href="browseBulk.cfm?action=download&enteredby=#enteredby#&accn=#accn#&colln=#colln#">Download CSV</a>
 		<cfform method="post" action="browseBulk.cfm">
@@ -123,7 +124,7 @@
 				<cfgridcolumn name="collection_object_id" select="no" width="75" display="yes" href="/DataEntry.cfm?action=editEnterData&pMode=edit&ImAGod=yes&enteredby2=#enteredby#&accn2=#accn#&colln2=#colln#" 
 					hrefkey="collection_object_id" target="_blank" header="Key_(tempID)" textcolor="blue" >
 				<cfloop list="#ColNameList#" index="thisName" >
-					<cfgridcolumn name="#thisName#" width="150">
+					<cfgridcolumn name="#thisName#">
 				</cfloop>
 			</cfgrid>
 		</cfform>
