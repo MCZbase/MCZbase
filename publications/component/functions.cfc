@@ -313,7 +313,7 @@ limitations under the License.
 					<ul>
 						<cfloop query="getAuthors">
 							<li>
-								<a href="agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
+								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
 								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
@@ -329,7 +329,7 @@ limitations under the License.
 					<ul>
 						<cfloop query="getEditors">
 							<li>
-								<a href="agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
+								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
 								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->

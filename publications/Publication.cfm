@@ -125,7 +125,7 @@ limitations under the License.
 						<a class="btn btn-xs btn-primary text-decoration-none" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 					</span>
 				</h1>
-				<div class="h2" id="fullCitationDiv">#pub.full_citation#</div>
+				<div class="h2 px-2" id="fullCitationDiv">#pub.full_citation#</div>
 				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
