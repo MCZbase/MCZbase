@@ -92,8 +92,8 @@
 	<tr>
 		<td>Group</td>
 		<td>
-			<span class="btn_link" onclick="checkAll(1)">All On</span>
-			<br><span class="likeLink" onclick="checkAll(0)">All Off</span>
+			<a class="btn-link" onclick="checkAll(1)">All On</a>
+			<br><a class="btn-link" onclick="checkAll(0)">All Off</a>
 		</td>
 	</tr>
 	</thead>
