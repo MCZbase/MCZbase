@@ -129,10 +129,10 @@ limitations under the License.
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
-					<div class="form-row mb-2 bg-light">
-						<div class="col-12 col-md-11 mr-0">
+					<div class="form-row mb-2 bg-verylightteal">
+						<div class="col-12 col-md-10 mr-0">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
-							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="4" required>#pub.publication_title#</textarea>
+							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required>#pub.publication_title#</textarea>
 						</div>
 						<script>
 							function markup(textAreaId, tag){
@@ -155,19 +155,23 @@ limitations under the License.
 								}
 							}
 						</script>
-						<div class="col-12 col-md-1 ml-0">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
+						<div class="col-6 col-md-1 ml-0">
+							<ul class="list-group pt-2">
+								<li class="list-group-item pb-0">
+									<button class="btn btn-xs btn-secondary m-0" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
 								</li>
-								<li class="list-group-item">
-									<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','b')" aria-label="make selected text bold"><strong>B</strong></button>
+								<li class="list-group-item pt-0">
+									<button class="btn btn-xs btn-secondary m-0" onclick="markup('publication_title','b')" aria-label="make selected text bold"><strong>B</strong></button>
 								</li>
-								<li class="list-group-item">
-									<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
+							</ul>
+						</div>
+						<div class="col-6 col-md-1 ml-0">
+							<ul class="list-group pt-2">
+								<li class="list-group-item pb-0">
+									<button class="btn btn-xs btn-secondary m-0" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
 								</li>
-								<li class="list-group-item">
-									<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
+								<li class="list-group-item pt-0">
+									<button class="btn btn-xs btn-secondary m-0" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
 								</li>
 							</ul>
 						</div>
