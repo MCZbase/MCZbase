@@ -1,4 +1,5 @@
-<cfinclude template="/includes/_header.cfm">
+<cfset pageTitle="Bulkloaded Builder">
+<cfinclude template="/shared/_header.cfm">
     <div style="width: 50em; margin: 0 auto;padding: 2em 0 5em 0;">
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
@@ -291,4 +292,4 @@
 </cfif>
 
  </div>
- <cfinclude template="/includes/_footer.cfm">
+ <cfinclude template="/shared/_footer.cfm">
