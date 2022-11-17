@@ -117,7 +117,7 @@ limitations under the License.
 	<cfoutput>
 		<main class="container py-3" id="content" >
 			<section class="row border rounded my-2">
-				<h1 class="h2 w-100">
+				<h1 class="h2 w-100 px-2 pt-1">
 					Edit Publication: #pub.short_citation# (#pub.publication_id#)
        			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 					<span class="d-inline-block float-right">
@@ -125,6 +125,7 @@ limitations under the License.
 						<a class="btn btn-xs btn-primary text-decoration-none" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
 					</span>
 				</h1>
+				<div class="h2" id="fullCitationDiv">#pub.full_citation#</div>
 				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
@@ -297,6 +298,7 @@ limitations under the License.
 									$('##saveResultDiv').addClass('text-success');
 									$('##saveResultDiv').removeClass('text-danger');
 									$('##saveResultDiv').removeClass('text-warning');
+									loadFullCitDivHTML();
 								},
 								error: function(jqXHR,textStatus,error){
 									$('##saveResultDiv').html('Error.');
@@ -315,6 +317,7 @@ limitations under the License.
 				<script>
 					function reloadAuthors(){ 
 						loadAuthorsDivHTML(#publication_id#,'authorBlock');
+						loadFullCitDivHTML();
 					}
 				</script>
 				<!--- TODO: Move authors to backing method  --->
@@ -326,6 +329,7 @@ limitations under the License.
 				<script>
 					function reloadAttributes(){ 
 						loadAttributesDivHTML(#publication_id#,'attributesBlock');
+						loadFullCitDivHTML();
 					}
 				</script>
 				<!--- TODO: Move attributes to backing method --->
