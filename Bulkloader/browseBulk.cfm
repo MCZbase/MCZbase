@@ -563,7 +563,44 @@
 								</tbody>
 							</table>
 						</form>
-						<script>
+
+						<style>
+						table, th, td {
+							border: 1px solid black;
+						}
+						th {
+							cursor: pointer;
+						}
+						</style>
+					
+						<div class="blTabDiv">
+							<table class="table sortthis" id="t"> 
+				<!---				   class="sortable">  Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. It also won't work for styling to have the <tr> wrapped around the whole table without <thead> and <tbody> --->
+							<!---	<tr>--->
+									<thead class="thead-light">
+										<tr>
+											<cfloop query="cNames">
+												<th class="px-2">#column_name#</th>
+											</cfloop>
+										</tr>
+									</thead>
+									<tbody>
+										<cfloop query="data">
+											<tr>
+											<cfquery name="thisRec" dbtype="query">
+												select * from data where collection_object_id=#data.collection_object_id#
+											</cfquery>
+											<cfloop query="cNames">
+												<cfset thisData = evaluate("thisRec." & cNames.column_name)>
+												<td class="px-2">#thisData#</td>
+											</cfloop>
+											</tr>
+										</cfloop>
+									</tbody>
+								<!---</tr>--->
+							</table>
+							
+							<script>
 							$('th').click(function(){
 								var table = $(this).parents('table').eq(0)
 								var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
@@ -592,41 +629,6 @@
 							}
 							function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
 						</script>
-						<style>
-						table, th, td {
-							border: 1px solid black;
-						}
-						th {
-							cursor: pointer;
-						}
-						</style>
-						<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-						<div class="blTabDiv">
-							<table class="table sortthis" id="t"> 
-				<!---				   class="sortable">  Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. It also won't work for styling to have the <tr> wrapped around the whole table without <thead> and <tbody> --->
-							<!---	<tr>--->
-									<thead class="thead-light">
-										<tr>
-											<cfloop query="cNames">
-												<th class="px-2">#column_name#</th>
-											</cfloop>
-										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="data">
-											<tr>
-											<cfquery name="thisRec" dbtype="query">
-												select * from data where collection_object_id=#data.collection_object_id#
-											</cfquery>
-											<cfloop query="cNames">
-												<cfset thisData = evaluate("thisRec." & cNames.column_name)>
-												<td class="px-2">#thisData#</td>
-											</cfloop>
-											</tr>
-										</cfloop>
-									</tbody>
-								<!---</tr>--->
-							</table>
 						</div>
 					</div>
 				</div>
