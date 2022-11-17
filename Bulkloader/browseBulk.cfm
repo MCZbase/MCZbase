@@ -392,7 +392,7 @@
 			<div class="row mx-0">
 				<div class="col-12 px-0">
 					<div class="col-12 mt-4 pb-2 float-left"><h1 class="h2">Filter and Update Column Values in Bulk</h1>
-						<p>Use the top form to filter the table to the records of interest. All values are joined with "AND" and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values in the update form are also case sensitive. There is no control over entries here - you can easily update such that records will never load. <span class="text-info font-weight-lessbold">Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</span></p>
+						<p>Use the top form to filter the table to the records of interest. All values are joined with "AND" and everything is case-sensitive. You must provide all three values (row) for the filter to apply. Then, use the bottom form to update them. Values in the update form are also case sensitive. There is no control over entries here - you can easily update such that records will never load. <span class="bg-dark px-1 text-white font-weight-lessbold">Updates will affect only the records visible in the table below, and will affect ALL records in the table in the same way.</span></p>
 					</div>
 					<div class="col-12 col-md-4 mt-2 pb-2 float-left">
 						<h2 class="h4">Operator values:</h2>
@@ -503,8 +503,8 @@
 					</div>
 					<div class="col-12 mb-3 mt-0 float-left">
 						<h2>Update data in table below: </h2> 
-						<h3 class="h4 font-italic text-info">To check updates: Use "control" + "F" to bring a column header or value into focus.</h3>
-						<h3 class="h4 font-italic text-info">To empty a column, click "NULL" for the value and update.</h3>
+						<h3 class="h4 font-italic text-dark">To check updates: Use "control" + "F" to bring a column header or value into focus.</h3>
+						<h3 class="h4 font-italic text-dark">To empty a column, click "NULL" for the value and update.</h3>
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
