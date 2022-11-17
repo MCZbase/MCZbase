@@ -159,12 +159,22 @@ limitations under the License.
 	<cfset return = xmlParse(xmlReturn)>
 	<cfset body = return.crossref_result.query_result.body >
 	<cfif arrayLen(body) EQ 1>
-		<cfset doi = return.crossref_result.query_result.body.query.doi.XmlText>
-		<cfset row = StructNew()>
-		<cfset row["match"] = "1">
-		<cfset row["doi"] = "#doi#">
-		<cfset data[1] = row>
+		<cftry>
+			<cfset doi = return.crossref_result.query_result.body.query.doi.XmlText>
+			<cfset row = StructNew()>
+			<cfset row["match"] = "1">
+			<cfset row["doi"] = "#doi#">
+			<cfset data[1] = row>
+		<cfcatch>
+   		<cfset status = return.crossref_result.query_result.body.query.XMLAttributes.status >
+			<cfif status EQ "unresolved">
+				<cfthrow message = "No matches found">
+			</cfif>
+			<cfdump var="#return#">
+		</cfcatch>
+		</cftry>
 	<cfelseif arrayLen(body) GT 1>
+		<!--- TODO: Handle multiple possible matches --->
 		<cfdump var="#return#">
 	<cfelse>
 		<cfset row = StructNew()>
@@ -217,8 +227,12 @@ limitations under the License.
 		</cfif>
 </cffunction>
 
-
-<cffunction name="getAuthorsForPubHtml" access="remote" returntype="string">
+<!--- getAuthorsForPubHtml obtain a block of html for editing the authors and editors
+   of a publication 
+ @param publication_id the publication for which to obtain authors/editors
+ @return html listing authors and editors for the specified publication in a form for editing
+---->
+<cffunction name="getAuthorsForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAuthorsForPubThread">
 
@@ -298,55 +312,437 @@ limitations under the License.
 	<cfreturn getAuthorsForPubThread.output>
 </cffunction>
 
+<!--- addAuthor add a publication_author_name record linking a publication to an
+  agent in the role of author or editor.
+  @param publication_id the publication to which to add the author/editor.
+  @param agent_name_id the agent name of the agent to add as the author/editor
+  @param author_position the ordinal position of the author/editor in the list 
+   of authors or of editors.
+  @param author_role role of the agent either author or editor.
+  @return a structure with status=added, id=publication_author_name_id
+    or if an exception was raised, an http response with http statuscode of 500.
+--->
 <cffunction name="addAuthor" access="remote" returntype="any" returnformat="json">
 	<cfargument name="publication_id" type="string" required="yes">
-				<!--- inserting --->
-				<cfquery name="insAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into publication_author_name (
-						publication_id,
-						agent_name_id,
-						author_position,
-						author_role
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAuthPosn#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
-					)
-				</cfquery>
-</cffunction>
-<cffunction name="removeAuthor" access="remote" returntype="any" returnformat="json">
-	<cfargument name="publication_id" type="string" required="yes">
-				<!--- deleting --->
-				<cfquery name="delAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_author_name 
-					where
-					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-					and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
-				</cfquery>
-				<cfquery name="incAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update publication_author_name 
-					set author_position=author_position-1 
-					where
-						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-						and author_position > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAuthPosn#">
-				</cfquery>
-</cffunction>
-<cffunction name="updateAuthor" access="remote" returntype="any" returnformat="json">
-	<cfargument name="publication_id" type="string" required="yes">
-				<!--- updating --->
-				<cfquery name="upAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update
-						publication_author_name
-					set
-						agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
-						author_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
-					where
-						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-						and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
-				</cfquery>
+	<cfargument name="agent_name_id" type="string" required="yes">
+	<cfargument name="author_position" type="string" required="yes">
+	<cfargument name="author_role" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAuthor_result">
+				INSERT INTO publication_author_name (
+					publication_id,
+					agent_name_id,
+					author_position,
+					author_role
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_position#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#author_role#">
+				)
+			</cfquery>
+			<cfif insertAuthor_result.recordcount eq 0>
+				<cfthrow message="Failed to properly insert new publication_author_name record">
+			</cfif>
+			<cfset rowid = insertAuthor_result.generatedkey>
+			<cftransaction action="commit">
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+				SELECT
+					publication_author_name_id as id
+				FROM 
+					publication_author_name
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "added">
+			<cfset row["id"] = "#report.id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- removeAuthor delete a publication_author_name record linking a publication to an
+  agent in the role of author or editor, updates author_position of remining records
+  for the same publication.
+  @param publication_author_name_id the primary key value of the row to delete.
+  @return a structure with status=deleted, updates=number of publication_author_name 
+    records updated as a result of promoting their author_position to fill the gap.
+    or if an exception was raised, an http response with http statuscode of 500.
+--->
+<cffunction name="removeAuthor" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_author_name_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- find the current oridinal position and type of the author in the list of authors/editors. --->
+			<cfquery name="lookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+				SELECT
+					publication_id,
+					author_position,
+					author_role
+				FROM
+					publication_author_name
+				WHERE
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
+			</cfquery>
+			<cfif lookup.recordcount NEQ 1>
+				<cfthrow message = "error finding publication_author_name record to delete">
+			</cfif>
+			<!--- delete the target author/editor --->
+			<cfquery name="deleteAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAuthor_result">
+				delete from publication_author_name 
+				where
+				publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+				and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
+			</cfquery>
+			<cfif deleteAuthor_result.recordcount NEQ 1>
+				<cfthrow message = "error deleting publication_author_name record [#encodeForHtml(publication_author_name_id)#]">
+			</cfif>
+			<!--- update the ordinal positon of the rest of the list.  --->
+			<cfquery name="reorder" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="reorder_result">
+				update publication_author_name 
+				set author_position=author_position-1 
+				where
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+					and author_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lookup.author_role#">
+					and author_position > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_position#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["updates"] = "#reorder_result.recordcount#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!--- moveAuthor move an author or editor to a specified position in the list. 
+
+--->
+<cffunction name="moveAuthor" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_author_name_id" type="string" required="yes">
+	<cfargument name="to_position" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="lookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+				SELECT
+					publication_id,
+					author_position,
+					author_role
+				FROM
+					publication_author_name
+				WHERE
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
+			</cfquery>
+			<cfif lookup.recordcount NEQ 1>
+				<cfthrow message = "error finding publication_author_name record to move">
+			</cfif>
+			<cfif author_position EQ to_position>
+				<!--- no action --->
+				<cfthrow message = "no change, old position and new position are the same.">
+			</cfif>
+			<cfif author_position EQ 1 OR to_position EQ 1>
+				<!--- lookup agent and first/second author name forms --->
+				<cfquery name="lookupAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupAgent_result">
+					SELECT
+						agent.agent_id,
+						fan.agent_name_id first_author_agent_name_id,
+						san.agent_name_id second_author_agent_name_id
+					FROM
+						agent_name author_agent_name
+						join agent on author_agent_name.agent_id = agent.agent_id
+						left join agent_name fan on agent.agent_id = fan.agent_id and fan.agent_name_type = 'first author'
+						left join agent_name san on agent.agent_id = san.agent_id and san.agent_name_type = 'second author'
+				</cfquery>
+			</cfif>
+			<cfif author_position EQ 1>
+				<!--- does a second author form of name exist for the agent --->
+				<cfthrow message = "Move from first author not implemented yet.">
+			<cfelse>
+				<cfif to_position EQ 1>
+					<!--- does a first author form of name exist for the agent --->
+					<cfthrow message = "Move to first author not implemented yet.">
+				<cfelse>
+					<!--- increment everyone from to_position up by 1 --->
+					<cfquery name="up" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="up_result">
+						UPDATE
+							publication_author_name
+						SET
+							author_position = author_position + 1
+						WHERE
+							publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+							and author_role = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_role#">
+							and author_position >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#to_position#">
+					</cfquery>
+					<cfif author_position GT to_position>
+						<!--- move to to_position --->
+						<cfquery name="mv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mv_result">
+							UPDATE
+								publication_author_name
+							SET
+								author_position = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#to_position#">
+							WHERE
+								publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
+						</cfquery>
+					<cfelse>	
+						<!--- author_position LT to_position --->
+						<!--- move to to_position+1 --->
+						<cfset target = to_position + 1>
+						<cfquery name="mv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="mv_result">
+							UPDATE
+								publication_author_name
+							SET
+								author_position = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target#">
+							WHERE
+								publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
+						</cfquery>
+					</cfif>
+					<!--- move everyone above author_position down by 1 --->
+					<cfquery name="dn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dn_result">
+						UPDATE
+							publication_author_name
+						SET
+							author_position = author_position - 1
+						WHERE
+							publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+							and author_role = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_role#">
+							and author_position >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.author_position#">
+					</cfquery>
+				</cfif>
+			</cfif>
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "moved">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+
+<!--- updateAuthor update a publication_author_name record without changing ordinal position. 
+--->
+<cffunction name="updateAuthor" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_author_name_id" type="string" required="yes">
+	<cfargument name="agent_name_id" type="string" required="yes">
+	<cfargument name="author_role" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="updateAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAuthor_result">
+				UPDATE
+					publication_author_name
+				SET
+					agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
+					author_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
+				WHERE
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
+			</cfquery>
+			<cfif	updateAuthor_result.recordcount NEQ 1>
+				<cfthrow message = "Error updating publication_author_name record.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#publication_author_name_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="getAttributesForPubHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfthread name="getAttributesForPubThread">
+		<cftry>
+			<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select publication_attribute from ctpublication_attribute order by publication_attribute
+			</cfquery>
+			<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="atts_result">
+				SELECT
+					publication_attribute_id,
+					publication_id,
+					publication_attribute,
+					pub_att_value
+				FROM publication_attributes 
+				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT ctpublication_attribute.publication_attribute 
+				FROM ctpublication_attribute 
+				WHERE
+					ctpublication_attribute.publication_attribute NOT IN (
+						SELECT distinct publication_attribute 
+						FROM publication_attributes
+						WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					)
+				ORDER BY ctpublication_attribute.publication_attribute
+			</cfquery>
+			<cfoutput>
+				<h2 class="h3">Attributes</h2>
+				<label for="new_attr" class="data-entry-label">Add</a>
+				<script>
+					<!--- TODO: Implement addAttribute, ? move to dialog --->
+				</script>
+				<select name="new_attr" id="new_attr" onchange="addAttribute(this.value)">
+					<option value=""></option>
+					<cfloop query="available_pub_att">
+						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute#</option>
+					</cfloop>
+				</select>
+				<ul>
+					<cfloop query="atts">
+						<!--- TODO: Edit --->
+						<!--- TODO: Delete --->
+						<li>
+							#atts.publication_attribute#: #atts.pub_att_value#
+							<button class="btn btn-xs btn-primary" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
+						</li>
+					</cfloop>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAttributesForPubThread" />
+	<cfreturn getAttributesForPubThread.output>
+</cffunction>
+
+<!--- deleteAttribute delete a publication_attribute record.
+  @param publication_attribute_id the primary key value of the row to delete.
+  @return a structure with status=deleted
+    or if an exception was raised, an http response with http statuscode of 500.
+--->
+<cffunction name="deleteAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_attribute_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- delete the target attribute --->
+			<cfquery name="deleteAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
+				delete from publication_attributes
+				where
+				publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfif deleteAttribute_result.recordcount NEQ 1>
+				<cfthrow message = "error deleting publication_attribute record [#encodeForHtml(publication_attribute_id)#]">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- updateAttribute update a publication_attribute record.
+  @param publication_attribute_id the primary key value of the row to update.
+  @param publication_id the publication to which the attribute applies (optional,
+   as the likely case is an update of attribute value for a record, rather than changing
+   the publication to which an attribute is applied).
+  @param publication_attribute the attribute to update.
+  @param pub_att_value the value of the attribute to update.
+  @return a structure with status=updated and id=publication_attribute_id
+    or if an exception was raised, an http response with http statuscode of 500.
+--->
+<cffunction name="updateAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_attribute_id" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="no">
+	<cfargument name="publication_attribute" type="string" required="yes">
+	<cfargument name="pub_att_value" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- update the target attribute --->
+			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
+				UPDATE publication_attributes
+				SET
+					<cfif isDefined("publication_id") AND len(publication_id) GT 0 >
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+					</cfif>
+					publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
+					pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pub_att_value#">
+				WHERE
+					publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfif deleteAttribute_result.recordcount NEQ 1>
+				<cfthrow message = "error updating publication_attribute record [#encodeForHtml(publication_attribute_id)#]">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "updated">
+			<cfset row["id"] = "#publication_attribute_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 <!---------------------------------------------------------------------------------------------------------->
 <!---
@@ -362,11 +758,6 @@ limitations under the License.
 			<cfelse>
 				<cfset thisAttId = "">
 			</cfif>
-			<cfif thisAttVal is "deleted">
-				<cfquery name="delAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_attributes 
-					where publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAttId#">
-				</cfquery>
 			<cfelseif thisAttId gt 0>
 				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update

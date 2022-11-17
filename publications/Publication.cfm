@@ -59,9 +59,6 @@ limitations under the License.
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
-	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select publication_attribute from ctpublication_attribute order by publication_attribute
-	</cfquery>
 
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
@@ -74,7 +71,11 @@ limitations under the License.
 			is_peer_reviewed_fg,
 			doi,
 			mczbase.getshortcitation(publication_id) as short_citation, 
-			mczbase.getfullcitation(publication_id) as full_citation 
+			mczbase.getfullcitation(publication_id) as full_citation,
+			get_publication_attribute(publication_id,'begin page') as spage,
+			get_publication_attribute(publication_id,'journal name') as jtitle,
+			get_publication_attribute(publication_id,'volume') as volume,
+			get_publication_attribute(publication_id,'issue') as issue
 		FROM publication
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
@@ -99,6 +100,16 @@ limitations under the License.
 		FROM identification
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
+	<cfquery name="getAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT person.last_name as aulast
+		FROM
+			publication_author_name p
+			join agent_name an on p.agent_name_id = an.agent_name_id
+			join person on an.agent_id = person.person_id
+		WHERE
+			p.author_role = 'author' and p.author_position = 1 and
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+	</cfquery>
 	<cfset useCount = 0>
 	<cfloop query="uses">
 		<cfset useCount = useCount + uses.ct>
@@ -118,59 +129,38 @@ limitations under the License.
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
-					<div class="form-row mb-2">
-						<div class="col-12">
+					<div class="form-row mb-2 bg-light">
+						<div class="col-12 mb-0">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" required>#pub.publication_title#</textarea>
 						</div>
 						<script>
-							$(document).ready(function () {
-								$('##publication_title').jqxEditor({
-									lineBreak:"p",
-									tools:"bold italic superscript subscript",
-									createCommand: function(name) { 
-										switch(name) { 
-											case "superscript":
-												return {
-													type: 'button',
-													tooltip: 'Make selected text superscript',
-													init: function (widget) {
-														widget.jqxButton({ height: 25, width: 20 });
-														widget.html("<span style='line-height: 24px;'>x<sup>a</sup></span>");
-													},
-													refresh: function (widget, style) {
-														// toggle the button based on the selection 
-														console.log(widget);
-														console.log(style);
-													},
-													action: function (widget, editor) {
-														// add <sup> and </sup> tags
-														console.log(editor);
-													}			 										
-												}
-											case "subscript":
-												return { 
-													type: 'button',
-													tooltip: 'Make selected text subscript',
-													init: function (widget) {
-														widget.jqxButton({ height: 25, width: 20 });
-														widget.html("<span style='line-height: 24px;'>x<sub>a</sub></span>");
-													},
-													refresh: function (widget, style) {
-														// toggle the button based on the selection 
-														console.log(widget);
-														console.log(style);
-													},
-													action: function (widget, editor) {
-														// add <sub> and </sub> tags
-														console.log(editor);
-													}			 										
-												}
-										}
+							function markup(textAreaId, tag){
+								var len = $("##"+textAreaId).value.length;
+								var start = $("##"+textAreaId).selectionStart;
+								var end = $("##"+textAreaId).selectionEnd;
+								var selection = $("##"+textAreaId).value.substring(start, end);
+								if (selection.length>0){
+									var replace = selection;
+									if (selection=='i') { 
+										replace = '<i>' + selection + '</i>';
+									} elseif(selection=='b') { 
+										replace = '<b>' + selection + '</b>';
+									} elseif(selection=='sub') { 
+										replace = '<sub>' + selection + '</sub>';
+									} elseif(selection=='sup') { 
+										replace = '<sup>' + selection + '</sup>';
 									}
-								});
-							});
+									$("##"+textAreaId).value =  $("##"+textAreaId).value.substring(0,start) + replace + $("##"+textAreaId).value.substring(end,len);
+								}
+							}
 						</script>
+						<div class="col-12 mt-0">
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','i')" aria-label="italicize selected text">i</button>
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','b')" aria-label="make selected text bold">b</button>
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sub')" aria-label="make text subscript">sub</button>
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">sup</button>
+						</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
@@ -201,7 +191,39 @@ limitations under the License.
 							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
 						</div>
 						<div class="col-12 col-md-4" id="doiLinkDiv">
-							<label class="data-entry-label"><a href="https://www.crossref.org/guestquery/" target="_blank">Search CrossRef</a></label>
+							<cfset crossref = "guestquery/">
+							<cfif pub.publication_type EQ "book" OR pub.publication_type EQ "book section">
+								<cfset crossref = "#crossref#?search_type=books">
+							<cfelse>
+								<cfset crossref = "#crossref#?search_type=journal">
+							</cfif>
+							<cfif getAuthor.recordcount GT 0>
+								<cfset crossref = "#crossref#&auth=#getAuthor.aulast#">
+								<cfset crossref = "#crossref#&auth2=#getAuthor.aulast#">
+							</cfif>
+							<cfif len(pub.jtitle) GT 0>
+								<cfset crossref = "#crossref#&title=#encodeForURL(pub.jtitle)#">
+							</cfif>
+							<cfif len(pub.volume) GT 0>
+								<cfset crossref = "#crossref#&volume=#encodeForURL(pub.volume)#">
+							</cfif>
+							<cfif len(pub.issue) GT 0>
+								<cfset crossref = "#crossref#&issue=#encodeForURL(pub.issue)#">
+							</cfif>
+							<cfif len(pub.spage) GT 0>
+								<cfset crossref = "#crossref#&page=#encodeForURL(pub.spage)#">
+							</cfif>
+							<cfif len(pub.published_year) GT 0>
+								<cfset crossref = "#crossref#&year=#encodeForURL(pub.published_year)#">
+							</cfif>
+							<cfif len(pub.publication_title) GT 0>
+								<cfset crossref = "#crossref#&atitle=#encodeForURL(pub.publication_title)#">
+								<cfset crossref = "#crossref#&atitle2=#encodeForURL(pub.publication_title)#">
+							</cfif>
+							<cfif len(pub.doi) GT 0>
+								<cfset crossref = "#crossref#&doi=#encodeForURL(pub.doi)#">
+							</cfif>
+							<label class="data-entry-label"><a href="https://www.crossref.org/#crossref#" target="_blank">Search CrossRef</a></label>
 							<cfif len(pub.doi) gt 0>
 								<a class="external" target="_blank" href="https://doi.org/#pub.doi#">#pub.doi#</a>
 							<cfelse>
@@ -274,75 +296,25 @@ limitations under the License.
 			</section>
 
 			<section name="authorsSection" class="row border rounded my-2" title="Authors of this publication">
+				<script>
+					function reloadAuthors(){ 
+						loadAuthorsDivHTML(#publication_id#,'authorBlock');
+					}
+				</script>
 				<!--- TODO: Move authors to backing method  --->
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
 				<div id="authorBlock">#authorBlockContent#</div>
 			</section>
 
 			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
+				<script>
+					function reloadAttributes(){ 
+						loadAttributesDivHTML(#publication_id#,'attributesBlock');
+					}
+				</script>
 				<!--- TODO: Move attributes to backing method --->
-		<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT
-				publication_attribute_id,
-				publication_id,
-				publication_attribute,
-				pub_att_value
-			FROM publication_attributes 
-			WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-		</cfquery>
-		<div class="cellDiv">
-			<span>Attributes</span>:
-			Add: 
-			<select name="n_attr" id="n_attr" onchange="addAttribute(this.value)">
-				<option value=""></option>
-				<cfloop query="ctpublication_attribute">
-					<option value="#publication_attribute#">#publication_attribute#</option>
-				</cfloop>
-			</select>
-			<table id="attTab" style="padding-bottom: 1em;">
-				<tr>
-					<th>Attribute</th>
-					<th>Value</th>
-					<th></th>
-				</tr>
-				<cfset i=0>
-				<cfloop query="atts">
-					<cfset i=i+1>
-					<input type="hidden" name="publication_attribute_id#i#"
-								class="reqdClr" id="publication_attribute_id#i#" value="#publication_attribute_id#">
-
-					<cfinvoke component="/component/functions" method="getPubAttributes" returnVariable="attvalist">
-						<cfinvokeargument name="attribute" value="#publication_attribute#">
-						<cfinvokeargument name="returnFormat" value="plain">
-					</cfinvoke>
-					<tr id="attRow#i#">
-						<td>
-							<input type="hidden" name="attribute_type#i#"
-								class="reqdClr" id="attribute_type#i#" value="#publication_attribute#">
-							#publication_attribute#
-						</td>
-						<td>
-							<cfif isquery(attvalist)>
-								<select name="attribute#i#" id="attribute#i#" class="reqdClr">
-									<cfloop query="attvalist">
-										<option <cfif v is atts.pub_att_value> selected="selected" </cfif>value="#v#">#v#</option>
-									</cfloop>
-								</select>
-							<cfelseif not isobject(attvalist)>
-								<input type="text" name="attribute#i#" id="attribute#i#" class="reqdClr" value="#pub_att_value#" size="50">
-							<cfelse>
-								error: 	<cfdump var="#attvalist#">
-							</cfif>
-						</td>
-						<td>
-							<span class="infoLink" onclick="deletePubAtt(#i#)">Delete</span>
-						</td>
-					</tr>
-				</cfloop>
-			</table>
-		</div>
-		<input type="hidden" name="origNumberAttributes" id="origNumberAttributes" value="#i#">
-		<input type="hidden" name="numberAttributes" id="numberAttributes" value="#i#">
+				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>
+				<div id="attributesBlock">#attribBlockContent#</div>
 			</section>
 
 			<section name="mediaSection" class="row border rounded mx-0 my-2" title="Media of this publication">
@@ -433,9 +405,11 @@ limitations under the License.
 			<label for="media_desc">Media Description</label>
 			<input type="text" name="media_desc" id="media_desc" size="80" class="reqdClr">
 		</div>
-			<input type="hidden" name="origNumberLinks" id="origNumberLinks" value="#i#">
-			<input type="hidden" name="numberLinks" id="numberLinks" value="#i#">
 
+			</section>
+
+			<section name="uriSection" class="row border rounded mx-0 my-2" title="Links for this publication">
+				<!--- TODO Publication URI support --->
 			</section>
 
 			<section name="useSection" class="row border rounded mx-0 my-2" title="Citations and other uses of this publication">

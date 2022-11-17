@@ -29,6 +29,14 @@ function monitorForChanges(formId,changeFunction) {
 	$('#'+formId+' textarea').on("change",changeFunction);
 }
 
+/** lookupDOI use information from a publication record to find a DOI for that 
+ * publication.
+ * @param publication_id the publication for which to lookup the doi.
+ * @param doiInput the id without a leading pound selector of the input whos value
+ *  is to be set to the returned doi on success.
+ * @param doiLinkDiv the id without a leading pound selector of a div that is to
+ *  have its html replaced by a link for the doi on success.
+ */
 function lookupDOI(publication_id, doiInput, doiLinkDiv) {
 	jQuery.ajax({
 		dataType: "json",
@@ -53,3 +61,79 @@ function lookupDOI(publication_id, doiInput, doiLinkDiv) {
 		}
 	});
 }
+
+/** deleteAttribute delete an attribute from a publication.
+ * @param publication_attribute_id the primary key of the publication attribute
+ *  to delete.
+ * @param okcallback a callback function to invoke on success.
+ */
+function deleteAttribute(publication_attribute_id, okcallback) { 
+	jQuery.ajax({
+		dataType: "json",
+		url: "/publications/component/functions.cfc",
+		data: { 
+			method : "deleteAttribute",
+			publication_attribute_id : publication_attribute_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error deleting publication attribute: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			var status = result[0].status;
+			if (status=='deleted') {
+				console.log(status);
+			}
+		}
+	});
+}
+
+/** loadAuthorsDivHTML load a block of html for editing/viewing
+ *  authors and editors of a publication.
+ * @param publication_id the publication for which to load authors/editors
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadAuthorsDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getAuthorsForPubHtml",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading authors/editors for publication");
+		},
+		dataType: "html"
+	});
+};
+
+/** loadAttributesDivHTML load a block of html for editing/viewing
+ *  attributes of a publication.
+ * @param publication_id the publication for which to load attributes
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadAttributesDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getAttributesForPubHtml",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading attributes for publication");
+		},
+		dataType: "html"
+	});
+};
