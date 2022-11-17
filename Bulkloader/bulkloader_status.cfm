@@ -1,4 +1,4 @@
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <cf_setDataEntryGroups>
  
 <cfquery name="bulkSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -26,7 +26,7 @@
 </cfquery>
 <cfoutput>
 	<h3>What's In The Bulkloader:</h3>
-	<table border="1" id="##t">
+	<table class="table" id="t">
 		<thead>
 			<tr>
 				<th>Collection</th>
@@ -171,4 +171,4 @@
 	</table>
 
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
