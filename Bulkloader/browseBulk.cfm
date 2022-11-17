@@ -504,7 +504,8 @@
 					<div class="col-12 mb-3 mt-0 float-left">
 						<h2>Update data in table below: </h2> 
 						<p class="font-italic text-dark mb-1">To check updates: Use "control" + "F" to bring a column header or value into focus.</p>
-						<p class="font-italic text-dark">To empty a column, click "NULL" for the value and update.</p>
+						<p class="font-italic text-dark mb-1">To empty a column, click "NULL" for the value and update.</p>
+						<p class="font-italic text-dark">To sort, click on a column header and wait. There is a delay with length of delay proportional to the number of rows in the table.</p>
 						<form name="up" method="post" action="browseBulk.cfm">
 							<input type="hidden" name="action" value="runSQLUp">
 							<input type="hidden" name="enteredby" value="#enteredby#">
