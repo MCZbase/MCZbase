@@ -129,59 +129,38 @@ limitations under the License.
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
-					<div class="form-row mb-2">
-						<div class="col-12">
+					<div class="form-row mb-2 bg-light">
+						<div class="col-12 mb-0">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" required>#pub.publication_title#</textarea>
 						</div>
 						<script>
-							$(document).ready(function () {
-								$('##publication_title').jqxEditor({
-									lineBreak:"p",
-									tools:"bold italic superscript subscript",
-									createCommand: function(name) { 
-										switch(name) { 
-											case "superscript":
-												return {
-													type: 'button',
-													tooltip: 'Make selected text superscript',
-													init: function (widget) {
-														widget.jqxButton({ height: 25, width: 20 });
-														widget.html("<span style='line-height: 24px;'>x<sup>a</sup></span>");
-													},
-													refresh: function (widget, style) {
-														// toggle the button based on the selection 
-														console.log(widget);
-														console.log(style);
-													},
-													action: function (widget, editor) {
-														// add <sup> and </sup> tags
-														console.log(editor);
-													}			 										
-												}
-											case "subscript":
-												return { 
-													type: 'button',
-													tooltip: 'Make selected text subscript',
-													init: function (widget) {
-														widget.jqxButton({ height: 25, width: 20 });
-														widget.html("<span style='line-height: 24px;'>x<sub>a</sub></span>");
-													},
-													refresh: function (widget, style) {
-														// toggle the button based on the selection 
-														console.log(widget);
-														console.log(style);
-													},
-													action: function (widget, editor) {
-														// add <sub> and </sub> tags
-														console.log(editor);
-													}			 										
-												}
-										}
+							function markup(textAreaId, tag){
+								var len = $("##"+textAreaId).value.length;
+								var start = $("##"+textAreaId).selectionStart;
+								var end = $("##"+textAreaId).selectionEnd;
+								var selection = $("##"+textAreaId).value.substring(start, end);
+								if (selection.length>0){
+									var replace = selection;
+									if (selection=='i') { 
+										replace = '<i>' + selection + '</i>';
+									} elseif(selection=='b') { 
+										replace = '<b>' + selection + '</b>';
+									} elseif(selection=='sub') { 
+										replace = '<sub>' + selection + '</sub>';
+									} elseif(selection=='sup') { 
+										replace = '<sup>' + selection + '</sup>';
 									}
-								});
-							});
+									$("##"+textAreaId).value =  $("##"+textAreaId).value.substring(0,start) + replace + $("##"+textAreaId).value.substring(end,len);
+								}
+							}
 						</script>
+						<div class="col-12 mt-0">
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','i')" aria-label="italicize selected text">i</button>
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','b')" aria-label="make selected text bold">b</button>
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sub')" aria-label="make text subscript">sub</button>
+							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">sup</button>
+						</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
