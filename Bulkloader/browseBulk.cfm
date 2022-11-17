@@ -592,6 +592,15 @@
 							}
 							function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
 						</script>
+						<style>
+						table, th, td {
+							border: 1px solid black;
+						}
+						th {
+							cursor: pointer;
+						}
+						</style>
+						<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 						<div class="blTabDiv">
 							<table class="table sortthis" id="t"> 
 				<!---				   class="sortable">  Sortable class goes with table id="t" but it slows the load down so much that it isn't practical to use for more than a handful of records. It also won't work for styling to have the <tr> wrapped around the whole table without <thead> and <tbody> --->
