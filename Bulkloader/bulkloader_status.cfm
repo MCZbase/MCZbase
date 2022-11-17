@@ -34,8 +34,8 @@ table.stat th {
 		<div class="row">
 		<div class="col-12 mt-4 border-bottom-black">
 			<h1 class="h3">What's In The Bulkloader:</h1>
-			<table class="table stat table-light">
-				<thead>
+			<table class="table stat">
+				<thead class="thead-light">
 					<tr>
 						<th>Collection</th>
 						<th>Accn</th>
@@ -110,8 +110,8 @@ table.stat th {
 				</cfquery>
 		<div class="col-12 mt-4 border-bottom-black">
 				<h2 class="h4">Failures: <br>(Loaded="waiting approval" indicates records which have failed to load and then viewed/fixed in the Data Entry application.)</h2>
-				<table class="table table-light">
-					<thead>
+				<table class="table">
+					<thead class="thead-light">
 						<tr>
 							<th>
 								Bulkloader ID
@@ -165,8 +165,8 @@ table.stat th {
 				<cfset idList = valuelist(success.collection_object_id)>
 					<h2 class="h4">Successfully Loaded in the last Five days:<br>
 					<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a></h2>
-				<table class="table table-light">
-					<thead>
+				<table class="table">
+					<thead class="thead-light">
 						<tr>
 							<th>Item</th>
 						</tr>
