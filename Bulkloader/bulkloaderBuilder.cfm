@@ -260,7 +260,7 @@
 					<input type="submit" value="Download Template" class="data-entry-input btn-primary col-4 float-left">
 
 					<table class="table">
-						<thead>
+						<thead class="thead-light">
 							<tr>
 								<th>Individual Fields</th>
 								<th>Include?</th>
