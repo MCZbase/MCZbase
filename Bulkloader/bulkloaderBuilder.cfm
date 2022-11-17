@@ -95,8 +95,8 @@
 					<tr>
 						<td>Group</td>
 						<td>
-							<a class="btn-link" onclick="checkAll(1)"><u>All On</u></a>
-							<br><a class="btn-link" onclick="checkAll(0)"><u>All Off</u></a>
+							<button class="btn-xs btn btn-primary float-left"  onclick="checkAll(1)"><u>All On</u></button>
+							<button class="btn-xs btn btn-secondary float-left" onclick="checkAll(0)"><u>All Off</u></button>
 						</td>
 					</tr>
 					</thead>
@@ -252,7 +252,7 @@
 			<div class="col-12 col-md-4 pt-4 float-left">
 				<form name="f" method="post" action="bulkloaderBuilder.cfm">
 					<input type="hidden" name="action" value="getTemplate">
-					<label for="fileFormat" class="col-4 float-left">Format:</label>
+					<label for="fileFormat" class="col-4 float-left data-entry-label">Format:</label>
 					<select name="fileFormat" id="fileFormat" class="data-entry-select col-4 float-left">
 						<option value="txt">Tab-delimited text</option>
 						<option value="csv">CSV</option>
