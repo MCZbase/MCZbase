@@ -257,7 +257,7 @@
 						<option value="txt">Tab-delimited text</option>
 						<option value="csv">CSV</option>
 					</select>
-					<input type="submit" value="Download Template" class="data-entry-input btn-primary col-4 float-left">
+					<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
 
 					<table class="table">
 						<thead class="thead-light">
