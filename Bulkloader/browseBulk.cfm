@@ -90,6 +90,7 @@
 			<li>On page load, rows are sorted by the Key Column. Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
 			<li>Use "control" + "F" to bring field to focus on your screen&mdash;This is less helpful for inserting values into empty columns because it doesn't find column headers. </li>
 			<li>Double click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to move edited records from the bulkloader into MCZbase.</li>
+			
 		</ul>
 		<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
@@ -403,7 +404,7 @@
 								<li><b>between</b> : range ("1-5" --> "1,2...5") Works only when ALL values are numeric (not only those you see in the current table)</li>
 							</ul>
 						<p>
-							NOTE: This form will load at most 500 records. 
+							NOTE: This form will load at most 500 records. In mobile view, swipe to see the whole table. 
 						</p>
 					</div>
 					<div class="col-12 col-md-8 mt-1 pb-3 float-left">
