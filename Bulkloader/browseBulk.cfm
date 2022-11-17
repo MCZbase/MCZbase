@@ -135,8 +135,20 @@
 					<cfgridcolumn name="#thisName#" width="135" autoExpand="no">
 				</cfloop>
 			</cfgrid>
+					<cfinput type="button" name="Download" value="Download" onClick="doDownload()">
 		</cfform>
-		
+		<script> 
+			function doDownload() 
+			{ 
+			var mygrid = ColdFusion.Grid.getGridObject('reportsGrid'); 
+			var mydata = mygrid.getDataSource(); 
+			var params = mydata.lastOptions.params; 
+			var sort = params.sort; 
+			var dir = params.dir; 
+				page = params.start/params.limit+1; 
+				document.location.href='download.cfm?page='+page+'&sort='+sort+'&dir='+dir+'&size='+params.limit; 
+			} 
+		</script>
 	</cfoutput>
 		</div>
 	</div>
