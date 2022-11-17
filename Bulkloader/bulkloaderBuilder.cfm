@@ -1,5 +1,8 @@
 <cfset pageTitle="BulkloaderBuilder">
 <cfinclude template="/shared/_header.cfm">
+<cfif not isdefined("action")>
+	<cfset action="nothing">
+</cfif>
     <div style="width: 50em; margin: 0 auto;padding: 2em 0 5em 0;">
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
