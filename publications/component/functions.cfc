@@ -671,7 +671,12 @@ limitations under the License.
 				<select name="new_attr" id="new_attr" onchange="addAttribute(this.value)">
 					<option value=""></option>
 					<cfloop query="available_pub_att">
-						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute# #available_pub_att.description#</option>
+						<cfif len(available_pub_att.description) GT 0>
+							<cfset descr = " (#available_pub_att.description)#">
+						<cfelse>
+							<cfset descr = "">
+						</cfif>
+						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute##descr#</option>
 					</cfloop>
 				</select>
 				<ul>
