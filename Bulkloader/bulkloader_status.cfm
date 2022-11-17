@@ -27,22 +27,26 @@
 <cfoutput>
 	<h3>What's In The Bulkloader:</h3>
 	<table border="1" id="##t">
-		<tr>
-			<td>Collection</td>
-			<td>Accn</td>
-			<td>Entered By</td>
-			<td>Status</td>
-			<td>Count</td>
-		</tr>
-	<cfloop query="bulkSummary">
-		<tr>
-			<td nowrap="nowrap">#institution_acronym# #collection_cde#</td>
-			<td>#accn#</td>
-			<td>#EnteredBy#</td>
-			<td>#Loaded#</td>
-			<td>#cnt#</td>
-		</tr>
-	</cfloop>
+		<thead>
+			<tr>
+				<th>Collection</th>
+				<th>Accn</th>
+				<th>Entered By</th>
+				<th>Status</th>
+				<th>Count</th>
+			</tr>
+		</thead>
+		<tbody>
+		<cfloop query="bulkSummary">
+			<tr>
+				<td nowrap="nowrap">#institution_acronym# #collection_cde#</td>
+				<td>#accn#</td>
+				<td>#EnteredBy#</td>
+				<td>#Loaded#</td>
+				<td>#cnt#</td>
+			</tr>
+		</cfloop>
+		</tbody>
 	</table>
 	<script>
 		$('th').click(function(){
