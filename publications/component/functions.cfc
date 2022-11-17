@@ -672,7 +672,7 @@ limitations under the License.
 					<option value=""></option>
 					<cfloop query="available_pub_att">
 						<cfif len(available_pub_att.description) GT 0>
-							<cfset descr = " (#available_pub_att.description)#">
+							<cfset descr = " (#available_pub_att.description#)">
 						<cfelse>
 							<cfset descr = "">
 						</cfif>
