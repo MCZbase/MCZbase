@@ -142,13 +142,13 @@ limitations under the License.
 								var selection = $("##"+textAreaId).val().substring(start, end);
 								if (selection.length>0){
 									var replace = selection;
-									if (selection=='i') { 
+									if (tag=='i') { 
 										replace = '<i>' + selection + '</i>';
-									} else if(selection=='b') { 
+									} else if(tag=='b') { 
 										replace = '<b>' + selection + '</b>';
-									} else if(selection=='sub') { 
+									} else if(tag=='sub') { 
 										replace = '<sub>' + selection + '</sub>';
-									} else if(selection=='sup') { 
+									} else if(tag=='sup') { 
 										replace = '<sup>' + selection + '</sup>';
 									}
 									$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
