@@ -89,7 +89,7 @@
 			<li>Default: All columns visible. Hover on any column header to see the option menu. Use the "Columns" button in the menu to select the columns visible in the grid. There is a delay after ticking a checkbox in the popup, especially when there are many rows/pages in the grid.</li>
 			<li>On page load, rows are sorted by the Key Column. Clicking on a column header sorts by that column. Also, sort through option menu next to each column header (hover to see menu). </li>
 			<li>Use "control" + "F" to bring field to focus on your screen&mdash;This is less helpful for inserting values into empty columns because it doesn't find column headers. </li>
-			<li>Double click fields to edit. Click refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to move edited records from the bulkloader into MCZbase.</li>
+			<li>Double click fields to edit. Click the refresh icon (bottom of grid) to see that the changes are saved. Click "Mark all to load" to move edited records from the bulkloader into MCZbase.</li>
 		</ul>
 		<cfoutput>
 		<cfquery name="cNames" datasource="uam_god">
