@@ -253,11 +253,11 @@
 				<form name="f" method="post" action="bulkloaderBuilder.cfm">
 					<input type="hidden" name="action" value="getTemplate">
 					<label for="fileFormat">Format</label>
-					<select name="fileFormat" id="fileFormat" class="data-entry-select">
+					<select name="fileFormat" id="fileFormat" class="data-entry-select col-6 float-left">
 						<option value="txt">Tab-delimited text</option>
 						<option value="csv">CSV</option>
 					</select>
-					<input type="submit" value="Download Template" class="data-entry-input">
+					<input type="submit" value="Download Template" class="data-entry-input btn-primary col-6 float-left">
 
 					<table class="table">
 						<thead>
