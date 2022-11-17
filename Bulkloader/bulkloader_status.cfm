@@ -1,3 +1,4 @@
+<cfset pageTitle="Bulkloaded Status">
 <cfinclude template="/shared/_header.cfm">
 <cf_setDataEntryGroups>
  
