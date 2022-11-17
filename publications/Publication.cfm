@@ -136,10 +136,10 @@ limitations under the License.
 						</div>
 						<script>
 							function markup(textAreaId, tag){
-								var len = $("##"+textAreaId).value.length;
-								var start = $("##"+textAreaId).selectionStart;
-								var end = $("##"+textAreaId).selectionEnd;
-								var selection = $("##"+textAreaId).value.substring(start, end);
+								var len = $("##"+textAreaId).val().length;
+								var start = $("##"+textAreaId)[0].selectionStart;
+								var end = $("##"+textAreaId)[0].selectionEnd;
+								var selection = $("##"+textAreaId).val().substring(start, end);
 								if (selection.length>0){
 									var replace = selection;
 									if (selection=='i') { 
@@ -151,7 +151,7 @@ limitations under the License.
 									} else if(selection=='sup') { 
 										replace = '<sup>' + selection + '</sup>';
 									}
-									$("##"+textAreaId).value =  $("##"+textAreaId).value.substring(0,start) + replace + $("##"+textAreaId).value.substring(end,len);
+									$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
 								}
 							}
 						</script>
