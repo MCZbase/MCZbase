@@ -252,7 +252,7 @@
 			<div class="col-12 col-md-4 pt-4 float-left">
 				<form name="f" method="post" action="bulkloaderBuilder.cfm">
 					<input type="hidden" name="action" value="getTemplate">
-					<label for="fileFormat" class="col-4 float-left text-right data-entry-label">Format:</label>
+					<label for="fileFormat" class="col-4 float-left text-right pt-1">Format:</label>
 					<select name="fileFormat" id="fileFormat" class="data-entry-select col-4 float-left">
 						<option value="txt">Tab-delimited text</option>
 						<option value="csv">CSV</option>
