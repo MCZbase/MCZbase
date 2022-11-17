@@ -34,7 +34,7 @@ table.stat th {
 		<div class="row">
 		<div class="col-12"
 	<h3>What's In The Bulkloader:</h3>
-	<table class="table" id="t">
+	<table class="table stat">
 		<thead>
 			<tr>
 				<th>Collection</th>
