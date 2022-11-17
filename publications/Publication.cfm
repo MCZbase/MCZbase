@@ -144,11 +144,11 @@ limitations under the License.
 									var replace = selection;
 									if (selection=='i') { 
 										replace = '<i>' + selection + '</i>';
-									} elseif(selection=='b') { 
+									} else if(selection=='b') { 
 										replace = '<b>' + selection + '</b>';
-									} elseif(selection=='sub') { 
+									} else if(selection=='sub') { 
 										replace = '<sub>' + selection + '</sub>';
-									} elseif(selection=='sup') { 
+									} else if(selection=='sup') { 
 										replace = '<sup>' + selection + '</sup>';
 									}
 									$("##"+textAreaId).value =  $("##"+textAreaId).value.substring(0,start) + replace + $("##"+textAreaId).value.substring(end,len);
