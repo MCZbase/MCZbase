@@ -246,8 +246,8 @@
 					}
 				</script>
 			</div>
-		</div>
-		<div class="row">
+	
+
 			<div class="col-12 col-md-4 float-left">
 	<form name="f" method="post" action="bulkloaderBuilder.cfm">
 		<input type="hidden" name="action" value="getTemplate">
