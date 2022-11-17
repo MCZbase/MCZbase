@@ -93,11 +93,11 @@
 				<table class="table">
 					<thead class="thead-light">
 					<tr>
-						<td>Group</td>
-						<td>
-							<button class="btn-xs btn btn-primary float-left"  onclick="checkAll(1)"><u>All On</u></button>
-							<button class="btn-xs btn btn-secondary float-left" onclick="checkAll(0)"><u>All Off</u></button>
-						</td>
+						<th>Group</th>
+						<th>
+							<button class="btn-xs btn btn-primary float-left"  onclick="checkAll(1)">All On</button>
+							<button class="btn-xs btn btn-secondary float-left" onclick="checkAll(0)">All Off</button>
+						</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -262,8 +262,8 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<td>Individual Fields</td>
-								<td>Include?</td>
+								<th>Individual Fields</th>
+								<th>Include?</th>
 							</tr>
 						</thead>
 						<tbody>
