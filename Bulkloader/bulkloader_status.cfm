@@ -32,8 +32,8 @@ table.stat th {
 <cfoutput>
 	<div class="container">
 		<div class="row">
-		<div class="col-12"
-	<h3>What's In The Bulkloader:</h3>
+		<div class="col-12 mt-4">
+	<h1 class="h3">What's In The Bulkloader:</h1>
 	<table class="table stat">
 		<thead>
 			<tr>
@@ -85,9 +85,9 @@ table.stat th {
 		}
 		function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
 	</script>
-<p>&nbsp;</p>
-<hr style="height:15px; background-color:red">
-<p>&nbsp;</p>
+
+<hr class="text-danger">
+
 <cfquery name="failures" datasource="uam_god">
 	select bulkloader.collection_object_id,
 		loaded,
@@ -111,7 +111,7 @@ table.stat th {
 		bulkloader.collection_object_id
 </cfquery>
 
-	<h3>Failures:</h3> (Loaded="waiting approval" indicates records which have failed to load and then viewed/fixed in the Data Entry application.)
+	<h2 class="h4">Failures:</h2> (Loaded="waiting approval" indicates records which have failed to load and then viewed/fixed in the Data Entry application.)
 	<table class="table">
 		<thead>
 			<tr>
@@ -161,13 +161,12 @@ table.stat th {
 		collection.collection_cde,
 		cataloged_item.cat_num
 </cfquery>
-<p>&nbsp;</p>
-<hr style="height:15px; background-color:red">
-<p>&nbsp;</p>
-<cfset idList = valuelist(success.collection_object_id)>
-	<h3>Successfully Loaded in the last Five days:<br>
-	<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a></h3>
-	<table class="table">
+
+		<hr class="text-danger">
+		<cfset idList = valuelist(success.collection_object_id)>
+			<h2 class="h4">Successfully Loaded in the last Five days:<br>
+			<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a></h2>
+				<table class="table">
 		<thead>
 			<tr>
 				<th>Item</th>
@@ -185,6 +184,8 @@ table.stat th {
 			</cfloop>
 		</tbody>
 	</table>
-
+			</div>
+		</div>
+	</div>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
