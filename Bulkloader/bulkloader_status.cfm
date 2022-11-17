@@ -1,7 +1,11 @@
 <cfset pageTitle="Bulkloaded Status">
 <cfinclude template="/shared/_header.cfm">
 <cf_setDataEntryGroups>
- 
+<style>
+table.stat th {
+	cursor: pointer;
+}
+</style>
 <cfquery name="bulkSummary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select 
 		loaded, 
@@ -26,6 +30,9 @@
 		enteredby
 </cfquery>
 <cfoutput>
+	<div class="container">
+		<div class="row">
+		<div class="col-12"
 	<h3>What's In The Bulkloader:</h3>
 	<table class="table" id="t">
 		<thead>
@@ -51,7 +58,7 @@
 	</table>
 	<script>
 		$('th').click(function(){
-			var table = $(this).parents('table##t').eq(0)
+			var table = $(this).parents('table.stat').eq(0)
 			var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
 			this.asc = !this.asc
 			if (!this.asc){rows = rows.reverse()}
@@ -64,7 +71,7 @@
 			}
 		}
 		function getCellValue(row, index){ return $(row).children('td').eq(index).text() }$('th').click(function(){
-			var table = $(this).parents('table##t').eq(0)
+			var table = $(this).parents('table.stat').eq(0)
 			var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
 			this.asc = !this.asc
 			if (!this.asc){rows = rows.reverse()}
@@ -104,25 +111,29 @@
 		bulkloader.collection_object_id
 </cfquery>
 
-    <h3>Failures:</h3> (Loaded="waiting approval" indicates records which have failed to load and then viewed/fixed in the Data Entry application.)
-	<table border="1">
-		<tr>
-			<td>
-				Bulkloader ID
-			</td>
-			<td>Loaded</td>
-		</tr>
-	<cfloop query="failures">
-		<tr>
-			<td>
-				<a href="/DataEntry.cfm?ImAGod=yes&action=editEnterData&pMode=edit&collection_object_id=#collection_object_id#">
-					#collection_object_id#
-				</a>
-				 (#institution_acronym# #collection_cde#)
-			</td>
-			<td>#loaded#</td>
-		</tr>
-	</cfloop>
+	<h3>Failures:</h3> (Loaded="waiting approval" indicates records which have failed to load and then viewed/fixed in the Data Entry application.)
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Bulkloader ID
+				</th>
+				<th>Loaded</th>
+			</tr>
+		</thead>
+		<tbody>
+			<cfloop query="failures">
+				<tr>
+					<td>
+						<a href="/DataEntry.cfm?ImAGod=yes&action=editEnterData&pMode=edit&collection_object_id=#collection_object_id#">
+							#collection_object_id#
+						</a>
+						 (#institution_acronym# #collection_cde#)
+					</td>
+					<td>#loaded#</td>
+				</tr>
+			</cfloop>
+		</tbody>
 	</table>
 <cfquery name="success" datasource="uam_god">
 	select bulkloader_attempts.collection_object_id,
@@ -155,20 +166,24 @@
 <p>&nbsp;</p>
 <cfset idList = valuelist(success.collection_object_id)>
 	<h3>Successfully Loaded in the last Five days:<br>
-<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a></h3>
-<table border="1">
-		<tr>
-			<td>Item</td>
-		</tr>
-	<cfloop query="success">
-		<tr>
-			<td>
-				<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
-					#institution_acronym# #collection_cde# #cat_num#
-				</a>
-			</td>
-		</tr>
-	</cfloop>
+	<a href="/SpecimenResults.cfm?collection_object_id=#idList#">See All in SpecimenResults</a></h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Item</th>
+			</tr>
+		</thead>
+		<tbody>
+			<cfloop query="success">
+				<tr>
+					<td>
+						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">
+							#institution_acronym# #collection_cde# #cat_num#
+						</a>
+					</td>
+				</tr>
+			</cfloop>
+		</tbody>
 	</table>
 
 </cfoutput>

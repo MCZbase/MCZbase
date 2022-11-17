@@ -15,8 +15,9 @@
   -moz-box-sizing: border-box;
   -ms-box-sizing: border-box;
   -webkit-box-sizing:border-box; }
-.x-grid-col {min-width: 100px;}
-.x	
+table##t th {
+	cursor: pointer;
+}
 </style>
 <!-------------------------------------------------------------->
 <cfif action is "loadAll">
@@ -564,13 +565,6 @@
 								</tbody>
 							</table>
 						</form>
-
-						<style>
-					
-						table##t th {
-							cursor: pointer;
-						}
-						</style>
 					
 						<div class="blTabDiv">
 							<table class="table" id="t"> 
