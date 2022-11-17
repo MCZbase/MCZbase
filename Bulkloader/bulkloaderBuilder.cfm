@@ -82,7 +82,7 @@
 		</cfif>
 	</cfloop>
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-4 float-left">
 				<h1 class="h2">Bulkload Builder</h2>
 				<p>
 					Build your own Bulkloader template.
@@ -94,8 +94,8 @@
 					<tr>
 						<td>Group</td>
 						<td>
-							<a class="btn-link" onclick="checkAll(1)">All On</a>
-							<br><a class="btn-link" onclick="checkAll(0)">All Off</a>
+							<a class="btn-link" onclick="checkAll(1)"><u>All On</u></a>
+							<br><a class="btn-link" onclick="checkAll(0)"><u>All Off</u></a>
 						</td>
 					</tr>
 					</thead>
@@ -248,7 +248,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-4 float-left">
 	<form name="f" method="post" action="bulkloaderBuilder.cfm">
 		<input type="hidden" name="action" value="getTemplate">
 		<label for="fileFormat">Format</label>
