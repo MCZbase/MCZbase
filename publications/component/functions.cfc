@@ -651,7 +651,8 @@ limitations under the License.
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 			</cfquery>
 			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT ctpublication_attribute.publication_attribute 
+				SELECT ctpublication_attribute.publication_attribute, 
+					description
 				FROM ctpublication_attribute 
 				WHERE
 					ctpublication_attribute.publication_attribute NOT IN (
@@ -670,7 +671,7 @@ limitations under the License.
 				<select name="new_attr" id="new_attr" onchange="addAttribute(this.value)">
 					<option value=""></option>
 					<cfloop query="available_pub_att">
-						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute#</option>
+						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute# #available_pub_att.description#</option>
 					</cfloop>
 				</select>
 				<ul>
