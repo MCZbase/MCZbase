@@ -3,7 +3,7 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
-<div class="container">
+
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
 <cfquery name="blt" datasource="uam_god">
@@ -81,6 +81,7 @@
 			<cfset leftovers=listdeleteat(leftovers,lPos)>
 		</cfif>
 	</cfloop>
+	<div class="container">
 		<div class="row">
 			<div class="col-12 col-md-4 float-left">
 				<h1 class="h2">Bulkload Builder</h2>
@@ -249,37 +250,39 @@
 	
 
 			<div class="col-12 col-md-4 float-left">
-	<form name="f" method="post" action="bulkloaderBuilder.cfm">
-		<input type="hidden" name="action" value="getTemplate">
-		<label for="fileFormat">Format</label>
-		<select name="fileFormat" id="fileFormat">
-			<option value="txt">Tab-delimited text</option>
-			<option value="csv">CSV</option>
-		</select>
-		<input type="submit" value="Download Template" class="">
+				<form name="f" method="post" action="bulkloaderBuilder.cfm">
+					<input type="hidden" name="action" value="getTemplate">
+					<label for="fileFormat">Format</label>
+					<select name="fileFormat" id="fileFormat">
+						<option value="txt">Tab-delimited text</option>
+						<option value="csv">CSV</option>
+					</select>
+					<input type="submit" value="Download Template" class="">
 
-		<table class="table">
-			<thead>
-				<tr>
-					<td>Individual Fields</td>
-					<td>Include?</td>
-				</tr>
-			</thead>
-			<tbody>
-				<cfloop query="blt">
-					<tr>
-						<td>#column_name#</td>
-						<td><input type="checkbox" name="fld" id="#column_name#" value="#column_name#"></td>
-					</tr>
-				</cfloop>
-			</tbody>
-		</table>
-	</form>
-	<script>
-		checkAll(0);
-		checkList('required',1);
-	</script>
-</div>
+					<table class="table">
+						<thead>
+							<tr>
+								<td>Individual Fields</td>
+								<td>Include?</td>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="blt">
+								<tr>
+									<td>#column_name#</td>
+									<td><input type="checkbox" name="fld" id="#column_name#" value="#column_name#"></td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</form>
+				<script>
+					checkAll(0);
+					checkList('required',1);
+				</script>
+			</div>
+		</div>
+	</div>
 </cfoutput>
 </cfif>
 <cfif action is 'getTemplate'>
@@ -301,9 +304,8 @@
 		<cfelse>
 			That file format doesn't seem to be supported yet!
 		</cfif>
-
 </cfoutput>
 </cfif>
 
- </div>
- <cfinclude template="/shared/_footer.cfm">
+
+<cfinclude template="/shared/_footer.cfm">
