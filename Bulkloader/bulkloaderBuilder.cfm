@@ -3,7 +3,7 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
-    <div style="width: 50em; margin: 0 auto;padding: 2em 0 5em 0;">
+<div class="container">
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
 <cfquery name="blt" datasource="uam_god">
@@ -87,14 +87,17 @@
 	You may toggle groups and individual items on and off.
 </p>
 <form name="controls" id="controls">
-<table border>
+<table class="table">
+	<thead class="thead-light">
 	<tr>
 		<td>Group</td>
 		<td>
-			<span class="likeLink" onclick="checkAll(1)">All On</span>
+			<span class="btn_link" onclick="checkAll(1)">All On</span>
 			<br><span class="likeLink" onclick="checkAll(0)">All Off</span>
 		</td>
 	</tr>
+	</thead>
+	<tbody>
 	<tr>
 		<td>Required</td>
 		<td><input type="checkbox" name="required" onchange="checkList(this.name, this.checked)"></td>
@@ -143,6 +146,7 @@
 		<td>The Rest</td>
 		<td><input type="checkbox" name="leftovers" onchange="checkList(this.name, this.checked)"></td>
 	</tr>
+	</tbody>
 </table>
 </form>
 <script>
