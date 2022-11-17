@@ -87,7 +87,7 @@
 				<h1 class="h2">Bulkload Builder</h2>
 				<p>
 					Build your own Bulkloader template.
-					You may toggle groups and individual items on and off.
+					You may toggle groups on and off below or click on individual items on the right. Download a template in a tab-delimited text or csv format by clicking the button at the top right.
 				</p>
 				<form name="controls" id="controls">
 				<table class="table">
