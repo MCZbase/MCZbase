@@ -156,8 +156,8 @@ limitations under the License.
 							}
 						</script>
 						<div class="col-12 col-md-1 ml-0 row">
-							<div class="col-6 ml-0 mr-0">
-								<ul class="list-group pt-2">
+							<div class="col-6 ml-0 mr-0 px-0">
+								<ul class="list-group pt-3">
 									<li class="list-group-item px-0 pb-0">
 										<button class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
 									</li>
@@ -166,8 +166,8 @@ limitations under the License.
 									</li>
 								</ul>
 							</div>
-							<div class="col-6 ml-0">
-								<ul class="list-group pt-2">
+							<div class="col-6 ml-0 px-0">
+								<ul class="list-group pt-3">
 									<li class="list-group-item px-0 pb-0">
 										<button class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
 									</li>
