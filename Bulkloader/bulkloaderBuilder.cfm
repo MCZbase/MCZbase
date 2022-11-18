@@ -3,6 +3,10 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
+	<cfif not isdefined("content_url")>
+	<cfset content_url="">
+</cfif>
+<cfinclude template="/includes/functionLib.cfm">
 
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
