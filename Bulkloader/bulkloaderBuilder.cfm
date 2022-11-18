@@ -95,8 +95,8 @@
 					<tr>
 						<th>Group</th>
 						<th>
-							<button class="btn-xs btn btn-primary float-left"  onclick="checkAll(1)">All On</button>
-							<button class="btn-xs btn btn-secondary float-left" onclick="checkAll(0)">All Off</button>
+							<span class="btn-xs btn btn-primary float-left"  onclick="checkAll(1)">All On</span>
+							<span class="btn-xs btn btn-secondary float-left" onclick="checkAll(0)">All Off</span>
 						</th>
 					</tr>
 					</thead>
