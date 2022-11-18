@@ -945,8 +945,10 @@ limitations under the License.
 												<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-1 float-left px-1 text-left d-block mt-1 mt-xl-2 mb-0"> Value</label>
 												<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-10 mt-0 mt-xl-1 height1p2">
 											</div>
+											<div class="col-12 col-md-6">
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-10 mt-0 mt-xl-1 height1p2 float-left" name="method">
+											</div>
 											<div class="col-12 mt-2 border bg-light rounded px-2 py-1 mb-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-xl-2 mt-1 mb-0">Determiner</label>
 												<input type="text" name="" class="data-entry-input mt-0 mb-1 mt-xl-1 float-left col-12 col-xl-5 height1p2" id=""/>
