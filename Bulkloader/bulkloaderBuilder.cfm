@@ -249,7 +249,7 @@
 			</div>
 	
 
-			<div class="col-12 col-md-4 pt-4 float-left">
+			<div class="col-12 col-md-4 pt-4 mt-0 mt-md-5 float-left">
 				<form name="f" method="post" action="bulkloaderBuilder.cfm">
 					<input type="hidden" name="action" value="getTemplate">
 					<label for="fileFormat" class="col-4 float-left text-right pt-1">Format:</label>
