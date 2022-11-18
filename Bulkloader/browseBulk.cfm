@@ -417,7 +417,7 @@ table##t th {
 							<cfif isdefined("colln") and len(colln) gt 0>
 								<input type="hidden" name="colln" value="#colln#">
 							</cfif>
-							<h2>Create Filter:</h2>
+							<h2 class="h3">Create Filter:</h2>
 							<table class="table table-responsive">
 								<thead class="thead-light">
 								<tr>
@@ -503,7 +503,7 @@ table##t th {
 						</form>
 					</div>
 					<div class="col-12 mb-3 mt-0 float-left">
-						<h2>Update data in table below: </h2> 
+						<h2 class="h3">Update data in table below: </h2> 
 						<p class="font-italic text-dark mb-1">To check updates: Use "control" + "F" to bring a column header or value into focus.</p>
 						<p class="font-italic text-dark mb-1">To empty a column, click "NULL" for the value and update.</p>
 						<p class="font-italic text-dark">To sort, click on a column header and wait. There is a delay with length of delay proportional to the number of rows in the table.</p>
