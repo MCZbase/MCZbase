@@ -35,7 +35,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	color: #6a737b!important;
 }
 table#t {
-	cursor: grab;
+	cursor: pointer;
 }
 a {
 	cursor: pointer;
