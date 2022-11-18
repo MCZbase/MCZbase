@@ -3,7 +3,19 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
-
+<script type="text/javascript">
+function getMCZDocs(url,anc) {
+	var url;
+	var anc;
+	var baseUrl = "https://code.mcz.harvard.edu/wiki/index.php/";
+	var extension = "";
+	var fullURL = baseUrl + url + extension;
+		if (anc != null) {
+			fullURL += "#" + anc;
+		}
+	siteHelpWin=windowOpener(fullURL,"HelpWin","width=1024,height=640, resizable,scrollbars,location,toolbar");
+}
+</script>
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
 <cfquery name="blt" datasource="uam_god">
@@ -87,7 +99,7 @@
 				<h1 class="h2">Bulkload Builder</h2>
 				<p>
 					Build your own Bulkloader template and download it in a tab-delimited text or csv format.
-					You may toggle groups on and off below or click on individual items on the right. 
+					You may toggle groups on and off below or click on individual items on the right. Scroll down to review everything checked before clicking download.
 				</p>
 				<form name="controls" id="controls">
 				<table class="table">
