@@ -932,15 +932,19 @@ limitations under the License.
 									<a aria-label="Add another set of search criteria" class="btn btn-xs btn-light addAtt m-0 py-0" target="_self" href="javascript:void(0);"><i class="fa fa-plus"></i> Add Atrribute</a>
 									<div id="customAtt">
 										<div class="form-row mx-0 my-2">
-											<label for="attribute_type" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Type</label>
-											<select class="data-entry-select mt-0 mt-xl-1 col-12 col-xl-10 height1p2 smallselect">
-												<option value="">Attribute Type</option>
-												<cfloop query="attType">
-													<option value="#attType.attribute_type#">#attType.attribute_type#</option>
-												</cfloop>
-											</select>
-											<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-1 float-left px-1 text-left d-block mt-1 mt-xl-2 mb-0"> Value</label>
-											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-10 mt-0 mt-xl-1 height1p2">
+											<div class="col-12 col-md-6">
+												<label for="attribute_type" class="small font-weight-light col-12 col-xl-2 px-1 float-left d-block mt-1 mt-xl-2 mb-0">Type</label>
+												<select class="data-entry-select mt-0 mt-xl-1 col-12 col-xl-10 height1p2 smallselect">
+													<option value="">Attribute Type</option>
+													<cfloop query="attType">
+														<option value="#attType.attribute_type#">#attType.attribute_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-6">
+												<label for="part_number" class="small font-weight-light col-12 col-xl-2 px-1 float-left px-1 text-left d-block mt-1 mt-xl-2 mb-0"> Value</label>
+												<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-10 mt-0 mt-xl-1 height1p2">
+											</div>
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-10 mt-0 mt-xl-1 height1p2 float-left" name="method">
 											<div class="col-12 mt-2 border bg-light rounded px-2 py-1 mb-1">
