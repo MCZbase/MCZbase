@@ -840,13 +840,13 @@ limitations under the License.
 												<label for="" class="small font-weight-light float-left mt-xl-2 text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mb-0">Date</label>
 												<input type="text" class="data-entry-input mb-1 float-left col-12 col-xl-3 mt-0 mt-xl-1 height1p2" id="">
 											</div>
-												<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verification Status</label>
-												<select class="data-entry-select col-12 col-xl-9 mt-0 mt-xl-1 float-left  smallselect height1p2" required>
-													<option value="">Status </option>
-													<cfloop query="verifications">
-														<option value="#verifications.verificationstatus#">#verifications.verificationstatus#</option>
-													</cfloop>
-												</select>
+											<label for="" class="small font-weight-light col-12 col-xl-3 px-0 float-left d-block mt-2 mb-0">Verification Status</label>
+											<select class="data-entry-select col-12 col-xl-9 mt-0 mt-xl-1 float-left  smallselect height1p2" required>
+												<option value="">Status </option>
+												<cfloop query="verifications">
+													<option value="#verifications.verificationstatus#">#verifications.verificationstatus#</option>
+												</cfloop>
+											</select>
 										</div>
 								<script>
 								$(document).ready(function(){
@@ -1123,7 +1123,7 @@ $(document).ready(function(){
 	
 $(document).ready(function(){
 	$(".addAgent1").click(function(){
-		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><label for="agent_id" class="sr-only"></label><select class="data-entry-select" required><option value="0">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent_id" placeholder="Agent ID"><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><div class="col-12 col-md-6"><label for="agent_id" class="sr-only"></label><select class="data-entry-select" required><option value="0">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent_id" placeholder="Agent ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customAgent1").on('click','.remAgent1',function(){$(this).parent().remove();});
 	});
