@@ -47,7 +47,7 @@ limitations under the License.
 				<cfset link = guid>
 			</cfif>
 			<cfif guid_type EQ "ORCiD">
-				<cfset returnValue = "<a href='#link#' aria-label='link to ORCID record'><img src='/shared/images/ORCIDiD_icon.svg' height='15' width='15' alt='ORCID iD icon'></a>" > <!--- " --->
+				<cfset returnValue = "<a href='#link#' aria-label='link to ORCID record'><img src='/shared/images/ORCIDiD_icon.svg' height='15' width='15' class='ml-1' alt='ORCID iD icon'></a>" > <!--- " --->
 			<cfelse>
 				<cfset returnValue = "<a href='#link#'><img src='/shared/images/linked_data.png' height='15' width='15' alt='linked data icon'></a>" > <!--- " --->
 			</cfif>

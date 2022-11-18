@@ -158,6 +158,10 @@ limitations under the License.
 									<cfelse>
 										<cfset guidLink = agentguid >
 									</cfif>
+									<cfset icon="">
+									<cfif agentguid_guid_type EQ 'ORCiD'>
+										<cfset icon="<img src='/shared/images/ORCIDiD_icon.svg' height='15' width='15' class='mr-1' alt='ORCID iD icon'>"><!--- " --->
+									</cfif>
 									<li class="list-group-item border-bottom-0 px-0 pt-0 pb-2">
 										<a href="#guidLink#">#agentguid#</a>
 									</li>
