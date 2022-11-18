@@ -3,19 +3,7 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
-<script type="text/javascript">
-function getMCZDocs(url,anc) {
-	var url;
-	var anc;
-	var baseUrl = "https://code.mcz.harvard.edu/wiki/index.php/";
-	var extension = "";
-	var fullURL = baseUrl + url + extension;
-		if (anc != null) {
-			fullURL += "#" + anc;
-		}
-	siteHelpWin=windowOpener(fullURL,"HelpWin","width=1024,height=640, resizable,scrollbars,location,toolbar");
-}
-</script>
+
 <cfset title="BulkloaderBuilder">
 <cfif action is "nothing">
 <cfquery name="blt" datasource="uam_god">
@@ -101,9 +89,9 @@ function getMCZDocs(url,anc) {
 					Build your own Bulkloader template and download it in a tab-delimited text or csv format.
 					You may toggle groups on and off below or click on individual items on the right. Scroll down to review everything checked before clicking download.
 				</p>
-				<form name="controls" id="controls">
+			<form name="controls" id="controls">
 				<table class="table">
-					<thead class="thead-light">
+<!---					<thead class="thead-light">
 					<tr>
 						<th>Group</th>
 						<th>
@@ -112,7 +100,15 @@ function getMCZDocs(url,anc) {
 						</th>
 					</tr>
 					</thead>
+					--->
 					<tbody>
+					<tr>
+						<td>Group</td>
+						<td>
+							<button class="btn-xs btn btn-primary float-left"  onclick="checkAll(1)">All On</button>
+							<button class="btn-xs btn btn-secondary float-left" onclick="checkAll(0)">All Off</button>
+						</td>
+					</tr>
 					<tr>
 						<td>Required</td>
 						<td><input type="checkbox" name="required" onchange="checkList(this.name, this.checked)"></td>
@@ -273,13 +269,17 @@ function getMCZDocs(url,anc) {
 						<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
 					</div>
 					<table class="table">
-						<thead class="thead-light">
+	<!---					<thead class="thead-light">
 							<tr>
 								<th>Individual Fields</th>
 								<th>Include?</th>
 							</tr>
-						</thead>
+						</thead>--->
 						<tbody>
+							<tr>
+								<td>Individual Fields</td>
+								<td>Include?</td>
+							</tr>
 							<cfloop query="blt">
 								<tr>
 									<td>#column_name#</td>
