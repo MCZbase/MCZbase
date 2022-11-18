@@ -943,7 +943,7 @@ limitations under the License.
 											<input type="text" name="attribute value" class="data-entry-input float-left col-12 col-xl-10 mt-0 mt-xl-1 height1p2">
 											<label for="method" class="small font-weight-light float-left col-12 col-xl-2 d-block px-1 mt-1 mt-xl-2 mb-0">Method</label>
 											<input type="text" class="data-entry-input col-12 col-xl-10 mt-0 mt-xl-1 height1p2 float-left" name="method">
-										<div class="col-12 mt-2 border bg-light rounded p-1 mb-1">
+											<div class="col-12 mt-2 border bg-light rounded px-2 py-1 mb-1">
 												<label for="" class="small font-weight-light float-left col-12 text-xl-right col-xl-2 d-block pl-0 pr-2 mt-xl-2 mt-1 mb-0">Determiner</label>
 												<input type="text" name="" class="data-entry-input mt-0 mb-1 mt-xl-1 float-left col-12 col-xl-5 height1p2" id=""/>
 												<label for="" class="small font-weight-light float-left text-xl-right pr-2 col-12 col-xl-2 d-block pl-0 mt-1 mt-xl-2 mb-0">Date</label>
@@ -1113,13 +1113,6 @@ $(document).ready(function(){
 	});
 	$("##customBiolRelations").on('click','.remBiolRelations',function(){$(this).parent().remove();});
 	});
-
-	//this is from https://stackoverflow.com/questions/16183231/jquery-append-and-remove-dynamic-table-row  
-//$(document).ready(function(){
-//	$(".addAgent").click(function(){$("##customAgent").append('<div class="form-row mx-0 mt-2"><label for="agent_id" class="sr-only float-left">Agent as collector</label><select class="data-entry-select"><option value="">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input" name="agent" placeholder="Value"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent data-entry-button p-0 m-0 remAgent" style="width:20px;"><i class="fas fa-times"></i></button></div>');
-//	});
-//	$("##customAgent").on('click','.remAgent',function(){$(this).parent().remove();});
-//});
 	
 $(document).ready(function(){
 	$(".addAgent1").click(function(){
