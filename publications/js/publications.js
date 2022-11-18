@@ -17,6 +17,30 @@ limitations under the License.
 
 **/
 
+/** loadFullCitDivHTML load a block of html showing the current full form
+ * of the citation for a publication.
+ * @param publication_id the publication for which to show the citation.
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadFullCitDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getCitationForPubHtml",
+			form: "full",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading publication citation text");
+		},
+		dataType: "html"
+	});
+};
+
 /** function monitorForChanges bind a change monitoring function to inputs 
  * on a given form.  Note: text inputs must have type=text to be bound to change function.
  * @param formId the id of the form, not including the # id selector to monitor.

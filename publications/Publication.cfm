@@ -117,50 +117,67 @@ limitations under the License.
 	<cfoutput>
 		<main class="container py-3" id="content" >
 			<section class="row border rounded my-2">
-				<h1 class="h2 mt-3">
+				<h1 class="h2 w-100 px-2 pt-1">
 					Edit Publication: #pub.short_citation# (#pub.publication_id#)
        			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
+					<span class="d-inline-block float-right">
+						<a class="btn btn-xs btn-primary text-decoration-none" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
+						<a class="btn btn-xs btn-primary text-decoration-none" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
+					</span>
 				</h1>
-				<p> 
-					<a class="btn btn-xs btn-primary" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
-					<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#pub.publication_id#">Manage Citations</a>
-				</p>
+				<div class="h2 px-2" id="fullCitationDiv">#pub.full_citation#</div>
 				<form class="col-12" name="editPubForm" id="editPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
-					<div class="form-row mb-2 bg-light">
-						<div class="col-12 mb-0">
+					<div class="form-row mb-2 bg-verylightteal">
+						<div class="col-12 col-md-11 mr-0">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
-							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" required>#pub.publication_title#</textarea>
+							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required>#pub.publication_title#</textarea>
 						</div>
 						<script>
 							function markup(textAreaId, tag){
-								var len = $("##"+textAreaId).value.length;
-								var start = $("##"+textAreaId).selectionStart;
-								var end = $("##"+textAreaId).selectionEnd;
-								var selection = $("##"+textAreaId).value.substring(start, end);
+								var len = $("##"+textAreaId).val().length;
+								var start = $("##"+textAreaId)[0].selectionStart;
+								var end = $("##"+textAreaId)[0].selectionEnd;
+								var selection = $("##"+textAreaId).val().substring(start, end);
 								if (selection.length>0){
 									var replace = selection;
-									if (selection=='i') { 
+									if (tag=='i') { 
 										replace = '<i>' + selection + '</i>';
-									} elseif(selection=='b') { 
+									} else if(tag=='b') { 
 										replace = '<b>' + selection + '</b>';
-									} elseif(selection=='sub') { 
+									} else if(tag=='sub') { 
 										replace = '<sub>' + selection + '</sub>';
-									} elseif(selection=='sup') { 
+									} else if(tag=='sup') { 
 										replace = '<sup>' + selection + '</sup>';
 									}
-									$("##"+textAreaId).value =  $("##"+textAreaId).value.substring(0,start) + replace + $("##"+textAreaId).value.substring(end,len);
+									$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
 								}
 							}
 						</script>
-						<div class="col-12 mt-0">
-							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','i')" aria-label="italicize selected text">i</button>
-							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','b')" aria-label="make selected text bold">b</button>
-							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sub')" aria-label="make text subscript">sub</button>
-							<button class="btn btn-xs btn-secondary" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">sup</button>
-						</div>
+						<div class="col-12 col-md-1 ml-0 row">
+							<div class="col-6 ml-0 mr-0 px-0">
+								<ul class="list-group pt-3">
+									<li class="list-group-item px-0 pb-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
+									</li>
+									<li class="list-group-item px-0 pt-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','b')" aria-label="make selected text bold"><strong>B</strong></button>
+									</li>
+								</ul>
+							</div>
+							<div class="col-6 ml-0 px-0">
+								<ul class="list-group pt-3">
+									<li class="list-group-item px-0 pb-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
+									</li>
+									<li class="list-group-item px-0 pt-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
+									</li>
+								</ul>
+							</div>
+					</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
@@ -281,6 +298,7 @@ limitations under the License.
 									$('##saveResultDiv').addClass('text-success');
 									$('##saveResultDiv').removeClass('text-danger');
 									$('##saveResultDiv').removeClass('text-warning');
+									loadFullCitDivHTML();
 								},
 								error: function(jqXHR,textStatus,error){
 									$('##saveResultDiv').html('Error.');
@@ -299,6 +317,7 @@ limitations under the License.
 				<script>
 					function reloadAuthors(){ 
 						loadAuthorsDivHTML(#publication_id#,'authorBlock');
+						loadFullCitDivHTML();
 					}
 				</script>
 				<!--- TODO: Move authors to backing method  --->
@@ -310,6 +329,7 @@ limitations under the License.
 				<script>
 					function reloadAttributes(){ 
 						loadAttributesDivHTML(#publication_id#,'attributesBlock');
+						loadFullCitDivHTML();
 					}
 				</script>
 				<!--- TODO: Move attributes to backing method --->
@@ -596,7 +616,7 @@ limitations under the License.
 	<cfoutput>
 		<main class="container py-3" id="content" >
 			<section class="row border rounded my-2">
-				<h1 class="h2 mt-3">
+				<h1 class="h2">
 					Create New Publication
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 				</h1>

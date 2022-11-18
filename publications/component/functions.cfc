@@ -18,6 +18,46 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 
+<!--- getCitationForPubHtml get the long or short form of the citation for a publication record.
+  @param publication_id the publication for which to obtain the citaiton.
+  @param form optional 'long' or 'short', default 'long' for the form of the citation to return.
+  @return html containing the citation in the requested form with html markup.
+--->
+<cffunction name="getCitationForPubHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="form" type="string" required="no">
+	<cfthread name="getCitationForPubThread">
+		<cfif NOT isDefined("form") OR len(form) EQ 0>
+			<cfset form="long">
+		</cfif>
+
+		<cftry>
+			<cfquery name="getCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCitation_result">
+				SELECT
+					<cfif form EQ "short">
+						mczbase.getshortcitation(publication_id) as citation
+					<cfelse>
+						mczbase.getfullcitation(publication_id) as citation
+					</cfif>
+				FROM publication
+				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+			<cfoutput>#getCitation.text#</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getCitationForPubThread" />
+	<cfreturn getCitationForPubThread.output>
+</cffunction>
+
+<!--- savePublication update a publication record --->
 <cffunction name="savePublication" access="remote" returntype="any" returnformat="json">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="published_year" type="string" required="no">
@@ -227,6 +267,7 @@ limitations under the License.
 		</cfif>
 </cffunction>
 
+
 <!--- getAuthorsForPubHtml obtain a block of html for editing the authors and editors
    of a publication 
  @param publication_id the publication for which to obtain authors/editors
@@ -272,7 +313,7 @@ limitations under the License.
 					<ul>
 						<cfloop query="getAuthors">
 							<li>
-								<a href="agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
+								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
 								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
@@ -288,7 +329,7 @@ limitations under the License.
 					<ul>
 						<cfloop query="getEditors">
 							<li>
-								<a href="agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
+								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
 								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
@@ -610,7 +651,8 @@ limitations under the License.
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 			</cfquery>
 			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT ctpublication_attribute.publication_attribute 
+				SELECT ctpublication_attribute.publication_attribute, 
+					description
 				FROM ctpublication_attribute 
 				WHERE
 					ctpublication_attribute.publication_attribute NOT IN (
@@ -629,7 +671,12 @@ limitations under the License.
 				<select name="new_attr" id="new_attr" onchange="addAttribute(this.value)">
 					<option value=""></option>
 					<cfloop query="available_pub_att">
-						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute#</option>
+						<cfif len(available_pub_att.description) GT 0>
+							<cfset descr = " (#available_pub_att.description#)">
+						<cfelse>
+							<cfset descr = "">
+						</cfif>
+						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute##descr#</option>
 					</cfloop>
 				</select>
 				<ul>
