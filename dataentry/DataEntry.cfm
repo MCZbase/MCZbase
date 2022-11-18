@@ -1123,7 +1123,7 @@ $(document).ready(function(){
 	
 $(document).ready(function(){
 	$(".addAgent1").click(function(){
-		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><div class="col-12 col-md-6"><label for="agent_id" class="sr-only"></label><select class="data-entry-select small font-weight-light float-left  d-xl-none px-1 mt-1 mt-xl-0 mb-0" required><option value="0">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input mt-xl-0 height1p2" name="agent_id" placeholder="Agent ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
+		$("##customAgent1").append('<div class="form-row mx-0 mt-1"><div class="col-12 col-md-6"><label for="agent_id" class="sr-only"></label><select class="data-entry-select small font-weight-light float-left  d-xl-none px-1 mt-1 mt-xl-0 mb-0" required><option value="0">Collector</option><option value="1">Preparator</option></select><input type="text" class="data-entry-input mt-xl-0 height1p2 float-left" name="agent_id" placeholder="Agent ID"></div><button href="javascript:void(0);" arial-label="remove" class="btn addAgent p-0 m-0 float-left data-entry-button remAgent1" style="width:20px;"><i class="fas fa-times"></i></button></div>');
 	});
 		$("##customAgent1").on('click','.remAgent1',function(){$(this).parent().remove();});
 	});
