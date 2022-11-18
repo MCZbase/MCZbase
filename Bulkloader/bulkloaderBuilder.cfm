@@ -86,8 +86,8 @@
 			<div class="col-12 pt-4 col-md-4 float-left">
 				<h1 class="h2">Bulkload Builder</h2>
 				<p>
-					Build your own Bulkloader template.
-					You may toggle groups on and off below or click on individual items on the right. Download a template in a tab-delimited text or csv format by clicking the button at the top right.
+					Build your own Bulkloader template and download it in a tab-delimited text or csv format.
+					You may toggle groups on and off below or click on individual items on the right. 
 				</p>
 				<form name="controls" id="controls">
 				<table class="table">
@@ -251,14 +251,15 @@
 
 			<div class="col-12 col-md-4 pt-4 mt-0 mt-md-5 float-left">
 				<form name="f" method="post" action="bulkloaderBuilder.cfm">
-					<input type="hidden" name="action" value="getTemplate">
-					<label for="fileFormat" class="col-4 float-left text-right pt-1">Format:</label>
-					<select name="fileFormat" id="fileFormat" class="data-entry-select col-4 float-left">
-						<option value="txt">Tab-delimited text</option>
-						<option value="csv">CSV</option>
-					</select>
-					<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
-
+					<div class="border form-row mx-0 p-3">
+						<input type="hidden" name="action" value="getTemplate">
+						<label for="fileFormat" class="col-4 float-left text-right pt-1">Format:</label>
+						<select name="fileFormat" id="fileFormat" class="data-entry-select col-4 float-left">
+							<option value="txt">Tab-delimited text</option>
+							<option value="csv">CSV</option>
+						</select>
+						<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
+					</div>
 					<table class="table">
 						<thead class="thead-light">
 							<tr>
