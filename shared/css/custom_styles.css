@@ -34,6 +34,9 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .text-muted {
 	color: #6a737b!important;
 }
+table#t {
+	cursor: grab;
+}
 a {
 	cursor: pointer;
 }
