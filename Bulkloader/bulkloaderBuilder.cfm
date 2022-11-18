@@ -91,7 +91,7 @@
 				</p>
 			<form name="controls" id="controls">
 				<table class="table">
-<!---					<thead class="thead-light">
+					<thead class="thead-light">
 					<tr>
 						<th>Group</th>
 						<th>
@@ -100,15 +100,7 @@
 						</th>
 					</tr>
 					</thead>
-					--->
 					<tbody>
-					<tr>
-						<td>Group</td>
-						<td>
-							<button class="btn-xs btn btn-primary float-left"  onclick="checkAll(1)">All On</button>
-							<button class="btn-xs btn btn-secondary float-left" onclick="checkAll(0)">All Off</button>
-						</td>
-					</tr>
 					<tr>
 						<td>Required</td>
 						<td><input type="checkbox" name="required" onchange="checkList(this.name, this.checked)"></td>
@@ -269,17 +261,13 @@
 						<input type="submit" value="Download Template" class="btn-xs btn-primary col-4 float-left">
 					</div>
 					<table class="table">
-	<!---					<thead class="thead-light">
+						<thead class="thead-light">
 							<tr>
 								<th>Individual Fields</th>
 								<th>Include?</th>
 							</tr>
-						</thead>--->
+						</thead>
 						<tbody>
-							<tr>
-								<td>Individual Fields</td>
-								<td>Include?</td>
-							</tr>
 							<cfloop query="blt">
 								<tr>
 									<td>#column_name#</td>
