@@ -163,7 +163,7 @@ limitations under the License.
 										<cfset icon="<img src='/shared/images/ORCIDiD_icon.svg' height='15' width='15' class='mr-1' alt='ORCID iD icon'>"><!--- " --->
 									</cfif>
 									<li class="list-group-item border-bottom-0 px-0 pt-0 pb-2">
-										<a href="#guidLink#">#agentguid#</a>
+										<a href="#guidLink#">#icon##agentguid#</a>
 									</li>
 								</cfif>
 							</ul>
