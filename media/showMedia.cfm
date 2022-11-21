@@ -416,13 +416,7 @@
 											</ul>
 										</div>
 										<cfloop query="accn">
-											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct media.media_id, preview_uri, media.media_uri,
-												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
-											from media_relations
-												 left join media on media_relations.media_id = media.media_id
-											where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
-											</cfquery>
+				
 											<div class="row mx-0 border-top py-0 border-gray">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Transaction ID: </span>
@@ -436,27 +430,34 @@
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Type</h3>
-														<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
+														<div class="col-12 py-0">#accn.accn_type#</div>
 													</div>
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Status</h3>
-														<div class="col-12 pt-0 pb-1">#accn.accn_status#</div>
+														<div class="col-12 py-0">#accn.accn_status#</div>
 													</div>
 													<cfif len(accn.received_agent) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Agents Involved</h3>
-															<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
+															<div class="col-12 py-0">#accn.received_agent#</div>
 														</div>
 													</cfif>
 													<cfif len(accn.received_agent) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Received Date</h3>
-															<div class="col-12 pt-0 pb-1">#accn.received_date#</div>
+															<div class="col-12 py-0">#accn.received_date#</div>
 														</div>
 													</cfif>
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 px-0">
 													<cfloop query="relm2">
+														<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct media.media_id, preview_uri, media.media_uri,
+															media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
+														from media_relations
+															 left join media on media_relations.media_id = media.media_id
+														where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
+														</cfquery>
 														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 py-1 float-left"> 
 															<cfif len(accn.transaction_id) gt 0>
 																<cfif relm2.media_id eq '#media.media_id#'> 
