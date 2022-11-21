@@ -373,7 +373,7 @@
 						<!---accn records --->
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
-								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,1 ,'preferred') as received_agent
+								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.trans_agent_role, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,1 ,'preferred') as received_agent
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
@@ -442,7 +442,7 @@
 														<h3 class="h5 mb-0">Accession Status</h3>
 														<div class="col-12 pt-0 pb-1">#accn.accn_status#</div>
 													</div>
-													<cfif len(accn.received_agent) gt 0>
+													<cfif len(accn.received_agent) gt 0 and accn.trans_agent_role neq 'entered by'>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Agents Involved</h3>
 															<div class="col-12 pt-0 pb-1">#accn.received_agent#</div>
