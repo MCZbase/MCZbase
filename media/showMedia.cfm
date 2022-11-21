@@ -415,16 +415,17 @@
 											</ul>
 										</div>
 										<cfloop query="accn">
-											<cfquery name="accn_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<!---					<cfquery name="accn_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select 
-													trans_agent.agent_id,get_transAgents(agent_id,0,'preferred') as received_agent
+													trans_agent.agent_id,get_transAgents(agent_id,0,'preferred') as received_agent, agent.agent_id
 												from
-													trans_agent, accn 
+													trans_agent, accn, agent 
 												where accn.transaction_ID = trans_agent.transaction_id and
-													accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
+													accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#"> and
+												agent.agent_id = trans_agent.agent_id
 												and 
 													trans_agent.trans_agent_role = 'received from'
-											</cfquery>
+											</cfquery>--->
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, preview_uri, media.media_uri,
 												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
@@ -451,12 +452,12 @@
 														<h3 class="h5 mb-0">Accession Status</h3>
 														<div class="col-12 py-0">#accn.accn_status#</div>
 													</div>
-													<cfif len(accn.received_agent) gt 0>
+							<!---						<cfif len(accn.received_agent) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Agents Involved</h3>
 															<div class="col-12 py-0">#accn.received_agent#</div>
 														</div>
-													</cfif>
+													</cfif>--->
 													<cfif len(accn.received_agent) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Received Date</h3>
