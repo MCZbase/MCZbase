@@ -461,7 +461,7 @@
 													<cfif len(accn.received_date) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Received Date</h3>
-															<div class="col-12 py-0">#accn.received_date#</div>
+															<div class="col-12 py-0">#date_format(accn.received_date,"yyyy-mm-dd")#</div>
 														</div>
 													</cfif>
 												</div>
