@@ -640,7 +640,7 @@
 											<div class="row mx-0 border-top py-0 border-gray">
 												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Permit ID: </span>
-													<a href="transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
+													<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
 												</div>
