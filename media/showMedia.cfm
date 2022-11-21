@@ -602,7 +602,7 @@
 
 						<!--- permit records --->
 						<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select  permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
+							select permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
 							from permit
 								left join media_relations on media_relations.related_primary_key = permit.permit_id
 							where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -613,7 +613,7 @@
 							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
-									<cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<cfquery name="relmPer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
 										from media_relations
 											left join media on media_relations.media_id = media.media_id
@@ -640,7 +640,7 @@
 											<div class="row mx-0 border-top py-0 border-gray">
 												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Permit ID: </span>
-													<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
+													<a href="#relmPer.auto_protocol#/#relmPer.auto_host#/transactions/Permit.cfm?ction=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
 												</div>
@@ -655,17 +655,17 @@
 													</div>
 												</div>
 												<div class="col-12 col-md-8 p-1">
-													<cfloop query="relm4">
+													<cfloop query="relmPer">
 														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 															<cfif len(permit.permit_id) gt 0>
-																<cfif relm4.media_id eq '#media.media_id#'> 
+																<cfif relmPer.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
 																<cfelse>	
 																	<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
 																</cfif>
-																<div class="#activeimg#" id="mediaBlock#relm4.media_id#">
+																<div class="#activeimg#" id="mediaBlock#relmPer.media_id#">
 																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#relm4.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relmPer.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextP = trim(title1)>
 																	<cfif len(showTitleTextP) gt 170>
@@ -673,7 +673,7 @@
 																	<cfelse>
 																		<cfset showTitleTextP = "#showTitleTextP#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relm4.media_id#</span>
+																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relmPer.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextP#
 																	</div>
