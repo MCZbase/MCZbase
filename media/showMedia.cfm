@@ -451,7 +451,7 @@
 														<h3 class="h5 mb-0">Accession Status</h3>
 														<div class="col-12 py-0">#accn.accn_status#</div>
 													</div>
-													<cfloop query="">
+											<!---		<cfloop query="">--->
 	<!---												<cfif len(accn_agent.received_agent) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Agents Involved</h3>
