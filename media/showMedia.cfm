@@ -543,15 +543,15 @@
 										<div class="row mx-0 border-top py-0 border-gray">
 											<div class="col-12 col-md-1 py-2 border-right small90">
 												<h3 class="h5 mb-0 d-block d-md-none">Collecting Event ID: </h3>
-												<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.collecting_event_id#">
+												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">
 													#collecting_event.collecting_event_id#</a>
 											</div>
 											<div class="col-12 col-md-1 py-2 border-right small90">
 												<h3 class="h5 d-block d-md-none mb-0">Locality ID: </h3>
-												<a href="#relm3.auto_protocol#/#relm3.auto_host#/guid/#collecting_event.locality_id#">
+												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
-											<div class="col-12 col-md-3 py-2 border-right small">
+											<div class="col-12 col-md-2 py-2 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Date</h3>
 													<div class="col-12 pt-1 pb-2">#collecting_event.verbatim_date#</div>
@@ -567,7 +567,7 @@
 											</div>
 											<div class="col-12 col-md-7 p-1">
 												<cfloop query="relmCE">
-													<div class="border-light col-md-6 col-lg-4 col-xl-4 p-1 float-left"> 
+													<div class="border-light col-md-6 col-lg-4 col-xl-8 p-1 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
 															<cfif relmCE.media_id eq '#media.media_id#'> 
 																<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
