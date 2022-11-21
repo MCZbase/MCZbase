@@ -457,7 +457,7 @@
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 px-0">
 													<cfloop query="relm2">
-														<div class="border-light col-12 col-lg-6 col-xl-4 px-0 py-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 py-1 float-left"> 
 															<cfif len(accn.transaction_id) gt 0>
 																<cfif relm2.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-0 py-1 border-right border-bottom border-top">
@@ -474,7 +474,7 @@
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-1 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-7 bg-white px-0 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID: media/#relm2.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText1#
