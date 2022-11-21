@@ -425,7 +425,7 @@
 												and 
 													trans_agent.trans_agent_role = 'received from'
 											</cfquery>--->
-											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="relmAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, preview_uri, media.media_uri,
 												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as titleAccn
 											from media_relations
@@ -466,7 +466,7 @@
 													</cfif>
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 px-0">
-													<cfloop query="relm2">
+													<cfloop query="relmAccn">
 														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 py-1 float-left"> 
 															<cfif len(accn.transaction_id) gt 0>
 																<cfif relm2.media_id eq '#media.media_id#'> 
@@ -474,20 +474,20 @@
 																<cfelse>	
 																	<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
 																</cfif>
-																<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
+																<div class="#activeimg#" id="mediaBlock#relmAccn.media_id#">
 																	<div class="col-5 bg-white px-0 float-left">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relmAccn.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextAccn = trim(titleAccn)>
 																	<cfif len(showTitleTextAccn) gt 170>
 																		<cfset showTitleTextAccn = "#left(showTitleTextAccn,170)#..." >
 																	<cfelse>
-																		<cfset showTitleText1 = "#showTitleText1#" >
+																		<cfset showTitleTextAccn = "#showTitleTextAccn#" >
 																	</cfif>
 																	<div class="col-7 bg-white px-0 smaller float-left" style="line-height: .89rem;">
-																		<span class="d-block font-weight-lessbold">Media ID: media/#relm2.media_id#</span>
+																		<span class="d-block font-weight-lessbold">Media ID: media/#relmAccn.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
-																		#showTitleText1#
+																		#showTitleTextAccn#
 																	</div>
 																</div>
 															</cfif>
