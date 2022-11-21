@@ -275,23 +275,7 @@
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfif len(spec.guid) gt 0>
-							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct media.media_id, preview_uri, media.media_uri,
-									get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-									media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-									ctmedia_license.uri as license_uri,
-									mczbase.get_media_credit(media.media_id) as credit,
-									MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-									MCZBASE.get_media_title(media.media_id) as title1
-								from media_relations
-									 left join media on media_relations.media_id = media.media_id
-									 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-								where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
-									AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-								order by media.media_id
-							</cfquery>
+				
 							<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
 							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#) #spec.pk#</h3>
@@ -314,6 +298,23 @@
 											</ul>
 										</div>
 										<cfloop query="spec">
+											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct media.media_id, preview_uri, media.media_uri,
+													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+													media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+													CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+													ctmedia_license.uri as license_uri,
+													mczbase.get_media_credit(media.media_id) as credit,
+													MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+													MCZBASE.get_media_title(media.media_id) as title1
+												from media_relations
+													 left join media on media_relations.media_id = media.media_id
+													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+												where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
+													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+												order by media.media_id
+											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 pl-3 pr-0 py-2 border-right small90"><a name="catalogitem"></a>
 													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
