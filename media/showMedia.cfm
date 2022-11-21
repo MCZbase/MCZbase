@@ -373,7 +373,7 @@
 						<!---accn records --->
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
-								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,0,'Entered By') as received_agent
+								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,'preferred') as received_agent
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
