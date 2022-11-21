@@ -809,13 +809,7 @@
 							<section class="my-2 row w-100 mx-0">
 								<h1 class="h3 w-100 mt-2 mb-0 px-3">Related Localities</h1>
 								<div class="col-12 px-0">
-									<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-										MCZBASE.get_media_title(media.media_id) as title1
-										from media_relations
-											left join media on media_relations.media_id = media.media_id
-										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality.locality_id#">
-									</cfquery>
+						
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
@@ -842,50 +836,61 @@
 											</ul>
 										</div>
 										<cfloop query="locality">
+											<cfquery name="relmloc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+												MCZBASE.get_media_title(media.media_id) as titleLoc
+												from media_relations
+													left join media on media_relations.media_id = media.media_id
+												where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality.locality_id#">
+											</cfquery>
 											<div class="row mx-0 border-top py-0 border-gray">
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
 													<span class="d-block d-md-none">Locality ID: </span>
 													<a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.locality_id#">
 														#locality.locality_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
 													<span class="d-block d-md-none">Geog Auth Rec ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
 														#locality.geog_auth_rec_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-0 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Specific Locality</h3>
 														<div class="col-12 pt-0 pb-1">#locality.spec_locality#</div>
 													</div>
 													<div class="row mx-0">
+														<cfif len(#locality.minimum_elevation#)gt 0>
 														<h3 class="h5 mb-0">Min Elevation</h3>
-														<div class="col-12 pt-0 pb-1">#locality.minimum_elevation#</div>
+														<div class="col-12 pt-0 pb-0">#locality.minimum_elevation#</div>
+														</cfif>
+														<cfif len(#locality.maximum_elevation#)gt 0>
 														<h3 class="h5 mb-0">Max Elevation</h3>
-														<div class="col-12 pt-0 pb-1">#locality.maximum_elevation#</div>
+														<div class="col-12 pt-0 pb-0">#locality.maximum_elevation#</div>
+														</cfif>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-7 p-1">
+												<div class="col-12 col-md-6 col-xl-7 py-1">
 													<cfloop query="relmloc">
-														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-4 p-0 float-left"> 
 															<cfif len(locality.locality_id) gt 0>
 																<cfif relmloc.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-0 py-0 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
+																	<cfset activeimg = "border-lt-gray bg-white float-left px-0 py-0">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmloc.media_id#">
-																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablockloc= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablockloc#
+																	<div class="col-5 bg-white px-0 float-left">
+																		<cfset mediablockloc= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablockloc#
 																	</div>
-																	<cfset showTitleText2 = trim(title1)>
-																	<cfif len(showTitleText2) gt 170>
-																		<cfset showTitleText2 = "#left(showTitleText2,170)#..." >
+																	<cfset showTitleTextLoc = trim(titleLoc)>
+																	<cfif len(showTitleTextLoc) gt 170>
+																		<cfset showTitleTextLoc = "#left(showTitleTextLoc,170)#..." >
 																	<cfelse>
-																		<cfset showTitleText2 = "#showTitleText2#" >
+																		<cfset showTitleTextLoc = "#showTitleTextLoc#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relmloc.media_id#</span>
+																	<div class="col-7 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relmloc.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
-																		#showTitleText2#
+																		#showTitleTextLoc#
 																	</div>
 																</div>
 															</cfif>
