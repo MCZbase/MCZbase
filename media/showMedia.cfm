@@ -528,7 +528,7 @@
 											<li class="col-md-3 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Details</span>
 											</li>
-											<li class="col-md-7 px-1 list-group-item d-none d-lg-block">
+											<li class="col-md-8 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">This and Other Collecting Event Media</span>
 											</li>
 										</ul>
@@ -565,7 +565,7 @@
 													<div class="col-12 pt-1 pb-2">#collecting_event.collecting_source#</div>
 												</div>
 											</div>
-											<div class="col-12 col-md-7 px-0 py-1">
+											<div class="col-12 col-md-8 px-0 py-1">
 												<cfloop query="relmCE">
 													<div class="border-light col-md-6 col-lg-4 col-xl-3 px-0 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
