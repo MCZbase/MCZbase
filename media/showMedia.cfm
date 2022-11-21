@@ -859,11 +859,11 @@
 														<div class="col-12 pt-0 pb-1">#locality.spec_locality#</div>
 													</div>
 													<div class="row mx-0">
-														<cfif len(#locality.minimum_elevation#)gt 0>
+														<cfif len(locality.minimum_elevation)gt 0>
 														<h3 class="h5 mb-0">Min Elevation</h3>
 														<div class="col-12 pt-0 pb-0">#locality.minimum_elevation#</div>
 														</cfif>
-														<cfif len(#locality.maximum_elevation#)gt 0>
+														<cfif len(locality.maximum_elevation)gt 0>
 														<h3 class="h5 mb-0">Max Elevation</h3>
 														<div class="col-12 pt-0 pb-0">#locality.maximum_elevation#</div>
 														</cfif>
