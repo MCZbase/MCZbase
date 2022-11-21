@@ -299,7 +299,7 @@
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-2 col-xl-1 px-1 list-group-item">
+												<li class="col-2 col-xl-1 px-2 list-group-item">
 													<span class="font-weight-lessbold">Catalog&nbsp;Item<span class="d-inline d-lg-none">s </span></span>
 												</li>
 												<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
@@ -315,7 +315,7 @@
 										</div>
 										<cfloop query="spec">
 											<div class="row mx-0 py-0 border-top-teal">
-												<div class="col-12 col-lg-1 px-1 py-2 border-right small90"><a name="catalogitem"></a>
+												<div class="col-12 col-lg-1 px-2 py-2 border-right small90"><a name="catalogitem"></a>
 													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 												</div>
 												<div class="col-12 col-lg-3 pt-2 pb-1 border-right small">
@@ -424,7 +424,7 @@
 										</div>
 										<cfloop query="accn">
 											<div class="row mx-0 border-top py-0 border-gray">
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 px-2 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Transaction ID: </span>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.transaction_id#</a>
