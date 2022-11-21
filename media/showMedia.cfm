@@ -469,7 +469,7 @@
 													<cfloop query="relmAccn">
 														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 py-1 float-left"> 
 															<cfif len(accn.transaction_id) gt 0>
-																<cfif relm2.media_id eq '#media.media_id#'> 
+																<cfif relmAccn.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-0 py-1 border-right border-bottom border-top">
 																<cfelse>	
 																	<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
