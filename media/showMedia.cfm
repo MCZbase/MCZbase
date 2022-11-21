@@ -540,7 +540,7 @@
 											 left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event.collecting_event_id#">
 										</cfquery>
-										<div class="row mx-0 border-top py-0 border-gray">
+										<div class="row mx-0 border-top-teal py-0">
 											<div class="col-12 col-md-1 pt-2 border-right small90">
 												<h3 class="h5 mb-0 d-block d-md-none">Collecting Event ID: </h3>
 												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">
