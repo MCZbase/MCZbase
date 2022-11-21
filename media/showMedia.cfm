@@ -638,34 +638,34 @@
 													left join media on media_relations.media_id = media.media_id
 												where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
 											</cfquery>
-											<div class="row mx-0 border-top py-0 border-gray">
+											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Permit ID: </span>
 													<a href="#relmPer.auto_protocol##relmPer.auto_host#/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
 												</div>
-												<div class="col-12 col-md-3 col-xl-3 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-3 col-xl-3 pt-2 pb-0 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Permit Type</h3>
 														<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
 													</div>
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Permit Title</h3>
-														<div class="col-12 pt-0 pb-1">#permit.permit_title#</div>
+														<div class="col-12 pt-0 pb-0">#permit.permit_title#</div>
 													</div>
 												</div>
 												<div class="col-12 col-md-8 p-1">
 													<cfloop query="relmPer">
-														<div class="border-light col-12 col-lg-6 col-xl-4 px-0 py-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 py-0 float-left"> 
 															<cfif len(permit.permit_id) gt 0>
 																<cfif relmPer.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-0 py-0 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border-lt-gray bg-white float-left px-1 py-2">
+																	<cfset activeimg = "border-lt-gray bg-white float-left px-0 py-0">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmPer.media_id#">
-																	<div class="col-5 bg-white px-1 float-left">
+																	<div class="col-5 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relmPer.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextP = trim(title1)>
@@ -674,7 +674,7 @@
 																	<cfelse>
 																		<cfset showTitleTextP = "#showTitleTextP#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relmPer.media_id#</span>
+																	<div class="col-7 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relmPer.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextP#
 																	</div>
