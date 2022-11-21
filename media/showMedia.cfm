@@ -433,7 +433,7 @@
 													<span class="d-block d-md-none">Accession Number: </span><a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.accn_number#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Type</h3>
 														<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
@@ -455,7 +455,7 @@
 														</div>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 p-1">
+												<div class="col-12 col-md-6 col-xl-7 p-1">
 													<cfloop query="relm2">
 														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
 															<cfif len(accn.transaction_id) gt 0>
@@ -466,7 +466,7 @@
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm2.media_id#">
 																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="thumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleText1 = trim(title1)>
 																	<cfif len(showTitleText1) gt 170>
