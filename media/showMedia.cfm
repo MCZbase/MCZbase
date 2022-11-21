@@ -373,15 +373,14 @@
 						<!---accn records --->
 						<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
-								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,0,'preferred') as received_agent
+								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count,
+								accn.accn_number, accn.accn_num_suffix,accn.accn_status
 							from
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
-								left join trans_agent on accn.transaction_ID = trans_agent.transaction_id
 							where 
-								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								media_relations.media_id = 1335
 								and media_relations.media_relationship = 'documents accn'
-								and trans_agent.trans_agent_role = 'received from'
 						</cfquery>
 						<cfquery name="accncount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select count(accn.transaction_id) ct
@@ -416,6 +415,16 @@
 											</ul>
 										</div>
 										<cfloop query="accn">
+											<cfquery name="accn_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select 
+													trans_agent.agent_id,get_transAgents(agent_id,0,'preferred') as received_agent
+												from
+													trans_agent, accn 
+												where accn.transaction_ID = trans_agent.transaction_id and
+													accn.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
+												and 
+													trans_agent.trans_agent_role = 'received from'
+											</cfquery>
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, preview_uri, media.media_uri,
 												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
