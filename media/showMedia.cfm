@@ -824,11 +824,6 @@
 												</li>
 												<li class="col-6 col-xl-7 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">		
-														<cfif relmloc.recordcount GT 2>
-															<cfset plural = "s">
-														<cfelse>
-															<cfset plural = "">
-														</cfif>
 														<cfset IDtitle = "This and Other Locality Media">
 														#IDtitle#
 													</span>
@@ -856,7 +851,7 @@
 												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-0 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Specific Locality</h3>
-														<div class="col-12 pt-0 pb-1">#locality.spec_locality#</div>
+														<div class="col-12 pt-0 pb-0">#locality.spec_locality#</div>
 													</div>
 													<div class="row mx-0">
 														<cfif len(locality.minimum_elevation)gt 0>
