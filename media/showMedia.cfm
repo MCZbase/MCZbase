@@ -275,10 +275,9 @@
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfif len(spec.guid) gt 0>
-				
 							<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
 							<section class="my-2 row w-100 mx-0">
-								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#) #spec.pk#</h3>
+								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#)</h3>
 								<div class="col-12 px-0">
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
@@ -396,13 +395,6 @@
 							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Accessions (#accncount.ct#)</h3>
 								<div class="col-12 px-0">
-									<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct media.media_id, preview_uri, media.media_uri,
-										media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
-									from media_relations
-										 left join media on media_relations.media_id = media.media_id
-									where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
-									</cfquery>
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
@@ -424,6 +416,13 @@
 											</ul>
 										</div>
 										<cfloop query="accn">
+											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct media.media_id, preview_uri, media.media_uri,
+												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
+											from media_relations
+												 left join media on media_relations.media_id = media.media_id
+											where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
+											</cfquery>
 											<div class="row mx-0 border-top py-0 border-gray">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Transaction ID: </span>
@@ -434,7 +433,7 @@
 													<span class="d-block d-md-none">Accession Number: </span><a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.accn_number#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Type</h3>
 														<div class="col-12 pt-0 pb-1">#accn.accn_type#</div>
@@ -456,9 +455,9 @@
 														</div>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-6 col-xl-7 p-1">
+												<div class="col-12 col-md-6 col-xl-8 px-1">
 													<cfloop query="relm2">
-														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-4 px-0 py-1 float-left"> 
 															<cfif len(accn.transaction_id) gt 0>
 																<cfif relm2.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
