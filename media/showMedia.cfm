@@ -433,16 +433,16 @@
 											where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
-												<div class="col-12 col-md-2 col-xl-1 pt-1 pb-0 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
 													<span class="d-block d-md-none">Transaction ID: </span>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.transaction_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-1 pt-1 pb-0 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
 													<span class="d-block d-md-none">Accession Number: </span><a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.accn_number#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-2 pt-1 pb-0 border-right small">
+												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Type</h3>
 														<div class="col-12 py-0">#accn.accn_type#</div>
@@ -451,8 +451,8 @@
 														<h3 class="h5 mb-0">Accession Status</h3>
 														<div class="col-12 py-0">#accn.accn_status#</div>
 													</div>
-											<!---		<cfloop query="">--->
-	<!---												<cfif len(accn_agent.received_agent) gt 0>
+											<!---		<cfloop query="">
+														<cfif len(accn_agent.received_agent) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Agents Involved</h3>
 															<div class="col-12 py-0">#accn_agent.received_agent#</div>
@@ -541,28 +541,28 @@
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event.collecting_event_id#">
 										</cfquery>
 										<div class="row mx-0 border-top py-0 border-gray">
-											<div class="col-12 col-md-1 py-2 border-right small90">
+											<div class="col-12 col-md-1 pt-2 border-right small90">
 												<h3 class="h5 mb-0 d-block d-md-none">Collecting Event ID: </h3>
 												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">
 													#collecting_event.collecting_event_id#</a>
 											</div>
-											<div class="col-12 col-md-1 py-2 border-right small90">
+											<div class="col-12 col-md-1 pt-2 border-right small90">
 												<h3 class="h5 d-block d-md-none mb-0">Locality ID: </h3>
 												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
-											<div class="col-12 col-md-2 py-2 border-right small">
+											<div class="col-12 col-md-2 pt-2 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Date</h3>
-													<div class="col-12 pt-1 pb-2">#collecting_event.verbatim_date#</div>
+													<div class="col-12 py-0">#collecting_event.verbatim_date#</div>
 												</div>
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Locality</h3>
-													<div class="col-12 pt-1 pb-2">#collecting_event.verbatim_locality#</div>
+													<div class="col-12 py-0">#collecting_event.verbatim_locality#</div>
 												</div>
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Collecting Source</h3>
-													<div class="col-12 pt-1 pb-2">#collecting_event.collecting_source#</div>
+													<div class="col-12 py-0">#collecting_event.collecting_source#</div>
 												</div>
 											</div>
 											<div class="col-12 col-md-8 px-0 py-1">
