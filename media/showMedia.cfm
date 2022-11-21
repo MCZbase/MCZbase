@@ -379,7 +379,7 @@
 								accn
 								left join media_relations on media_relations.related_primary_key = accn.transaction_id
 							where 
-								media_relations.media_id = 1335
+								media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and media_relations.media_relationship = 'documents accn'
 						</cfquery>
 						<cfquery name="accncount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
