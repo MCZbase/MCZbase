@@ -1,6 +1,31 @@
 <cfcomponent>
-<!--- TODO:  Replace this code with stored procedures and assemble short/long citations directly in the backend database.  --->
+
+<!--- Assemble short citation with function in the backend database.  --->
 <cffunction name="shortCitation" access="remote">
+	<cfargument name="publication_id" type="numeric" required="yes">
+	<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select assemble_shortcitation(publication_id) cit from publication where publication_id=#publication_id#
+	</cfquery>
+	<cfset retval = "">
+	<cfif p.recordcount is 1>
+		<cfset retval = p.cit>
+	</cfif>
+	<cfreturn retval>
+</cffunction>
+<!--- Assemble long citation with function in the backend database.  --->
+<cffunction name="longCitation" access="remote">
+	<cfargument name="publication_id" type="numeric" required="yes">
+	<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select assemble_fullcitation(publication_id) cit from publication where publication_id=#publication_id#
+	</cfquery>
+	<cfset retval = "">
+	<cfif p.recordcount is 1>
+		<cfset retval = p.cit>
+	</cfif>
+	<cfreturn retval>
+</cffunction>
+
+<cffunction name="shortCitation_old" access="remote">
   <cfargument name="publication_id" type="numeric" required="yes">
   <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select published_year from publication where publication_id=#publication_id#
@@ -55,7 +80,7 @@
   <cfreturn r>
 </cffunction>
 <!------------------------------------------------------------------------------------------------>
-<cffunction name="longCitation" access="remote" output="true">
+<cffunction name="longCitation_old" access="remote" output="true">
   <cfargument name="publication_id" type="numeric" required="yes">
   <cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
