@@ -771,7 +771,7 @@
 														
 						<!--- loan records --->
 						<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select  loan.transaction_id, loan_item.transaction_id,loan.loan_type,loan.loan_status,loan.loan_instructions,loan.return_due_date,loan.loan_description,loan.loan_number 
+							select  loan.transaction_id,loan.loan_type,loan.loan_status,loan.loan_instructions,loan.return_due_date,loan.loan_description,loan.loan_number 
 							from loan
 								left join media_relations on media_relations.related_primary_key = loan.transaction_id
 							where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
