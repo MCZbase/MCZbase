@@ -565,17 +565,17 @@
 													<div class="col-12 pt-1 pb-2">#collecting_event.collecting_source#</div>
 												</div>
 											</div>
-											<div class="col-12 col-md-7 p-1">
+											<div class="col-12 col-md-7 px-0 py-1">
 												<cfloop query="relmCE">
-													<div class="border-light col-md-6 col-lg-4 col-xl-8 p-1 float-left"> 
+													<div class="border-light col-md-6 col-lg-4 col-xl-3 px-0 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
 															<cfif relmCE.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																<cfset activeimg = "border-warning bg-white float-left border-left px-0 pt-2 border-right border-bottom border-top">
 															<cfelse>	
-																<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
+																<cfset activeimg = "border-lt-gray bg-white float-left px-0 pt-2">
 															</cfif>
 															<div class="#activeimg#" id="mediaBlock#relmCE.media_id#">
-																<div class="col-5 bg-white px-1 float-left">
+																<div class="col-5 bg-white px-0 float-left">
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relmCE.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																</div>
 																<cfset showTitleTextCE = trim(titleCE)>
@@ -584,7 +584,7 @@
 																<cfelse>
 																	<cfset showTitleTextCE = "#showTitleTextCE#" >
 																</cfif>
-																<div class="col-7 bg-white px-2 pb-2 smaller float-left" style="line-height: .89rem;">
+																<div class="col-7 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">
 																	#showTitleTextCE#
 																</div>
 															</div>
