@@ -784,7 +784,8 @@
 								<h1 class="h3 w-100 mt-3 mb-0 px-3">Related Loans</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+										MCZBASE.get_media_title(media.media_id) as title2
 										from media_relations
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan.transaction_id#">
@@ -849,17 +850,17 @@
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm11.media_id#">
 																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="thumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="thumb",size="70",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
-																	<cfset showTitleText1 = trim(title1)>
-																	<cfif len(showTitleText1) gt 170>
-																		<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+																	<cfset showTitleText2 = trim(title2)>
+																	<cfif len(showTitleText2) gt 170>
+																		<cfset showTitleText2 = "#left(showTitleText2,170)#..." >
 																	<cfelse>
-																		<cfset showTitleText1 = "#showTitleText1#" >
+																		<cfset showTitleText2 = "#showTitleText2#" >
 																	</cfif>
 																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relm11.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
-																		#showTitleText1#
+																		#showTitleText2#
 																	</div>
 																</div>
 															</cfif>
