@@ -1105,7 +1105,7 @@
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Deaccessions</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+									select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title3
 									from media_relations
 										 left join media on media_relations.media_id = media.media_id
 									where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
@@ -1166,7 +1166,7 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
 																			#mediablock#
 																	</div>
-																	<cfset showTitleText1 = trim(title1)>
+																	<cfset showTitleText1 = trim(title3)>
 																	<cfif len(showTitleText1) gt 170>
 																		<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
 																	<cfelse>
