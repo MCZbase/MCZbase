@@ -432,7 +432,7 @@
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
 											</cfquery>
-											<div class="row mx-0 border-top-teal py-2">
+											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-1 pb-0 border-right small90">
 													<span class="d-block d-md-none">Transaction ID: </span>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
