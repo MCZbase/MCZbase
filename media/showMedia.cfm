@@ -848,7 +848,7 @@
 													<span class="d-block d-md-none">Geog Auth Rec ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
 														#locality.geog_auth_rec_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-3 pt-2 pb-0 border-right small">
+												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Specific Locality</h3>
 														<div class="col-12 pt-0 pb-0">#locality.spec_locality#</div>
@@ -864,14 +864,14 @@
 														</cfif>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-7 py-1">
+												<div class="col-12 col-md-6 col-xl-8 py-1">
 													<cfloop query="relmloc">
-														<div class="border-light col-12 col-lg-6 col-xl-4 p-0 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 p-0 float-left"> 
 															<cfif len(locality.locality_id) gt 0>
 																<cfif relmloc.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-0 py-0 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-0 py-1 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border-lt-gray bg-white float-left px-0 py-0">
+																	<cfset activeimg = "border-lt-gray bg-white float-left px-0 py-1">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmloc.media_id#">
 																	<div class="col-5 bg-white px-0 float-left">
