@@ -613,12 +613,7 @@
 							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Permits</h3>
 								<div class="col-12 px-0">
-									<cfquery name="relmPer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
-										from media_relations
-											left join media on media_relations.media_id = media.media_id
-										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
-									</cfquery>
+									
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
@@ -637,6 +632,12 @@
 											</ul>
 										</div>
 										<cfloop query="permit">
+											<cfquery name="relmPer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct media.media_id, preview_uri, media.media_uri, media.mime_type, media.media_type, media.auto_protocol, media.auto_host, MCZBASE.get_media_title(media.media_id) as title1
+												from media_relations
+													left join media on media_relations.media_id = media.media_id
+												where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
+											</cfquery>
 											<div class="row mx-0 border-top py-0 border-gray">
 												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Permit ID: </span>
@@ -656,7 +657,7 @@
 												</div>
 												<div class="col-12 col-md-8 p-1">
 													<cfloop query="relmPer">
-														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-4 px-0 py-1 float-left"> 
 															<cfif len(permit.permit_id) gt 0>
 																<cfif relmPer.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 py-2 border-right border-bottom border-top">
