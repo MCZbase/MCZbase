@@ -427,7 +427,7 @@
 											</cfquery>--->
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, preview_uri, media.media_uri,
-												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as title1
+												media.mime_type, media.media_type, media.auto_protocol, media.auto_host,MCZBASE.get_media_title(media.media_id) as titleAccn
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
@@ -478,9 +478,9 @@
 																	<div class="col-5 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm2.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
-																	<cfset showTitleText1 = trim(title1)>
-																	<cfif len(showTitleText1) gt 170>
-																		<cfset showTitleText1 = "#left(showTitleText1,170)#..." >
+																	<cfset showTitleTextAccn = trim(titleAccn)>
+																	<cfif len(showTitleTextAccn) gt 170>
+																		<cfset showTitleTextAccn = "#left(showTitleTextAccn,170)#..." >
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
