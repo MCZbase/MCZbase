@@ -72,6 +72,7 @@ limitations under the License.
 			doi,
 			mczbase.getshortcitation(publication_id) as short_citation, 
 			mczbase.getfullcitation(publication_id) as full_citation,
+			mczbase.assemblefullcitation(publication_id,0) as full_citation_plain,
 			get_publication_attribute(publication_id,'begin page') as spage,
 			get_publication_attribute(publication_id,'journal name') as jtitle,
 			get_publication_attribute(publication_id,'volume') as volume,
@@ -130,6 +131,7 @@ limitations under the License.
 					<input type="hidden" name="publication_id" value="#pub.publication_id#">
 					<input type="hidden" name="action" value="saveEdit">
 					<input type="hidden" name="method" value="savePublication">
+					<input type="hidden" name="fullCitationPlain" id="fullCitationPlain" value="#pub.full_citation_plain#">
 					<div class="form-row mb-2 bg-verylightteal">
 						<div class="col-12 col-md-11 mr-0">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
@@ -298,7 +300,8 @@ limitations under the License.
 									$('##saveResultDiv').addClass('text-success');
 									$('##saveResultDiv').removeClass('text-danger');
 									$('##saveResultDiv').removeClass('text-warning');
-									loadFullCitDivHTML();
+									loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
+									loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
 								},
 								error: function(jqXHR,textStatus,error){
 									$('##saveResultDiv').html('Error.');
@@ -317,7 +320,8 @@ limitations under the License.
 				<script>
 					function reloadAuthors(){ 
 						loadAuthorsDivHTML(#publication_id#,'authorBlock');
-						loadFullCitDivHTML();
+						loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
+						loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
 					}
 				</script>
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
@@ -328,7 +332,8 @@ limitations under the License.
 				<script>
 					function reloadAttributes(){ 
 						loadAttributesDivHTML(#publication_id#,'attributesBlock');
-						loadFullCitDivHTML();
+						loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
+						loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
 					}
 				</script>
 				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>

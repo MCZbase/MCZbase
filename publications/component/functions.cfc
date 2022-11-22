@@ -20,7 +20,7 @@ limitations under the License.
 
 <!--- getCitationForPubHtml get the long or short form of the citation for a publication record.
   @param publication_id the publication for which to obtain the citaiton.
-  @param form optional 'long' or 'short', default 'long' for the form of the citation to return.
+  @param form optional 'long', 'plain' or 'short', default 'long' for the form of the citation to return.
   @return html containing the citation in the requested form with html markup.
 --->
 <cffunction name="getCitationForPubHtml" access="remote" returntype="string" returnformat="plain">
@@ -36,6 +36,8 @@ limitations under the License.
 				SELECT
 					<cfif form EQ "short">
 						mczbase.getshortcitation(publication_id) as citation
+					<cfif form EQ "plain">
+						mczbase.assemblefullcitation(publication_id,0) as citation
 					<cfelse>
 						mczbase.getfullcitation(publication_id) as citation
 					</cfif>
@@ -942,52 +944,10 @@ limitations under the License.
 					<p>There are no media records related to this publication</p>
 				</cfif>
 
-				<!---- TODO: Use opencreatemediadialog --->
-
-<!---
- * @param dialogid id to give to the dialog
- * @param related_value human readable name of the object to link the media to
- * @param related_id primary key valuue of the object to link the media to
- * @param relationship type of relationship to create
- * @param okcallback callback function to invoke on closing dialog, for example to ajax reload a list of linked media objects.
- */
-opencreatemediadialog(dialogid, related_value, related_id, relationship, okcallback) 
---->
-
-		<!---- TODO: move add/link media to dialog --->
-		<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select media_type from ctmedia_type order by media_type
-		</cfquery>
-		<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select mime_type from ctmime_type order by mime_type
-		</cfquery>
-		<div class="cellDiv">
-			Add Media:
-			<div style="font-size:small">
-				 Yellow cells are only required if you supply or create a URI. You may leave this section blank.
-				 <br>Find Media and create a relationship to link existing Media to this Publication.
-			</div>
-			<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90" class="reqdClr"><!---<span class="infoLink" id="uploadMedia">Upload</span>--->
-			<label for="preview_uri">Preview URI</label>
-			<input type="text" name="preview_uri" id="preview_uri" size="90">
-			<label for="mime_type">MIME Type</label>
-			<select name="mime_type" id="mime_type" class="reqdClr">
-				<option value=""></option>
-				<cfloop query="ctmime_type">
-					<option value="#mime_type#">#mime_type#</option>
-				</cfloop>
-			</select>
-			<label for="media_type">Media Type</label>
-			<select name="media_type" id="media_type" class="reqdClr">
-				<option value=""></option>
-				<cfloop query="ctmedia_type">
-					<option value="#media_type#">#media_type#</option>
-				</cfloop>
-			</select>
-			<label for="media_desc">Media Description</label>
-			<input type="text" name="media_desc" id="media_desc" size="80" class="reqdClr">
-		</div>
+				<div class="col-12">
+					<input type='button' onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" 
+				</div>
+				<div id='addMediaDialog'></div>
 
 			</cfoutput>
 		<cfcatch>
