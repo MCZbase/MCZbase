@@ -161,3 +161,26 @@ function loadAttributesDivHTML(publication_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+/** loadMediaDivHTML load a block of html for editing/viewing
+ *  media related a publication.
+ * @param publication_id the publication for which to load media
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadMediaDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getMediaForPubHtml",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media for publication");
+		},
+		dataType: "html"
+	});
+};

@@ -320,7 +320,6 @@ limitations under the License.
 						loadFullCitDivHTML();
 					}
 				</script>
-				<!--- TODO: Move authors to backing method  --->
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
 				<div id="authorBlock">#authorBlockContent#</div>
 			</section>
@@ -332,100 +331,18 @@ limitations under the License.
 						loadFullCitDivHTML();
 					}
 				</script>
-				<!--- TODO: Move attributes to backing method --->
 				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>
 				<div id="attributesBlock">#attribBlockContent#</div>
 			</section>
 
-			<section name="mediaSection" class="row border rounded mx-0 my-2" title="Media of this publication">
-				<!---- TODO: move media to backing method --->
-		<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select media_type from ctmedia_type order by media_type
-		</cfquery>
-		<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select mime_type from ctmime_type order by mime_type
-		</cfquery>
-		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		    select distinct
-		        media.media_id,
-		        media.media_uri,
-		        media.mime_type,
-		        media.media_type,
-		        media.preview_uri
-		     from
-		         media,
-		         media_relations,
-		         media_labels
-		     where
-		         media.media_id=media_relations.media_id and
-		         media.media_id=media_labels.media_id (+) and
-		         media_relations.media_relationship like '%publication' and
-		         media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-		</cfquery>
-		<cfif media.recordcount gt 0>
-			Click Media Details to edit Media or remove the link to this Publication.
-			<div class="thumbs">
-				<div class="thumb_spcr">&nbsp;</div>
-				<cfloop query="media">
-					<cfset puri=getMediaPreview(preview_uri,media_type)>
-	            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select
-							media_label,
-							label_value
-						from
-							media_labels
-						where
-							media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					</cfquery>
-					<cfquery name="desc" dbtype="query">
-						select label_value from labels where media_label='description'
-					</cfquery>
-					<cfset alt="Media Preview Image">
-					<cfif desc.recordcount is 1>
-						<cfset alt=desc.label_value>
-					</cfif>
-	               <div class="one_thumb">
-		               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
-	                   	<p>
-							#media_type# (#mime_type#)
-		                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
-							<br>#alt#
-						</p>
-					</div>
-				</cfloop>
-				<div class="thumb_spcr">&nbsp;</div>
-			</div>
-		</cfif>
-
-		<!---- TODO: move add/link media to dialog --->
-		<div class="cellDiv">
-			Add Media:
-			<div style="font-size:small">
-				 Yellow cells are only required if you supply or create a URI. You may leave this section blank.
-				 <br>Find Media and create a relationship to link existing Media to this Publication.
-			</div>
-			<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90" class="reqdClr"><!---<span class="infoLink" id="uploadMedia">Upload</span>--->
-			<label for="preview_uri">Preview URI</label>
-			<input type="text" name="preview_uri" id="preview_uri" size="90">
-			<label for="mime_type">MIME Type</label>
-			<select name="mime_type" id="mime_type" class="reqdClr">
-				<option value=""></option>
-				<cfloop query="ctmime_type">
-					<option value="#mime_type#">#mime_type#</option>
-				</cfloop>
-			</select>
-           	<label for="media_type">Media Type</label>
-			<select name="media_type" id="media_type" class="reqdClr">
-				<option value=""></option>
-				<cfloop query="ctmedia_type">
-					<option value="#media_type#">#media_type#</option>
-				</cfloop>
-			</select>
-			<label for="media_desc">Media Description</label>
-			<input type="text" name="media_desc" id="media_desc" size="80" class="reqdClr">
-		</div>
-
+			<section name="mediaSection" class="row border rounded mx-0 my-2" title="Media related to this publication">
+				<script>
+					function reloadPublicationMedia(){ 
+						loadMediaDivHTML(#publication_id#,'mediaBlock');
+					}
+				</script>
+				<cfset mediaBlockContent = getMediaForPubHtml(publication_id = "#publication_id#")>
+				<div id="mediaBlock">#bediaBlockContent#</div>
 			</section>
 
 			<section name="uriSection" class="row border rounded mx-0 my-2" title="Links for this publication">
