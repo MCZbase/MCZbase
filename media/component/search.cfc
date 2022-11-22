@@ -171,8 +171,8 @@ limitations under the License.
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 					decode(mask_media_fg,0,'public',1,'hidden',null,'public','error') as mask_media_fg,
 				</cfif>
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as licence_display, 
+				MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
+				MCZBASE.get_media_dcrights(media.media_id) as licence_display, 
 				MCZBASE.is_media_encumbered(media.media_id) as hide_media,
 				MCZBASE.get_media_credit(media.media_id) as credit,
 				MCZBASE.get_media_owner(media.media_id) as owner,
@@ -1205,12 +1205,13 @@ imgStyleClass=value
 					mime_type, media_type,
 					auto_extension as extension,
 					auto_host as host,
-					CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as license_uri, 
-					CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license_display, 
+					MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
+					MCZBASE.get_media_dcrights(media.media_id) as license_display, 
 					MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
 					MCZBASE.get_media_credit(media.media_id) as credit,
 					MCZBASE.get_media_owner(media.media_id) as owner,
 					MCZBASE.get_media_creator(media.media_id) as creator,
+					MCZBASE.GET_MEDIA_COPYRIGHT(media.media_id) as copyright_statement,
 					MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
 					MCZBASE.get_medialabel(media.media_id,'description') as description,
 					MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
@@ -1392,6 +1393,13 @@ imgStyleClass=value
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
 						<cfset output='#output#<p class="text-center col-12 my-0 p-0 smaller" > #showTitleText# </p>'>
+						<cfif len(#copyright_statement#) gt 0>
+							<cfif #captionAs# EQ "TextFull">
+								<cfset output='#output#<p class="text-center col-12 p-0 my-0 smaller">'>
+								<cfset output='#output##copyright_statement#'>
+								<cfset output='#output#</p>'>
+							</cfif>
+						</cfif>
 						<cfif len(#license_uri#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->

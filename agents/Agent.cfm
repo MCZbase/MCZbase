@@ -96,12 +96,8 @@ limitations under the License.
 		media.media_uri,
 		media.preview_uri,
 		media.media_type,
-		CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 
-			THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) 
-			END as license_uri, 
-		CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 
-			THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) 
-			END as license_display, 
+		MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
+		MCZBASE.get_media_dcrights(media.media_id) as license_display, 
 		MCZBASE.get_media_credit(media.media_id) as credit 
 	FROM media_relations 
 		left join media on media_relations.media_id = media.media_id
