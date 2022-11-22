@@ -156,7 +156,7 @@
 									<ul class="list-group list-group-horizontal">
 										<li class="list-unstyled">
 										<cfloop query="media_rel">
-											<a class="link-color px-1 h4" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span>|</span> 
+											<a class="link-color h4" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span> | </span> 
 										</cfloop>
 										</li>
 									</ul>
@@ -390,7 +390,7 @@
 								and (media_relations.media_relationship like '%accn%')
 						</cfquery>
 						<cfif len(accn.transaction_id) gt 0>
-							<a name="shows%20collecting_event"></a>
+							<a name="shows%20accn"></a>
 							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-2 mb-0 px-3">Related Accessions (#accncount.ct#)</h3>
 								<div class="col-12 px-0">
