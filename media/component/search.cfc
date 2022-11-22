@@ -758,7 +758,7 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfset row["id_link"] = "<a href='/media/Media.cfm?media_id#search.media_id#' target='_blank'>#search.media_uri#</a>">
+			<cfset row["id_link"] = "<a href='/media.cfm?media_id#search.media_id#' target='_blank'>#search.media_uri#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -1340,7 +1340,7 @@ imgStyleClass=value
 						<cfset output='#output#<div class="mt-0 col-12 pb-1 px-0">'>
 						<cfset output='#output#<p class="text-center px-1 pb-1 mb-0 smaller col-12">'>
 						<cfif listcontainsnocase(session.roles,"manage_specimens")>
-							<cfset output='#output#<span class="d-inline">(<a href="/media/Media.cfm?media_id=#media_id#">edit</a>) </span>'>
+							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
 						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
 						<cfif NOT isDisplayable>
