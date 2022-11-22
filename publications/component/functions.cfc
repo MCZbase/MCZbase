@@ -942,6 +942,18 @@ limitations under the License.
 					<p>There are no media records related to this publication</p>
 				</cfif>
 
+				<!---- TODO: Use opencreatemediadialog --->
+
+<!---
+ * @param dialogid id to give to the dialog
+ * @param related_value human readable name of the object to link the media to
+ * @param related_id primary key valuue of the object to link the media to
+ * @param relationship type of relationship to create
+ * @param okcallback callback function to invoke on closing dialog, for example to ajax reload a list of linked media objects.
+ */
+opencreatemediadialog(dialogid, related_value, related_id, relationship, okcallback) 
+--->
+
 		<!---- TODO: move add/link media to dialog --->
 		<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select media_type from ctmedia_type order by media_type
