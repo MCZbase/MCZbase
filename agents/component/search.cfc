@@ -61,6 +61,11 @@ limitations under the License.
 	<cfif isdefined("anyName") AND anyName IS "="><cfset anyName = ""></cfif>
 	<cfif isdefined("anyName") AND anyName IS "~"><cfset anyName = ""></cfif>
 
+	<!--- if remarks_biography has a value, ignore remarks and biography --->
+	<cfif isdefined("remarks_biography") AND len(remarks_biography) GT 0 >
+		<cfset remarks="">
+		<cfset biography="">
+	</cfif>
 	<!--- TODO: allow relaxation of this criterion --->
 	<cfset knowntoyear = "yes">
 
