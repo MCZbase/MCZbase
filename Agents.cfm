@@ -48,6 +48,12 @@ limitations under the License.
 	<cfif not isdefined("agent_remarks")> 
 		<cfset agent_remarks="">
 	</cfif>
+	<cfif not isdefined("biography")> 
+		<cfset biography="">
+	</cfif>
+	<cfif not isdefined("remarks_biography")> 
+		<cfset remarks_biography="">
+	</cfif>
 	<cfif not isdefined("last_name")> 
 		<cfset last_name="">
 	</cfif>
