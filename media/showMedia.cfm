@@ -767,7 +767,7 @@
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm11.media_id#">
 																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="thumb",size="70",captionAs="textLinks",background_color="white")>#mediablock#
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleText2 = trim(title2)>
 																	<cfif len(showTitleText2) gt 170>
