@@ -347,7 +347,7 @@ limitations under the License.
 					}
 				</script>
 				<cfset mediaBlockContent = getMediaForPubHtml(publication_id = "#publication_id#")>
-				<div id="mediaBlock">#bediaBlockContent#</div>
+				<div id="mediaBlock">#mediaBlockContent#</div>
 			</section>
 
 			<section name="uriSection" class="row border rounded mx-0 my-2" title="Links for this publication">
