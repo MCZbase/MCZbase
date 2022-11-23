@@ -72,7 +72,7 @@ limitations under the License.
 			doi,
 			mczbase.getshortcitation(publication_id) as short_citation, 
 			mczbase.getfullcitation(publication_id) as full_citation,
-			mczbase.assemblefullcitation(publication_id,0) as full_citation_plain,
+			mczbase.assemble_fullcitation(publication_id,0) as full_citation_plain,
 			get_publication_attribute(publication_id,'begin page') as spage,
 			get_publication_attribute(publication_id,'journal name') as jtitle,
 			get_publication_attribute(publication_id,'volume') as volume,
