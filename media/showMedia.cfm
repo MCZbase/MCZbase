@@ -521,7 +521,7 @@
 											<li class="col-md-1 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Locality&nbsp;ID</span>
 											</li>
-											<li class="col-md-3 px-1 list-group-item d-none d-lg-block">
+											<li class="col-md-2 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Details</span>
 											</li>
 											<li class="col-md-8 px-1 list-group-item d-none d-lg-block">
