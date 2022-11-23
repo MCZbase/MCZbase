@@ -152,7 +152,7 @@
 									<cfset plural = "">
 								</cfif>
 								<div class="row mx-0">	
-								<h3 class="px-0 pb-1 text-muted h4">Shown on records with relationship#plural#: </h3>
+								<h3 class="px-0 pb-0 mb-1 text-muted h4">Shown on records with relationship#plural#: </h3>
 									<ul class="list-group list-group-horizontal">
 										<li class="list-unstyled">
 										<cfloop query="media_rel">
@@ -758,7 +758,7 @@
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 p-1">
 													<cfloop query="relm11">
-														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 p-1 float-left"> 
 															<cfif len(loan.transaction_id) gt 0>
 																<cfif relm11.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -815,10 +815,10 @@
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Geog Auth Rec ID</span>
 												</li>
-												<li class="col-2 col-xl-3 px-1 list-group-item d-none d-lg-block">
+												<li class="col-2 col-xl-2 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Details</span>
 												</li>
-												<li class="col-6 col-xl-7 px-1 list-group-item d-none d-lg-block">
+												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">		
 														<cfset IDtitle = "This and Other Locality Media">
 														#IDtitle#
@@ -973,7 +973,7 @@
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 p-1">
 													<cfloop query="relm5">
-														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 float-left"> 
 															<cfif len(borrow.transaction_id) gt 0>
 																<cfif relm5.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -982,7 +982,7 @@
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm5.media_id#">
 																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>
 																			#mediablock#
 																	</div>
 																	<cfset showTitleText1 = trim(title1)>
@@ -991,7 +991,7 @@
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-7 bg-white px-1 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID = #relm5.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText1#
