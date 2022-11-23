@@ -401,9 +401,9 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("remarks_biography") AND len(remarks_biography) GT 0>
 						AND (
-							upper(agent.agent_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_remarks)#%"> 
+							upper(agent.agent_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks_biography)#%"> 
 							OR 
-							upper(agent.biography) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(biography)#%"> 
+							upper(agent.biography) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks_biography)#%"> 
 							)
 					</cfif>
 					<cfif isdefined("address") AND len(#address#) gt 0>
