@@ -945,7 +945,7 @@ limitations under the License.
 				</cfif>
 
 				<div class="col-12">
-					<input type='button' onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" 
+					<input type='button' value="Add Media" onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
 				</div>
 				<div id='addMediaDialog'></div>
 
