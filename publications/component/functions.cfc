@@ -951,11 +951,16 @@ limitations under the License.
 				<div class="col-12 row">
 					<div class="col-12 row">
 					<input type='button' 
-						value="Add Media" 
+						value="Create Media" 
 						class="btn btn-xs btn-secondary"
 						onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
+					<input type='button' 
+						value='Link Media' 
+						class='btn btn-xs btn-secondary' 
+						onClick="openlinkmediadialog('linkMediaDialog','Link media to '+$('##fullCitationPlain').val() ,'#publication_id#','shows publication',reloadPublicationMedia); " >
 				</div>
 				<div id='addMediaDialog'></div>
+				<div id='linkMediaDialog'></div>
 
 			</cfoutput>
 		<cfcatch>
