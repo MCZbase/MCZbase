@@ -928,7 +928,7 @@ limitations under the License.
 						media_relations.media_relationship like '%publication' and
 						media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
-				<cfif media.recordcount gt 0>
+				<cfif getMedia.recordcount gt 0>
 					<p>Click Media Details to edit Media or remove the link to this Publication.</p>
 					<div class="row">
 						<cfloop query="getMedia">
