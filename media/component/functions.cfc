@@ -307,6 +307,37 @@ Backing methods for managing media
 		</cfif>
 	</cffunction>
 
-
+<!--- deleteMediaRelation remove a record from media_relations
+  @param media_relations_id the primary key value for the record to delete.
+  @return a structure containing status and message or a http 500
+--->
+<cffunction name="deleteMediaRelation" returntype="query" access="remote">
+	 <cfargument name="media_relations_id" type="string" required="yes">
+	 <cftry>
+	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from media_relations
+			where media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relations_id#">
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #media_id# #media_relationship# #permit_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	 <cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	 </cfcatch>
+	 </cftry>
+	 <cfreturn theResult>
+</cffunction>
 
 </cfcomponent>

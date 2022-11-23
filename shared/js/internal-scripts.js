@@ -233,6 +233,30 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
   });
 }
 
+/** function deleteMediaRelation unlink a media record from another object
+ *  by deleting a record from media_relations
+ * 
+ * @param media_relations_id the primary key of the media_relations record to delete.
+ * @param okcallback a callback function to invoke on success.
+ */
+function deleteMediaRelation(media_relations_id, okcallback) {
+   jQuery.getJSON("/media/component/functions.cfc",
+      {
+         method : "deleteMediaRelation",
+         media_relations_id : media_relations_id,
+         returnformat : "json",
+         queryformat : 'column'
+      },
+      function (result) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+      }
+   ).fail(function(jqXHR,textStatus,error){
+      handleFail(jqXHR,textStatus,error,"removing media from transaction record");
+   });
+}
+
 /** Add a set of fields for entering a media relationship to a form, the fields
   * comprise inputs for relationship__{n}, related_value__{n}, and related_id__{n}
   * in a div with id relationshipDiv__{n}, the div is attached to an element in the

@@ -921,7 +921,7 @@ limitations under the License.
 			<cfoutput>
 				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
 					SELECT distinct
-						media.media_id
+						media.media_id, media_relations_id
 					FROM
 						media 
 						join media_relations on media.media_id=media_relations.media_id
@@ -930,12 +930,16 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
 				<cfif getMedia.recordcount gt 0>
-					<p>Click Media Details to edit Media or remove the link to this Publication.</p>
+					<h3 class="h3">Media</h3>
 					<div class="col-12 row">
 						<cfloop query="getMedia">
 							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light">
 								<div id="mediaBlock#media_id#" class="border rounded">
 									<cfset mediablock= getMediaBlockHtmlUnthreaded(media_id="#media_id#",size="400",captionAs="textMid")>
+									<input type='button' 
+										value="Remove" aria-label="unlink this media record from this publication"
+										class="btn btn-xs btn-warning"
+										onClick="confirmDialog('Remove Relationship to this Media record?','Remove?', function() { deleteMediaRelation('#getMedia.media_relations_id#',reloadPublicationMedia); } );">
 								</div>
 							</div>
 						</cfloop>
@@ -946,7 +950,10 @@ limitations under the License.
 
 				<div class="col-12 row">
 					<div class="col-12 row">
-					<input type='button' value="Add Media" onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
+					<input type='button' 
+						value="Add Media" 
+						class="btn btn-xs btn-secondary"
+						onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
 				</div>
 				<div id='addMediaDialog'></div>
 
