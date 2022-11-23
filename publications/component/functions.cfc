@@ -36,7 +36,7 @@ limitations under the License.
 				SELECT
 					<cfif form EQ "short">
 						mczbase.getshortcitation(publication_id) as citation
-					<cfif form EQ "plain">
+					<cfelseif form EQ "plain">
 						mczbase.assemblefullcitation(publication_id,0) as citation
 					<cfelse>
 						mczbase.getfullcitation(publication_id) as citation
