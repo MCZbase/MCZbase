@@ -651,9 +651,9 @@
 														<div class="col-12 pt-0 pb-0">#permit.permit_title#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-8 p-1">
+												<div class="col-12 col-md-8 px-0 py-1">
 													<cfloop query="relmPer">
-														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 py-0 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 float-left"> 
 															<cfif len(permit.permit_id) gt 0>
 																<cfif relmPer.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -736,7 +736,7 @@
 											</ul>
 										</div>
 										<cfloop query="loan">
-											<div class="row mx-0 border-top py-0 border-gray">
+											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
 													<span class="d-block d-md-none">Loan Number: </span>
 													<a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
@@ -756,9 +756,9 @@
 														<div class="col-12 pt-0 pb-1">#loan.loan_status#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 p-1">
+												<div class="col-12 col-md-6 col-xl-8 px-0 py-1">
 													<cfloop query="relm11">
-														<div class="border-light col-12 col-lg-6 col-xl-3 p-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 float-left"> 
 															<cfif len(loan.transaction_id) gt 0>
 																<cfif relm11.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -766,7 +766,7 @@
 																	<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm11.media_id#">
-																			<div class="col-5 bg-white px-0 float-left">
+																	<div class="col-5 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleText2 = trim(title2)>
