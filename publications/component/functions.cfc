@@ -16,6 +16,7 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/media/component/search.cfc" runOnce="true"> <!--- getMediaBlockHtml --->
 <cf_rolecheck>
 
 <!--- getCitationForPubHtml get the long or short form of the citation for a publication record.
