@@ -340,7 +340,7 @@ limitations under the License.
 				<div id="attributesBlock">#attribBlockContent#</div>
 			</section>
 
-			<section name="mediaSection" class="row border rounded mx-0 my-2" title="Media related to this publication">
+			<section name="mediaSection" class="row border rounded my-2" title="Media related to this publication">
 				<script>
 					function reloadPublicationMedia(){ 
 						loadMediaDivHTML(#publication_id#,'mediaBlock');
@@ -350,11 +350,11 @@ limitations under the License.
 				<div id="mediaBlock">#mediaBlockContent#</div>
 			</section>
 
-			<section name="uriSection" class="row border rounded mx-0 my-2" title="Links for this publication">
+			<section name="uriSection" class="row border rounded my-2" title="Links for this publication">
 				<!--- TODO Publication URI support --->
 			</section>
 
-			<section name="useSection" class="row border rounded mx-0 my-2" title="Citations and other uses of this publication">
+			<section name="useSection" class="row border rounded my-2" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
 					<h2 class="h3">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
