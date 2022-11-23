@@ -931,9 +931,9 @@ limitations under the License.
 				</cfquery>
 				<cfif getMedia.recordcount gt 0>
 					<p>Click Media Details to edit Media or remove the link to this Publication.</p>
-					<div class="row">
+					<div class="col-12 row">
 						<cfloop query="getMedia">
-							<div class="col-12 col-sm-6 col-md-4 col-xl-3 mt-5 bg-light">
+							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light">
 								<div id="mediaBlock#media_id#" class="border rounded">
 									<cfset mediablock= getMediaBlockHtmlUnthreaded(media_id="#media_id#",size="400",captionAs="textMid")>
 								</div>
@@ -944,7 +944,8 @@ limitations under the License.
 					<p>There are no media records related to this publication</p>
 				</cfif>
 
-				<div class="col-12">
+				<div class="col-12 row">
+					<div class="col-12 row">
 					<input type='button' value="Add Media" onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
 				</div>
 				<div id='addMediaDialog'></div>
