@@ -1037,7 +1037,7 @@
 												<li class="col-2 col-xl-1  px-1 list-group-item">
 													<span class="font-weight-lessbold">Deaccession ID</span>
 												</li>
-												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
+												<li class="col-2 col-xl-2 px-1 list-group-item">
 													<span class="font-weight-lessbold">Details</span>
 												</li>
 												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
@@ -1074,9 +1074,9 @@
 														<div class="col-12 pt-0 pb-1">#deaccession.method#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 p-1">
+												<div class="col-12 col-md-6 col-xl-8 px-0 py-1">
 													<cfloop query="relm6">
-														<div class="border-light col-12 col-lg-6 col-xl-4 p-1 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-4 px-0 float-left"> 
 															<cfif len(deaccession.transaction_id) gt 0>
 																<cfif relm6.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -1085,7 +1085,7 @@
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm6.media_id#">
 																	<div class="col-5 bg-white px-1 float-left">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="fixedSmallThumb",captionAs="textLinks",background_color="white")>
 																			#mediablock#
 																	</div>
 																	<cfset showTitleText1 = trim(title3)>
