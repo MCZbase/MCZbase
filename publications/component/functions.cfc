@@ -930,7 +930,7 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
 				<cfif getMedia.recordcount gt 0>
-					<h3 class="h3">Media</h3>
+					<h2 class="h3">Media</h2>
 					<div class="col-12 row">
 						<cfloop query="getMedia">
 							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light">

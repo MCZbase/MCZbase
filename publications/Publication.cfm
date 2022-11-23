@@ -337,7 +337,7 @@ limitations under the License.
 					}
 				</script>
 				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>
-				<div id="attributesBlock">#attribBlockContent#</div>
+				<div id="attributesBlock class="col=12"">#attribBlockContent#</div>
 			</section>
 
 			<section name="mediaSection" class="row border rounded my-2" title="Media related to this publication">
