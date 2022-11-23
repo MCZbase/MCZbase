@@ -860,9 +860,9 @@
 														</cfif>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 py-1">
+												<div class="col-12 col-md-6 col-xl-8 px-0 py-1">
 													<cfloop query="relmloc">
-														<div class="border-light col-12 col-lg-6 col-xl-3 p-0 float-left"> 
+														<div class="border-light col-12 col-lg-6 col-xl-3 px-0 float-left"> 
 															<cfif len(locality.locality_id) gt 0>
 																<cfif relmloc.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
