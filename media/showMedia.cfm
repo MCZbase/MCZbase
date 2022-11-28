@@ -554,7 +554,7 @@
 											<div class="col-12 col-md-2 py-2 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Date</h3>
-													<div class="col-12 px-0 px-md-1 py-0">#collecting_event.verbatim_date#</div>
+													<div class="col-12 py-0">#collecting_event.verbatim_date#</div>
 												</div>
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Locality</h3>
