@@ -333,7 +333,7 @@
 														<div class="col-12 pt-0 pb-1">#spec.geography#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 pt-1">
+												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
 													<cfloop query="relm">
 															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(media.media_id) gt 0>
@@ -460,11 +460,11 @@
 													<cfif len(accn.received_date) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Received Date</h3>
-															<div class="col-12 px-0 px-md-1 py-0">#dateformat(accn.received_date,"yyyy-mm-dd")#</div>
+														<div class="col-12 px-0 px-md-1 py-0">#dateformat(accn.received_date,"yyyy-mm-dd")#</div>
 														</div>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 px-1 pt-1">
+												<div class="col-12 col-md-6 col-xl-8 px-1 py-1">
 													<cfloop query="relmAccn">
 														<div class="border-light pb-1 col-sm-2 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(accn.transaction_id) gt 0>
@@ -1211,7 +1211,7 @@
 												AND MCZBASE.is_media_encumbered(media.media_id) < 1
 												order by media.media_type
 											</cfquery><div id="targetDiv"></div>
-											<div class="col-12 col-lg-7 col-xl-8 px-1 pt-1">
+											<div class="col-12 col-lg-7 col-xl-8 px-1 py-1">
 												<cfloop query="relm8">
 													<div class="border-light col-sm-6 col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 													<cfif relm8.media_id eq '#media.media_id#'> 
