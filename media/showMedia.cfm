@@ -516,9 +516,9 @@
 								
 								<div class="search-box pb-0 mt-1 w-100">
 									<div class="search-box-header px-2 mt-0">
-										<ul class="list-group list-group-horizontal pb-1 text-white">
+										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-12 col-md-1 px-1 list-group-item">
-												<span class="font-weight-lessbold">Collecting&nbsp;Event<span class="d-inline-block d-lg-none">s</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
+												<span class="font-weight-lessbold">Collecting&nbsp;Event<span class="d-inline d-lg-none">s</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
 											</li>
 											<li class="col-md-1 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Locality&nbsp;ID</span>
@@ -540,20 +540,20 @@
 										order by media.media_type
 										</cfquery>
 										<div class="row mx-0 border-top-teal py-0">
-											<div class="col-12 col-md-1 pt-2 border-right small90">
-												<h3 class="h5 mb-0 d-block d-md-none">Collecting Event ID: </h3>
+											<div class="col-12 col-md-2 col-lg-1 py-2 border-right small90">
+												<h3 class="h5 mb-0 d-block d-lg-none">Collecting Event ID: </h3>
 												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">
 													#collecting_event.collecting_event_id#</a>
 											</div>
-											<div class="col-12 col-md-1 pt-2 border-right small90">
-												<h3 class="h5 d-block d-md-none mb-0">Locality ID: </h3>
+											<div class="col-12 col-md-2 col-lg-1 pt-2 border-right small90">
+												<h3 class="h5 d-block d-lg-none mb-0">Locality ID: </h3>
 												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
 											<div class="col-12 col-md-2 pt-2 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Date</h3>
-													<div class="col-12 py-0">#collecting_event.verbatim_date#</div>
+													<div class="col-12 px-0 px-md-1 py-0">#collecting_event.verbatim_date#</div>
 												</div>
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Locality</h3>
