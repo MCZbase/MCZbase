@@ -564,7 +564,7 @@
 													<div class="col-12 py-0">#collecting_event.collecting_source#</div>
 												</div>
 											</div>
-											<div class="col-12 col-sm-6 col-md-8 py-1 px-1">
+											<div class="col-12 col-sm-6 col-xl-8 py-1 px-1">
 												<cfloop query="relmCE">
 													<div class="border-light col-12 col-sm-6 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
@@ -956,12 +956,12 @@
 										<cfloop query="borrow">
 											<div class="row mx-0 border-top py-0 border-gray">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
-													<h3 class="h5 d-inline d-md-none">Lender Number: </h3>
+													<h3 class="h5 d-inline d-xl-none">Lender Number: </h3>
 													<a class="font-weight-lessbold" href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.lenders_trans_num_cde#">
 														#borrow.lenders_trans_num_cde#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
-													<h3 class="h5 d-inline d-md-none">MCZ Transaction ##: </h3>
+													<h3 class="h5 d-inline d-xl-none">MCZ Transaction ##: </h3>
 													<a class="font-weight-lessbold" href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.transaction_id#">
 														#borrow.transaction_id#</a>
 												</div>
