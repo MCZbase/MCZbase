@@ -431,7 +431,7 @@
 											order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
-												<div class="col-12 col-md-2 col-xl-1 py-2 pb-0 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 py-2 pb-0 border-bottom rounded border-right small90">
 													<h3 class="h5 mb-0 d-inline d-lg-none">Transaction ID: </h3>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.transaction_id#</a>
@@ -651,10 +651,12 @@
 														<h3 class="h5 mb-0">Permit Type</h3>
 														<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
 													</div>
-													<div class="row mx-0">
-														<h3 class="h5 mb-0">Permit Title</h3>
-														<div class="col-12 pt-0 pb-0">#permit.permit_title#</div>
-													</div>
+													<cfif permit.permit_title.recordcount gt 0>
+														<div class="row mx-0">
+															<h3 class="h5 mb-0">Permit Title</h3>
+															<div class="col-12 pt-0 pb-0">#permit.permit_title#</div>
+														</div>
+													</cfif>
 												</div>
 												<div class="col-12 col-md-8 px-1 pt-1">
 													<cfloop query="relmPer">
