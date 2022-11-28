@@ -27,7 +27,8 @@ limitations under the License.
 <cffunction name="getCitationForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="form" type="string" required="no">
-	<cfthread name="getCitationForPubThread">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getCitationForPubThread#tn#">
 		<cfif NOT isDefined("form") OR len(form) EQ 0>
 			<cfset form="long">
 		</cfif>
@@ -56,8 +57,8 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getCitationForPubThread" />
-	<cfreturn getCitationForPubThread.output>
+	<cfthread action="join" name="getCitationForPubThread#tn#" />
+	<cfreturn cfthread["getCitationForPubThread#tn#"].output>
 </cffunction>
 
 <!--- savePublication update a publication record --->
