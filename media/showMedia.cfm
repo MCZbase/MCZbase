@@ -541,12 +541,12 @@
 										</cfquery>
 										<div class="row mx-0 border-top-teal py-0">
 											<div class="col-12 col-lg-1 py-2 border-bottom rounded border-right small90">
-												<h3 class="h5 mb-0 d-block d-lg-none">Collecting Event ID: </h3>
+												<h3 class="h5 mb-0 d-inline d-lg-none">Collecting Event ID: </h3>
 												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">
 													#collecting_event.collecting_event_id#</a>
 											</div>
 											<div class="col-12 border-bottom rounded col-lg-1 py-2 border-right small90">
-												<h3 class="h5 d-block d-lg-none mb-0">Locality ID: </h3>
+												<h3 class="h5 d-inline d-lg-none mb-0">Locality ID: </h3>
 												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
@@ -640,7 +640,7 @@
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-inline d-md-none">Permit ID </span>
+													<span class="d-inline d-md-none font-weight-bold">Permit ID: </span>
 													<a href="#relmPer.auto_protocol##relmPer.auto_host#/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
