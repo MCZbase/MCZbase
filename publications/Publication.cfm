@@ -193,8 +193,8 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="published_year" class="data-entry-label">Published Year</label>
-							<input type="text" name="published_year" id="published_year" class="data-entry-input" value="#pub.published_year#">
+							<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
+							<input type="text" name="published_year" id="published_year" class="data-entry-input" value="#pub.published_year#" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, use published year range attribute for ranges of years.">
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
