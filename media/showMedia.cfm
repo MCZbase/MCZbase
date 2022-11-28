@@ -639,8 +639,8 @@
 												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
-												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-inline d-md-none font-weight-bold">Permit ID: </span>
+												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right border-bottom rounded small90">
+													<span class="d-inline d-md-none font-weight-lessbold">Permit ID: </span>
 													<a href="#relmPer.auto_protocol##relmPer.auto_host#/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
