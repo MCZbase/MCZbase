@@ -734,7 +734,7 @@
 														<cfelse>
 															<cfset plural = "">
 														</cfif>
-														<cfset IDtitle = "Image Thumbnail#plural#">
+														<cfset IDtitle = "This and Other Loan Media">
 														#IDtitle#
 													</span>
 												</li>
@@ -934,7 +934,7 @@
 													</span>
 												</li>
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
-													<span class="font-weight-lessbold">MCZ Trans. Number
+													<span class="font-weight-lessbold">MCZ Transaction ##
 														<span class="d-inline d-lg-none">s </span>
 													</span>
 												</li>
@@ -962,7 +962,7 @@
 														#borrow.lenders_trans_num_cde#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">MCZ Trans. ##: </span><a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.transaction_id#">
+													<span class="d-block d-md-none">MCZ Transaction ##: </span><a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.transaction_id#">
 														#borrow.transaction_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
@@ -1050,7 +1050,7 @@
 													<span class="font-weight-lessbold">Details</span>
 												</li>
 												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
-													<span class="font-weight-lessbold">Image&nbsp;Thumbnail(s)</span>
+													<span class="font-weight-lessbold">This and Other Deaccession Media</span>
 												</li>
 											</ul>
 										</div>
