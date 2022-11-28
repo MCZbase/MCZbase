@@ -720,7 +720,7 @@
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
 													<span class="font-weight-lessbold">Loan<span class="d-inline d-lg-none">s </span>
-													<span class="d-none d-lg-inline"> ## </span></span>
+													<span class="d-none d-lg-inline"> Number </span></span>
 												</li>
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Transaction&nbsp;ID
