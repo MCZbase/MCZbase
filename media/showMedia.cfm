@@ -1044,14 +1044,18 @@
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
+										
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold d-none d-lg-inline">Deaccession ##</span>
+													<span class="font-weight-lessbold">Deaccession 
+														<span class="d-inline d-lg-none">s </span>
+														<span class="d-none d-lg-inline"> ## </span>
+													</span>
 												</li>
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold d-none d-lg-inline">Deaccession ID</span>
+													<span class="font-weight-lessbold d-none d-lg-block">Deaccession ID</span>
 												</li>
 												<li class="col-2 col-xl-2 px-1 list-group-item">
-													<span class="font-weight-lessbold d-none d-lg-inline">Details</span>
+													<span class="font-weight-lessbold d-none d-lg-block">Details</span>
 												</li>
 												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">This and Other Deaccession Media</span>
@@ -1061,12 +1065,12 @@
 										<cfloop query="deaccession">
 											<div class="row mx-0 border-top py-0 border-gray">
 											<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
-												<h3 class="h5 d-block d-md-none">Deaccession ##: </h3>
+												<h3 class="h5 d-inline d-lg-block">Deaccession ##: </h3>
 												<a class="font-weight-lessbold" href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.deacc_number#">
 													#deaccession.deacc_number#</a>
 											</div>
 											<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
-												<h3 class="h5 d-block d-md-none">MCZ Transaction ##: </h3>
+												<h3 class="h5 d-inline d-lg-block">MCZ Transaction ##: </h3>
 												<a class="font-weight-lessbold" href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.transaction_id#">#deaccession.transaction_id#</a>
 											</div>
 												<div class="col-12 col-md-2 col-xl-2 py-2 border-right small">
