@@ -431,17 +431,17 @@
 											order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 py-2 pb-0 border-right small90">
 													<h3 class="h5 mb-0 d-inline d-lg-none">Transaction ID: </h3>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.transaction_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 py-2 pb-0 border-bottom rounded border-right small90">
 													<h3 class="h5 mb-0 d-inline d-lg-none">Accession Number: </h3>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.accn_number#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
+												<div class="col-12 col-md-2 col-xl-2 py-2 pb-0 border-bottom rounded border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Type</h3>
 														<div class="col-12 px-0 px-md-1 py-0">#accn.accn_type#</div>
