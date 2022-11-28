@@ -651,7 +651,7 @@
 														<h3 class="h5 mb-0">Permit Type</h3>
 														<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
 													</div>
-													<cfif permit.permit_title.recordcount gt 0>
+													<cfif len(permit.permit_title) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Permit Title</h3>
 															<div class="col-12 pt-0 pb-0">#permit.permit_title#</div>
