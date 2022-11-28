@@ -639,13 +639,13 @@
 												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
-												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right border-bottom rounded small90">
+												<div class="col-12 col-md-1 col-xl-1 py-2 pb-1 border-right border-bottom rounded small90">
 													<span class="d-inline d-md-none font-weight-lessbold">Permit ID: </span>
 													<a href="#relmPer.auto_protocol##relmPer.auto_host#/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
 												</div>
-												<div class="col-12 col-md-3 col-xl-3 pt-2 pb-0 border-right small">
+												<div class="col-12 col-md-3 col-xl-3 py-2 pb-0 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Permit Type</h3>
 														<div class="col-12 pt-0 pb-1">#permit.permit_type#</div>
@@ -742,13 +742,13 @@
 										</div>
 										<cfloop query="loan">
 											<div class="row mx-0 border-top-teal py-0">
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">Loan Number: </span>
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
+													<span class="d-inline d-md-none font-weight-lessbold">Loan Number: </span>
 													<a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
 														#loan.loan_number#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">Transaction ID: </span><a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
+													<span class="d-inline font-weight-lessbold d-md-none">Transaction ID: </span><a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
 														#loan.transaction_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
@@ -816,7 +816,7 @@
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold">Locality ID</span>
+													<span class="font-weight-lessbold">Locality <span class="d-none d-md-inline">ID</span></span>
 												</li>
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Geog Auth Rec ID</span>
@@ -842,13 +842,13 @@
 												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
-													<span class="d-block d-md-none">Locality ID: </span>
+												<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
+													<span class="d-inline d-md-none font-weight-lessbold">Locality ID: </span>
 													<a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.locality_id#">
 														#locality.locality_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
-													<span class="d-block d-md-none">Geog Auth Rec ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
+												<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
+													<span class="d-inline d-md-none font-weight-lessbold">Geog Auth Rec ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
 														#locality.geog_auth_rec_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
