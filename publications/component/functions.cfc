@@ -399,7 +399,7 @@ limitations under the License.
 						and author_role = 'author'
 					<cfelseif role EQ "editors">
 						and author_role = 'editor'
-					<cfif>
+					</cfif>
 				ORDER BY author_position
 			</cfquery>
 			<cfset maxposition = 0>
