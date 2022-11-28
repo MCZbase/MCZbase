@@ -658,7 +658,7 @@
 														</div>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-8 px-1 pt-1">
+												<div class="col-12 col-md-8 px-1 py-1">
 													<cfloop query="relmPer">
 														<div class="border-light col-12 col-sm-6 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(permit.permit_id) gt 0>
@@ -764,9 +764,9 @@
 														<div class="col-12 pt-0 pb-1">#loan.loan_status#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 px-1 pt-1">
+												<div class="col-12 col-md-6 col-xl-8 px-1 py-1">
 													<cfloop query="relm11">
-														<div class="border-light pb-1 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+														<div class="border-light col-sm-6 pb-1 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(loan.transaction_id) gt 0>
 																<cfif relm11.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
@@ -870,7 +870,7 @@
 														</cfif>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 px-1 pt-1">
+												<div class="col-12 col-md-6 col-xl-8 px-1 py-1">
 													<cfloop query="relmloc">
 														<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(locality.locality_id) gt 0>
@@ -980,7 +980,7 @@
 														<div class="col-12 pt-0 pb-1">#borrow.due_date#</div>
 													</div>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 px-1 pt-1">
+												<div class="col-12 col-md-6 col-xl-8 px-1 py-1">
 													<cfloop query="relm5">
 														<div class="border-light col-12 col-md-6 col-lg-4 pb-1 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(borrow.transaction_id) gt 0>
