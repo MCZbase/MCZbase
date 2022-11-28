@@ -1146,7 +1146,7 @@
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-2 col-xl-1  px-1 list-group-item">
-												<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
+												<span class="font-weight-lessbold">Agent<span class="d-inline d-lg-none">s </span><span class="d-lg-inline d-none"> ID</span></span>
 											</li>
 											<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Details</span>
@@ -1166,11 +1166,11 @@
 									</div>
 									<cfloop query="agents">
 										<div class="row mx-0 py-0 border-top-teal">
-											<div class="col-12 col-lg-2 col-xl-1 py-2 border-right small90"><a name="agents"></a>
-												<span class="d-inline d-lg-none font-weight-lessbold">Agent ID: </span>
+											<div class="col-12 col-lg-2 col-xl-1 py-2 border-bottom rounded border-right small90"><a name="agents"></a>
+												<h3 class="h5 d-inline d-lg-none">Agent ID: </h3>
 												<a href="/agents/Agent.cfm?agent_id=#agents.agent_id#" class="font-weight-lessbold">#agents.agent_id#</a>
 											</div>
-											<div class="col-12 col-lg-3 col-xl-3 pt-2 pb-1 border-right small">
+											<div class="col-12 col-lg-3 col-xl-3 py-2 pb-1 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Agent Name </h3>
 													<cfif len(agents.agent_name) gt 0>
