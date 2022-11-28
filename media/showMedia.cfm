@@ -745,7 +745,7 @@
 										<cfloop query="loan">
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
-													<h3 class="h5 d-inline d-md-block d-lg-none font-weight-lessbold">Loan Number: </h3>
+													<h3 class="h5 d-inline d-md-block mb-0 d-lg-none font-weight-lessbold">Loan Number: </h3>
 													<a class="font-weight-lessbold" href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
 														#loan.loan_number#</a>
 												</div>
@@ -845,12 +845,12 @@
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
-													<span class="d-inline d-md-none font-weight-lessbold">Locality ID: </span>
+													<span class="d-inline d-md-block d-lg-none font-weight-lessbold">Locality ID: </span>
 													<a class="font-weight-lessbold" href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.locality_id#">
 														#locality.locality_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
-													<span class="d-inline d-md-none font-weight-lessbold">Geog Auth Rec ID: </span><a class="font-weight-lessbold" href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
+													<span class="d-inline d-md-block d-lg-none font-weight-lessbold">Geog Auth Rec ID: </span><a class="font-weight-lessbold" href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
 														#locality.geog_auth_rec_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 py-2 border-right small">
