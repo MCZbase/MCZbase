@@ -308,7 +308,7 @@
 												where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
 													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-												order by media.media_id
+												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 pl-3 pr-0 py-2 border-right small90"><a name="catalogitem"></a>
@@ -1027,6 +1027,7 @@
 									from media_relations
 										 left join media on media_relations.media_id = media.media_id
 									where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
+									
 									</cfquery>
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
