@@ -27,6 +27,13 @@ limitations under the License.
 <cffunction name="getCitationForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="form" type="string" required="no">
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.publication_id = arguments.publication_id>
+	<cfset variables.form = arguments.form>
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
 	<cfthread name="getCitationForPubThread#tn#">
 		<cfif NOT isDefined("form") OR len(form) EQ 0>
