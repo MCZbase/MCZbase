@@ -263,7 +263,7 @@ limitations under the License.
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-10">
-							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick="saveEdits();">
+							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick=" if (checkFormValidity($('#editPubForm')[0])) { saveEdits(); }">
 							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 						</div>
 						<div class="col-12 col-md-2">
