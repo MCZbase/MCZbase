@@ -384,6 +384,7 @@
 							left join accn on related_primary_key = transaction_id
 							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%accn%')
+							
 						</cfquery>
 						<cfif len(accn.transaction_id) gt 0>
 							<a name="shows%20accn"></a>
@@ -427,6 +428,7 @@
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn.transaction_id#">
+											order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
@@ -535,6 +537,7 @@
 										from media_relations
 											 left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event.collecting_event_id#">
+										order by media.media_type
 										</cfquery>
 										<div class="row mx-0 border-top-teal py-0">
 											<div class="col-12 col-md-1 pt-2 border-right small90">
@@ -633,6 +636,7 @@
 												from media_relations
 													left join media on media_relations.media_id = media.media_id
 												where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit.permit_id#">
+												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
@@ -706,6 +710,7 @@
 										from media_relations
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loan.transaction_id#">
+										order by media.media_type
 									</cfquery>
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
@@ -799,6 +804,7 @@
 								left join media_relations on media_relations.related_primary_key = locality.locality_id
 							where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								and (media_relations.media_relationship = 'shows locality')
+							
 						</cfquery>
 						<cfif len(locality.locality_id) gt 0>
 						<a name="shows%20locality"></a>
@@ -833,6 +839,7 @@
 												from media_relations
 													left join media on media_relations.media_id = media.media_id
 												where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality.locality_id#">
+												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
@@ -915,6 +922,7 @@
 										from media_relations
 											left join media on media_relations.media_id = media.media_id
 										where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#borrow.transaction_id#">
+										order by media.media_type
 									</cfquery>
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
@@ -1027,7 +1035,7 @@
 									from media_relations
 										 left join media on media_relations.media_id = media.media_id
 									where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#deaccession.transaction_id#">
-									
+									order by media.media_type
 									</cfquery>
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
@@ -1198,6 +1206,7 @@
 												WHERE related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agents.agent_id#">
 												and media_relations.media_relationship <> 'created by agent'
 												AND MCZBASE.is_media_encumbered(media.media_id) < 1
+												order by media.media_type
 											</cfquery><div id="targetDiv"></div>
 											<div class="col-12 col-lg-7 col-xl-8 px-1 pt-1">
 												<cfloop query="relm8">
