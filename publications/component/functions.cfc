@@ -45,7 +45,7 @@ limitations under the License.
 				FROM publication
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 			</cfquery>
-			<cfoutput>#getCitation.text#</cfoutput>
+			<cfoutput>#getCitation.citation#</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
 			<cfset function_called = "#GetFunctionCalledName()#">
