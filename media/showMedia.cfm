@@ -432,12 +432,13 @@
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
-													<span class="d-block d-lg-none">Transaction ID: </span>
+													<h3 class="h5 mb-0 d-inline d-lg-none">Transaction ID: </h3>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.transaction_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
-													<span class="d-block d-lg-none">Accession Number: </span><a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
+													<h3 class="h5 mb-0 d-inline d-lg-none">Accession Number: </h3>
+													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.accn_number#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
@@ -851,7 +852,7 @@
 													<span class="d-inline d-md-none font-weight-lessbold">Geog Auth Rec ID: </span><a href="#relmloc.auto_protocol#/#relmloc.auto_host#/guid/#locality.geog_auth_rec_id#">
 														#locality.geog_auth_rec_id#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
+												<div class="col-12 col-md-2 col-xl-2 py-2 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Specific Locality</h3>
 														<div class="col-12 pt-0 pb-0">#locality.spec_locality#</div>
