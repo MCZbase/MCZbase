@@ -395,7 +395,7 @@
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1 px-1 list-group-item">
-													<span class="font-weight-lessbold">Accession ID</span>
+													<span class="font-weight-lessbold">Accession <span class="d-none d-lg-inline">ID</span><span class="d-inline d-lg-none">s </span></span>
 												</li>
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Accn&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
@@ -432,12 +432,12 @@
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
-													<span class="d-block d-md-none">Transaction ID: </span>
+													<span class="d-block d-lg-none">Transaction ID: </span>
 													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.transaction_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-0 border-right small90">
-													<span class="d-block d-md-none">Accession Number: </span><a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
+													<span class="d-block d-lg-none">Accession Number: </span><a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.accn_number#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
