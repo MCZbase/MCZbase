@@ -617,13 +617,13 @@
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-3 col-xl-1 px-1 list-group-item">
+												<li class="col-1 col-md-1 px-1 list-group-item">
 													<span class="font-weight-lessbold">Permit<span class="d-inline d-lg-none">s</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
 												</li>
-												<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+												<li class="col-3 col-md-3 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Details</span>
 												</li>
-												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
+												<li class="col-8 col-md-8 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">		
 														<cfset IDtitle = "This Media and Other Permit Media">
 														#IDtitle#
