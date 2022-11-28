@@ -311,8 +311,8 @@
 												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
-												<div class="col-12 col-lg-1 pl-3 pr-0 py-2 border-right small90"><a name="catalogitem"></a>
-													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+												<div class="col-12 col-lg-1 px-3 px-lg-0 py-2 border-right small90"><a name="catalogitem"></a>
+													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a class="px-lg-1" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 												</div>
 												<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
