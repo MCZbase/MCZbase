@@ -274,7 +274,7 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 		url: "/publications/component/functions.cfc",
 		type: "post",
 		data: {
-			method: "getAuthorsForPubHtml",
+			method: "addAuthorEditorHtml",
 			returnformat: "plain",
 			publication_id: publication_id,
 			role: role
