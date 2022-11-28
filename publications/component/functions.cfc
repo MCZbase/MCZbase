@@ -314,8 +314,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="col-12 col-md-6">
 					<h3 class="h4" >Authors</h3> 
-					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Author</button>
-					<!--- TODO: Add author/editor dialog --->
+					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'authors', reloadAuthors); ">Add Authors</button>
 					<ol>
 						<cfloop query="getAuthors">
 							<li value="#author_position#">
@@ -332,8 +331,7 @@ limitations under the License.
 				</div>
 				<div class="col-12 col-md-6">
 					<h3 class="h4" >Editors</h3> 
-					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Editor</button>
-					<!--- TODO: Add author/editor dialog --->
+					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'editors', reloadAuthors); ">Add Editors</button>
 					<ol>
 						<cfloop query="getEditors">
 							<li value="#author_position#">
@@ -362,6 +360,88 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAuthorsForPubThread" />
 	<cfreturn getAuthorsForPubThread.output>
+</cffunction>
+
+<!--- addAuthorEditorHtml obtain a block of html to populate a dialog for adding an author or editor to a publication
+ @param publication_id the publication for which to obtain authors/editors.
+ @param role the role in which to add new agents, allowed values authors or editors.
+ @return html form for a dialog to add authors/editors to a publication.
+---->
+<cffunction name="addAuthorEditorHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="role" type="string" required="yes">
+	<cfset variables.publication_id = arguments.publication_id>
+	<cfset variables.role = arguments.role>
+	<cfthread name="getAuthorEditorHtmlThread">
+
+		<cftry>
+			<cfif role EQ "authors">
+				<cfset roleLabel = "Author">
+			<cfelseif role NEQ "editors">
+				<cfset roleLabel = "Editor">
+			<cfelse>
+				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
+			</cfif>
+			<cfquery name="getAuthorsEditors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAuthorsEditors_result">
+				SELECT
+					publication_author_name.PUBLICATION_AUTHOR_NAME_ID PUBLICATION_AUTHOR_NAME_ID,
+					publication_author_name.AGENT_NAME_ID AGENT_NAME_ID,
+					publication_author_name.AUTHOR_POSITION AUTHOR_POSITION,
+					publication_author_name.AUTHOR_ROLE AUTHOR_ROLE,
+					agent_name.AGENT_ID AGENT_ID,
+					agent_name.AGENT_NAME_TYPE AGENT_NAME_TYPE,
+					agent_name.AGENT_NAME AGENT_NAME
+				FROM publication_author_name
+					join agent_name on publication_author_name.agent_name_id=agent_name.agent_name_id 
+				WHERE
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					<cfif role EQ "authors">
+						and author_role = 'author'
+					<cfelseif role EQ "editors">
+						and author_role = 'editor'
+					<cfif>
+				ORDER BY author_position
+			</cfquery>
+			<cfset maxposition = 0>
+			<cfloop query="getAuthorsEditors">
+				<cfset maxposition=author_position>
+			</cfloop>
+			<cfoutput>
+				<div class="form-row">
+					<div class="col-12">
+						<h3 class="h4" >Add #roleLabel#</h3>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text smaller bg-lightgreen" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+							</div>
+							<input type="text" name="agent_name" id="agent_name" class="form-control rounded-right data-entry-input form-control-sm reqdClr" aria-label="Agent Name" aria-describedby="agent_name_label" value="" required>
+							<input type="hidden" name="agent_id" id="agent_id" value="">
+						</div>
+						<script>
+							$(document).ready(function() {
+								makeRichAgentPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null);
+							});
+						</script>
+						<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
+						<!--- TODO: Add UI elements to add a first/second author form of name if one is not present for selected agent --->
+						<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
+					</div>
+					<div class="col-12" id="addedAuthors"></div>
+					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAuthorEditorHtmlThread" />
+	<cfreturn getAuthorEditorHtmlThread.output>
 </cffunction>
 
 <!--- addAuthor add a publication_author_name record linking a publication to an
