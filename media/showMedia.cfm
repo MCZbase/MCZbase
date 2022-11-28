@@ -335,7 +335,7 @@
 												</div>
 												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 pt-1">
 													<cfloop query="relm">
-															<div class="border-light pb-1 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(media.media_id) gt 0>
 																<cfif relm.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
@@ -466,7 +466,7 @@
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 px-1 pt-1">
 													<cfloop query="relmAccn">
-														<div class="border-light pb-1 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+														<div class="border-light pb-1 col-sm-2 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(accn.transaction_id) gt 0>
 																<cfif relmAccn.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
@@ -872,7 +872,7 @@
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 px-1 py-1">
 													<cfloop query="relmloc">
-														<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+														<div class="border-light col-sm-6 col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(locality.locality_id) gt 0>
 																<cfif relmloc.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
@@ -982,7 +982,7 @@
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 px-1 py-1">
 													<cfloop query="relm5">
-														<div class="border-light col-12 col-md-6 col-lg-4 pb-1 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+														<div class="border-light col-12 col-sm-6 col-md-6 col-lg-4 pb-1 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(borrow.transaction_id) gt 0>
 																<cfif relm5.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
@@ -1089,9 +1089,9 @@
 														</div>
 													</cfif>
 												</div>
-												<div class="col-12 col-md-6 col-xl-8 px-1 pt-1">
+												<div class="col-12 col-md-6 col-xl-8 px-1 py-1">
 													<cfloop query="relm6">
-														<div class="border-light col-12 col-md-6 col-lg-4 pb-1 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+														<div class="border-light col-12 col-sm-6 col-md-6 col-lg-4 pb-1 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(deaccession.transaction_id) gt 0>
 																<cfif relm6.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
@@ -1213,7 +1213,7 @@
 											</cfquery><div id="targetDiv"></div>
 											<div class="col-12 col-lg-7 col-xl-8 px-1 pt-1">
 												<cfloop query="relm8">
-													<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+													<div class="border-light col-sm-6 col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 													<cfif relm8.media_id eq '#media.media_id#'> 
 														<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 													<cfelse>	
