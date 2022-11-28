@@ -519,7 +519,7 @@
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-12 col-md-1 px-1 list-group-item">
-												<span class="font-weight-lessbold">Collecting&nbsp;Event<span class="d-inline d-lg-none">s</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
+												<span class="font-weight-lessbold">Coll<span class="d-md-none">ecting</span>&nbsp;Event<span class="d-inline d-lg-none">s</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
 											</li>
 											<li class="col-md-1 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Locality&nbsp;ID</span>
