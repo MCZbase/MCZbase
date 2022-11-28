@@ -956,12 +956,12 @@
 										</div>
 										<cfloop query="borrow">
 											<div class="row mx-0 border-top py-0 border-gray">
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
 													<h3 class="h5 d-inline d-md-none">Lender Number: </h3>
 													<a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.lenders_trans_num_cde#">
 														#borrow.lenders_trans_num_cde#</a>
 												</div>
-												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
+												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
 													<h3 class="h5 d-inline d-md-none">MCZ Transaction ##: </h3>
 													<a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.transaction_id#">
 														#borrow.transaction_id#</a>
