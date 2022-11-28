@@ -545,7 +545,7 @@
 												<h3 class="h5 mb-0 d-inline d-lg-none">Coll<span class="d-none d-lg-inline">ecting</span> Event ID: </h3>
 												<a class="font-weight-lessbold" href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">#collecting_event.collecting_event_id#</a>
 											</div>
-											<div class="col-12 border-bottom rounded col-lg-1 py-2 border-right small90">
+											<div class="col-12 col-sm-2 border-bottom rounded col-lg-1 py-2 border-right small90">
 												<h3 class="h5 d-inline d-lg-none mb-0">Locality ID: </h3>
 												<a class="font-weight-lessbold" href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
