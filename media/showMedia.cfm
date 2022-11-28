@@ -616,7 +616,7 @@
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-2 col-xl-1  px-1 list-group-item">
+												<li class="col-2 col-xl-1 px-1 list-group-item">
 													<span class="font-weight-lessbold">Permit ID</span>
 												</li>
 												<li class="col-2 col-xl-3 px-1 list-group-item d-none d-lg-block">
@@ -640,7 +640,7 @@
 											</cfquery>
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-1 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">Permit ID: </span>
+													<span class="d-block d-md-none">Permit<span class="d-lg-inline d-none"> ID</span><span class="d-inline d-lg-none">s </span> </span>
 													<a href="#relmPer.auto_protocol##relmPer.auto_host#/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
