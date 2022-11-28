@@ -1170,7 +1170,7 @@
 												<h3 class="h5 d-inline d-lg-none">Agent ID: </h3>
 												<a href="/agents/Agent.cfm?agent_id=#agents.agent_id#" class="font-weight-lessbold">#agents.agent_id#</a>
 											</div>
-											<div class="col-12 col-lg-3 col-xl-3 py-2 pb-1 border-right small">
+											<div class="col-12 col-lg-3 col-xl-3 py-2 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Agent Name </h3>
 													<cfif len(agents.agent_name) gt 0>
