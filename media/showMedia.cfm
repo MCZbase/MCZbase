@@ -1081,10 +1081,12 @@
 														<h3 class="h5 mb-0">Reason</h3>
 														<div class="col-12 pt-0 pb-1">#deaccession.deacc_reason#</div>
 													</div>
-													<div class="row mx-0">
-														<h3 class="h5 mb-0">Method</h3>
-														<div class="col-12 pt-0 pb-1">#deaccession.method#</div>
-													</div>
+													<cfif len(deaccession.method) gt 0>
+														<div class="row mx-0">
+															<h3 class="h5 mb-0">Method</h3>
+															<div class="col-12 pt-0 pb-1">#deaccession.method#</div>
+														</div>
+													</cfif>
 												</div>
 												<div class="col-12 col-md-6 col-xl-8 px-1 pt-1">
 													<cfloop query="relm6">
