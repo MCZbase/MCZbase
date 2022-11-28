@@ -343,12 +343,12 @@
 																	<cfset activeimg = "border w-100 bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-																	<div class="col-5 bg-white px-0 float-left">
+																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleText1 = trim(title1)>
 																		<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
-																	<div class="col-7 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+																	<div class="col-6 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 																		">Media ID = #relm.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
 																		#showTitleText1#
@@ -471,7 +471,7 @@
 																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmAccn.media_id#">
-																	<div class="col-5 bg-white px-0 float-left">
+																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relmAccn.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextAccn = trim(titleAccn)>
@@ -480,7 +480,7 @@
 																	<cfelse>
 																		<cfset showTitleTextAccn = "#showTitleTextAccn#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-0 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-6 bg-white px-0 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID: media/#relmAccn.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextAccn#
@@ -571,7 +571,7 @@
 																<cfset activeimg = "border bg-white float-left px-1 pt-2">
 															</cfif>
 															<div class="#activeimg#" id="mediaBlock#relmCE.media_id#">
-																<div class="col-5 bg-white px-0 float-left">
+																<div class="col-6 bg-white px-0 float-left">
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relmCE.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																</div>
 																<cfset showTitleTextCE = trim(titleCE)>
@@ -580,7 +580,7 @@
 																<cfelse>
 																	<cfset showTitleTextCE = "#showTitleTextCE#" >
 																</cfif>
-																<div class="col-7 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">
+																<div class="col-6 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">
 																	#showTitleTextCE#
 																</div>
 															</div>
@@ -661,7 +661,7 @@
 																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmPer.media_id#">
-																	<div class="col-5 bg-white px-0 float-left">
+																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relmPer.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextP = trim(title1)>
@@ -670,7 +670,7 @@
 																	<cfelse>
 																		<cfset showTitleTextP = "#showTitleTextP#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relmPer.media_id#</span>
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relmPer.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextP#
 																	</div>
@@ -766,7 +766,7 @@
 																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm11.media_id#">
-																	<div class="col-5 bg-white px-0 float-left">
+																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleText2 = trim(title2)>
@@ -775,7 +775,7 @@
 																	<cfelse>
 																		<cfset showTitleText2 = "#showTitleText2#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relm11.media_id#</span>
+																	<div class="col-6 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relm11.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText2#
 																	</div>
@@ -870,7 +870,7 @@
 																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmloc.media_id#">
-																	<div class="col-5 bg-white px-0 float-left">
+																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablockloc= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>#mediablockloc#
 																	</div>
 																	<cfset showTitleTextLoc = trim(titleLoc)>
@@ -879,7 +879,7 @@
 																	<cfelse>
 																		<cfset showTitleTextLoc = "#showTitleTextLoc#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relmloc.media_id#</span>
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relmloc.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextLoc#
 																	</div>
@@ -981,7 +981,7 @@
 																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm5.media_id#">
-																	<div class="col-5 bg-white px-1 float-left">
+																	<div class="col-6 bg-white px-1 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>
 																			#mediablock#
 																	</div>
@@ -991,7 +991,7 @@
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-1 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID = #relm5.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText1#
@@ -1084,7 +1084,7 @@
 																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm6.media_id#">
-																	<div class="col-5 bg-white px-1 float-left">
+																	<div class="col-6 bg-white px-1 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>
 																			#mediablock#
 																	</div>
@@ -1094,7 +1094,7 @@
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
-																	<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-6 bg-white px-2 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID = #relm6.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText1#
@@ -1207,12 +1207,12 @@
 														<cfset activeimg = "border w-100 bg-white float-left px-1 pt-2">
 													</cfif>
 													<div class="#activeimg#" id="mediaBlock#relm8.media_id#">
-														<div class="col-5 bg-white px-0 float-left">
+														<div class="col-6 bg-white px-0 float-left">
 															<cfset mediablock8= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="50",captionAs="textLinks",background_color="white")>#mediablock8#
 														</div>
 														<cfset showTitleText11 = trim(title1)>
 															<cfif len(title1) gt 125><cfset showTitleText11 = "#left(showTitleText11,125)#..." ></cfif>
-														<div class="col-7 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+														<div class="col-6 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 															">Media ID: media/#relm8.media_id#</span>
 															#showTitleText11#
 														</div>
