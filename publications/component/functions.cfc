@@ -320,7 +320,7 @@ limitations under the License.
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
 								<button type="button" 
-									onClick="  confirmDialog('Remove Author?','Remove?', function() {removeAuthor('#publication_author_name_id#',reloadAuthors);} );"
+									onClick="  confirmDialog('Remove Author #agent_name#?','Remove?', function() {removeAuthor('#publication_author_name_id#',reloadAuthors);} );"
 									arial-label='remove this author from this publication' 
 									class='btn btn-xs btn-warning' >Remove</button>
 							</li>
@@ -338,7 +338,7 @@ limitations under the License.
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
 								<button type="button" 
-									onClick="  confirmDialog('Remove Editor?','Remove?', function() {removeAuthor('#publication_author_name_id#',reloadAuthors);} );"
+									onClick="  confirmDialog('Remove Editor #agent_name#?','Remove?', function() {removeAuthor('#publication_author_name_id#',reloadAuthors);} );"
 									arial-label='remove this editor from this publication' 
 									class='btn btn-xs btn-warning' >Remove</button>
 							</li>
