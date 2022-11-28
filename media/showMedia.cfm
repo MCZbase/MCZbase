@@ -1042,13 +1042,13 @@
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 										
-												<li class="col-2 col-xl-1  px-1 list-group-item">
+												<li class="col-2 col-xl-1 px-1 list-group-item">
 													<span class="font-weight-lessbold">Deaccession<span class="d-inline d-lg-none">s </span>
-														<span class="d-none d-lg-inline"> ## </span>
+														<span class="d-inline d-lg-none"> ## </span>
 													</span>
 												</li>
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold d-none d-lg-block">Deaccession ID</span>
+													<span class="font-weight-lessbold d-inline d-lg-none">Deaccession ID</span>
 												</li>
 												<li class="col-2 col-xl-2 px-1 list-group-item">
 													<span class="font-weight-lessbold d-none d-lg-block">Details</span>
