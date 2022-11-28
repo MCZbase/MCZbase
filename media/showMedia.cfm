@@ -519,7 +519,7 @@
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-12 col-md-1 px-1 list-group-item">
-												<span class="font-weight-lessbold">Coll<span class="d-none col-lg-inline">ecting</span>&nbsp;Event<span class="d-inline d-lg-none">s</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
+												<span class="font-weight-lessbold">Collecting</span>&nbsp;Event<span class="d-inline d-lg-none">s</span><span class="d-none d-lg-inline-block">&nbsp;ID</span></span>
 											</li>
 											<li class="col-md-1 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Locality&nbsp;ID</span>
@@ -542,7 +542,7 @@
 										</cfquery>
 										<div class="row mx-0 border-top-teal py-0">
 											<div class="col-12 col-lg-1 py-2 border-bottom rounded border-right small90">
-												<h3 class="h5 mb-0 d-inline d-lg-none">Collecting Event ID: </h3>
+												<h3 class="h5 mb-0 d-inline d-lg-none">Coll<span class="d-none d-lg-inline">ecting</span> Event ID: </h3>
 												<a class="font-weight-lessbold" href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">#collecting_event.collecting_event_id#</a>
 											</div>
 											<div class="col-12 border-bottom rounded col-lg-1 py-2 border-right small90">
