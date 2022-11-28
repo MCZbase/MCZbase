@@ -1145,9 +1145,6 @@
 											<li class="col-2 col-xl-1  px-1 list-group-item">
 												<span class="font-weight-lessbold">Agent&nbsp;ID<span class="d-inline d-lg-none">s </span></span>
 											</li>
-											<li class="col-3 col-xl-1 px-1 list-group-item d-none d-lg-block">
-												<span class="font-weight-lessbold">Preferred Name</span>
-											</li>
 											<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
 												<span class="font-weight-lessbold">Details</span>
 											</li>
