@@ -443,11 +443,11 @@
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-0 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Type</h3>
-														<div class="col-12 py-0">#accn.accn_type#</div>
+														<div class="col-12 px-0 px-md-2 py-0">#accn.accn_type#</div>
 													</div>
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Accession Status</h3>
-														<div class="col-12 py-0">#accn.accn_status#</div>
+														<div class="col-12 px-0 px-md-2 py-0">#accn.accn_status#</div>
 													</div>
 											<!---		<cfloop query="">
 														<cfif len(accn_agent.received_agent) gt 0>
@@ -459,7 +459,7 @@
 													<cfif len(accn.received_date) gt 0>
 														<div class="row mx-0">
 															<h3 class="h5 mb-0">Received Date</h3>
-															<div class="col-12 py-0">#dateformat(accn.received_date,"yyyy-mm-dd")#</div>
+															<div class="col-12 px-0 px-md-2 py-0">#dateformat(accn.received_date,"yyyy-mm-dd")#</div>
 														</div>
 													</cfif>
 												</div>
