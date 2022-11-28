@@ -541,7 +541,7 @@
 										order by media.media_type
 										</cfquery>
 										<div class="row mx-0 border-top-teal py-0">
-											<div class="col-12 col-lg-1 py-2 border-bottom rounded border-right small90">
+											<div class="col-12 col-sm-2 col-lg-1 py-2 border-bottom rounded border-right small90">
 												<h3 class="h5 mb-0 d-inline d-lg-none">Coll<span class="d-none d-lg-inline">ecting</span> Event ID: </h3>
 												<a class="font-weight-lessbold" href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">#collecting_event.collecting_event_id#</a>
 											</div>
@@ -550,7 +550,7 @@
 												<a class="font-weight-lessbold" href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
-											<div class="col-12 col-md-2 py-2 border-right small">
+											<div class="col-12 col-sm-2 col-md-2 py-2 border-right small">
 												<div class="row mx-0">
 													<h3 class="h5 mb-0">Verbatim Date</h3>
 													<div class="col-12 py-0">#collecting_event.verbatim_date#</div>
@@ -564,7 +564,7 @@
 													<div class="col-12 py-0">#collecting_event.collecting_source#</div>
 												</div>
 											</div>
-											<div class="col-12 col-md-8 py-1 px-1">
+											<div class="col-12 col-sm-6 col-md-8 py-1 px-1">
 												<cfloop query="relmCE">
 													<div class="border-light col-12 col-sm-6 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
