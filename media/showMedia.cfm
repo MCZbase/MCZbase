@@ -338,9 +338,9 @@
 															<div class="border-light pb-1 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(media.media_id) gt 0>
 																<cfif relm.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border w-100 bg-white float-left px-1 pt-2">
+																	<cfset activeimg = "border w-100 bg-white pb-1 float-left px-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 																	<div class="col-6 bg-white px-0 float-left">
@@ -348,7 +348,7 @@
 																	</div>
 																	<cfset showTitleText1 = trim(title1)>
 																		<cfif len(title1) gt 125><cfset showTitleText1 = "#left(showTitleText1,125)#..." ></cfif>
-																	<div class="col-6 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 																		">Media ID = #relm.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
 																		#showTitleText1#
@@ -466,9 +466,9 @@
 														<div class="border-light pb-1 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(accn.transaction_id) gt 0>
 																<cfif relmAccn.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
+																	<cfset activeimg = "border bg-white float-left px-1 pb-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmAccn.media_id#">
 																	<div class="col-6 bg-white px-0 float-left">
@@ -480,7 +480,7 @@
 																	<cfelse>
 																		<cfset showTitleTextAccn = "#showTitleTextAccn#" >
 																	</cfif>
-																	<div class="col-6 bg-white px-0 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID: media/#relmAccn.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextAccn#
@@ -566,9 +566,9 @@
 													<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
 															<cfif relmCE.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 pb-1 border-right border-bottom border-top">
 															<cfelse>	
-																<cfset activeimg = "border bg-white float-left px-1 pt-2">
+																<cfset activeimg = "border bg-white float-left pb-1 px-1 pt-2">
 															</cfif>
 															<div class="#activeimg#" id="mediaBlock#relmCE.media_id#">
 																<div class="col-6 bg-white px-0 float-left">
@@ -656,9 +656,9 @@
 														<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(permit.permit_id) gt 0>
 																<cfif relmPer.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 pb-1 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
+																	<cfset activeimg = "border bg-white float-left px-1 pb-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmPer.media_id#">
 																	<div class="col-6 bg-white px-0 float-left">
@@ -761,9 +761,9 @@
 														<div class="border-light pb-1 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(loan.transaction_id) gt 0>
 																<cfif relm11.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
+																	<cfset activeimg = "border bg-white float-left px-1 pt-2 pb-1">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm11.media_id#">
 																	<div class="col-6 bg-white px-0 float-left">
@@ -775,7 +775,7 @@
 																	<cfelse>
 																		<cfset showTitleText2 = "#showTitleText2#" >
 																	</cfif>
-																	<div class="col-6 bg-white px-2 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relm11.media_id#</span>
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relm11.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText2#
 																	</div>
@@ -865,9 +865,9 @@
 														<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(locality.locality_id) gt 0>
 																<cfif relmloc.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
+																	<cfset activeimg = "border bg-white float-left px-1 pb-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relmloc.media_id#">
 																	<div class="col-6 bg-white px-0 float-left">
@@ -976,12 +976,12 @@
 														<div class="border-light col-12 col-md-6 col-lg-4 pb-1 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(borrow.transaction_id) gt 0>
 																<cfif relm5.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
+																	<cfset activeimg = "border bg-white float-left px-1 pb-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm5.media_id#">
-																	<div class="col-6 bg-white px-1 float-left">
+																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm5.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>
 																			#mediablock#
 																	</div>
@@ -1079,12 +1079,12 @@
 														<div class="border-light col-12 col-md-6 col-lg-4 pb-1 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 															<cfif len(deaccession.transaction_id) gt 0>
 																<cfif relm6.media_id eq '#media.media_id#'> 
-																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																	<cfset activeimg = "border-warning bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
-																	<cfset activeimg = "border bg-white float-left px-1 pt-2">
+																	<cfset activeimg = "border bg-white float-left px-1 pb-1 pt-2">
 																</cfif>
 																<div class="#activeimg#" id="mediaBlock#relm6.media_id#">
-																	<div class="col-6 bg-white px-1 float-left">
+																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm6.media_id#",displayAs="fixedSmallThumb",size="40",captionAs="textLinks",background_color="white")>
 																			#mediablock#
 																	</div>
@@ -1094,7 +1094,7 @@
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
-																	<div class="col-6 bg-white px-2 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID = #relm6.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText1#
@@ -1202,9 +1202,9 @@
 												<cfloop query="relm8">
 													<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
 													<cfif relm8.media_id eq '#media.media_id#'> 
-														<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+														<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 													<cfelse>	
-														<cfset activeimg = "border w-100 bg-white float-left px-1 pt-2">
+														<cfset activeimg = "border w-100 bg-white float-left px-1 pb-1 pt-2">
 													</cfif>
 													<div class="#activeimg#" id="mediaBlock#relm8.media_id#">
 														<div class="col-6 bg-white px-0 float-left">
@@ -1212,7 +1212,7 @@
 														</div>
 														<cfset showTitleText11 = trim(title1)>
 															<cfif len(title1) gt 125><cfset showTitleText11 = "#left(showTitleText11,125)#..." ></cfif>
-														<div class="col-6 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+														<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 															">Media ID: media/#relm8.media_id#</span>
 															#showTitleText11#
 														</div>
