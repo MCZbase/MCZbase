@@ -312,7 +312,7 @@
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 px-3 px-lg-0 py-2 border-right small90"><a name="catalogitem"></a>
-													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a class="px-lg-1" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a class="px-lg-1 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 												</div>
 												<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
@@ -433,12 +433,12 @@
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 py-2 pb-0 border-bottom rounded border-right small90">
 													<h3 class="h5 mb-0 d-inline d-lg-none">Transaction ID: </h3>
-													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
+													<a class="font-weight-lessbold" href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.transaction_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 py-2 pb-0 border-bottom rounded border-right small90">
 													<h3 class="h5 mb-0 d-inline d-lg-none">Accession Number: </h3>
-													<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
+													<a class="font-weight-lessbold" href="/transactions/Accession.cfm?action=edit&transaction_id=#accn.transaction_id#">
 														#accn.accn_number#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 py-2 pb-0 border-bottom rounded border-right small">
@@ -543,12 +543,12 @@
 										<div class="row mx-0 border-top-teal py-0">
 											<div class="col-12 col-lg-1 py-2 border-bottom rounded border-right small90">
 												<h3 class="h5 mb-0 d-inline d-lg-none">Collecting Event ID: </h3>
-												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">
+												<a class="font-weight-lessbold" href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.collecting_event_id#">
 													#collecting_event.collecting_event_id#</a>
 											</div>
 											<div class="col-12 border-bottom rounded col-lg-1 py-2 border-right small90">
 												<h3 class="h5 d-inline d-lg-none mb-0">Locality ID: </h3>
-												<a href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
+												<a class="font-weight-lessbold" href="#relmCE.auto_protocol#/#relmCE.auto_host#/guid/#collecting_event.locality_id#">
 													#collecting_event.locality_id#</a>
 											</div>
 											<div class="col-12 col-md-2 py-2 border-right small">
@@ -642,7 +642,7 @@
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-1 col-xl-1 py-2 pb-1 border-right border-bottom rounded small90">
 													<span class="d-inline d-md-none font-weight-lessbold">Permit ID: </span>
-													<a href="#relmPer.auto_protocol##relmPer.auto_host#/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
+													<a class="font-weight-lessbold" href="#relmPer.auto_protocol##relmPer.auto_host#/transactions/Permit.cfm?action=edit&permit_id=#permit.permit_id#">
 														#permit.permit_id#
 													</a>
 												</div>
@@ -746,7 +746,7 @@
 										<cfloop query="loan">
 											<div class="row mx-0 border-top-teal py-0">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-bottom rounded border-right small90">
-													<span class="d-inline d-md-none font-weight-lessbold">Loan Number: </span>
+													<h3 class="h5 d-inline d-md-none font-weight-lessbold">Loan Number: </h3>
 													<a href="#relm11.auto_protocol#/#relm11.auto_host#/guid/#loan.transaction_id#">
 														#loan.loan_number#</a>
 												</div>
@@ -960,12 +960,13 @@
 										<cfloop query="borrow">
 											<div class="row mx-0 border-top py-0 border-gray">
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">Lender Number: </span>
+													<h3 class="h5 d-block d-md-none">Lender Number: </h3>
 													<a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.lenders_trans_num_cde#">
 														#borrow.lenders_trans_num_cde#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">MCZ Transaction ##: </span><a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.transaction_id#">
+													<h3 class="h5 d-block d-md-none">MCZ Transaction ##: </h3>
+													<a href="#relm5.auto_protocol#/#relm5.auto_host#/guid/#borrow.transaction_id#">
 														#borrow.transaction_id#</a>
 												</div>
 												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
@@ -1044,13 +1045,13 @@
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold">Deaccession ##</span>
+													<span class="font-weight-lessbold d-none d-lg-inline">Deaccession ##</span>
 												</li>
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold">Deaccession ID</span>
+													<span class="font-weight-lessbold d-none d-lg-inline">Deaccession ID</span>
 												</li>
 												<li class="col-2 col-xl-2 px-1 list-group-item">
-													<span class="font-weight-lessbold">Details</span>
+													<span class="font-weight-lessbold d-none d-lg-inline">Details</span>
 												</li>
 												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">This and Other Deaccession Media</span>
@@ -1059,16 +1060,16 @@
 										</div>
 										<cfloop query="deaccession">
 											<div class="row mx-0 border-top py-0 border-gray">
-											<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-												<span class="d-block d-md-none">Deaccession Number: </span>
-												<a href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.deacc_number#">
+											<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
+												<h3 class="h5 d-block d-md-none">Deaccession ##: </h3>
+												<a class="font-weight-lessbold" href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.deacc_number#">
 													#deaccession.deacc_number#</a>
 											</div>
-											<div class="col-12 col-md-2 col-xl-1 pt-2 pb-1 border-right small90">
-													<span class="d-block d-md-none">MCZ Trans. ##: </span><a href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.transaction_id#">
-														#deaccession.transaction_id#</a>
+											<div class="col-12 col-md-2 col-xl-1 py-2 border-bottom rounded border-right small90">
+												<h3 class="h5 d-block d-md-none">MCZ Transaction ##: </h3>
+												<a class="font-weight-lessbold" href="#relm6.auto_protocol#/#relm6.auto_host#/guid/#deaccession.transaction_id#">#deaccession.transaction_id#</a>
 											</div>
-												<div class="col-12 col-md-2 col-xl-2 pt-2 pb-1 border-right small">
+												<div class="col-12 col-md-2 col-xl-2 py-2 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Type</h3>
 														<div class="col-12 pt-0 pb-1">#deaccession.deacc_type#</div>
