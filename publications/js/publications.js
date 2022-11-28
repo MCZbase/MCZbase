@@ -40,6 +40,29 @@ function loadFullCitDivHTML(publication_id,targetDivId) {
 		dataType: "html"
 	});
 };
+/** loadPlainCitDivHTML load the value of the current full form
+ * of the citation for a publication without html markup into an input control.
+ * @param publication_id the publication for which to show the citation.
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the value of which to replace with the returned text.
+*/
+function loadPlainCitDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getCitationForPubHtml",
+			form: "plain",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).val(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading publication citation plain text");
+		},
+		dataType: "html"
+	});
+};
 
 /** function monitorForChanges bind a change monitoring function to inputs 
  * on a given form.  Note: text inputs must have type=text to be bound to change function.
@@ -157,6 +180,29 @@ function loadAttributesDivHTML(publication_id,targetDivId) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading attributes for publication");
+		},
+		dataType: "html"
+	});
+};
+
+/** loadMediaDivHTML load a block of html for editing/viewing
+ *  media related a publication.
+ * @param publication_id the publication for which to load media
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadMediaDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getMediaForPubHtml",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading media for publication");
 		},
 		dataType: "html"
 	});

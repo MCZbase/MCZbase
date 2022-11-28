@@ -40,6 +40,8 @@ limitations under the License.
 	<cfargument name="email" type="string" required="no">
 	<cfargument name="phone" type="string" required="no">
 	<cfargument name="agent_remarks" type="string" required="no">
+	<cfargument name="biography" type="string" required="no">
+	<cfargument name="remarks_biography" type="string" required="no">
 	<cfargument name="ranking" type="string" required="no">
 	<cfargument name="collector_collection" type="string" required="no">
 	<cfargument name="author_collection" type="string" required="no">
@@ -59,6 +61,11 @@ limitations under the License.
 	<cfif isdefined("anyName") AND anyName IS "="><cfset anyName = ""></cfif>
 	<cfif isdefined("anyName") AND anyName IS "~"><cfset anyName = ""></cfif>
 
+	<!--- if remarks_biography has a value, ignore remarks and biography --->
+	<cfif isdefined("remarks_biography") AND len(remarks_biography) GT 0 >
+		<cfset remarks="">
+		<cfset biography="">
+	</cfif>
 	<!--- TODO: allow relaxation of this criterion --->
 	<cfset knowntoyear = "yes">
 
@@ -385,8 +392,24 @@ limitations under the License.
 						<cfelseif agent_remarks is "NOT NULL">
 							AND agent_remarks is not null
 						<cfelse>
-							AND agent.agent_remarks like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#agent_remarks#%">
+							AND upper(agent.agent_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_remarks)#%">
 						</cfif>
+					</cfif>
+					<cfif isdefined("biography") AND len(biography) GT 0>
+						<cfif biography is "NULL">
+							AND biography is null
+						<cfelseif biography is "NOT NULL">
+							AND biography is not null
+						<cfelse>
+							AND upper(agent.biography) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(biography)#%">
+						</cfif>
+					</cfif>
+					<cfif isdefined("remarks_biography") AND len(remarks_biography) GT 0>
+						AND (
+							upper(agent.agent_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks_biography)#%"> 
+							OR 
+							upper(agent.biography) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks_biography)#%"> 
+							)
 					</cfif>
 					<cfif isdefined("address") AND len(#address#) gt 0>
 						AND agent.agent_id IN (

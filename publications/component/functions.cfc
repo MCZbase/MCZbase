@@ -16,11 +16,12 @@ limitations under the License.
 --->
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
+<cfinclude template="/media/component/search.cfc" runOnce="true"> <!--- getMediaBlockHtml --->
 <cf_rolecheck>
 
 <!--- getCitationForPubHtml get the long or short form of the citation for a publication record.
   @param publication_id the publication for which to obtain the citaiton.
-  @param form optional 'long' or 'short', default 'long' for the form of the citation to return.
+  @param form optional 'long', 'plain' or 'short', default 'long' for the form of the citation to return.
   @return html containing the citation in the requested form with html markup.
 --->
 <cffunction name="getCitationForPubHtml" access="remote" returntype="string" returnformat="plain">
@@ -36,6 +37,8 @@ limitations under the License.
 				SELECT
 					<cfif form EQ "short">
 						mczbase.getshortcitation(publication_id) as citation
+					<cfelseif form EQ "plain">
+						mczbase.assemble_fullcitation(publication_id,0) as citation
 					<cfelse>
 						mczbase.getfullcitation(publication_id) as citation
 					</cfif>
@@ -905,5 +908,73 @@ limitations under the License.
 	</cfquery>
 	<cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
 --->
+
+<!--- getMediaForPubHtml obtain a block of html for editing media related to a publication.
+ @param publication_id the publication for which to obtain media
+ @return html listing media for the specified publication in a form for editing
+---->
+<cffunction name="getMediaForPubHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfthread name="getMediaForPubThread">
+
+		<cftry>
+			<cfoutput>
+				<cfquery name="getMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMedia_result">
+					SELECT distinct
+						media.media_id, media_relations_id
+					FROM
+						media 
+						join media_relations on media.media_id=media_relations.media_id
+					WHERE
+						media_relations.media_relationship like '%publication' and
+						media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+				</cfquery>
+				<cfif getMedia.recordcount gt 0>
+					<h2 class="h3">Media</h2>
+					<div class="col-12 row">
+						<cfloop query="getMedia">
+							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light">
+								<div id="mediaBlock#media_id#" class="border rounded">
+									<cfset mediablock= getMediaBlockHtmlUnthreaded(media_id="#media_id#",size="400",captionAs="textMid")>
+									<input type='button' 
+										value="Remove" aria-label="unlink this media record from this publication"
+										class="btn btn-xs btn-warning"
+										onClick="confirmDialog('Remove Relationship to this Media record?','Remove?', function() { deleteMediaRelation('#getMedia.media_relations_id#',reloadPublicationMedia); } );">
+								</div>
+							</div>
+						</cfloop>
+					</div>
+				<cfelse>
+					<p>There are no media records related to this publication</p>
+				</cfif>
+
+				<div class="col-12 row">
+					<div class="col-12 row">
+					<input type='button' 
+						value="Create Media" 
+						class="btn btn-xs btn-secondary"
+						onClick="opencreatemediadialog('addMediaDialog',$('##fullCitationPlain').val(),'#publication_id#','shows publication',reloadPublicationMedia);" >
+					<input type='button' 
+						value='Link Media' 
+						class='btn btn-xs btn-secondary' 
+						onClick="openlinkmediadialog('linkMediaDialog','Link media to '+$('##fullCitationPlain').val() ,'#publication_id#','shows publication',reloadPublicationMedia); " >
+				</div>
+				<div id='addMediaDialog'></div>
+				<div id='linkMediaDialog'></div>
+
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getMediaForPubThread" />
+	<cfreturn getMediaForPubThread.output>
+</cffunction>
 
 </cfcomponent>

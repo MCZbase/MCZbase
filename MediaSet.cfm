@@ -302,8 +302,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		select distinct media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 			   media.mime_type, media.media_type,
-			   CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-                           ctmedia_license.uri as license_uri,
+			   MCZBASE.get_media_dcrights(media.media_id) as license,
+				MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
                            mczbase.get_media_credit(media.media_id) as credit,
             		   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
         from media_relations

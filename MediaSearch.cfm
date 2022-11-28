@@ -220,8 +220,8 @@
 		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select distinct 
 				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as uri, 
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as display, 
+				MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
+				MCZBASE.get_media_dcrights(media.media_id) as display, 
 				MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 				MCZBASE.get_media_credit(media.media_id) as credit 
 				<cfif isdefined("keyword") and len(keyword) gt 0>
@@ -313,8 +313,8 @@
 		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT distinct 
 				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.uri ELSE MCZBASE.get_media_dctermsrights(media.media_id) END as uri, 
-				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as display, 
+				MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
+				MCZBASE.get_media_dcrights(media.media_id) as display, 
 				MCZBASE.is_media_encumbered(media.media_id) hideMedia, 
 				MCZBASE.get_media_credit(media.media_id) as credit 
 			FROM media

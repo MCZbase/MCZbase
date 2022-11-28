@@ -48,6 +48,12 @@ limitations under the License.
 	<cfif not isdefined("agent_remarks")> 
 		<cfset agent_remarks="">
 	</cfif>
+	<cfif not isdefined("biography")> 
+		<cfset biography="">
+	</cfif>
+	<cfif not isdefined("remarks_biography")> 
+		<cfset remarks_biography="">
+	</cfif>
 	<cfif not isdefined("last_name")> 
 		<cfset last_name="">
 	</cfif>
@@ -265,19 +271,27 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="form-row mb-2">
-										<div class="col-12 col-md-3">
-											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Agent Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
+										<div class="col-12 col-md-4">
+											<label for="agent_remarks" class="data-entry-label" id="agent_remarks_label">Internal Remarks <span class="small">(accepts NULL, NOT NULL)</span></label>
 											<input type="text" id="agent_remarks" name="agent_remarks" class="data-entry-input" value="#encodeForHtml(agent_remarks)#" aria-labelledby="agent_remarks_label" >
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
+											<label for="biography" class="data-entry-label" id="biography_label">Biography <span class="small">(accepts NULL, NOT NULL)</span></label>
+											<input type="text" id="biography" name="biography" class="data-entry-input" value="#encodeForHtml(biography)#" aria-labelledby="biography_label" >
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="remarks_biography" class="data-entry-label" id="remarks_biography_label">Internal Remarks or Biography</label>
+											<input type="text" id="remarks_biography" name="remarks_biography" class="data-entry-input" value="#encodeForHtml(remarks_biography)#" aria-labelledby="remarks_biography_label" >
+										</div>
+										<div class="col-12 col-md-4">
 											<label for="address" class="data-entry-label" id="address_label">Address (Correspondence/Shipping)</label>
 											<input type="text" id="address" name="address" class="data-entry-input" value="#encodeForHtml(address)#" aria-labelledby="address_label" >
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-3">
 											<label for="email" class="data-entry-label" id="email_label">Email</label>
 											<input type="text" id="email" name="email" class="data-entry-input" value="#encodeForHtml(email)#" aria-labelledby="email_label" >
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-3">
 											<label for="phone" class="data-entry-label" id="phone_label">Phone</label>
 											<input type="text" id="phone" name="phone" class="data-entry-input" value="#encodeForHtml(phone)#" aria-labelledby="phone_label" >
 										</div>
