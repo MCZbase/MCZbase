@@ -207,3 +207,26 @@ function loadMediaDivHTML(publication_id,targetDivId) {
 		dataType: "html"
 	});
 };
+
+function removeAuthor(publication_author_name_id, okcallback) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "removeAuthor",
+			publication_author_name_id: publication_author_name_id
+		},
+		success: function (result) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			var status = result[0].status;
+			if (status=='deleted') {
+				console.log(status);
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading removing author/editor from publication");
+		},
+		dataType: "html"
+	});
+};

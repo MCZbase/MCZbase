@@ -309,38 +309,43 @@ limitations under the License.
 					author_role = 'editor'
 			</cfquery>
 			<cfoutput>
-				<div class="col-12">
+				<div class="col-12 col-md-6">
 					<h3 class="h4" >Authors</h3> 
 					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Author</button>
 					<!--- TODO: Add author/editor dialog --->
-					<ul>
+					<ol>
 						<cfloop query="getAuthors">
-							<li>
+							<li value="#author_position#">
 								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
-								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
-								<!--- TODO: remove --->
+								<button type="button" 
+									onClick=" removeAuthor('#publication_author_name_id#',reloadAuthors);"
+									arial-label='remove this author from this publication' 
+									class='btn btn-xs btn-warning' >Remove</button>
 							</li>
 						</cfloop>
 					</ul>
 				</div>
-				<div class="col-12">
+				<div class="col-12 col-md-6">
 					<h3 class="h4" >Editors</h3> 
 					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Editor</button>
 					<!--- TODO: Add author/editor dialog --->
-					<ul>
+					<ol>
 						<cfloop query="getEditors">
-							<li>
+							<li value="#author_position#">
 								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
-								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
-								<!--- TODO: remove --->
+								<button type="button" 
+									onClick=" removeAuthor('#publication_author_name_id#',reloadAuthors);"
+									arial-label='remove this editor from this publication' 
+									class='btn btn-xs btn-warning' >Remove</button>
 							</li>
 						</cfloop>
 					</ul>
 				</div>
+				<div id="addAuthorEditorDialogDiv"></div>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
