@@ -27,52 +27,40 @@ limitations under the License.
 <cffunction name="getCitationForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="form" type="string" required="no">
-	<!---
-	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
-	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
-   	scope issues related to cfthread 
-	--->
-	<cfset variables.publication_id = arguments.publication_id>
-	<cfset variables.form = arguments.form>
-	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
-	<cfthread name="getCitationForPubThread#tn#">
-		<cfif NOT isDefined("form") OR len(form) EQ 0>
-			<cfset form="long">
-		</cfif>
+	<cfif NOT isDefined("form") OR len(form) EQ 0>
+		<cfset form="long">
+	</cfif>
 
-		<cftry>
-			<cfoutput>
-				<cfquery name="getCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCitation_result">
-					SELECT
-						<cfif form EQ "short">
-							mczbase.getshortcitation(publication_id) as citation
-						<cfelseif form EQ "plain">
-							mczbase.assemble_fullcitation(publication_id,0) as citation
-						<cfelse>
-							mczbase.getfullcitation(publication_id) as citation
-						</cfif>
-					FROM publication
-					WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-				</cfquery>
-				<cfif getCitation.recordcount EQ 0>
-					<cfthrow message="No matching records in the formatted publication table.">
-				</cfif>
-				<cfloop query="getCitation">
-					#getCitation.citation#
-				</cfloop>
-			</cfoutput>
-		<cfcatch>
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfoutput>
-				<h2 class="h3">Error in #function_called#:</h2>
-				<div>#error_message#</div>
-			</cfoutput>
-		</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getCitationForPubThread#tn#" />
-	<cfreturn cfthread["getCitationForPubThread#tn#"].output>
+	<cftry>
+		<cfoutput>
+			<cfquery name="getCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCitation_result">
+				SELECT
+					<cfif form EQ "short">
+						mczbase.getshortcitation(publication_id) as citation
+					<cfelseif form EQ "plain">
+						mczbase.assemble_fullcitation(publication_id,0) as citation
+					<cfelse>
+						mczbase.getfullcitation(publication_id) as citation
+					</cfif>
+				FROM publication
+				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+			<cfif getCitation.recordcount EQ 0>
+				<cfthrow message="No matching records in the formatted publication table.">
+			</cfif>
+			<cfloop query="getCitation">
+				#getCitation.citation#
+			</cfloop>
+		</cfoutput>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfoutput>
+			<h2 class="h3">Error in #function_called#:</h2>
+			<div>#error_message#</div>
+		</cfoutput>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 <!--- savePublication update a publication record --->
