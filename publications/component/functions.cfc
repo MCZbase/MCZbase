@@ -455,8 +455,7 @@ limitations under the License.
 			<cfquery name="deleteAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAuthor_result">
 				delete from publication_author_name 
 				where
-				publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-				and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
 			</cfquery>
 			<cfif deleteAuthor_result.recordcount NEQ 1>
 				<cfthrow message = "error deleting publication_author_name record [#encodeForHtml(publication_author_name_id)#]">
