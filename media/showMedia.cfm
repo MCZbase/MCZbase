@@ -395,7 +395,7 @@
 										<div class="search-box-header px-2 mt-0">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-2 col-xl-1 px-1 list-group-item">
-													<span class="font-weight-lessbold">Accession<span class="d-none d-lg-inline">ID</span><span class="d-inline d-lg-none">s </span></span>
+													<span class="font-weight-lessbold">Accession<span class="d-none d-lg-inline"> ID</span><span class="d-inline d-lg-none">s </span></span>
 												</li>
 												<li class="col-2 col-xl-1 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">Accn&nbsp;Number<span class="d-inline d-lg-none">s </span></span>
@@ -405,7 +405,7 @@
 												</li>
 												<li class="col-6 col-xl-8 px-1 list-group-item d-none d-lg-block">
 													<span class="font-weight-lessbold">
-														<cfset IDtitle = "This Media and Other Accession Media">
+														<cfset IDtitle = "This and Other Accession Media">
 														#IDtitle#
 													</span>
 												</li>
