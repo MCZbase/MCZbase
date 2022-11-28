@@ -1046,7 +1046,7 @@
 											<ul class="list-group list-group-horizontal text-white">
 										
 												<li class="col-2 col-xl-1  px-1 list-group-item">
-													<span class="font-weight-lessbold">Deaccession 
+													<span class="font-weight-lessbold">Deaccession
 														<span class="d-inline d-lg-none">s </span>
 														<span class="d-none d-lg-inline"> ## </span>
 													</span>
