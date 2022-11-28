@@ -567,7 +567,7 @@
 											</div>
 											<div class="col-12 col-md-8 py-1 px-1">
 												<cfloop query="relmCE">
-													<div class="border-light col-12 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left"> 
+													<div class="border-light col-12 col-sm-6 pb-1 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left"> 
 														<cfif len(collecting_event.collecting_event_id) gt 0>
 															<cfif relmCE.media_id eq '#media.media_id#'> 
 																<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 pb-1 border-right border-bottom border-top">
