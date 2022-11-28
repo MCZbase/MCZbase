@@ -43,15 +43,15 @@ limitations under the License.
 		<cftry>
 			<cfquery name="getCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCitation_result">
 				SELECT
-					<cfif form EQ "short">
+					<cfif variables.form EQ "short">
 						mczbase.getshortcitation(publication_id) as citation
-					<cfelseif form EQ "plain">
+					<cfelseif variables.form EQ "plain">
 						mczbase.assemble_fullcitation(publication_id,0) as citation
 					<cfelse>
 						mczbase.getfullcitation(publication_id) as citation
 					</cfif>
 				FROM publication
-				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
 			</cfquery>
 			<cfoutput>#getCitation.citation#</cfoutput>
 		<cfcatch>
