@@ -287,3 +287,88 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 		}
 	});
 }
+/** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
+ *  autocomplete agent picker supporting populating publication_author records
+ *  
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param iconControl the id for an input that can take a background color to indicate a successfull pick of an agent
+ *    (without an leading # selector)
+ *  @param linkControl the id for a page element that can contain a hyperlink to an agent, by agent id.
+ *  @param agentID null, or an id for an agent, if an agentid value is provided, then the idControl, linkControl, and
+ *    iconControl are initialized in a picked agent state.
+ *  @param authorNameControl the id for a page element that can contain an agent name.
+ *  @param authorNameIdControl the id of a hidden inmpt to hold the selected agent_name_id for the desired authorship form of the name
+ *  @param authorshipPosition 1, >1 for first or second for the author position form for which to find an author name.
+ */
+function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, agentId, authorNameControl, authorNameIdControl) { 
+	// initialize the controls for appropriate state given an agentId or not.
+	if (agentId) { 
+		$('#'+idControl).val(agentId);
+		$('#'+iconControl).addClass('bg-lightgreen');
+		$('#'+iconControl).removeClass('bg-light');
+		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+		$('#'+linkControl).attr('aria-label', 'View details for this agent');
+	} else {
+		$('#'+idControl).val("");
+		$('#'+iconControl).removeClass('bg-lightgreen');
+		$('#'+iconControl).addClass('bg-light');
+		$('#'+linkControl).html("");
+		$('#'+linkControl).removeAttr('aria-label');
+	}
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { 
+					term: request.term, 
+					method: 'getAgentAutocompleteMeta' 
+				},
+				dataType: 'json',
+				success : function (data) { 
+					// return the result to the autocomplete widget, select event will fire if item is selected.
+					response(data); 
+				},
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+					$('#'+idControl).val("");
+					$('#'+iconControl).removeClass('bg-lightgreen');
+					$('#'+iconControl).addClass('bg-light');
+					$('#'+linkControl).html("");
+					$('#'+linkControl).removeAttr('aria-label');
+				}
+			})
+		},
+		select: function (event, result) {
+			// Handle case of a selection from the pick list.  Indicate successfull pick.
+			$('#'+idControl).val(result.item.id);
+			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+			$('#'+linkControl).attr('aria-label', 'View details for this agent');
+			$('#'+iconControl).addClass('bg-lightgreen');
+			$('#'+iconControl).removeClass('bg-light');
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the controls.
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
+				$('#'+iconControl).removeClass('bg-lightgreen');
+				$('#'+iconControl).addClass('bg-light');	
+				$('#'+linkControl).html("");
+				$('#'+linkControl).removeAttr('aria-label');
+			}
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};

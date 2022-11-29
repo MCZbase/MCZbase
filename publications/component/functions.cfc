@@ -410,21 +410,37 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12">
 						<h3 class="h4" >Add #roleLabel#</h3>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text smaller bg-lightgreen" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+						<!--- TODO: Add UI elements to add a first/second author form of name if one is not present for selected agent --->
+						<div class="form-row">
+							<div class="col-12 col-md-6">
+								<label for="agent_name" class="data-entry-label">Pick an agent to add as an #roleLabel#</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="agent_name" id="agent_name" class="form-control rounded-right data-entry-input form-control-sm reqdClr" aria-label="Agent Name" aria-describedby="agent_name_label" value="" required>
+									<input type="hidden" name="agent_id" id="agent_id" value="">
+								</div>
 							</div>
-							<input type="text" name="agent_name" id="agent_name" class="form-control rounded-right data-entry-input form-control-sm reqdClr" aria-label="Agent Name" aria-describedby="agent_name_label" value="" required>
-							<input type="hidden" name="agent_id" id="agent_id" value="">
 						</div>
+						<div class="col-12 col-md-3">
+							<label for="agent_view" class="data-entry-label">Selected Agent</label>
+							<div id="agent_view"></div>
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
+							<div id="author_name_control"></div>
+							<input type="hidden" name="author_name_id" id="author_name_id" value="">
+							<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+						</div>
+						<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
+						<div id="addNameFormDialogDiv"></div>
 						<script>
+							<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
 							$(document).ready(function() {
-								makeRichAgentPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null);
+								makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
 							});
 						</script>
-						<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
-						<!--- TODO: Add UI elements to add a first/second author form of name if one is not present for selected agent --->
-						<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 					</div>
 					<div class="col-12" id="addedAuthors"></div>
 					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
