@@ -152,7 +152,7 @@
 									<cfset plural = "">
 								</cfif>
 								<div class="row mx-0">	
-									<h3 class="px-0 pb-0 mb-1 text-muted h4">Shown on records with relationship#plural#: </h3>
+									<h3 class="px-0 pb-0 mb-1 text-muted h4">Shown on records with relationship#plural#:&nbsp;</h3>
 									<ul class="list-group list-group-horizontal">
 										<li class="list-unstyled">
 										<cfloop query="media_rel">
