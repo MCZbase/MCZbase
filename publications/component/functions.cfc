@@ -422,16 +422,16 @@ limitations under the License.
 									<input type="hidden" name="agent_id" id="agent_id" value="">
 								</div>
 							</div>
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="agent_view" class="data-entry-label">Selected Agent</label>
-							<div id="agent_view"></div>
-						</div>
-						<div class="col-12 col-md-3">
-							<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
-							<div id="author_name_control"></div>
-							<input type="hidden" name="author_name_id" id="author_name_id" value="">
-							<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+							<div class="col-12 col-md-3">
+								<label for="agent_view" class="data-entry-label">Selected Agent</label>
+								<div id="agent_view"></div>
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
+								<div id="author_name_control"></div>
+								<input type="hidden" name="author_name_id" id="author_name_id" value="">
+								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+							</div>
 						</div>
 						<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 						<div id="addNameFormDialogDiv"></div>
