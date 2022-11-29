@@ -271,8 +271,9 @@
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfif len(spec.guid) gt 0>
-							<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
+						
 							<section class="my-2 row w-100 mx-0">
+								<a name="shows%20catalog_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#)</h3>
 								<div class="col-12 px-0">
 									<div class="search-box mt-1 pb-0 w-100">
@@ -311,7 +312,7 @@
 												order by media.media_type
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
-												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90"><a name="catalogitem"></a>
+												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
 													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 												</div>
 												<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
@@ -387,8 +388,9 @@
 							
 						</cfquery>
 						<cfif len(accn.transaction_id) gt 0>
-							<a name="shows%20accn"></a>
+						
 							<section class="my-2 row w-100 mx-0">
+								<a name="documents%20accn"></a>
 								<h3 class="w-100 mt-2 mb-0 px-3">Related Accessions (#accncount.ct#)</h3>
 								<div class="col-12 px-0">
 									<div class="search-box mt-1 pb-0 w-100">
@@ -510,12 +512,14 @@
 								and media_relations.media_relationship = 'shows collecting_event'
 						</cfquery>
 						<cfif len(collecting_event.collecting_event_id) gt 0>
-							<a name="shows%20collecting_event"></a>
+							
 							<section class="my-2 row mx-0 w-100">
+								<a name="shows%20collecting_event"></a>
 								<h3 class="w-100 mt-2 mb-0 px-3"> Related Collecting Events</h1>
 								<div class="col-12 px-0">
 								
 								<div class="search-box pb-0 mt-1 w-100">
+									
 									<div class="search-box-header px-2 mt-0">
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-12 col-md-1 px-1 list-group-item">
@@ -702,8 +706,9 @@
 								and (media_relations.media_relationship = 'documents loan')
 						</cfquery>
 						<cfif len(loan.transaction_id) gt 0>
-						<a name="documents%20loan"></a>
+						
 							<section class="my-2 row w-100 mx-0">
+								<a name="documents%20loan"></a>
 								<h1 class="h3 w-100 mt-2 mb-0 px-3">Related Loans</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm11" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -809,8 +814,9 @@
 							
 						</cfquery>
 						<cfif len(locality.locality_id) gt 0>
-						<a name="shows%20locality"></a>
+					
 							<section class="my-2 row w-100 mx-0">
+									<a name="shows%20locality"></a>
 								<h1 class="h3 w-100 mt-2 mb-0 px-3">Related Localities</h1>
 								<div class="col-12 px-0">
 						
@@ -915,8 +921,9 @@
 								and media_relations.media_relationship = 'documents borrow'
 						</cfquery>
 						<cfif len(borrow.transaction_id) gt 0>
-						<a name="documents%20borrow"></a>
+						
 							<section class="my-2 row w-100 mx-0">
+								<a name="documents%20borrow"></a>
 								<h3 class="w-100 mt-2 mb-0 px-3">Related Borrows</h1>
 								<div class="col-12 px-0">
 									<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1026,8 +1033,9 @@
 								and (media_relations.media_relationship = 'documents deaccession')
 						</cfquery>
 						<cfif len(deaccession.transaction_id) gt 0>
-						<a name="shows%20deaccession"></a>
+						
 							<section class="mt-2 row w-100 mx-0">
+								<a name="documents%20deaccession"></a>
 								<h3 class="w-100 mt-2 mb-0 px-3">Related Deaccessions</h3>
 								<div class="col-12 px-0">
 									<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1140,8 +1148,9 @@
 							ORDER BY agent_name.agent_id
 						</cfquery>
 						<cfif len(agents.agent_id) gt 0>
-						<a name="shows%20agent"></a>
+						
 							<section class="mt-2 mb-5 row w-100 mx-0">
+								<a name="shows%20agent"></a>
 								<h3 class="w-100 mt-2 mb-0 px-3">Related Agents </h3>
 								<a name="created%20by%20agent"></a><a name="shows%20handwriting%20of%20agent"></a><a name="shows%20agent"></a>
 								<div class="search-box mt-1 pb-0 w-100">
