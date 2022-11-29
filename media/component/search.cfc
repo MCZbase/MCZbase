@@ -1232,6 +1232,7 @@ imgStyleClass=value
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfloop query="media">
+					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu">
 						<cfset iiifSchemeServerPrefix = "http://iiif.mcz.harvard.edu/iiif/3/">
 						<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
@@ -1346,7 +1347,11 @@ imgStyleClass=value
 								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 							<cfelse>
 								<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
-								<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+								<cfif len(iiifFull) GT 0>
+									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
+								<cfelse>
+									<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+								</cfif>
 							</cfif>
 							<cfset output='#output#</p>'>
 						<cfset output='#output#</div>'>
@@ -1362,7 +1367,11 @@ imgStyleClass=value
 							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 						<cfelse>
 							<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
-							<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+							<cfif len(iiifFull) GT 0>
+								<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
+							<cfelse>
+								<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+							</cfif>
 						</cfif>
 						<cfset output='#output#</p>'>
 						<cfset output='#output#<div class="pb-1">'>
