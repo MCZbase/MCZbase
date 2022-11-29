@@ -186,7 +186,7 @@
 																<a class="link-color px-0 text-center" href="https://images.slide-atlas.org/##item/5915d8d0dd98b578723a09bf">SlideAtlas 
 																	<img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon">
 																</a>
-																<div class="small">created: 2017-05-12; updated: 2018-1-17; ID: 5915d8d0dd98b578723a09bf</div>
+																<div class="small">created: 2017-05-12  updated: 2018-1-17 <br/> ID: 5915d8d0dd98b578723a09bf</div>
 															</div>
 														</div>
 													</div>
