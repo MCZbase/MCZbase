@@ -179,14 +179,14 @@
 														<div class="flip-card-inner">
 															<a href="##" id="flip-card-inner">
 																<div class="flip-card-front">
-																	<div class="heightFlip font-weight-lessbold bg-verylightteal text-dark" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;">SlideAtlas</div>
+																	<div class="heightFlip font-weight-lessbold bg-verylightteal text-dark" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;">SlideAtlas Image Viewer</div>
 																</div>
 															</a>
 															<div class="flip-card-back">
 																<a class="link-color px-0 text-center" href="https://images.slide-atlas.org/##item/5915d8d0dd98b578723a09bf">SlideAtlas 
 																	<img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon">
 																</a>
-																<div class="small">created: 2017-05-12, updated: 2018-1-17, 2.694GB <br/> ID: 5915d8d0dd98b578723a09bf</div>
+																<div class="small">created: 2017-05-12, updated: 2018-1-17, 2.694 GB <br/> ID: 5915d8d0dd98b578723a09bf</div>
 															</div>
 														</div>
 													</div>
