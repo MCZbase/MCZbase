@@ -179,7 +179,7 @@
 														<div class="flip-card-inner">
 															<a href="##" id="flip-card-inner">
 																<div class="flip-card-front">
-																	<div class="heightFlip font-weight-lessbold bg-verylightteal text-dark"><img src="/images/slideatlas.jpg" class="mx-1" height="35" width="35" alt="slideatlas logo"><span class="font-weight-bold text-black d-inline">Slide Atlas </span>Viewer</div>
+																	<div class="heightFlip font-weight-lessbold bg-white text-dark"><img src="/images/slideatlas.jpg" class="mx-1" height="35" width="35" alt="slideatlas logo"><span class="h3 font-weight-bold text-black d-inline">Slide Atlas </span>Viewer</div>
 																</div>
 															</a>
 															<div class="flip-card-back">
