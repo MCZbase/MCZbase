@@ -301,7 +301,7 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
  *  @param authorNameIdControl the id of a hidden inmpt to hold the selected agent_name_id for the desired authorship form of the name
  *  @param authorshipPosition 1, >1 for first or second for the author position form for which to find an author name.
  */
-function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, agentId, authorNameControl, authorNameIdControl) { 
+function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, agentId, authorNameControl, authorNameIdControl, authorshipPosition) { 
 	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
 		$('#'+idControl).val(agentId);
@@ -322,7 +322,7 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				url: "/agents/component/search.cfc",
 				data: { 
 					term: request.term, 
-					method: 'getAgentAutocompleteMeta' 
+					method: 'getAuthorAutocompleteMeta' 
 				},
 				dataType: 'json',
 				success : function (data) { 
@@ -349,11 +349,20 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 		},
 		select: function (event, result) {
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
+			console.log(result);
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
 			$('#'+linkControl).attr('aria-label', 'View details for this agent');
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
+			// if result doesn't include the author name/id data, will need to make another call at this point to getAgentNameOfType to find those values for the selected agent_id
+			if (authorshipPosition==1) { 
+				$('#'+authorNameControl).val(result.item.firstauthor_name);
+				$('#'+authorNameIdControl).val(result.item.firstauthor_agent_name_id);
+			} else {
+				$('#'+authorNameControl).val(result.item.secondauthor_name);
+				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
+			}
 		},
 		change: function(event,ui) { 
 			if(!ui.item){

@@ -856,4 +856,135 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getAuthorAutocompleteMeta.  Search for agents by name with a substring match on any name, returning json suitable for jquery-ui autocomplete
+ with a _renderItem overriden to display more detail on the picklist, and just the agent name as the selected value along with additional structured 
+ information on first author and second author forms of the agent name suitable for selecting authors for a publication to populate publication_author
+
+@param term agent name to search for.
+@param show_agent_id if no value provided, then do not include the agent_id in the meta, otherwise included the agent_id in the meta.
+@return a json structure containing id and value, with matching agents with matched name in value and agent_id in id, and matched name 
+  with * and preferred name in meta.
+--->
+<cffunction name="getAuthorAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfargument name="show_agent_id" type="string" required="no">
+	<!--- perform wildcard search anywhere in agent_name.agent_name --->
+	<cfset name = "%#term#%"> 
+
+	<cfif not isDefined("show_agent_id") OR len(show_agent_id) EQ 0 >
+		<cfset show_agent_id = false>
+	<cfelse>
+		<cfset show_agent_id = true>
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT distinct
+				searchname.agent_id, searchname.agent_name,
+				agent.agent_type, agent.edited,
+				prefername.agent_name as preferred_agent_name,
+				firstauthor.agent_name as firstauthor_name, firstauthor.agent_name_id as firstauthor_agent_name_id,
+				secondauthor.agent_name as secondauthor_name, secondauthor.agent_name_id as secondauthor_agent_name_id
+			FROM 
+				agent_name searchname
+				left join agent on searchname.agent_id = agent.agent_id
+				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
+				left join agent_name firstauthor on agent.agent_id = firstauthor.agent_id and firstauthor.name_type = 'first author'
+				left join agent_name secondauthor on agent.agent_id = secondauthor.agent_id and secondauthor.name_type = 'second author'
+			WHERE
+				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
+			<cfset row["id"] = "#search.agent_id#">
+			<cfset row["value"] = "#search.preferred_agent_name#" >
+			<cfif show_agent_id >
+				<cfset agent_id_bit = " [#search.agent_id#]">
+			<cfelse>
+				<cfset agent_id_bit = "">
+			</cfif>
+			<cfif search.preferred_agent_name EQ search.agent_name >
+				<cfset row["meta"] = "#search.agent_name# #edited_marker##agent_id_bit#" >
+			<cfelse>
+				<cfset row["meta"] = "#search.agent_name# (#search.preferred_agent_name#)#edited_marker##agent_id_bit# 1st:#search.firstauthor_name# 2nd:#search.secondauthor_name#" >
+			</cfif>
+			<cfset row["firstauthor_name"] = "#search.firstauthor_name#" >
+			<cfset row["firstauthor_agent_name_id"] = "#search.firstauthor_agent_name_id#" >
+			<cfset row["secondauthor_name"] = "#search.secondauthor_name#" >
+			<cfset row["secondauthor_agent_name_id"] = "#search.secondauthor_agent_name_id#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing getAgentList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Function getAgentNameOfType obtain an agent name of a specified type given an agent_id, used to find
+  first or second author form of the agent name given an agent_id, if a name of that form exists.
+
+@param agent_id the agent for which to look up author forms of the agent name.
+@param agent_name_type the type of agent name to return (e.g. 'first author', 'second author')
+@return a structure containing agent_name and agent_name_id for the matched name, empty if no 
+ agent names of the specified type are found, will return only one match, even if multiple forms
+ of the same type exist for the specified agent. Returns an http 500 status in the case of an error.
+--->
+<cffunction name="getAgentNameOfType" access="remote" returntype="any" returnformat="json">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="agent_name_type" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset i = 1>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select agent_name, agent_name_id
+				from agent_name 
+			where
+				agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_name_type#">
+				and agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agent_id#">
+				and rownum < 2
+		</cfquery>
+		<cfset row = StructNew()>
+		<cfif search.recordcount GT 0>
+			<cfset row["agent_name"] = "#search.agent_name#" >
+			<cfset row["agent_name_id"] = "#search.agent_name_id#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 </cfcomponent>
