@@ -179,7 +179,7 @@
 														<div class="flip-card-inner">
 															<a href="##" id="flip-card-inner">
 																<div class="flip-card-front">
-																	<div class="heightFlip font-weight-lessbold bg-verylightteal text-dark" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;"><img src="/images/slideatlas.jpg" class="px-1" height="30" width="30" alt="slideatlas logo">SlideAtlas Viewer</div>
+																	<div class="heightFlip font-weight-lessbold bg-verylightteal text-dark" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;"><img src="/images/slideatlas.jpg" class="mx-1" height="30" width="30" alt="slideatlas logo">SlideAtlas Viewer</div>
 																</div>
 															</a>
 															<div class="flip-card-back">
