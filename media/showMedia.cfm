@@ -156,7 +156,7 @@
 									<ul class="list-group list-group-horizontal">
 										<li class="list-unstyled">
 										<cfloop query="media_rel">
-											<a class="link-color h4" href="###media_rel.media_relationship#">#media_rel.media_relationship#</a> <span> | </span> 
+											<a class="link-color h4" href="###media_rel.media_relationship#"> #media_rel.media_relationship#</a> <span> | </span> 
 										</cfloop>
 										</li>
 									</ul>
@@ -169,9 +169,9 @@
 									<cfset plural = "">
 								</cfif>
 								<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
-									<div class="row mx-0 my-2">
-										<h3 class="h4 px-1 mb-1 pt-0">Additional Rendering#plural# </h3>
-										<ul class="list-group list-group-horizontal col-12 px-0">
+									<div class="row my-2">
+										<h3 class="h4 px-3 mb-1 pt-0">See additional rendering#plural# </h3>
+										<ul class="list-group list-group-horizontal col-12 px-3">
 										<cfif media.media_uri contains 'slide-atlas'>
 											<li class="list-unstyled col-3 px-0 border bg-light text-center">
 												<div id="content">
