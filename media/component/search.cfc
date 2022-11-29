@@ -1234,7 +1234,7 @@ imgStyleClass=value
 				<cfloop query="media">
 					<cfif host EQ "mczbase.mcz.harvard.edu">
 						<cfset iiifSchemeServerPrefix = "http://iiif.mcz.harvard.edu/iiif/3/">
-						<cfset iiifIdentifier = "#encodeForURL(path)##encodeForURL(filename)#">
+						<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/','')##encodeForURL(filename)#">
 						<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 						<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 						<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^!100,95/0/default.jpg">
