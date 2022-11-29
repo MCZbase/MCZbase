@@ -179,7 +179,7 @@
 														<div class="flip-card-inner">
 															<a href="##" id="flip-card-inner">
 																<div class="flip-card-front">
-																	<div class="heightFlip font-weight-lessbold bg-dark text-white" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;">SlideAtlas</div>
+																	<div class="heightFlip font-weight-lessbold bg-verylightteal text-dark" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:1.2rem;">SlideAtlas</div>
 																</div>
 															</a>
 															<div class="flip-card-back">
