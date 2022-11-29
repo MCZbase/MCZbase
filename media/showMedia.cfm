@@ -273,7 +273,7 @@
 						<cfif len(spec.guid) gt 0>
 							<section class="my-2 row w-100 mx-0">
 								<h3 class="w-100 mt-3 mb-0 px-3">Related Cataloged Items (#speccount.ct#)</h3>
-								<a name="shows%20catalog_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
+								<a name="shows%20cataloged_item"></a><a name="ledger%20entry%20for%20cataloged_item"></a>
 								<div class="col-12 px-0">
 									<div class="search-box mt-1 pb-0 w-100">
 										<div class="search-box-header px-2 mt-0">
