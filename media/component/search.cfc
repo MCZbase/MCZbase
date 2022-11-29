@@ -1264,8 +1264,7 @@ imgStyleClass=value
 								<!--- cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#" --->
 								<cfset displayImage = iiifSize>
 							<cfelse>
-								<!--- cfset displayImage = media_uri --->
-								<cfset displayImage = iiifFull>
+								<cfset displayImage = media_uri>
 							</cfif>
 						</cfif>
 					<cfelse>
