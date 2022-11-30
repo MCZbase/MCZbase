@@ -892,7 +892,7 @@ Function getAuthorAutocompleteMeta.  Search for agents by name with a substring 
 				agent_name searchname
 				left join agent on searchname.agent_id = agent.agent_id
 				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
-				left join agent_name firstauthor on agent.agent_id = firstauthor.agent_id and firstauthor.agent_name_type = 'first author'
+				left join agent_name firstauthor on agent.agent_id = firstauthor.agent_id and firstauthor.agent_name_type = 'author'
 				left join agent_name secondauthor on agent.agent_id = secondauthor.agent_id and secondauthor.agent_name_type = 'second author'
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
@@ -949,7 +949,7 @@ Function getAgentNameOfType obtain an agent name of a specified type given an ag
   first or second author form of the agent name given an agent_id, if a name of that form exists.
 
 @param agent_id the agent for which to look up author forms of the agent name.
-@param agent_name_type the type of agent name to return (e.g. 'first author', 'second author')
+@param agent_name_type the type of agent name to return (e.g. 'author', 'second author')
 @return a structure containing agent_name and agent_name_id for the matched name, empty if no 
  agent names of the specified type are found, will return only one match, even if multiple forms
  of the same type exist for the specified agent. Returns an http 500 status in the case of an error.
