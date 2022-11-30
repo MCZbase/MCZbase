@@ -544,7 +544,7 @@ limitations under the License.
 					publication_author_name
 					join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
 				WHERE
-					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report.id#">
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getId.id#">
 			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
