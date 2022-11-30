@@ -320,7 +320,7 @@
 																	</div>
 																	<cfset showTitleText1 = trim(title1)>
 																		<cfif len(title1) gt 110><cfset showTitleText1 = "#left(showTitleText1,110)#..." ></cfif>
-																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
+																	<div class="col-6 bg-white px-1 pb-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 																		">Media ID = #relm.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
 																		#showTitleText1#
@@ -455,7 +455,7 @@
 																	<cfelse>
 																		<cfset showTitleTextAccn = "#showTitleTextAccn#" >
 																	</cfif>
-																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">
+																	<div class="col-6 bg-white pb-1 px-1 smaller float-left" style="line-height: .89rem;">
 																		<span class="d-block font-weight-lessbold">Media ID: media/#relmAccn.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextAccn#
@@ -558,6 +558,8 @@
 																	<cfset showTitleTextCE = "#showTitleTextCE#" >
 																</cfif>
 																<div class="col-6 bg-white px-1 pb-2 smaller float-left" style="line-height: .89rem;">
+																	<span class="d-block font-weight-lessbold">Media ID: media/#relmCE.media_id#</span>
+																	<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																	#showTitleTextCE#
 																</div>
 															</div>
