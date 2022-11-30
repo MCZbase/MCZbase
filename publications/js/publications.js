@@ -407,7 +407,9 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
          agent_name_id: agent_name_id,
          publication_id: publication_id,
          author_position: author_position,
-         author_role: author_role
+         author_role: author_role,
+			returnformat : "json",
+			queryformat : 'column'
       },
       success: function (result) {
 			console.log(result);
