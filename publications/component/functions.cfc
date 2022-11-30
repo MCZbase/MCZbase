@@ -433,6 +433,12 @@ limitations under the License.
 								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
 							</div>
 						</div>
+						<div class="form-row">
+							<div class="col-12 col-md-3">
+								<button class="btn btn-xs btn-primary disabled" onclick="addAuthor($('##author_name_id').val(),'#role#',reloadAuthors);">Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
+							</div>
+							<div class="col-12 col-md-3">
+							</div>
 						<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 						<div id="addNameFormDialogDiv"></div>
 						<script>

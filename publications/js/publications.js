@@ -352,7 +352,7 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			console.log(result);
 			console.log(authorshipPosition);
 			$('#'+idControl).val(result.item.id);
-			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a> <a href='/agents/editAgent.cfm?agent_id=" + result.item.id + "' target='_blank'>Edit</a> " + result.item.value);
 			$('#'+linkControl).attr('aria-label', 'View details for this agent');
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
