@@ -910,7 +910,7 @@ Function getAuthorAutocompleteMeta.  Search for agents by name with a substring 
 				<cfset agent_id_bit = "">
 			</cfif>
 			<cfif search.preferred_agent_name EQ search.agent_name >
-				<cfset row["meta"] = "#search.agent_name# #edited_marker##agent_id_bit#" >
+				<cfset row["meta"] = "#search.agent_name# #edited_marker##agent_id_bit# 1st:#search.firstauthor_name# 2nd:#search.secondauthor_name#" >
 			<cfelse>
 				<cfset row["meta"] = "#search.agent_name# (#search.preferred_agent_name#)#edited_marker##agent_id_bit# 1st:#search.firstauthor_name# 2nd:#search.secondauthor_name#" >
 			</cfif>

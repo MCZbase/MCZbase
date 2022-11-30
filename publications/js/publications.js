@@ -350,6 +350,7 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 		select: function (event, result) {
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			console.log(result);
+			console.log(authorshipPosition);
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
 			$('#'+linkControl).attr('aria-label', 'View details for this agent');
