@@ -411,15 +411,16 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
       },
       success: function (result) {
 			console.log(result);
-         if (jQuery.type(okcallback)==='function') {
-            okcallback();
-         }
          var status = result[0].status;
+			console.log(status);
          if (status=='added') {
-				console.log(status);
          	var agent_id = result[0].agent_id;
          	var agent_name = result[0].agent_name;
-				$('<li><a href="/agents/Agent.cfm?agent_id='+agent_id+'">'+agent_name+'</a></li>').appendTo('#authorList');
+				console.log(agent_name);
+				$('<li><a href="/agents/Agent.cfm?agent_id='+agent_id+'">'+agent_name+'</a></li>').appendTo('#authorListOnDialog');
+         }
+         if (jQuery.type(okcallback)==='function') {
+            okcallback();
          }
       },
       error: function (jqXHR, textStatus, error) {
