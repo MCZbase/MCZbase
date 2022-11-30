@@ -401,6 +401,7 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 
 function addAuthor(agent_name_id,publication_id,author_position,author_role,okcallback) { 
    jQuery.ajax({
+		dataType: "json",
       url: "/publications/component/functions.cfc",
       data : {
          method : "addAuthor",
