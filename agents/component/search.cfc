@@ -892,8 +892,8 @@ Function getAuthorAutocompleteMeta.  Search for agents by name with a substring 
 				agent_name searchname
 				left join agent on searchname.agent_id = agent.agent_id
 				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
-				left join agent_name firstauthor on agent.agent_id = firstauthor.agent_id and firstauthor.name_type = 'first author'
-				left join agent_name secondauthor on agent.agent_id = secondauthor.agent_id and secondauthor.name_type = 'second author'
+				left join agent_name firstauthor on agent.agent_id = firstauthor.agent_id and firstauthor.agent_name_type = 'first author'
+				left join agent_name secondauthor on agent.agent_id = secondauthor.agent_id and secondauthor.agent_name_type = 'second author'
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 		</cfquery>
