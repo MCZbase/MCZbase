@@ -435,12 +435,19 @@ limitations under the License.
 						</div>
 						<div class="form-row">
 							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary disabled" onclick="addAuthor($('##author_name_id').val(),'#role#',reloadAuthors);">Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
+								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#role#',reloadAuthors);">Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
 							</div>
 							<div class="col-12 col-md-3">
+								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();">Add the missing first/second <span id="position_to_add_span">#maxposition+1#</span> form of the author name to this agent</button>
 							</div>
-						<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
-						<div id="addNameFormDialogDiv"></div>
+							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
+							<script>
+								function showAddAuthorNameDialog() {
+									console.log($('##agent_id').val());
+									console.log($('##next_author_position').val()); 
+								};
+							</script>
+							<div id="addNameFormDialogDiv"></div>
 						<script>
 							<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
 							$(document).ready(function() {

@@ -364,6 +364,18 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#'+authorNameControl).html(result.item.secondauthor_name);
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
 			}
+			if ($('#'+authorNameIdControl).val()!='') { 	
+				$('#addButton').removeClass('disabled');
+				$('#addButton').prop('disabled',false);
+				$('#addNameButton').addClass('disabled');
+				$('#addNameButton').prop('disabled',true);
+			} else { 
+				$('#addButton').addClass('disabled');
+				$('#addButton').prop('disabled',true);
+				$('#addNameButton').removeClass('disabled');
+				$('#addNameButton').prop('disabled',false);
+			}
+			
 		},
 		change: function(event,ui) { 
 			if(!ui.item){
@@ -374,6 +386,10 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+linkControl).html("");
 				$('#'+linkControl).removeAttr('aria-label');
+				$('#addButton').addClass('disabled');
+				$('#addButton').prop('disabled',true);
+				$('#addNameButton').addClass('disabled');
+				$('#addNameButton').prop('disabled',true);
 			}
 		},
 		minLength: 3
