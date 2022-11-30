@@ -416,7 +416,9 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
          }
          var status = result[0].status;
          if (status=='added') {
-				$('<li><a href="/agents/Agent.cfm?agent_id='+result[0].agent_id+'">'+result[0]agent_name+'</a></li>').appendTo('#authorList');
+         	var agent_id = result[0].agent_id;
+         	var agent_name = result[0].agent_name;
+				$('<li><a href="/agents/Agent.cfm?agent_id='+agent_id+'">'+agent_name+'</a></li>').appendTo('#authorList');
          }
       },
       error: function (jqXHR, textStatus, error) {
