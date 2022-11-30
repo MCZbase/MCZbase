@@ -321,7 +321,7 @@
 																	<cfset showTitleText1 = trim(title1)>
 																		<cfif len(title1) gt 110><cfset showTitleText1 = "#left(showTitleText1,110)#..." ></cfif>
 																	<div class="col-6 bg-white px-1 pb-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
-																		">Media ID = #relm.media_id#</span>
+																		">Media ID = media/#relm.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
 																		#showTitleText1#
 																	</div>
@@ -652,7 +652,7 @@
 																	<cfelse>
 																		<cfset showTitleTextP = "#showTitleTextP#" >
 																	</cfif>
-																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = #relmPer.media_id#</span>
+																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;"><span class="d-block font-weight-lessbold">Media ID = media/#relmPer.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleTextP#
 																	</div>
@@ -979,7 +979,7 @@
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
 																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">
-																		<span class="d-block font-weight-lessbold">Media ID = #relm5.media_id#</span>
+																		<span class="d-block font-weight-lessbold">Media ID = media/#relm5.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText1#
 																	</div>
@@ -1089,7 +1089,7 @@
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
 																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">
-																		<span class="d-block font-weight-lessbold">Media ID = #relm6.media_id#</span>
+																		<span class="d-block font-weight-lessbold">Media ID = media/#relm6.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on: </i></span>
 																		#showTitleText1#
 																	</div>
@@ -1207,6 +1207,7 @@
 															<cfif len(title1) gt 110><cfset showTitleText11 = "#left(showTitleText11,110)#..." ></cfif>
 														<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 															">Media ID: media/#relm8.media_id#</span>
+															<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
 															#showTitleText11#
 														</div>
 													</div>
@@ -1234,7 +1235,6 @@
 							ORDER BY agent_name.agent_id
 						</cfquery>
 						<cfif len(projects.agent_id) gt 0>
-						
 							<section class="mt-2 mb-5 row w-100 mx-0">
 								<a name="shows%20agent"></a>
 								<h3 class="w-100 mt-2 mb-0 px-3">Related Agents </h3>
