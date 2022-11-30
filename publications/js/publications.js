@@ -411,13 +411,12 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
       },
       success: function (result) {
 			console.log(result);
-			$('<li><a href="/agents/Agent.cfm?agent_id='+result.item.agent_id+'">'+result.item.agent_name+'</a></li>').appendTo('#authorList');
          if (jQuery.type(okcallback)==='function') {
             okcallback();
          }
          var status = result[0].status;
          if (status=='added') {
-            console.log(status);
+				$('<li><a href="/agents/Agent.cfm?agent_id='+result[0].agent_id+'">'+result[0]agent_name+'</a></li>').appendTo('#authorList');
          }
       },
       error: function (jqXHR, textStatus, error) {
