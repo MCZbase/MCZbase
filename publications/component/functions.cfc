@@ -435,7 +435,7 @@ limitations under the License.
 						</div>
 						<div class="form-row">
 							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#role#',reloadAuthors);">Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
+								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);">Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
 							</div>
 							<div class="col-12 col-md-3">
 								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();">Add the missing first/second <span id="position_to_add_span">#maxposition+1#</span> form of the author name to this agent</button>
@@ -446,6 +446,12 @@ limitations under the License.
 									console.log($('##agent_id').val());
 									console.log($('##next_author_position').val()); 
 								};
+								function addAuthorName() { 
+									// addNameToAgent
+   								//   agent_id
+   								//   agent_name
+   								//   agent_name_type
+								} 
 							</script>
 							<div id="addNameFormDialogDiv"></div>
 						<script>

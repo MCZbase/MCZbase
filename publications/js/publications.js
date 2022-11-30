@@ -225,7 +225,7 @@ function removeAuthor(publication_author_name_id, okcallback) {
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading removing author/editor from publication");
+			handleFail(jqXHR,textStatus,error,"removing author/editor from publication");
 		},
 		dataType: "html"
 	});
@@ -242,7 +242,8 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
-	w = Math.floor(w *.9);
+	w = Math.floor(w *.8);
+	h = Math.floor(h *.5);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -254,7 +255,7 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 		height: h,
 		width: w,
 		minWidth: 320,
-		minHeight: 450,
+		minHeight: 250,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
@@ -283,7 +284,7 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 			$("#"+dialogid+"_div").html(data);
 		}, 
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"loading removing author/editor from publication");
+			handleFail(jqXHR,textStatus,error,"loading dialog to add author/editor to publication");
 		}
 	});
 }
@@ -398,3 +399,30 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
 };
+
+function addAuthor(author_name_id,publication_id,author_position,author_role,okcallback) { 
+   jQuery.ajax({
+      url: "/publications/component/functions.cfc",
+      data : {
+         method : "addAuthor",
+         author_name_id: author_name_id,
+         publication_id: publication_id,
+         author_position: author_position,
+         author_role: author_role
+      },
+      success: function (result) {
+         if (jQuery.type(okcallback)==='function') {
+            okcallback();
+         }
+         var status = result[0].status;
+         if (status=='added') {
+            console.log(status);
+         }
+      },
+      error: function (jqXHR, textStatus, error) {
+         handleFail(jqXHR,textStatus,error,"adding author/editor to publication");
+      },
+      dataType: "html"
+   });
+}
+
