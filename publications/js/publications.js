@@ -267,7 +267,7 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 				okcallback();
 			}
 			$("#"+dialogid+"_div").html("");
-	 		$("#"+dialogid).dialog('destroy');
+	 		$("#"+dialogid).html("");
 		}
 	});
 	thedialog.dialog('open');
@@ -413,18 +413,17 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
 			queryformat : 'column'
       },
       success: function (retval) {
+         if (jQuery.type(okcallback)==='function') {
+            okcallback();
+         }
 			var result = jQuery.parseJSON(retval);
 			console.log(result);
          var status = result[0].status;
-			console.log(status);
          if (status=='added') {
          	var agent_id = result[0].agent_id;
          	var agent_name = result[0].agent_name;
 				console.log(agent_name);
 				$('<li><a href="/agents/Agent.cfm?agent_id='+agent_id+'">'+agent_name+'</a></li>').appendTo('#authorListOnDialog');
-         }
-         if (jQuery.type(okcallback)==='function') {
-            okcallback();
          }
       },
       error: function (jqXHR, textStatus, error) {
