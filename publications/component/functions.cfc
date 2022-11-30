@@ -497,6 +497,11 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
+		<cfif lcase(author_role) EQ "authors">
+			<cfset author_role = "author">
+		<cfelseif lcase(author_role) EQ "editors">
+			<cfset author_role = "editor">
+		</cfif>
 		<cftry>
 			<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAuthor_result">
 				INSERT INTO publication_author_name (
