@@ -400,12 +400,12 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 	};
 };
 
-function addAuthor(author_name_id,publication_id,author_position,author_role,okcallback) { 
+function addAuthor(agent_name_id,publication_id,author_position,author_role,okcallback) { 
    jQuery.ajax({
       url: "/publications/component/functions.cfc",
       data : {
          method : "addAuthor",
-         author_name_id: author_name_id,
+         agent_name_id: agent_name_id,
          publication_id: publication_id,
          author_position: author_position,
          author_role: author_role
