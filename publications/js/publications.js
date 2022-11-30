@@ -361,11 +361,9 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			if (authorshipPosition==1) { 
 				$('#'+authorNameControl).html(result.item.firstauthor_name);
 				$('#'+authorNameIdControl).val(result.item.firstauthor_agent_name_id);
-				$('<li>'+result.item.firstauthor_name+'</li>').appendTo('#authorList');
 			} else {
 				$('#'+authorNameControl).html(result.item.secondauthor_name);
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
-				$('<li>'+result.item.secondauthor_name+'</li>').appendTo('#authorList');
 			}
 			if ($('#'+authorNameIdControl).val()!='') { 	
 				$('#addButton').removeClass('disabled');
@@ -412,6 +410,8 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
          author_role: author_role
       },
       success: function (result) {
+			console.log(result);
+			$('<li><a href="/agents/Agent.cfm?agent_id='+result.item.agent_id+'">'+result.item.agent_name+'</a></li>').appendTo('#authorList');
          if (jQuery.type(okcallback)==='function') {
             okcallback();
          }

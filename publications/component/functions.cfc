@@ -527,7 +527,7 @@ limitations under the License.
 			</cfif>
 			<cfset rowid = insertAuthor_result.generatedkey>
 			<cftransaction action="commit">
-			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+			<cfquery name="getId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getId_result">
 				SELECT
 					publication_author_name_id as id
 				FROM 
@@ -535,9 +535,22 @@ limitations under the License.
 				WHERE
 					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 			</cfquery>
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+				SELECT
+					publication_author_name_id as id,
+					agent_name.agent_id,
+ 					agent_name.agent_name
+				FROM 
+					publication_author_name
+					join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
+				WHERE
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report.id#">
+			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
 			<cfset row["id"] = "#report.id#">
+			<cfset row["agent_name"] = "#report.agent_name#">
+			<cfset row["agent_id"] = "#report.agent_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
 		<cfcatch>
