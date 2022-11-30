@@ -266,8 +266,7 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 			if (jQuery.type(okcallback)==='function') {
 				okcallback();
 			}
-			$("#"+dialogid+"_div").html("");
-	 		$("#"+dialogid).html("");
+			$("#"+dialogid).html("").dialog("destroy");
 		}
 	});
 	thedialog.dialog('open');
