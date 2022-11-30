@@ -319,7 +319,7 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleText1 = trim(title1)>
-																		<cfif len(title1) gt 115><cfset showTitleText1 = "#left(showTitleText1,115)#..." ></cfif>
+																		<cfif len(title1) gt 110><cfset showTitleText1 = "#left(showTitleText1,110)#..." ></cfif>
 																	<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 																		">Media ID = #relm.media_id#</span>
 																		<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
@@ -450,8 +450,8 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relmAccn.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextAccn = trim(titleAccn)>
-																	<cfif len(showTitleTextAccn) gt 115>
-																		<cfset showTitleTextAccn = "#left(showTitleTextAccn,115)#..." >
+																	<cfif len(showTitleTextAccn) gt 110>
+																		<cfset showTitleTextAccn = "#left(showTitleTextAccn,110)#..." >
 																	<cfelse>
 																		<cfset showTitleTextAccn = "#showTitleTextAccn#" >
 																	</cfif>
@@ -552,8 +552,8 @@
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relmCE.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 																</div>
 																<cfset showTitleTextCE = trim(titleCE)>
-																<cfif len(showTitleTextCE) gt 115>
-																	<cfset showTitleTextCE = "#left(showTitleTextCE,115)#..." >
+																<cfif len(showTitleTextCE) gt 110>
+																	<cfset showTitleTextCE = "#left(showTitleTextCE,110)#..." >
 																<cfelse>
 																	<cfset showTitleTextCE = "#showTitleTextCE#" >
 																</cfif>
@@ -645,8 +645,8 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relmPer.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleTextP = trim(title1)>
-																	<cfif len(showTitleTextP) gt 115>
-																		<cfset showTitleTextP = "#left(showTitleTextP,115)#..." >
+																	<cfif len(showTitleTextP) gt 110>
+																		<cfset showTitleTextP = "#left(showTitleTextP,110)#..." >
 																	<cfelse>
 																		<cfset showTitleTextP = "#showTitleTextP#" >
 																	</cfif>
@@ -752,8 +752,8 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm11.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
 																	<cfset showTitleText2 = trim(title2)>
-																	<cfif len(showTitleText2) gt 115>
-																		<cfset showTitleText2 = "#left(showTitleText2,115)#..." >
+																	<cfif len(showTitleText2) gt 110>
+																		<cfset showTitleText2 = "#left(showTitleText2,110)#..." >
 																	<cfelse>
 																		<cfset showTitleText2 = "#showTitleText2#" >
 																	</cfif>
@@ -859,8 +859,8 @@
 																		<cfset mediablockloc= getMediaBlockHtml(media_id="#relmloc.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablockloc#
 																	</div>
 																	<cfset showTitleTextLoc = trim(titleLoc)>
-																	<cfif len(showTitleTextLoc) gt 115>
-																		<cfset showTitleTextLoc = "#left(showTitleTextLoc,115)#..." >
+																	<cfif len(showTitleTextLoc) gt 110>
+																		<cfset showTitleTextLoc = "#left(showTitleTextLoc,110)#..." >
 																	<cfelse>
 																		<cfset showTitleTextLoc = "#showTitleTextLoc#" >
 																	</cfif>
@@ -971,8 +971,8 @@
 																			#mediablock#
 																	</div>
 																	<cfset showTitleText1 = trim(title1)>
-																	<cfif len(showTitleText1) gt 115>
-																		<cfset showTitleText1 = "#left(showTitleText1,115)#..." >
+																	<cfif len(showTitleText1) gt 110>
+																		<cfset showTitleText1 = "#left(showTitleText1,110)#..." >
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
@@ -1081,8 +1081,8 @@
 																			#mediablock#
 																	</div>
 																	<cfset showTitleText1 = trim(title3)>
-																	<cfif len(showTitleText1) gt 115>
-																		<cfset showTitleText1 = "#left(showTitleText1,115)#..." >
+																	<cfif len(showTitleText1) gt 110>
+																		<cfset showTitleText1 = "#left(showTitleText1,110)#..." >
 																	<cfelse>
 																		<cfset showTitleText1 = "#showTitleText1#" >
 																	</cfif>
@@ -1202,7 +1202,7 @@
 															<cfset mediablock8= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock8#
 														</div>
 														<cfset showTitleText11 = trim(title1)>
-															<cfif len(title1) gt 115><cfset showTitleText11 = "#left(showTitleText11,115)#..." ></cfif>
+															<cfif len(title1) gt 110><cfset showTitleText11 = "#left(showTitleText11,110)#..." ></cfif>
 														<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 															">Media ID: media/#relm8.media_id#</span>
 															#showTitleText11#
@@ -1316,7 +1316,7 @@
 															<cfset mediablock8= getMediaBlockHtml(media_id="#relm8.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock8#
 														</div>
 														<cfset showTitleText11 = trim(title1)>
-															<cfif len(title1) gt 115><cfset showTitleText11 = "#left(showTitleText11,115)#..." ></cfif>
+															<cfif len(title1) gt 110><cfset showTitleText11 = "#left(showTitleText11,110)#..." ></cfif>
 														<div class="col-6 bg-white px-1 smaller float-left" style="line-height: .89rem;">		<span class="d-block font-weight-lessbold
 															">Media ID: media/#relm8.media_id#</span>
 															#showTitleText11#
