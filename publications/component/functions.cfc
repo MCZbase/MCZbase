@@ -665,7 +665,7 @@ limitations under the License.
 					FROM
 						agent_name author_agent_name
 						join agent on author_agent_name.agent_id = agent.agent_id
-						left join agent_name fan on agent.agent_id = fan.agent_id and fan.agent_name_type = 'first author'
+						left join agent_name fan on agent.agent_id = fan.agent_id and fan.agent_name_type = 'author'
 						left join agent_name san on agent.agent_id = san.agent_id and san.agent_name_type = 'second author'
 				</cfquery>
 			</cfif>
