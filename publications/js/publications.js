@@ -361,9 +361,11 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			if (authorshipPosition==1) { 
 				$('#'+authorNameControl).html(result.item.firstauthor_name);
 				$('#'+authorNameIdControl).val(result.item.firstauthor_agent_name_id);
+				$('<li>'+result.item.firstauthor_name+'</li>').appendTo('#authorList');
 			} else {
 				$('#'+authorNameControl).html(result.item.secondauthor_name);
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
+				$('<li>'+result.item.secondauthor_name+'</li>').appendTo('#authorList');
 			}
 			if ($('#'+authorNameIdControl).val()!='') { 	
 				$('#addButton').removeClass('disabled');
@@ -376,7 +378,6 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#addNameButton').removeClass('disabled');
 				$('#addNameButton').prop('disabled',false);
 			}
-			
 		},
 		change: function(event,ui) { 
 			if(!ui.item){

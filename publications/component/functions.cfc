@@ -461,7 +461,13 @@ limitations under the License.
 							});
 						</script>
 					</div>
-					<div class="col-12" id="addedAuthors"></div>
+					<div class="col-12" id="listOfAuthorsDiv">
+						<ol id="authorList">
+							<cfloop query="getAuthorsEditors">
+								<li>#getAuthorsEditors.agent_name#</li>
+							</cfloop>
+						</ol>
+					</div>
 					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
 				</div>
 			</cfoutput>
