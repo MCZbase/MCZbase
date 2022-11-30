@@ -358,10 +358,10 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			$('#'+iconControl).removeClass('bg-light');
 			// if result doesn't include the author name/id data, will need to make another call at this point to getAgentNameOfType to find those values for the selected agent_id
 			if (authorshipPosition==1) { 
-				$('#'+authorNameControl).val(result.item.firstauthor_name);
+				$('#'+authorNameControl).html(result.item.firstauthor_name);
 				$('#'+authorNameIdControl).val(result.item.firstauthor_agent_name_id);
 			} else {
-				$('#'+authorNameControl).val(result.item.secondauthor_name);
+				$('#'+authorNameControl).html(result.item.secondauthor_name);
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
 			}
 		},
