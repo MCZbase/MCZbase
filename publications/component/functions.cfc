@@ -377,7 +377,7 @@ limitations under the License.
 		<cftry>
 			<cfif role EQ "authors">
 				<cfset roleLabel = "Author">
-			<cfelseif role NEQ "editors">
+			<cfelseif role EQ "editors">
 				<cfset roleLabel = "Editor">
 			<cfelse>
 				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
