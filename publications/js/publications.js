@@ -412,7 +412,8 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
 			returnformat : "json",
 			queryformat : 'column'
       },
-      success: function (result) {
+      success: function (retval) {
+			var result = jQuery.parseJSON(retval);
 			console.log(result);
          var status = result[0].status;
 			console.log(status);
