@@ -286,7 +286,7 @@
 												</div>
 												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
 														<div class="col-6 bg-white px-0 float-left">
-															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+															<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 														</div>
 												<!---	<cfloop query="relm">
 															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">--->
