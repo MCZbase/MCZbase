@@ -220,6 +220,10 @@
 					</div>
 				</main>
 			</div>
+									
+									
+									
+									
 					<div class="col-12 pb-5">
 						<div class="row mx-0 mb-3">
 							<cfloop query="media_rel">
@@ -244,7 +248,7 @@
 												</li>
 											</ul>
 										</div>
-										<cfloop query="media_rel.media_id">
+										<cfloop query="media">
 											<!---<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT source_media.media_id source_media_id, 
 													source_media.auto_filename source_filename,
@@ -283,12 +287,12 @@
 												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
 													<cfloop query="relm">
 															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
-															<cfif relm.media_id eq '#media.media_id#'> 
+							<!---								<cfif relm.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
 																	<cfset activeimg = "border w-100 bg-white pb-1 float-left px-1 pt-2">
-																</cfif>
-																<div class="#activeimg#" id="mediaBlock#relm.media_id#">
+																</cfif>--->
+<!---																<div class="" id="mediaBlock#relm.media_id#">
 																	<div class="col-6 bg-white px-0 float-left">
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 																	</div>
@@ -299,7 +303,7 @@
 																		<span class="d-block font-weight-lessbold"><i>Shown on:</i></span>
 																		#showTitleText1#
 																	</div>
-																</div>
+																</div>--->
 															</cfif>
 														</div>
 													</cfloop>
