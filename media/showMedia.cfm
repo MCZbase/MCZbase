@@ -258,7 +258,7 @@
 													media_relations
 													left join media source_media on media_relations.media_id = source_media.media_id
 												WHERE
-													media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+													media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
