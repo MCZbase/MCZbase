@@ -43,6 +43,7 @@
 					and (media_relations.media_relationship like '%cataloged_item%')
 			order by guid
 		</cfquery>
+		<cfif 
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -274,7 +275,7 @@
 													from media_relations
 														 left join media on media_relations.media_id = media.media_id
 														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-													where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
+													where (media_relationship like '%cataloged_item%' or media_relationship = '#media_rel.media_relationship#')
 														AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 														AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												</cfquery>
@@ -328,36 +329,6 @@
 													<div id="targetDiv"></div>
 												</div>
 											</div>
-								<!---				<div class="row mx-0 py-0 border-top-teal">
-													<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
-														<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span>
-													</div>
-													<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
-														<div class="row mx-0">
-															<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
-														</div>
-														<div class="row mx-0">
-															<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
-															<div class="col-12 pt-0 pb-1"></div>
-														</div>
-														<div class="row mx-0">
-															<h3 class="h5 mb-0">Location&nbsp;Data</h3>
-															<div class="col-12 pt-0 pb-1"></div>
-														</div>
-													</div>
-													<div class="col-12 col-md-8">
-													<cfloop query="relm">
-														<div class="row mx-0">
-															<div class="col-12 col-md-8 col-lg-2 px-0 px-1 py-1">
-																<div class="col-12 bg-white px-0 float-left">
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
-																</div>
-																<div id="targetDiv"></div>
-															</div>
-														</div>
-													</cfloop>
-													</div>
-												</div>--->
 											</cfloop>
 										</div>
 									</div>
