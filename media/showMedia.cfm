@@ -43,7 +43,7 @@
 					and (media_relations.media_relationship like '%cataloged_item%')
 			order by guid
 		</cfquery>
-		<cfif 
+		
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
