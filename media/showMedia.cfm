@@ -42,6 +42,18 @@
 				and media_relations.media_relationship <> 'created by agent'
 			ORDER BY media_relationship
 		</cfquery>
+		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
+				decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
+				trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
+				trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
+				specimendetailurl, media_relationship
+			from media_relations
+				left join flat on related_primary_key = collection_object_id
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and (media_relations.media_relationship like '%cataloged_item%')
+			order by guid
+		</cfquery>
 		<div class="container-fluid">
 			<div class="row">
 			<div class="col-12 pb-4">
@@ -250,15 +262,20 @@
 										</div>
 										<cfloop query="media">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												SELECT source_media.media_id source_media_id, 
-													source_media.auto_filename source_filename,
-													source_media.media_uri source_media_uri,
-													media_relations.media_relationship
-												FROM
-													media_relations
-													left join media source_media on media_relations.media_id = source_media.media_id
-												WHERE
-													media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+												select distinct media.media_id, preview_uri, media.media_uri,
+													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+													media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+													MCZBASE.get_media_dcrights(media.media_id) as license,
+													MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
+													mczbase.get_media_credit(media.media_id) as credit,
+													MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+													MCZBASE.get_media_title(media.media_id) as title1
+												from media_relations
+													 left join media on media_relations.media_id = media.media_id
+													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+												where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
+													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
