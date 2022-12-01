@@ -50,10 +50,7 @@
 	where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 </cfquery>
-	<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'>
-		<cfelseif #media_rel.media_relationship# eq 'document for permit'><cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'>
-		<cfelse>
-	</cfif>
+
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -65,7 +62,10 @@
 				and media_relations.media_relationship <> 'created by agent'
 			ORDER BY media_relationship
 		</cfquery>
-
+	<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'>
+		<cfelseif #media_rel.media_relationship# eq 'document for permit'><cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'>
+		<cfelse>
+	</cfif>
 		<div class="container-fluid">
 			<div class="row">
 			<div class="col-12 pb-4">
