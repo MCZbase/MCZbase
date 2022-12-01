@@ -34,7 +34,7 @@
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
-				media_relationship, media_id
+				media_relationship
 			From
 				media_relations
 			WHERE 
@@ -245,7 +245,7 @@
 											</ul>
 										</div>
 										<cfloop query="media_rel.media_id">
-											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<!---<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT source_media.media_id source_media_id, 
 													source_media.auto_filename source_filename,
 													source_media.media_uri source_media_uri,
@@ -255,7 +255,7 @@
 													left join media source_media on media_relations.media_id = source_media.media_id
 												WHERE
 													media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-											</cfquery>
+											</cfquery>--->
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
 													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span>
@@ -264,12 +264,12 @@
 												<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
-														<cfif len(media_rel.media_id) gt 0>
+														<!---<cfif len(media_rel.media_id) gt 0>
 
 															<div class="col-12 pt-0 pb-1"></div>
 														<cfelse>
 															<div class="col-12 pt-0 pb-1">None</div>
-														</cfif>
+														</cfif>--->
 													</div>
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
