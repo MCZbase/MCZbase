@@ -225,7 +225,26 @@
 					
 							<cfloop query="media_rel">
 								<section id="#media_rel.media_relationship#">
-											 #media_rel.media_relationship#
+									<h3 class="w-100 mt-3 mb-0 px-3">Related #media_rel.media_relationship#</h3>
+									<a name="#media_rel.media_relationship#"></a>
+									<div class="col-12 px-0">
+									<div class="search-box mt-1 pb-0 w-100">
+										<div class="search-box-header px-2 mt-0">
+											<ul class="list-group list-group-horizontal text-white">
+												<li class="col-2 col-xl-1 px-2 list-group-item">
+													<span class="font-weight-lessbold">IDs</span>
+												</li>
+												<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+													<span class="font-weight-lessbold">Details</span>
+												</li>
+												<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
+													<span class="font-weight-lessbold">
+														<cfset IDtitle = "This and Other #media_rel.media_relationship# Media">
+														#IDtitle#
+													</span>
+												</li>
+											</ul>
+										</div>
 								</section>
 							</cfloop>
 						<!---specimen records--->
