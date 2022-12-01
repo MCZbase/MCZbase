@@ -295,6 +295,7 @@
 															<div class="col-12 pt-0 pb-1"></div>
 														</div>
 													</div>
+													<div class="col-12 col-md-8">
 													<cfloop query="relm">
 														<div class="row mx-0">
 															<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
@@ -305,6 +306,7 @@
 															</div>
 														</div>
 													</cfloop>
+													</div>
 												</div>
 											</cfloop>
 										</div>
