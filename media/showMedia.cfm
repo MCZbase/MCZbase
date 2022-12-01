@@ -43,7 +43,13 @@
 					and (media_relations.media_relationship like '%cataloged_item%')
 			order by guid
 		</cfquery>
-		
+<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
+	from permit
+		left join media_relations on media_relations.related_primary_key = permit.permit_id
+	where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
+</cfquery>
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -235,8 +241,8 @@
 				</main>
 			</div>
 									
-									
-									
+			<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'></cfif>					
+			<cfif #media_rel.media_relationship# eq 'document for permit'><cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'></cfif>							
 									
 					<div class="col-12 pb-5">
 						<div class="row mx-0 mb-3">
@@ -262,7 +268,7 @@
 													</li>
 												</ul>
 											</div>
-											<cfloop query="spec">
+											<cfloop query="variable1">
 												<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct media.media_id, preview_uri, media.media_uri,
 														get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -275,7 +281,7 @@
 													from media_relations
 														 left join media on media_relations.media_id = media.media_id
 														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-													where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+													where related_primary_key = <cfqueryparam value=#variable2# CFSQLType="CF_SQL_DECIMAL" >
 														AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												</cfquery>
 												<div class="row mx-0 py-0 border-top-teal">
