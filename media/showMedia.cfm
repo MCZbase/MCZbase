@@ -249,8 +249,7 @@
 							<cfloop query="media_rel">
 								<cfif media_rel.media_relationship = 'shows cataloged_item'>
 									<cfset variable1 = 'spec'><cfset variable2 = '#spec.pk#'>
-								<cfelse>
-									<cfset variable1 = 'permit'><cfset variable2 = '#permit.permit_id#'>
+								
 								</cfif>	
 								<section id="#media_rel.media_relationship#" class="col-12 px-0">
 									<h3 class="w-100 mt-3 mb-0 px-3">Related #media_rel.media_relationship#</h3>
