@@ -244,67 +244,69 @@
 									<h3 class="w-100 mt-3 mb-0 px-3">Related #media_rel.media_relationship#</h3>
 									<a name="#media_rel.media_relationship#"></a>
 									<div class="col-12 px-0">
-									<div class="search-box mt-1 pb-0 w-100">
-										<div class="search-box-header px-2 mt-0">
-											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-2 col-xl-1 px-2 list-group-item">
-													<span class="font-weight-lessbold">IDs</span>
-												</li>
-												<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
-													<span class="font-weight-lessbold">Details</span>
-												</li>
-												<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
-													<span class="font-weight-lessbold">
-														<cfset IDtitle = "#media_rel.media_relationship# Media">
-														#IDtitle#
-													</span>
-												</li>
-											</ul>
-										</div>
-										<cfloop query="spec">
-											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, preview_uri, media.media_uri,
-													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-													media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-													MCZBASE.get_media_dcrights(media.media_id) as license,
-													MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
-													mczbase.get_media_credit(media.media_id) as credit,
-													MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-													MCZBASE.get_media_title(media.media_id) as title1
-												from media_relations
-													 left join media on media_relations.media_id = media.media_id
-													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-												where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
-													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-											</cfquery>
-											<div class="row mx-0 py-0 border-top-teal">
-												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
-													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span>
-												</div>
-												<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
-													<div class="row mx-0">
-														<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
-													</div>
-													<div class="row mx-0">
-														<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
-														<div class="col-12 pt-0 pb-1"></div>
-													</div>
-													<div class="row mx-0">
-														<h3 class="h5 mb-0">Location&nbsp;Data</h3>
-														<div class="col-12 pt-0 pb-1"></div>
-													</div>
-												</div>
-												<cfloop query="relm">
-												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
-														<div class="col-6 bg-white px-0 float-left">
-															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
-														</div>
-													<div id="targetDiv"></div>
-												</div>
-													</div>
+										<div class="search-box mt-1 pb-0 w-100">
+											<div class="search-box-header px-2 mt-0">
+												<ul class="list-group list-group-horizontal text-white">
+													<li class="col-2 col-xl-1 px-2 list-group-item">
+														<span class="font-weight-lessbold">IDs</span>
+													</li>
+													<li class="col-3 col-xl-3 px-1 list-group-item d-none d-lg-block">
+														<span class="font-weight-lessbold">Details</span>
+													</li>
+													<li class="col-7 col-xl-7 px-1 list-group-item d-none d-lg-block">
+														<span class="font-weight-lessbold">
+															<cfset IDtitle = "#media_rel.media_relationship# Media">
+															#IDtitle#
+														</span>
+													</li>
+												</ul>
 											</div>
-										</cfloop>
+											<cfloop query="spec">
+												<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select distinct media.media_id, preview_uri, media.media_uri,
+														get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+														media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+														MCZBASE.get_media_dcrights(media.media_id) as license,
+														MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
+														mczbase.get_media_credit(media.media_id) as credit,
+														MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+														MCZBASE.get_media_title(media.media_id) as title1
+													from media_relations
+														 left join media on media_relations.media_id = media.media_id
+														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+													where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
+														AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+														AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+												</cfquery>
+												<div class="row mx-0 py-0 border-top-teal">
+													<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
+														<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span>
+													</div>
+													<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
+														<div class="row mx-0">
+															<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
+														</div>
+														<div class="row mx-0">
+															<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
+															<div class="col-12 pt-0 pb-1"></div>
+														</div>
+														<div class="row mx-0">
+															<h3 class="h5 mb-0">Location&nbsp;Data</h3>
+															<div class="col-12 pt-0 pb-1"></div>
+														</div>
+													</div>
+													<cfloop query="relm">
+														<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
+															<div class="col-6 bg-white px-0 float-left">
+																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+															</div>
+															<div id="targetDiv"></div>
+														</div>
+													</cfloop>
+												</div>
+											</cfloop>
+										</div>
+									</div>
 								</section>
 							</cfloop>
 						</div>
