@@ -31,7 +31,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 				decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 				trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
@@ -295,13 +295,14 @@
 														<div class="col-12 pt-0 pb-1"></div>
 													</div>
 												</div>
+												<cfloop query="relm">
 												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
 														<div class="col-6 bg-white px-0 float-left">
 															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 														</div>
-
 													<div id="targetDiv"></div>
 												</div>
+													</div>
 											</div>
 										</cfloop>
 								</section>
