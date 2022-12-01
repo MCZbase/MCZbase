@@ -285,8 +285,8 @@
 													</div>
 												</div>
 												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
-													<cfloop query="relm">
-															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
+												<!---	<cfloop query="relm">
+															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">--->
 							<!---								<cfif relm.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
@@ -304,9 +304,9 @@
 																		#showTitleText1#
 																	</div>
 																</div>--->
-															</cfif>
+														<!---	</cfif>
 														</div>
-													</cfloop>
+													</cfloop>--->
 													<div id="targetDiv"></div>
 												</div>
 											</div>
