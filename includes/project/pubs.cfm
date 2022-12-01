@@ -3,25 +3,19 @@
 		SELECT 
 			formatted_publication.publication_id,
 			formatted_publication, 
-			DESCRIPTION,
-			LINK,
 			count(citation.collection_object_id) numCit
 		FROM 
 			project_publication,
 			formatted_publication,
-			publication_url,
 			citation
 		WHERE 
 			project_publication.publication_id = formatted_publication.publication_id AND
 			formatted_publication.publication_id=citation.publication_id (+) and
-			project_publication.publication_id = publication_url.publication_id (+) AND
 			format_style = 'long' and
 			project_publication.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		group by
 			formatted_publication.publication_id,
-			formatted_publication, 
-			DESCRIPTION,
-			LINK
+			formatted_publication
 		order by
 			formatted_publication
 	</cfquery>
@@ -57,16 +51,6 @@
 						</cfif>
 					</li>
 					<li><a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details</a></li>
-					<cfquery name="links" dbtype="query">
-						select description, link 
-						from pubs
-						where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-					</cfquery>
-					<cfif len(#links.description#) gt 0>
-						<cfloop query="links">
-							<li><a href="#link#" target="_blank" class="external">#description#</a></li>
-						</cfloop>
-					</cfif>	
 				</ul>
 			</div>
 			<cfset i=i+1>

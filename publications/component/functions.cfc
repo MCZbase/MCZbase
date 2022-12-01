@@ -27,12 +27,12 @@ limitations under the License.
 <cffunction name="getCitationForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="form" type="string" required="no">
-	<cfthread name="getCitationForPubThread">
-		<cfif NOT isDefined("form") OR len(form) EQ 0>
-			<cfset form="long">
-		</cfif>
+	<cfif NOT isDefined("form") OR len(form) EQ 0>
+		<cfset form="long">
+	</cfif>
 
-		<cftry>
+	<cftry>
+		<cfoutput>
 			<cfquery name="getCitation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getCitation_result">
 				SELECT
 					<cfif form EQ "short">
@@ -45,19 +45,22 @@ limitations under the License.
 				FROM publication
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 			</cfquery>
-			<cfoutput>#getCitation.text#</cfoutput>
-		<cfcatch>
-			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
-			<cfset function_called = "#GetFunctionCalledName()#">
-			<cfoutput>
-				<h2 class="h3">Error in #function_called#:</h2>
-				<div>#error_message#</div>
-			</cfoutput>
-		</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getCitationForPubThread" />
-	<cfreturn getCitationForPubThread.output>
+			<cfif getCitation.recordcount EQ 0>
+				<cfthrow message="No matching records in the formatted publication table.">
+			</cfif>
+			<cfloop query="getCitation">
+				#getCitation.citation#
+			</cfloop>
+		</cfoutput>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfoutput>
+			<h2 class="h3">Error in #function_called#:</h2>
+			<div>#error_message#</div>
+		</cfoutput>
+	</cfcatch>
+	</cftry>
 </cffunction>
 
 <!--- savePublication update a publication record --->
@@ -309,38 +312,41 @@ limitations under the License.
 					author_role = 'editor'
 			</cfquery>
 			<cfoutput>
-				<div class="col-12">
+				<div class="col-12 col-md-6">
 					<h3 class="h4" >Authors</h3> 
-					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Author</button>
-					<!--- TODO: Add author/editor dialog --->
-					<ul>
+					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'authors', reloadAuthors); ">Add Authors</button>
+					<ol>
 						<cfloop query="getAuthors">
-							<li>
+							<li value="#author_position#">
 								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
-								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
-								<!--- TODO: remove --->
+								<button type="button" 
+									onClick="  confirmDialog('Remove Author #agent_name#?','Remove?', function() {removeAuthor('#publication_author_name_id#',reloadAuthors);} );"
+									arial-label='remove this author from this publication' 
+									class='btn btn-xs btn-warning' >Remove</button>
 							</li>
 						</cfloop>
 					</ul>
 				</div>
-				<div class="col-12">
+				<div class="col-12 col-md-6">
 					<h3 class="h4" >Editors</h3> 
-					<button class="btn btn-xs btn-primary" onclick="addAgent()">Add Editor</button>
-					<!--- TODO: Add author/editor dialog --->
-					<ul>
+					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'editors', reloadAuthors); ">Add Editors</button>
+					<ol>
 						<cfloop query="getEditors">
-							<li>
+							<li value="#author_position#">
 								<a href="/agents/Agent.cfm?agent_id=#agent_id#" target="_blank">#agent_name#</a> 
-								#author_position#
 								<!--- TODO: Edit --->
 								<!--- TODO: move --->
-								<!--- TODO: remove --->
+								<button type="button" 
+									onClick="  confirmDialog('Remove Editor #agent_name#?','Remove?', function() {removeAuthor('#publication_author_name_id#',reloadAuthors);} );"
+									arial-label='remove this editor from this publication' 
+									class='btn btn-xs btn-warning' >Remove</button>
 							</li>
 						</cfloop>
 					</ul>
 				</div>
+				<div id="addAuthorEditorDialogDiv"></div>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -354,6 +360,129 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAuthorsForPubThread" />
 	<cfreturn getAuthorsForPubThread.output>
+</cffunction>
+
+<!--- addAuthorEditorHtml obtain a block of html to populate a dialog for adding an author or editor to a publication
+ @param publication_id the publication for which to obtain authors/editors.
+ @param role the role in which to add new agents, allowed values authors or editors.
+ @return html form for a dialog to add authors/editors to a publication.
+---->
+<cffunction name="addAuthorEditorHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="role" type="string" required="yes">
+	<cfset variables.publication_id = arguments.publication_id>
+	<cfset variables.role = arguments.role>
+	<cfthread name="getAuthorEditorHtmlThread">
+
+		<cftry>
+			<cfif role EQ "authors">
+				<cfset roleLabel = "Author">
+			<cfelseif role EQ "editors">
+				<cfset roleLabel = "Editor">
+			<cfelse>
+				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
+			</cfif>
+			<cfquery name="getAuthorsEditors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAuthorsEditors_result">
+				SELECT
+					publication_author_name.PUBLICATION_AUTHOR_NAME_ID PUBLICATION_AUTHOR_NAME_ID,
+					publication_author_name.AGENT_NAME_ID AGENT_NAME_ID,
+					publication_author_name.AUTHOR_POSITION AUTHOR_POSITION,
+					publication_author_name.AUTHOR_ROLE AUTHOR_ROLE,
+					agent_name.AGENT_ID AGENT_ID,
+					agent_name.AGENT_NAME_TYPE AGENT_NAME_TYPE,
+					agent_name.AGENT_NAME AGENT_NAME
+				FROM publication_author_name
+					join agent_name on publication_author_name.agent_name_id=agent_name.agent_name_id 
+				WHERE
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					<cfif role EQ "authors">
+						and author_role = 'author'
+					<cfelseif role EQ "editors">
+						and author_role = 'editor'
+					</cfif>
+				ORDER BY author_position
+			</cfquery>
+			<cfset maxposition = 0>
+			<cfloop query="getAuthorsEditors">
+				<cfset maxposition=author_position>
+			</cfloop>
+			<cfoutput>
+				<div class="form-row">
+					<div class="col-12">
+						<h3 class="h4" >Add #roleLabel#</h3>
+						<!--- TODO: Add UI elements to add a first/second author form of name if one is not present for selected agent --->
+						<div class="form-row">
+							<div class="col-12 col-md-6">
+								<label for="agent_name" class="data-entry-label">Pick an agent to add as an #roleLabel#</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="agent_name" id="agent_name" class="form-control rounded-right data-entry-input form-control-sm reqdClr" aria-label="Agent Name" aria-describedby="agent_name_label" value="" required>
+									<input type="hidden" name="agent_id" id="agent_id" value="">
+								</div>
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="agent_view" class="data-entry-label">Selected Agent</label>
+								<div id="agent_view"></div>
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
+								<div id="author_name_control"></div>
+								<input type="hidden" name="author_name_id" id="author_name_id" value="">
+								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-12 col-md-3">
+								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
+							</div>
+							<div class="col-12 col-md-3">
+								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add the missing first/second <span id="position_to_add_span">#maxposition+1#</span> form of the author name to this agent</button>
+							</div>
+							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
+							<script>
+								function showAddAuthorNameDialog() {
+									console.log($('##agent_id').val());
+									console.log($('##next_author_position').val()); 
+								};
+								function addAuthorName() { 
+									// addNameToAgent
+   								//   agent_id
+   								//   agent_name
+   								//   agent_name_type
+								} 
+							</script>
+							<div id="addNameFormDialogDiv"></div>
+						<script>
+							<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
+							$(document).ready(function() {
+								makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
+							});
+						</script>
+					</div>
+					<div class="col-12" id="listOfAuthorsDiv">
+						<ol id="authorListOnDialog">
+							<cfloop query="getAuthorsEditors">
+								<li>#getAuthorsEditors.agent_name#</li>
+							</cfloop>
+						</ol>
+					</div>
+					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAuthorEditorHtmlThread" />
+	<cfreturn getAuthorEditorHtmlThread.output>
 </cffunction>
 
 <!--- addAuthor add a publication_author_name record linking a publication to an
@@ -374,6 +503,11 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
+		<cfif lcase(author_role) EQ "authors">
+			<cfset author_role = "author">
+		<cfelseif lcase(author_role) EQ "editors">
+			<cfset author_role = "editor">
+		</cfif>
 		<cftry>
 			<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAuthor_result">
 				INSERT INTO publication_author_name (
@@ -393,7 +527,7 @@ limitations under the License.
 			</cfif>
 			<cfset rowid = insertAuthor_result.generatedkey>
 			<cftransaction action="commit">
-			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+			<cfquery name="getId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getId_result">
 				SELECT
 					publication_author_name_id as id
 				FROM 
@@ -401,9 +535,22 @@ limitations under the License.
 				WHERE
 					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
 			</cfquery>
+			<cfquery name="report" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="report_result">
+				SELECT
+					publication_author_name_id as id,
+					agent_name.agent_id,
+ 					agent_name.agent_name
+				FROM 
+					publication_author_name
+					join agent_name on publication_author_name.agent_name_id = agent_name.agent_name_id
+				WHERE
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getId.id#">
+			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "added">
 			<cfset row["id"] = "#report.id#">
+			<cfset row["agent_name"] = "#report.agent_name#">
+			<cfset row["agent_id"] = "#report.agent_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
 		<cfcatch>
@@ -450,8 +597,7 @@ limitations under the License.
 			<cfquery name="deleteAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAuthor_result">
 				delete from publication_author_name 
 				where
-				publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-				and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
+					publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_author_name_id#">
 			</cfquery>
 			<cfif deleteAuthor_result.recordcount NEQ 1>
 				<cfthrow message = "error deleting publication_author_name record [#encodeForHtml(publication_author_name_id)#]">
@@ -519,7 +665,7 @@ limitations under the License.
 					FROM
 						agent_name author_agent_name
 						join agent on author_agent_name.agent_id = agent.agent_id
-						left join agent_name fan on agent.agent_id = fan.agent_id and fan.agent_name_type = 'first author'
+						left join agent_name fan on agent.agent_id = fan.agent_id and fan.agent_name_type = 'author'
 						left join agent_name san on agent.agent_id = san.agent_id and san.agent_name_type = 'second author'
 				</cfquery>
 			</cfif>
@@ -835,49 +981,6 @@ limitations under the License.
 --->
 <!---------------------------------------------------------------------------------------------------------->
 <!---
-		<cfloop from="1" to="#numberLinks#" index="n">
-			<cfif isdefined("link#n#")>
-				<cfset thisLink = #evaluate("link" & n)#>
-			<cfelse>
-				<cfset thisLink = "">
-			</cfif>
-			<cfif isdefined("description#n#")>
-				<cfset thisDesc = #evaluate("description" & n)#>
-			<cfelse>
-				<cfset thisDesc = "">
-			</cfif>
-			<cfif isdefined("publication_url_id#n#")>
-				<cfset thisId = #evaluate("publication_url_id" & n)#>
-			<cfelse>
-				<cfset thisId = "">
-			</cfif>
-			<cfif thisLink is "deleted">
-				<cfquery name="delAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_url where publication_url_id=#thisId#
-				</cfquery>
-			<cfelseif thisLink is not "deleted" and thisId gt 0>
-				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update
-						publication_url
-					set
-						link = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLink#">,
-						description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDesc#">
-					where publication_url_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisId#">
-				</cfquery>
-			<cfelseif len(thisId) is 0 and len(thisLink) gt 0>
-				<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into publication_url (
-						publication_id,
-						link,
-						description
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLink#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDesc#">
-					)
-				</cfquery>
-			</cfif>
-		</cfloop>
 	</cftransaction>
 --->
 <!---------------------------------------------------------------------------------------------------------->

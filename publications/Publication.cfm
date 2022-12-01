@@ -193,8 +193,8 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="published_year" class="data-entry-label">Published Year</label>
-							<input type="text" name="published_year" id="published_year" class="data-entry-input" value="#pub.published_year#">
+							<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
+							<input type="text" name="published_year" id="published_year" class="data-entry-input" value="#pub.published_year#" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, use published year range attribute for ranges of years.">
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="is_peer_reviewed_fg">Peer Reviewed?</label>
@@ -263,7 +263,7 @@ limitations under the License.
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-10">
-							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick="saveEdits();">
+							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick=" if (checkFormValidity($('##editPubForm')[0])) { saveEdits(); }">
 							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 						</div>
 						<div class="col-12 col-md-2">
@@ -325,7 +325,7 @@ limitations under the License.
 					}
 				</script>
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
-				<div id="authorBlock">#authorBlockContent#</div>
+				<div id="authorBlock" class="row w-100">#authorBlockContent#</div>
 			</section>
 
 			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
@@ -348,10 +348,6 @@ limitations under the License.
 				</script>
 				<cfset mediaBlockContent = getMediaForPubHtml(publication_id = "#publication_id#")>
 				<div id="mediaBlock" class="col-12">#mediaBlockContent#</div>
-			</section>
-
-			<section name="uriSection" class="row border rounded my-2" title="Links for this publication">
-				<!--- TODO Publication URI support --->
 			</section>
 
 			<section name="useSection" class="row border rounded my-2" title="Citations and other uses of this publication">
@@ -395,10 +391,6 @@ limitations under the License.
 				</cfquery --->
 				<cfquery name="dpublication_author_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					delete from publication_author_name 
-					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-				</cfquery>
-				<cfquery name="dpublication_url" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_url 
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
 				<cfquery name="dpublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
