@@ -264,7 +264,7 @@
 												<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
-														<cfif len(spec.typestatus) gt 0>
+														<cfif len(media_rel.media_id) gt 0>
 
 															<div class="col-12 pt-0 pb-1"></div>
 														<cfelse>
