@@ -50,6 +50,10 @@
 	where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
 </cfquery>
+	<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'>
+		<cfelseif #media_rel.media_relationship# eq 'document for permit'><cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'>
+		<cfelse>
+	</cfif>
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -241,8 +245,7 @@
 				</main>
 			</div>
 									
-			<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'></cfif>					
-			<cfif #media_rel.media_relationship# eq 'document for permit'><cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'></cfif>							
+										
 									
 					<div class="col-12 pb-5">
 						<div class="row mx-0 mb-3">
