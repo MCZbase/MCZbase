@@ -31,18 +31,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<cfloop query="media">
-		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct
-				media_relationship
-			From
-				media_relations
-			WHERE 
-				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-				and media_relations.media_relationship <> 'created by agent'
-			ORDER BY media_relationship
-		</cfquery>
-		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 				decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 				trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
@@ -54,6 +43,18 @@
 					and (media_relations.media_relationship like '%cataloged_item%')
 			order by guid
 		</cfquery>
+	<cfloop query="media">
+		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				media_relationship
+			From
+				media_relations
+			WHERE 
+				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+				and media_relations.media_relationship <> 'created by agent'
+			ORDER BY media_relationship
+		</cfquery>
+
 		<div class="container-fluid">
 			<div class="row">
 			<div class="col-12 pb-4">
