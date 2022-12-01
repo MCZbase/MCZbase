@@ -258,32 +258,32 @@
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
-													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span><a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span>
+													<!---<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>--->
 												</div>
 												<div class="col-12 col-md-4 col-lg-3 pt-2 pb-1 border-right small">
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Type Status &amp; Citation</h3>
 														<cfif len(spec.typestatus) gt 0>
 
-															<div class="col-12 pt-0 pb-1">#spec.typestatus#</div>
+															<div class="col-12 pt-0 pb-1"></div>
 														<cfelse>
 															<div class="col-12 pt-0 pb-1">None</div>
 														</cfif>
 													</div>
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Scientific&nbsp;Name</h3>
-														<div class="col-12 pt-0 pb-1">#spec.name#</div>
+														<div class="col-12 pt-0 pb-1"></div>
 													</div>
 													<div class="row mx-0">
 														<h3 class="h5 mb-0">Location&nbsp;Data</h3>
-														<div class="col-12 pt-0 pb-1">#spec.geography#</div>
+														<div class="col-12 pt-0 pb-1"></div>
 													</div>
 												</div>
 												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
 													<cfloop query="relm">
 															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">
-															<cfif len(media.media_id) gt 0>
-																<cfif relm.media_id eq '#media.media_id#'> 
+															<cfif relm.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "border-warning w-100 bg-white float-left border-left px-1 pb-1 pt-2 border-right border-bottom border-top">
 																<cfelse>	
 																	<cfset activeimg = "border w-100 bg-white pb-1 float-left px-1 pt-2">
