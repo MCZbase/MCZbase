@@ -34,7 +34,7 @@
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
-				media_relationship
+				media_relationship, media_id
 			From
 				media_relations
 			WHERE 
@@ -244,23 +244,17 @@
 												</li>
 											</ul>
 										</div>
-										<cfloop query="media">
+										<cfloop query="media_rel.media_id">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, preview_uri, media.media_uri,
-													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-													media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-													MCZBASE.get_media_dcrights(media.media_id) as license,
-													MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
-													mczbase.get_media_credit(media.media_id) as credit,
-													MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-													MCZBASE.get_media_title(media.media_id) as title1
-												from media_relations
-													 left join media on media_relations.media_id = media.media_id
-													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-												where (media_relationship like '%cataloged_item%' or media_relationship = 'shows agent')
-													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-												order by media.media_type
+												SELECT source_media.media_id source_media_id, 
+													source_media.auto_filename source_filename,
+													source_media.media_uri source_media_uri,
+													media_relations.media_relationship
+												FROM
+													media_relations
+													left join media source_media on media_relations.media_id = source_media.media_id
+												WHERE
+													media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
