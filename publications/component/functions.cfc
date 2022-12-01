@@ -981,49 +981,6 @@ limitations under the License.
 --->
 <!---------------------------------------------------------------------------------------------------------->
 <!---
-		<cfloop from="1" to="#numberLinks#" index="n">
-			<cfif isdefined("link#n#")>
-				<cfset thisLink = #evaluate("link" & n)#>
-			<cfelse>
-				<cfset thisLink = "">
-			</cfif>
-			<cfif isdefined("description#n#")>
-				<cfset thisDesc = #evaluate("description" & n)#>
-			<cfelse>
-				<cfset thisDesc = "">
-			</cfif>
-			<cfif isdefined("publication_url_id#n#")>
-				<cfset thisId = #evaluate("publication_url_id" & n)#>
-			<cfelse>
-				<cfset thisId = "">
-			</cfif>
-			<cfif thisLink is "deleted">
-				<cfquery name="delAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_url where publication_url_id=#thisId#
-				</cfquery>
-			<cfelseif thisLink is not "deleted" and thisId gt 0>
-				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update
-						publication_url
-					set
-						link = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLink#">,
-						description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDesc#">
-					where publication_url_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisId#">
-				</cfquery>
-			<cfelseif len(thisId) is 0 and len(thisLink) gt 0>
-				<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into publication_url (
-						publication_id,
-						link,
-						description
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLink#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDesc#">
-					)
-				</cfquery>
-			</cfif>
-		</cfloop>
 	</cftransaction>
 --->
 <!---------------------------------------------------------------------------------------------------------->

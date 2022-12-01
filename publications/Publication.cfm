@@ -350,10 +350,6 @@ limitations under the License.
 				<div id="mediaBlock" class="col-12">#mediaBlockContent#</div>
 			</section>
 
-			<section name="uriSection" class="row border rounded my-2" title="Links for this publication">
-				<!--- TODO Publication URI support --->
-			</section>
-
 			<section name="useSection" class="row border rounded my-2" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
 					<h2 class="h3">This publication record is not linked to any MCZbase records</h2>
@@ -395,10 +391,6 @@ limitations under the License.
 				</cfquery --->
 				<cfquery name="dpublication_author_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					delete from publication_author_name 
-					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-				</cfquery>
-				<cfquery name="dpublication_url" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_url 
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
 				<cfquery name="dpublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
