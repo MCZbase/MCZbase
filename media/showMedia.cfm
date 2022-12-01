@@ -249,7 +249,7 @@
 											</ul>
 										</div>
 										<cfloop query="media">
-											<!---<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												SELECT source_media.media_id source_media_id, 
 													source_media.auto_filename source_filename,
 													source_media.media_uri source_media_uri,
@@ -259,7 +259,7 @@
 													left join media source_media on media_relations.media_id = source_media.media_id
 												WHERE
 													media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-											</cfquery>--->
+											</cfquery>
 											<div class="row mx-0 py-0 border-top-teal">
 												<div class="col-12 col-lg-1 px-3 px-lg-2 py-2 border-right small90">
 													<span class="d-inline d-lg-none font-weight-lessbold">Catalog Number: </span>
@@ -286,7 +286,7 @@
 												</div>
 												<div class="col-12 col-md-8 col-lg-8 px-0 px-1 py-1">
 														<div class="col-6 bg-white px-0 float-left">
-															<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
+															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="fixedSmallThumb",size="75",captionAs="textLinks",background_color="white")>#mediablock#
 														</div>
 												<!---	<cfloop query="relm">
 															<div class="border-light pb-1 col-sm-6 col-12 col-md-6 col-lg-4 col-xl-3 px-1 pl-md-0 pr-md-1 float-left">--->
