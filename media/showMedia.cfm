@@ -222,6 +222,12 @@
 			</div>
 			<div class="col-12 pb-5">
 				<div class="row mx-0 mb-3">
+					
+							<cfloop query="media_rel">
+								<section id="#media_rel.media_relationship#">
+											 #media_rel.media_relationship#
+								</section>
+							</cfloop>
 						<!---specimen records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
