@@ -245,7 +245,10 @@
 				</main>
 			</div>
 									
-										
+	<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'>
+		<cfelse>
+			<cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'>
+	</cfif>						
 									
 					<div class="col-12 pb-5">
 						<div class="row mx-0 mb-3">
