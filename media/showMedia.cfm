@@ -62,10 +62,7 @@
 				and media_relations.media_relationship <> 'created by agent'
 			ORDER BY media_relationship
 		</cfquery>
-	<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'>
-		<cfelseif #media_rel.media_relationship# eq 'document for permit'><cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'>
-		<cfelse>
-	</cfif>
+
 		<div class="container-fluid">
 			<div class="row">
 			<div class="col-12 pb-4">
@@ -245,7 +242,7 @@
 				</main>
 			</div>
 									
-	<cfif #media_rel.media_relationship# eq 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'>
+	<cfif media_rel.media_relationship = 'shows cataloged_item'><cfset variable1 = 'spec'><cfset variable2 = 'spec.pk'>
 		<cfelse>
 			<cfset variable1 = 'permit'><cfset variable2 = 'permit.permit_id'>
 	</cfif>						
