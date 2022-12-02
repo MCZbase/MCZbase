@@ -208,13 +208,13 @@ function loadMediaDivHTML(publication_id,targetDivId) {
 	});
 };
 
-/** loadAnnotationsDivHTML load a block of html for editing/viewing
+/** loadAnnotationDivHTML load a block of html for editing/viewing
  *  attributes of a publication.
  * @param publication_id the publication for which to load attributes
  * @param targetDivId the id without a leading # selector of the element in 
  *  the dom the content of which to replace with the returned html.
 */
-function loadAnnotationsDivHTML(publication_id,targetDivId) { 
+function loadAnnotationDivHTML(publication_id,targetDivId) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
