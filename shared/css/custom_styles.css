@@ -2684,7 +2684,9 @@ input[disabled] {
 .heightFlip {
 	line-height: 3.5rem;
 }
-
+	.html_desc {
+		width: 21.5rem;
+	}
 @keyframes slideup {
 	from {top: 700px;}
 	to {top:100px;}
@@ -3410,6 +3412,9 @@ text-truncate1 {
 	}
 	#col-multi-select, #collmultiselect2, .ui-multiselect-menu {
 		width: 300px;
+	}
+	.html_desc {
+		width: 100%;
 	}
 }
 @media(min-width: 1200px) {
