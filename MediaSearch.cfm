@@ -594,6 +594,9 @@
 								<cfif len(owner) gt 0>
 								    <li>Copyright: #owner#</li>
 								</cfif>
+								<cfif len(display) gt 0>
+									<li><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></li>
+								</cfif>
 							</ul>
 						</cfif>
 						<cfset mrel=getMediaRelations(#media_id#)>
