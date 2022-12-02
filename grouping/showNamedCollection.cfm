@@ -1222,7 +1222,7 @@ limitations under the License.
 															<div class="card-body bg-white pb-0 pt-2">
 																<div id="collapseCitations" aria-labelledby="headingCitations" class="collapse show" data-parent="##accordionForCitations">
 																	<cfif directCitations.recordCount GT 0>
-																		<h4 class="h5 mb-0 pl-2 pt-2">Citations about the #collection_name#</h4>
+																		<h4 class="mb-0 px-2 pt-2">Citations about the #collection_name#</h4>
 																		<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																			<cfloop query="directCitations">
 																				<li class="list-group-item col-12 col-md-12 float-left py-2"><span class="border-bottom mr-2">#directCitations.type#</span> <a class="h4" href="/publications/showPublication.cfm?publication_id=#directCitations.publication_id#">#directCitations.formatted_publication#</a> <span class="small">#directCitations.remarks#</span></li>
