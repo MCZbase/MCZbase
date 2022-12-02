@@ -1241,7 +1241,7 @@ imgStyleClass=value
 						<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^!100,95/0/default.jpg">
 					</cfif>
 					<cfset isDisplayable = false>
-					<cfif (media_type EQ 'image' OR media_type EQ '3D model') AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png' OR media.mime_type EQ 'text/html')>
+					<cfif (media_type EQ 'image') AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 						<cfset isDisplayable = true>
 					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
@@ -1285,7 +1285,7 @@ imgStyleClass=value
 									<cfset styles = "max-width:150px;max-height:100px;">
 								<cfelse>
 									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
-									<cfif #media_uri# CONTAINS "nrs">
+									<cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">
 										<cfset hw = 'width="95" height="auto"'>
 									<cfelse>
 										<cfset hw = 'width="80" height="100"'>
