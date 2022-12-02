@@ -316,7 +316,7 @@ limitations under the License.
 				</form>
 			</section>
 
-			<section name="authorsSection" class="row border rounded my-2" title="Authors of this publication">
+			<section name="authorsSection" class="row border rounded my-2 px-2" title="Authors of this publication">
 				<script>
 					function reloadAuthors(){ 
 						loadAuthorsDivHTML(#publication_id#,'authorBlock');
@@ -328,7 +328,7 @@ limitations under the License.
 				<div id="authorBlock" class="row w-100">#authorBlockContent#</div>
 			</section>
 
-			<section name="attributesSection" class="row border rounded my-2" title="Attributes of this publication">
+			<section name="attributesSection" class="row border rounded my-2 px-2" title="Attributes of this publication">
 				<script>
 					function reloadAttributes(){ 
 						loadAttributesDivHTML(#publication_id#,'attributesBlock');
@@ -340,7 +340,7 @@ limitations under the License.
 				<div id="attributesBlock class="col=12"">#attribBlockContent#</div>
 			</section>
 
-			<section name="mediaSection" class="row border rounded my-2" title="Media related to this publication">
+			<section name="mediaSection" class="row border rounded my-2 px-2" title="Media related to this publication">
 				<script>
 					function reloadPublicationMedia(){ 
 						loadMediaDivHTML(#publication_id#,'mediaBlock');
@@ -350,7 +350,7 @@ limitations under the License.
 				<div id="mediaBlock" class="col-12">#mediaBlockContent#</div>
 			</section>
 
-			<section name="useSection" class="row border rounded my-2" title="Citations and other uses of this publication">
+			<section name="useSection" class="row border rounded my-2 px-2" title="Citations and other uses of this publication">
 				<cfif useCount EQ 0>
 					<h2 class="h3">This publication record is not linked to any MCZbase records</h2>
 				<cfelse>
@@ -362,6 +362,17 @@ limitations under the License.
 					</ul>
 				</cfif>
 			</section>
+
+			<section name="annotationSection" class="row border rounded my-2 px-2" title="Annotations of this publication record">
+				<script>
+					function reloadPublicationAnnotations(){ 
+						loadAnnotationDivHTML(#publication_id#,'annotationsBlock');
+					}
+				</script>
+				<cfset annotationsBlockContent = getAnnotationsForPubHtml(publication_id = "#publication_id#")>
+				<div id="annotationsBlock" class="col-12">#annotationsBlockContent#</div>
+			</section>
+
 		</main>
 	</cfoutput>
 </cfcase>

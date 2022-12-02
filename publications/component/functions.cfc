@@ -313,7 +313,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<div class="col-12 col-md-6">
-					<h3 class="h4" >Authors</h3> 
+					<h2 class="h3" >Authors</h2> 
 					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'authors', reloadAuthors); ">Add Authors</button>
 					<ol>
 						<cfloop query="getAuthors">
@@ -782,6 +782,62 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<cffunction name="getAnnotationsForPubHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfthread name="getAnnotationsForPubThread">
+		<cftry>
+			<h2 class="h3">Annotations:</h2>
+			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) cnt from annotations
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+			<cfif #existingAnnotations.cnt# GT 0>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
+					onClick=" openAnnotationsDialog('annotationDialog','publication',#publication_id#,reloadPublicationAnnotations);">Annotate/View Annotations</button>
+			<cfelse>
+				<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+					class="btn btn-xs btn-info" value="Annotate this record"
+					onClick=" openAnnotationsDialog('annotationDialog','publication',#publication_id#,reloadPublicationAnnotations);">Annotate</button>
+			</cfif>
+			<div id="annotationDialog"></div>
+			<cfif #existingAnnotations.cnt# gt 0>
+				<cfif #existingAnnotations.cnt# EQ 1>
+					<cfset are = "is">
+					<cfset s = "">
+				<cfelse>
+					<cfset are = "are">
+					<cfset s = "s">
+				</cfif>
+				<p>There #are# #existingAnnotations.cnt# annotation#s# on this publications record</p>
+				<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(*) statecount, state from annotations
+					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					group by state
+				</cfquery>
+				<ul>
+					<cfloop query="AnnotationStates">
+						<li>#state#: #statecount#</li>
+					</cfloop>
+				</ul>
+			<cfelse>
+				<p class="my-2">There are no annotations on this publication record</p>
+			</cfif>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAnnotationsForPubThread" />
+	<cfreturn getAnnotationsForPubThread.output>
+</cffunction>
+
 
 <cffunction name="getAttributesForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
