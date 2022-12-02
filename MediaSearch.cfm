@@ -603,10 +603,15 @@
 						<cfif mrel.recordcount gt 0>
 							<ul>
 							<cfloop query="mrel">
-								<li>#media_relationship#
-				                    <cfif len(#link#) gt 0>
-				                        <a href="#link#" target="_blank">#link_text#</a>
-				                    <cfelse>
+								<li>
+									<cfif media_relationship EQ "created by agent">
+										Media record created by:
+									<cfelse>
+										#media_relationship#
+									</cfif>
+				               <cfif len(#link#) gt 0>
+				                  <a href="#link#" target="_blank">#link_text#</a>
+				               <cfelse>
 										#link_text#
 									</cfif>
 				             </li>
