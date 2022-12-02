@@ -91,15 +91,6 @@ limitations under the License.
 		WHERE
 			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
-	<cfquery name="getLinks" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getLinks_result">
-		SELECT
-			publication_url_id,
-			description,
-			link
-		FROM publication_url
-		WHERE
-			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-	</cfquery>
 	<cfquery name="citedSpecimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citedSpecimens_result">
 		SELECT 
 			type_status, 
@@ -165,9 +156,6 @@ limitations under the License.
 					<cfif getDetails.is_peer_reviewed_fg EQ 0>
 						<li><strong>Peer Reviewed: </strong> No</li>
 					</cfif>
-					<cfloop query="getLinks">
-						<li><strong>Link: </strong> <a href="#getLinks.link#">#getLinks.description#</a></li>
-					</cfloop>
 					<cfif len(getDetails.publication_remarks) GT 0>
 						<li><strong>Remarks: </strong> #getDetails.publication_remarks#</li>
 					</cfif>
