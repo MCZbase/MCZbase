@@ -15,7 +15,7 @@
 			project_publication.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		group by
 			formatted_publication.publication_id,
-			formatted_publication 
+			formatted_publication
 		order by
 			formatted_publication
 	</cfquery>
