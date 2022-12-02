@@ -208,6 +208,29 @@ function loadMediaDivHTML(publication_id,targetDivId) {
 	});
 };
 
+/** loadAnnotationsDivHTML load a block of html for editing/viewing
+ *  attributes of a publication.
+ * @param publication_id the publication for which to load attributes
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadAnnotationsDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getAnnotationsForPubHtml",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading annotations for publication");
+		},
+		dataType: "html"
+	});
+};
+
 function removeAuthor(publication_author_name_id, okcallback) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
