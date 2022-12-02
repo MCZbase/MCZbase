@@ -316,7 +316,8 @@
 				MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
 				MCZBASE.get_media_dcrights(media.media_id) as display, 
 				MCZBASE.is_media_encumbered(media.media_id) hideMedia, 
-				MCZBASE.get_media_credit(media.media_id) as credit 
+				MCZBASE.get_media_credit(media.media_id) as credit,
+				MCZBASE.get_media_owner(media.media_id) as owner 
 			FROM media
 				left join ctmedia_license on media.media_license_id=ctmedia_license.media_license_id
 				<cfif number_of_relations EQ 0>
@@ -504,6 +505,7 @@
 		where
 			media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
          and media_label <> 'credit'  -- obtained in the findIDs query.
+         and media_label <> 'owner'  -- obtained in the findIDs query.
 		   <cfif oneOfUs EQ 0>
 		    	and media_label <> 'internal remarks'
 		   </cfif>
@@ -589,16 +591,27 @@
 								<cfif len(credit) gt 0>
 								    <li>credit: #credit#</li>
 								</cfif>
+								<cfif len(owner) gt 0>
+								    <li>Copyright: #owner#</li>
+								</cfif>
+								<cfif len(display) gt 0>
+									<li>License: <a href="#uri#" target="_blank" class="external">#display#</a></li>
+								</cfif>
 							</ul>
 						</cfif>
 						<cfset mrel=getMediaRelations(#media_id#)>
 						<cfif mrel.recordcount gt 0>
 							<ul>
 							<cfloop query="mrel">
-								<li>#media_relationship#
-				                    <cfif len(#link#) gt 0>
-				                        <a href="#link#" target="_blank">#link_text#</a>
-				                    <cfelse>
+								<li>
+									<cfif media_relationship EQ "created by agent">
+										Media record created by:
+									<cfelse>
+										#media_relationship#
+									</cfif>
+				               <cfif len(#link#) gt 0>
+				                  <a href="#link#" target="_blank">#link_text#</a>
+				               <cfelse>
 										#link_text#
 									</cfif>
 				             </li>

@@ -235,7 +235,7 @@ limitations under the License.
 				<cfset publication = "<li class='mx-0 mb-1 pl-2 list-group-item border rounded col-12 pr-1'><span class='col-12 col-md-11 px-0 float-left'> <a href='/publications/showPublication.cfm?publication_id=#publication_id#' target='_blank' class='d-inline-block'><img src='/shared/images/48px-Gnome-text-x-preview.svg.png' width='15' height='20' alt='document icon' class='mr-2'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 					<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a>"></cfif>
 						<cfset result=result & " #publication#">
-							<cfset result=result & "</span><button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
+							<cfset result=result & "</span><button class='btn-xs btn-warning ml-2 mr-0 mt-2 mt-md-0 float-right' onclick=' confirmDialog("" Remove Relationship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
 					<cfset result=result & "</li>">
 				</cfloop>
 			<cfset result=result & "</ul></div>">
@@ -346,7 +346,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 										 fide #relations.relation_authority# 
 										</cfif></span>
 									<button class='btn-xs btn-warning mx-1 mt-2 mt-md-0 float-right' 
-										onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
+										onclick=' confirmDialog(" Remove Relationship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
 										value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
 									<button class='btn-xs btn-secondary mx-1 mt-2 mt-md-0 float-right' onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog","#target#");' value='Edit' 
 										title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>

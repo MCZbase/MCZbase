@@ -16,7 +16,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset pageTitle = "Publication Details">
+<cfset shortCitation = "">
+<cfif isdefined("publication_id") and len(publication_id) GT 0 and isNumeric(publication_id) >
+	<!--- lookup the short form of the citation to display in the page title. --->
+	<cfquery name="lookupShort" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT
+			formatted_publication as citation
+		FROM
+			formatted_publication
+		WHERE
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			and format_style = 'short'
+	</cfquery>
+	<cfif lookupShort.recordcount EQ 1>
+		<cfset shortCitation = ": #lookupShort.citation#">
+	</cfif>
+</cfif>
+<cfset pageTitle = "Publication Details#shortCitation#">
 <cfinclude template = "/shared/_header.cfm">
 <cfinclude template="/media/component/search.cfc" runOnce="true"><!--- for getMediaBlockHtml() --->
 <cfinclude template="/specimens/component/public.cfc" runOnce="true"><!--- for getGuidLink() --->

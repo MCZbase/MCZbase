@@ -508,13 +508,13 @@ limitations under the License.
 
 			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm?publication_id=' + rowData['publication_id'] + '">'+value+'</a></span>';
 			};
 			var citationCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				var id = rowData['publication_id'];
 				var cite = rowData['short_citation'];
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm/?publication_id=' + id + '">'+cite+'</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/publications/showPublication.cfm?publication_id=' + id + '">'+cite+'</a></span>';
 			};
 			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);

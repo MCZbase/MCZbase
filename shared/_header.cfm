@@ -143,6 +143,9 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm" OR CGI.script_name CONTAINS "Accession" >
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
+<cfif CGI.script_name CONTAINS "/publications/" >
+	<script type="text/javascript" src="/publications/js/publications.js"></script>
+</cfif>
 <cfif CGI.script_name CONTAINS "/vocabularies/">
 	<script type="text/javascript" src="/vocabularies/js/geology.js"></script>
 </cfif>
