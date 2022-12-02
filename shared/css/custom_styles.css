@@ -2685,7 +2685,7 @@ input[disabled] {
 	line-height: 3.5rem;
 }
 	.html_desc {
-		width: 21.5rem;
+		width: 21.5rem!important;
 	}
 @keyframes slideup {
 	from {top: 700px;}
@@ -3160,7 +3160,7 @@ ol.flowNone li a {
 	margin-top: 0px;
 }
 	.html_desc {
-		width: 21.5rem;
+		width: 21.5rem!important;
 	}
 }
 @media only screen and (max-width: 800px){
@@ -3417,7 +3417,7 @@ text-truncate1 {
 		width: 300px;
 	}
 	.html_desc {
-		width: 100%;
+		width: 100%!important;
 	}
 }
 @media(min-width: 1200px) {
@@ -3579,7 +3579,7 @@ text-truncate1 {
 		height: 5rem;
 	}
 		.html_desc {
-		width: 100%;
+		width: 100%!important;
 	}
 }
 /* styles above are media queries for named groups page*/
