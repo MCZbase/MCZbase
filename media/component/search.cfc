@@ -1244,7 +1244,7 @@ imgStyleClass=value
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 						<cfset isDisplayable = true>
 					</cfif>
-					<cfif media_type EQ '3D model' AND ( media.mime_type EQ 'text/html' OR media.mime_type EQ 'application/pdf')>
+					<cfif media_type EQ '3D model' AND media.mime_type EQ 'text/html'>
 						<cfset isDisplayable = true>
 					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
