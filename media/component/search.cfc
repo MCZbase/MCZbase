@@ -172,7 +172,7 @@ limitations under the License.
 					decode(mask_media_fg,0,'public',1,'hidden',null,'public','error') as mask_media_fg,
 				</cfif>
 				MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
-				MCZBASE.get_media_dcrights(media.media_id) as licence_display, 
+				MCZBASE.get_media_dcrights(media.media_id) as license_display, 
 				MCZBASE.is_media_encumbered(media.media_id) as hide_media,
 				MCZBASE.get_media_credit(media.media_id) as credit,
 				MCZBASE.get_media_owner(media.media_id) as owner,
