@@ -75,6 +75,7 @@
 			<div class="col-12 pb-4">
 				<main class="content">
 					<div class="row mx-0">
+						<h1>WARNING: Major work needed.  See the TODO: comments at the begining of the source code for this page.</h1>
 						<div class="col-12 px-0 px-xl-5 mt-3">
 							<h1 class="h2 mt-2 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	
 								<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
