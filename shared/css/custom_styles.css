@@ -3159,6 +3159,9 @@ ol.flowNone li a {
 .tab-content {
 	margin-top: 0px;
 }
+	.html_desc {
+		width: 21.5rem;
+	}
 }
 @media only screen and (max-width: 800px){
 ol.flowXXS, ul.flowXXS{
