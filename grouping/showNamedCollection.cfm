@@ -1229,7 +1229,7 @@ limitations under the License.
 																			</cfloop>
 																		</ul>
 																	</cfif>
-																	<h4 class="h5 mb-0 pl-2 pt-2">Citations of cataloged items</h4>
+																	<h4 class="mb-0 px-2 pt-2">Citations of cataloged items</h4>
 																	<ul class="list-group py-2 list-group-horizontal flex-wrap rounded-0">
 																		<cfloop query="citations">
 																			<li class="list-group-item col-12 col-md-12 float-left py-2"> 
