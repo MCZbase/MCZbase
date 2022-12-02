@@ -3578,5 +3578,8 @@ text-truncate1 {
 		font-size: .78rem;
 		height: 5rem;
 	}
+		.html_desc {
+		width: 100%;
+	}
 }
 /* styles above are media queries for named groups page*/
