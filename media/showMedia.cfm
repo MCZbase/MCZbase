@@ -8,14 +8,22 @@
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfset maxMedia = 4>
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+	<cfset oneOfUs = 1>
+<cfelse>
+	<cfset oneOfUs = 0>
+</cfif>
 
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
 			media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+			MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
+			MCZBASE.get_media_dcrights(media.media_id) as display, 
 			MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 			MCZBASE.get_media_credit(media.media_id) as credit, 
 			mczbase.get_media_descriptor(media_id) as alttag,
+			MCZBASE.get_media_owner(media.media_id) as owner,
 			nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
 				MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
@@ -85,6 +93,11 @@
 								left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
 							WHERE
 								media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+         					and media_label <> 'credit'  -- obtained in the findIDs query.
+   					      and media_label <> 'owner'  -- obtained in the findIDs query.
+							   <cfif oneOfUs EQ 0>
+							    	and media_label <> 'internal remarks'
+		   					</cfif>
 							</cfquery>
 							<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT
@@ -134,13 +147,31 @@
 									</thead>
 									<tbody>
 										<tr>
-											<th scope="row"><span class="text-uppercase">MEDIA TYPE:</span></th><td> #media.media_type#</td>
+											<th scope="row">Media Type:</th><td>#media.media_type#</td>
+										</tr>
+										<tr>
+											<th scope="row">MIME Type:</th><td>#media.mime_type#</td>
 										</tr>
 										<cfloop query="labels">
-										<tr>
-											<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
-										</tr>
+											<tr>
+												<th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td>
+											</tr>
 										</cfloop>
+										<cfif len(credit) gt 0>
+											<tr>
+								    			<th scope="row">Credit:</th><td>#credit#</td>
+											</tr>
+										</cfif>
+										<cfif len(owner) gt 0>
+											<tr>
+								    			<th scope="row">Copyright:</th><td>#owner#</td>
+											</tr>
+										</cfif>
+										<cfif len(display) gt 0>
+											<tr>
+												<th scope="row">License:</th><td><a href="#uri#" target="_blank" class="external">#display#</a></td>
+											</tr>
+										</cfif>
 										<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 											from media_relations
@@ -154,13 +185,13 @@
 										</cfloop>
 										<cfif len(keywords.keywords) gt 0>
 										<tr>
-											<th scope="row"><span class="text-uppercase">Keywords: </span></th><td> #keywords.keywords#</td>
+											<th scope="row">Keywords: </span></th><td>#keywords.keywords#</td>
 										</tr>
 										<cfelse>
 										</cfif>
 										<cfif listcontainsnocase(session.roles,"manage_media")>
 										<tr class="border mt-2 p-2">
-											<th scope="row"><span class="text-uppercase">Alt Text: </span></th><td>#media.alttag#</td>
+											<th scope="row">Alt Text:</th><td>#media.alttag#</td>
 										</tr>
 										</cfif>
 									</tbody>
