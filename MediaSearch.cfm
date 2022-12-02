@@ -595,7 +595,7 @@
 								    <li>Copyright: #owner#</li>
 								</cfif>
 								<cfif len(display) gt 0>
-									<li><span style='font-size:small'>License: <a href="#uri#" target="_blank" class="external">#display#</a></li>
+									<li>License: <a href="#uri#" target="_blank" class="external">#display#</a></li>
 								</cfif>
 							</ul>
 						</cfif>
