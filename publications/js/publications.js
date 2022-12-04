@@ -392,18 +392,19 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
 			}
 			if ($('#'+authorNameIdControl).val()=='') { 	
+				// name of desired type is available
+				$('#missingNameDiv').hide();
+				$('#addButton').addClass('disabled');
+				$('#addButton').prop('disabled',true);
+				$('#addNameButton').removeClass('disabled');
+				$('#addNameButton').prop('disabled',false);
+			} else { 
+				// name of desired type is not available
 				$('#missingNameDiv').show();
 				$('#addButton').removeClass('disabled');
 				$('#addButton').prop('disabled',false);
 				$('#addNameButton').addClass('disabled');
 				$('#addNameButton').prop('disabled',true);
-			} else { 
-				$('#missingNameDiv').hide();
-				$('#form_to_add_span').html('second author');
-				$('#addButton').addClass('disabled');
-				$('#addButton').prop('disabled',true);
-				$('#addNameButton').removeClass('disabled');
-				$('#addNameButton').prop('disabled',false);
 			}
 		},
 		change: function(event,ui) { 
@@ -448,6 +449,7 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
          if (jQuery.type(okcallback)==='function') {
             okcallback();
          }
+			$('#form_to_add_span').html('second author');
 			var result = jQuery.parseJSON(retval);
 			console.log(result);
          var status = result[0].status;
