@@ -382,6 +382,14 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
 			</cfif>
+			<!--- ordinal position is a single counter, applied to both editors and authors --->
+			<cfquery name="getMaxPosition" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMaxPosition_result">
+				SELECT
+					max(author_position) max_position
+				FROM publication_author_name
+				WHERE
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 			<cfquery name="getAuthorsEditors" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAuthorsEditors_result">
 				SELECT
 					publication_author_name.PUBLICATION_AUTHOR_NAME_ID PUBLICATION_AUTHOR_NAME_ID,
@@ -400,12 +408,23 @@ limitations under the License.
 					<cfelseif role EQ "editors">
 						and author_role = 'editor'
 					</cfif>
-				ORDER BY author_position
+				ORDER BY author_position asc
 			</cfquery>
-			<cfset maxposition = 0>
+			<cfset minpositionfortype = 0>
 			<cfloop query="getAuthorsEditors">
-				<cfset maxposition=author_position>
+				<cfif minpositionfortype EQ 0>
+					<cfset minpositionfortype=author_position>
+				</cfif>
 			</cfloop>
+			<cfset maxposition = 0>
+			<cfloop query="getMaxPosition">
+				<cfset maxposition=max_position>
+			</cfloop>
+			<cfif maxposition EQ minpositionfortype>
+				<cfset newpos=1>
+			<cfelse>
+				<cfset newpos=2>
+			</cfif>
 			<cfoutput>
 				<div class="form-row">
 					<div class="col-12">
@@ -437,8 +456,9 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
 							</div>
-							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add the missing first/second <span id="position_to_add_span">#maxposition+1#</span> form of the author name to this agent</button>
+							<div class="col-12 col-md-3" id="missingNameDiv">
+								Missing the first/second <span id="position_to_add_span">#maxposition+1#</span> form of the author name for this agent.
+								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
 							</div>
 							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 							<script>
