@@ -422,8 +422,10 @@ limitations under the License.
 			</cfloop>
 			<cfif maxposition EQ minpositionfortype>
 				<cfset newpos=1>
+				<cfset nameform="author">
 			<cfelse>
 				<cfset newpos=2>
+				<cfset nameform="second author">
 			</cfif>
 			<cfoutput>
 				<div class="form-row">
@@ -457,11 +459,14 @@ limitations under the License.
 								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
 							</div>
 							<div class="col-12 col-md-3" id="missingNameDiv">
-								Missing the first/second <span id="position_to_add_span">#maxposition+1#</span> form of the author name for this agent.
+								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
 								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
 							</div>
 							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 							<script>
+								$(document).ready(function() {
+									$('#missingNameDiv').hide();
+								});
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
 									console.log($('##next_author_position').val()); 

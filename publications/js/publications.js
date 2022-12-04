@@ -374,6 +374,10 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			console.log(result);
 			console.log(authorshipPosition);
+			// cleanup from previous state
+			$('#'+authorNameControl).html("");
+			$('#'+authorNameIdControl).val("");
+			// set values based on selection
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a> <a href='/agents/editAgent.cfm?agent_id=" + result.item.id + "' target='_blank'>Edit</a> " + result.item.value);
 			$('#'+linkControl).attr('aria-label', 'View details for this agent');
@@ -387,12 +391,15 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#'+authorNameControl).html(result.item.secondauthor_name);
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
 			}
-			if ($('#'+authorNameIdControl).val()!='') { 	
+			if ($('#'+authorNameIdControl).val()=='') { 	
+				$('#missingNameDiv').show();
 				$('#addButton').removeClass('disabled');
 				$('#addButton').prop('disabled',false);
 				$('#addNameButton').addClass('disabled');
 				$('#addNameButton').prop('disabled',true);
 			} else { 
+				$('#missingNameDiv').hide();
+				$('#form_to_add_span').html('second author');
 				$('#addButton').addClass('disabled');
 				$('#addButton').prop('disabled',true);
 				$('#addNameButton').removeClass('disabled');
@@ -412,6 +419,9 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#addButton').prop('disabled',true);
 				$('#addNameButton').addClass('disabled');
 				$('#addNameButton').prop('disabled',true);
+				$('#'+authorNameControl).html("");
+				$('#'+authorNameIdControl).val("");
+				$('#missingNameDiv').hide();
 			}
 		},
 		minLength: 3
