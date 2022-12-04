@@ -392,15 +392,15 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
 			}
 			if ($('#'+authorNameIdControl).val()=='') { 	
-				// name of desired type is available
-				$('#missingNameDiv').hide();
+				// name of desired type is not available
+				$('#missingNameDiv').show();
 				$('#addButton').addClass('disabled');
 				$('#addButton').prop('disabled',true);
 				$('#addNameButton').removeClass('disabled');
 				$('#addNameButton').prop('disabled',false);
 			} else { 
-				// name of desired type is not available
-				$('#missingNameDiv').show();
+				// name of desired type is available
+				$('#missingNameDiv').hide();
 				$('#addButton').removeClass('disabled');
 				$('#addButton').prop('disabled',false);
 				$('#addNameButton').addClass('disabled');
