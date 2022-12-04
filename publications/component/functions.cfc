@@ -465,7 +465,7 @@ limitations under the License.
 							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 							<script>
 								$(document).ready(function() {
-									$('#missingNameDiv').hide();
+									$('##missingNameDiv').hide();
 								});
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
