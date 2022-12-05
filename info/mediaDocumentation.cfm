@@ -11,7 +11,7 @@ h2 {font-size: 98%;padding: 1em 1em 1em 1.5em;margin:0; line-height: 1.2em;borde
 #column1 {float:left; margin: 0; width: 20%;}
 #column2 {float:left; margin: 0; width: 22%;}
 #column3 {float:left; margin: 0; width: 58%;}
-.cell {height: 6.5em;border-top: 3px solid black;padding: 1em;}
+.cell {height: 8.5em;border-top: 3px solid black;padding: 1em;}
 .cell2 {height: 33em; border-top: 3px solid black;padding: 1em;margin:0;}
 .cell3 {height: 6.4em; border-top: 3px solid black;padding: 1em;margin:0;}
 .cell4 {height: 7em; border-top: 3px solid black;padding: 1em;margin:0;}
