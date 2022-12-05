@@ -199,7 +199,7 @@
 													<cfset plural = "">
 												</cfif>
 											<tr>
-												<th scope="row">relationship#plural#:&nbsp; </span></th><td>#media_rel.media_relationship#</td>
+												<th scope="row">Relationship#plural#:&nbsp; </span></th><td>#media_rel.media_relationship#</td>
 											</tr>
 											<cfelse>
 											</cfif>
