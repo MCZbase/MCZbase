@@ -387,9 +387,6 @@ function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control
 			queryformat : 'struct'
 		},
 		function (result) {
-			if (jQuery.type(callback)==='function') {
-				callback();
-			}
 			if (result[0].STATUS!=1) {
 				messageDialog('Error adding name to agent' ,'Error: ' + result[0].MESSAGE);
 			} else { 
