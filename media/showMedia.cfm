@@ -199,7 +199,7 @@
 													<cfset plural = "">
 												</cfif>
 											<tr>
-												<th scope="row">Relationship#plural#:&nbsp; </span></th><td>	<cfloop query="media_rel">#media_rel.media_relationship# <cfif media_rel.recordcount GT 2><span> | </span></cfif></cfloop> </td>
+												<th scope="row">Relationship#plural#:&nbsp; </span></th><td>	<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>: <a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></cfif> <cfif media_rel.recordcount GT 2><span> | </span></cfif></cfloop> </td>
 											</tr>
 											<cfelse>
 											</cfif>
