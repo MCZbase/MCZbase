@@ -470,7 +470,7 @@ limitations under the License.
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
 									console.log($('##next_author_position').val()); 
-									openAddAgentNameOfTypeDialog('addnamedialog', $('##agent_id').val(), $('##form_to_add_span').html()) {
+									openAddAgentNameOfTypeDialog('addnamedialog', $('##agent_id').val(), $('##form_to_add_span').html());
 								};
 								function addAuthorName() { 
 									// addNameToAgent
