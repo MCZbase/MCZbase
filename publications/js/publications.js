@@ -310,6 +310,62 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 		}
 	});
 }
+
+
+/** openAddAgentNameOfTypeDialog, create and open a dialog to add author or second author
+ * form of an agent name
+ * @param dialogid id to give to the dialog
+ * @param agent_id the agent to which to add the agent_name to
+ * @param agent_name_type the type of agent name to add 
+ */
+function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
+	var title = "Add agent name of type " + agent_name_type + " to agent.";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.8);
+	h = Math.floor(h *.5);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 250,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			$(this).dialog("destroy");
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "addAgentNameOfTypeHtml",
+			returnformat: "plain",
+			agent_id: agent_id,
+			agent_name_type: agent_name_type
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading dialog to add name to agent");
+		}
+	});
+}
+
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker supporting populating publication_author records
  *  

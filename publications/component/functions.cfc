@@ -470,6 +470,7 @@ limitations under the License.
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
 									console.log($('##next_author_position').val()); 
+									openAddAgentNameOfTypeDialog('addnamedialog', $('##agent_id').val(), $('##form_to_add_span').html()) {
 								};
 								function addAuthorName() { 
 									// addNameToAgent
@@ -509,6 +510,70 @@ limitations under the License.
 	<cfthread action="join" name="getAuthorEditorHtmlThread" />
 	<cfreturn getAuthorEditorHtmlThread.output>
 </cffunction>
+
+<cffunction name="addAgentNameOfTypeHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="agent_name_type" type="string" required="yes">
+	<cfset variables.agent_id = arguments.publication_id>
+	<cfset variables.agent_name_type = arguments.role>
+	<cfthread name="addAgentNameOfTypeHtmlThread">
+		<cftry>
+			<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					agent_name_type name_type
+				FROM ctagent_name_type 
+				WHERE agent_name_type != 'preferred' order by agent_name_type
+			</cfquery>
+			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
+				SELECT 
+					MCZBASE.get_agentnameoftype(agent_id) name
+				FROM agent
+				WHERE
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<cfoutput>
+				<div class="form-row">
+					<div class="col-12">
+						<h3 class="h4" >Add Name to Agent #getAgent.name#</h3>
+						<div class="form-row">
+							<div class="col-12 col-md-6">
+								<label for="agent_name_type" class="data-entry-label">Type of Name</label>
+								<select name="agent_name_type" id="agent_name_type" size="1" class="data-entry-select reqdClr" required>
+									<cfloop query="ctNameType">
+										<cfif variables.agent_name_type IS ctNameType.name_type>
+											<cfset selected = "selected='selected'">
+										<cfelse>
+											<cfset selected = "">
+										</cfif>
+										<option value="#ctNameType.name_type#" #selected#>#ctNameType.name_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="agent_name" class="data-entry-label">Name</label>
+								<input name="agent_name" id="agent_name" value="" class="data-entry-input reqdClr" required>
+							</div>
+							<div class="col-12 col-md-6">
+								<button type="button">Add</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="addAgentNameOfTypeHtmlThread" />
+	<cfreturn addAgentNameOfTypeHtmlThread.output>
+</cffunction>
+
 
 <!--- addAuthor add a publication_author_name record linking a publication to an
   agent in the role of author or editor.
