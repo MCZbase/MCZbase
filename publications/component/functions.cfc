@@ -507,6 +507,14 @@ limitations under the License.
 	<cfreturn getAuthorEditorHtmlThread.output>
 </cffunction>
 
+<!--- addAgentNameOfTypeHtml return html to populate a dialog for adding agent
+  names of type author and type second author to an agent, integrated into the 
+  add authors/editors to a publication workflow.
+ @param agent_id the agent to which to add an agent name.
+ @param agent_name_type the type of name to add to the agent, selects from list
+  in picklist and other types can be added.
+ @return html form for a dialog to add names to an agent.
+---->
 <cffunction name="addAgentNameOfTypeHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="agent_name_type" type="string" required="yes">
@@ -523,15 +531,26 @@ limitations under the License.
 			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
 				SELECT 
 					MCZBASE.get_agentnameoftype(agent_id) name,
-					agent_id
+					agent_id,
+					decode(edited,1,'*',null) as vetted
 				FROM agent
+				WHERE
+					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<cfquery name="getNames" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNames_result">
+				SELECT 
+					agent_name, agent_name_type
+				FROM agent_name
 				WHERE
 					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 			</cfquery>
 			<cfoutput>
 				<div class="form-row">
 					<div class="col-12">
-						<h3 class="h4" >Add Name to Agent #getAgent.name#</h3>
+						<h3 class="h4" >Add Name to Agent #getAgent.name##getAgent.vetted#</h3>
+						<div class="h5">Add author (first author) names in the form Last, Initials e.g. "Smith, A.B.".</div>
+						<div class="h5">Add second author names in the form Initials Last e.g. "A.B. Smith".</div>
+						<div class="h5">The "author" and "second author" names are used for both authors and editors of publications.</div>
 						<div class="form-row">
 							<div class="col-12 col-md-6">
 								<label for="agent_name_type" class="data-entry-label">Type of Name</label>
@@ -559,6 +578,14 @@ limitations under the License.
 								</script>
 								<input type="hidden" id="added_agent_name_id" value="">
 								<div id="addAgentNameFeedback"></div>
+							</div>
+							<div class="col-12 col-md-6">
+								<h4 class="h5" >Existing Names for this Agent</h4>
+								<ul>
+									<cfloop query="getNames">
+										<li>#getNames.agent_name_type#: #getNames.agent_name#</li>
+									<cfloop>
+								</ul>
 							</div>
 						</div>
 					</div>

@@ -324,7 +324,7 @@ function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.6);
-	h = Math.floor(h *.4);
+	h = Math.floor(h *.6);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -336,7 +336,7 @@ function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
 		height: h,
 		width: w,
 		minWidth: 300,
-		minHeight: 200,
+		minHeight: 300,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
