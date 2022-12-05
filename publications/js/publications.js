@@ -366,11 +366,14 @@ function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
 	});
 }
 
-/** openAddAgentNameOfTypeDialog, create and open a dialog to add author or second author
- * form of an agent name
- * @param dialogid id to give to the dialog
- * @param agent_id the agent to which to add the agent_name to
- * @param agent_name_type the type of agent name to add 
+/** addAuthorName, add a specified type of agent name to an agent, handling integration
+ * with add author name workflow.  
+ * @param agent_id the agent to which to add the agent_name to.
+ * @param agent_name_type the type of agent name to add.
+ * @param agent_name the value of the agent name to add. 
+ * @param agent_name_id_control the id for an input without a leading pound selector
+ *   that is to take the agent_name_id of the new agent_name on success.
+ * @see addAgentName for general purpose invocation.
  */
 function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control) { 
 	jQuery.getJSON("/agents/component/functions.cfc",
