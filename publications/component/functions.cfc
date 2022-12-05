@@ -584,7 +584,7 @@ limitations under the License.
 								<ul>
 									<cfloop query="getNames">
 										<li>#getNames.agent_name_type#: #getNames.agent_name#</li>
-									<cfloop>
+									</cfloop>
 								</ul>
 							</div>
 						</div>
