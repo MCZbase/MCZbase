@@ -521,7 +521,7 @@ limitations under the License.
 			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
 				SELECT 
 					MCZBASE.get_agentnameoftype(agent_id) name,
-					agent_id,
+					agent_id
 				FROM agent
 				WHERE
 					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
