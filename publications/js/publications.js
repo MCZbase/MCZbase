@@ -310,6 +310,95 @@ function openAddAuthorEditorDialog(dialogid, publication_id, role, okcallback) {
 		}
 	});
 }
+
+
+/** openAddAgentNameOfTypeDialog, create and open a dialog to add author or second author
+ * form of an agent name
+ * @param dialogid id to give to the dialog
+ * @param agent_id the agent to which to add the agent_name to
+ * @param agent_name_type the type of agent name to add 
+ */
+function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
+	var title = "Add agent name of type " + agent_name_type + " to agent.";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.6);
+	h = Math.floor(h *.6);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 300,
+		minHeight: 300,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			$("#"+dialogid+"_div").html("");
+			$(this).dialog("destroy");
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "addAgentNameOfTypeHtml",
+			returnformat: "plain",
+			agent_id: agent_id,
+			agent_name_type: agent_name_type
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading dialog to add name to agent");
+		}
+	});
+}
+
+/** addAuthorName, add a specified type of agent name to an agent, handling integration
+ * with add author name workflow.  
+ * @param agent_id the agent to which to add the agent_name to.
+ * @param agent_name_type the type of agent name to add.
+ * @param agent_name the value of the agent name to add. 
+ * @param agent_name_id_control the id for an input without a leading pound selector
+ *   that is to take the agent_name_id of the new agent_name on success.
+ * @see addAgentName for general purpose invocation.
+ */
+function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control,feedback_control) { 
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "addNameToAgent",
+			agent_id : agent_id,
+			agent_name_type : agent_name_type,
+			agent_name : agent_name,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (result[0].STATUS!=1) {
+				messageDialog('Error adding name to agent' ,'Error: ' + result[0].MESSAGE);
+			} else { 
+				$('#'+agent_name_id_control).val(result[0].agent_name_id)
+				$('#'+feedback_control).html("Added " + agent_name + " to agent.");
+			} 
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding name to agent");
+	});
+} 
+
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker supporting populating publication_author records
  *  
@@ -374,6 +463,10 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			console.log(result);
 			console.log(authorshipPosition);
+			// cleanup from previous state
+			$('#'+authorNameControl).html("");
+			$('#'+authorNameIdControl).val("");
+			// set values based on selection
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a> <a href='/agents/editAgent.cfm?agent_id=" + result.item.id + "' target='_blank'>Edit</a> " + result.item.value);
 			$('#'+linkControl).attr('aria-label', 'View details for this agent');
@@ -387,16 +480,20 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#'+authorNameControl).html(result.item.secondauthor_name);
 				$('#'+authorNameIdControl).val(result.item.secondauthor_agent_name_id);
 			}
-			if ($('#'+authorNameIdControl).val()!='') { 	
-				$('#addButton').removeClass('disabled');
-				$('#addButton').prop('disabled',false);
-				$('#addNameButton').addClass('disabled');
-				$('#addNameButton').prop('disabled',true);
-			} else { 
+			if ($('#'+authorNameIdControl).val()=='') { 	
+				// name of desired type is not available
+				$('#missingNameDiv').show();
 				$('#addButton').addClass('disabled');
 				$('#addButton').prop('disabled',true);
 				$('#addNameButton').removeClass('disabled');
 				$('#addNameButton').prop('disabled',false);
+			} else { 
+				// name of desired type is available
+				$('#missingNameDiv').hide();
+				$('#addButton').removeClass('disabled');
+				$('#addButton').prop('disabled',false);
+				$('#addNameButton').addClass('disabled');
+				$('#addNameButton').prop('disabled',true);
 			}
 		},
 		change: function(event,ui) { 
@@ -412,6 +509,9 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 				$('#addButton').prop('disabled',true);
 				$('#addNameButton').addClass('disabled');
 				$('#addNameButton').prop('disabled',true);
+				$('#'+authorNameControl).html("");
+				$('#'+authorNameIdControl).val("");
+				$('#missingNameDiv').hide();
 			}
 		},
 		minLength: 3
@@ -438,6 +538,7 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
          if (jQuery.type(okcallback)==='function') {
             okcallback();
          }
+			$('#form_to_add_span').html('second author');
 			var result = jQuery.parseJSON(retval);
 			console.log(result);
          var status = result[0].status;
