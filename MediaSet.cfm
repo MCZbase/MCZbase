@@ -298,25 +298,27 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         </div>
       </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
-      <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct media.media_id, preview_uri, media.media_uri,
-               get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-			   media.mime_type, media.media_type,
-			   MCZBASE.get_media_dcrights(media.media_id) as license,
+		<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT DISTINCT
+				media.media_id, preview_uri, media.media_uri,
+				get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+				media.mime_type, media.media_type,
+				MCZBASE.get_media_dcrights(media.media_id) as license,
 				MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
-                           mczbase.get_media_credit(media.media_id) as credit,
-            		   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-        from media_relations
-             left join media on media_relations.media_id = media.media_id
-			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-        where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
-		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
-                   AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-        order by (
+				mczbase.get_media_credit(media.media_id) as credit,
+				MCZBASE.get_media_owner(media.media_id) as owner,
+				MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+			FROM media_relations
+				left join media on media_relations.media_id = media.media_id
+				left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+			WHERE (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+				AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
+				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+			ORDER BY (
 				case media.media_id when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#"> then 0 else 1 end) ,
 				to_number(get_medialabel(media.media_id,'height')
-				) desc
-   	    </cfquery>
+			) desc
+		</cfquery>
       <cfoutput>
         <a name="otherimages"></a>
         <div class="media_thumbs">
@@ -336,9 +338,13 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 
            <!--- Obtain list of attributes and add to data-title of anchor to display metadata for each image as it is selected.  --->
            <cfset labellist="<ul>">
-           <cfset labellist = "#labellist#<li>media: #media_type# (#mime_type#)</li>">
-           <!---<cfset labellist = "#labellist#<li>license: <a href='#license_uri#'>#license#</a></li>">--->
-           <cfset labellist = "#labellist#<li>credit: #credit#</li>" >
+           <cfset labellist = "#labellist#<li>Media: #media_type# (#mime_type#)</li>">
+			  <cfif len(credit) gt 0>
+             <cfset labellist = "#labellist#<li>Credit: #credit#</li>" >
+           </cfif>
+           <cfif len(owner) gt 0>
+             <cfset labellist = "#labellist#<li>Copyright: #owner#</li>" >
+           </cfif>
            <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select media_label, label_value
 					from media_labels
