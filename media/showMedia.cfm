@@ -199,7 +199,22 @@
 													<cfset plural = "">
 												</cfif>
 											<tr>
-												<th scope="row">Relationship#plural#:&nbsp; </span></th><td>	<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship eq 'shows cataloged_item'>: <a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></cfif> <cfif media_rel.recordcount GT 2><span> | </span></cfif></cfloop> </td>
+												<th scope="row">Relationship#plural#:&nbsp; </span></th><td>	<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship eq 'shows cataloged_item'><cfloop query="spec">
+												<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select distinct media.media_id, preview_uri, media.media_uri,
+														get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+														media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+														MCZBASE.get_media_dcrights(media.media_id) as license,
+														MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
+														mczbase.get_media_credit(media.media_id) as credit,
+														MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+														MCZBASE.get_media_title(media.media_id) as title1
+													from media_relations
+														 left join media on media_relations.media_id = media.media_id
+														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+													where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+														AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+												</cfquery>: <a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></cfif> <cfif media_rel.recordcount GT 2><span> | </span></cfif></cfloop> </td>
 											</tr>
 											<cfelse>
 											</cfif>
