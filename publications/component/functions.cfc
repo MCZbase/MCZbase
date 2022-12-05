@@ -472,12 +472,6 @@ limitations under the License.
 									console.log($('##next_author_position').val()); 
 									openAddAgentNameOfTypeDialog('addNameTypeDialogDiv', $('##agent_id').val(), $('##form_to_add_span').html());
 								};
-								function addAuthorName() { 
-									// addNameToAgent
-   								//   agent_id
-   								//   agent_name
-   								//   agent_name_type
-								} 
 							</script>
 							<div id="addNameTypeDialogDiv"></div>
 						<script>
@@ -526,7 +520,8 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAgent_result">
 				SELECT 
-					MCZBASE.get_agentnameoftype(agent_id) name
+					MCZBASE.get_agentnameoftype(agent_id) name,
+					agent_id,
 				FROM agent
 				WHERE
 					agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
@@ -554,7 +549,13 @@ limitations under the License.
 								<input name="agent_name" id="agent_name" value="" class="data-entry-input reqdClr" required>
 							</div>
 							<div class="col-12 col-md-6">
-								<button type="button">Add</button>
+								<button type="button" onclick="addNameAction();" class="btn btn-xs btn-primary">Add</button>
+								<script>
+									function addNameAction() { 
+										addAuthorName('#getAgent.agent_id#',$('##agent_name_type').val(),$('##agent_name').val(),'agent_name_id');
+									};
+								</script>
+								<input type="hidden" id="added_agent_name_id" value="">
 							</div>
 						</div>
 					</div>

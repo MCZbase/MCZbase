@@ -366,6 +366,37 @@ function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
 	});
 }
 
+/** openAddAgentNameOfTypeDialog, create and open a dialog to add author or second author
+ * form of an agent name
+ * @param dialogid id to give to the dialog
+ * @param agent_id the agent to which to add the agent_name to
+ * @param agent_name_type the type of agent name to add 
+ */
+function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control) { 
+	jQuery.getJSON("/agents/component/functions.cfc",
+		{
+			method : "addNameToAgent",
+			agent_id : agent_id,
+			agent_name_type : agent_name_type,
+			agent_name : agent_name,
+			returnformat : "json",
+			queryformat : 'struct'
+		},
+		function (result) {
+			if (jQuery.type(callback)==='function') {
+				callback();
+			}
+			if (result[0].STATUS!=1) {
+				messageDialog('Error adding name to agent' ,'Error: ' + result[0].MESSAGE);
+			} else { 
+				$('#'+agent_name_id_control).val(result[0].agent_name_id)
+			} 
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding name to agent");
+	});
+} 
+
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker supporting populating publication_author records
  *  
