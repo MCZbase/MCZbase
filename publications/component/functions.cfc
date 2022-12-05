@@ -470,7 +470,7 @@ limitations under the License.
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
 									console.log($('##next_author_position').val()); 
-									openAddAgentNameOfTypeDialog('addnamedialog', $('##agent_id').val(), $('##form_to_add_span').html());
+									openAddAgentNameOfTypeDialog('addNameTypeDialogDiv', $('##agent_id').val(), $('##form_to_add_span').html());
 								};
 								function addAuthorName() { 
 									// addNameToAgent
@@ -479,7 +479,7 @@ limitations under the License.
    								//   agent_name_type
 								} 
 							</script>
-							<div id="addNameFormDialogDiv"></div>
+							<div id="addNameTypeDialogDiv"></div>
 						<script>
 							<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
 							$(document).ready(function() {
