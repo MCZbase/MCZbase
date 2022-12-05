@@ -420,15 +420,16 @@ limitations under the License.
 			<cfloop query="getMaxPosition">
 				<cfset maxposition=max_position>
 			</cfloop>
-			<cfif maxposition EQ minpositionfortype>
+			<cfif minpositionfortype EQ 0>
+				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
 				<cfset newpos=1>
 				<cfset nameform="author">
 			<cfelse>
+				<!--- there is at least a first author if we are adding authors, or at least a first editor if we are adding editors --->
 				<cfset newpos=2>
 				<cfset nameform="second author">
 			</cfif>
 			<cfoutput>
-				[#minpositionfortype#][#maxposition#][#newpos#][#nameform#]
 				<div class="form-row">
 					<div class="col-12">
 						<h3 class="h4" >Add #roleLabel#</h3>
