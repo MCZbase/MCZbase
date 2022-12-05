@@ -514,8 +514,8 @@ limitations under the License.
 <cffunction name="addAgentNameOfTypeHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="agent_id" type="string" required="yes">
 	<cfargument name="agent_name_type" type="string" required="yes">
-	<cfset variables.agent_id = arguments.publication_id>
-	<cfset variables.agent_name_type = arguments.role>
+	<cfset variables.agent_id = arguments.agent_id>
+	<cfset variables.agent_name_type = arguments.agent_name_type>
 	<cfthread name="addAgentNameOfTypeHtmlThread">
 		<cftry>
 			<cfquery name="ctNameType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
