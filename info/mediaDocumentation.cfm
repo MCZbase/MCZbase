@@ -11,7 +11,7 @@ h2 {font-size: 98%;padding: 1em 1em 1em 1.5em;margin:0; line-height: 1.2em;borde
 #column1 {float:left; margin: 0; width: 20%;}
 #column2 {float:left; margin: 0; width: 22%;}
 #column3 {float:left; margin: 0; width: 58%;}
-.cell {height: 6.5em;border-top: 3px solid black;padding: 1em;}
+.cell {height: 8.5em;border-top: 3px solid black;padding: 1em;}
 .cell2 {height: 33em; border-top: 3px solid black;padding: 1em;margin:0;}
 .cell3 {height: 6.4em; border-top: 3px solid black;padding: 1em;margin:0;}
 .cell4 {height: 7em; border-top: 3px solid black;padding: 1em;margin:0;}
@@ -53,7 +53,7 @@ h2 {font-size: 98%;padding: 1em 1em 1em 1.5em;margin:0; line-height: 1.2em;borde
   <div id="column2">
     <h2>Use</h2>
     <div class="cell">
-      <p>Copyrighted material where the MCZ holds the copyright - All MCZ-owned images and publications should have this designation.  Use this for all media where the MCZ holds the copyright.  Selecting this value will result in the media having the following assertions added (you should not add these separately): Copyright owner: President and Fellows of Harvard College; Credit: Museum of Comparative Zoology, Harvard University; License: CC-BY-SA-NC.  Use this for all media produced by MCZ Staff as work product.  You may add the staff member who created the media to a credit attribtue for the media, and this will be appended to the credit for these media.</p>
+      <p>Copyrighted material where the MCZ holds the copyright - All MCZ-owned images and publications should have this designation.  </p>
     </div>
     <div class="cell2">
       <p>Linking to media on other websites (outside of the MCZ)</p>
@@ -77,6 +77,7 @@ h2 {font-size: 98%;padding: 1em 1em 1em 1.5em;margin:0; line-height: 1.2em;borde
   <div id="column3">
     <h2>Description</h2>
     <div class="cell">
+		<p>Use this for all media where the MCZ holds the copyright.  Selecting this value will result in the media having the following assertions added (you should not add these separately): Copyright owner: President and Fellows of Harvard College; Credit: Museum of Comparative Zoology, Harvard University; License: CC-BY-SA-NC.  Use this for all media produced by MCZ Staff as work product.  You may add the staff member who created the media to a credit attribtue for the media, and this will be appended to the credit for these media.</p>
       <p>See link for additional information: <a href="http://www.mcz.harvard.edu/collectionsoperations/permissions_copyright.html">http://www.mcz.harvard.edu/collectionsoperations/permissions_copyright.html</a></p>
     </div>
     <div class="cell2">
