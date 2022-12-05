@@ -428,6 +428,7 @@ limitations under the License.
 				<cfset nameform="second author">
 			</cfif>
 			<cfoutput>
+				[#minpositionfortype#][#maxposition#][#newpos#][#nameform#]
 				<div class="form-row">
 					<div class="col-12">
 						<h3 class="h4" >Add #roleLabel#</h3>
@@ -552,10 +553,11 @@ limitations under the License.
 								<button type="button" onclick="addNameAction();" class="btn btn-xs btn-primary">Add</button>
 								<script>
 									function addNameAction() { 
-										addAuthorName('#getAgent.agent_id#',$('##agent_name_type').val(),$('##agent_name').val(),'agent_name_id');
+										addAuthorName('#getAgent.agent_id#',$('##agent_name_type').val(),$('##agent_name').val(),'agent_name_id','addAgentNameFeedback');
 									};
 								</script>
 								<input type="hidden" id="added_agent_name_id" value="">
+								<div id="addAgentNameFeedback"></div>
 							</div>
 						</div>
 					</div>

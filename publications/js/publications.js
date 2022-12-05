@@ -344,6 +344,7 @@ function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
 			}
 		}, 
 		close: function(event,ui) {
+			$("#"+dialogid+"_div").html("");
 			$(this).dialog("destroy");
 		}
 	});
@@ -375,7 +376,7 @@ function openAddAgentNameOfTypeDialog(dialogid, agent_id, agent_name_type) {
  *   that is to take the agent_name_id of the new agent_name on success.
  * @see addAgentName for general purpose invocation.
  */
-function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control) { 
+function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control,feedback_control) { 
 	jQuery.getJSON("/agents/component/functions.cfc",
 		{
 			method : "addNameToAgent",
@@ -393,6 +394,7 @@ function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control
 				messageDialog('Error adding name to agent' ,'Error: ' + result[0].MESSAGE);
 			} else { 
 				$('#'+agent_name_id_control).val(result[0].agent_name_id)
+				$('#'+feedback_control).html("Added " + agent_name + " to agent.");
 			} 
 		}
 	).fail(function(jqXHR,textStatus,error){
