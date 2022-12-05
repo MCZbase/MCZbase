@@ -1217,7 +1217,7 @@ limitations under the License.
 	<cfargument name="agent_name" type="string" required="yes">
 	<cfargument name="agent_name_type" type="string" required="yes">
 
-	<cfset theResult=queryNew("status, message")>
+	<cfset theResult=queryNew("status, message, agent_name_id")>
 	<cftransaction>
 		<cftry>
 			<cfquery name="newId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newId_result">
