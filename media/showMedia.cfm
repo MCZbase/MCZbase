@@ -193,7 +193,7 @@
 											</tr>
 											</cfif>
 											<cfif len(media_rel.media_relationship) gt 0>
-												<cfif media_rel.recordcount GT 2>
+												<cfif media_rel.recordcount GT 1>
 													<cfset plural = "s">
 												<cfelse>
 													<cfset plural = "">
@@ -220,7 +220,7 @@
 															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 														</cfloop> 
 													</cfif>
-													<cfif media_rel.recordcount GT 2><span> | </span></cfif>
+													<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 													</cfloop> 
 												</td>
 											</tr>
