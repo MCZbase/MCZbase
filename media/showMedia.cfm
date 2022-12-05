@@ -192,25 +192,19 @@
 												<th scope="row">Alt Text:</th><td>#media.alttag#</td>
 											</tr>
 											</cfif>
+											<cfif len(media_rel.media_relationship) gt 0>
+												<cfif media_rel.recordcount GT 2>
+													<cfset plural = "s">
+												<cfelse>
+													<cfset plural = "">
+												</cfif>
+											<tr>
+												<th scope="row">relationship#plural#:&nbsp; </span></th><td>#media_rel.media_relationship#</td>
+											</tr>
+											<cfelse>
+											</cfif>
 										</tbody>
 									</table>
-									<cfif len(media_rel.media_relationship) gt 0>
-									<cfif media_rel.recordcount GT 2>
-										<cfset plural = "s">
-									<cfelse>
-										<cfset plural = "">
-									</cfif>
-									<div class="row mx-0">	
-										<h3 class="px-0 pb-0 mb-1 text-muted h4">Shown on records with relationship#plural#:&nbsp;</h3>
-										<ul class="list-group list-group-horizontal">
-											<li class="list-unstyled">
-											<cfloop query="media_rel">
-												<a class="link-color h4" href="###media_rel.media_relationship#"> #media_rel.media_relationship#</a> <span> | </span> 
-											</cfloop>
-											</li>
-										</ul>
-									</div>
-									</cfif>
 								<!---TO DO  Create external media relationship table for additional renderings and query that for conditional around display--->
 									<cfif media.media_uri contains 'slide-atlas' AND media.media_uri contains 'morphosource'>
 										<cfset plural = "s">
