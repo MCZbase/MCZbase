@@ -1299,7 +1299,7 @@ limitations under the License.
 			</cfquery>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "inserted">
-			<cfset row["id"] = "#getId.publication_attribute_id#">
+			<cfset row["id"] = "#getId.id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
 		<cfcatch>
