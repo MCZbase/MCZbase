@@ -43,7 +43,7 @@
 	From
 		ctmedia_relationship
 	WHERE 
-		ctmedia_relationship like %cataloged_item% 
+		ctmedia_relationship like '%cataloged_item%'
 </cfquery>
 <cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
