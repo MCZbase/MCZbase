@@ -254,7 +254,7 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 				okcallback();
 			}
 			var status = result[0].status;
-			if (status=='inserted') {
+			if (status=='updated') {
 				console.log(status);
 				$('#'+feedbackdiv).html(status);
 			}
