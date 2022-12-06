@@ -125,7 +125,7 @@
 										left join flat on cataloged_item.collection_object_id = flat.collection_object_id
 										left join media media1 on media1.media_id = media_relations.media_id
 									where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-										and (media_relationship like '%cataloged_item%')
+										and (media_relationship = 'shows cataloged_item')
 									and identification.accepted_id_fg = 1		
 								</cfquery>
 								<cfif len(media.media_id) gt 0>
@@ -174,7 +174,7 @@
 											select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 												from media_relations
 											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												and media_relationship in ('#media_rel.media_relationship#')
+												and media_relationship in ('created by agent', 'shows cataloged_item')
 											</cfquery>
 											<cfloop query="relations">
 												<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
@@ -201,7 +201,7 @@
 											<tr>
 												<th scope="row">Relationship#plural#:&nbsp; </span></th>
 												<td>	
-													<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship like '%cataloged_item%'>:
+													<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship eq 'shows cataloged_item'>:
 														<cfloop query="spec">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct media.media_id, preview_uri, media.media_uri,
