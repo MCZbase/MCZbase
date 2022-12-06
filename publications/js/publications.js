@@ -239,6 +239,8 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 		url: "/publications/component/functions.cfc",
 		data : {
 			method : "updateAttribute",
+			returnformat : "json",
+			queryformat : 'struct',
 			publication_attribute_id: publication_attribute_id,
 			publication_id: publication_id,
 			publication_attribute: publication_attribute,
@@ -273,6 +275,8 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 		url: "/publications/component/functions.cfc",
 		data : {
 			method : "addAttribute",
+			returnformat : "json",
+			queryformat : 'struct',
 			publication_id: publication_id,
 			publication_attribute: publication_attribute,
 			pub_att_value: pub_att_value
