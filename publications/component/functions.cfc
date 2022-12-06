@@ -1010,10 +1010,10 @@ limitations under the License.
 					</div>
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
-						<input name="pub_att_value" class="data-entry-input" value="" >
+						<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input" value="" >
 					</div>
 					<div class="col-12">
-						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback');">Save</button>
+						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',null);">Save</button>
 						<div id="saveAttributeFeeeback"></div>
 					</div>
 				</div>

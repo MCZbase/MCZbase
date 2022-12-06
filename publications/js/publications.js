@@ -266,8 +266,9 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
  * @param pub_att_value the value of the attribute to add.
  * @param feedbackdiv id of an element in the dom without leading pound 
  *  selector into which to place feedback on success.
+ * @param okcallback a callback function to invoke on success.
 */
-function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv) { 
+function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv, okcallback) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
@@ -280,6 +281,9 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 			var status = result[0].status;
 			if (status=='inserted') {
 				$('#'+feedbackdiv).html(status);
+			}
+			if (okcallback && jQuery.type(okcallback)==='function') {
+				okcallback();
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
