@@ -1280,8 +1280,8 @@ limitations under the License.
 					pub_att_value
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pub_att_value#">
 				)
 			</cfquery>
 			<cfif insertAttribute_result.recordcount NEQ 1>
