@@ -38,12 +38,9 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
+<!---For guid links to cataloged items that are related to media record--->
 <cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
-		decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-		trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-		trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-		specimendetailurl, media_relationship
+	select distinct collection_object_id as pk, guid, specimendetailurl, media_relationship
 	from media_relations
 		left join flat on related_primary_key = collection_object_id
 	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
@@ -201,7 +198,7 @@
 											<tr>
 												<th scope="row">Relationship#plural#:&nbsp; </span></th>
 												<td>	
-													<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship eq '#media_rel.media_relationship#'>:
+													<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship like '%cataloged_item%'>:
 														<cfloop query="spec">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct media.media_id, preview_uri, media.media_uri,
@@ -220,6 +217,26 @@
 															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 														</cfloop> 
 													</cfif>
+													<cfif media_rel.media_relationship like '%cataloged_item%'>:
+														<cfloop query="spec">
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																select distinct media.media_id, preview_uri, media.media_uri,
+																	get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+																	media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
+																	MCZBASE.get_media_dcrights(media.media_id) as license,
+																	MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
+																	mczbase.get_media_credit(media.media_id) as credit,
+																	MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+																	MCZBASE.get_media_title(media.media_id) as title1
+																from media_relations
+																	 left join media on media_relations.media_id = media.media_id
+																	 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+																where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+																	AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+														</cfloop> 
+													</cfif>
+													
 													<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 													</cfloop> 
 												</td>
