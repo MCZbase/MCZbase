@@ -109,6 +109,122 @@ function lookupDOI(publication_id, doiInput, doiLinkDiv) {
 	});
 }
 
+/** openEditAttributeDialog open a dialog to edit an attribute of a publication.
+ * @param dialogid the id of a div in the dom which to make into the dialog 
+ *   without leading pound selector.
+ * @param publication_attribute_id the primary key of the publication attribute
+ *  to edit.
+ * @param attribute the current attribute type to edit.
+ * @param okcallback a callback function to invoke on success.
+ */
+function openEditAttributeDialog(dialogid,publication_attribute_id, attribute, okcallback) { 
+	var title = "Edit publication attribute "+attribute+".";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.4);
+	h = Math.floor(h *.4);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 250,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			$(this).dialog("destroy");
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "getAttributeEditDialogHtml",
+			returnformat: "plain",
+			publication_attribute_id: publication_attribute_id
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading dialog to edit publication attribute");
+		}
+	});
+}
+/** openAddAttributeDialog open a dialog to add an attribute to a publication.
+ * @param dialogid the id of a div in the dom which to make into the dialog 
+ *   without leading pound selector.
+ * @param publication_id the primary key of the publication to which to add 
+ *   the attribute.
+ * @param attribute optional attribute type to add.
+ * @param okcallback a callback function to invoke on success.
+ */
+function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) { 
+	var title = "Add publication attribute "+attribute;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.4);
+	h = Math.floor(h *.4);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 250,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			$(this).dialog("destroy");
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "getAttributeAddDialogHtml",
+			returnformat: "plain",
+			publication_id: publication_id,
+			attribute: attribute
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading dialog to add publication attribute");
+		}
+	});
+}
+
 /** deleteAttribute delete an attribute from a publication.
  * @param publication_attribute_id the primary key of the publication attribute
  *  to delete.

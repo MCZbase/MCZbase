@@ -962,6 +962,119 @@ limitations under the License.
 </cffunction>
 
 
+<cffunction name="getAttributeAddDialogHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="attribute" type="string" required="no">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getAttributesAddDialogThread#tn#">
+		<cftry>
+			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT ctpublication_attribute.publication_attribute, 
+					description
+				FROM ctpublication_attribute 
+				WHERE
+					ctpublication_attribute.publication_attribute NOT IN (
+						SELECT distinct publication_attribute 
+						FROM publication_attributes
+						WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					)
+				ORDER BY ctpublication_attribute.publication_attribute
+			</cfquery>
+
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAttributesAddDialogThread#tn#" />
+	<cfreturn cfthread["getAttributesAddDialogThread#tn#"].output>
+</cffunction>
+
+<cffunction name="getAttributeEditDialogHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_attribute_id" type="string" required="yes">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getAttributesEditDialogThread#tn#">
+		<cftry>
+			<cfquery name="getAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttribute_result">
+				SELECT
+					publication_attribute_id,
+					publication_id,
+					publication_attribute,
+					pub_att_value
+				FROM publication_attributes 
+				WHERE publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfif getAttribute.recordcount NEQ 1>
+				<cfthrow message="No publication_attribute record found for specified key [#encodeForHtml(publication_attribtue_id)#]">
+			</cfif>
+			<cfloop query="getAttribute">
+				<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT ctpublication_attribute.publication_attribute, 
+						description
+					FROM ctpublication_attribute 
+					WHERE
+						ctpublication_attribute.publication_attribute NOT IN (
+							SELECT distinct publication_attribute 
+							FROM publication_attributes
+							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAtrribute.publication_id#">
+						)
+					ORDER BY ctpublication_attribute.publication_attribute
+				</cfquery>
+				<cfoutput>
+					<h3 class="h4" >Edit Publication Attribute</h3>
+					<div class="form-row">
+						<div class="col-12">
+							<cfset id=publication_attribute_id>
+							<label for="attr_#id#" class="data-entry-label">Attribute</a>
+							<select name="publication_attribute" id="attr_#publication_attribute_id#">
+								<cfloop query="available_pub_att">
+									<cfif getAttribute.publication_attribute EQ available_pub_att.publication_attribute>
+										<cfset selected="selected">
+									<cfelse>
+										<cfset selected="">
+									</cfif>
+									<cfif len(available_pub_att.description) GT 0>
+										<cfset descr = " (#available_pub_att.description#)">
+									<cfelse>
+										<cfset descr = "">
+									</cfif>
+									<option value="#available_pub_att.publication_attribute#" #selected#>#available_pub_att.publication_attribute##descr#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12">
+							<label for="attr_value_#id#" class="data-entry-label">Value</a>
+							<input name="pub_att_value" class="data-entry-input" value="#pub_att_value#" >
+						</div>
+						<div class="col-12">
+							<button class="btn btn-xs btn-primary" onclick="saveAttribute('#publication_attribute_id#',$('##attr_#id#).val(),$('##attr_value_#id#').val(),reloadAttributes);">Save</button>
+						</div>
+					</div>
+				</cfoutput>
+			</cfloop>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAttributesEditDialogThread#tn#" />
+	<cfreturn cfthread["getAttributesEditDialogThread#tn#"].output>
+</cffunction>
+
+<!--- obtain a block of html listing attributes for a publication and allowing for editing of those atrributes 
+@param publication_id the publication for which to list attribtues.
+@return html suitable for the edit publication page.
+--->
 <cffunction name="getAttributesForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAttributesForPubThread">
@@ -1010,11 +1123,13 @@ limitations under the License.
 				<ul>
 					<cfloop query="atts">
 						<!--- TODO: Edit --->
-						<!--- TODO: Delete --->
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
+							<button class="btn btn-xs btn-primary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
+function openEditAttributeDialog(dialogid,publication_attribute_id, attribute, okcallback) { 
 							<button class="btn btn-xs btn-primary" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
 						</li>
+						<div id="attEditDialog_#atts.publication_attribute_id#">
 					</cfloop>
 				</ul>
 			</cfoutput>
