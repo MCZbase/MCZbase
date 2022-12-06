@@ -32,8 +32,9 @@
 		media
 	WHERE 
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		AND media.media_relationship <> 'created by agent'
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
-		and media_relations.media_relationship <> 'created by agent'
+		
 </cfquery>
 <cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name, specimendetailurl, media_relationship
