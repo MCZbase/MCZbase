@@ -204,14 +204,8 @@
 													<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship contains '%cataloged_item%'>:
 														<cfloop query="spec">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select distinct media.media_id, preview_uri, media.media_uri,
-																	get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-																	media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-																	MCZBASE.get_media_dcrights(media.media_id) as license,
-																	MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
-																	mczbase.get_media_credit(media.media_id) as credit,
+																select distinct media.media_id, preview_uri, media.media_uri, media.auto_protocol, media.auto_host,
 																	MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-																	MCZBASE.get_media_title(media.media_id) as title1
 																from media_relations
 																	 left join media on media_relations.media_id = media.media_id
 																	 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
