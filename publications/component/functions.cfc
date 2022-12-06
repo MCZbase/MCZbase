@@ -1089,7 +1089,7 @@ limitations under the License.
 							<input name="pub_att_value" class="data-entry-input" value="#pub_att_value#" >
 						</div>
 						<div class="col-12">
-							<button class="btn btn-xs btn-primary" onclick="saveAttribute('#publication_attribute_id#',$('##attr_#id#).val(),$('##attr_value_#id#').val(),'saveFeedback_#id#',reloadAttributes);">Save</button>
+							<button class="btn btn-xs btn-primary" onclick="saveAttribute('#publication_attribute_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveFeedback_#id#',reloadAttributes);">Save</button>
 							<div id="saveFeedback_#id#"></div>
 						</div>
 					</div>
