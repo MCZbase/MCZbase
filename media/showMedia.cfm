@@ -26,7 +26,7 @@
 		MCZBASE.get_media_credit(media.media_id) as credit, 
 		mczbase.get_media_descriptor(media_id) as alttag,
 		MCZBASE.get_media_owner(media.media_id) as owner,
-		nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, '#ctrelations.media_relationship#')
+		nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, '#ctrelations.media_relationship#')||
 			, 'Unrelated image') mrstr
 	From
 		media
