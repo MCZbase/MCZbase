@@ -69,7 +69,7 @@
 				media_relations
 			WHERE 
 				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-				---and media_relations.media_relationship <> 'created by agent'
+				and media_relations.media_relationship <> 'created by agent'
 			ORDER BY media_relationship
 		</cfquery>
 		<div class="container-fluid">
