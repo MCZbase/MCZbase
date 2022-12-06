@@ -43,6 +43,7 @@
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows handwriting of agent') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'document for permit') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents accn') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'transcript for audio media') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media')
 			, 'Unrelated image') mrstr
 	From
