@@ -54,7 +54,7 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
 <cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collection_object_id as pk, guid, typestatus
+	select distinct collection_object_id as pk, guid
 	from media_relations
 		left join flat on related_primary_key = collection_object_id
 	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
