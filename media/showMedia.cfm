@@ -208,7 +208,6 @@
 															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 														</cfloop> 
 													</cfif>
-													<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 													</cfloop> 
 												</td>
 											</tr>
