@@ -27,13 +27,23 @@
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows project') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows specimen_part') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows underscore_collection') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents borrow') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents loan') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents cataloged_item') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents collecting_event') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents deaccession') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'physical object created by agent') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'ledger entry for cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'document for permit ') 
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows handwriting of agent') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'document for permit') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents accn') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media')
 			, 'Unrelated image') mrstr
 	From
 		media
