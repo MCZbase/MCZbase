@@ -194,7 +194,7 @@
 											<tr>
 												<th scope="row">Relationship#plural# to records:&nbsp; </span></th>
 												<td>	
-													<cfloop query="media">#media.mrstr# &nbsp; |
+													<cfloop query="media">#media.mrstr# |
 														<cfif media.mrstr contain 'cataloged_item'>:
 														<cfloop query="spec">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
