@@ -1086,7 +1086,7 @@ limitations under the License.
 						</div>
 						<div class="col-12">
 							<label for="attr_value_#id#" class="data-entry-label">Value</a>
-							<input name="pub_att_value" class="data-entry-input" value="#pub_att_value#" >
+							<input name="pub_att_value" id="attr_value_#id#" class="data-entry-input" value="#pub_att_value#" >
 						</div>
 						<div class="col-12">
 							<button class="btn btn-xs btn-primary" onclick="saveAttribute(
