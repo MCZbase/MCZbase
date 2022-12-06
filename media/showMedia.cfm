@@ -49,13 +49,13 @@
 			and media_relations.media_relationship like '%cataloged_item%'
 	order by guid
 </cfquery>
-<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select permit.permit_id, permit.issued_by_agent_id, permit.issued_date, permit.issued_to_agent_id, permit.renewed_date,media_relations.media_id,permit.exp_date,permit.permit_num,permit.permit_type,permit.permit_remarks,permit.contact_agent_id,permit.parent_permit_id,permit.restriction_summary,permit.benefits_provided,permit.specific_type,permit.permit_title
 	from permit
 		left join media_relations on media_relations.related_primary_key = permit.permit_id
 	where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (media_relations.media_relationship = 'shows permit' OR media_relations.media_relationship = 'documents for permit')
-</cfquery>
+</cfquery>--->
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -173,7 +173,7 @@
 											select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 												from media_relations
 											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												and media_relationship like '%cataloged_item%'
+												and media_relationship like '#%media.media_relationship#'
 											</cfquery>
 											<cfloop query="relations">
 												<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
