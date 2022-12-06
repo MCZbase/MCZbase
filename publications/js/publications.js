@@ -234,7 +234,7 @@ function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) 
  * @param pub_att_value the new value of the attribute.
  * @param okcallback a callback function to invoke on success.
 */
-function saveAttribute(publication_attribute_id, publication_id, publication_attribute, pub_att_value , okcallback) { 
+function saveAttribute(publication_attribute_id, publication_id, publication_attribute, pub_att_value, feedbackdiv, okcallback) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
@@ -253,6 +253,7 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 			var status = result[0].status;
 			if (status=='inserted') {
 				console.log(status);
+				$('#'+feedbackdiv).html(status);
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
