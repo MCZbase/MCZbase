@@ -123,7 +123,7 @@ function openEditAttributeDialog(dialogid,publication_attribute_id, attribute, o
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.4);
-	h = Math.floor(h *.4);
+	h = Math.floor(h *.5);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -181,7 +181,7 @@ function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) 
 	var h = $(window).height();
 	var w = $(window).width();
 	w = Math.floor(w *.4);
-	h = Math.floor(h *.4);
+	h = Math.floor(h *.5);
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,

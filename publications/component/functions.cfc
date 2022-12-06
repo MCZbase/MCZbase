@@ -992,7 +992,7 @@ limitations under the License.
 					<div class="col-12">
 						<cfset id="#variables.publication_id#_#RandRange(1,10000)#" >
 						<label for="attr_#id#" class="data-entry-label">Attribute</a>
-						<select name="publication_attribute" id="attr_#id#">
+						<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
 							<cfloop query="available_pub_att">
 								<cfif len(variables.attribute) GT 0 AND variables.attribute EQ available_pub_att.publication_attribute>
 									<cfset selected="selected">
@@ -1068,7 +1068,7 @@ limitations under the License.
 						<div class="col-12">
 							<cfset id=publication_attribute_id>
 							<label for="attr_#id#" class="data-entry-label">Attribute</a>
-							<select name="publication_attribute" id="attr_#publication_attribute_id#">
+							<select name="publication_attribute" id="attr_#publication_attribute_id#" class="data-entry-select w-100">
 								<cfloop query="available_pub_att">
 									<cfif getAttribute.publication_attribute EQ available_pub_att.publication_attribute>
 										<cfset selected="selected">
