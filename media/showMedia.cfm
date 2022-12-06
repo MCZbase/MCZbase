@@ -38,23 +38,12 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
-<cfquery name="ctcataloged" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_relationship
-	FROM
-		CTMEDIA_RELATIONSHIP
-	WHERE 
-		media_relationship like '%cataloged_item%'
-</cfquery>
 <cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
-		decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
-		trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
-		trim( decode(collectors, null, '',''|| collectors) || decode(field_num, null, '','  '|| field_num) || decode(verbatim_date, null, '','  '|| verbatim_date))as coll,
-		specimendetailurl, media_relationship
+	select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name, specimendetailurl, media_relationship
 	from media_relations
 		left join flat on related_primary_key = collection_object_id
 	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and (media_relations.media_relationship like '%cataloged_item%')
+			and media_relations.media_relationship like '%cataloged_item%'
 	order by guid
 </cfquery>
 <cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
