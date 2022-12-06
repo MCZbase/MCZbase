@@ -15,7 +15,7 @@
 </cfif>
 <cfoutput>
 <cfquery name="ctrelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_relationship from ctmedia_relationship order by media_relationship	
+	select media_relationship from ctmedia_relationship where ctrelations.media_relationship <> 'created by agent' order by media_relationship	
 </cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
@@ -32,7 +32,6 @@
 		media
 	WHERE 
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
-		AND media.media_relationship <> 'created by agent'
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 		
 </cfquery>
