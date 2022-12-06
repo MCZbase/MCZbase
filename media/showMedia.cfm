@@ -15,7 +15,7 @@
 </cfif>
 <cfoutput>
 <cfquery name="ctrelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_id, media_relationship from ctmedia_relationship order by media_relationship	
+	select media_relationship from ctmedia_relationship order by media_relationship	
 </cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
