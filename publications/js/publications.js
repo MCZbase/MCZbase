@@ -284,6 +284,7 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 		success: function (result) {
 			console.log(result);
 			var status = result[0].status;
+			console.log(status);
 			if (status=='inserted') {
 				$('#'+feedbackdiv).html(status);
 			}

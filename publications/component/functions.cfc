@@ -1014,7 +1014,7 @@ limitations under the License.
 					</div>
 					<div class="col-12">
 						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',null);">Save</button>
-						<div id="saveAttributeFeeeback"></div>
+						<div id="saveAttributeFeedback"></div>
 					</div>
 				</div>
 			</cfoutput>
