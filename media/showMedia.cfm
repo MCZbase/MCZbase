@@ -173,7 +173,7 @@
 											select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 												from media_relations
 											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												and media_relationship like '#%media.media_relationship#'
+												and media_relationship like '%media_rel.media_relationship%'
 											</cfquery>
 											<cfloop query="relations">
 												<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
