@@ -27,7 +27,7 @@
 		MCZBASE.get_media_credit(media.media_id) as credit, 
 		mczbase.get_media_descriptor(media_id) as alttag,
 		MCZBASE.get_media_owner(media.media_id) as owner,
-		COALESCE(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, '#ctrelations.media_relationship#')
+		nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, '#ctrelations.media_relationship#')
 			, 'Unrelated image') mrstr
 	From
 		media
@@ -35,7 +35,7 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
-
+#mrstr#
 </cfloop>
 <cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name, specimendetailurl, media_relationship
