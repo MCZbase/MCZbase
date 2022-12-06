@@ -130,7 +130,7 @@
 										and (media_relationship = 'shows cataloged_item')
 									and identification.accepted_id_fg = 1		
 								</cfquery>
-								<br><br>#media.mr_str#,<br><br>
+								<br><br>#media.mrstr#,<br><br>
 								<cfif len(media.media_id) gt 0>
 									<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-2 pt-3 pb-0">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textFull")>
