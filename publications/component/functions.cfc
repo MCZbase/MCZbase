@@ -1156,8 +1156,8 @@ limitations under the License.
 						<!--- TODO: Edit --->
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
-							<button class="btn btn-xs btn-primary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
-							<button class="btn btn-xs btn-primary" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
+							<button class="btn btn-xs btn-secondary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
+							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
 						</li>
 						<div id="attEditDialog_#atts.publication_attribute_id#"></div>
 					</cfloop>
