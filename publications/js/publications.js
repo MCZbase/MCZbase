@@ -146,6 +146,7 @@ function openEditAttributeDialog(dialogid,publication_attribute_id, attribute, o
 			if (jQuery.type(okcallback)==='function') {
 				okcallback();
 			}
+			$("#"+dialogid+"_div").html("");
 			$(this).dialog("destroy");
 		}
 	});
@@ -203,6 +204,7 @@ function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) 
 			if (jQuery.type(okcallback)==='function') {
 				okcallback();
 			}
+			$("#"+dialogid+"_div").html("");
 			$(this).dialog("destroy");
 		}
 	});
@@ -224,6 +226,68 @@ function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) 
 		}
 	});
 }
+
+/** saveAttribute update an existing row in publication_attributes
+ * @param publication_attribute_id the publication attribute to be updated.
+ * @param publication_id the publication to which the attribute applies.
+ * @param publication_attribute the new type of attribute.
+ * @param pub_att_value the new value of the attribute.
+ * @param okcallback a callback function to invoke on success.
+*/
+function saveAttribute(publication_attribute_id, publication_id, publication_attribute, pub_att_value , okcallback) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "updateAttribute",
+			publication_attribute_id: publication_attribute_id,
+			publication_id: publication_id,
+			publication_attribute: publication_attribute,
+			pub_att_value: pub_att_value
+		},
+		success: function (result) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			var status = result[0].status;
+			if (status=='inserted') {
+				console.log(status);
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
+		},
+		dataType: "html"
+	});
+};
+
+/** saveNewAttribute insert a row into publication_attributes
+ * @param publication_id the publication to which the attribute applies.
+ * @param publication_attribute the type of attribute to add.
+ * @param pub_att_value the value of the attribute to add.
+ * @param feedbackdiv id of an element in the dom without leading pound 
+ *  selector into which to place feedback on success.
+*/
+function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "addAttribute",
+			publication_id: publication_id,
+			publication_attribute: publication_attribute,
+			pub_att_value: pub_att_value
+		},
+		success: function (result) {
+			var status = result[0].status;
+			if (status=='inserted') {
+				$('#'+feedbackdiv).html(status);
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
+		},
+		dataType: "html"
+	});
+};
 
 /** deleteAttribute delete an attribute from a publication.
  * @param publication_attribute_id the primary key of the publication attribute

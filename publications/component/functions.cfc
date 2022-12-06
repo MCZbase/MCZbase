@@ -1013,7 +1013,8 @@ limitations under the License.
 						<input name="pub_att_value" class="data-entry-input" value="" >
 					</div>
 					<div class="col-12">
-						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#).val(),$('##attr_value_#id#').val(),reloadAttributes);">Save</button>
+						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#).val(),$('##attr_value_#id#').val(),'saveAttributeFeedback');">Save</button>
+						<div id="saveAttributeFeeeback"></div>
 					</div>
 				</div>
 			</cfoutput>
@@ -1225,7 +1226,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<!--- update the target attribute --->
-			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
+			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttribute_result">
 				UPDATE publication_attributes
 				SET
 					<cfif isDefined("publication_id") AND len(publication_id) GT 0 >
@@ -1236,7 +1237,7 @@ limitations under the License.
 				WHERE
 					publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
 			</cfquery>
-			<cfif deleteAttribute_result.recordcount NEQ 1>
+			<cfif updateAttribute_result.recordcount NEQ 1>
 				<cfthrow message = "error updating publication_attribute record [#encodeForHtml(publication_attribute_id)#]">
 			</cfif>
 			<cfset row = StructNew()>
@@ -1256,49 +1257,63 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!---------------------------------------------------------------------------------------------------------->
-<!---
-		<cfloop from="1" to="#numberAttributes#" index="n">
-			<cfif isdefined("attribute_type#n#")>
-				<cfset thisAttribute = #evaluate("attribute_type" & n)#>
-			<cfelse>
-				<cfset thisAttribute = "">
-			</cfif>
-			<cfset thisAttVal = #evaluate("attribute" & n)#>
-			<cfif isdefined("publication_attribute_id#n#")>
-				<cfset thisAttId = #evaluate("publication_attribute_id" & n)#>
-			<cfelse>
-				<cfset thisAttId = "">
-			</cfif>
-			<cfelseif thisAttId gt 0>
-				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update
-						publication_attributes
-					set
-						publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
-						pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
-					where 
-						publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAttId#">
-				</cfquery>
-			<cfelseif len(thisAttId) is 0 and len(thisAttVal) gt 0>
-				<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into publication_attributes (
-						publication_id,
-						publication_attribute,
-						pub_att_value
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
-					)
-				</cfquery>
-			</cfif>
-		</cfloop>
+<!--- addAttribute insert a new publication_attribute record.
+  @param publication_id the publication to which the attribute applies.
+  @param publication_attribute the attribute to add.
+  @param pub_att_value the value of the attribute to add.
+  @return a structure with status=inserted and id=publication_attribute_id
+    or if an exception was raised, an http response with http statuscode of 500.
 --->
-<!---------------------------------------------------------------------------------------------------------->
-<!---
+<cffunction name="addAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="publication_attribute" type="string" required="yes">
+	<cfargument name="pub_att_value" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- insert  attribute --->
+			<cfquery name="insertAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAttribute_result">
+				insert into publication_attributes (
+					publication_id,
+					publication_attribute,
+					pub_att_value
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
+				)
+			</cfquery>
+			<cfif insertAttribute_result.recordcount NEQ 1>
+				<cfthrow message = "error inserting publication_attribute record [#encodeForHtml(publication_attribute)#]">
+			</cfif>
+			<cfset rowid = insertAttribute_result.generatedkey>
+			<cftransaction action="commit">
+			<cfquery name="getId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getId_result">
+				SELECT
+					publication_attribute_id as id
+				FROM 
+					publication_attributes
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "inserted">
+			<cfset row["id"] = "#getId.publication_attribute_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
 	</cftransaction>
---->
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!---------------------------------------------------------------------------------------------------------->
 <!--- now get the formatted publications --->
 <!--- 
