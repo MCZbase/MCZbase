@@ -1068,7 +1068,7 @@ limitations under the License.
 						<div class="col-12">
 							<cfset id=publication_attribute_id>
 							<label for="attr_#id#" class="data-entry-label">Attribute</a>
-							<select name="publication_attribute" id="attr_#publication_attribute_id#" class="data-entry-select w-100">
+							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
 								<cfloop query="available_pub_att">
 									<cfif getAttribute.publication_attribute EQ available_pub_att.publication_attribute>
 										<cfset selected="selected">
@@ -1089,7 +1089,7 @@ limitations under the License.
 							<input name="pub_att_value" class="data-entry-input" value="#pub_att_value#" >
 						</div>
 						<div class="col-12">
-							<button class="btn btn-xs btn-primary" onclick="saveAttribute('#publication_attribute_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveFeedback_#id#',reloadAttributes);">Save</button>
+							<button class="btn btn-xs btn-primary" onclick="saveAttribute('#publication_attribute_id#',#getAttribute.publication_id#,$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveFeedback_#id#',reloadAttributes);">Save</button>
 							<div id="saveFeedback_#id#"></div>
 						</div>
 					</div>
