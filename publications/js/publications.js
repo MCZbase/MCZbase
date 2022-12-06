@@ -235,6 +235,9 @@ function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) 
  * @param okcallback a callback function to invoke on success.
 */
 function saveAttribute(publication_attribute_id, publication_id, publication_attribute, pub_att_value, feedbackdiv, okcallback) { 
+	console.log(publication_id);
+	console.log(publication_attribute);
+	console.log(pub_att_value);
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
