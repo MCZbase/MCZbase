@@ -201,7 +201,7 @@
 														<cfif media_rel.media_relationship contains 'cataloged_item'>:
 														<cfloop query="spec">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select distinct media.media_id, preview_uri, media.media_uri, media.auto_protocol, media.auto_host,
+																select distinct media.media_id, media.auto_protocol, media.auto_host,
 																	MCZBASE.is_media_encumbered(media.media_id) as hideMedia
 																from media_relations
 																	 left join media on media_relations.media_id = media.media_id
