@@ -14,9 +14,6 @@
 	<cfset oneOfUs = 0>
 </cfif>
 <cfoutput>
-<cfquery name="ctrelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_relationship from ctmedia_relationship where media_relationship <> 'created by' order by media_relationship	
-</cfquery>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -56,7 +53,6 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
-
 <cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name, specimendetailurl, media_relationship
 	from media_relations
@@ -73,7 +69,6 @@
 				media_relations
 			WHERE 
 				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-				and media_relations.media_relationship <> 'created by agent'
 			ORDER BY media_relationship
 		</cfquery>
 		<div class="container-fluid">
