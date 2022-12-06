@@ -30,7 +30,10 @@
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents borrow') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents loan') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'ledger entry for cataloged_item') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'document for permit ') 
 			, 'Unrelated image') mrstr
 	From
 		media
