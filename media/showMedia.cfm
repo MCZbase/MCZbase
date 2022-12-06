@@ -208,7 +208,8 @@
 											<tr>
 												<th scope="row">Relationship#plural#:&nbsp; </span></th>
 												<td>	
-													<cfloop query="media_rel">#media_rel.media_relationship#<cfif media_rel.media_relationship contains '%cataloged_item%'>:
+													<cfloop query="media_rel">#media_rel.media_relationship#
+														<cfif media_rel.media_relationship in '#ctcataloged.media_relationship#'>:
 														<cfloop query="spec">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct media.media_id, preview_uri, media.media_uri, media.auto_protocol, media.auto_host,
