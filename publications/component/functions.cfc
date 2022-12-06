@@ -1057,7 +1057,7 @@ limitations under the License.
 						ctpublication_attribute.publication_attribute NOT IN (
 							SELECT distinct publication_attribute 
 							FROM publication_attributes
-							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAtrribute.publication_id#">
+							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttribute.publication_id#">
 						)
 					ORDER BY ctpublication_attribute.publication_attribute
 				</cfquery>
@@ -1149,7 +1149,6 @@ limitations under the License.
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
 							<button class="btn btn-xs btn-primary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
-function openEditAttributeDialog(dialogid,publication_attribute_id, attribute, okcallback) { 
 							<button class="btn btn-xs btn-primary" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
 						</li>
 						<div id="attEditDialog_#atts.publication_attribute_id#"></div>
