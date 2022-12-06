@@ -329,7 +329,7 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</div>
-				<div class="col-12 col-md-6 border-left">
+				<div class="col-12 col-md-6 border-left border-top">
 					<h2 class="h3" >Editors</h2> 
 					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'editors', reloadAuthors); ">Add Editors</button>
 					<ol>
