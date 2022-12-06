@@ -256,7 +256,7 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
 		},
-		dataType: "html"
+		dataType: "json"
 	});
 };
 
@@ -278,6 +278,7 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 			pub_att_value: pub_att_value
 		},
 		success: function (result) {
+			console.log(result);
 			var status = result[0].status;
 			if (status=='inserted') {
 				$('#'+feedbackdiv).html(status);
@@ -289,7 +290,7 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
 		},
-		dataType: "html"
+		dataType: "json"
 	});
 };
 
