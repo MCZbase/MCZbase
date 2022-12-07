@@ -611,10 +611,12 @@ function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control
 				$('#'+agent_name_id_control).val(result[0].agent_name_id)
 				$('#'+feedback_control).html("Added " + agent_name + " to agent.");
 				if ($('#author_name_id').val()=='') { 
+					console.log(result[0]);
 					$('#author_name_control').html(agent_name);
 					$('#author_name_id').val(result[0].agent_name_id);
 					$('#addButton').prop('disabled',false);
 					$('#addButton').removeClass('disabled');
+					console.log(result[0].agent_name_id);
 				}
 			} 
 		}
