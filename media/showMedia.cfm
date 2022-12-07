@@ -62,21 +62,15 @@
 			and media_relations.media_relationship like '%cataloged_item%'
 	order by guid
 </cfquery>
-<cfquery name="relations1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select media_relationship, related_primary_key
-	from media_relation
-	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
-	order by media_relationshship, related_primary_key
-</cfquery>
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
-				media_relationship
+				media_relationship, related_primary_key
 			From
 				media_relations
 			WHERE 
 				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-			ORDER BY media_relationship
+			ORDER BY media_relationship, related_primary_key
 		</cfquery>
 		<div class="container-fluid">
 			<div class="row">
