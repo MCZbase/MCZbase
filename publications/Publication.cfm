@@ -455,19 +455,19 @@ limitations under the License.
 							</select>
             		</div>
 						<div class="col-12 col-md-3">
-							<label for="published_year">Published Year</label>
+							<label for="published_year" class="data-entry-label">Published Year</label>
 							<input type="text" name="published_year" id="published_year" class="data-entry-input">
             		</div>
 						<div class="col-12 col-md-3">
-							<label for="doi">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
-							<input type="text" name="doi" id="doi" size="50">
+							<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
+							<input type="text" name="doi" id="doi" class="data-entry-input">
             		</div>
 						<div class="col-12 col-md-3">
 							<label for="publication_loc" class="data-entry-label">Storage Location</label>
 							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input">
             		</div>
 						<div class="col-12 col-md-9">
-							<label for="publication_remarks" class="data-entry-label>Remark</label>
+							<label for="publication_remarks" class="data-entry-label">Remark</label>
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input">
 						</div>	
 						<div class="col-12 col-md-3">
