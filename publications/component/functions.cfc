@@ -329,8 +329,8 @@ limitations under the License.
 						</cfloop>
 					</ul>
 				</div>
-				<div class="col-12 col-md-6">
-					<h3 class="h4" >Editors</h3> 
+				<div class="col-12 col-md-6 border-left border-top">
+					<h2 class="h3" >Editors</h2> 
 					<button class="btn btn-xs btn-primary" onclick=" openAddAuthorEditorDialog('addAuthorEditorDialogDiv', '#publication_id#', 'editors', reloadAuthors); ">Add Editors</button>
 					<ol>
 						<cfloop query="getEditors">
@@ -419,6 +419,7 @@ limitations under the License.
 			<cfset maxposition = 0>
 			<cfloop query="getMaxPosition">
 				<cfset maxposition=max_position>
+				<cfif len(maxposition)EQ 0 ><cfset maxposition=0></cfif>
 			</cfloop>
 			<cfif minpositionfortype EQ 0>
 				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
@@ -433,9 +434,8 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12">
 						<h3 class="h4" >Add #roleLabel#</h3>
-						<!--- TODO: Add UI elements to add a first/second author form of name if one is not present for selected agent --->
 						<div class="form-row">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-5">
 								<label for="agent_name" class="data-entry-label">Pick an agent to add as an #roleLabel#</label>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -449,11 +449,14 @@ limitations under the License.
 								<label for="agent_view" class="data-entry-label">Selected Agent</label>
 								<div id="agent_view"></div>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
 								<div id="author_name_control"></div>
 								<input type="hidden" name="author_name_id" id="author_name_id" value="">
 								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+							</div>
+							<div class="col-12 col-md-2">
+								<a href="/agents/editAgent.cfm?action=new" aria-label="add a new agent" class="btn btn-xs btn-secondary" target="_blank" >New Agent</a>
 							</div>
 						</div>
 						<div class="form-row">
@@ -476,19 +479,19 @@ limitations under the License.
 								};
 							</script>
 							<div id="addNameTypeDialogDiv"></div>
-						<script>
-							<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
-							$(document).ready(function() {
-								makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
-							});
-						</script>
-					</div>
-					<div class="col-12" id="listOfAuthorsDiv">
-						<ol id="authorListOnDialog">
-							<cfloop query="getAuthorsEditors">
-								<li>#getAuthorsEditors.agent_name#</li>
-							</cfloop>
-						</ol>
+							<script>
+								$(document).ready(function() {
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
+								});
+							</script>
+						</div>
+						<div class="col-12" id="listOfAuthorsDiv">
+							<ol id="authorListOnDialog">
+								<cfloop query="getAuthorsEditors">
+									<li>#getAuthorsEditors.agent_name#</li>
+								</cfloop>
+							</ol>
+						</div>
 					</div>
 					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
 				</div>
@@ -553,8 +556,8 @@ limitations under the License.
 						<div class="h5">The "author" and "second author" names are used for both authors and editors of publications.</div>
 						<div class="form-row">
 							<div class="col-12 col-md-6">
-								<label for="agent_name_type" class="data-entry-label">Type of Name</label>
-								<select name="agent_name_type" id="agent_name_type" size="1" class="data-entry-select reqdClr" required>
+								<label for="agent_name_type_addNameDlg" class="data-entry-label">Type of Name</label>
+								<select name="agent_name_type" id="agent_name_type_addNameDlg" size="1" class="data-entry-select reqdClr" required>
 									<cfloop query="ctNameType">
 										<cfif variables.agent_name_type IS ctNameType.name_type>
 											<cfset selected = "selected='selected'">
@@ -566,14 +569,14 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="agent_name" class="data-entry-label">Name</label>
-								<input name="agent_name" id="agent_name" value="" class="data-entry-input reqdClr" required>
+								<label for="agent_name_addNameDlg" class="data-entry-label">Name</label>
+								<input name="agent_name" id="agent_name_addNameDlg" value="" class="data-entry-input reqdClr" required>
 							</div>
 							<div class="col-12 col-md-6">
 								<button type="button" onclick="addNameAction();" class="btn btn-xs btn-primary">Add</button>
 								<script>
 									function addNameAction() { 
-										addAuthorName('#getAgent.agent_id#',$('##agent_name_type').val(),$('##agent_name').val(),'agent_name_id','addAgentNameFeedback');
+										addAuthorName('#getAgent.agent_id#',$('##agent_name_type_addNameDlg').val(),$('##agent_name_addNameDlg').val(),'agent_name_id','addAgentNameFeedback');
 									};
 								</script>
 								<input type="hidden" id="added_agent_name_id" value="">
@@ -962,6 +965,163 @@ limitations under the License.
 </cffunction>
 
 
+<cffunction name="getAttributeAddDialogHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="attribute" type="string" required="no">
+	<cfset variables.publication_id = arguments.publication_id>
+	<cfif isdefined("attribute")>
+		<cfset variables.attribute = arguments.attribute>
+	<cfelse>
+		<cfset variables.attribute = "">
+	</cfif>
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getAttributesAddDialogThread#tn#">
+		<cftry>
+			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT ctpublication_attribute.publication_attribute, 
+					description
+				FROM ctpublication_attribute 
+				WHERE
+					ctpublication_attribute.publication_attribute NOT IN (
+						SELECT distinct publication_attribute 
+						FROM publication_attributes
+						WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#variables.publication_id#">
+					)
+				ORDER BY ctpublication_attribute.publication_attribute
+			</cfquery>
+			<cfoutput>
+				<h3 class="h4" >Add Publication Attribute</h3>
+				<div class="form-row">
+					<div class="col-12">
+						<cfset id="#variables.publication_id#_#RandRange(1,10000)#" >
+						<label for="attr_#id#" class="data-entry-label">Attribute</a>
+						<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+							<cfloop query="available_pub_att">
+								<cfif len(variables.attribute) GT 0 AND variables.attribute EQ available_pub_att.publication_attribute>
+									<cfset selected="selected">
+								<cfelse>
+									<cfset selected="">
+								</cfif>
+								<cfif len(available_pub_att.description) GT 0>
+									<cfset descr = " (#available_pub_att.description#)">
+								<cfelse>
+									<cfset descr = "">
+								</cfif>
+								<option value="#available_pub_att.publication_attribute#" #selected#>#available_pub_att.publication_attribute##descr#</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12">
+						<label for="attr_value_#id#" class="data-entry-label">Value</a>
+						<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input" value="" >
+					</div>
+					<div class="col-12">
+						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',reloadAttributes);">Save</button>
+						<div id="saveAttributeFeedback"></div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAttributesAddDialogThread#tn#" />
+	<cfreturn cfthread["getAttributesAddDialogThread#tn#"].output>
+</cffunction>
+
+<cffunction name="getAttributeEditDialogHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_attribute_id" type="string" required="yes">
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getAttributesEditDialogThread#tn#">
+		<cftry>
+			<cfquery name="getAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttribute_result">
+				SELECT
+					publication_attribute_id,
+					publication_id,
+					publication_attribute,
+					pub_att_value
+				FROM publication_attributes 
+				WHERE publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfif getAttribute.recordcount NEQ 1>
+				<cfthrow message="No publication_attribute record found for specified key [#encodeForHtml(publication_attribtue_id)#]">
+			</cfif>
+			<cfloop query="getAttribute">
+				<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT ctpublication_attribute.publication_attribute, 
+						description
+					FROM ctpublication_attribute 
+					WHERE
+						ctpublication_attribute.publication_attribute NOT IN (
+							SELECT distinct publication_attribute 
+							FROM publication_attributes
+							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttribute.publication_id#">
+						)
+					ORDER BY ctpublication_attribute.publication_attribute
+				</cfquery>
+				<cfoutput>
+					<h3 class="h4" >Edit Publication Attribute</h3>
+					<div class="form-row">
+						<div class="col-12">
+							<cfset id=publication_attribute_id>
+							<label for="attr_#id#" class="data-entry-label">Attribute</a>
+							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+								<cfloop query="available_pub_att">
+									<cfif getAttribute.publication_attribute EQ available_pub_att.publication_attribute>
+										<cfset selected="selected">
+									<cfelse>
+										<cfset selected="">
+									</cfif>
+									<cfif len(available_pub_att.description) GT 0>
+										<cfset descr = " (#available_pub_att.description#)">
+									<cfelse>
+										<cfset descr = "">
+									</cfif>
+									<option value="#available_pub_att.publication_attribute#" #selected#>#available_pub_att.publication_attribute##descr#</option>
+								</cfloop>
+							</select>
+						</div>
+						<div class="col-12">
+							<label for="attr_value_#id#" class="data-entry-label">Value</a>
+							<input name="pub_att_value" id="attr_value_#id#" class="data-entry-input" value="#pub_att_value#" >
+						</div>
+						<div class="col-12">
+							<button class="btn btn-xs btn-primary" onclick="saveAttribute(
+								'#publication_attribute_id#',
+								'#getAttribute.publication_id#',
+								$('##attr_#id#').val(),
+								$('##attr_value_#id#').val(),
+								'saveFeedback_#id#',
+								reloadAttributes);">Save</button>
+							<div id="saveFeedback_#id#"></div>
+						</div>
+					</div>
+				</cfoutput>
+			</cfloop>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAttributesEditDialogThread#tn#" />
+	<cfreturn cfthread["getAttributesEditDialogThread#tn#"].output>
+</cffunction>
+
+<!--- obtain a block of html listing attributes for a publication and allowing for editing of those atrributes 
+@param publication_id the publication for which to list attribtues.
+@return html suitable for the edit publication page.
+--->
 <cffunction name="getAttributesForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAttributesForPubThread">
@@ -992,29 +1152,17 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<h2 class="h3">Attributes</h2>
-				<label for="new_attr" class="data-entry-label">Add</a>
-				<script>
-					<!--- TODO: Implement addAttribute, ? move to dialog --->
-				</script>
-				<select name="new_attr" id="new_attr" onchange="addAttribute(this.value)">
-					<option value=""></option>
-					<cfloop query="available_pub_att">
-						<cfif len(available_pub_att.description) GT 0>
-							<cfset descr = " (#available_pub_att.description#)">
-						<cfelse>
-							<cfset descr = "">
-						</cfif>
-						<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute##descr#</option>
-					</cfloop>
-				</select>
+							<button class="btn btn-xs btn-primary" onclick="openAddAttributeDialog('attAddDialogDiv','#publication_id#','',reloadAttributes);">Add</button>
+				<div id="attAddDialogDiv"></div>
 				<ul>
 					<cfloop query="atts">
 						<!--- TODO: Edit --->
-						<!--- TODO: Delete --->
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
-							<button class="btn btn-xs btn-primary" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
+							<button class="btn btn-xs btn-secondary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
+							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
 						</li>
+						<div id="attEditDialog_#atts.publication_attribute_id#"></div>
 					</cfloop>
 				</ul>
 			</cfoutput>
@@ -1088,7 +1236,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<!--- update the target attribute --->
-			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
+			<cfquery name="updateAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAttribute_result">
 				UPDATE publication_attributes
 				SET
 					<cfif isDefined("publication_id") AND len(publication_id) GT 0 >
@@ -1099,7 +1247,7 @@ limitations under the License.
 				WHERE
 					publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
 			</cfquery>
-			<cfif deleteAttribute_result.recordcount NEQ 1>
+			<cfif updateAttribute_result.recordcount NEQ 1>
 				<cfthrow message = "error updating publication_attribute record [#encodeForHtml(publication_attribute_id)#]">
 			</cfif>
 			<cfset row = StructNew()>
@@ -1119,49 +1267,63 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-<!---------------------------------------------------------------------------------------------------------->
-<!---
-		<cfloop from="1" to="#numberAttributes#" index="n">
-			<cfif isdefined("attribute_type#n#")>
-				<cfset thisAttribute = #evaluate("attribute_type" & n)#>
-			<cfelse>
-				<cfset thisAttribute = "">
-			</cfif>
-			<cfset thisAttVal = #evaluate("attribute" & n)#>
-			<cfif isdefined("publication_attribute_id#n#")>
-				<cfset thisAttId = #evaluate("publication_attribute_id" & n)#>
-			<cfelse>
-				<cfset thisAttId = "">
-			</cfif>
-			<cfelseif thisAttId gt 0>
-				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update
-						publication_attributes
-					set
-						publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
-						pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
-					where 
-						publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAttId#">
-				</cfquery>
-			<cfelseif len(thisAttId) is 0 and len(thisAttVal) gt 0>
-				<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into publication_attributes (
-						publication_id,
-						publication_attribute,
-						pub_att_value
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
-					)
-				</cfquery>
-			</cfif>
-		</cfloop>
+<!--- addAttribute insert a new publication_attribute record.
+  @param publication_id the publication to which the attribute applies.
+  @param publication_attribute the attribute to add.
+  @param pub_att_value the value of the attribute to add.
+  @return a structure with status=inserted and id=publication_attribute_id
+    or if an exception was raised, an http response with http statuscode of 500.
 --->
-<!---------------------------------------------------------------------------------------------------------->
-<!---
+<cffunction name="addAttribute" access="remote" returntype="any" returnformat="json">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="publication_attribute" type="string" required="yes">
+	<cfargument name="pub_att_value" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- insert  attribute --->
+			<cfquery name="insertAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAttribute_result">
+				insert into publication_attributes (
+					publication_id,
+					publication_attribute,
+					pub_att_value
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pub_att_value#">
+				)
+			</cfquery>
+			<cfif insertAttribute_result.recordcount NEQ 1>
+				<cfthrow message = "error inserting publication_attribute record [#encodeForHtml(publication_attribute)#]">
+			</cfif>
+			<cfset rowid = insertAttribute_result.generatedkey>
+			<cftransaction action="commit">
+			<cfquery name="getId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getId_result">
+				SELECT
+					publication_attribute_id as id
+				FROM 
+					publication_attributes
+				WHERE
+					ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rowid#">
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "inserted">
+			<cfset row["id"] = "#getId.id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
 	</cftransaction>
---->
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!---------------------------------------------------------------------------------------------------------->
 <!--- now get the formatted publications --->
 <!--- 

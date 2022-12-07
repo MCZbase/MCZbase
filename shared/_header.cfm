@@ -396,7 +396,7 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Publication.cfm?action=newPub">Publication</a><!--- old --->
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Publication</a> 
+												<a class="dropdown-item" href="/publications/Publication.cfm?action=new">Publication</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Project.cfm?action=makeNew">Projects</a><!--- old --->
