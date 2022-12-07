@@ -140,13 +140,13 @@
 											</cfloop>--->
 											<cfif len(keywords.keywords) gt 0>
 											<tr>
-												<th scope="row">Keywords: </span></th><td>#keywords.keywords#</td>
+												<th scope="row">Keywords: </span></th><td> #keywords.keywords#</td>
 											</tr>
 											<cfelse>
 											</cfif>
 											<cfif listcontainsnocase(session.roles,"manage_media")>
 											<tr class="border mt-2 p-2">
-												<th scope="row">Alt Text:</th><td>#media.alttag#</td>
+												<th scope="row">Alt Text: </th><td>#media.alttag#</td>
 											</tr>
 											</cfif>
 											<cfif len(media_rel.media_relationship) gt 0>
