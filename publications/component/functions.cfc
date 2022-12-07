@@ -556,8 +556,8 @@ limitations under the License.
 						<div class="h5">The "author" and "second author" names are used for both authors and editors of publications.</div>
 						<div class="form-row">
 							<div class="col-12 col-md-6">
-								<label for="agent_name_type" class="data-entry-label">Type of Name</label>
-								<select name="agent_name_type" id="agent_name_type" size="1" class="data-entry-select reqdClr" required>
+								<label for="agent_name_type_addNameDlg" class="data-entry-label">Type of Name</label>
+								<select name="agent_name_type" id="agent_name_type_addNameDlg" size="1" class="data-entry-select reqdClr" required>
 									<cfloop query="ctNameType">
 										<cfif variables.agent_name_type IS ctNameType.name_type>
 											<cfset selected = "selected='selected'">
@@ -569,14 +569,14 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="agent_name" class="data-entry-label">Name</label>
-								<input name="agent_name" id="agent_name" value="" class="data-entry-input reqdClr" required>
+								<label for="agent_name_addNameDlg" class="data-entry-label">Name</label>
+								<input name="agent_name" id="agent_name_addNameDlg" value="" class="data-entry-input reqdClr" required>
 							</div>
 							<div class="col-12 col-md-6">
 								<button type="button" onclick="addNameAction();" class="btn btn-xs btn-primary">Add</button>
 								<script>
 									function addNameAction() { 
-										addAuthorName('#getAgent.agent_id#',$('##agent_name_type').val(),$('##agent_name').val(),'agent_name_id','addAgentNameFeedback');
+										addAuthorName('#getAgent.agent_id#',$('##agent_name_type_addNameDlg').val(),$('##agent_name_addNameDlg').val(),'agent_name_id','addAgentNameFeedback');
 									};
 								</script>
 								<input type="hidden" id="added_agent_name_id" value="">
