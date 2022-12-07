@@ -479,7 +479,7 @@ limitations under the License.
             		</div>
 						<div class="col-12 col-md-3">
 							<input type="button" class="btn btn-xs btn-primary" value="Create" 
-								onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } " 
+								onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } ">
             		</div>
 						<div class="col-12 col-md-9">
 							Add authors, editors, attributes, media, and lookup DOI after saving.
