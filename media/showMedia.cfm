@@ -127,7 +127,6 @@
 									WHERE
 										media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								</cfquery>
-								<br><br>#media.mrstr#,<br><br>
 								<cfif len(media.media_id) gt 0>
 									<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-2 pt-3 pb-0">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textFull")>
