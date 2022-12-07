@@ -17,6 +17,30 @@ limitations under the License.
 
 **/
 
+/** markup apply an html tage to selected text in a text area.
+ * @param textAreaId the id of a textarea input to which to apply markup.
+ * @param the tag to use, supported values: i, b, sub, sup.
+ **/
+function markup(textAreaId, tag){
+	var len = $("##"+textAreaId).val().length;
+	var start = $("##"+textAreaId)[0].selectionStart;
+	var end = $("##"+textAreaId)[0].selectionEnd;
+	var selection = $("##"+textAreaId).val().substring(start, end);
+	if (selection.length>0){
+		var replace = selection;
+		if (tag=='i') { 
+			replace = '<i>' + selection + '</i>';
+		} else if(tag=='b') { 
+			replace = '<b>' + selection + '</b>';
+		} else if(tag=='sub') { 
+			replace = '<sub>' + selection + '</sub>';
+		} else if(tag=='sup') { 
+			replace = '<sup>' + selection + '</sup>';
+		}
+		$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
+	}
+}
+
 /** loadFullCitDivHTML load a block of html showing the current full form
  * of the citation for a publication.
  * @param publication_id the publication for which to show the citation.

@@ -137,27 +137,6 @@ limitations under the License.
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required>#pub.publication_title#</textarea>
 						</div>
-						<script>
-							function markup(textAreaId, tag){
-								var len = $("##"+textAreaId).val().length;
-								var start = $("##"+textAreaId)[0].selectionStart;
-								var end = $("##"+textAreaId)[0].selectionEnd;
-								var selection = $("##"+textAreaId).val().substring(start, end);
-								if (selection.length>0){
-									var replace = selection;
-									if (tag=='i') { 
-										replace = '<i>' + selection + '</i>';
-									} else if(tag=='b') { 
-										replace = '<b>' + selection + '</b>';
-									} else if(tag=='sub') { 
-										replace = '<sub>' + selection + '</sub>';
-									} else if(tag=='sup') { 
-										replace = '<sup>' + selection + '</sup>';
-									}
-									$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
-								}
-							}
-						</script>
 						<div class="col-12 col-md-1 ml-0 row">
 							<div class="col-6 ml-0 mr-0 px-0">
 								<ul class="list-group pt-3">
@@ -179,7 +158,7 @@ limitations under the License.
 									</li>
 								</ul>
 							</div>
-					</div>
+						</div>
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
@@ -430,114 +409,6 @@ limitations under the License.
 	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
-	<style>
-		.missing {
-			border:2px solid red;
-			}
-	</style>
-	<script>
-		function confirmpub() {
-			var r=true;
-			var msg='';
-			$('.missing').removeClass('missing');
-			$('.reqdClr').each(function() {
-                var thisel=$("#" + this.id)
-                if ($(thisel).val().length==0){
-                	msg += this.id + ' is required\n';
-                	$(thisel).addClass('missing');
-                }
-        	});
-        	if (msg.length>0){
-        		alert(msg);
-        		return false;
-        	}
-        	else {
-        		/*if ($("#doi").val().length==0 ) {
-					msg = 'Please enter a DOI if one is available for this article is available\n';
-					msg+='Click OK to enter a DOI before creating this article, or Cancel to proceed.\n';
-					msg+='There are also tools on the next page to help find DOI.';
-					var r = confirm(msg);
-					if (r == true) {
-					    return false;
-					} else {
-					    return true;
-					}
-				}*/
-				return true;
-        	}
-
-		function toggleMedia() {
-			if($('#media').css('display')=='none') {
-				$('#mediaToggle').html('[ Hide Media ]');
-				$('#media').show();
-				$('#media_uri').addClass('reqdClr');
-				$('#mime_type').addClass('reqdClr');
-				$('#media_type').addClass('reqdClr');
-				$('#media_desc').addClass('reqdClr');
-			} else {
-				$('#mediaToggle').html('[ Add Media ]');
-				$('#media').hide();
-				$('#media_uri').val('').removeClass('reqdClr');
-				$('#mime_type').val('').removeClass('reqdClr');
-				$('#media_type').val('').removeClass('reqdClr');
-				$('#media_desc').val('').removeClass('reqdClr');
-			}
-		}
-		function getPubMeta(idtype){
-			$("#doilookup").html('<image src="/images/indicator.gif">');
-			$("#pmidlookup").html('<image src="/images/indicator.gif">');
-			$('#doi').val($('#doi').val().trim());
-			$('#pmid').val($('#pmid').val().trim());
-			if (idtype=='DOI'){
-				var identifier=$('#doi').val();
-			} else {
-				var identifier=$('#pmid').val();
-			}
-			jQuery.getJSON("/component/functions.cfc",
-				{
-					method : "getPublication",
-					identifier : identifier,
-					idtype: idtype,
-					returnformat : "json",
-					queryformat : 'column'
-				},
-				function (d) {
-					if(d.DATA.STATUS=='success'){
-						$("#full_citation").val(d.DATA.LONGCITE);
-						$("#short_citation").val(d.DATA.SHORTCITE);
-						$("#publication_type").val(d.DATA.PUBLICATIONTYPE);
-						$("#is_peer_reviewed_fg").val(1);
-						$("#published_year").val(d.DATA.YEAR);
-						$("#short_citation").val(d.DATA.SHORTCITE);
-						for (i = 1; i<5; i++) {
-							$("#authSugg" + i).html('');
-							var thisAuthStr=eval("d.DATA.AUTHOR"+i);
-							thisAuthStr=String(thisAuthStr);
-							if (thisAuthStr.length>0){
-								thisAuthAry=thisAuthStr.split("|");
-								for (z = 0; z<thisAuthAry.length; z++) {
-									var thisAuthRec=thisAuthAry[z].split('@');
-									var thisAgentName=thisAuthRec[0];
-									var thisAgentID=thisAuthRec[1];
-									var thisSuggest='<span class="infoLink" onclick="useThisAuthor(';
-									thisSuggest += "'" + i + "','" + thisAgentName + "','" + thisAgentID + "'" + ');"> [ ' + thisAgentName + " ] </span>";
-									try {
-										$("#authSugg" + i).append(thisSuggest);
-									} catch(err){}
-								}
-							}
-						}
-						$("#doilookup").html(' [ crossref ] ');
-						$("#pmidlookup").html(' [ pubmed ] ');
-					} else {
-						$("#doilookup").text(' [ crossref ] ');
-						$("#pmidlookup").text(' [ pubmed ] ');
-						alert(d.DATA.STATUS);
-					}
-				}
-			);
-		}
-	</script>
 	<cfoutput>
 		<main class="container py-3" id="content" >
 			<section class="row border rounded my-2">
@@ -545,131 +416,76 @@ limitations under the License.
 					Create New Publication
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 				</h1>
-
-		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
-			<div class="cellDiv">
-			The Basics:
-			<input type="hidden" name="action" value="createPub">
-			<table class="pubtitle">
-				<tr>
-					<td>
-						<label for="publication_title">Publication Title</label>
-						<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="70"></textarea>
-					</td>
-					<td style="padding-right: 2em;padding-top: 1em;">
-						<span class="infoLink" onclick="italicize('publication_title')">italicize selected text</span>
-						<br><span class="infoLink" onclick="bold('publication_title')">bold selected text</span>
-						<br><span class="infoLink" onclick="superscript('publication_title')">superscript selected text</span>
-						<br><span class="infoLink" onclick="subscript('publication_title')">subscript selected text</span>
-					</td>
-				</tr>
-			</table>
-
-			<div class="pubS"><label for="publication_type">Publication Type</label>
-			<select name="publication_type" id="publication_type" class="reqdClr" onchange="setDefaultPub(this.value)"  style="border: 1px solid ##ccc;">
-				<option value=""></option>
-				<cfloop query="ctpublication_type">
-					<option value="#publication_type#">#publication_type#</option>
-				</cfloop>
-			</select>
-            </div>
-            <p class="pubs_style"><b>Proceedings</b> are entered as if they are <b>Journals</b>. Choose "Journal Name" for publication type and the correct attributes will appear. You will find proceedings in the Journal Name dropdown alphabetically listed at "p". Similarly, a <b>Dissertation</b> or <b>Thesis</b> should be entered as if it were a <b>Book Section</b>.  Put "Ph.D. Dissertation" or "Thesis" in the <i>book</i> attribute and the location and school in the <i>publisher</i> attribute.  Select <b>serial monographs</b> when you wish to enter a work that is like a journal article, but includes a publisher in the citation.</p>
-
-            <div style="clear:both;">
-            <label for="is_peer_reviewed_fg">Peer Reviewed?</label>
-			<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="reqdClr" >
-				<option value="1">yes</option>
-				<option value="0">no</option>
-			</select>
-			<label for="published_year">Published Year</label>
-			<input type="text" name="published_year" id="published_year" class="reqdClr">
-
-
-			<label for="doi">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
-			<input type="text" name="doi" id="doi" size="50">
-<!---  TODO: This lookup requires a crossref user account, needs a script containing the getPubMeta function and to have getPublication added to component/functions.cfc
-			<span class="likeLink" id="doilookup" onclick="getPubMeta('DOI');"> [ crossref ] </span>
---->
-			<label for="publication_loc">Storage Location</label>
-			<input type="text" name="publication_loc" id="publication_loc" size="100">
-			<label for="publication_remarks">Remark</label>
-			<input type="text" name="publication_remarks" id="publication_remarks" size="100">
-			<input type="hidden" name="numberAuthors" id="numberAuthors" value="1">
-			</div></div>
-			<div class="cellDiv">
-			<div>Authors and Editors:</div> <div><span class="infoLink thirteen" onclick="addAgent()">Add Row</span> ~ <span class="infoLink thirteen" onclick="removeAgent()">Remove Last Row</span></div>
-			<table id="authTab">
-				<tr>
-					<th>Role</th>
-					<th>Name</th>
-				</tr>
-				<tr id="authortr1">
-					<td style="width: 60px;">
-						<select name="author_role_1" id="author_role_1" style="width: auto;">
-							<option value="author">author</option>
-							<option value="editor">editor</option>
-						</select>
-					</td>
-					<td  style="background-color: white;">
-						<input type="hidden" name="author_id_1" id="author_id_1">
-						<input type="text" name="author_name_1" id="author_name_1" class="reqdClr" size="50"
-							onchange="findAgentName('author_id_1',this.name,this.value)"
-		 					onKeyPress="return noenter(event);">
-					</td>
-				</tr>
-			</table>
-			</div>
-			<div class="cellDiv">
-			<div>Attributes:</div>
-			<div class="infoLink thirteen" onclick="removeLastAttribute()">Remove Last Row</div>
-			<table id="attTab" style="border: 1px solid ##ccc;margin-top: .5em;padding-left: 5px;background-color: white;">
-				<tr style="border:1px solid ##ccc;">
-					<th>Attribute</th>
-					<th>Value</th>
-					<th></th>
-				</tr>
-                <tr>
-             <!---  Add:--->
-			<input type="hidden" name="numberAttributes" id="numberAttributes" value="0" size="30">
-			 <td style="width: 200px;border: 1px double ##ccc;background-color: ##f8f8f8;;font-size: 12px; font-weight: 800;">
-            &nbsp;&nbsp; Add Attribute:</td><td>
-             <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)" style="font-">
-				<option value="">pick</option>
-				<cfloop query="CTPUBLICATION_ATTRIBUTE">
-					<option value="#publication_attribute#">#publication_attribute#</option>
-				</cfloop>
-			</select>
-            </td>
-                <tr>
-			</table>
-			</div>
-			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
-
-			<div class="cellDiv" id="media" style="display:none;">
-				Media:
-				<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90"><!---span class="infoLink" id="uploadMedia">Upload</span--->
-				<label for="preview_uri">Preview URI</label>
-				<input type="text" name="preview_uri" id="preview_uri" size="90">
-				<label for="mime_type">MIME Type</label>
-				<select name="mime_type" id="mime_type">
-					<option value=""></option>
-					<cfloop query="ctmime_type">
-						<option value="#mime_type#">#mime_type#</option>
-					</cfloop>
-				</select>
-            	<label for="media_type">Media Type</label>
-				<select name="media_type" id="media_type">
-					<option value=""></option>
-					<cfloop query="ctmedia_type">
-						<option value="#media_type#">#media_type#</option>
-					</cfloop>
-				</select>
-				<label for="media_desc">Media Description</label>
-				<input type="text" name="media_desc" id="media_desc" size="80">
-			</div>
-			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
-		</form>
+				<form name="newPubForm" method="post" action="Publication.cfm">
+					<input type="hidden" name="action" value="createPub">
+					<div class="col-12 form-row">
+						<div class="col-12 col-md-11">
+							<label for="publication_title" class="data-entry-label">Publication Title</label>
+							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
+						</div>
+						<div class="col-12 col-md-1 ml-0 row">
+							<div class="col-6 ml-0 mr-0 px-0">
+								<ul class="list-group pt-3">
+									<li class="list-group-item px-0 pb-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','i')" aria-label="italicize selected text"><i>i</i></button>
+									</li>
+									<li class="list-group-item px-0 pt-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','b')" aria-label="make selected text bold"><strong>B</strong></button>
+									</li>
+								</ul>
+							</div>
+							<div class="col-6 ml-0 px-0">
+								<ul class="list-group pt-3">
+									<li class="list-group-item px-0 pb-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sub')" aria-label="make text subscript">A<sub>2</sub></button>
+									</li>
+									<li class="list-group-item px-0 pt-0">
+										<button type="button" class="btn btn-xs btn-secondary m-0 w-100" onclick="markup('publication_title','sup')" aria-label="make selected text superscript">A<sup>2</sup></button>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-12 col-md-3">
+							<label for="publication_type" class="data-entry-label">Publication Type</label>
+							<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" required>
+								<option value=""></option>
+								<cfloop query="ctpublication_type">
+									<option value="#publication_type#">#publication_type#</option>
+								</cfloop>
+							</select>
+            		</div>
+						<div class="col-12 col-md-3">
+							<label for="published_year">Published Year</label>
+							<input type="text" name="published_year" id="published_year" class="data-entry-input">
+            		</div>
+						<div class="col-12 col-md-3">
+							<label for="doi">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
+							<input type="text" name="doi" id="doi" size="50">
+            		</div>
+						<div class="col-12 col-md-3">
+							<label for="publication_loc" class="data-entry-label">Storage Location</label>
+							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input">
+            		</div>
+						<div class="col-12 col-md-9">
+							<label for="publication_remarks" class="data-entry-label>Remark</label>
+							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input">
+						</div>	
+						<div class="col-12 col-md-3">
+            			<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
+							<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select" >
+								<option value="1">yes</option>
+								<option value="0">no</option>
+							</select>
+            		</div>
+						<div class="col-12 col-md-3">
+							<input type="button" class="btn btn-xs btn-primary" value="Create" 
+								onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } " 
+            		</div>
+						<div class="col-12 col-md-9">
+							Add authors, editors, attributes, media, and lookup DOI after saving.
+						</div>
+					</div>
+				</form>
 			</section>
 		</main>
 	</cfoutput>
@@ -707,106 +523,7 @@ limitations under the License.
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
 			)
 		</cfquery>
-		<cfloop from="1" to="#numberAuthors#" index="n">
-			<cfset thisAgentNameId = #evaluate("author_id_" & n)#>
-			<cfset thisAuthorRole = #evaluate("author_role_" & n)#>
-			<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into publication_author_name (
-					publication_id,
-					agent_name_id,
-					author_position,
-					author_role
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
-				)
-			</cfquery>
-		</cfloop>
-		<cfloop from="1" to="#numberAttributes#" index="n">
-			<cfset thisAttribute = #evaluate("attribute_type" & n)#>
-			<cfset thisAttVal = #evaluate("attribute" & n)#>
-			<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into publication_attributes (
-					publication_id,
-					publication_attribute,
-					pub_att_value
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
-				)
-			</cfquery>
-		</cfloop>
-		<cfif len(media_uri) gt 0>
-			<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select sq_media_id.nextval nv from dual
-			</cfquery>
-			<cfset media_id=mid.nv>
-			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into media 
-					(media_id,media_uri,mime_type,media_type,preview_uri)
-	            values 
-					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">)
-			</cfquery>
-			<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into media_relations (
-					media_id,
-					media_relationship,
-					related_primary_key
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="shows publication">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">
-				)
-			</cfquery>
-			<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into media_labels (
-					media_id,
-					media_label,
-					label_value)
-				values 
-					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="description">,
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_desc#">)
-			</cfquery>
-		</cfif>
 		</cftransaction>
-	<cfinvoke component="/component/publication" method="shortCitation" returnVariable="shortCitation">
-		<cfinvokeargument name="publication_id" value="#pid#">
-		<cfinvokeargument name="returnFormat" value="plain">
-	</cfinvoke>
-	<cfinvoke component="/component/publication" method="longCitation" returnVariable="longCitation">
-		<cfinvokeargument name="publication_id" value="#pid#">
-		<cfinvokeargument name="returnFormat" value="plain">
-	</cfinvoke>
-	<cfquery name="sfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		insert into formatted_publication (
-			publication_id,
-			format_style,
-			formatted_publication
-		) values (
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
-			'short',
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shortCitation#">
-		)
-	</cfquery>
-	<cfquery name="lfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		insert into formatted_publication (
-			publication_id,
-			format_style,
-			formatted_publication
-		) values (
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
-			'long',
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#longCitation#">
-		)
-	</cfquery>
 		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
 	</cfoutput>
 </cfcase>
