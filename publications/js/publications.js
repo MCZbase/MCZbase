@@ -17,6 +17,30 @@ limitations under the License.
 
 **/
 
+/** markup apply an html tage to selected text in a text area.
+ * @param textAreaId the id of a textarea input to which to apply markup.
+ * @param the tag to use, supported values: i, b, sub, sup.
+ **/
+function markup(textAreaId, tag){
+	var len = $("##"+textAreaId).val().length;
+	var start = $("##"+textAreaId)[0].selectionStart;
+	var end = $("##"+textAreaId)[0].selectionEnd;
+	var selection = $("##"+textAreaId).val().substring(start, end);
+	if (selection.length>0){
+		var replace = selection;
+		if (tag=='i') { 
+			replace = '<i>' + selection + '</i>';
+		} else if(tag=='b') { 
+			replace = '<b>' + selection + '</b>';
+		} else if(tag=='sub') { 
+			replace = '<sub>' + selection + '</sub>';
+		} else if(tag=='sup') { 
+			replace = '<sup>' + selection + '</sup>';
+		}
+		$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
+	}
+}
+
 /** loadFullCitDivHTML load a block of html showing the current full form
  * of the citation for a publication.
  * @param publication_id the publication for which to show the citation.
@@ -108,6 +132,200 @@ function lookupDOI(publication_id, doiInput, doiLinkDiv) {
 		}
 	});
 }
+
+/** openEditAttributeDialog open a dialog to edit an attribute of a publication.
+ * @param dialogid the id of a div in the dom which to make into the dialog 
+ *   without leading pound selector.
+ * @param publication_attribute_id the primary key of the publication attribute
+ *  to edit.
+ * @param attribute the current attribute type to edit.
+ * @param okcallback a callback function to invoke on success.
+ */
+function openEditAttributeDialog(dialogid,publication_attribute_id, attribute, okcallback) { 
+	var title = "Edit publication attribute "+attribute+".";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.4);
+	h = Math.floor(h *.5);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 250,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			$("#"+dialogid+"_div").html("");
+			$(this).dialog("destroy");
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "getAttributeEditDialogHtml",
+			returnformat: "plain",
+			publication_attribute_id: publication_attribute_id
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading dialog to edit publication attribute");
+		}
+	});
+}
+/** openAddAttributeDialog open a dialog to add an attribute to a publication.
+ * @param dialogid the id of a div in the dom which to make into the dialog 
+ *   without leading pound selector.
+ * @param publication_id the primary key of the publication to which to add 
+ *   the attribute.
+ * @param attribute optional attribute type to add.
+ * @param okcallback a callback function to invoke on success.
+ */
+function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) { 
+	var title = "Add publication attribute "+attribute;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.4);
+	h = Math.floor(h *.5);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 250,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			$("#"+dialogid+"_div").html("");
+			$(this).dialog("destroy");
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "getAttributeAddDialogHtml",
+			returnformat: "plain",
+			publication_id: publication_id,
+			attribute: attribute
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading dialog to add publication attribute");
+		}
+	});
+}
+
+/** saveAttribute update an existing row in publication_attributes
+ * @param publication_attribute_id the publication attribute to be updated.
+ * @param publication_id the publication to which the attribute applies.
+ * @param publication_attribute the new type of attribute.
+ * @param pub_att_value the new value of the attribute.
+ * @param okcallback a callback function to invoke on success.
+*/
+function saveAttribute(publication_attribute_id, publication_id, publication_attribute, pub_att_value, feedbackdiv, okcallback) { 
+	console.log(publication_id);
+	console.log(publication_attribute);
+	console.log(pub_att_value);
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "updateAttribute",
+			returnformat : "json",
+			queryformat : 'struct',
+			publication_attribute_id: publication_attribute_id,
+			publication_id: publication_id,
+			publication_attribute: publication_attribute,
+			pub_att_value: pub_att_value
+		},
+		success: function (result) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+			var status = result[0].status;
+			if (status=='updated') {
+				console.log(status);
+				$('#'+feedbackdiv).html(status);
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
+		},
+		dataType: "json"
+	});
+};
+
+/** saveNewAttribute insert a row into publication_attributes
+ * @param publication_id the publication to which the attribute applies.
+ * @param publication_attribute the type of attribute to add.
+ * @param pub_att_value the value of the attribute to add.
+ * @param feedbackdiv id of an element in the dom without leading pound 
+ *  selector into which to place feedback on success.
+ * @param okcallback a callback function to invoke on success.
+*/
+function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv, okcallback) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "addAttribute",
+			returnformat : "json",
+			queryformat : 'struct',
+			publication_id: publication_id,
+			publication_attribute: publication_attribute,
+			pub_att_value: pub_att_value
+		},
+		success: function (result) {
+			console.log(result);
+			var status = result[0].status;
+			console.log(status);
+			if (status=='inserted') {
+				$('#'+feedbackdiv).html(status);
+			}
+			if (okcallback && jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
+		},
+		dataType: "json"
+	});
+};
 
 /** deleteAttribute delete an attribute from a publication.
  * @param publication_attribute_id the primary key of the publication attribute
@@ -392,6 +610,12 @@ function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control
 			} else { 
 				$('#'+agent_name_id_control).val(result[0].agent_name_id)
 				$('#'+feedback_control).html("Added " + agent_name + " to agent.");
+				if ($('#author_name_id').val()=='') { 
+					$('#author_name_control').html(agent_name);
+					$('#agent_name_id').val(result[0].agent_name_id);
+					$('#addButton').prop('disabled',false);
+					$('#addButton').removeClass('disabled');
+				}
 			} 
 		}
 	).fail(function(jqXHR,textStatus,error){
