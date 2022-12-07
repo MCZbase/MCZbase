@@ -23,31 +23,6 @@
 		MCZBASE.get_media_credit(media.media_id) as credit, 
 		mczbase.get_media_descriptor(media_id) as alttag,
 		MCZBASE.get_media_owner(media.media_id) as owner
-<!---	,
-		COALESCE(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'ctrelations.media_relationship') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows project') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows specimen_part') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows underscore_collection') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents borrow') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents loan') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents collecting_event') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents deaccession') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'physical object created by agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'ledger entry for cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows handwriting of agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'document for permit') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents accn') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'transcript for audio media') ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'created by agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media')
-			, 'Unrelated image') mrstr--->
 	From
 		media
 	WHERE 
@@ -109,17 +84,6 @@
 									media_keywords
 								WHERE
 									media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								</cfquery>
-								<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT source_media.media_id source_media_id, 
-										source_media.auto_filename source_filename,
-										source_media.media_uri source_media_uri,
-										media_relations.media_relationship
-									FROM
-										media_relations
-										left join media source_media on media_relations.media_id = source_media.media_id
-									WHERE
-										media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								</cfquery>
 								<cfif len(media.media_id) gt 0>
 									<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-2 pt-3 pb-0">
@@ -193,9 +157,8 @@
 												</cfif>
 											<tr>
 												<th scope="row">Relationship#plural#:&nbsp; </span></th>
-												<td>	
-													<cfloop query="media_rel">#media_rel.media_relationship#
-														<cfif media_rel.media_relationship contains 'cataloged_item'>:
+												<td><cfloop query="media_rel">
+														#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>:
 														<cfloop query="spec">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct media.media_id, media.auto_protocol, media.auto_host,
@@ -206,7 +169,7 @@
 																where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 																	AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
-														</cfloop> 
+														</cfloop>
 													</cfif>
 													<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 													</cfloop> 
