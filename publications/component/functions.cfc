@@ -463,7 +463,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
 							</div>
-							<div class="col-12 col-md-3" id="missingNameDiv">
+							<div class="col-12 col-md-9" id="missingNameDiv">
 								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
 								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
 							</div>
