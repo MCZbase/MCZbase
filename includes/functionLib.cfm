@@ -44,26 +44,30 @@
 	<cfargument name="mt" required="false" type="string">
 	<cfset r=0>
 	<cfif len(puri) gt 0>
-		<cfif puri contains 'iiif.mcz.harvard.edu'>
-			<!--- just use the preview uri --->
-			<cfset r=1>
+		<cfif not isdefined("session.mczmediafail")><cfset session.mczmediafail=0></cfif>
+		<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/' and session.mczmediafail GT 3>
+			<!--- decrement the fail counter --->
+			<cfset session.mczmediafail = session.mczmediafail-1 >
+		<cfelseif puri contains 'iiif.mcz.harvard.edu/' and session.mczmediafail GT 3>
+			<!--- decrement the fail counter --->
+			<cfset session.mczmediafail = session.mczmediafail-1 >
 		<cfelse>
-			<cfif not isdefined("session.mczmediafail")><cfset session.mczmediafail=0></cfif>
-			<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/' and session.mczmediafail GT 3>
-				<!--- decrement the fail counter --->
-				<cfset session.mczmediafail = session.mczmediafail-1 >
+			<cfif puri contains 'iiif.mcz.harvard.edu/'>
+				<!--- don't double url encode a iiif preview_uri --->
+				<cfset lookupURI=puri>
 			<cfelse>
 				<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
-				<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="2">
-				<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
-					<cfset r=1>
-				<cfelse>
-					<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/'>
-						<cfset session.mczmediafail = session.mczmediafail + 1 >
-						<cfif session.mczmediafail GT 3>
-							<!--- we'll return a noThumb image for the next 100 requests without doing a lookup --->
-							<cfset session.mczmediafail = 100 >
-						</cfif>
+				<cfset lookupURI="#SubsetEncodeForURL(puri)#">
+			</cfif>
+			<cfhttp method="head" url="#lookupURI#" timeout="2">
+			<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
+				<cfset r=1>
+			<cfelse>
+				<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/'>
+					<cfset session.mczmediafail = session.mczmediafail + 1 >
+					<cfif session.mczmediafail GT 3>
+						<!--- we'll return a noThumb image for the next 100 requests without doing a lookup --->
+						<cfset session.mczmediafail = 100 >
 					</cfif>
 				</cfif>
 			</cfif>
