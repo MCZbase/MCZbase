@@ -434,9 +434,8 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12">
 						<h3 class="h4" >Add #roleLabel#</h3>
-						<!--- TODO: Add UI elements to add a first/second author form of name if one is not present for selected agent --->
 						<div class="form-row">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-md-5">
 								<label for="agent_name" class="data-entry-label">Pick an agent to add as an #roleLabel#</label>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -450,11 +449,14 @@ limitations under the License.
 								<label for="agent_view" class="data-entry-label">Selected Agent</label>
 								<div id="agent_view"></div>
 							</div>
-							<div class="col-12 col-md-3">
+							<div class="col-12 col-md-2">
 								<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
 								<div id="author_name_control"></div>
 								<input type="hidden" name="author_name_id" id="author_name_id" value="">
 								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+							</div>
+							<div class="col-12 col-md-2">
+								<a href="/agents/editAgent.cfm?action=new" aria-label="add a new agent" class="btn btn-xs btn-secondary" target="_blank" >New Agent</a>
 							</div>
 						</div>
 						<div class="form-row">
@@ -477,19 +479,19 @@ limitations under the License.
 								};
 							</script>
 							<div id="addNameTypeDialogDiv"></div>
-						<script>
-							<!--- TODO: Refactor to inclulde first/second author name forms as appropriate.  --->
-							$(document).ready(function() {
-								makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
-							});
-						</script>
-					</div>
-					<div class="col-12" id="listOfAuthorsDiv">
-						<ol id="authorListOnDialog">
-							<cfloop query="getAuthorsEditors">
-								<li>#getAuthorsEditors.agent_name#</li>
-							</cfloop>
-						</ol>
+							<script>
+								$(document).ready(function() {
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
+								});
+							</script>
+						</div>
+						<div class="col-12" id="listOfAuthorsDiv">
+							<ol id="authorListOnDialog">
+								<cfloop query="getAuthorsEditors">
+									<li>#getAuthorsEditors.agent_name#</li>
+								</cfloop>
+							</ol>
+						</div>
 					</div>
 					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
 				</div>
