@@ -70,7 +70,7 @@
 			WHERE 
 				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			and media.media_id = media_relations.media_id
-			ORDER BY media_relationship
+			ORDER BY media_relations.media_relationship
 		</cfquery>
 		<div class="container-fluid">
 			<div class="row">
