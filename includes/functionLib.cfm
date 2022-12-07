@@ -48,6 +48,9 @@
 		<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/' and session.mczmediafail GT 3>
 			<!--- decrement the fail counter --->
 			<cfset session.mczmediafail = session.mczmediafail-1 >
+		<cfelseif puri contains 'iiif.mcz.harvard.edu' and session.mczmediafail GT 3>
+			<!--- decrement the fail counter --->
+			<cfset session.mczmediafail = session.mczmediafail-1 >
 		<cfelse>
 			<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
 			<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="2">
