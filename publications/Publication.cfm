@@ -395,7 +395,7 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 </cfcase>
-<cfcase value="newPub">
+<cfcase value="new">
 	<!---------------------------------------------------------------------------------------------------------->
 	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
