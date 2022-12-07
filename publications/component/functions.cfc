@@ -419,6 +419,7 @@ limitations under the License.
 			<cfset maxposition = 0>
 			<cfloop query="getMaxPosition">
 				<cfset maxposition=max_position>
+				<cfif len(maxposition)EQ 0 ><cfset maxposition=0></cfif>
 			</cfloop>
 			<cfif minpositionfortype EQ 0>
 				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
