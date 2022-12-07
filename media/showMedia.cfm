@@ -29,12 +29,12 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
-<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="eachRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_object_id as pk, guid
 	from media_relations
 		left join flat on related_primary_key = collection_object_id
 	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and media_relations.media_relationship like '%cataloged_item%'
+			and media_relations.media_relationship like '%#media_rel.media_relationship#%'
 	order by guid
 </cfquery>
 	<cfloop query="media">
@@ -127,17 +127,6 @@
 													<th scope="row">License:</th><td><a href="#uri#" target="_blank" class="external">#display#</a></td>
 												</tr>
 											</cfif>
-<!---											<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
-												from media_relations
-											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-												and media_relationship like '%media_rel.media_relationship%'
-											</cfquery>
-											<cfloop query="relations">
-												<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-													<cfset labellist = "<th scope='row'><span class='text-uppercase'>#mr_label#:</span></th><td> #mr_value#</td>">
-												</cfif>
-											</cfloop>--->
 											<cfif len(keywords.keywords) gt 0>
 											<tr>
 												<th scope="row">Keywords: </span></th><td> #keywords.keywords#</td>
@@ -159,7 +148,7 @@
 												<th scope="row">Relationship#plural#:&nbsp; </span></th>
 												<td><cfloop query="media_rel">
 														#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>:
-														<cfloop query="spec">
+														<cfloop query="eachRel">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct media.media_id, media.auto_protocol, media.auto_host,
 																	MCZBASE.is_media_encumbered(media.media_id) as hideMedia
