@@ -22,31 +22,7 @@
 		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 		MCZBASE.get_media_credit(media.media_id) as credit, 
 		mczbase.get_media_descriptor(media_id) as alttag,
-		MCZBASE.get_media_owner(media.media_id) as owner,
-		COALESCE(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'ctrelations.media_relationship') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows project') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows specimen_part') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows underscore_collection') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents borrow') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents loan') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents collecting_event') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents deaccession') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'physical object created by agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'ledger entry for cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows handwriting of agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'document for permit') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents accn') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'transcript for audio media') ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'created by agent') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'related to media')
-			, 'Unrelated image') mrstr
+		MCZBASE.get_media_owner(media.media_id) as owner
 	From
 		media
 	WHERE 
@@ -64,11 +40,36 @@
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
-				media_relationship
+				media_relations.media_relationship,
+		COALESCE(MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'ctrelations.media_relationship') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows collecting_event') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows cataloged_item') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows agent') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows project') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows specimen_part') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows underscore_collection') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows permit') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'documents borrow') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'documents loan') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows locality') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'documents cataloged_item') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'documents collecting_event') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'documents deaccession') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'physical object created by agent') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'related to media') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'ledger entry for cataloged_item') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'shows handwriting of agent') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'document for permit') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'documents accn') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'transcript for audio media') ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'created by agent') ||
+			MCZBASE.GET_MEDIA_REL_SUMMARY(media.media_id, 'related to media')
+			, 'Unrelated image') mrstr
 			From
-				media_relations
+				media_relations,media
 			WHERE 
-				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
+			and media.media_id = media_relations.media_id
 			ORDER BY media_relationship
 		</cfquery>
 		<div class="container-fluid">
