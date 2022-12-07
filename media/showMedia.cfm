@@ -37,14 +37,6 @@
 			and media_relations.media_relationship like '%cataloged_item%'
 	order by guid
 </cfquery>
-<cfquery name="agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collection_object_id as pk, agent_id
-	from media_relations
-		left join flat on related_primary_key = collection_object_id
-	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and media_relations.media_relationship like '%agent%'
-	order by agent_id
-</cfquery>
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -166,18 +158,6 @@
 																where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 																	AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
-														</cfloop>
-													</cfif><cfif media_rel.media_relationship contains 'agent'>:
-														<cfloop query="agent">
-															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select distinct media.media_id, media.auto_protocol, media.auto_host,
-																	MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-																from media_relations
-																	 left join media on media_relations.media_id = media.media_id
-																	 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-																where related_primary_key = <cfqueryparam value=#agent.pk# CFSQLType="CF_SQL_DECIMAL" >
-																	AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/agent/#agent_id#">#agent.agent_id#</a>
 														</cfloop>
 													</cfif>
 													<cfif media_rel.recordcount GT 1><span> | </span></cfif>
