@@ -127,7 +127,7 @@
 													<th scope="row">License:</th><td><a href="#uri#" target="_blank" class="external">#display#</a></td>
 												</tr>
 											</cfif>
-											<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---											<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
 												from media_relations
 											where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
@@ -137,7 +137,7 @@
 												<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
 													<cfset labellist = "<th scope='row'><span class='text-uppercase'>#mr_label#:</span></th><td> #mr_value#</td>">
 												</cfif>
-											</cfloop>
+											</cfloop>--->
 											<cfif len(keywords.keywords) gt 0>
 											<tr>
 												<th scope="row">Keywords: </span></th><td>#keywords.keywords#</td>
