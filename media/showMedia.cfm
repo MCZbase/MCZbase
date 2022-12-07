@@ -155,9 +155,9 @@
 																from media_relations
 																	 left join media on media_relations.media_id = media.media_id
 																	 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-																where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+																where related_primary_key = <cfqueryparam value=#eachRel.pk# CFSQLType="CF_SQL_DECIMAL" >
 																	AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+															</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#eachRel.guid#">#spec.guid#</a>
 														</cfloop>
 													</cfif>
 													<cfif media_rel.recordcount GT 1><span> | </span></cfif>
