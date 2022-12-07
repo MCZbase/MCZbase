@@ -29,14 +29,7 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
-<cfquery name="eachRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collection_object_id as pk, guid
-	from media_relations
-		left join flat on related_primary_key = collection_object_id
-	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and media_relations.media_relationship like '%#media_rel.media_relationship#%'
-	order by guid
-</cfquery>
+
 	<cfloop query="media">
 		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -46,6 +39,14 @@
 			WHERE 
 				media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 			ORDER BY media_relationship, related_primary_key
+		</cfquery>
+		<cfquery name="eachRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct collection_object_id as pk, guid
+			from media_relations
+				left join flat on related_primary_key = collection_object_id
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and media_relations.media_relationship like '%#media_rel.media_relationship#%'
+			order by guid
 		</cfquery>
 		<div class="container-fluid">
 			<div class="row">
