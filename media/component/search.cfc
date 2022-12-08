@@ -1642,7 +1642,7 @@ imgStyleClass=value
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
-								<cfif media_rel.media_relationship contains 'agent'>:
+								<cfif media_rel.media_relationship contains 'loan'>:
 									<cfloop query="trans">
 										<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, media.auto_protocol, media.auto_host
@@ -1652,7 +1652,7 @@ imgStyleClass=value
 										</cfquery>
 									</cfloop>
 								</cfif>
-										#trans_name.transname#
+									
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
 							</td>
