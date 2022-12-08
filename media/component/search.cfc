@@ -1635,7 +1635,7 @@ imgStyleClass=value
 									</cfloop>
 								</cfif>
 						
-								<cfif media_rel.media_relationship contains 'borrow' OR media_rel.media_relationship contains 'accession' OR media_rel.media_relationship contains 'loan'>:
+								<cfif media_rel.media_relationship contains 'borrow'>:
 									<cfloop query="trans"><!--- transacton_id of the transaction with trans_name query--->
 										<!--- name of the transaction with trans_name query--->
 										<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
