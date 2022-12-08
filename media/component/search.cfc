@@ -1634,7 +1634,7 @@ imgStyleClass=value
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
-								<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---								<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) 
 									FROM (
 										select distinct media_relationship
@@ -1645,14 +1645,14 @@ imgStyleClass=value
 								<cfif media_rel.media_relationship contains 'borrow'>:
 									<cfloop query="trans"><!--- transacton_id of the transaction with trans_name query--->
 										<!--- name of the transaction with trans_name query--->
-										<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<!---	<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, media.auto_protocol, media.auto_host
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#trans.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
-										</cfquery><!--- &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#UpperFirst(trans_name.media_relationship)#.cfm?transaction_id=#trans.transaction_id#">#trans.transaction_id#</a>--->
+										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#UpperFirst(trans_name.media_relationship)#.cfm?transaction_id=#trans.transaction_id#">#trans.transaction_id#</a>
 									</cfloop>
-								</cfif>
+								</cfif>--->
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
 							</td>
