@@ -1455,6 +1455,7 @@ imgStyleClass=value
 <cffunction name="getMediaMetadata" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cftry>
+		#media_id#
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct 
 				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
