@@ -1537,7 +1537,7 @@ imgStyleClass=value
 				From
 					media_relations
 				WHERE 
-					media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				ORDER BY media_relationship, related_primary_key
 			</cfquery>
 			<div class="float-left col-12 px-0 col-xl-9 pl-xl-4">
@@ -1577,15 +1577,15 @@ imgStyleClass=value
 							</tr>
 						</cfif>
 						<cfif len(keywords.keywords) gt 0>
-						<tr>
-							<th scope="row">Keywords: </span></th><td> #keywords.keywords#</td>
-						</tr>
+							<tr>
+								<th scope="row">Keywords: </span></th><td> #keywords.keywords#</td>
+							</tr>
 						<cfelse>
 						</cfif>
 						<cfif listcontainsnocase(session.roles,"manage_media")>
-						<tr class="border mt-2 p-2">
-							<th scope="row">Alt Text: </th><td>#media.alttag#</td>
-						</tr>
+							<tr class="border mt-2 p-2">
+								<th scope="row">Alt Text: </th><td>#media.alttag#</td>
+							</tr>
 						</cfif>
 						<cfif len(media_rel.media_relationship) gt 0>
 							<cfif media_rel.recordcount GT 1>
@@ -1599,13 +1599,11 @@ imgStyleClass=value
 									#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>:
 									<cfloop query="spec">
 										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct media.media_id, media.auto_protocol, media.auto_host,
-												MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+											select distinct media.media_id, media.auto_protocol, media.auto_host
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 												 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 									</cfloop>
 								</cfif>
