@@ -1630,7 +1630,6 @@ imgStyleClass=value
 	</cfcatch>
 	</cftry>
 </cfoutput>
-	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 <cffunction name="getMediaRelationsHtml" returntype="string" access="remote" returnformat="plain">
