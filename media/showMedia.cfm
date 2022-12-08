@@ -29,7 +29,6 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
-
 	<cfloop query="media">
 		<div class="container-fluid">
 			<div class="row">
@@ -53,66 +52,12 @@
 									<div id="mediaMetadataBlock#media_id#">
 										#mediaMetadataBlock#
 									</div>
-								<!---to do -- make a table to support external renderings--->
-								<!---<h3 class="h4 px-3 mb-1 pt-0">See additional rendering#plural# </h3>
-								<ul class="list-group list-group-horizontal col-12 px-3">
-									<cfif media.media_uri contains 'slide-atlas'>
-										<li class="list-unstyled col-3 px-0 border bg-light text-center">
-											<div id="content">
-												<div class="flip-card">
-													<div class="flip-card-inner">
-														<a href="##" id="flip-card-inner">
-															<div class="flip-card-front">
-																<div class="heightFlip font-weight-lessbold bg-white text-dark"><img src="/images/slideatlas.jpg" class="mx-1" height="35" width="35" alt="slideatlas logo"><span class="h3 font-weight-bold text-black d-inline">Slide Atlas </span>Viewer</div>
-															</div>
-														</a>
-														<div class="flip-card-back">
-															<a class="link-color px-0 text-center" href="https://images.slide-atlas.org/##item/5915d8d0dd98b578723a09bf">SlideAtlas 
-																<img src="/shared/images/linked_data.png" height="15" width="15" alt="linked data icon">
-															</a>
-															<div class="small">created: 2017-05-12, name: HEC-1606 (free-tailed bat), <br/>2.694 GB, ID: 5915d8d0dd98b578723a09bf</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</li>
-									</cfif>
-									<cfif media.media_uri contains 'morphosource'>
-										<li class="list-unstyled col-3 px-0 border bg-light text-center">
-											<div id="content">
-												<div class="flip-card">
-													<div class="flip-card-inner">
-														<a href="##" id="flip-card-inner">
-															<div class="flip-card-front">
-																<div class="heightFlip font-weight-lessbold">Morphosource</div>
-															</div>
-														</a>
-														<div class="flip-card-back">
-															<a class="link-color px-0 text-center" href="http://www.google.com">Morphosource logo </a>
-															<div class="">slide metadata</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</li>
-									</cfif>
-									<cfif media.media_uri contains 'slide-atlas' AND media.media_uri contains 'morphosource'>
-										<cfset plural = "s">
-									<cfelse>
-										<cfset plural = "">
-									</cfif>
-									<cfif media.media_uri contains 'slide-atlas' OR media.media_uri contains 'morphosource'>
-										<div class="row my-2">
-										</div>
-									</cfif>
-								</ul>--->
 							</div>
 						</div>
 					</main>
 				</div>
-			
 			</div>
-				</div>
+		</div>
 	</cfloop>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">

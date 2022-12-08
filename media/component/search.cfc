@@ -1514,6 +1514,12 @@ imgStyleClass=value
 			and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
+		<cfquery name="trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct trans.transaction_id
+			from media_relations
+				left join trans on trans.transaction_id = media_relations.related_primary_key
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -1607,14 +1613,14 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td><cfloop query="media_rel">
-									#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>:
+									#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>: 
 									<cfloop query="spec">
 										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, media.auto_protocol, media.auto_host
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+										</cfquery><a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>&nbsp;
 									</cfloop>
 								</cfif>
 								<cfif media_rel.media_relationship contains 'agent'>:
@@ -1626,6 +1632,21 @@ imgStyleClass=value
 											where related_primary_key = <cfqueryparam value=#agents.agent_id# CFSQLType="CF_SQL_DECIMAL" >
 											
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
+									</cfloop>
+								</cfif>
+								<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) from (select distinct media_relationship
+									From media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">) t ORDER BY media_relationship)
+								</cfquery>
+								<cfif media_rel.media_relationship contains 'borrow' OR media_rel.media_relationship contains 'accession' OR media_rel.media_relationship contains 'loan'>:
+									<cfloop query="trans_name">
+										<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct media.media_id, media.auto_protocol, media.auto_host
+											from media_relations
+												 left join media on media_relations.media_id = media.media_id
+											where related_primary_key = <cfqueryparam value=#trans.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+											
+										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#UpperFirst(trans_name.media_relationship)#.cfm?transaction_id=#trans.transaction_id#">#trans.transaction_id#</a>
 									</cfloop>
 								</cfif>
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
