@@ -1553,7 +1553,7 @@ imgStyleClass=value
 			</cfquery>
 			<div class="float-left col-12 px-0 col-xl-9 pl-xl-4">
 				<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
-				<table class="table border-none">
+				<table class="table border-none" style="font-size: 13.5px;">
 					<thead class="thead-light">
 						<tr>
 							<th scope="col">Label</th>
