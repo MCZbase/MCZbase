@@ -1454,8 +1454,6 @@ imgStyleClass=value
 <!--- Media Metadata Table using media_id --->		
 
 
-				
-				
 <cffunction name="getMediaMetadata"  access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
@@ -1464,6 +1462,8 @@ imgStyleClass=value
    	scope issues related to cfthread 
 	--->
 	<cfset variables.media_id = arguments.media_id>
+<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >	
+	<cfthread name="mediaMetadataThread#tn#" threadName="mediaMetadataThread#tn#">
 <cfoutput>
 	<cftry>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1496,7 +1496,6 @@ imgStyleClass=value
 				media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 				AND MCZBASE.is_media_encumbered(media_id)  < 1 
 		</cfquery>
-			#media.media_id#
 		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid
 			from media_relations
@@ -1523,7 +1522,6 @@ imgStyleClass=value
 					and media_label <> 'internal remarks'
 				</cfif>
 			</cfquery>
-			
 			<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					media_keywords.media_id,
@@ -1630,6 +1628,9 @@ imgStyleClass=value
 	</cfcatch>
 	</cftry>
 </cfoutput>
+	</cfthread>
+	<cfthread action="join" name="mediaMetadataThread#tn#" />
+	<cfreturn cfthread["mediaMetadataThread#tn#"].output>
 </cffunction>
 
 <cffunction name="getMediaRelationsHtml" returntype="string" access="remote" returnformat="plain">
