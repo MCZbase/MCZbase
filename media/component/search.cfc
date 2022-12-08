@@ -1620,7 +1620,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td><cfloop query="media_rel">
-									#media_rel.media_relationship#
+									#media_rel.media_relationship#  #trans_name.transname#
 								<cfif media_rel.media_relationship contains 'cataloged_item'>: 
 									<cfloop query="spec">
 										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1642,7 +1642,7 @@ imgStyleClass=value
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
-#trans_name.transname#
+
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
 							</td>
