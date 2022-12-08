@@ -1511,6 +1511,7 @@ imgStyleClass=value
 				left join agent_name on agent_name.agent_id = agent.agent_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relations.media_relationship like '%agent%'
+			and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
 		<cfloop query="media">
@@ -1623,7 +1624,7 @@ imgStyleClass=value
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#agents.agent_id# CFSQLType="CF_SQL_DECIMAL" >
-											and agent_name_type = 'preferred'
+											
 										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
