@@ -1553,7 +1553,7 @@ imgStyleClass=value
 			</cfquery>
 			<div class="float-left col-12 px-0 col-xl-9 pl-xl-4">
 				<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
-				<table class="table border-none" style="font-size: 0.95rem;">
+				<table class="table border-none small95">
 					<thead class="thead-light">
 						<tr>
 							<th scope="col">Label</th>
@@ -1625,7 +1625,7 @@ imgStyleClass=value
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#agents.agent_id# CFSQLType="CF_SQL_DECIMAL" >
 											
-										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
+										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
