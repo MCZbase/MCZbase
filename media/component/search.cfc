@@ -1524,7 +1524,7 @@ imgStyleClass=value
 			SELECT substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) 
 			FROM (
 				select distinct media_relationship
-				from media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">) t 
+				from media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes"> t 
 				order by media_relationship
 				)
 		</cfquery>
