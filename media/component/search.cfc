@@ -1520,6 +1520,14 @@ imgStyleClass=value
 				left join trans on trans.transaction_id = media_relations.related_primary_key
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		</cfquery>
+		<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) 
+			FROM (
+				select distinct media_relationship
+				from media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">) t 
+				order by media_relationship
+				)
+		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -1635,14 +1643,7 @@ imgStyleClass=value
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
-								<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									SELECT substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) 
-									FROM (
-										select distinct media_relationship
-										from media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">) t 
-										order by media_relationship
-										)
-								</cfquery>
+#trans_name.substr#
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
 							</td>
