@@ -1651,6 +1651,7 @@ imgStyleClass=value
 											where related_primary_key = <cfqueryparam value=#trans.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
 										</cfquery>
 									</cfloop>
+								</cfif>
 										#trans_name.transname#
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
