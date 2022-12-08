@@ -1642,6 +1642,17 @@ imgStyleClass=value
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
+								<cfif media_rel.media_relationship contains 'loan'>:
+									<cfloop query="trans">
+										<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct media.media_id, media.auto_protocol, media.auto_host
+											from media_relations
+												 left join media on media_relations.media_id = media.media_id
+											where related_primary_key = <cfqueryparam value=#trans.transaction_id_id# CFSQLType="CF_SQL_DECIMAL" >
+											
+										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#trans_name.transname#.cfm?agent_id=#trans.transaction_id#">#trans.transaction_id#</a>
+									</cfloop>
+								</cfif>
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
 							</td>
