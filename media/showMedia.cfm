@@ -16,7 +16,7 @@
 <cfoutput>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
-		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri 
 	From
 		media
 	WHERE 
