@@ -1452,7 +1452,7 @@ imgStyleClass=value
 
 <!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc showMore is not working-- Michelle--->				
 <!--- Media Metadata Table using media_id --->		
-<cffunction name="getMediaMetadata" access="remote" returntype="any" returnformat="json">
+<cffunction name="getMediaMetadata"  access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
 	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
