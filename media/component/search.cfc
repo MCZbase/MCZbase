@@ -1595,7 +1595,7 @@ imgStyleClass=value
 							</cfif>
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
-							<td><cfloop query="media_rel"></cfif>
+							<td><cfloop query="media_rel">
 									#media_rel.media_relationship#
 								<cfif media_rel.media_relationship contains 'shows cataloged_item'>:
 									<cfloop query="spec">
