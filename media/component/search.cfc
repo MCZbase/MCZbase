@@ -1470,6 +1470,32 @@ imgStyleClass=value
 				media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 				AND MCZBASE.is_media_encumbered(media_id)  < 1 
 		</cfquery>
+		<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				media_label,
+				label_value,
+				agent_name,
+				media_label_id 
+			FROM
+				media_labels
+				left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
+			WHERE
+				media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				and media_label <> 'credit'  -- obtained in the findIDs query.
+				and media_label <> 'owner'  -- obtained in the findIDs query.
+				<cfif oneOfUs EQ 0>
+					and media_label <> 'internal remarks'
+				</cfif>
+			</cfquery>
+			<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				media_keywords.media_id,
+				keywords
+			FROM
+				media_keywords
+			WHERE
+				media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		</cfquery>
 		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid
 			from media_relations
