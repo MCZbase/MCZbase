@@ -1505,7 +1505,7 @@ imgStyleClass=value
 			order by guid
 		</cfquery>
 		<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct agent.agent_id, agent_name.agent_name
+			select distinct agent_name.agent_name
 			from media_relations
 				left join agent on media_relations.related_primary_key = agent.agent_id
 				left join agent_name on agent_name.agent_id = agent.agent_id
