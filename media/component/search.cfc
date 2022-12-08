@@ -1455,7 +1455,6 @@ imgStyleClass=value
 <cffunction name="getMediaMetadata" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
 	<cftry>
-		#media_id#
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct 
 				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -1506,6 +1505,15 @@ imgStyleClass=value
 				<cfif oneOfUs EQ 0>
 					and media_label <> 'internal remarks'
 				</cfif>
+			</cfquery>
+			<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT
+					media_keywords.media_id,
+					keywords
+				FROM
+					media_keywords
+				WHERE
+					media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
