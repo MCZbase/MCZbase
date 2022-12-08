@@ -1644,8 +1644,14 @@ imgStyleClass=value
 								</cfif>
 								<cfif media_rel.media_relationship contains 'agent'>:
 									<cfloop query="trans">
-										#trans_name.transname#
+										<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct media.media_id, media.auto_protocol, media.auto_host
+											from media_relations
+												 left join media on media_relations.media_id = media.media_id
+											where related_primary_key = <cfqueryparam value=#trans.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+										</cfquery>
 									</cfloop>
+										#trans_name.transname#
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
 							</td>
