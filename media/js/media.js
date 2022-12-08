@@ -247,8 +247,8 @@ function loadMediaRelations(targetDiv, media_id) {
 	});
 };
 
-function getMediaMetadata(targetDiv, media_id) { 
-	console.log("getMediaMetadata() called for " + targetDiv);
+function loadMediaMetadata(targetDiv, media_id) { 
+	console.log("Where is it? " + targetDiv);
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
