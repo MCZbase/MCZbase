@@ -44,7 +44,7 @@
 									</div>
 								</cfif>
 								<cfset mediaMetadataBlock= loadMediaMetadata(media_id="#media_id#")>
-									<div id="mediaMetadataBlock">
+									<div id="mediaMetadataBlock#media.media_id#">
 										#mediaMetadataBlock#
 									</div>
 								<!---to do -- make a table to support external renderings--->
