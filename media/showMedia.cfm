@@ -49,8 +49,8 @@
 										<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 									</div>
 								</cfif>
-								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media.media_id#")>
-									<div id="mediaMetadataBlock#media.media_id#">
+								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+									<div id="mediaMetadataBlock#media_id#">
 										#mediaMetadataBlock#
 									</div>
 								<!---to do -- make a table to support external renderings--->

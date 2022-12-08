@@ -1452,6 +1452,10 @@ imgStyleClass=value
 
 <!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc showMore is not working-- Michelle--->				
 <!--- Media Metadata Table using media_id --->		
+
+
+				
+				
 <cffunction name="getMediaMetadata"  access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
@@ -1460,6 +1464,7 @@ imgStyleClass=value
    	scope issues related to cfthread 
 	--->
 	<cfset variables.media_id = arguments.media_id>
+<cfoutput>
 	<cftry>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct 
@@ -1469,7 +1474,22 @@ imgStyleClass=value
 				MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 				MCZBASE.get_media_credit(media.media_id) as credit, 
 				mczbase.get_media_descriptor(media_id) as alttag,
-				MCZBASE.get_media_owner(media.media_id) as owner
+				MCZBASE.get_media_owner(media.media_id) as owner,
+					auto_extension as extension,
+					auto_host as host,
+					auto_path as path,
+					auto_filename as filename,
+					MCZBASE.get_media_creator(media.media_id) as creator,
+					MCZBASE.GET_MEDIA_COPYRIGHT(media.media_id) as copyright_statement,
+					MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
+					MCZBASE.get_medialabel(media.media_id,'description') as description,
+					MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
+					MCZBASE.get_medialabel(media.media_id,'subject') as subject,
+					MCZBASE.get_medialabel(media.media_id,'height') as height,
+					MCZBASE.get_medialabel(media.media_id,'width') as width,
+					MCZBASE.get_media_title(media.media_id) as title,
+					MCZBASE.get_media_dcrights(media.media_id) as display, 
+					MCZBASE.is_media_encumbered(media.media_id) hideMedia
 			From
 				media
 			WHERE 
@@ -1609,6 +1629,7 @@ imgStyleClass=value
 		<cfabort>
 	</cfcatch>
 	</cftry>
+</cfoutput>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
