@@ -1505,9 +1505,9 @@ imgStyleClass=value
 			order by guid
 		</cfquery>
 		<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct agent_name.agent_name, agent.preferred_agent_name_id
+			select distinct agent_name.agent_name, agent.agent_id
 			from media_relations
-				left join agent on media_relations.related_primary_key = agent.preferred_agent_name_id
+				left join agent on media_relations.related_primary_key = agent.agent_id
 				left join agent_name on agent_name.agent_id = agent.agent_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relations.media_relationship like '%agent%'
@@ -1623,6 +1623,7 @@ imgStyleClass=value
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#agents.agent_id# CFSQLType="CF_SQL_DECIMAL" >
+											and agent_name_type = 'preferred'
 										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
