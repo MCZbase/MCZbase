@@ -1505,7 +1505,7 @@ imgStyleClass=value
 			order by guid
 		</cfquery>
 		<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct agent_name.agent_name
+			select distinct agent_name.agent_name, agent.agent_id
 			from media_relations
 				left join agent on media_relations.related_primary_key = agent.agent_id
 				left join agent_name on agent_name.agent_id = agent.agent_id
@@ -1623,7 +1623,7 @@ imgStyleClass=value
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#agents.agent_id# CFSQLType="CF_SQL_DECIMAL" >
-										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_id#</a>
+										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
