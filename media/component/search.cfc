@@ -1454,6 +1454,12 @@ imgStyleClass=value
 <!--- Media Metadata Table using media_id --->		
 <cffunction name="getMediaMetadata" access="remote" returntype="any" returnformat="json">
 	<cfargument name="media_id" type="string" required="yes">
+	<!---
+	NOTE: When using threads, cfarguments are out of scope for the thread, place copies of them
+	   into the variables scope.    See: https://gist.github.com/bennadel/9760037 for more examples of
+   	scope issues related to cfthread 
+	--->
+	<cfset variables.media_id = arguments.media_id>
 	<cftry>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct 
