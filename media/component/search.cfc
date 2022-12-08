@@ -1634,12 +1634,18 @@ imgStyleClass=value
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
-								<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) from (select distinct media_relationship
-									From media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">) t ORDER BY media_relationship)
-								</cfquery>
+						
 								<cfif media_rel.media_relationship contains 'borrow' OR media_rel.media_relationship contains 'accession' OR media_rel.media_relationship contains 'loan'>:
-									<cfloop query="trans_name">
+									<cfloop query="trans"><!--- transacton_id of the transaction with trans_name query--->
+										<!--- name of the transaction with trans_name query--->
+										<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										SELECT substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) 
+										FROM (
+											select distinct media_relationship
+											from media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">) t 
+											order by media_relationship
+											)
+										</cfquery>
 										<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, media.auto_protocol, media.auto_host
 											from media_relations
