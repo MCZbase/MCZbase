@@ -1595,7 +1595,7 @@ imgStyleClass=value
 							</cfif>
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
-							<td><cfif media_rel.media_relationship eq 'cataloged_item'><cfloop query="media_rel"></cfif>
+							<td><cfif media_rel.media_relationship eq 'shows cataloged_item'><cfloop query="media_rel"></cfif>
 									#media_rel.media_relationship#
 								<cfif media_rel.media_relationship contains 'cataloged_item'>:
 									<cfloop query="spec">
@@ -1609,7 +1609,7 @@ imgStyleClass=value
 									</cfloop>
 								
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
-								<cfif media_rel.media_relationship eq 'cataloged_item'></cfloop> </cfif>
+								<cfif media_rel.media_relationship eq 'shows cataloged_item'></cfloop> </cfif>
 							</td>
 						</tr>
 						<cfelse>
