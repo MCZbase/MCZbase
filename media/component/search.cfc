@@ -1537,7 +1537,7 @@ imgStyleClass=value
 				From
 					media_relations
 				WHERE 
-					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 				ORDER BY media_relationship, related_primary_key
 			</cfquery>
 			<div class="float-left col-12 px-0 col-xl-9 pl-xl-4">
@@ -1596,8 +1596,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td><cfloop query="media_rel">
-									#media_rel.media_relationship#
-								<cfif media_rel.media_relationship contains 'shows cataloged_item'>:
+									#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>:
 									<cfloop query="spec">
 										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, media.auto_protocol, media.auto_host
@@ -1607,9 +1606,9 @@ imgStyleClass=value
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 									</cfloop>
-								
+								</cfif>
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
-								</cfloop>
+								</cfloop> 
 							</td>
 						</tr>
 						<cfelse>
