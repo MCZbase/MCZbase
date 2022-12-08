@@ -1650,7 +1650,7 @@ imgStyleClass=value
 												 left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#trans.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
 											
-										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#trans_name.transname#.cfm?agent_id=#trans.transaction_id#">#trans.transaction_id#</a>
+										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#trans_name.transname#.cfm?transaction_id=#trans.transaction_id#">#trans.transaction_id#</a>
 									</cfloop>
 								</cfif>
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
