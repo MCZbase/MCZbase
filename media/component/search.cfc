@@ -1648,7 +1648,7 @@ imgStyleClass=value
 											select distinct media.media_id, media.auto_protocol, media.auto_host
 											from media_relations
 												 left join media on media_relations.media_id = media.media_id
-											where related_primary_key = <cfqueryparam value=#trans.transaction_id_id# CFSQLType="CF_SQL_DECIMAL" >
+											where related_primary_key = <cfqueryparam value=#trans.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
 											
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#trans_name.transname#.cfm?agent_id=#trans.transaction_id#">#trans.transaction_id#</a>
 									</cfloop>
