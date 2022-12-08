@@ -860,6 +860,132 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- Media Metadata Table using media_id --->		
+<cffunction name="getMediaMetadata" access="remote" returntype="any" returnformat="json">
+	<cfargument name="media_id" type="string" required="yes">
+	<cftry>
+		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct 
+				media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+				MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
+				MCZBASE.get_media_dcrights(media.media_id) as display, 
+				MCZBASE.is_media_encumbered(media.media_id) hideMedia,
+				MCZBASE.get_media_credit(media.media_id) as credit, 
+				mczbase.get_media_descriptor(media_id) as alttag,
+				MCZBASE.get_media_owner(media.media_id) as owner
+			From
+				media
+			WHERE 
+				media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+				AND MCZBASE.is_media_encumbered(media_id)  < 1 
+		</cfquery>
+		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct collection_object_id as pk, guid
+			from media_relations
+				left join flat on related_primary_key = collection_object_id
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and media_relations.media_relationship like '%cataloged_item%'
+			order by guid
+		</cfquery>
+		<cfloop query="media">
+			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct
+					media_relationship, related_primary_key
+				From
+					media_relations
+				WHERE 
+					media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+				ORDER BY media_relationship, related_primary_key
+			</cfquery>
+			<div class="float-left col-12 px-0 col-xl-9 pl-xl-4">
+				<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
+				<table class="table border-none">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Label</th>
+							<th scope="col">Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">Media Type:</th><td>#media.media_type#</td>
+						</tr>
+						<tr>
+							<th scope="row">MIME Type:</th><td>#media.mime_type#</td>
+						</tr>
+						<cfloop query="labels">
+							<tr>
+								<th scope="row"><span class="text-capitalize">#labels.media_label#</span>:</th><td>#labels.label_value#</td>
+							</tr>
+						</cfloop>
+						<cfif len(credit) gt 0>
+							<tr>
+								<th scope="row">Credit:</th><td>#credit#</td>
+							</tr>
+						</cfif>
+						<cfif len(owner) gt 0>
+							<tr>
+								<th scope="row">Copyright:</th><td>#owner#</td>
+							</tr>
+						</cfif>
+						<cfif len(display) gt 0>
+							<tr>
+								<th scope="row">License:</th><td><a href="#uri#" target="_blank" class="external">#display#</a></td>
+							</tr>
+						</cfif>
+						<cfif len(keywords.keywords) gt 0>
+						<tr>
+							<th scope="row">Keywords: </span></th><td> #keywords.keywords#</td>
+						</tr>
+						<cfelse>
+						</cfif>
+						<cfif listcontainsnocase(session.roles,"manage_media")>
+						<tr class="border mt-2 p-2">
+							<th scope="row">Alt Text: </th><td>#media.alttag#</td>
+						</tr>
+						</cfif>
+						<cfif len(media_rel.media_relationship) gt 0>
+							<cfif media_rel.recordcount GT 1>
+								<cfset plural = "s">
+							<cfelse>
+								<cfset plural = "">
+							</cfif>
+						<tr>
+							<th scope="row">Relationship#plural#:&nbsp; </span></th>
+							<td><cfloop query="media_rel">
+									#media_rel.media_relationship#<cfif media_rel.media_relationship contains 'cataloged_item'>:
+									<cfloop query="spec">
+										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct media.media_id, media.auto_protocol, media.auto_host,
+												MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+											from media_relations
+												 left join media on media_relations.media_id = media.media_id
+												 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+										</cfquery> &nbsp;<a class="small90 font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
+									</cfloop>
+								</cfif>
+								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
+								</cfloop> 
+							</td>
+						</tr>
+						<cfelse>
+						</cfif>
+					</tbody>
+				</table>
+			</div>
+		</cfloop>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 <!--- backing for an autocomplete to list media label values in use (types of media label) --->
 <cffunction name="getMediaLabelTypeAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
