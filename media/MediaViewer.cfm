@@ -62,7 +62,6 @@
 								and (media_relations.media_relationship = 'shows cataloged_item')
 						</cfquery>
 						<cfif len(spec.guid) gt 0>
-							<h1 class="h3 w-100 my-0 px-2">Specimen Records with this Media</h1>
 							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri,
 									get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -79,7 +78,8 @@
 									AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 							</cfquery>
-							<div class="col-12 col-xl-6">
+							<div class="col-12 col-xl-6 float-left">
+								<h1 class="h3 my-0 px-2">Specimen Records with this Media</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
@@ -131,13 +131,13 @@
 						<cfelse>
 							<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
 						</cfif>
-						</div>
-							
 					</div>
+							
 				</div>
+		
 				
 				<!--- accn records --->
-				<div class="row mx-0">
+	<!---			<div class="row mx-0">
 					<cfquery name="accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
 								accn.transaction_id, accn.received_date, accn.accn_type, accn.estimated_count, accn.accn_number, accn.accn_num_suffix,accn.accn_status,trans_agent.agent_id,get_transAgents(agent_id,1 ,'preferred') as received_agent
@@ -201,9 +201,9 @@
 						</div>
 					<cfelse>						
 					</cfif>
-				</div>
+				</div>--->
 				<!--- collecting event records --->
-				<div class="row mx-0">
+			<!---	<div class="row mx-0">
 					<cfquery name="collecting_event" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select collecting_event.collecting_event_id, collecting_event.locality_id, collecting_event.verbatim_date, collecting_event.verbatim_locality, collecting_event.collecting_source
 						from collecting_event 
@@ -260,9 +260,9 @@
 						</div>
 					<cfelse>						
 					</cfif>
-				</div>
+				</div>--->
 				<!---Permit records--->
-				<div class="row mx-0">
+			<!---	<div class="row mx-0">
 					<cfquery name="permit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select permit.permit_id, permit.issued_date, permit.permit_num, permit.permit_type, permit.permit_remarks
 						from permit
@@ -318,9 +318,9 @@
 						</div>
 					<cfelse>						
 					</cfif>
-				</div>
+				</div>--->
 				<!---Borrow records--->			
-				<div class="row mx-0">
+		<!---		<div class="row mx-0">
 					<cfquery name="borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select borrow.transaction_id, borrow.lenders_trans_num_cde, borrow.received_date, borrow.due_date, borrow.lenders_loan_date, borrow.borrow_status
 						from borrow 
@@ -378,9 +378,9 @@
 						</div>
 					<cfelse>						
 					</cfif>
-				</div>
+				</div>--->
 				<!---Deaccession records--->			
-				<div class="row mx-0">
+				<!---<div class="row mx-0">
 					<cfquery name="deaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select *
 						from deaccession 
@@ -438,9 +438,9 @@
 						</div>
 					<cfelse>						
 					</cfif>
-				</div>
+				</div>--->
 				<!---Loan records--->			
-				<div class="row mx-0">
+			<!---	<div class="row mx-0">
 					<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select *
 						from loan 
@@ -498,7 +498,7 @@
 						</div>
 					<cfelse>
 					</cfif>
-				</div>
+				</div>--->
 			</cfloop>
 			</div>
 			</div>
