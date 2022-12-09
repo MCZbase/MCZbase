@@ -89,11 +89,6 @@
 									<div>
 										<cfloop query="spec">
 											<div class="row mx-0 border-bottom border-gray" style="border">
-												<div class="col-12 p-2 border-right small">
-													<a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
-													<cfif len(spec.typestatus) gt 0>#spec.typestatus#, <cfelse></cfif>
-													#spec.name#, #spec.geography#
-												</div>
 												<div class="col-8 p-1">
 													<cfif relm.recordcount lte #maxMedia#>
 														<cfloop query="relm">
@@ -104,9 +99,9 @@
 																	<cfelse>	
 																		<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
 																	</cfif>
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 																	<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-																		<div class="col-auto bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
+																		<div class="col-1 bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
 																		<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
 																	</div>
 																</cfif>
