@@ -1588,20 +1588,19 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
-								<cfloop query="media_rel">
-									<cfif media_rel.media_relationship contains 'cataloged_item'>
+								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.media_relationship#</span>
+									<cfif media_rel.media_relationship contains 'shows cataloged_item'>:
 										<cfloop query="spec">
-											
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, media.auto_protocol, media.auto_host, media_relationship
+												select distinct media.media_id, media.auto_protocol, media.auto_host
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 												where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-											</cfquery>&nbsp;<span class="text-capitalize">#relm.media_relationship#</span>
+											</cfquery>&nbsp;
 											<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 										</cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship contains 'agent'><span class="text-capitalize">#media_rel.media_relationship#</span>:<cfloop query="agents">
+									<cfif media_rel.media_relationship contains 'shows agent'>:<cfloop query="agents">
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, media.auto_protocol, media.auto_host
 												from media_relations
