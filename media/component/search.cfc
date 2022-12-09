@@ -1589,10 +1589,6 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
 								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.media_relationship#</span>
-									<cfset myArray = ["#media_rel.media_relationship#"] >
-<cfloop array="#myArray#" item="#media_rel.media_relationship#" index="Specimens">
-   <cfoutput>#Specimens# : #media_rel.media_relationship#, </cfoutput>
-</cfloop>
 									<cfif media_rel.media_relationship contains 'shows cataloged_item'>: 
 										<cfloop query="spec">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
