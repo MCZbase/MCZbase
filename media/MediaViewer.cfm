@@ -71,7 +71,6 @@
 										<cfloop query="spec">
 											<div class="row mx-0 border-bottom border-gray" style="border">
 												<div class="col-12 p-1">
-													<cfif relm.recordcount lte #maxMedia#>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, preview_uri, media.media_uri,
 																get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -98,7 +97,7 @@
 																</cfif>
 
 															</div>
-													</cfif>
+													
 													<div id="targetDiv"></div>
 												</div>
 											</div>
