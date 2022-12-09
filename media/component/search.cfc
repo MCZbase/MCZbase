@@ -1588,7 +1588,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td><cfloop query="media_rel">
-									#media_rel.media_relationship#  
+									<span class="text-capitalize">#media_rel.media_relationship#</span>  
 								<cfif media_rel.media_relationship contains 'cataloged_item'>: 
 									<cfloop query="spec">
 										<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
