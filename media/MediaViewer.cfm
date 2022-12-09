@@ -90,7 +90,7 @@
 										<cfloop query="spec">
 											<div class="row mx-0 border-bottom border-gray" style="border">
 												<div class="col-12 p-2 border-right small">
-													<a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
+													<a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 													<cfif len(spec.typestatus) gt 0>#spec.typestatus#, <cfelse></cfif>
 													#spec.name#, #spec.geography#
 												</div>
