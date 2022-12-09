@@ -1589,6 +1589,10 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
 								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.media_relationship#</span>
+									<cfset myArray = ["#media_rel.media_relationship#"] >
+<cfloop array="#myArray#" item="#media_rel.media_relationship#" index="Specimens">
+   <cfoutput>#Specimens# : #media_rel.media_relationship#, </cfoutput>
+</cfloop>
 									<cfif media_rel.media_relationship contains 'shows cataloged_item'>: 
 										<cfloop query="spec">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1597,7 +1601,7 @@ imgStyleClass=value
 													 left join media on media_relations.media_id = media.media_id
 												where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 											</cfquery>
-											<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a><cfif spec.recordcount gt 1>, <cfelse> </cfif>
+											<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'shows agent'>:
