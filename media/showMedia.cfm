@@ -1,4 +1,4 @@
-<cfset pageTitle="Media">
+<cfset pageTitle="Media Record">
 <!--- WARNING: Major work needed.  This is not a redesigned document yet.  See todo notes below --->
 
 <!--- TODO: The old MediaSearch.cfm provides both search results (which should be handled by the media search), and individual media records.  This does not fit the design intent for /media/showMedia.cfm which following redesign conventions would show one and only one media record.  This file needs to be restarted from scratch with a redesign template to show only single media records.  (it should be pretty simple, just header, relevant management links for the user's permission level,  an invocation of getMediaBlockHtml for the single record, and the footer). --->
