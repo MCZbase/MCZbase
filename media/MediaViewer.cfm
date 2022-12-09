@@ -50,8 +50,14 @@
 						</div>
 							
 						<!---specimen records--->
-					
-					
+						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct collection_object_id as pk, guid
+						from media_relations
+							left join flat on related_primary_key = collection_object_id
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+								and (media_relations.media_relationship like '%cataloged_item%')
+						</cfquery>
+						<cfif len(spec.guid) gt 0>
 							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri,
 									get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -63,14 +69,6 @@
 									AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 							</cfquery>
-						<cfif len(relm.media_id) gt 0>
-							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct collection_object_id as pk
-							from media_relations
-								left join flat on related_primary_key = collection_object_id
-							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-									and (media_relations.media_relationship like '%cataloged_item%')
-							</cfquery>
 							<div class="col-12 col-xl-6 px-4 float-left">
 								<h1 class="h3 my-0 px-2">Related Media Records</h1>
 								<div class="search-box mt-1 w-100">
@@ -80,11 +78,12 @@
 										</ul>
 									</div>
 									<div>
-										<cfloop query="relm">
+										<cfloop query="spec">
 											<div class="row mx-0 border-bottom border-gray" style="border">
 												<div class="col-12 p-1">
-														<cfloop query="spec">
-															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left">
+													<cfif relm.recordcount lte #maxMedia#>
+														<cfloop query="relm">
+															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left"> <!---style="width:112px;height: 175px">--->
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -94,10 +93,13 @@
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 																	<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
+																		<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
 																	</div>
 																</cfif>
+
 															</div>
 														</cfloop>
+													</cfif>
 													<div id="targetDiv"></div>
 												</div>
 											</div>
