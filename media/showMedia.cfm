@@ -32,9 +32,9 @@
 							<div class="col-12 px-0 px-xl-5 mt-3">
 								<h1 class="h2 mt-2 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	
 								<cfif media.media_uri contains 'mczbase'>
-									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#>">Media Viewer</a>
-								<cfelse>
 									<button class="btn float-right btn-xs btn-primary" onclick="location.href='/MediaViewer.cfm?media_id=#media_id#'">Media Viewer</button>
+								<cfelse>
+									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#>">Media Viewer</a>
 								</cfif>
 								</h1>
 								<div class="h4 px-0 mt-0">Media ID = media/#media.media_id#</div>
