@@ -1599,7 +1599,7 @@ imgStyleClass=value
 										</cfquery><a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>&nbsp;
 									</cfloop>
 								</cfif>
-								<cfif media_rel.media_relationship contains 'agent'>:
+								<cfif media_rel.media_relationship contains 'agent'>
 									<cfloop query="agents">
 										<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct media.media_id, media.auto_protocol, media.auto_host
