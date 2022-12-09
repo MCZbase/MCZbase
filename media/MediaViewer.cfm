@@ -78,7 +78,7 @@
 									AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 							</cfquery>
-							<div class="col-12 col-xl-6 float-left">
+							<div class="col-12 col-xl-6 px-4 float-left">
 								<h1 class="h3 my-0 px-2">Related Media Records</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
