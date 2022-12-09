@@ -50,23 +50,12 @@
 						</div>
 							
 						<!---specimen records--->
-						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct collection_object_id as pk, guid
-						from media_relations
-							left join flat on related_primary_key = collection_object_id
-						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-								and (media_relations.media_relationship like '%cataloged_item%')
-						</cfquery>
+					
 						<cfif len(spec.guid) gt 0>
 							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri,
 									get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-									media.mime_type, media.media_type, media.auto_protocol, media.auto_host,
-									CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-									ctmedia_license.uri as license_uri,
-									mczbase.get_media_credit(media.media_id) as credit,
-									MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-									MCZBASE.get_media_title(media.media_id) as title
+									media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 								from media_relations
 									 left join media on media_relations.media_id = media.media_id
 									 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
@@ -74,20 +63,27 @@
 									AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 							</cfquery>
+							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct collection_object_id as pk, guid
+							from media_relations
+								left join flat on related_primary_key = collection_object_id
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+									and (media_relations.media_relationship like '%cataloged_item%')
+							</cfquery>
 							<div class="col-12 col-xl-6 px-4 float-left">
 								<h1 class="h3 my-0 px-2">Related Media Records</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item">Specimen Records with this Media </li>
+											<li class="col-12 px-1 list-group-item">Media in related specimen records </li>
 										</ul>
 									</div>
 									<div>
-										<cfloop query="spec">
+										<cfloop query="relm">
 											<div class="row mx-0 border-bottom border-gray" style="border">
 												<div class="col-12 p-1">
 													<cfif relm.recordcount lte #maxMedia#>
-														<cfloop query="relm">
+														<cfloop query="spec">
 															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left"> <!---style="width:112px;height: 175px">--->
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
