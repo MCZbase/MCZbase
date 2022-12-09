@@ -38,13 +38,15 @@
 					<div class="col-12 px-0 px-xl-5 mt-2 mb-2">
 						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-4 float-left mb-2 pt-3 pb-0">
-								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textNone")>
+								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textLinks")>
 								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
-						<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
-						<div id="mediaMetadataBlock#media_id#">
-							#mediaMetadataBlock#
+						<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-4 float-left mb-2 pt-3 pb-0">
+							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+							<div id="mediaMetadataBlock#media_id#">
+								#mediaMetadataBlock#
+							</div>
 						</div>
 					</div>
 				</div>
