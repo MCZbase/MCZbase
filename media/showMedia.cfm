@@ -16,7 +16,7 @@
 <cfoutput>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
-		media.media_id, MCZBASE.is_media_encumbered(media.media_id) hideMedia
+		media.media_id, MCZBASE.is_media_encumbered(media.media_id) hideMedia, media.media_uri
 	From
 		media
 	WHERE 
@@ -31,7 +31,7 @@
 						<div class="row mx-0">
 							<div class="col-12 px-0 px-xl-5 mt-3">
 								<h1 class="h2 mt-2 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	
-									<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
+				<button class="btn float-right btn-xs btn-primary" onClick="<cfif media.media_uri contains 'mczbase'>location.href='/MediaViewer.cfm?media_id=#media_id#'<cfelse>#media.media_uri#</cfif>">Media Viewer</button>
 								</h1>
 								<div class="h4 px-0 mt-0">Media ID = media/#media.media_id#</div>
 							</div>
