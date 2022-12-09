@@ -16,7 +16,13 @@
 <cfoutput>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
-		media.media_id, MCZBASE.is_media_encumbered(media.media_id) hideMedia
+		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri,
+		MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
+		MCZBASE.get_media_dcrights(media.media_id) as display, 
+		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
+		MCZBASE.get_media_credit(media.media_id) as credit, 
+		mczbase.get_media_descriptor(media_id) as alttag,
+		MCZBASE.get_media_owner(media.media_id) as owner
 	From
 		media
 	WHERE 
