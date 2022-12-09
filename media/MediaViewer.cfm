@@ -37,100 +37,16 @@
 							<button class="btn float-right btn-xs btn-primary" onClick="location.href='/MediaSet.cfm?media_id=#media_id#'">Media Viewer</button>
 						</h1>
 					</div>
-					<div class="col-12 px-5 mt-2 mb-2">
-						<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							media_label,
-							label_value,
-							agent_name,
-							media_label_id 
-						FROM
-							media_labels
-							left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
-						WHERE
-							media_labels.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						</cfquery>
-						<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT
-							media_keywords.media_id,
-							keywords
-						FROM
-							media_keywords
-						WHERE
-							media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						</cfquery>
-						<cfquery name="mediaRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT source_media.media_id source_media_id, 
-							source_media.auto_filename source_filename,
-							source_media.media_uri source_media_uri,
-							media_relations.media_relationship
-						FROM
-							media_relations
-							left join media source_media on media_relations.media_id = source_media.media_id
-						WHERE
-							media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					</cfquery>
-						<cfquery name="thisguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-						select distinct 'MCZ:'||cataloged_item.collection_cde||':'||cataloged_item.cat_num as specGuid, identification.scientific_name, flat.higher_geog,flat.spec_locality,flat.imageurl
-						from media_relations
-							left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
-							left join identification on identification.collection_object_id = cataloged_item.collection_object_id
-							left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-							left join media media1 on media1.media_id = media_relations.media_id
-						where media_relations.media_relations_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and (media_relationship = 'shows cataloged_item')
-						and identification.accepted_id_fg = 1
-							
-						</cfquery>
-						<cfif len(media.media_id) gt 0>
-						<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
-							<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
+					<cfif len(media.media_id) gt 0>
+						<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-3 float-left mb-2 pt-3 pb-0">
+							<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textLinks")>
 							<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 						</div>
-						</cfif>
-
-						<div class="float-left col-12 px-0 col-md-10 pl-md-4 col-xl-10 pl-xl-4">
-							<h2 class="h3 px-2 mt-0">Media ID = #media.media_id#</h2>
-							<h3 class="mx-2 h4 mb-1 mt-2 border-dark w-auto float-left">Metadata</h3>
-							<table class="table border-none">
-								<thead>
-									<tr>
-										<th scope="col">Label</th>
-										<th scope="col">Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="labels">
-									<tr>
-										<th scope="row"><span class="text-uppercase">#labels.media_label#:</span></th><td> #labels.label_value#</td>
-									</tr>
-									</cfloop>
-									<cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
-										from media_relations
-									where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-										and media_relationship in ('created by agent', 'shows cataloged_item')
-									</cfquery>
-									<cfloop query="relations">
-										<cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
-											<cfset labellist = "<th scope='row'><span class='text-uppercase'>#mr_label#:</span></th><td> #mr_value#</td>">
-										</cfif>
-									</cfloop>
-									<cfif len(keywords.keywords) gt 0>
-									<tr>
-										<th scope="row"><span class="text-uppercase">Keywords: </span></th><td> #keywords.keywords#</td>
-									</tr>
-									<cfelse>
-									</cfif>
-									<cfif listcontainsnocase(session.roles,"manage_media")>
-									<tr class="border mt-2 p-2">
-										<th scope="row"><span class="text-uppercase">Alt Text: </span></th><td>#media.alttag#</td>
-									</tr>
-									</cfif>
-								</tbody>
-							</table>
+					</cfif>
+					<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+						<div id="mediaMetadataBlock#media_id#">
+							#mediaMetadataBlock#
 						</div>
-					</div>
 				</div>
 				<!---specimen records--->
 				<div class="row mx-0">
