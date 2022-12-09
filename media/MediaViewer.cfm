@@ -51,7 +51,7 @@
 							
 						<!---specimen records--->
 					
-						<cfif len(spec.guid) gt 0>
+					
 							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri,
 									get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
@@ -63,6 +63,7 @@
 									AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 							</cfquery>
+						<cfif len(relm.media_id) gt 0>
 							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct collection_object_id as pk
 							from media_relations
