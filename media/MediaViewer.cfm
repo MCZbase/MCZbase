@@ -74,7 +74,7 @@
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item">Media in related specimen records </li>
+											<li class="col-12 px-1 list-group-item">Media in specimen records </li>
 										</ul>
 									</div>
 									<div>
