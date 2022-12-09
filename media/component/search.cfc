@@ -1589,8 +1589,9 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
 								<cfloop query="media_rel">
-									<cfif media_rel.media_relationship contains 'cataloged_item'><span class="text-capitalize">#media_rel.media_relationship#</span>
+									<cfif media_rel.media_relationship contains 'cataloged_item'>
 										<cfloop query="spec">
+											<span class="text-capitalize">#media_rel.media_relationship#</span>
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, media.auto_protocol, media.auto_host
 												from media_relations
