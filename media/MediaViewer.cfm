@@ -59,7 +59,7 @@
 						from media_relations
 							left join flat on related_primary_key = collection_object_id
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-								and (media_relations.media_relationship = 'shows cataloged_item')
+								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfif len(spec.guid) gt 0>
 							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
