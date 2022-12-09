@@ -1474,22 +1474,7 @@ imgStyleClass=value
 				MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 				MCZBASE.get_media_credit(media.media_id) as credit, 
 				mczbase.get_media_descriptor(media_id) as alttag,
-				MCZBASE.get_media_owner(media.media_id) as owner,
-					auto_extension as extension,
-					auto_host as host,
-					auto_path as path,
-					auto_filename as filename,
-					MCZBASE.get_media_creator(media.media_id) as creator,
-					MCZBASE.GET_MEDIA_COPYRIGHT(media.media_id) as copyright_statement,
-					MCZBASE.get_medialabel(media.media_id,'aspect') as aspect,
-					MCZBASE.get_medialabel(media.media_id,'description') as description,
-					MCZBASE.get_medialabel(media.media_id,'made date') as made_date,
-					MCZBASE.get_medialabel(media.media_id,'subject') as subject,
-					MCZBASE.get_medialabel(media.media_id,'height') as height,
-					MCZBASE.get_medialabel(media.media_id,'width') as width,
-					MCZBASE.get_media_title(media.media_id) as title,
-					MCZBASE.get_media_dcrights(media.media_id) as display, 
-					MCZBASE.is_media_encumbered(media.media_id) hideMedia
+				MCZBASE.get_media_owner(media.media_id) as owner
 			From
 				media
 			WHERE 
@@ -1514,26 +1499,10 @@ imgStyleClass=value
 			and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
-<!---		<cfquery name="trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct trans.transaction_id
-			from media_relations
-				left join trans on trans.transaction_id = media_relations.related_primary_key
-			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-		</cfquery>
-		<cfquery name="trans_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		 (SELECT substr(t.media_relationship,instr(t.media_relationship,' ',-1)+1) as transname
-			FROM (
-				select distinct media_relationship
-				from media_relations WHERE media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">) t
-				) 
-		</cfquery>--->
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
-				media_label,
-				label_value,
-				agent_name,
-				media_label_id 
+				media_label, label_value, agent_name, media_label_id
 			FROM
 				media_labels
 				left join preferred_agent_name on media_labels.assigned_by_agent_id=preferred_agent_name.agent_id
@@ -1547,8 +1516,7 @@ imgStyleClass=value
 			</cfquery>
 			<cfquery name="keywords" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
-					media_keywords.media_id,
-					keywords
+					media_keywords.media_id, keywords
 				FROM
 					media_keywords
 				WHERE
@@ -1597,7 +1565,7 @@ imgStyleClass=value
 						</cfif>
 						<cfif len(display) gt 0>
 							<tr>
-								<th scope="row">License:</th><td><a href="#uri#" target="_blank" class="external">#display#</a></td>
+								<th scope="row">License:</th><td> <a href="#uri#" target="_blank" class="external"> #display#</a></td>
 							</tr>
 						</cfif>
 						<cfif len(keywords.keywords) gt 0>
@@ -1642,17 +1610,7 @@ imgStyleClass=value
 										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a>
 									</cfloop>
 								</cfif>
-<!---								<cfif media_rel.media_relationship contains 'loan'>:
-									<cfloop query="trans">
-										<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct media.media_id, media.auto_protocol, media.auto_host
-											from media_relations
-												 left join media on media_relations.media_id = media.media_id
-											where related_primary_key = <cfqueryparam value=#trans.transaction_id# CFSQLType="CF_SQL_DECIMAL" >
-											
-										</cfquery> &nbsp;<a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/transactions/#trans_name.transname#.cfm?transaction_id=#trans.transaction_id#">#trans.transaction_id#</a>
-									</cfloop>
-								</cfif>--->
+
 								<cfif media_rel.recordcount GT 1><span> | </span></cfif>
 								</cfloop> 
 							</td>
