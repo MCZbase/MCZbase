@@ -82,9 +82,8 @@
 										<cfloop query="relm">
 											<div class="row mx-0 border-bottom border-gray" style="border">
 												<div class="col-12 p-1">
-													<cfif relm.recordcount lte #maxMedia#>
 														<cfloop query="spec">
-															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left"> <!---style="width:112px;height: 175px">--->
+															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left">
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -94,13 +93,10 @@
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textShort")>
 																	<div class="#activeimg#" id="mediaBlock#relm.media_id#">
 																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
-																		<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
 																	</div>
 																</cfif>
-
 															</div>
 														</cfloop>
-													</cfif>
 													<div id="targetDiv"></div>
 												</div>
 											</div>
