@@ -51,7 +51,6 @@
 					</div>
 				</div>
 				<!---specimen records--->
-				<div class="row mx-0">
 				<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct collection_object_id as pk, guid, typestatus, SCIENTIFIC_NAME name,
 					decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
@@ -81,54 +80,57 @@
 							AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 							AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 					</cfquery>
-					<div class="search-box mt-1 w-100">
-						<div class="search-box-header px-2 mt-0 mediaTableHeader">
-							<ul class="list-group list-group-horizontal text-white">
-								<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
-								<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
-								<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
-								<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>
-								<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
-							</ul>
-						</div>
-						<div>
-							<cfloop query="spec">
-								<div class="row mx-0 border-bottom border-gray" style="border">
-									<div class="col-1 p-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
-									<cfif len(spec.typestatus) gt 0>
-										<div class="col-1 p-2 border-right small">#spec.typestatus#</div>
-										<cfelse>
-										<div class="col-1 p-2 border-right small">None</div>
-									</cfif>
-									<div class="col-1 p-2 border-right small">#spec.name#</div>
-									<div class="col-1 p-2 border-right small">#spec.geography#</div>
-									<div class="col-8 p-1">
-										<cfif relm.recordcount lte #maxMedia#>
-											<cfloop query="relm">
-												<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left"> <!---style="width:112px;height: 175px">--->
-													<cfif len(media.media_id) gt 0>
-														<cfif relm.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-														<cfelse>	
-															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
-														</cfif>
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
-														<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-															<div class="col-auto bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
-															<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
-														</div>
-													</cfif>
-													
-												</div>
-											</cfloop>
+					<div class="row mx-0">
+					<div class="col-12 col-xl-6">
+						<div class="search-box mt-1 w-100">
+							<div class="search-box-header px-2 mt-0 mediaTableHeader">
+								<ul class="list-group list-group-horizontal text-white">
+									<li class="col-1 px-1 list-group-item">Catalog&nbsp;Item</li>
+									<li class="col-1 px-1 list-group-item">Type&nbsp;Status&nbsp;&amp;&nbsp;Citation</li>
+									<li class="col-1 px-1 list-group-item">Scientific&nbsp;Name</li>
+									<li class="col-1 px-1 list-group-item">Location&nbsp;Data</li>
+									<li class="col-6 px-1 list-group-item">Image&nbsp;Thumbnail(s)</li>
+								</ul>
+							</div>
+							<div>
+								<cfloop query="spec">
+									<div class="row mx-0 border-bottom border-gray" style="border">
+										<div class="col-1 p-2 border-right small"><a href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a></div>
+										<cfif len(spec.typestatus) gt 0>
+											<div class="col-1 p-2 border-right small">#spec.typestatus#</div>
+											<cfelse>
+											<div class="col-1 p-2 border-right small">None</div>
 										</cfif>
-										<div id="targetDiv"></div>
+										<div class="col-1 p-2 border-right small">#spec.name#</div>
+										<div class="col-1 p-2 border-right small">#spec.geography#</div>
+										<div class="col-8 p-1">
+											<cfif relm.recordcount lte #maxMedia#>
+												<cfloop query="relm">
+													<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left"> <!---style="width:112px;height: 175px">--->
+														<cfif len(media.media_id) gt 0>
+															<cfif relm.media_id eq '#media.media_id#'> 
+																<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+															<cfelse>	
+																<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
+															</cfif>
+															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textLinks")>
+															<div class="#activeimg#" id="mediaBlock#relm.media_id#">
+																<div class="col-auto bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
+																<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
+															</div>
+														</cfif>
+
+													</div>
+												</cfloop>
+											</cfif>
+											<div id="targetDiv"></div>
+										</div>
 									</div>
-								</div>
-							</cfloop>
+								</cfloop>
+							</div>
 						</div>
 					</div>
-					<cfelse>
+				<cfelse>
 					<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
 				</cfif>
 				</div>
