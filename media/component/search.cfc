@@ -1591,13 +1591,13 @@ imgStyleClass=value
 								<cfloop query="media_rel">
 									<cfif media_rel.media_relationship contains 'cataloged_item'>
 										<cfloop query="spec">
-											<span class="text-capitalize">#media_rel.media_relationship#</span>
+											
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, media.auto_protocol, media.auto_host
+												select distinct media.media_id, media.auto_protocol, media.auto_host, media_relationship
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 												where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-											</cfquery>&nbsp;
+											</cfquery>&nbsp;<span class="text-capitalize">#relm.media_relationship#</span>
 											<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
 										</cfloop>
 									</cfif>
