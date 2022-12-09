@@ -1532,7 +1532,7 @@ imgStyleClass=value
 					media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 				ORDER BY media_relationship
 			</cfquery>
-			<div class="float-left col-12 px-0 col-xl-9 pl-xl-4">
+		
 				<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata</h3>
 				<table class="table border-none small95">
 					<thead class="thead-light">
@@ -1619,7 +1619,7 @@ imgStyleClass=value
 						</cfif>
 					</tbody>
 				</table>
-			</div>
+		
 		</cfloop>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>

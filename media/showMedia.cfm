@@ -42,10 +42,12 @@
 										<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 									</div>
 								</cfif>
+								<div class="float-left col-12 px-0 col-xl-9 pl-xl-4">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 									<div id="mediaMetadataBlock#media_id#">
 										#mediaMetadataBlock#
 									</div>
+								</div>
 							</div>
 						</div>
 					</main>
