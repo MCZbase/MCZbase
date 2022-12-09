@@ -31,8 +31,8 @@
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
 			<cfloop query="media">
-				<div class="row">
-					<div class="col-12 px-5 mt-4">
+				<div class="row mx-0">
+					<div class="col-12 px-2 mt-4">
 						<h1 class="h2 mt-4 pb-1 mb-3 pb-3 border-bottom"> Media Viewer</h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
