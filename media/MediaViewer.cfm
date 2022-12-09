@@ -79,11 +79,11 @@
 									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 							</cfquery>
 							<div class="col-12 col-xl-6 float-left">
-								<h1 class="h3 my-0 px-2">Specimen Records with this Media</h1>
+								<h1 class="h3 my-0 px-2">Related Media Records</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item">Related Media Records </li>
+											<li class="col-12 px-1 list-group-item">Specimen Records with this Media </li>
 										</ul>
 									</div>
 									<div>
