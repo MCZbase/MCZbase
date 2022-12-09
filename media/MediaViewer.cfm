@@ -89,7 +89,7 @@
 									<div>
 										<cfloop query="spec">
 											<div class="row mx-0 border-bottom border-gray" style="border">
-												<div class="col-8 p-1">
+												<div class="col-12 p-1">
 													<cfif relm.recordcount lte #maxMedia#>
 														<cfloop query="relm">
 															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left"> <!---style="width:112px;height: 175px">--->
