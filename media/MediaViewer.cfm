@@ -58,12 +58,9 @@
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select findm.media_id, findm.media_uri
-							from media_relations startm
-							left join media_relations mr on startm.related_primary_key = mr.related_primary_key
-							left join media findm on mr.media_id = findm.media_id
-							where startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and findm.media_type = 'image'
+							select media_id
+							from media_relations
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
