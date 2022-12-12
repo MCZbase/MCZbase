@@ -29,6 +29,7 @@
 				<cfquery name="ctmedia_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select media_relationship from ctmedia_relationship
 				</cfquery>
+				#ctmedia_relations.media_relationship#
 				<div class="row mx-0">
 					<div class="col-12 px-2 border-bottom  my-3">
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
@@ -57,9 +58,10 @@
 						</cfquery>
 						<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select media_id
-							from media_relations, ctmedia_relationship
+							from media_relations
+							---, ctmedia_relationship
 							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and media_relations.media_relationship = ctmedia_relationship.media_relationship
+							---and media_relations.media_relationship = ctmedia_relationship.media_relationship
 						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
