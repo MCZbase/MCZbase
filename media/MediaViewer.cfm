@@ -57,7 +57,7 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
-						<cfif oneOfUs NEQ 1 AND AND MCZBASE.is_media_encumbered(media.media_id)  > 1>
+						<cfif oneOfUs NEQ 1 AND MCZBASE.is_media_encumbered(media.media_id)  > 1>
 							<cfset mediaCount="">
 						<cfelse>
 							<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
