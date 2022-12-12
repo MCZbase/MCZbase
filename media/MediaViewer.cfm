@@ -10,12 +10,12 @@
 <cfset maxMedia = 8>
 <cfoutput>
 	<cfset im_hw='style="width:600px; "'>
-    <cfset mdstop='auto'>
+    <cfset mdstop='600'>
     <cfset scaledwidth=600>
     <cfset scalefactor = 0.5>
       <cfset scaledheight = Round(600)  >
       <cfset scaledwidth = Round(600) >
-      <cfset mdstop =  Round(auto)>
+      <cfset mdstop =  Round(600)>
       <cfset origheight = Round(600)>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
