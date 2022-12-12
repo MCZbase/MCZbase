@@ -57,6 +57,20 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
+						<cfif oneOfUs NEQ 1 AND AND MCZBASE.is_media_encumbered(media.media_id)  > 1>
+							<cfset mediaCount="">
+						<cfelse>
+							<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								SELECT
+									count(mm.media_id) ct
+								FROM
+									media_relations mr
+									 left join media mm on mr.media_id = mm.media_id
+								WHERE
+									mm.media_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+							<cfset mediaCount=#countMedia.ct#>
+						</cfif>
 						<cfif len(spec.pk) gt 0>
 							<cfif spec.recordcount GT 1>
 								<cfset plural = "s">
@@ -64,7 +78,7 @@
 								<cfset plural = "">
 							</cfif>
 							<div class="col-12 col-xl-12 px-4 float-left">
-								<h1 class="h3 my-0 px-2">Related Media Record#plural#</h1>
+								<h1 class="h3 my-0 px-2">Related Media Record#plural# (#mediaCount#)</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
