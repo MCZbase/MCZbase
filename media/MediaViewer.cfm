@@ -70,9 +70,9 @@
 						<cfloop query="countMedia" >
 							<cfset checkcounter = checkcounter + 1>
 							<cfif checkcounter eq 1>
-								<cfoutput>Hello</cfoutput>
+								<cfset title1 ="Related Media Record (#checkcounter#)">
 							<cfelse>
-								#checkcounter#
+								<cfset title1 ="Related Media Records (#checkcounter#)">
 						</cfloop>
 						<cfif len(spec.pk) gt 0>
 							<cfif spec.recordcount GT 1>
@@ -81,7 +81,7 @@
 								<cfset plural = "">
 							</cfif>
 							<div class="col-12 col-xl-12 px-4 float-left">
-								<h1 class="h3 my-0 px-2">Related Media Record#plural# (#checkcounter#)</h1>
+								<h1 class="h3 my-0 px-2"></h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
