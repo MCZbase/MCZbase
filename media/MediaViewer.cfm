@@ -57,9 +57,9 @@
 						</cfquery>
 						<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select media_id
-							from media_relations, ctmedia_relations
+							from media_relations, ctmedia_relationship
 							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							and media_relations.media_relationship = ctmedia_relations.media_relationship
+							and media_relations.media_relationship = ctmedia_relationship.media_relationship
 						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
