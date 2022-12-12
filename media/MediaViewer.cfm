@@ -35,7 +35,7 @@
 						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
-								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> <div id="multizoom">#mediablock#</div></div>
 							</div>
 						</cfif>
 						</div>
@@ -79,7 +79,7 @@
 																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 														</cfquery>
 															<cfloop query="relm">
-															<div class="border-light w-100 col-md-3 col-lg-3 col-xl-2 float-left">
+															<div class="border-light w-100 thumbs col-md-3 col-lg-3 col-xl-2 float-left">
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -88,8 +88,10 @@
 																	</cfif>
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
 																	<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> <a href="#relm.media_uri#" data-large="#relm.media_uri#">#mediablock#</a></div>
+																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> <a href="#relm.media_uri#" data-large="#relm.media_uri#"></a></div>
 																		<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
+																		
+																		<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#" data-title="test"><img src="#relm.preview_uri#" alt="#altText#">#mediablock#</a>
 																	</div>
 																</cfif>
 															</div>
