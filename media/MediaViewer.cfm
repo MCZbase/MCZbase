@@ -98,7 +98,7 @@
 																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> <a href="#relm.media_uri#" data-large="#relm.media_uri#"></a></div>
 																		<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
 																		
-																		<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#" data-title="test"><img src="#relm.preview_uri#" alt="#altText#">#mediablock#</a>
+																		<a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#" data-title="test"><img src="#relm.preview_uri#" >#mediablock#</a>
 																	</div>
 																</cfif>
 															</div>
