@@ -65,7 +65,7 @@
 						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
-							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id, preview_uri, media.media_uri,
 									get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 									media.mime_type, media.media_type, media.auto_protocol, media.auto_host
