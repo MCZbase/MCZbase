@@ -65,8 +65,7 @@
 								SELECT
 									count(mm.media_id) ct
 								FROM
-									media_relations mr
-									 left join media mm on mr.media_id = mm.media_id
+									media mm
 								WHERE
 									mm.media_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
