@@ -62,8 +62,7 @@
 							from media_relations startm
 							left join media_relations mr on startm.related_primary_key = mr.related_primary_key
 							left join media findm on mr.media_id = findm.media_id
-							where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
-							and startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							where startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and findm.media_type = 'image'
 						</cfquery>
 						<cfset checkcounter = 0>
