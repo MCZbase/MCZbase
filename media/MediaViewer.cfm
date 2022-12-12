@@ -9,7 +9,7 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-	<cfquery name="thisMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
@@ -24,22 +24,22 @@
 	From
 		media
 	WHERE 
-		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
+		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
-			<cfloop query="thisMedia">
+			<cfloop query="media">
 				<div class="row mx-0">
 					<div class="col-12 px-2 border-bottom  my-3">
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
-						<cfif len(thisMedia.media_id) gt 0>
+						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
-								<div class="mx-auto text-center pt-1" id="mediaBlock#media_id#"> #mediablock# </div>
+								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
 						<div class="col-12 col-sm-8 col-md-6 col-xl-6 px-4 float-left mb-2 pt-0 pb-0">
@@ -54,7 +54,7 @@
 						select distinct collection_object_id as pk, guid
 						from media_relations
 							left join flat on related_primary_key = collection_object_id
-						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisMedia.media_id#">
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
