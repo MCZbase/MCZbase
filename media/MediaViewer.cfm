@@ -9,24 +9,13 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
+	
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
 		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 		MCZBASE.get_media_credit(media.media_id) as credit, 
-		mczbase.get_media_descriptor(media_id) as alttag,
-		nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, "select media_relationship from media_relations where media_relationship = 'cataloged_item") as catrel ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') as pubrel ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') as collrel ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') as agentrel ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows documents accn') as docaccnrel ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents cataloged_item') dcatrel ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows project') ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows specimen_part') ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows handwriting of agent') ||
-			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
-			, 'Unrelated image') mrstr
+		mczbase.get_media_descriptor(media_id) as alttag
 	From
 		media
 	WHERE 
@@ -37,6 +26,9 @@
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
 			<cfloop query="media">
+				<cfquery name="ctmedia_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select media_relationship from ctmedia_relationship
+				</cfquery>
 				<div class="row mx-0">
 					<div class="col-12 px-2 border-bottom  my-3">
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
@@ -67,6 +59,7 @@
 							select media_id
 							from media_relations
 							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and media_relations.media_relationship = ctmedia_relations.media_relationship
 						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
