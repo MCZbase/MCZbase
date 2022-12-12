@@ -15,10 +15,16 @@
 		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 		MCZBASE.get_media_credit(media.media_id) as credit, 
 		mczbase.get_media_descriptor(media_id) as alttag,
-		nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+		nvl(MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'select media_relationship from media_relations where media_relationship = 'cataloged_item') as catrel ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') as pubrel ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') as collrel ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') as agentrel ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows documents accn') as docaccnrel ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'documents cataloged_item') dcatrel ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows project') ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows specimen_part') ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows handwriting of agent') ||
+			---MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows permit') ||
 			MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
 			, 'Unrelated image') mrstr
 	From
@@ -64,6 +70,16 @@
 						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
+							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select distinct media.media_id, preview_uri, media.media_uri,
+									get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+									media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+								from media_relations
+									 left join media on media_relations.media_id = media.media_id
+									 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+								where (media_relationship like '%cataloged_item%')
+									AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+							</cfquery>
 							<cfset checkcounter = checkcounter + 1>
 							<cfif checkcounter eq 1>
 								<cfset title1 ="Related Media Record (#checkcounter#)">
