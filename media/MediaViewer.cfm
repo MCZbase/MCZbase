@@ -84,7 +84,7 @@
 							<div class="col-12 col-xl-12 px-4 float-left">
 								<h1 class="h3 my-0 px-2"></h1>
 								<div class="search-box mt-1 w-100">
-									<div class="search-box-header px-2 mt-0 mediaTableHeader">
+									<div class="search-box-header px-2 mt-0 mediaTableHeader">#title1#
 										<ul class="list-group list-group-horizontal text-white">
 											<li class="col-12 px-1 list-group-item">Related by specimen record#plural# </li>
 										</ul>
