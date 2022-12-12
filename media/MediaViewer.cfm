@@ -57,20 +57,27 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
-						<cfloop query="spec">
 						<cfif oneOfUs NEQ 1 AND MCZBASE.is_media_encumbered(media.media_id)  > 1>
 							<cfset mediaCount="">
 						<cfelse>
 							<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT
-									count(mm.media_id) ct
-								FROM
-									media mm
-								WHERE
-									mm.media_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								select findm.media_id, findm.media_uri
+								from media_relations startm
+								left join media_relations mr on startm.related_primary_key = mr.related_primary_key
+								left join media findm on mr.media_id = findm.media_id
+								where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
+								and startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								and findm.media_type = 'image'
 							</cfquery>
 							<cfset mediaCount=#countMedia.ct#>
 						</cfif>
+						<cfset checkcounter = 0>
+						<cfloop query="countMedia" >
+							<cfset checkcounter = checkcounter + 1>
+							<cfif checkcounter eq 1>
+								<cfoutput>Hello</cfoutput>
+							<cfelse>
+								#checkcounter#
 						</cfloop>
 						<cfif len(spec.pk) gt 0>
 							<cfif spec.recordcount GT 1>
