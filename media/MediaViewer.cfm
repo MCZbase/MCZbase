@@ -30,7 +30,7 @@
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
-			<cfloop query="media">
+			<cfloop query="thisMedia">
 				<div class="row mx-0">
 					<div class="col-12 px-2 border-bottom  my-3">
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
