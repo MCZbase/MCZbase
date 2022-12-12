@@ -53,11 +53,7 @@
 										#mediaMetadataBlock#
 									</div>
 								</div>
-									
-									<cfset mediaRelStr= get_media_relations_string(media_id="#media_id#")>
-									<div id="mediaRelStr#media_id#">
-										#mediaRelStr#
-									</div>
+
 								</div>
 							</div>
 						</div>
