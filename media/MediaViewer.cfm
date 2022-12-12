@@ -56,12 +56,12 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
-						<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="countMedia1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select media_id
 							from media_relations
-							---, ctmedia_relationship
+							, ctmedia_relationship
 							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							---and media_relations.media_relationship = ctmedia_relationship.media_relationship
+							and media_relations.media_relationship = ctmedia_relationship.media_relationship
 						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
