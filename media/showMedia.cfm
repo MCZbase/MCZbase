@@ -35,7 +35,7 @@
 								<cfif media.media_uri contains 'mczbase'>
 									<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/MediaViewer.cfm?media_id=#media_id#'">Media Viewer</button>
 								<cfelse>
-									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#>">Media Viewer</a>
+									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#>">External Viewer <img src="images/linkOut.gif"></a>
 								</cfif>
 								</h1>
 								<div class="h4 px-0 mt-0">Media ID = media/#media.media_id#</div>

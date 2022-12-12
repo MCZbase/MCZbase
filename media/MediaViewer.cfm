@@ -57,20 +57,15 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
-						<cfif oneOfUs NEQ 1 AND MCZBASE.is_media_encumbered(media.media_id)  > 1>
-							<cfset mediaCount="">
-						<cfelse>
-							<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select findm.media_id, findm.media_uri
-								from media_relations startm
-								left join media_relations mr on startm.related_primary_key = mr.related_primary_key
-								left join media findm on mr.media_id = findm.media_id
-								where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
-								and startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-								and findm.media_type = 'image'
-							</cfquery>
-							<cfset mediaCount=#countMedia.ct#>
-						</cfif>
+						<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select findm.media_id, findm.media_uri
+							from media_relations startm
+							left join media_relations mr on startm.related_primary_key = mr.related_primary_key
+							left join media findm on mr.media_id = findm.media_id
+							where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
+							and startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							and findm.media_type = 'image'
+						</cfquery>
 						<cfset checkcounter = 0>
 						<cfloop query="countMedia" >
 							<cfset checkcounter = checkcounter + 1>
@@ -86,7 +81,7 @@
 								<cfset plural = "">
 							</cfif>
 							<div class="col-12 col-xl-12 px-4 float-left">
-								<h1 class="h3 my-0 px-2">Related Media Record#plural# (#mediaCount#)</h1>
+								<h1 class="h3 my-0 px-2">Related Media Record#plural# (#checkcounter#)</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
