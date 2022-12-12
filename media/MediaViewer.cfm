@@ -38,13 +38,13 @@
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
 						<cfif len(thisMedia.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
-								<cfset mediablock= getMediaBlockHtml(media_id="#thisMedia.media_id#",size="900",captionAs="textLinks")>
-								<div class="mx-auto text-center pt-1" id="mediaBlock#thisMedia.media_id#"> #mediablock# </div>
+								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
+								<div class="mx-auto text-center pt-1" id="mediaBlock#media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
 						<div class="col-12 col-sm-8 col-md-6 col-xl-6 px-4 float-left mb-2 pt-0 pb-0">
-							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#thisMedia.media_id#")>
-							<div id="mediaMetadataBlock#thisMedia.media_id#">
+							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+							<div id="mediaMetadataBlock#media_id#">
 								#mediaMetadataBlock#
 							</div>
 						</div>
@@ -62,7 +62,7 @@
 							from media_relations startm
 							left join media_relations mr on startm.related_primary_key = mr.related_primary_key
 							left join media findm on mr.media_id = findm.media_id
-							where startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisMedia.media_id#">
+							where startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							and findm.media_type = 'image'
 						</cfquery>
 						<cfset checkcounter = 0>
