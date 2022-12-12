@@ -35,12 +35,14 @@
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
+						<div class="target_media">
 						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
 								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
+						</div>
 						<div class="col-12 col-sm-8 col-md-6 col-xl-6 px-4 float-left mb-2 pt-0 pb-0">
 							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 							<div id="mediaMetadataBlock#media_id#">
@@ -57,17 +59,12 @@
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfif len(spec.pk) gt 0>
-							<cfif spec.recordcount GT 1>
-								<cfset plural = "s">
-							<cfelse>
-								<cfset plural = "">
-							</cfif>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<h1 class="h3 mt-2 px-2">Related Media Record(s)</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item">Related by specimen record#plural# </li>
+											<li class="col-12 px-1 list-group-item">Related by Specimen Record </li>
 										</ul>
 									</div>
 									<div>
@@ -86,7 +83,7 @@
 																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 														</cfquery>
 															<cfloop query="relm">
-															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left">
+															<div class="border-light w-100 col-md-3 col-lg-3 col-xl-2 p-1 float-left">
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
@@ -95,7 +92,7 @@
 																	</cfif>
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
 																	<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock# </div>
+																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> <a href="#relm.media_uri#" data-large="#relm.media_uri#">#mediablock#</a></div>
 																		<!---<div class="col-7 bg-white px-2 smaller float-left" style="line-height: .89rem;">#title#</div>--->
 																	</div>
 																</cfif>
