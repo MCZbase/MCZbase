@@ -101,7 +101,7 @@
 																 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 															where (media_relationship like '%cataloged_item%')
 																AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-																AND MCZBASE.is_media_encumbered(media_id)  < 1
+																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 														</cfquery>
 															<cfloop query="relm">
 															<div class="border-light col-md-3 col-lg-3 col-xl-2 p-1 float-left">
