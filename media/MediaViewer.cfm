@@ -38,13 +38,13 @@
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
 						<cfif len(thisMedia.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
-								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
+								<cfset mediablock= getMediaBlockHtml(media_id="#thisMedia_id#",size="900",captionAs="textLinks")>
 								<div class="mx-auto text-center pt-1" id="mediaBlock#thisMedia.media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
 						<div class="col-12 col-sm-8 col-md-6 col-xl-6 px-4 float-left mb-2 pt-0 pb-0">
-							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
-							<div id="mediaMetadataBlock#media_id#">
+							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#thisMedia_id#")>
+							<div id="mediaMetadataBlock#thisMedia_id#">
 								#mediaMetadataBlock#
 							</div>
 						</div>
@@ -54,7 +54,7 @@
 						select distinct collection_object_id as pk, guid
 						from media_relations
 							left join flat on related_primary_key = collection_object_id
-						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisMedia.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfquery name="countMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
