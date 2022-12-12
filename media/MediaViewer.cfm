@@ -73,6 +73,7 @@
 								<cfset title1 ="Related Media Record (#checkcounter#)">
 							<cfelse>
 								<cfset title1 ="Related Media Records (#checkcounter#)">
+							</cfif>
 						</cfloop>
 						<cfif len(spec.pk) gt 0>
 							<cfif spec.recordcount GT 1>
