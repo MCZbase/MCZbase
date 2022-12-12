@@ -24,6 +24,7 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
 	<cfloop query="media">
+		
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 pb-4">
@@ -50,6 +51,12 @@
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 									<div id="mediaMetadataBlock#media_id#">
 										#mediaMetadataBlock#
+									</div>
+								</div>
+									
+									<cfset mediaRelStr= get_media_relations_string(media_id="#media_id#")>
+									<div id="mediaRelStr#media_id#">
+										#mediaRelStr#
 									</div>
 								</div>
 							</div>
