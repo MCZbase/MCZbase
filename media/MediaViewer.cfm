@@ -65,7 +65,7 @@
 									</div>
 									<div>
 										<cfloop query="spec">
-											<div class="row mx-0 border-bottom border-gray" style="border">
+											<div class="row mx-0 border-bottom border-gray">
 												<div class="col-12 p-1">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, preview_uri, media.media_uri,
@@ -79,7 +79,7 @@
 																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 														</cfquery>
 															<cfloop query="relm">
-															<div class="border-light w-100 col-md-3 col-lg-3 col-xl-2 p-1 float-left">
+															<div class="border-light w-100 col-md-3 col-lg-3 col-xl-2 float-left">
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
