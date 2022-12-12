@@ -1129,7 +1129,7 @@
 			<cfif ArrayLen(controlBits) EQ 2>
 				<!--- support TABLE.FIELD structure for control as well as TABLE --->
 				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select #controlBits[1]# from #controlBits[0]#
+					select #controlBits[2]# from #controlBits[1]#
 				</cfquery>
 			<cfelse>
 				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
