@@ -9,7 +9,14 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-	
+	<cfset im_hw='style="width:600px; "'>
+    <cfset mdstop='auto'>
+    <cfset scaledwidth=600>
+    <cfset scalefactor = 0.5>
+      <cfset scaledheight = Round(600)  >
+      <cfset scaledwidth = Round(600) >
+      <cfset mdstop =  Round(auto)>
+      <cfset origheight = Round(600)>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
