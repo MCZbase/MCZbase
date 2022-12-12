@@ -57,6 +57,7 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
+						<cfloop query="spec">
 						<cfif oneOfUs NEQ 1 AND MCZBASE.is_media_encumbered(media.media_id)  > 1>
 							<cfset mediaCount="">
 						<cfelse>
@@ -71,6 +72,7 @@
 							</cfquery>
 							<cfset mediaCount=#countMedia.ct#>
 						</cfif>
+						</cfloop>
 						<cfif len(spec.pk) gt 0>
 							<cfif spec.recordcount GT 1>
 								<cfset plural = "s">
