@@ -26,16 +26,12 @@
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
 			<cfloop query="media">
-				<cfquery name="ctmedia_relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select media_relationship from ctmedia_relationship
-				</cfquery>
-				#ctmedia_relations.media_relationship#
 				<div class="row mx-0">
 					<div class="col-12 px-2 border-bottom  my-3">
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
-						<div class="target_media">
+						<div class="targetarea media_image">
 						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
