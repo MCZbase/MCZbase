@@ -23,9 +23,9 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 		<style>
-			.viewer {width: 52em; height: 38em; padding: 3em;margin:auto;}
+			.viewer {width: auto; height: auto; padding: 3em;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 30px black;}
-			.slider {height: 5em;}
+			.slider {height: auto;}
 		</style>
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
