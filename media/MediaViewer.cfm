@@ -22,6 +22,11 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+		<style>
+			.viewer {width: 52em; height: 38em; padding: 3em;margin:auto;}
+			.viewer img {box-shadow: 8px 2px 30px black;}
+			.slider {height: 5em;}
+		</style>
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
@@ -31,7 +36,7 @@
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
-						<div class="targetarea media_image">
+						<div class="viewer">
 						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
@@ -78,20 +83,22 @@
 																AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 														</cfquery>
+															<cfset i= 1>
 															<cfloop query="relm">
-															<div class="border-light w-100 col-md-3 col-lg-3 col-xl-2 float-left">
+															<div class="border-light slider w-100 col-md-3 col-lg-3 col-xl-2 float-left">
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
-																		<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+																		<cfset activeimg = "border-warning storage bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
 																	<cfelse>	
-																		<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
+																		<cfset activeimg = "border-lt-gray storage bg-white float-left px-1 pt-2">
 																	</cfif>
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
-																	<div class="#activeimg#" id="mediaBlock#relm.media_id#">
-																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> <a href="#relm.media_uri#" data-large="#relm.media_uri#">#mediablock#</a></div>
+																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock#</div>
 																	</div>
 																</cfif>
 															</div>
+															<cfset i=i+1>
 															</cfloop>
 													<div id="targetDiv"></div>
 												</div>
