@@ -1332,7 +1332,7 @@ imgStyleClass=value
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
 					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
+					<cfset output='#output#<img id="image" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
 					<cfset output='#output#</a>'>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->

@@ -27,6 +27,29 @@
 			.viewer img {box-shadow: 8px 2px 30px black;margin-bottom: .5em;}
 			.slider {height: auto;}
 		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.common.min.js" integrity="sha512-PRa5hMOv8d6asi4juFX2lmUUFM1vHEDaQCHOOzlEZQ8qrNiUnzk/g+hRjqn0dZ6qZ0VksNX8s+TUGiGorWDm/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.css" integrity="sha512-XHhuZDcgyu28Fsd75blrhZKbqqWCXaUCOuy2McB4doeSDu34BgydakOK71TH/QEhr0nhiieBNhF8yWS8thOGUg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.esm.min.js" integrity="sha512-ZSGr/GxVKoj1kunjcSzjFLaqJKGL56NjTb1zSpkjBMh8RbYLPFvSIgzS6aXJZtcsKD6DRZ1tmRYCDgQE7Ot+Sg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		// You should import the CSS file.
+// import 'viewerjs/dist/viewer.css';
+import Viewer from 'viewerjs';
+
+// View an image.
+const viewer = new Viewer(document.getElementById('image'), {
+  inline: true,
+  viewed() {
+    viewer.zoomTo(1);
+  },
+});
+// Then, show the image by clicking it, or call `viewer.show()`.
+
+// View a list of images.
+// Note: All images within the container will be found by calling `element.querySelectorAll('img')`.
+const gallery = new Viewer(document.getElementById('images'));
+// Then, show one image by click it, or call `gallery.show()`.
+		</script>
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
 			<div class="col-12 pb-4">
@@ -64,9 +87,9 @@
 								<h1 class="h3 mt-2 px-2">Related Media Record(s)</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
-										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item">Related by Specimen Record </li>
-										</ul>
+										<span>
+											Related by Specimen Record
+										</span>
 									</div>
 									<div>
 										<cfloop query="spec">
@@ -93,9 +116,12 @@
 																		<cfset activeimg = "border-lt-gray storage bg-white float-left px-1 pt-2">
 																	</cfif>
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
-																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
-																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock#</div>
-																	</div>
+																	<ul id="images" class="#activeimg# image#i# list-group list-group-horizontal text-white">
+																		<li class="col-12 px-1 list-group-item">#mediablock# </li>
+																	</ul>
+												<!---					<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+																		
+																	</div>--->
 																</cfif>
 															</div>
 															<cfset i=i+1>
