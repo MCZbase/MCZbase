@@ -122,7 +122,7 @@ const gallery = new Viewer(document.getElementById('images'));
 																	</cfif>
 																<ul id="images" class="list-group px-0">
 																	<li class="list-group-item">
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
+																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaption")>
 																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
 																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock#</div>
 																	</div>
