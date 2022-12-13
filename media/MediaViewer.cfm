@@ -24,7 +24,7 @@
 	</cfquery>
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
-			.viewer img {box-shadow: 8px 2px 30px black;}
+			.viewer img {box-shadow: 8px 2px 30px black;padding-bottom: 2em;}
 			.slider {height: auto;}
 		</style>
 	<main class="container-fluid" id="content">
