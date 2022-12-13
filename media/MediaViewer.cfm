@@ -2,6 +2,33 @@
 <cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.common.js" integrity="sha512-5ZCTLiZBybQvUVQNH4KT8/oPQZ7HtdzTIQTnLTxAnwhsvWjY3Tb89SGmgWSqWfZb9Apu9MJ5HTY9lKzQQ54gSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.common.min.js" integrity="sha512-PRa5hMOv8d6asi4juFX2lmUUFM1vHEDaQCHOOzlEZQ8qrNiUnzk/g+hRjqn0dZ6qZ0VksNX8s+TUGiGorWDm/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.css" integrity="sha512-GR6qRxTldLcjTLNcciylGAYoMuUh1jB5alVktd1NgLFRVe+hW1Ao2LewohEWSjGdOmU50gfXMChOx+o83Nc7Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.css" integrity="sha512-XHhuZDcgyu28Fsd75blrhZKbqqWCXaUCOuy2McB4doeSDu34BgydakOK71TH/QEhr0nhiieBNhF8yWS8thOGUg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.esm.js" integrity="sha512-aI9J7qtQVGOfWcFWcbQuGo9v01TCv62F9Yh2281W3nS1I1bZiHWDR5+Rl8Edxu2jAIF1pHp7r44xjxGCxBk4Bw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.esm.min.js" integrity="sha512-ZSGr/GxVKoj1kunjcSzjFLaqJKGL56NjTb1zSpkjBMh8RbYLPFvSIgzS6aXJZtcsKD6DRZ1tmRYCDgQE7Ot+Sg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.js" integrity="sha512-Dva44qcvJr8coihlPYbKakmOWeGCUIBC8Qyf4HlPLOc7SCB+RoXcwbtFZg0Fi8zgphF8WAXhATDMs92UpCFvhw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+		// You should import the CSS file.
+// import 'viewerjs/dist/viewer.css';
+import Viewer from 'viewerjs';
+
+// View an image.
+const viewer = new Viewer(document.getElementById('image'), {
+  inline: true,
+  viewed() {
+    viewer.zoomTo(1);
+  },
+});
+// Then, show the image by clicking it, or call `viewer.show()`.
+
+// View a list of images.
+// Note: All images within the container will be found by calling `element.querySelectorAll('img')`.
+const gallery = new Viewer(document.getElementById('images'));
+// Then, show one image by click it, or call `gallery.show()`.
+		</script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
 <cfelse>
@@ -27,13 +54,6 @@
 			.viewer img {box-shadow: 8px 2px 30px black;margin-bottom: .5em;}
 			.slider {height: auto;}
 		</style>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.common.js" integrity="sha512-5ZCTLiZBybQvUVQNH4KT8/oPQZ7HtdzTIQTnLTxAnwhsvWjY3Tb89SGmgWSqWfZb9Apu9MJ5HTY9lKzQQ54gSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.common.min.js" integrity="sha512-PRa5hMOv8d6asi4juFX2lmUUFM1vHEDaQCHOOzlEZQ8qrNiUnzk/g+hRjqn0dZ6qZ0VksNX8s+TUGiGorWDm/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.css" integrity="sha512-GR6qRxTldLcjTLNcciylGAYoMuUh1jB5alVktd1NgLFRVe+hW1Ao2LewohEWSjGdOmU50gfXMChOx+o83Nc7Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.min.css" integrity="sha512-XHhuZDcgyu28Fsd75blrhZKbqqWCXaUCOuy2McB4doeSDu34BgydakOK71TH/QEhr0nhiieBNhF8yWS8thOGUg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.esm.js" integrity="sha512-aI9J7qtQVGOfWcFWcbQuGo9v01TCv62F9Yh2281W3nS1I1bZiHWDR5+Rl8Edxu2jAIF1pHp7r44xjxGCxBk4Bw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.1/viewer.esm.min.js" integrity="sha512-ZSGr/GxVKoj1kunjcSzjFLaqJKGL56NjTb1zSpkjBMh8RbYLPFvSIgzS6aXJZtcsKD6DRZ1tmRYCDgQE7Ot+Sg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<main class="container-fluid" id="content">
 		<div class="row mx-0">
@@ -125,25 +145,7 @@
 					</div>
 							
 				</div>
-			<script>
-		// You should import the CSS file.
-// import 'viewerjs/dist/viewer.css';
-import Viewer from 'viewerjs';
 
-// View an image.
-const viewer = new Viewer(document.getElementById('image'), {
-  inline: true,
-  viewed() {
-    viewer.zoomTo(1);
-  },
-});
-// Then, show the image by clicking it, or call `viewer.show()`.
-
-// View a list of images.
-// Note: All images within the container will be found by calling `element.querySelectorAll('img')`.
-const gallery = new Viewer(document.getElementById('images'));
-// Then, show one image by click it, or call `gallery.show()`.
-		</script>
 				
 				<!--- accn records --->
 	<!---			<div class="row mx-0">
