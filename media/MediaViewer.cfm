@@ -61,7 +61,7 @@ const gallery = new Viewer(document.getElementById('images'));
 			<cfloop query="media">
 				<div class="row mx-0">
 					<div class="col-12 px-2 mt-3">
-						<h1 class="h2 mt-4 col-6 float-left px-0 text-center pb-0 mb-1">Media Viewer<br><span class="h5 mb-1">(<a href="/media/#media_id#">Media ID: #media_id#</a>)</span></h1>
+						<h1 class="h2 mt-4 col-6 float-left px-0 text-center pb-0 mb-0">Media Viewer<br><span class="h5 mb-1">(<a href="/media/#media_id#">Media ID: #media_id#</a>)</span></h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 my-2">
 						<div class="viewer">
@@ -120,8 +120,8 @@ const gallery = new Viewer(document.getElementById('images'));
 																	<cfelse>	
 																		<cfset activeimg = "border-lt-gray storage bg-white float-left px-1 pt-2">
 																	</cfif>
-																<ul id="images">
-																	<li>
+																<ul id="images" class="list-group px-0">
+																	<li class="list-group-item">
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
 																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
 																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock#</div>
