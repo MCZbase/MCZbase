@@ -62,7 +62,7 @@ const gallery = new Viewer(document.getElementById('images'));
 				<div class="row mx-0">
 					<div class="col-12 px-2 my-3">
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0"> Media Viewer</h1>
-						<h3>Media ID: #media_id#</h3>
+						<h3 class="mt-4 col-6 float-left text-center pb-1 mb-0">Media ID: #media_id#</h3>
 					</div>
 					<div class="col-12 px-0 px-xl-2 my-2">
 						<div class="viewer">
