@@ -61,9 +61,9 @@ const gallery = new Viewer(document.getElementById('images'));
 			<cfloop query="media">
 				<div class="row mx-0">
 					<div class="col-12 px-2 my-3">
-						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
+						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0"> Media Viewer</h1>
 					</div>
-					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
+					<div class="col-12 px-0 px-xl-2 my-2">
 						<div class="viewer">
 						<cfif len(media.media_id) gt 0>
 							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
