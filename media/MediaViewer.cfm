@@ -117,9 +117,9 @@ const gallery = new Viewer(document.getElementById('images'));
 																	</cfif>
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
 																	<ul id="images" class="#activeimg# image#i# list-group list-group-horizontal text-white">
-																		<li class="col-12 px-1 list-group-item">#mediablock# </li>
+																		<li class="col-12 px-1 list-group-item" id="mediaBlock#relm.media_id#">#mediablock# </li>
 																	</ul>
-												<!---					<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+												<!---					<div class="#activeimg# image#i#" >
 																		
 																	</div>--->
 																</cfif>
