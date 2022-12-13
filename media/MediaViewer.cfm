@@ -23,7 +23,7 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 		<style>
-			.viewer {width: auto; height: auto; padding: 3em;margin:auto;}
+			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 30px black;}
 			.slider {height: auto;}
 		</style>
