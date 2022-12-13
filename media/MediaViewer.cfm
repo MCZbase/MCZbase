@@ -87,9 +87,9 @@ const gallery = new Viewer(document.getElementById('images'));
 								<h1 class="h3 mt-2 px-2">Related Media Record(s)</h1>
 								<div class="search-box mt-1 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
-										<span>
-											Related by Specimen Record
-										</span>
+										<ul class="list-group list-group-horizontal text-white">
+											<li class="col-12 px-1 list-group-item">Related by Specimen Record </li>
+										</ul>
 									</div>
 									<div>
 										<cfloop query="spec">
@@ -115,13 +115,14 @@ const gallery = new Viewer(document.getElementById('images'));
 																	<cfelse>	
 																		<cfset activeimg = "border-lt-gray storage bg-white float-left px-1 pt-2">
 																	</cfif>
+																<ul id="images">
+																	<li>
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='100',captionAs="textCaption")>
-																	<ul id="images" class="#activeimg# image#i# list-group list-group-horizontal text-white">
-																		<li class="col-12 px-1 list-group-item" id="mediaBlock#relm.media_id#">#mediablock# </li>
-																	</ul>
-												<!---					<div class="#activeimg# image#i#" >
-																		
-																	</div>--->
+																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+																		<div class="bg-white px-1 float-left" style="min-height: 125px;"> #mediablock#</div>
+																	</div>
+																	</li>
+																</ul>
 																</cfif>
 															</div>
 															<cfset i=i+1>
