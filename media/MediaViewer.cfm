@@ -60,7 +60,7 @@ const gallery = new Viewer(document.getElementById('images'));
 			<div class="col-12 pb-4">
 			<cfloop query="media">
 				<div class="row mx-0">
-					<div class="col-12 px-2 border-bottom  my-3">
+					<div class="col-12 px-2 my-3">
 						<h1 class="h2 mt-4 col-6 float-left text-center pb-1 mb-0 pb-3"> Media Viewer</h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 mt-2 mb-2">
