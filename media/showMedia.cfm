@@ -38,7 +38,6 @@
 									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#>">External Viewer <img src="/images/linkOut.gif" alt="arrow out"></a>
 								</cfif>
 								</h1>
-								<div class="h4 px-0 mt-0">Media ID = media/#media.media_id#</div>
 							</div>
 							<div class="col-12 px-0 px-xl-5 mt-2 mb-2">
 								<cfif len(media.media_id) gt 0>
