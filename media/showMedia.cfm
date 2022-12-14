@@ -25,7 +25,7 @@
 </cfquery>
 	<cfloop query="media">
 		
-		<div class="container-fluid">
+		<div class="container">
 			<div class="row">
 				<div class="col-12 pb-4">
 					<main class="content">
