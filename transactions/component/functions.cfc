@@ -638,7 +638,9 @@ limitations under the License.
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
 						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-						and permit.restriction_summary IS NOT NULL
+						and (permit.restriction_summary IS NOT NULL 
+								or
+							 permit.benefits_summary IS NOT NULL)
 				</cfquery>
 				<cfif accnLimitations.recordcount GT 0>
 					<table class='table table-responsive d-md-table mb-0'>
@@ -3433,7 +3435,9 @@ limitations under the License.
 						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
 					where 
 						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-						and permit.restriction_summary IS NOT NULL
+						and (permit.restriction_summary IS NOT NULL
+								or
+							 permit.benefits_summary IS NOT NULL)
 					group by
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						borrow.transaction_id, borrow.borrow_number
@@ -3449,7 +3453,9 @@ limitations under the License.
 						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
 					where 
 						borrow.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-						and permit.restriction_summary IS NOT NULL
+						and (permit.restriction_summary IS NOT NULL
+								or
+							 permit.benefits_summary IS NOT NULL)
 					group by
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						borrow.transaction_id, borrow.borrow_number
