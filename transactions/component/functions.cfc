@@ -178,7 +178,9 @@ limitations under the License.
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
 						deaccession.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-						and permit.restriction_summary IS NOT NULL
+						and (permit.restriction_summary IS NOT NULL 
+								or
+							 permit.benefits_summary IS NOT NULL)
 					group by
 						permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided, 
 						accn.transaction_id, accn.accn_number
