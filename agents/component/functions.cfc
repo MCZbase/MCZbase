@@ -1223,6 +1223,7 @@ limitations under the License.
 			<cfquery name="newId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newId_result">
 				SELECT sq_agent_name_id.nextval as id FROM dual
 			</cfquery>
+			<cfset new_agent_name_id = newId.id>
 			<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateName_result">
 				INSERT INTO agent_name (
 					agent_name_id,
@@ -1230,7 +1231,7 @@ limitations under the License.
 					agent_name_type,
 					agent_name)
 				VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newId.id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_agent_name_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name_type#'>,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>)
@@ -1239,7 +1240,7 @@ limitations under the License.
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 				<cfset t = QuerySetCell(theResult, "message", "Name added to Agent.", 1)>
-				<cfset t = QuerySetCell(theResult, "agent_name_id", "#newId.id#", 1)>
+				<cfset t = QuerySetCell(theResult, "agent_name_id", "#new_agent_name_id#", 1)>
 			<cfelse>
 				<cfthrow message="Error adding name to agent.">
 			</cfif>

@@ -608,13 +608,14 @@ function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control
 			if (result[0].STATUS!=1) {
 				messageDialog('Error adding name to agent' ,'Error: ' + result[0].MESSAGE);
 			} else { 
-				$('#'+agent_name_id_control).val(result[0].agent_name_id)
+				$('#'+agent_name_id_control).val(result[0].AGENT_NAME_ID)
 				$('#'+feedback_control).html("Added " + agent_name + " to agent.");
 				if ($('#author_name_id').val()=='') { 
 					$('#author_name_control').html(agent_name);
-					$('#agent_name_id').val(result[0].agent_name_id);
+					$('#author_name_id').val(result[0].AGENT_NAME_ID);
 					$('#addButton').prop('disabled',false);
 					$('#addButton').removeClass('disabled');
+					console.log(result[0].AGENT_NAME_ID);
 				}
 			} 
 		}

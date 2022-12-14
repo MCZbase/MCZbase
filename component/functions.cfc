@@ -1120,12 +1120,22 @@
 	<cfargument name="attribute" type="string" required="yes">
 	<cftry>
 		<cfquery name="res" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select control from ctpublication_attribute where publication_attribute ='#attribute#'
+			SELECT control 
+			FROM ctpublication_attribute 
+			WHERE publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
 		</cfquery>
 		<cfif len(res.control) gt 0>
-			<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from #res.control#
-			</cfquery>
+			<cfset controlBits = listToArray(res.control,'.')>
+			<cfif ArrayLen(controlBits) EQ 2>
+				<!--- support TABLE.FIELD structure for control as well as TABLE --->
+				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select #controlBits[2]# from #controlBits[1]#
+				</cfquery>
+			<cfelse>
+				<cfquery name="ctval" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select * from #res.control#
+				</cfquery>
+			</cfif>
 			<cfset cl=ctval.columnlist>
 			<cfif listcontainsnocase(cl,"description")>
 				<cfset cl=listdeleteat(cl,listfindnocase(cl,"description"))>
