@@ -1153,6 +1153,8 @@ limitations under the License.
 							<cfset id=publication_attribute_id>
 							<label for="attr_#id#" class="data-entry-label">Attribute</a>
 							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+<!--- TODO: On Change --->
+<!--- TODO: Limit with code table if one is specified ---->
 								<option value="#getAttribute.publication_attribute#" selected>#getAttribute.publication_attribute#</option>
 								<cfloop query="available_pub_att">
 									<cfif len(available_pub_att.description) GT 0>
@@ -1166,9 +1168,8 @@ limitations under the License.
 						</div>
 						<div class="col-12">
 							<label for="attr_value_#id#" class="data-entry-label">Value</a>
-							<input name="pub_att_value" id="attr_value_#id#" class="data-entry-input" value="#pub_att_value#" >
-<!--- TODO: Limit with code table if one is specified ---->
-<!--- TODO: Journal autocomplete ---->
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#")>
+							<div id="input_block_#id#">#inputBlockContent#</div>
 						</div>
 						<div class="col-12">
 							<button class="btn btn-xs btn-primary" onclick="saveAttribute(
