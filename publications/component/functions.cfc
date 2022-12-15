@@ -999,6 +999,9 @@ limitations under the License.
 							class="data-entry-select w-100 reqdClr" required
 							onChange='loadPubAttributeControl($("##attr_#id#").val(),"","pub_att_value","attr_value_#id#","input_block_#id#");'
 						>
+							<cfif len(variables.attribute) EQ 0>
+								<option></option>
+							</cfif>
 							<cfloop query="available_pub_att">
 								<cfif len(variables.attribute) GT 0 AND variables.attribute EQ available_pub_att.publication_attribute>
 									<cfset selected="selected">
@@ -1016,7 +1019,11 @@ limitations under the License.
 					</div>
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
-						<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="",name="pub_att_value",id="attr_value_#id#")>
+						<cfif len(variables.attribute) GT 0>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#")>
+						<cfelse>
+							<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input disabled" value="" disabled>
+						</cfif>
 						<div id="input_block_#id#">#inputBlockContent#</div>
 					</div>
 					<div class="col-12">
