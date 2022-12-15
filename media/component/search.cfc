@@ -1595,7 +1595,7 @@ imgStyleClass=value
 							<td>
 								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
 									<cfif media_rel.media_relationship contains 'shows cataloged_item'>:
-										<div class="comma2">
+										<div class="comma2 d-inline">
 										<cfloop query="spec">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, media.auto_protocol, media.auto_host
