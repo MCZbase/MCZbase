@@ -1603,7 +1603,7 @@ imgStyleClass=value
 												where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 											</cfquery>
 											<a class="font-weight-lessbold comma1" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a>
-												<cfif relm.recordcount GT 1><span class="px-1"> , </span>
+												<cfif relm.recordcount GT 1><span class="px-1"> , </span></cfif>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'shows agent'>:
