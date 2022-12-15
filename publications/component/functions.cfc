@@ -1152,7 +1152,7 @@ limitations under the License.
 						<div class="col-12">
 							<cfset id=publication_attribute_id>
 							<label for="attr_#id#" class="data-entry-label">Attribute</a>
-							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100 reqdClr" required>
 <!--- TODO: On Change --->
 <!--- TODO: Limit with code table if one is specified ---->
 								<option value="#getAttribute.publication_attribute#" selected>#getAttribute.publication_attribute#</option>
