@@ -1528,9 +1528,9 @@ imgStyleClass=value
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
-					ct.label
+					mr.media_relationship, label
 				From
-					media_relations mr, ctmedia_relationship ct
+					media_relations mr, media_relationship ct
 				WHERE 
 					mr.media_relationship = ct.media_relationship and
 					mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
