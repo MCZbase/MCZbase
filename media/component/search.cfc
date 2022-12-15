@@ -1594,7 +1594,8 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
 								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
-									<cfif media_rel.media_relationship contains 'shows cataloged_item'>: 
+									<cfif media_rel.media_relationship contains 'shows cataloged_item'>:
+										<div class="comma2">
 										<cfloop query="spec">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, media.auto_protocol, media.auto_host
@@ -1602,8 +1603,10 @@ imgStyleClass=value
 													 left join media on media_relations.media_id = media.media_id
 												where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 											</cfquery>
-											<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a><cfif relm.recordcount GT 1><span class="comma2">, </span></cfif>
+											
+											<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a><span>, </span>
 										</cfloop>
+										</div>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'shows agent'>:
 										<cfloop query="agents">
