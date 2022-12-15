@@ -1037,6 +1037,85 @@ limitations under the License.
 	<cfreturn cfthread["getAttributesAddDialogThread#tn#"].output>
 </cffunction>
 
+<!--- obtain html for an input control for a publication attribute 
+	@param attribute the attribute for which to return an input
+	@param value the value to set for the attribute in the input
+	@param name the name for the input used when submitting the input in a form
+	@param id the id in the DOM for the input, without a leading # selector
+	@return html for a text input, a select input, or a text input bound to an autocomplete, depending
+		on the value of ctpublication_attribute.control for the specified attribute.
+--->
+<cffunction name="getPubAttributeControl" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="attribute" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfargument name="name" type="string" required="yes">
+	<cfargument name="id" type="string" required="yes">
+
+	<!--- base response is a text input --->
+	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input reqdClr' required value='#encodeForHtml(value)#'>" > <!--- " --->
+	<cftry>
+		<cfquery name="getAttControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttControl_result">
+			SELECT control
+			FROM ctpublication_attribute
+			WHERE publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
+		</cfquery>
+		<!--- is there is a code table specified controlling values for this attribute --->
+		<cfif len(getAttControl.control) gt 0>
+			<!--- handle special cases of autocompletes ---->
+			<cfif getAttControl.control EQ 'CTJOURNAL_NAME.JOURNAL_NAME'>
+				<!--- bind journal autocomplete to input --->
+				<cfset retval = "#retval#<script>$(document).ready(function() { makeJournalAutocomplete('#encodeForHtml(id)#'); });</script>"><!--- " --->
+			<cfelse>
+				<!--- return a select input with picklist from controlled vocabulary instead --->
+				<cfset controlBits = listToArray(res.control,'.')>
+				<cfif ArrayLen(controlBits) EQ 2>
+					<!--- support TABLE.FIELD structure for control as well as TABLE --->
+					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVocabulary_result">
+						SELECT #controlBits[2]# 
+						FROM #controlBits[1]#
+					</cfquery>
+				<cfelse>
+					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVocabulary_result">
+						SELECT * 
+						FROM #res.control#
+					</cfquery>
+				</cfif>
+				<!--- exclude the standard code table columns description and collection_cde from the vocabulary if request was just for TABLE and query selected * --->
+				<cfset columnList = getVocabulary.columnlist>
+				<cfif listcontainsnocase(columnList,"description")>
+					<cfset columnList=listdeleteat(columnList,listfindnocase(columnList,"description"))>
+				</cfif>
+				<cfif listcontainsnocase(columnList,"collection_cde")>
+					<cfset columnList=listdeleteat(columnList,listfindnocase(columnList,"collection_cde"))>
+				</cfif>
+				<cfif listlen(columnList) is 1>
+					<!--- there is one column to use, we know what to do --->
+					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select reqdClr' required>" > <!--- " --->
+					<cfloop query="getVocabulary">
+						<cfset ctValue = getVocabulary[columnList]>
+						<cfif value EQ ctValue>
+							<cfset selected = "selected">
+						<cfelse>
+							<cfset selected = "">
+						</cfif>
+						<cfset retval = "#retval#<option value='#ctValue#' #selected#>#ctValue#</option>"> <!--- " --->
+					</cfloop>
+					<cfset retval = "#retval#</select>"> <!--- " --->
+				<cfelse>
+					<!--- extra columns in this code table, needs to be specified as TABLE.FIELD not TABLE in ctpublication_attribute.control --->
+					<!--- we'll failover to the text input without a control ---->
+				</cfif>
+			</cfif>
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfset retval="<div>Error in #function_called#: #error_message#</div>"> <!--- " --->
+	</cfcatch>
+	</cftry>
+	<cfreturn retval>
+</cffunction>
+
 <cffunction name="getAttributeEditDialogHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_attribute_id" type="string" required="yes">
 	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
