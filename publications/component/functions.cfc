@@ -995,7 +995,10 @@ limitations under the License.
 					<div class="col-12">
 						<cfset id="#variables.publication_id#_#RandRange(1,10000)#" >
 						<label for="attr_#id#" class="data-entry-label">Attribute</a>
-						<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+						<select name="publication_attribute" id="attr_#id#" 
+							class="data-entry-select w-100 reqdClr" required
+							onChange='loadPubAttributeControl($("##attr_#id#").val(),"","pub_att_value","attr_value_#id#","input_block_#id#");'
+						>
 							<cfloop query="available_pub_att">
 								<cfif len(variables.attribute) GT 0 AND variables.attribute EQ available_pub_att.publication_attribute>
 									<cfset selected="selected">
@@ -1013,9 +1016,8 @@ limitations under the License.
 					</div>
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
-						<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input" value="" >
-<!--- TODO: Limit with code table if one is specified ---->
-<!--- TODO: Journal autocomplete ---->
+						<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="",name="pub_att_value",id="attr_value_#id#")>
+						<div id="input_block_#id#">#inputBlockContent#</div>
 					</div>
 					<div class="col-12">
 						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',reloadAttributes);">Save</button>
@@ -1152,9 +1154,10 @@ limitations under the License.
 						<div class="col-12">
 							<cfset id=publication_attribute_id>
 							<label for="attr_#id#" class="data-entry-label">Attribute</a>
-							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100 reqdClr" required>
-<!--- TODO: On Change --->
-<!--- TODO: Limit with code table if one is specified ---->
+							<select name="publication_attribute" id="attr_#id#" 
+								class="data-entry-select w-100 reqdClr" required 
+								onChange='loadPubAttributeControl($("##attr_#id#").val(),"#pub_att_value#","pub_att_value","attr_value_#id#","input_block_#id#");'
+							>
 								<option value="#getAttribute.publication_attribute#" selected>#getAttribute.publication_attribute#</option>
 								<cfloop query="available_pub_att">
 									<cfif len(available_pub_att.description) GT 0>

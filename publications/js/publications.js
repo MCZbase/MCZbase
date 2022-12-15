@@ -747,37 +747,66 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 };
 
 function addAuthor(agent_name_id,publication_id,author_position,author_role,okcallback) { 
-   jQuery.ajax({
+	jQuery.ajax({
 		dataType: "json",
-      url: "/publications/component/functions.cfc",
-      data : {
-         method : "addAuthor",
-         agent_name_id: agent_name_id,
-         publication_id: publication_id,
-         author_position: author_position,
-         author_role: author_role,
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "addAuthor",
+			agent_name_id: agent_name_id,
+			publication_id: publication_id,
+			author_position: author_position,
+			author_role: author_role,
 			returnformat : "json",
 			queryformat : 'column'
-      },
-      success: function (retval) {
-         if (jQuery.type(okcallback)==='function') {
-            okcallback();
-         }
+		},
+		success: function (retval) {
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
 			$('#form_to_add_span').html('second author');
 			var result = jQuery.parseJSON(retval);
 			console.log(result);
-         var status = result[0].status;
-         if (status=='added') {
-         	var agent_id = result[0].agent_id;
-         	var agent_name = result[0].agent_name;
+			var status = result[0].status;
+			if (status=='added') {
+				var agent_id = result[0].agent_id;
+				var agent_name = result[0].agent_name;
 				console.log(agent_name);
 				$('<li><a href="/agents/Agent.cfm?agent_id='+agent_id+'">'+agent_name+'</a></li>').appendTo('#authorListOnDialog');
-         }
-      },
-      error: function (jqXHR, textStatus, error) {
-         handleFail(jqXHR,textStatus,error,"adding author/editor to publication");
-      },
-      dataType: "html"
-   });
+			}
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"adding author/editor to publication");
+		},
+		dataType: "html"
+	});
 }
 
+/** loadPubAttribtueControl load html for an input for a publication attribute
+ * bound to appropriate controls for values for the attribute type.
+ * @param attribute the attribute type for the input
+ * @param value the attribute value, if to populate the input with
+ * @param name a name to give the input for submission in a form
+ * @param id the id in the DOM for the input without a leading # selector.
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the html content of which to replace with the returned input.
+*/
+function loadPubAttributeControl(attribute,value,name,id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getPubAttributeControl",
+			form: "plain",
+			attribute: attribute,
+			value: value,
+			name: name,
+			id: id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading publication attribute input control");
+		},
+		dataType: "html"
+	});
+};
