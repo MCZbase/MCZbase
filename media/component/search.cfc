@@ -1528,12 +1528,13 @@ imgStyleClass=value
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
-					media_relationship
+					ct.label
 				From
-					media_relations
+					media_relations mr, ctmedia_relationship ct
 				WHERE 
-					media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-				ORDER BY media_relationship
+					mr.media_relationship = ct.media_relationship and
+					mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+				ORDER BY mr.media_relationship
 			</cfquery>
 		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="h5 mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
