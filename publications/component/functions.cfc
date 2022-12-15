@@ -1014,6 +1014,8 @@ limitations under the License.
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
 						<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input" value="" >
+<!--- TODO: Limit with code table if one is specified ---->
+<!--- TODO: Journal autocomplete ---->
 					</div>
 					<div class="col-12">
 						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',reloadAttributes);">Save</button>
@@ -1072,24 +1074,22 @@ limitations under the License.
 							<cfset id=publication_attribute_id>
 							<label for="attr_#id#" class="data-entry-label">Attribute</a>
 							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+								<option value="#getAttribute.publication_attribute#" selected>#getAttribute.publication_attribute#</option>
 								<cfloop query="available_pub_att">
-									<cfif getAttribute.publication_attribute EQ available_pub_att.publication_attribute>
-										<cfset selected="selected">
-									<cfelse>
-										<cfset selected="">
-									</cfif>
 									<cfif len(available_pub_att.description) GT 0>
 										<cfset descr = " (#available_pub_att.description#)">
 									<cfelse>
 										<cfset descr = "">
 									</cfif>
-									<option value="#available_pub_att.publication_attribute#" #selected#>#available_pub_att.publication_attribute##descr#</option>
+									<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute##descr#</option>
 								</cfloop>
 							</select>
 						</div>
 						<div class="col-12">
 							<label for="attr_value_#id#" class="data-entry-label">Value</a>
 							<input name="pub_att_value" id="attr_value_#id#" class="data-entry-input" value="#pub_att_value#" >
+<!--- TODO: Limit with code table if one is specified ---->
+<!--- TODO: Journal autocomplete ---->
 						</div>
 						<div class="col-12">
 							<button class="btn btn-xs btn-primary" onclick="saveAttribute(
