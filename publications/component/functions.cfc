@@ -1021,10 +1021,12 @@ limitations under the License.
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
 						<cfif len(variables.attribute) GT 0>
 							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#")>
+							<div id="input_block_#id#">#inputBlockContent#</div>
 						<cfelse>
-							<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input disabled" value="" disabled>
+							<div id="input_block_#id#">
+								<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input disabled" value="" disabled>
+							</div>
 						</cfif>
-						<div id="input_block_#id#">#inputBlockContent#</div>
 					</div>
 					<div class="col-12">
 						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',reloadAttributes);">Save</button>
