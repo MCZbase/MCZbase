@@ -1536,8 +1536,8 @@ imgStyleClass=value
 				ORDER BY media_relationship
 			</cfquery>
 		
-				<h3 class="mx-2 h4 mt-0 border-dark w-auto float-left">Metadata <span class="h5 mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
-				<table class="table border-none small95">
+				<h3 class="mx-2 h4 mt-3 mt-md-0 border-dark w-auto float-left">Metadata <span class="h5 mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
+				<table class="table table-responsive border-none small95">
 					<thead class="thead-light">
 						<tr>
 							<th scope="col">Label</th>
