@@ -1498,7 +1498,7 @@ imgStyleClass=value
 				left join agent on media_relations.related_primary_key = agent.agent_id
 				left join agent_name on agent_name.agent_id = agent.agent_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relations.media_relationship like '%agent%'
+					and media_relations.media_relationship = 'shows agent'
 			and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
