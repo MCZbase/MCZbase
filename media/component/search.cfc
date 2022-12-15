@@ -1530,9 +1530,10 @@ imgStyleClass=value
 				select distinct
 					mr.media_relationship, label
 				From
-					media_relations mr, media_relationship ct
+					media_relations mr, ctmedia_relationship ct
 				WHERE 
-					mr.media_relationship = ct.media_relationship and
+					mr.media_relationship = ct.media_relationship 
+				and
 					mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 				ORDER BY mr.media_relationship
 			</cfquery>
