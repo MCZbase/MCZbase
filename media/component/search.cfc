@@ -1594,8 +1594,8 @@ imgStyleClass=value
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
 								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
+									<div class="comma2 d-inline">
 									<cfif media_rel.media_relationship contains 'shows cataloged_item'>:
-										<div class="comma2 d-inline">
 										<cfloop query="spec">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, media.auto_protocol, media.auto_host
@@ -1606,7 +1606,6 @@ imgStyleClass=value
 											
 											<a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a><span>, </span>
 										</cfloop>
-										</div>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'shows agent'>:
 										<cfloop query="agents">
@@ -1618,6 +1617,7 @@ imgStyleClass=value
 												<span>, </span>
 										</cfloop>
 									</cfif>
+									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 								</cfloop> 
 							</td>
