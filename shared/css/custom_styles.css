@@ -1857,7 +1857,7 @@ input#readMore_check_id {
 	display: none!important;
 }
 span.comma2{display:inline;}
-span.comma2:last-child {display:none;}
+span.comma2:last-of-type {display:none;}
 .jqx-grid-load {
 	background-image: url("../../images/spinner_712_sm.gif");
 	background-position: 50% 50%;
