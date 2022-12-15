@@ -31,7 +31,7 @@
 					<main class="content">
 						<div class="row mx-0">
 							<div class="col-12 px-0 px-xl-5 mt-3">
-								<h1 class="h2 mt-2 pb-1 mb-2 pb-2 border-bottom border-dark"> Media Record 	
+								<h1 class="h2 mt-2 pb-1 mb-2 pb-3 border-bottom border-dark"> Media Record 	
 								<cfif media.media_uri contains 'mczbase'>
 									<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/MediaViewer.cfm?media_id=#media_id#'">Media Viewer</button>
 								<cfelse>
