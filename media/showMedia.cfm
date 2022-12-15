@@ -27,7 +27,7 @@
 		
 		<div class="container">
 			<div class="row">
-				<div class="col-12 pb-4">
+				<div class="col-12 px-0 pb-4">
 					<main class="content">
 						<div class="row mx-0">
 							<div class="col-12 px-0 border-bottom border-dark mt-4">
