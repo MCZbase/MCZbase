@@ -187,10 +187,11 @@ limitations under the License.
 			};
 			var pubCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var journalName = encodeURIComponent(rowData['journal_name']);
 				if (value==true && value>0) { 
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publications.cfm?execute=true&journal_name=' + rowData['journal_name'] + '">'+value+'</a></span>';
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publications.cfm?execute=true&journal_name=' + journalName + '">'+value+'</a></span>';
 				} else {
-					return value;
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
 			};
 	
