@@ -65,11 +65,10 @@
 						</cfquery>
 						<cfif len(spec.pk) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
-								<h1 class="h3 mt-2 px-2">Related Media Record(s)</h1>
-								<div class="search-box mt-1 w-100">
+								<div class="search-box mt-4 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item">Related by Specimen Record </li>
+											<li class="col-12 px-1 list-group-item h4">Related Media Record(s) </li>
 										</ul>
 									</div>
 									<div>
@@ -83,7 +82,7 @@
 															from media_relations
 																 left join media on media_relations.media_id = media.media_id
 																 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-															where (media_relationship like '%cataloged_item%')
+															where (media_relationship like '%cataloged_item%' OR media_relationship like '%collecting_event%' OR media_relationship like '%agent%')
 																AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 														</cfquery>
