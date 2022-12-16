@@ -26,6 +26,8 @@
 	</p>
 	<cfif tbl is "CTGEOLOGY_ATTRIBUTE_HIERARCHY"><!---------------------------------------------------->
 		<cflocation url="/vocabularies/GeologicalHierarchies.cfm" addtoken="false">
+	<cfif tbl is "CTJOURNAL_NAME"><!---------------------------------------------------->
+		<cflocation url="/publications/Journals.cfm" addtoken="false">
 	<cfelseif tbl is "ctspecimen_part_name"><!---------------------------------------------------->
 		<cflocation url="/Admin/ctspecimen_part_name.cfm" addtoken="false">
 	<cfelseif tbl is "ctspec_part_att_att"><!---------------------------------------------------->
