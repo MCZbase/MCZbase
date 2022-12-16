@@ -272,7 +272,7 @@ limitations under the License.
 								{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 							</cfif>
 							{text: 'Journal Name', datafield: 'journal_name', width:400, hideable: false },
-							{text: 'Publications', datafield: 'publication_count', width:50, hideable: true, hidden: getColHidProp('publication_count', false), cellsrenderer; pubCellRenderer },
+							{text: 'Publications', datafield: 'publication_count', width:50, hideable: true, hidden: getColHidProp('publication_count', false), cellsrenderer: pubCellRenderer },
 							{text: 'ISSN', datafield: 'issn', width:120, hideable: true, hidden: getColHidProp('issn', false) },
 							{text: 'Start Year', datafield: 'start_year', width:80, hideable: true, hidden: getColHidProp('start_year', false) },
 							{text: 'End Year', datafield: 'end_year', width:80, hideable: true, hidden: getColHidProp('end_year', false) },
