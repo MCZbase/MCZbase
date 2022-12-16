@@ -57,18 +57,18 @@
 							
 						<!---specimen records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media_id,collection_object_id as pk
+						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, flat.verbatim_locality as collecting_event
 						from media_relations
-							left join flat on related_primary_key = collection_object_id
-						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-								and (media_relations.media_relationship like '%cataloged_item%' OR media_relations.media_relationship like '%collecting_event%' OR media_relations.media_relationship like '%agent%')
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
+								and (media_relations.media_relationship like '%cataloged_item%')
 						</cfquery>
 						<cfif len(spec.pk) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-4 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item h4 font-weight-lessbold">Related Media Record(s) </li>
+											<li class="col-12 px-1 list-group-item h4">Related Media Record(s) </li>
 										</ul>
 									</div>
 									<div>
@@ -98,7 +98,7 @@
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaption")>
-																	<div class="#activeimg#" id="mediaBlock#relm.media_id#">
+																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
 																		<div class="bg-white px-0 float-left" style="min-height: 135px;"> #mediablock#</div>
 																	</div>
 																	</li>
