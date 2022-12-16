@@ -116,7 +116,7 @@
 								</div>
 							</div>
 						<cfelse>
-							<div class="col-auto px-0 float-left">
+							<div class="col-auto px-2 float-left">
 								<h3 class="h4 mt-3 w-100 px-4 font-italic">Not associated with Specimen Records</h3>
 							</div>
 						</cfif>
