@@ -149,7 +149,7 @@ limitations under the License.
 
 			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/publications/Journal.cfm?journal_name=' + rowData['journal_name'] + '">Edit</a></span>';
+				return '<a target="_blank" href="/publications/Journal.cfm?journal_name=' + rowData['journal_name'] + '">Edit</a>';
 			};
 			var editButtonClick = function(row) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
