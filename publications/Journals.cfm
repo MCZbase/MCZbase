@@ -89,8 +89,8 @@ limitations under the License.
 											<span class="small">
 												(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for nearby string search</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='NULL';">$<span class="sr-only">use NULL to find records with no value in issn</span></button>,
-												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='NOT NULL';">$<span class="sr-only">use NOT NULL to find records with any value in issn</span></button>)
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='NULL';">NULL<span class="sr-only">use NULL to find records with no value in issn</span></button>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='NOT NULL';">NOT NULL<span class="sr-only">use NOT NULL to find records with any value in issn</span></button>)
 											</span>
 										</label>
 										<input type="text" id="issn" name="issn" class="data-entry-input" value="#encodeForHtml(issn)#" aria-labelledby="issn_label" >
@@ -100,7 +100,9 @@ limitations under the License.
 											<label class="data-entry-label mx-1 mb-0" for="end_year">Start Year
 												<span class="small">
 													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('start_year');e.value='>'+e.value;">&gt;<span class="sr-only">prefix with greater than for start years after specified year</span></button>, 
-													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('start_year');e.value='<'+e.value;">&lt;<span class="sr-only">prefix with less than for start years before the specified year</span></button>)
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('start_year');e.value='<'+e.value;">&lt;<span class="sr-only">prefix with less than for start years before the specified year</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('start_year');e.value='NULL';">NULL<span class="sr-only">use NULL to find records with no value in start year</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('start_year');e.value='NOT NULL';">NOT NULL<span class="sr-only">use NOT NULL to find records with any value in start year</span></button>)
 												</span>
 											</label>
 											<input name="start_year" id="start_year" type="text" class="data-entry-input" placeholder="yyyy" value="#encodeForHtml(start_year)#" aria-label="start of range for publication year">
@@ -111,7 +113,9 @@ limitations under the License.
 											<label class="data-entry-label mx-1 mb-0" for="end_year">End Year
 												<span class="small">
 													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('end_year');e.value='>'+e.value;">&gt;<span class="sr-only">prefix with greater than for end years after specified year</span></button>, 
-													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('end_year');e.value='<'+e.value;">&lt;<span class="sr-only">prefix with less than for end years before the specified year</span></button>)
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('end_year');e.value='<'+e.value;">&lt;<span class="sr-only">prefix with less than for end years before the specified year</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('end_year');e.value='NULL';">NULL<span class="sr-only">use NULL to find records with no value in start year</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('end_year');e.value='NOT NULL';">NOT NULL<span class="sr-only">use NOT NULL to find records with any value in start year</span></button>)
 												</span>
 											</label>
 											<input type="text" name="end_year" id="end_year" value="#encodeForHtml(end_year)#" class="data-entry-input" placeholder="yyyy" title="end of date range">
