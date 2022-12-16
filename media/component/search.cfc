@@ -1473,7 +1473,7 @@ imgStyleClass=value
 				MCZBASE.get_media_dcrights(media.media_id) as display, 
 				MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 				MCZBASE.get_media_credit(media.media_id) as credit, 
-				mczbase.get_media_descriptor(media.media_id) as alttag,
+				--mczbase.get_media_descriptor(media.media_id) as alttag,
 				MCZBASE.get_media_owner(media.media_id) as owner
 			From
 				media
