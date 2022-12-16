@@ -85,7 +85,14 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
-										<label for="issn" class="data-entry-label mb-0" id="issn_label">ISSN</label>
+										<label for="issn" class="data-entry-label mb-0" id="issn_label">ISSN
+											<span class="small">
+												(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for nearby string search</span></button>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='NULL';">$<span class="sr-only">use NULL to find records with no value in issn</span></button>,
+												<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('issn');e.value='NOT NULL';">$<span class="sr-only">use NOT NULL to find records with any value in issn</span></button>)
+											</span>
+										</label>
 										<input type="text" id="issn" name="issn" class="data-entry-input" value="#encodeForHtml(issn)#" aria-labelledby="issn_label" >
 									</div>
 									<div class="col-12 col-md-4">

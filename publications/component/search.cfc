@@ -736,27 +736,41 @@ Function getJournalNames.  Search for publications by fields
 							and issn <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issn,len(issn)-1)#">
 						<cfelseif left(issn,1) is "~">
 							AND utl_match.jaro_winkler(issn, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issn,len(issn)-1)#">) >= 0.90
+						<cfelseif left(issn,1) is "=">
+							AND issn = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issn,len(issn)-1)#">
 						<cfelse>
 							and issn like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issn#%">
 						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("start_year") AND len(start_year) GT 0>
-					<cfif left(start_year,1) EQ ">">
-						and start_year > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(start_year,len(start_year)-1)#">
-					<cfelseif left(start_year,1) is "<">
-						AND start_year < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(start_year,len(start_year)-1)#">
+					<cfif start_year EQ "NULL">
+						and start_year IS NULL
+					<cfelseif start_year EQ "NOT NULL">
+						and start_year IS NOT NULL
 					<cfelse>
-						and start_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#start_year#">
+						<cfif left(start_year,1) EQ ">">
+							and start_year > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(start_year,len(start_year)-1)#">
+						<cfelseif left(start_year,1) is "<">
+							AND start_year < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(start_year,len(start_year)-1)#">
+						<cfelse>
+							and start_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#start_year#">
+						</cfif>
 					</cfif>
 				</cfif>
 				<cfif isDefined("end_year") AND len(end_year) GT 0>
-					<cfif left(end_year,1) EQ ">">
-						and end_year > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(end_year,len(end_year)-1)#">
-					<cfelseif left(end_year,1) is "<">
-						AND end_year < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(end_year,len(end_year)-1)#">
+					<cfif end_year EQ "NULL">
+						and end_year IS NULL
+					<cfelseif end_year EQ "NOT NULL">
+						and end_year IS NOT NULL
 					<cfelse>
-						and end_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#end_year#">
+						<cfif left(end_year,1) EQ ">">
+							and end_year > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(end_year,len(end_year)-1)#">
+						<cfelseif left(end_year,1) is "<">
+							AND end_year < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(end_year,len(end_year)-1)#">
+						<cfelse>
+							and end_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#end_year#">
+						</cfif>
 					</cfif>
 				</cfif>
 			GROUP BY
