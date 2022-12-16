@@ -692,7 +692,7 @@ Function getJournalNames.  Search for publications by fields
 					and upper(remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks)#%">
 				</cfif>
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-					and upper(jour_att.pub_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(journal_name)#%">
+					and upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(journal_name)#%">
 				</cfif>
 				<cfif isDefined("publisher") AND len(publisher) GT 0>
 					<cfif publisher EQ "NULL">
