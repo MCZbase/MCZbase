@@ -995,7 +995,13 @@ limitations under the License.
 					<div class="col-12">
 						<cfset id="#variables.publication_id#_#RandRange(1,10000)#" >
 						<label for="attr_#id#" class="data-entry-label">Attribute</a>
-						<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+						<select name="publication_attribute" id="attr_#id#" 
+							class="data-entry-select w-100 reqdClr" required
+							onChange='loadPubAttributeControl($("##attr_#id#").val(),"","pub_att_value","attr_value_#id#","input_block_#id#");'
+						>
+							<cfif len(variables.attribute) EQ 0>
+								<option></option>
+							</cfif>
 							<cfloop query="available_pub_att">
 								<cfif len(variables.attribute) GT 0 AND variables.attribute EQ available_pub_att.publication_attribute>
 									<cfset selected="selected">
@@ -1013,7 +1019,14 @@ limitations under the License.
 					</div>
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
-						<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input" value="" >
+						<cfif len(variables.attribute) GT 0>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#")>
+							<div id="input_block_#id#">#inputBlockContent#</div>
+						<cfelse>
+							<div id="input_block_#id#">
+								<input id="attr_value_#id#" name="pub_att_value" class="data-entry-input disabled" value="" disabled>
+							</div>
+						</cfif>
 					</div>
 					<div class="col-12">
 						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',reloadAttributes);">Save</button>
@@ -1033,6 +1046,85 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAttributesAddDialogThread#tn#" />
 	<cfreturn cfthread["getAttributesAddDialogThread#tn#"].output>
+</cffunction>
+
+<!--- obtain html for an input control for a publication attribute 
+	@param attribute the attribute for which to return an input
+	@param value the value to set for the attribute in the input
+	@param name the name for the input used when submitting the input in a form
+	@param id the id in the DOM for the input, without a leading # selector
+	@return html for a text input, a select input, or a text input bound to an autocomplete, depending
+		on the value of ctpublication_attribute.control for the specified attribute.
+--->
+<cffunction name="getPubAttributeControl" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="attribute" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfargument name="name" type="string" required="yes">
+	<cfargument name="id" type="string" required="yes">
+
+	<!--- base response is a text input --->
+	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input reqdClr' required value='#encodeForHtml(value)#'>" > <!--- " --->
+	<cftry>
+		<cfquery name="getAttControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttControl_result">
+			SELECT control
+			FROM ctpublication_attribute
+			WHERE publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#attribute#">
+		</cfquery>
+		<!--- is there is a code table specified controlling values for this attribute --->
+		<cfif len(getAttControl.control) gt 0>
+			<!--- handle special cases of autocompletes ---->
+			<cfif getAttControl.control EQ 'CTJOURNAL_NAME.JOURNAL_NAME'>
+				<!--- bind journal autocomplete to input --->
+				<cfset retval = "#retval#<script>$(document).ready(function() { makeJournalAutocomplete('#encodeForHtml(id)#'); });</script>"><!--- " --->
+			<cfelse>
+				<!--- return a select input with picklist from controlled vocabulary instead --->
+				<cfset controlBits = listToArray(res.control,'.')>
+				<cfif ArrayLen(controlBits) EQ 2>
+					<!--- support TABLE.FIELD structure for control as well as TABLE --->
+					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVocabulary_result">
+						SELECT #controlBits[2]# 
+						FROM #controlBits[1]#
+					</cfquery>
+				<cfelse>
+					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVocabulary_result">
+						SELECT * 
+						FROM #res.control#
+					</cfquery>
+				</cfif>
+				<!--- exclude the standard code table columns description and collection_cde from the vocabulary if request was just for TABLE and query selected * --->
+				<cfset columnList = getVocabulary.columnlist>
+				<cfif listcontainsnocase(columnList,"description")>
+					<cfset columnList=listdeleteat(columnList,listfindnocase(columnList,"description"))>
+				</cfif>
+				<cfif listcontainsnocase(columnList,"collection_cde")>
+					<cfset columnList=listdeleteat(columnList,listfindnocase(columnList,"collection_cde"))>
+				</cfif>
+				<cfif listlen(columnList) is 1>
+					<!--- there is one column to use, we know what to do --->
+					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select reqdClr' required>" > <!--- " --->
+					<cfloop query="getVocabulary">
+						<cfset ctValue = getVocabulary[columnList]>
+						<cfif value EQ ctValue>
+							<cfset selected = "selected">
+						<cfelse>
+							<cfset selected = "">
+						</cfif>
+						<cfset retval = "#retval#<option value='#ctValue#' #selected#>#ctValue#</option>"> <!--- " --->
+					</cfloop>
+					<cfset retval = "#retval#</select>"> <!--- " --->
+				<cfelse>
+					<!--- extra columns in this code table, needs to be specified as TABLE.FIELD not TABLE in ctpublication_attribute.control --->
+					<!--- we'll failover to the text input without a control ---->
+				</cfif>
+			</cfif>
+		</cfif>
+	<cfcatch>
+		<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfset retval="<div>Error in #function_called#: #error_message#</div>"> <!--- " --->
+	</cfcatch>
+	</cftry>
+	<cfreturn retval>
 </cffunction>
 
 <cffunction name="getAttributeEditDialogHtml" access="remote" returntype="string" returnformat="plain">
@@ -1071,34 +1163,40 @@ limitations under the License.
 						<div class="col-12">
 							<cfset id=publication_attribute_id>
 							<label for="attr_#id#" class="data-entry-label">Attribute</a>
-							<select name="publication_attribute" id="attr_#id#" class="data-entry-select w-100">
+							<select name="publication_attribute" id="attr_#id#" 
+								class="data-entry-select w-100 reqdClr" required 
+								onChange='loadPubAttributeControl($("##attr_#id#").val(),"#pub_att_value#","pub_att_value","attr_value_#id#","input_block_#id#");'
+							>
+								<option value="#getAttribute.publication_attribute#" selected>#getAttribute.publication_attribute#</option>
 								<cfloop query="available_pub_att">
-									<cfif getAttribute.publication_attribute EQ available_pub_att.publication_attribute>
-										<cfset selected="selected">
-									<cfelse>
-										<cfset selected="">
-									</cfif>
 									<cfif len(available_pub_att.description) GT 0>
 										<cfset descr = " (#available_pub_att.description#)">
 									<cfelse>
 										<cfset descr = "">
 									</cfif>
-									<option value="#available_pub_att.publication_attribute#" #selected#>#available_pub_att.publication_attribute##descr#</option>
+									<option value="#available_pub_att.publication_attribute#">#available_pub_att.publication_attribute##descr#</option>
 								</cfloop>
 							</select>
 						</div>
 						<div class="col-12">
 							<label for="attr_value_#id#" class="data-entry-label">Value</a>
-							<input name="pub_att_value" id="attr_value_#id#" class="data-entry-input" value="#pub_att_value#" >
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#")>
+							<div id="input_block_#id#">#inputBlockContent#</div>
 						</div>
 						<div class="col-12">
+							<script>
+								function closeDialog#id#() { 
+									$('##attEditDialog_#publication_attribute_id#').dialog('close');
+								}
+							</script>
 							<button class="btn btn-xs btn-primary" onclick="saveAttribute(
-								'#publication_attribute_id#',
-								'#getAttribute.publication_id#',
-								$('##attr_#id#').val(),
-								$('##attr_value_#id#').val(),
-								'saveFeedback_#id#',
-								reloadAttributes);">Save</button>
+									'#publication_attribute_id#',
+									'#getAttribute.publication_id#',
+									$('##attr_#id#').val(),
+									$('##attr_value_#id#').val(),
+									'saveFeedback_#id#',
+									reloadAttributes,closeDialog#id#); 
+								">Save</button>
 							<div id="saveFeedback_#id#"></div>
 						</div>
 					</div>

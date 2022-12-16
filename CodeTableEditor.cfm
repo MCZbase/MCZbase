@@ -675,6 +675,84 @@
 				<cfset i = #i#+1>
 			</cfloop>
 		</table>
+	<cfelseif tbl is "ctmedia_relationship"><!---------------------------------------------------->
+		<!---  Media relationship code table includes field for label, thus needs custom form  --->
+		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select media_relationship, description, label, auto_table from ctmedia_relationship order by media_relationship
+		</cfquery>
+		<h2>Relationships between media records and other tables.</h2>
+		<p>Last word in Media Relationship must be a table name.  Adding new relationship also involves code changes to MCZBASE.get_media_descriptor and MCZBASE.get_media_title.</p>
+		<p>If adding relationships to a new table, additions are needed to MCZBASE.MEDIA_RELATION_SUMMARY</p>
+		<form name="newData" method="post" action="CodeTableEditor.cfm">
+			<input type="hidden" name="action" value="newValue">
+			<input type="hidden" name="tbl" value="#tbl#">
+			<table class="newRec">
+				<tr>
+					<th>Media Relationship</th>
+					<th>Label</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" name="newData" >
+					</td>
+					<td>
+						<input type="text" name="label">
+					</td>
+					<td>
+						<input type="text" name="description">
+					</td>
+					<td>
+						<input type="submit" 
+							value="Insert" 
+							class="insBtn">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<table>
+			<tr>
+				<th>Media Relationship</th>
+				<th>Table</th>
+				<th>Label</th>
+				<th>Description</th>
+			</tr>
+			<cfset i = 1>
+			<cfloop query="q">
+				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+					<form name="#tbl##i#" method="post" action="CodeTableEditor.cfm">
+						<input type="hidden" name="action" value="">
+						<input type="hidden" name="tbl" value="#tbl#">
+						<!---  Need to pass current value as it is the PK for the code table --->
+						<input type="hidden" name="origData" value="#type_status#">
+						<td>
+							<input type="text" name="media_relationship" value="#media_relationship#">
+						</td>
+						<td>
+							<span>#auto_table#</span>
+						</td>
+						<td>
+							<input type="text" name="label" value="#label#">
+						</td>
+						<td>
+							<input type="description" name="description" value="#stripQuotes(description)#">
+						</td>
+						<td>
+							<input type="button" 
+								value="Save" 
+								class="savBtn"
+								onclick="#tbl##i#.action.value='saveEdit';submit();">
+							<input type="button" 
+								value="Delete" 
+								class="delBtn"
+								onclick="#tbl##i#.action.value='deleteValue';submit();">
+						</td>
+					</form>
+				</tr>
+				<cfset i = #i#+1>
+			</cfloop>
+		</table>
 	<cfelseif tbl is "ctgeology_attributes"><!---------------------------------------------------->
 		<!---  geology attributes code table includes fields for typing and sort order, thus needs custom form  --->
 		<!--- note, ctgeology_attribute (singluar), is view with sort by ordinal on table ctgeology_attributes (plural) --->
@@ -1643,6 +1721,12 @@
 			where
 				geology_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#">
 		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			delete from ctmedia_relationship
+			where
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from ctcoll_other_id_type
@@ -1783,6 +1867,15 @@
 				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			WHERE
 				geology_attribute= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
+		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			update ctmedia_relationship set 
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#" />,
+				DESCRIPTION= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />,
+				LABEL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#label#" />
+			where
+				MEDIA_RELATIONSHIP = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
 	<cfelseif tbl is "ctcoll_other_id_type">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1946,6 +2039,28 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rel_type#" />
 			)
 		</cfquery>
+	<cfelseif tbl is "ctmedia_relationship">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctmedia_relationship (
+				media_relationship,
+				label,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#label#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
+			)
+		</cfquery>
+	<cfelseif tbl is "ctgeology_attributes">
+		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			INSERT INTO ctgeology_attributes (
+				geology_attribute,
+				type,
+				ordinal,
+				description
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#" />,
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO ctcitation_type_status (
