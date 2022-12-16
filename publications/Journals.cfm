@@ -57,7 +57,13 @@ limitations under the License.
 								<div class="form-row">
 									<div class="col-12 col-md-6">
 										<div class="form-group mb-2">
-											<label for="journal_name" class="data-entry-label mb-0" id="journal_name_label">Title</label>
+											<label for="journal_name" class="data-entry-label mb-0" id="journal_name_label">Title
+												<span class="small">
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('journal_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('journal_name');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for nearby string search</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('journal_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+												</span>
+											</label>
 											<input type="text" id="journal_name" name="journal_name" class="data-entry-input" value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
 										</div>
 										<script>
@@ -68,7 +74,13 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6">
 										<div class="form-group mb-2">
-											<label for="short_name" class="data-entry-label mb-0" id="short_name_label">Short Name</label>
+											<label for="short_name" class="data-entry-label mb-0" id="short_name_label">Short Name
+												<span class="small">
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('short_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('short_name');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for nearby string search</span></button>,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('short_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
+												</span>
+											</label>
 											<input type="text" id="short_name" name="short_name" class="data-entry-input" value="#encodeForHtml(short_name)#" aria-labelledby="short_name_label" >
 										</div>
 									</div>
@@ -78,14 +90,24 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="end_year">Start Year</label>
-											<input name="start_year" id="start_year" type="text" class="data-entry-input" placeholder="start yyyy" value="#encodeForHtml(start_year)#" aria-label="start of range for publication year">
+											<label class="data-entry-label mx-1 mb-0" for="end_year">Start Year
+												<span class="small">
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('start_year');e.value='>'+e.value;">&gt;<span class="sr-only">prefix with greater than for start years after specified year</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('start_year');e.value='<'+e.value;">&lt;<span class="sr-only">prefix with less than for start years before the specified year</span></button>)
+												</span>
+											</label>
+											<input name="start_year" id="start_year" type="text" class="data-entry-input" placeholder="yyyy" value="#encodeForHtml(start_year)#" aria-label="start of range for publication year">
 										</div>
 									</div>
 									<div class="col-12 col-md-4">
 										<div class="form-row mx-0 mb-2">
-											<label class="data-entry-label mx-1 mb-0" for="end_year">End Year</label>
-											<input type="text" name="end_year" id="end_year" value="#encodeForHtml(end_year)#" class="data-entry-input" placeholder="end yyyy" title="end of date range">
+											<label class="data-entry-label mx-1 mb-0" for="end_year">End Year
+												<span class="small">
+													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('end_year');e.value='>'+e.value;">&gt;<span class="sr-only">prefix with greater than for end years after specified year</span></button>, 
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('end_year');e.value='<'+e.value;">&lt;<span class="sr-only">prefix with less than for end years before the specified year</span></button>)
+												</span>
+											</label>
+											<input type="text" name="end_year" id="end_year" value="#encodeForHtml(end_year)#" class="data-entry-input" placeholder="yyyy" title="end of date range">
 										</div>
 									</div>
 

@@ -698,6 +698,10 @@ Function getJournalNames.  Search for publications by fields
 						and journal_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
 					<cfelseif left(journal_name,1) is "~">
 						AND utl_match.jaro_winkler(journal_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">) >= 0.85
+					<cfelseif left(journal_name,1) is "$">
+						AND soundex(journal_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(journal_name,len(journal_name)-1))#">)
+					<cfelseif left(journal_name,2) is "!$">
+						AND soundex(journal_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(journal_name,len(journal_name)-2))#">)
 					<cfelse>
 						and upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(journal_name)#%">
 					</cfif>
@@ -712,6 +716,10 @@ Function getJournalNames.  Search for publications by fields
 							and short_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(short_name,len(short_name)-1)#">
 						<cfelseif left(short_name,1) is "~">
 							AND utl_match.jaro_winkler(short_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(short_name,len(short_name)-1)#">) >= 0.90
+						<cfelseif left(short_name,1) is "$">
+							AND soundex(short_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(short_name,len(short_name)-1))#">)
+						<cfelseif left(short_name,2) is "!$">
+							AND soundex(short_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(short_name,len(short_name)-2))#">)
 						<cfelse>
 							and upper(short_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(short_name)#%">
 						</cfif>
