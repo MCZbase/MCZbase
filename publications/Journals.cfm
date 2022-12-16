@@ -59,7 +59,8 @@ limitations under the License.
 										<div class="form-group mb-2">
 											<label for="journal_name" class="data-entry-label mb-0" id="journal_name_label">Title
 												<span class="small">
-													(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('journal_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
+													(pick, substring,
+													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('journal_name');e.value='='+e.value;">=<span class="sr-only">prefix with equals sign for exact match search</span></button>, 
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('journal_name');e.value='~'+e.value;">~<span class="sr-only">prefix with tilde for nearby string search</span></button>,
 													<button type="button" tabindex="-1" aria-hidden="true" class="btn-link border-0 p-0 bg-light" onclick="var e=document.getElementById('journal_name');e.value='$'+e.value;">$<span class="sr-only">prefix with dollarsign for sounds like search</span></button>)
 												</span>
