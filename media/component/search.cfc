@@ -1503,12 +1503,11 @@ imgStyleClass=value
 			order by agent_name.agent_name
 		</cfquery>
 		<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct collecting_event.verbatim_locality
+				select distinct collecting_event.verbatim_locality,collecting_event.collecting_event_id
 			from media_relations
 				left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relations.media_relationship = 'shows collecting_event'
-			order by collecting_event.verbatim_locality
 		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1613,7 +1612,7 @@ imgStyleClass=value
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id, media.auto_protocol, media.auto_host from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#agents.agent_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="#relm2.auto_protocol#/#relm2.auto_host#/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship contains 'shows collecting_event' and len(collecting_event.verbatim_locality) gt 0>:<cfloop query="collecting_events">
-											<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id, media.auto_protocol, media.auto_host from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_events.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/collecting_events/Agent.cfm?agent_id=#collecting_events.collecting_event_id#">#collecting_event.verbatim_locality#</a><span>, </span></cfloop>
+											<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id, media.auto_protocol, media.auto_host from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_events.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="#relm3.auto_protocol#/#relm3.auto_host#/showLocality.cfm?action=srch&collecting_event_id=#collecting_events.collecting_event_id#">#collecting_event.verbatim_locality#</a><span>, </span></cfloop>
 										</cfif>
 									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
