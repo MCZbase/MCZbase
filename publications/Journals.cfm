@@ -229,12 +229,12 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_codetables")>
 								{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 							</cfif>
-							{text: 'Journal Name', datafield: 'journal_name', width:300, hideable: false },
+							{text: 'Journal Name', datafield: 'journal_name', width:400, hideable: false },
 							{text: 'Publications', datafield: 'publication_count', width:50, hideable: true, hidden: getColHidProp('publication_count', false) },
-							{text: 'ISSN', datafield: 'issn', width:100, hideable: true, hidden: getColHidProp('issn', false) },
+							{text: 'ISSN', datafield: 'issn', width:120, hideable: true, hidden: getColHidProp('issn', false) },
 							{text: 'Start Year', datafield: 'start_year', width:80, hideable: true, hidden: getColHidProp('start_year', false) },
 							{text: 'End Year', datafield: 'end_year', width:80, hideable: true, hidden: getColHidProp('end_year', false) },
-							{text: 'Short Name', datafield: 'short_name', width:150, hidable: true, hidden: getColHidProp('short_name', false) },
+							{text: 'Short Name', datafield: 'short_name', width:160, hidable: true, hidden: getColHidProp('short_name', false) },
 							{text: 'Remarks', datafield: 'remarks', hideable: true, hidden: getColHidProp('remarks', false) }
 						],
 						rowdetails: true,
