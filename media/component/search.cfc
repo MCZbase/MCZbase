@@ -1468,7 +1468,7 @@ imgStyleClass=value
 	<cftry>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct 
-				media.media_id
+				media.media_id, media.media_type
 			From
 				media
 			WHERE 
