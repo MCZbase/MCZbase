@@ -175,7 +175,7 @@ limitations under the License.
 							{ name: 'end_year', type: 'string' },
 							{ name: 'start_year', type: 'string' },
 							{ name: 'short_name', type: 'string' },
-							{ name: 'citation_count', type: 'string' },
+							{ name: 'publication_count', type: 'string' },
 							{ name: 'journal_name', type: 'string' }
 						],
 						updaterow: function (rowid, rowdata, commit) {
@@ -230,7 +230,7 @@ limitations under the License.
 								{text: 'Edit', datafield: 'journal_name', width:60, hideable: false, cellsrenderer: editCellRenderer},
 							</cfif>
 							{text: 'Journal Name', datafield: 'journal_name', width:100, hideable: false },
-							{text: 'Citations', datafield: 'citation_count', width:80, hideable: true, hidden: getColHidProp('citation_count', false) },
+							{text: 'Publications', datafield: 'publication_count', width:80, hideable: true, hidden: getColHidProp('publication_count', false) },
 							{text: 'ISSN', datafield: 'issn', width:120, hideable: true, hidden: getColHidProp('issn', false) },
 							{text: 'Start Year', datafield: 'start_year', width:100, hideable: true, hidden: getColHidProp('start_year', true) },
 							{text: 'End Year', datafield: 'end_year', width:65, hideable: true, hidden: getColHidProp('end_year', false) },
