@@ -692,19 +692,23 @@ Function getJournalNames.  Search for publications by fields
 					and upper(remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks)#%">
 				</cfif>
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-					and upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(journal_name)#%">
-				</cfif>
-				<cfif isDefined("publisher") AND len(publisher) GT 0>
-					<cfif publisher EQ "NULL">
-						and publisher_att.pub_att_value IS NULL
-					<cfelseif publisher EQ "NOT NULL">
-						and publisher_att.pub_att_value IS NOT NULL
+					<cfif left(journal_name,1) EQ "!">
+						and journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
 					<cfelse>
-						<cfif left(publisher,1) EQ "!">
-							<!--- behavior: has a publisher, but not the specified one --->
-							and publisher_att.pub_att_value <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(publisher,len(publisher)-1)#">
+						and upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(journal_name)#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("issn") AND len(issn) GT 0>
+					<cfif issn EQ "NULL">
+						and issn IS NULL
+					<cfelseif issn EQ "NOT NULL">
+						and issn IS NOT NULL
+					<cfelse>
+						<cfif left(issn,1) EQ "!">
+							<!--- behavior: has a issn, but not the specified one --->
+							and issn <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issn,len(issn)-1)#">
 						<cfelse>
-							and publisher_att.pub_att_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#publisher#%">
+							and issn like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issn#%">
 						</cfif>
 					</cfif>
 				</cfif>

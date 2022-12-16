@@ -151,6 +151,11 @@ limitations under the License.
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/publications/Journal.cfm?journal_name=' + rowData['journal_name'] + '">Edit</a></span>';
 			};
+			var editButtonClick = function(row) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var journal_name = rowData['journal_name'];
+				window.open('/publications/Journal.cfm?journal_name=' + journal_name,'_blank');
+			};
 	
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -227,7 +232,7 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_codetables")>
-								{text: 'Edit', datafield: 'journal_name', width:60, hideable: false, cellsrenderer: editCellRenderer},
+								{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer, buttonClick: editButtonClick},
 							</cfif>
 							{text: 'Journal Name', datafield: 'journal_name', width:100, hideable: false },
 							{text: 'Publications', datafield: 'publication_count', width:80, hideable: true, hidden: getColHidProp('publication_count', false) },
