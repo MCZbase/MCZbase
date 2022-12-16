@@ -31,7 +31,7 @@
 					<main class="content">
 						<div class="row mx-0">
 							<div class="col-12 px-0 border-bottom border-dark mt-4">
-								<h1 class="h2 mt-2 pb-1 mb-2 pb-2 px-2"> Media Record 	
+								<h1 class="h2 my-2 pb-2 px-2"> Media Record 	
 								<cfif media.media_uri contains 'mczbase'>
 									<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/MediaViewer.cfm?media_id=#media_id#'">Media Viewer</button>
 								<cfelse>
@@ -39,14 +39,14 @@
 								</cfif>
 								</h1>
 							</div>
-							<div class="col-12 px-0 mt-2 mb-2">
+							<div class="col-12 px-0 my-2">
 								<cfif len(media.media_id) gt 0>
 									<div class="rounded border bg-light col-12 col-sm-8 col-md-3 float-left my-2 pt-3 pb-0">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textLinks")>
 										<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 									</div>
 								</cfif>
-								<div class="float-left col-12 px-0 mt-1 col-md-9 pl-md-4">
+								<div class="float-left col-12 col-md-9 px-0 mt-1 pl-md-4">
 									<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 									<div id="mediaMetadataBlock#media_id#">
 										#mediaMetadataBlock#
