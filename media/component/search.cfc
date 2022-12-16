@@ -1478,7 +1478,7 @@ imgStyleClass=value
 			From
 				media
 			WHERE 
-				media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+				media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media.media_id#" list="yes">
 				AND MCZBASE.is_media_encumbered(media_id)  < 1 
 		</cfquery>
 		<cfif media.recordcount EQ 0>
