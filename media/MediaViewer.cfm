@@ -69,7 +69,7 @@
 								<div class="search-box mt-4 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item h4">Related Media Record(s) </li>
+											<li class="col-12 px-1 list-group-item mb-0 h4">Related Media Record(s) </li>
 										</ul>
 									</div>
 									<div>
