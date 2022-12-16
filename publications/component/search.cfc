@@ -694,7 +694,7 @@ Function getJournalNames.  Search for publications by fields
 				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
 					<cfif left(journal_name,1) EQ "=">
 						and journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
-					<cfif left(journal_name,1) EQ "!">
+					<cfelseif left(journal_name,1) EQ "!">
 						and journal_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
 					<cfelseif left(journal_name,1) is "~">
 						AND utl_match.jaro_winkler(journal_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">) >= 0.85
