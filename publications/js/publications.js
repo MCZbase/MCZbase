@@ -257,8 +257,9 @@ function openAddAttributeDialog(dialogid,publication_id, attribute, okcallback) 
  * @param publication_attribute the new type of attribute.
  * @param pub_att_value the new value of the attribute.
  * @param okcallback a callback function to invoke on success.
+ * @param okcallback a second callback function to invoke on success.
 */
-function saveAttribute(publication_attribute_id, publication_id, publication_attribute, pub_att_value, feedbackdiv, okcallback) { 
+function saveAttribute(publication_attribute_id, publication_id, publication_attribute, pub_att_value, feedbackdiv, okcallback, okcallback2) { 
 	console.log(publication_id);
 	console.log(publication_attribute);
 	console.log(pub_att_value);
@@ -281,6 +282,9 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 			if (status=='updated') {
 				console.log(status);
 				$('#'+feedbackdiv).html(status);
+			}
+			if (jQuery.type(okcallback2)==='function') {
+				okcallback2();
 			}
 		},
 		error: function (jqXHR, textStatus, error) {

@@ -1184,13 +1184,19 @@ limitations under the License.
 							<div id="input_block_#id#">#inputBlockContent#</div>
 						</div>
 						<div class="col-12">
+							<script>
+								function closeDialog#id#() { 
+									$('##attEditDialog_#publication_attribute_id#').dialog('close');
+								}
+							</script>
 							<button class="btn btn-xs btn-primary" onclick="saveAttribute(
-								'#publication_attribute_id#',
-								'#getAttribute.publication_id#',
-								$('##attr_#id#').val(),
-								$('##attr_value_#id#').val(),
-								'saveFeedback_#id#',
-								reloadAttributes);">Save</button>
+									'#publication_attribute_id#',
+									'#getAttribute.publication_id#',
+									$('##attr_#id#').val(),
+									$('##attr_value_#id#').val(),
+									'saveFeedback_#id#',
+									reloadAttributes,closeDialog#id#); 
+								">Save</button>
 							<div id="saveFeedback_#id#"></div>
 						</div>
 					</div>
