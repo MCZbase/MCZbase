@@ -185,6 +185,14 @@ limitations under the License.
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 				return '<a target="_blank" href="/publications/Journal.cfm?journal_name=' + rowData['journal_name'] + '">Edit</a>';
 			};
+			var pubCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				if (value==true && value>0) { 
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publications.cfm?execute=true&journal_name=' + rowData['journal_name'] + '">'+value+'</a></span>';
+				} else {
+					return value;
+				}
+			};
 	
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
@@ -264,7 +272,7 @@ limitations under the License.
 								{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 							</cfif>
 							{text: 'Journal Name', datafield: 'journal_name', width:400, hideable: false },
-							{text: 'Publications', datafield: 'publication_count', width:50, hideable: true, hidden: getColHidProp('publication_count', false) },
+							{text: 'Publications', datafield: 'publication_count', width:50, hideable: true, hidden: getColHidProp('publication_count', false), cellsrenderer; pubCellRenderer },
 							{text: 'ISSN', datafield: 'issn', width:120, hideable: true, hidden: getColHidProp('issn', false) },
 							{text: 'Start Year', datafield: 'start_year', width:80, hideable: true, hidden: getColHidProp('start_year', false) },
 							{text: 'End Year', datafield: 'end_year', width:80, hideable: true, hidden: getColHidProp('end_year', false) },
