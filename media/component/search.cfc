@@ -1489,7 +1489,7 @@ imgStyleClass=value
 			from media_relations
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relations.media_relationship like '%cataloged_item%'
+					and media_relations.media_relationship like '%shows cataloged_item%'
 			order by guid
 		</cfquery>
 		<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1507,7 +1507,7 @@ imgStyleClass=value
 			from media_relations
 				left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relations.media_relationship = 'collecting_event'
+					and media_relations.media_relationship = 'shows collecting_event'
 		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
