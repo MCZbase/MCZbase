@@ -2053,16 +2053,6 @@
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#" />
 			)
 		</cfquery>
-	<cfelseif tbl is "ctgeology_attributes">
-		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			INSERT INTO ctgeology_attributes (
-				geology_attribute,
-				type,
-				ordinal,
-				description
-			) values (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#type#" />,
 	<cfelseif tbl is "ctcitation_type_status">
 		<cfquery name="sav" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO ctcitation_type_status (
