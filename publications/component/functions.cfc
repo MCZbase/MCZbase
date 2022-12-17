@@ -90,7 +90,7 @@ limitations under the License.
 				SET
 					published_year=
 						<cfif isDefined("published_year") AND len(published_year) GT 0>
-							<cfqueryparam cfsqltype="CF_SQL_" value="#published_year#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">,
 						<cfelse>
 							NULL,
 						</cfif>
@@ -105,6 +105,76 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
 			<cfset row["id"] = "#publication_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- saveJournalName update a publication record --->
+<cffunction name="saveJournalName" access="remote" returntype="any" returnformat="json">
+	<cfargument name="old_journal_name" type="string" required="yes">
+	<cfargument name="journal_name" type="string" required="no">
+	<cfargument name="short_name" type="string" required="yes">
+	<cfargument name="issn" type="string" required="yes">
+	<cfargument name="remarks" type="string" required="yes">
+	<cfargument name="start_year" type="string" required="yes">
+	<cfargument name="end_year" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="doUpdate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="doUpdate_result">
+				UPDATE ctjournal_name
+				SET
+					start_year=
+						<cfif isDefined("start_year") AND len(start_year) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#start_year#">,
+						<cfelse>
+							NULL,
+						</cfif>
+					end_year=
+						<cfif isDefined("end_year") AND len(end_year) GT 0>
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#end_year#">,
+						<cfelse>
+							NULL,
+						</cfif>
+					issn=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issn#">,
+					short_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#short_name#">,
+					<cfif isDefined(journal_name) AND len(journal_name) GT 0>
+						journal_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">,
+					</cfif>
+					remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
+				WHERE journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#old_journal_name#">
+			</cfquery>
+			<cfif doUpdate_result.recordcount NEQ 1>
+				<cfthrow message="Did not update exactly one ctjournal_name record with the specified journal_name [#encodeForHtml(old_journal_name)#].">
+			</cfif>
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="check_result">
+				SELECT journal_name 
+				FROM
+					ctjournal_name
+				WHERE
+					<cfif isDefined(journal_name) AND len(journal_name) GT 0>
+						journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#journal_name#">
+					<cfelse>
+						journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#old_journal_name#">
+					</cfif>
+			</cfquery>
+			<cfif check.recordcount NEQ 1>
+				<cfthrow message="Check did not match a record with the expected journal_name value.">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#encodeForHtml(check.journal_name)#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
 		<cfcatch>
