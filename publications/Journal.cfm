@@ -73,8 +73,8 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-12">
-										<label for="short_title" id="short_title_label" class="data-entry-label">Short Title</label>
-										<input type="text" id="short_title" name="short_title" class="data-entry-input" aria-labelledby="short_title_label" >
+										<label for="short_name" id="short_name_label" class="data-entry-label">Short Title</label>
+										<input type="text" id="short_name" name="short_name" class="data-entry-input" aria-labelledby="short_name_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -129,8 +129,8 @@ limitations under the License.
 					<cfif isdefined("remarks")>
 						,remarks
 					</cfif>
-					<cfif isdefined("short_title")>
-						,short_title
+					<cfif isdefined("short_name")>
+						,short_name
 					</cfif>
 					<cfif isdefined("issn")>
 						,issn
@@ -146,8 +146,8 @@ limitations under the License.
 					<cfif isdefined("remarks")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 					</cfif>
-					<cfif isdefined("short_title")>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#short_title#">
+					<cfif isdefined("short_name")>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#short_name#">
 					</cfif>
 					<cfif isdefined("issn")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issn#">
@@ -177,7 +177,7 @@ limitations under the License.
 			<cfquery name="journalTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="journalTitle_result">
 				SELECT 
 					journal_name
-					short_title,
+					short_name,
 					start_year,
 					end_year,
 					issn,
@@ -227,8 +227,8 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="short_title" id="short_title_label" class="data-entry-label">Short Title</label>
-										<input type="text" id="short_title" name="short_title" class="data-entry-input" aria-labelledby="short_title_label">
+										<label for="short_name" id="short_name_label" class="data-entry-label">Short Title</label>
+										<input type="text" id="short_name" name="short_name" class="data-entry-input" aria-labelledby="short_name_label">
 									</div>
 								</div>
 								<div class="form-row mb-0">
