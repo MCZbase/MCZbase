@@ -20,7 +20,7 @@ limitations under the License.
 --->
 
 <cfif not isdefined("action")>
-	<cfif is_defined("journal_title") AND len(journal_title) GT 0>
+	<cfif isDefined("journal_title") AND len(journal_title) GT 0>
 		<cfset action="edit">
 	<cfelse>
 		<cfset action="new">
