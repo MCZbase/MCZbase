@@ -164,9 +164,9 @@ limitations under the License.
 					ctjournal_name
 				WHERE
 					<cfif isDefined("journal_name") AND len(journal_name) GT 0>
-						journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#journal_name#">
+						journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 					<cfelse>
-						journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#old_journal_name#">
+						journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#old_journal_name#">
 					</cfif>
 			</cfquery>
 			<cfif check.recordcount NEQ 1>
