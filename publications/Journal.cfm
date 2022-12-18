@@ -211,7 +211,7 @@ limitations under the License.
 					<div class="row border rounded py-3" aria-labelledby="formheading">
 						<div class="col-12 px-3">
 							<cfif NOT inUse>
-								<form name="deleteJournalName" id="deleteJournalName" method="post">
+								<form name="deleteJournalName" id="deleteJournalName" method="post" action="/publications/Journal.cfm">
 									<input type="hidden" id="delete_journal_name" name="journal_name" value="#encodeForHtml(journal_name)#" >
 									<input type="hidden" id="delete_action" name="action" value="delete" >
 								</form>
@@ -239,7 +239,7 @@ limitations under the License.
 													onClick=" return false; " 
 												<cfelse>
 													class="btn btn-xs btn-warning"
-													onClick=" confirmDialog('Delete this Journal?','Confirm Delete Serial/Journal', function() { $('##deleteJournalName').submit(); } ); " 
+													onClick=" event.preventDefault(); confirmDialog('Delete this Journal?','Confirm Delete Serial/Journal', function() { $('##deleteJournalName').submit(); } ); " 
 												</cfif>
 												value="Delete" title="Delete" aria-label="Delete"
 												>
