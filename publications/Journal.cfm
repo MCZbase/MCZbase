@@ -230,7 +230,7 @@ limitations under the License.
 													onClick=" return false; " 
 												<cfelse>
 													class="btn btn-xs btn-warning"
-													onClick=" $('##method').value('delete'); $('##editJournalName').submit(); " 
+													onClick=" $('##method').val('delete'); $('##editJournalName').submit(); " 
 												</cfif>
 												value="Delete" title="Delete" aria-label="Delete"
 												>
