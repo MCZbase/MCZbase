@@ -110,6 +110,8 @@ Function getJournalAutocomplete.  Search for journals by name with a substring m
 				ctjournal_name
 			WHERE
 				upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+				OR
+				upper(short_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
