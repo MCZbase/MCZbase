@@ -44,12 +44,12 @@ limitations under the License.
 	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
 	<cfcase value="new">
 		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_codetables")>
-			<cfthrow message="Insufficient permissions to add a new journal title.">
+			<cfthrow message="Insufficient permissions to add a new journal name.">
 		</cfif>
 	</cfcase>
 	<cfcase value="edit">
 		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_codetables")>
-			<cfthrow message="Insufficient permissions to edit a journal title.">
+			<cfthrow message="Insufficient permissions to edit a journal name.">
 		</cfif>
 	</cfcase>
 </cfswitch>
@@ -187,14 +187,14 @@ limitations under the License.
 					journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 			</cfquery>
 			<cfif journalTitle_result.recordcount EQ 0>
-				<cfthrow message="No matching journal title found [#encodeForHtml(journal_name)#]" >
+				<cfthrow message="No matching journal name found [#encodeForHtml(journal_name)#]" >
 			</cfif>
 			<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="uses_result">
 				SELECT count(*) ct
 				FROM 
 					publication_attributes
 				WHERE
-					publication_attribute = 'journal title'
+					publication_attribute = 'journal name'
 					AND pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 			</cfquery>
 			<cfif uses.ct GT 0>
