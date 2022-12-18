@@ -286,7 +286,12 @@ limitations under the License.
 										$('##description').on("change",changed);
 									});
 									function updateFromSave() { 
-										$('##headingJournalTitle').html($('#journal_name#').val());
+										console.log($("##old_journal_name").val());
+										<cfif NOT inUse>
+											$('##headingJournalTitle').html($('##journal_name').val());
+											$('##old_journal_name').val($('##journal_name').val());
+											$('##delete_journal_name').val($('##journal_name').val());
+										</cfif>
 									}
 									function saveChanges(){ 
 										saveEditsFromFormCallback("editJournalName","/publications/component/functions.cfc","saveResultDiv","saving journal name",updateFromSave);
