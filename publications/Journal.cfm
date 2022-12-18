@@ -234,7 +234,7 @@ limitations under the License.
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-4">
 										<label for="issn" id="issn_label" class="data-entry-label">ISSN</label>
-										<input type="text" id="issn" class="data-entry-input" aria-labelledby="issn_label" value="#encodeForHtml(issn)#" >
+										<input type="text" id="issn" name="issn" class="data-entry-input" aria-labelledby="issn_label" value="#encodeForHtml(issn)#" >
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="start_year" id="start_year_label" class="data-entry-label">Start Year</label>
