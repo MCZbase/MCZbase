@@ -20,7 +20,7 @@ limitations under the License.
 --->
 
 <cfif not isdefined("action")>
-	<cfif isDefined("journal_title") AND len(journal_title) GT 0>
+	<cfif isDefined("journal_name") AND len(journal_name) GT 0>
 		<cfset action="edit">
 	<cfelse>
 		<cfset action="new">
@@ -56,7 +56,7 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="new">
-		<!--- Add a new ctjournal_title record ---> 
+		<!--- Add a new ctjournal_name record ---> 
 		<cfoutput>
 			<main class="container mt-3">
 				<section class="row">
@@ -67,8 +67,8 @@ limitations under the License.
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mt-2 mb-2">
 									<div class="col-md-12">
-										<label for="journal_title" id="journal_title_label" class="data-entry-label">Serial/Journal Title</label>
-										<input type="text" id="journal_title" name="journal_title" class="data-entry-input reqdClr" required aria-labelledby="journal_title_label" >
+										<label for="journal_name" id="journal_name_label" class="data-entry-label">Serial/Journal Title</label>
+										<input type="text" id="journal_name" name="journal_name" class="data-entry-input reqdClr" required aria-labelledby="journal_name_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -120,12 +120,12 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="saveNew">
 		<cftry>
-			<cfif not isdefined("journal_title") OR len(trim(#journal_title#)) EQ 0 >
-				<cfthrow type="Application" message="Error: No value provided for required value journal_title">
+			<cfif not isdefined("journal_name") OR len(trim(#journal_name#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value journal_name">
 			</cfif>
 			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
-				insert into ctjournal_title (
-					journal_title
+				insert into ctjournal_name (
+					journal_name
 					<cfif isdefined("remarks")>
 						,remarks
 					</cfif>
@@ -142,7 +142,7 @@ limitations under the License.
 						,end_year
 					</cfif>
 				) values (
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_title#">
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 					<cfif isdefined("remarks")>
 						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
 					</cfif>
@@ -160,7 +160,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cflocation url="/publications/Journal.cfm?action=edit&journal_title=#encodeForUrl(journal_title)#" addtoken="false">
+			<cflocation url="/publications/Journal.cfm?action=edit&journal_name=#encodeForUrl(journal_name)#" addtoken="false">
 			<cfcatch>
 				<cfthrow type="Application" message="Error Saving new Serial/Journal Title: #cfcatch.Message# #cfcatch.Detail#">
 			</cfcatch>
@@ -168,26 +168,26 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="edit">
-		<cfif not isDefined("journal_title")>
-			<cfset journal_title = "">
+		<cfif not isDefined("journal_name")>
+			<cfset journal_name = "">
 		</cfif>
-		<cfif len(journal_title) EQ 0>
-			<cfthrow type="Application" message="Error: No value provided for journal_title">
+		<cfif len(journal_name) EQ 0>
+			<cfthrow type="Application" message="Error: No value provided for journal_name">
 		<cfelse>
 			<cfquery name="journalTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="journalTitle_result">
 				SELECT 
-					journal_title
+					journal_name
 					short_title,
 					start_year,
 					end_year,
 					issn,
 					remarks
-				FROM ctjournal_title
+				FROM ctjournal_name
 				WHERE
-					journal_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_title#">
+					journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 			</cfquery>
 			<cfif journalTitle_result.recordcount EQ 0>
-				<cfthrow message="No matching journal title found [#encodeForHtml(journal_title)#]" >
+				<cfthrow message="No matching journal title found [#encodeForHtml(journal_name)#]" >
 			</cfif>
 			<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="uses_result">
 				SELECT count(*) ct
@@ -195,7 +195,7 @@ limitations under the License.
 					publication_attributes
 				WHERE
 					publication_attribute = 'journal title'
-					AND pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_title#">
+					AND pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 			</cfquery>
 			<cfif uses.ct GT 0>
 				<cfset inUse = true>
@@ -206,7 +206,7 @@ limitations under the License.
 				<main id="content" class="pb-5">
 					<section class="container pt-3">
 						<h1 class="h2" id="formheading">
-							Edit Serial/Journal Title: <span id="headingJournalTitle">#encodeForHtml(journal_title)#</span>
+							Edit Serial/Journal Title: <span id="headingJournalTitle">#encodeForHtml(journal_name)#</span>
 						</h1>
 					<div class="row border rounded py-3" aria-labelledby="formheading">
 						<div class="col-12 px-3">
@@ -216,10 +216,10 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-9">
 										<cfif inUse><cfset titleClass="disabled"><cfelse><cfset titleClass=""></cfif>
-										<label for="journal_title" id="journal_title_label" class="data-entry-label">Serial/Journal Title</label>
-										<input type="text" id="journal_title" name="journal_title" class="data-entry-input reqdClr #titleClass#" 
+										<label for="journal_name" id="journal_name_label" class="data-entry-label">Serial/Journal Title</label>
+										<input type="text" id="journal_name" name="journal_name" class="data-entry-input reqdClr #titleClass#" 
 												<cfif inUse> disabled </cfif>
-												required value="#encodeForHtml(journal_title)#" aria-labelledby="journal_title_label" >
+												required value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
 									</div>
 									<div class="col-12 col-md-3">
 										In use in #uses.ct# Publication Records.
@@ -266,7 +266,7 @@ limitations under the License.
 										$('##description').on("change",changed);
 									});
 									function updateFromSave() { 
-										$('##headingJournalTitle').html($('#journal_title#').val());
+										$('##headingJournalTitle').html($('#journal_name#').val());
 									}
 									function saveChanges(){ 
 										saveEditsFromFormCallback("editJournalName","/publications/component/functions.cfc","saveResultDiv","saving journal name",updateFromSave);
@@ -294,25 +294,25 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="delete">
 		<cftry>
-			<cfif not isdefined("journal_title") OR len(trim(#journal_title#)) EQ 0 >
-				<cfthrow type="Application" message="Error: No value provided for required value journal_title">
+			<cfif not isdefined("journal_name") OR len(trim(#journal_name#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value journal_name">
 			</cfif>
 			<cfquery name="confirmOne" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="confirmOne_result">
-					SELECT journal_title
-					FROM ctjournal_title
+					SELECT journal_name
+					FROM ctjournal_name
 					WHERE
-						journal_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_title#">
+						journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 			</cfquery>
 			<cfif confirmOne.recordCount NEQ 1>
-				<cfthrow type="Application" message="Error: Specified journal_title does not match exactly one ctjournal_name record.">
+				<cfthrow type="Application" message="Error: Specified journal_name does not match exactly one ctjournal_name record.">
 			</cfif>
 			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
-					DELETE FROM ctjournal_title
+					DELETE FROM ctjournal_name
 					WHERE
-						journal_title = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_title#">
+						journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">
 			</cfquery>
 			<cfoutput>
-				<h1 class="h2">Serial/Journal title "#encodeForHtml(journal_title)#" successfully deleted.</h1>
+				<h1 class="h2">Serial/Journal title "#encodeForHtml(journal_name)#" successfully deleted.</h1>
 				<ul>
 					<li><a href="/publication/Journals.cfm">Search for Serial/Journal Titles</a>.</li>
 					<li><a href="/publication/Journal.cfm?action=new">Create a new Serial/Journal Title</a>.</li>
