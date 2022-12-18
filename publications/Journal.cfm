@@ -85,8 +85,8 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-4">
-										<label for="remarks" id="remarks_label" class="data-entry-label">ISSN</label>
-										<input type="text" id="remarks" name="remarks" class="data-entry-input" aria-labelledby="remarks_label" >
+										<label for="issn" id="issn_label" class="data-entry-label">ISSN</label>
+										<input type="text" id="issn" name="issn" class="data-entry-input" aria-labelledby="issn_label" >
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="start_year" id="start_year_label" class="data-entry-label">Start Year</label>
