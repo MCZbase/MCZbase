@@ -228,7 +228,11 @@ limitations under the License.
 												required value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
 									</div>
 									<div class="col-12 col-md-3">
-										<label for="delete_button" class="data-entry-label">In use in #uses.ct# Publication Records.</label>
+										<cfif inUse>
+											<label for="delete_button" class="data-entry-label">In use in <a href="/Publications.cfm?execute=true&journal_name=#encodeForURL(journal_name)#" target="_blank">#uses.ct# Publication Records</a>.</label>
+										<cfelse>
+											<label for="delete_button" class="data-entry-label">In use in #uses.ct# Publication Records.</label>
+										</cfif>
 										<input type="button" 
 												<cfif inUse>
 													class="btn btn-xs btn-warning disabled"
