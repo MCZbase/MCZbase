@@ -222,7 +222,18 @@ limitations under the License.
 												required value="#encodeForHtml(journal_name)#" aria-labelledby="journal_name_label" >
 									</div>
 									<div class="col-12 col-md-3">
-										In use in #uses.ct# Publication Records.
+										<label for="delete_button" class="data-entry-label">In use in #uses.ct# Publication Records.</label>
+										<button type="button" id="delete_button" class="btn btn-xs btn-warning"
+										<input type="button" 
+												<cfif inUse>
+													class="btn btn-xs btn-warning disabled"
+													onClick=" return false; " 
+												<cfelse>
+													class="btn btn-xs btn-warning"
+													onClick=" $('##method).value('delete'); $('##editJournalName').submit(); " 
+												</cfif>
+												value="Delete" title="Delete" aria-label="Delete"
+												>
 									</div>
 								</div>
 								<div class="form-row mb-2">
