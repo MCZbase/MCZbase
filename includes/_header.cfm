@@ -207,7 +207,12 @@
 										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Events</a>
 									</cfif>
 									<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
-									<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+										<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+										<a class="dropdown-item" href="/publications/Journals.cfm">Serial/Journal Titles</a> 
+									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div style="float:left; width: 33.2%;">

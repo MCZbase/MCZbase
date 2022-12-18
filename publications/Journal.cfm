@@ -62,6 +62,7 @@ limitations under the License.
 				<section class="row">
 					<div class="col-12">
 						<h1 class="h2 pl-2 ml-2" id="formheading">New Serial/Journal</h1>
+						<div class="h3 pl-2 ml-2" id="formheading">Make sure that you have <a href="/publications/Journals.cfm">searched for</a> and not found an existing record for this serial/journal name.</div>
 						<div class="border rounded px-2 pt-2" aria-labelledby="formheading">
 							<form name="newJournalTitle" id="newJournalTitle" action="/publications/Journal.cfm" method="post" class="px-2">
 								<input type="hidden" id="action" name="action" value="saveNew" >

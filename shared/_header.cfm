@@ -427,32 +427,37 @@ limitations under the License.
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">	
 								<li class="d-md-flex align-items-start justify-content-start">		
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 									<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-									
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Geography</a>
-										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography</a> 
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Geography</a>
+											</cfif>
 											
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Locality.cfm?action=findLO">Localities</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Localities</a>
-										</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Locality.cfm?action=findLO">Localities</a> 
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Localities</a>
+											</cfif>
 																					
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Events</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Collecting Events</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Events</a> 
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Collecting Events</a>
+											</cfif>
 										</cfif>
 									
 										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/Agents.cfm">Agents</a> 
+										
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+											<a class="dropdown-item" href="/Agents.cfm">Agents</a> 
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+											<a class="dropdown-item" href="/publications/Journals.cfm">Serial/Journal Titles</a> 
+										</cfif>
 									</div>
-								</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 								
