@@ -186,7 +186,8 @@ limitations under the License.
 
 			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<a target="_blank" href="/publications/Journal.cfm?journal_name=' + rowData['journal_name'] + '">Edit</a>';
+				var journalName = encodeURIComponent(rowData['journal_name']);
+				return '<a target="_blank" href="/publications/Journal.cfm?action=edit&journal_name=' + journalName + '">Edit</a>';
 			};
 			var pubCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -194,7 +195,7 @@ limitations under the License.
 				if (value>0) { 
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/Publications.cfm?execute=true&journal_name=' + journalName + '">'+value+'</a></span>';
 				} else {
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					return '<span class="pl-1" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 				}
 			};
 	
