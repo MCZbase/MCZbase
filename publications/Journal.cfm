@@ -228,13 +228,13 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="short_name" id="short_name_label" class="data-entry-label">Short Title</label>
-										<input type="text" id="short_name" name="short_name" class="data-entry-input" aria-labelledby="short_name_label">
+										<input type="text" id="short_name" name="short_name" class="data-entry-input" aria-labelledby="short_name_label" value="#encodeForHtml(short_name)#">
 									</div>
 								</div>
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-4">
 										<label for="issn" id="issn_label" class="data-entry-label">ISSN</label>
-										<input type="text" id="issn" class="data-entry-input" aria-labelledby="issn_label" value="#issn#" >
+										<input type="text" id="issn" class="data-entry-input" aria-labelledby="issn_label" value="#encodeForHtml(issn)#" >
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="start_year" id="start_year_label" class="data-entry-label">Start Year</label>
@@ -247,8 +247,8 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="remarks" id="remarks_label" class="data-entry-label">Short Title</label>
-										<input type="text" id="remarks" name="remarks" class="data-entry-input" aria-labelledby="remarks_label">
+										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks</label>
+										<input type="text" id="remarks" name="remarks" class="data-entry-input" aria-labelledby="remarks_label" value="#encodeForHtml(remarks)#">
 									</div>
 								</div>
 								<script>
