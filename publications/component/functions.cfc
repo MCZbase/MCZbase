@@ -149,7 +149,7 @@ limitations under the License.
 						</cfif>
 					issn=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issn#">,
 					short_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#short_name#">,
-					<cfif isDefined(journal_name) AND len(journal_name) GT 0>
+					<cfif isDefined("journal_name") AND len(journal_name) GT 0>
 						journal_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">,
 					</cfif>
 					remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
@@ -163,7 +163,7 @@ limitations under the License.
 				FROM
 					ctjournal_name
 				WHERE
-					<cfif isDefined(journal_name) AND len(journal_name) GT 0>
+					<cfif isDefined("journal_name") AND len(journal_name) GT 0>
 						journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#journal_name#">
 					<cfelse>
 						journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#old_journal_name#">
