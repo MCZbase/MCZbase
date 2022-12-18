@@ -176,7 +176,7 @@ limitations under the License.
 		<cfelse>
 			<cfquery name="journalTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="journalTitle_result">
 				SELECT 
-					journal_name
+					journal_name,
 					short_name,
 					start_year,
 					end_year,
