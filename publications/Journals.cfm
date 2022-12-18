@@ -128,7 +128,7 @@ limitations under the License.
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new journal search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/publications/Journals.cfm';" >New Search</button>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_codetables")>
-											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new Journal name" href="#Application.serverRootUrl#/publications/Journal.cfm?action=new">Create New Journal/Serial</a>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new Journal name" href="#Application.serverRootUrl#/publications/Journal.cfm?action=new">Create New Serial/Journal Name</a>
 										</cfif>
 									</div>
 								</div>
