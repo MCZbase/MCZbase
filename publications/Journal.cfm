@@ -330,8 +330,9 @@ limitations under the License.
 			<cfoutput>
 				<h1 class="h2">Serial/Journal title "#encodeForHtml(journal_name)#" successfully deleted.</h1>
 				<ul>
-					<li><a href="/publication/Journals.cfm">Search for Serial/Journal Titles</a>.</li>
-					<li><a href="/publication/Journal.cfm?action=new">Create a new Serial/Journal Title</a>.</li>
+					<li><a href="/Publications.cfm">Search for Publications</a>.</li>
+					<li><a href="/publications/Journals.cfm">Search for Serial/Journal Titles</a>.</li>
+					<li><a href="/publications/Journal.cfm?action=new">Create a new Serial/Journal Title</a>.</li>
 				</ul>
 			</cfoutput>
 		<cfcatch>
