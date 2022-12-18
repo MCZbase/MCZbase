@@ -652,4 +652,156 @@ Function getDOIAutocomplete.  Search for dois by name with a substring match
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+<!---
+Function getJournalNames.  Search for publications by fields
+ returning json suitable for a dataadaptor.
+
+@param any_part any part of formatted publication string to search for.
+@return a json structure containing matching publications with ids, years, long format of publication, etc.
+--->
+<cffunction name="getJournalNames" access="remote" returntype="any" returnformat="json">
+	<cfargument name="journal_name" type="string" required="no">
+	<cfargument name="issn" type="string" required="no">
+	<cfargument name="short_name" type="string" required="no">
+	<cfargument name="start_year" type="string" required="no">
+	<cfargument name="end_year" type="string" required="no">
+	<cfargument name="remarks" type="string" required="no">
+
+	<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_publications")>
+		<cfthrow message="Insufficent rights to run journal search.">
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				journal_name,
+				short_name,
+				issn, 
+				start_year,
+				end_year,
+				remarks,
+				count(distinct publication_id) as publication_count
+			FROM 
+				ctjournal_name
+				left join publication_attributes on ctjournal_name.journal_name = publication_attributes.pub_att_value and publication_attributes.publication_attribute = 'journal name'
+			WHERE
+				journal_name is not null
+				<cfif isDefined("remarks") AND len(remarks) GT 0>
+					and upper(remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks)#%">
+				</cfif>
+				<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+					<cfif left(journal_name,1) EQ "=">
+						and journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
+					<cfelseif left(journal_name,1) EQ "!">
+						and journal_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
+					<cfelseif left(journal_name,1) is "~">
+						AND utl_match.jaro_winkler(journal_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">) >= 0.85
+					<cfelseif left(journal_name,1) is "$">
+						AND soundex(journal_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(journal_name,len(journal_name)-1))#">)
+					<cfelseif left(journal_name,2) is "!$">
+						AND soundex(journal_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(journal_name,len(journal_name)-2))#">)
+					<cfelse>
+						and upper(journal_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(journal_name)#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("short_name") AND len(short_name) GT 0>
+					<cfif short_name EQ "NULL">
+						and short_name IS NULL
+					<cfelseif short_name EQ "NOT NULL">
+						and short_name IS NOT NULL
+					<cfelse>
+						<cfif left(short_name,1) EQ "=">
+							and short_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(short_name,len(short_name)-1)#">
+						<cfelseif left(short_name,1) is "~">
+							AND utl_match.jaro_winkler(short_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(short_name,len(short_name)-1)#">) >= 0.90
+						<cfelseif left(short_name,1) is "$">
+							AND soundex(short_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(short_name,len(short_name)-1))#">)
+						<cfelseif left(short_name,2) is "!$">
+							AND soundex(short_name) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(short_name,len(short_name)-2))#">)
+						<cfelse>
+							and upper(short_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(short_name)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("issn") AND len(issn) GT 0>
+					<cfif issn EQ "NULL">
+						and issn IS NULL
+					<cfelseif issn EQ "NOT NULL">
+						and issn IS NOT NULL
+					<cfelse>
+						<cfif left(issn,1) EQ "!">
+							<!--- behavior: has a issn, but not the specified one --->
+							and issn <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issn,len(issn)-1)#">
+						<cfelseif left(issn,1) is "~">
+							AND utl_match.jaro_winkler(issn, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issn,len(issn)-1)#">) >= 0.90
+						<cfelseif left(issn,1) is "=">
+							AND issn = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(issn,len(issn)-1)#">
+						<cfelse>
+							and issn like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#issn#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("start_year") AND len(start_year) GT 0>
+					<cfif start_year EQ "NULL">
+						and start_year IS NULL
+					<cfelseif start_year EQ "NOT NULL">
+						and start_year IS NOT NULL
+					<cfelse>
+						<cfif left(start_year,1) EQ ">">
+							and start_year > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(start_year,len(start_year)-1)#">
+						<cfelseif left(start_year,1) is "<">
+							AND start_year < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(start_year,len(start_year)-1)#">
+						<cfelse>
+							and start_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#start_year#">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("end_year") AND len(end_year) GT 0>
+					<cfif end_year EQ "NULL">
+						and end_year IS NULL
+					<cfelseif end_year EQ "NOT NULL">
+						and end_year IS NOT NULL
+					<cfelse>
+						<cfif left(end_year,1) EQ ">">
+							and end_year > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(end_year,len(end_year)-1)#">
+						<cfelseif left(end_year,1) is "<">
+							AND end_year < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(end_year,len(end_year)-1)#">
+						<cfelse>
+							and end_year = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#end_year#">
+						</cfif>
+					</cfif>
+				</cfif>
+			GROUP BY
+				journal_name,
+				short_name,
+				issn, 
+				start_year,
+				end_year,
+				remarks
+			ORDER BY
+				journal_name	
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 </cfcomponent>
