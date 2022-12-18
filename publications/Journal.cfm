@@ -210,6 +210,12 @@ limitations under the License.
 						</h1>
 					<div class="row border rounded py-3" aria-labelledby="formheading">
 						<div class="col-12 px-3">
+							<cfif NOT inUse>
+								<form name="deleteJournalName" id="deleteJournalName" method="post">
+									<input type="hidden" id="delete_journal_name" name="journal_name" value="#encodeForHtml(journal_name)#" >
+									<input type="hidden" id="delete_action" name="action" value="delete" >
+								</form>
+							</cfif>
 							<form name="editJournalName" id="editJournalName">
 								<input type="hidden" id="old_journal_name" name="old_journal_name" value="#encodeForHtml(journal_name)#" >
 								<input type="hidden" id="method" name="method" value="saveJournalName" >
@@ -223,14 +229,13 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="delete_button" class="data-entry-label">In use in #uses.ct# Publication Records.</label>
-										<button type="button" id="delete_button" class="btn btn-xs btn-warning"
 										<input type="button" 
 												<cfif inUse>
 													class="btn btn-xs btn-warning disabled"
 													onClick=" return false; " 
 												<cfelse>
 													class="btn btn-xs btn-warning"
-													onClick=" $('##method').val('delete'); $('##editJournalName').submit(); " 
+													onClick=" confirmDialog('Delete this Journal?','Confirm Delete Serial/Journal', function() { $('##deleteJournalName').submit(); } ); " 
 												</cfif>
 												value="Delete" title="Delete" aria-label="Delete"
 												>
