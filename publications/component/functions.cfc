@@ -153,7 +153,7 @@ limitations under the License.
 						journal_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#journal_name#">,
 					</cfif>
 					remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remarks#">
-				WHERE journal_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#old_journal_name#">
+				WHERE journal_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#old_journal_name#">
 			</cfquery>
 			<cfif doUpdate_result.recordcount NEQ 1>
 				<cfthrow message="Did not update exactly one ctjournal_name record with the specified journal_name [#encodeForHtml(old_journal_name)#].">
