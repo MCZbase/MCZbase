@@ -452,6 +452,9 @@ limitations under the License.
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for publications">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new publications search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Publications.cfm';" >New Search</button>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new publication record" href="#Application.serverRootUrl#/publications/Publication.cfm?action=new">Create New Publication</a>
+										</cfif>
 									</div>
 								</div>
 	
