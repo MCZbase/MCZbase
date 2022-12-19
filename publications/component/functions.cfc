@@ -1174,7 +1174,7 @@ limitations under the License.
 									$('##attributeControlsFeedbackDiv').html("saving...");
 									<cfif len(getAttValue.publication_attribute_id) GT 0>
 										if ($("###id#").val() == "") { 
-											deleteAttribute(publication_attribute_id, reloadAttributes);
+											deleteAttribute("#getAttValue.publication_attribute_id#", reloadAttributes);
 										} else {  
 											saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 										}
