@@ -1373,6 +1373,12 @@ limitations under the License.
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfthread name="getAttributesForPubThread">
 		<cftry>
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getType_result">
+				SELECT publication_type
+				FROM publication
+				WHERE 
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 			<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select publication_attribute from ctpublication_attribute order by publication_attribute
 			</cfquery>
@@ -1394,6 +1400,13 @@ limitations under the License.
 						SELECT distinct publication_attribute 
 						FROM publication_attributes
 						WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					)
+					AND
+					ctpublication_attribute.publication_attribute NOT IN (
+						SELECT publication_attribute
+						FROM cf_pub_type_attribute
+						WHERE
+							publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
 					)
 				ORDER BY ctpublication_attribute.publication_attribute
 			</cfquery>
