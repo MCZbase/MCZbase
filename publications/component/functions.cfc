@@ -1166,7 +1166,9 @@ limitations under the License.
 						<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 						#control#
 						<script>	
-							$('###id#').change(function(event){ console.log($('###id#').val() } );
+							$('###id#').change(function(event){ 
+								console.log($('###id#').val()); 
+							});
 						</script>
 					</div>
 
