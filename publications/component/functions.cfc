@@ -1143,6 +1143,7 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfoutput>
+				<h2 class="h3">Attributes</h2>
 				<cfloop query="getAttributes">
 					<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
 						SELECT pub_att_value 
@@ -1161,7 +1162,12 @@ limitations under the License.
 
 					<div class="col-12 col-md-4">
 						<label class="data-entry-label">#getAttributes.publication_attribute#</label>
-						<input name="#getAttributes.publication_attribute#" type="text" class="data-entry-input" value="#value#">
+						<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
+						<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes_publication_attribute#",id="#id#")>
+						#control#
+						<script>	
+							$('###id#').change(function(event){ console.log($('###id#').val() } );
+						</script>
 					</div>
 
 				</cfloop>
@@ -1381,7 +1387,7 @@ limitations under the License.
 				ORDER BY ctpublication_attribute.publication_attribute
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Attributes</h2>
+				<h2 class="h3">Additional Attributes</h2>
 							<button class="btn btn-xs btn-primary" onclick="openAddAttributeDialog('attAddDialogDiv','#publication_id#','',reloadAttributes);">Add</button>
 				<div id="attAddDialogDiv"></div>
 				<ul>
