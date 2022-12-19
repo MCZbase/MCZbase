@@ -1174,7 +1174,7 @@ limitations under the License.
 									$('##attributeControlsFeedbackDiv').html("saving...");
 									<cfif len(getAttValue.publication_attribute_id) GT 0>
 										if ($("###id#").val() == "") { 
-											deleteAttribute("#getAttValue.publication_attribute_id#", reloadAttributes);
+											deleteAttribute("#getAttValue.publication_attribute_id#", reloadAttributes, "attributeControlsFeedbackDiv");
 										} else {  
 											saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 										}
@@ -1437,7 +1437,7 @@ limitations under the License.
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
 							<button class="btn btn-xs btn-secondary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
-							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes);">Delete</button>
+							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes,null);">Delete</button>
 						</li>
 						<div id="attEditDialog_#atts.publication_attribute_id#"></div>
 					</cfloop>
