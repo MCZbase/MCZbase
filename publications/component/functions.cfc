@@ -1174,12 +1174,12 @@ limitations under the License.
 									$('##attributeControlsFeedbackDiv').html("saving...");
 									<cfif len(getAttValue.publication_attribute_id) GT 0>
 										if ($("###id#").val() == "") { 
-											deleteAttribute("#getAttValue.publication_attribute_id#", reloadAttributes, "attributeControlsFeedbackDiv");
+											deleteAttribute("#getAttValue.publication_attribute_id#", reloadAllAttributes, "attributeControlsFeedbackDiv");
 										} else {  
 											saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 										}
 									<cfelse>
-										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes); 
+										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAllAttributes); 
 									</cfif>
 								});
 							</script>
