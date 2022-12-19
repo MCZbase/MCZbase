@@ -289,8 +289,7 @@ limitations under the License.
 									$('##saveResultDiv').addClass('text-success');
 									$('##saveResultDiv').removeClass('text-danger');
 									$('##saveResultDiv').removeClass('text-warning');
-									loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
-									loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
+									reloadAllAttributes();
 								},
 								error: function(jqXHR,textStatus,error){
 									$('##saveResultDiv').html('Error.');
