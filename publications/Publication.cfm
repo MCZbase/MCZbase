@@ -84,7 +84,7 @@ limitations under the License.
 		SELECT
 			publication
 		FROM
-			ctmcz_publication
+			ctmczp_publication
 		WHERE
 			publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pub.jtitle#">
 	</cfquery>
