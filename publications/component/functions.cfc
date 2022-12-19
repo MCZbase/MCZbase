@@ -1143,8 +1143,8 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfoutput>
+				<h2 class="h3">Attributes</h2>
 				<div class="form-row mb-2">
-					<h2 class="h3">Attributes</h2>
 					<cfloop query="getAttributes">
 						<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
 							SELECT pub_att_value 
