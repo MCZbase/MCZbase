@@ -358,7 +358,7 @@ function deleteAttribute(publication_attribute_id, okcallback, feedbackdiv) {
 			var status = result[0].status;
 			if (status=='deleted') {
 				console.log(status);
-				if (feebackdiv!==undefined && feedbackdiv) { 
+				if (feedbackdiv!==undefined && feedbackdiv) { 
 					$('#'+feedbackdiv).html(status);
 				}
 			}
