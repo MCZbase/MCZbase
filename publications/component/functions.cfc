@@ -650,7 +650,7 @@ limitations under the License.
 									};
 								</script>
 								<input type="hidden" id="added_agent_name_id" value="">
-								<div id="addAgentNameFeedback"></div>
+								<output id="addAgentNameFeedback"></output>
 							</div>
 							<div class="col-12 col-md-6">
 								<h4 class="h5" >Existing Names for this Agent</h4>
@@ -1100,7 +1100,7 @@ limitations under the License.
 					</div>
 					<div class="col-12">
 						<button class="btn btn-xs btn-primary" onclick="saveNewAttribute('#variables.publication_id#',$('##attr_#id#').val(),$('##attr_value_#id#').val(),'saveAttributeFeedback',reloadAttributes);">Save</button>
-						<div id="saveAttributeFeedback"></div>
+						<output id="saveAttributeFeedback"></output>
 					</div>
 				</div>
 			</cfoutput>
@@ -1143,7 +1143,7 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Attributes</h2><span id="attributeControlsFeedbackDiv"></span>
+				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv"></output></h2>
 				<div class="form-row mb-2">
 					<cfloop query="getAttributes">
 						<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
@@ -1359,7 +1359,7 @@ limitations under the License.
 									'saveFeedback_#id#',
 									reloadAttributes,closeDialog#id#); 
 								">Save</button>
-							<div id="saveFeedback_#id#"></div>
+							<output id="saveFeedback_#id#"></output>
 						</div>
 					</div>
 				</cfoutput>
