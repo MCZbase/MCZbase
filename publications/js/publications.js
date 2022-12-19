@@ -334,9 +334,11 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 /** deleteAttribute delete an attribute from a publication.
  * @param publication_attribute_id the primary key of the publication attribute
  *  to delete.
+ * @param feedbackdiv id of an element in the dom without leading pound 
+ *  selector into which to place feedback on success.
  * @param okcallback a callback function to invoke on success.
  */
-function deleteAttribute(publication_attribute_id, okcallback) { 
+function deleteAttribute(publication_attribute_id, okcallback, feedbackdiv) { 
 	jQuery.ajax({
 		dataType: "json",
 		url: "/publications/component/functions.cfc",
@@ -356,6 +358,9 @@ function deleteAttribute(publication_attribute_id, okcallback) {
 			var status = result[0].status;
 			if (status=='deleted') {
 				console.log(status);
+				if (feedbackdiv!==undefined && feedbackdiv) { 
+					$('#'+feedbackdiv).html(status);
+				}
 			}
 		}
 	});
@@ -402,6 +407,28 @@ function loadAttributesDivHTML(publication_id,targetDivId) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading attributes for publication");
+		},
+		dataType: "html"
+	});
+};
+/** loadAttributeControls load a block of html for editing/viewing
+ *  attributes of a publication specific to the publication type
+ * @param publication_id the publication for which to load attribute controls
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadAttributeControls(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getPubAttControls",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading attribute controls for publication");
 		},
 		dataType: "html"
 	});

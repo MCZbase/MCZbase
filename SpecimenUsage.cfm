@@ -3,18 +3,9 @@
 	<cfif isdefined("publication_id") and len(publication_id) gt 0>
 		<cflocation url="SpecimenUsage.cfm?action=search&publication_id=#publication_id#" addtoken="false">
 	</cfif>
-	<cfset title = "Search for Results">
-	<cfquery name="ctColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select collection,collection_id from collection order by collection
-	</cfquery>
-	<cfquery name="ctjournal_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select journal_name from ctjournal_name order by journal_name
-	</cfquery>
-	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select publication_type from ctpublication_type order by publication_type
-	</cfquery>
+	<cfset title = "Search for Projects">
    <div class="content_box_pub">
-     <h2 class="wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
+     <h2 class="wikilink">Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
 		<cfif not isdefined("toproject_id")><cfset toproject_id=""></cfif>
@@ -25,33 +16,23 @@
 		<table style="width: 100%;">
 
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                <tr>
-					<td>
+              <tr>
+					 <td>
 						<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">[ New Project ]</a>
-
-						<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">[ New Publication ]</a>
 		    		 </td>
-                    </tr>
+              </tr>
 				</cfif>
               <tr>
 
 				<td>
-
-					<h4>Project or Publication Basics</h4>
+					<h4>Search for Projects</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span></label>
 					<input name="p_title" id="p_title" type="text">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>
 					<input name="author" id="author" type="text">
 					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text">
-					<fieldset style="margin-left: 0; width: 415px;">
-						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked" style="float: left; width: 15px;">
-						<label for="searchPubs">Search Publications Only</label>
-						<input type="radio" id="searchProj" name="search_type" value="projects" style="float: left; width: 15px;">
-						<label for="searchProj">Search Projects Only</label>
-						<input type="radio" id="searchBoth" name="search_type" value="both" style="float: left; width: 15px;">
-						<label for="searchBoth">Search Both</label>
-					</fieldset>
+					<input type="hidden" name="search_type" id="searchPubs" value="projects">
 
 					<h4 style="padding-top: 1em;">Project Details</h4>
 					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
@@ -67,53 +48,6 @@
 					</select>
 					<label for="descr_len"> Description Min. Length</label>
 					<input name="descr_len" id="descr_len" type="text" value="100">
-				</td>
-				<td>
-					<h4>Publication Details</h4>
-					<cfoutput>
-						<label for="publication_type"><span id="publication_type">Publication Type</span></label>
-						<select name="publication_type" id="publication_type" size="1">
-							<option value=""></option>
-							<cfloop query="ctpublication_type">
-								<option value="#publication_type#">#publication_type#</option>
-							</cfloop>
-						</select>
-						<label for="journal">Journal Name</label>
-						<select name="journal" id="journal" size="1">
-							<option value=""></option>
-							<cfloop query="ctjournal_name">
-								<option value="#journal_name#">#journal_name#</option>
-							</cfloop>
-						</select>
-						<label for="collection_id">Cites Collection</label>
-						<select name="collection_id" id="collection_id" size="1">
-							<option value="">All</option>
-							<cfloop query="ctColl">
-								<option value="#collection_id#">#collection#</option>
-							</cfloop>
-						</select>
-					</cfoutput>
-					<label for="onlyCitePubs">
-						<span id="pub_cites_specimens">Cites specimens?</span>
-					</label>
-					<select name="onlyCitePubs" id="onlyCitePubs">
-						<option value=""></option>
-						<option value="1">Cites Specimens</option>
-						<option value="0">Cites no Specimens</option>
-					</select>
-					<label for="cited_sci_Name">
-						<span id="cited_sci_Name">Cited Scientific Name</span>
-					</label>
-					<input name="cited_sci_Name" id="cited_sci_Name" type="text">
-					<label for="current_sci_Name">
-						<span id="accepted_sci_name">Accepted Scientific Name</span>
-					</label>
-					<input name="current_sci_Name" id="current_sci_Name" type="text">
-					<label for="is_peer_reviewed_fg"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
-					<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg">
-						<option value=""></option>
-						<option value="1">yes</option>
-					</select>
 				</td>
 
 			</tr>
@@ -136,7 +70,7 @@
 	<cfset emptyProjQueryMessage = "">
 
 	<cfif not isdefined("search_type")>
-		<cfset search_type = "publications">
+		<cfset search_type = "projects">
 	</cfif>
 	<cfif search_type EQ "projects" OR search_type EQ "both">
 	<cfset go="no"><!--- allows addition of a where 1=2 clause if no search term is set, forcing query to have parameters --->

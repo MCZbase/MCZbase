@@ -80,6 +80,19 @@ limitations under the License.
 		FROM publication
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
+	<cfquery name="MCZpub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="MCZpub_result">
+		SELECT
+			publication
+		FROM
+			ctmczp_publication
+		WHERE
+			publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pub.jtitle#">
+	</cfquery>
+	<cfif MCZpub.recordcount EQ 1>
+		<cfset isMCZpub = true>
+	<cfelse>
+		<cfset isMCZpub = false>
+	</cfif>
 	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT count(*) ct, 'cataloged item' as type 
 		FROM citation
@@ -237,9 +250,6 @@ limitations under the License.
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input" value="#encodeForHtml(pub.publication_remarks)#">
 						</div>
 					</div>
-					<div class="form-row mb-2" id="attributesForPublicationDiv">
-						<!--- TODO: Expected attributes for publication type --->
-					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-10">
 							<input type="button" value="Save" class="btn btn-primary btn-xs" onclick=" if (checkFormValidity($('##editPubForm')[0])) { saveEdits(); }">
@@ -306,6 +316,20 @@ limitations under the License.
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
 				<div id="authorBlock" class="row w-100">#authorBlockContent#</div>
 			</section>
+			
+			
+			<section name="attributeControlsSection" class="row border rounded my-2 px-2" title="Attributes of this publication">
+				<script>
+					function reloadAllAttributes(){ 
+						loadAttributeControls(#publication_id#,'attributeControls');
+						loadAttributesDivHTML(#publication_id#,'attributesBlock');
+						loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
+						loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
+					}
+				</script>
+				<cfset attribControlsContent = getPubAttControls(publication_id = "#publication_id#")>
+				<div id="attributeControls" class="col-12">#attribControlsContent#</div>
+			</section>
 
 			<section name="attributesSection" class="row border rounded my-2 px-2" title="Attributes of this publication">
 				<script>
@@ -316,7 +340,7 @@ limitations under the License.
 					}
 				</script>
 				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>
-				<div id="attributesBlock" class="col=12"">#attribBlockContent#</div>
+				<div id="attributesBlock" class="col-12">#attribBlockContent#</div>
 			</section>
 
 			<section name="mediaSection" class="row border rounded my-2 px-2" title="Media related to this publication">

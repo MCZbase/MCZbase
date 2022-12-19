@@ -95,12 +95,12 @@
 		</tr>
 	<cfloop query="cit">
 		<tr>
-			<td><a href="/SpecimenUsage.cfm?action=search&current_Sci_Name=#scientific_name#">#scientific_name#</a></td>
+			<td><a href="/Publications.cfm?execute=true&method=getPublications&taxon_publication=%3D#scientific_name#">#scientific_name#</a></td>
 			<td>
 				<cfif #CitName# is #scientific_name#>
-					<a href="/SpecimenUsage.cfm?action=search&cited_Sci_Name=#CitName#"><font color="##00FF00">#CitName#</font></a>
+					<a href="/Publications.cfm?execute=true&method=getPublications&cited_taxon=%3D#CitName#"><font color="##00FF00">#CitName#</font></a>
 				<cfelse>
-					<a href="/SpecimenUsage.cfm?action=search&cited_Sci_Name=#CitName#"><font color="##FF0000">#CitName#</font></a>
+					<a href="/Publications.cfm?execute=true&method=getPublications&cited_taxon=%3D#CitName#"><font color="##FF0000">#CitName#</font></a>
 				</cfif>
 				
 			</td>

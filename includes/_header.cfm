@@ -116,7 +116,7 @@
 								<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
 								<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
 								<a class="dropdown-item" target="_top" href="/Publications.cfm">Publications</a>
-								<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects (old)</a>
+								<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Projects (old)</a>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
 									<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
@@ -211,6 +211,7 @@
 										<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+										<a class="dropdown-item" href="/Publications.cfm">Publications</a>
 										<a class="dropdown-item" href="/publications/Journals.cfm">Serial/Journal Titles</a> 
 									</cfif>
 								</div>
