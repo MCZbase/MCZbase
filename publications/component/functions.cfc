@@ -1163,7 +1163,7 @@ limitations under the License.
 					<div class="col-12 col-md-4">
 						<label class="data-entry-label">#getAttributes.publication_attribute#</label>
 						<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
-						<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes_publication_attribute#",id="#id#")>
+						<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 						#control#
 						<script>	
 							$('###id#').change(function(event){ console.log($('###id#').val() } );
