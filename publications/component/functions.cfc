@@ -1143,36 +1143,38 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Attributes</h2>
-				<cfloop query="getAttributes">
-					<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
-						SELECT pub_att_value 
-						FROM publication_attributes
-						WHERE 
-							publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
-							and
-							publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-					</cfquery>
+				<div class="form-row mb-2">
+					<h2 class="h3">Attributes</h2>
+					<cfloop query="getAttributes">
+						<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
+							SELECT pub_att_value 
+							FROM publication_attributes
+							WHERE 
+								publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
+								and
+								publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						</cfquery>
+		
+						<cfif getAttValue.recordcount EQ 1>
+							<cfset value = getAttValue.pub_att_value>
+						<cfelse>
+							<cfset value = "">
+						</cfif>
 	
-					<cfif getAttValue.recordcount EQ 1>
-						<cfset value = getAttValue.pub_att_value>
-					<cfelse>
-						<cfset value = "">
-					</cfif>
-
-					<div class="col-12 col-md-4">
-						<label class="data-entry-label">#getAttributes.publication_attribute#</label>
-						<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
-						<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
-						#control#
-						<script>	
-							$('###id#').change(function(event){ 
-								console.log($('###id#').val()); 
-							});
-						</script>
-					</div>
-
-				</cfloop>
+						<div class="col-12 col-md-4">
+							<label class="data-entry-label">#getAttributes.publication_attribute#</label>
+							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
+							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
+							#control#
+							<script>	
+								$('###id#').change(function(event){ 
+									console.log($('###id#').val()); 
+								});
+							</script>
+						</div>
+	
+					</cfloop>
+				</div>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>

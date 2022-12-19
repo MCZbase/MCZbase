@@ -328,7 +328,7 @@ limitations under the License.
 					}
 				</script>
 				<cfset attribControlsContent = getPubAttControls(publication_id = "#publication_id#")>
-				<div id="attributeControls" class="col-12 form-row">#attribControlsContent#</div>
+				<div id="attributeControls" class="col-12">#attribControlsContent#</div>
 			</section>
 
 			<section name="attributesSection" class="row border rounded my-2 px-2" title="Attributes of this publication">
