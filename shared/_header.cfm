@@ -458,82 +458,87 @@ limitations under the License.
 										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<div>
-								
-										<div class="h5 dropdown-header px-4 text-danger">Create</div>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Locality.cfm?action=newHG">Geography</a> 
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Geography</a> 
+										<div>
+									
+											<div class="h5 dropdown-header px-4 text-danger">Create</div>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/Locality.cfm?action=newHG">Geography</a> 
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Geography</a> 
+												</cfif>
+											</cfif>		
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/Locality.cfm?action=newLocality">Locality</a> 
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Locality</a> 
+												</cfif>
 											</cfif>
-										</cfif>		
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Locality.cfm?action=newLocality">Locality</a> 
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Locality</a> 
+									
+											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+												<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=person">Person</a> 
+												<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=organization">Organization Agent</a> 
 											</cfif>
-										</cfif>
-								
-										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=person">Person</a> 
-										<a class="dropdown-item" href="/agents/editAgent.cfm?action=new&agent_type=organization">Organization Agent</a> 
-									</div>
+	
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+												<a class="dropdown-item" href="/publications/Publication.cfm?action=new">Publication</a> 
+											</cfif>
+	
+										</div>
 									</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Encumbrances</a>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+										<div>
+											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Encumbrances</a>
+												</cfif>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Annotations</a>
+												</cfif>
 											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Annotations</a>
+											<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/Admin/agentMergeReview.cfm">Review Pending Merges</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Review Pending Agent Merges</a>
+												</cfif>	
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/Admin/killBadAgentDups.cfm">Merge bad duplicate agents</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Merge bad duplicate agents</a>
+												</cfif>
 											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Admin/agentMergeReview.cfm">Review Pending Merges</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Review Pending Agent Merges</a>
-										</cfif>	
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Admin/killBadAgentDups.cfm">Merge bad duplicate agents</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Merge bad duplicate agents</a>
-										</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Sync Parent/Child Taxonomy</a>
-										</cfif>									
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/tools/pendingRelations.cfm">Pending Relationships</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Pending Relationships</a>
-										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">SQL Taxonomy</a>
-										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Bulk Taxonomy</a>
-										</cfif>
-										</cfif>
-									</div>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Sync Parent/Child Taxonomy</a>
+												</cfif>									
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/tools/pendingRelations.cfm">Pending Relationships</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Pending Relationships</a>
+												</cfif>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">SQL Taxonomy</a>
+												</cfif>
+												<cfif targetMenu EQ "production">
+													<a class="dropdown-item" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a>
+												<cfelse>
+													<a class="dropdown-item bg-warning" href="">Bulk Taxonomy</a>
+												</cfif>
+											</cfif>
+										</div>
 									</cfif>
-								</cfif>
 								</li>
 							</ul>
 						</li>
