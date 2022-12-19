@@ -1293,6 +1293,12 @@ limitations under the License.
 			<cfif getAttribute.recordcount NEQ 1>
 				<cfthrow message="No publication_attribute record found for specified key [#encodeForHtml(publication_attribtue_id)#]">
 			</cfif>
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getType_result">
+				SELECT publication_type
+				FROM publication
+				WHERE 
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttribute.publication_id#">
+			</cfquery>
 			<cfloop query="getAttribute">
 				<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT ctpublication_attribute.publication_attribute, 
@@ -1303,6 +1309,13 @@ limitations under the License.
 							SELECT distinct publication_attribute 
 							FROM publication_attributes
 							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttribute.publication_id#">
+						)
+						AND
+						ctpublication_attribute.publication_attribute NOT IN (
+							SELECT publication_attribute
+							FROM cf_pub_type_attribute
+							WHERE
+								publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
 						)
 					ORDER BY ctpublication_attribute.publication_attribute
 				</cfquery>
@@ -1389,7 +1402,15 @@ limitations under the License.
 					publication_attribute,
 					pub_att_value
 				FROM publication_attributes 
-				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+				WHERE 
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					AND
+					publication_attribute NOT IN (
+						SELECT publication_attribute
+						FROM cf_pub_type_attribute
+						WHERE
+							publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
+					)
 			</cfquery>
 			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT ctpublication_attribute.publication_attribute, 
@@ -1412,11 +1433,10 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<h2 class="h3">Additional Attributes</h2>
-							<button class="btn btn-xs btn-primary" onclick="openAddAttributeDialog('attAddDialogDiv','#publication_id#','',reloadAttributes);">Add</button>
+				<button class="btn btn-xs btn-primary" onclick="openAddAttributeDialog('attAddDialogDiv','#publication_id#','',reloadAttributes);">Add</button>
 				<div id="attAddDialogDiv"></div>
 				<ul>
 					<cfloop query="atts">
-						<!--- TODO: Edit --->
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
 							<button class="btn btn-xs btn-secondary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
