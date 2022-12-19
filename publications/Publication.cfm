@@ -320,7 +320,7 @@ limitations under the License.
 			
 			<section name="attributeControlsSection" class="row border rounded my-2 px-2" title="Attributes of this publication">
 				<script>
-					function reloadAttributes(){ 
+					function reloadAllAttributes(){ 
 						loadAttributeControls(#publication_id#,'attributeControls');
 						loadAttributesDivHTML(#publication_id#,'attributesBlock');
 						loadFullCitDivHTML(#publication_id#,'fullCitationDiv');

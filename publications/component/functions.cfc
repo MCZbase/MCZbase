@@ -1143,11 +1143,13 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Attributes</h2>
+				<h2 class="h3">Attributes</h2><span id="attributeControlsFeedbackDiv"></span>
 				<div class="form-row mb-2">
 					<cfloop query="getAttributes">
 						<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
-							SELECT pub_att_value 
+							SELECT
+								publication_attribute_id, 
+								pub_att_value 
 							FROM publication_attributes
 							WHERE 
 								publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
@@ -1169,6 +1171,7 @@ limitations under the License.
 							<script>	
 								$('###id#').change(function(event){ 
 									console.log($('###id#').val()); 
+									saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 								});
 							</script>
 						</div>
