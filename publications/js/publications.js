@@ -406,6 +406,28 @@ function loadAttributesDivHTML(publication_id,targetDivId) {
 		dataType: "html"
 	});
 };
+/** loadAttributeControls load a block of html for editing/viewing
+ *  attributes of a publication specific to the publication type
+ * @param publication_id the publication for which to load attribute controls
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadAttributeControls(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getPubAttControls",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading attribute controls for publication");
+		},
+		dataType: "html"
+	});
+};
 
 /** loadMediaDivHTML load a block of html for editing/viewing
  *  media related a publication.

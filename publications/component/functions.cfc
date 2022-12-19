@@ -1118,6 +1118,68 @@ limitations under the License.
 	<cfreturn cfthread["getAttributesAddDialogThread#tn#"].output>
 </cffunction>
 
+<!--- obtain html for a set of input controls for the attributes relevant to a 
+  given publication based on the type of publication 
+  @param publication_id the primary key value for the publication for which to return inputs
+  @return html with a set of inputs or an http 500 error
+--->
+<cffunction name="getPubAttControls" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getPubAttControlsThread#tn#">
+		<cftry>
+			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getType_result">
+				SELECT publication_type
+				FROM publication
+				WHERE 
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
+				SELECT publication_attribute
+				FROM cf_pub_type_attribute
+				WHERE
+					publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
+				ORDER BY ordinal ASC
+			</cfquery>
+			<cfoutput>
+				<cfloop query="getAttributes">
+					<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
+						SELECT pub_att_value 
+						FROM publication_attributes
+						WHERE 
+							publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
+							and
+							publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					</cfquery>
+	
+					<cfif getAttValue.recordcount EQ 1>
+						<cfset value = getAttValue.pub_att_value>
+					<cfelse>
+						<cfset value = "">
+					</cfif>
+
+					<div class="col-12 col-md-4">
+						<label class="data-entry-label">#getAttributes.publication_attribute#</label>
+						<input name="#getAttributes.publication_attribute#" type="text" class="data-entry-input" value="#value#">
+					</div>
+
+				</cfloop>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPubAttControlsThread#tn#" />
+	<cfreturn cfthread["getPubAttControlsThread#tn#"].output>
+</cffunction>
+
 <!--- obtain html for an input control for a publication attribute 
 	@param attribute the attribute for which to return an input
 	@param value the value to set for the attribute in the input
