@@ -1310,7 +1310,7 @@ limitations under the License.
 							FROM publication_attributes
 							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttribute.publication_id#">
 						)
-						AND
+						OR
 						ctpublication_attribute.publication_attribute NOT IN (
 							SELECT publication_attribute
 							FROM cf_pub_type_attribute
@@ -1380,10 +1380,19 @@ limitations under the License.
 
 <!--- obtain a block of html listing attributes for a publication and allowing for editing of those atrributes 
 @param publication_id the publication for which to list attribtues.
+@param show_all if provided with any value, shows all attributes with a value, not excluding those expected 
+  for the publication type.
 @return html suitable for the edit publication page.
 --->
 <cffunction name="getAttributesForPubHtml" access="remote" returntype="string" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="show_all" type="string" required="no">
+
+	<cfif isDefined("show_all") and len(show_all) GT 0>
+		<cfset variables.show_all = true>
+	<cfelse>
+		<cfset variables.show_all = false>
+	</cfif>
 	<cfthread name="getAttributesForPubThread">
 		<cftry>
 			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getType_result">
@@ -1404,32 +1413,15 @@ limitations under the License.
 				FROM publication_attributes 
 				WHERE 
 					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-					AND
-					publication_attribute NOT IN (
-						SELECT publication_attribute
-						FROM cf_pub_type_attribute
-						WHERE
-							publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
-					)
-			</cfquery>
-			<cfquery name="available_pub_att" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT ctpublication_attribute.publication_attribute, 
-					description
-				FROM ctpublication_attribute 
-				WHERE
-					ctpublication_attribute.publication_attribute NOT IN (
-						SELECT distinct publication_attribute 
-						FROM publication_attributes
-						WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-					)
-					AND
-					ctpublication_attribute.publication_attribute NOT IN (
-						SELECT publication_attribute
-						FROM cf_pub_type_attribute
-						WHERE
-							publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
-					)
-				ORDER BY ctpublication_attribute.publication_attribute
+					<cfif NOT variables.show_all>
+						AND
+						publication_attribute NOT IN (
+							SELECT publication_attribute
+							FROM cf_pub_type_attribute
+							WHERE
+								publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
+						)
+					</cfif>
 			</cfquery>
 			<cfoutput>
 				<h2 class="h3">Additional Attributes</h2>
