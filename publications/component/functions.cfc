@@ -1171,7 +1171,11 @@ limitations under the License.
 							<script>	
 								$('###id#').change(function(event){ 
 									console.log($('###id#').val()); 
-									saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
+									<cfif len(getAttValue.publication_attribute_id) GT 0>
+										saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
+									<cfelse>
+										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes); 
+									</cfif>
 								});
 							</script>
 						</div>
