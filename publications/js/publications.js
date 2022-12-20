@@ -80,7 +80,6 @@ function loadPlainCitDivHTML(publication_id, targetInputId) {
 			publication_id: publication_id
 		},
 		success: function (result) {
-			$("#" + targetDivId ).html(result);
 			$("#" + targetInputId ).val(result);
 		},
 		error: function (jqXHR, textStatus, error) {
