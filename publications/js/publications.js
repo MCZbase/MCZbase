@@ -830,7 +830,8 @@ function loadPubAttributeControl(attribute,value,name,id,targetDivId) {
 			attribute: attribute,
 			value: value,
 			name: name,
-			id: id
+			id: id,
+			required_field: "true"
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);

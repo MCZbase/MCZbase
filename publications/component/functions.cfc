@@ -1090,7 +1090,7 @@ limitations under the License.
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
 						<cfif len(variables.attribute) GT 0>
-							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#",required="true")>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#",required_field="true")>
 							<div id="input_block_#id#">#inputBlockContent#</div>
 						<cfelse>
 							<div id="input_block_#id#">
@@ -1293,9 +1293,9 @@ limitations under the License.
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="name" type="string" required="yes">
 	<cfargument name="id" type="string" required="yes">
-	<cfargument name="required" type="string" required="no">
+	<cfargument name="required_field" type="string" required="no">
 
-	<cfif required="true">
+	<cfif required_field="true">
 		<cfset reqdClr = "reqdClr">
 		<cfset req = "required"
 	<cfelse>
@@ -1303,7 +1303,7 @@ limitations under the License.
 		<cfset req = ""
 	</cfif>
 	<!--- base response is a text input --->
-	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input reqdClr' required value='#encodeForHtml(value)#'>" > <!--- " --->
+	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input #reqdClr#' #req# value='#encodeForHtml(value)#'>" > <!--- " --->
 	<cftry>
 		<cfquery name="getAttControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttControl_result">
 			SELECT control
@@ -1436,7 +1436,7 @@ limitations under the License.
 						</div>
 						<div class="col-12">
 							<label for="attr_value_#id#" class="data-entry-label">Value</a>
-							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#",required="true")>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#",required_field="true")>
 							<div id="input_block_#id#">#inputBlockContent#</div>
 						</div>
 						<div class="col-12">
