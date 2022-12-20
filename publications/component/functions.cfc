@@ -1297,10 +1297,10 @@ limitations under the License.
 
 	<cfif required_field EQ "true">
 		<cfset reqdClr = "reqdClr">
-		<cfset req = "required"
+		<cfset req = "required">
 	<cfelse>
 		<cfset reqdClr = "">
-		<cfset req = ""
+		<cfset req = "">
 	</cfif>
 	<!--- base response is a text input --->
 	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input #reqdClr#' #req# value='#encodeForHtml(value)#'>" > <!--- " --->
