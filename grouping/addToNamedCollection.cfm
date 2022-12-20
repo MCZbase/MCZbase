@@ -194,7 +194,7 @@ limitations under the License.
 				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT count(*) as ct 
 					FROM user_search_table
-					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"
+					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				</cfquery>
 				<cfif countToAdd.ct NEQ recordcount>
 					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add, result set modified since search was run.">
