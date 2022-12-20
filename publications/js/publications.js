@@ -22,10 +22,10 @@ limitations under the License.
  * @param the tag to use, supported values: i, b, sub, sup.
  **/
 function markup(textAreaId, tag){
-	var len = $("##"+textAreaId).val().length;
-	var start = $("##"+textAreaId)[0].selectionStart;
-	var end = $("##"+textAreaId)[0].selectionEnd;
-	var selection = $("##"+textAreaId).val().substring(start, end);
+	var len = $("#"+textAreaId).val().length;
+	var start = $("#"+textAreaId)[0].selectionStart;
+	var end = $("#"+textAreaId)[0].selectionEnd;
+	var selection = $("#"+textAreaId).val().substring(start, end);
 	if (selection.length>0){
 		var replace = selection;
 		if (tag=='i') { 
@@ -37,7 +37,7 @@ function markup(textAreaId, tag){
 		} else if(tag=='sup') { 
 			replace = '<sup>' + selection + '</sup>';
 		}
-		$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
+		$("#"+textAreaId).val($("#"+textAreaId).val().substring(0,start) + replace + $("#"+textAreaId).val().substring(end,len));
 	}
 }
 
