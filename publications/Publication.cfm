@@ -132,7 +132,7 @@ limitations under the License.
 		<main class="container py-3" id="content" >
 			<section class="row border rounded my-2">
 				<h1 class="h2 w-100 px-2 pt-1">
-					Edit Publication: <span id="fullCitationPlainDiv">#pub.short_citation#</span> (#pub.publication_id#)
+					Edit Publication: <span id="shortCitationSpan">#pub.short_citation#</span> (#pub.publication_id#)
        			<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]">
 					<span class="d-inline-block float-right">
 						<a class="btn btn-xs btn-primary text-decoration-none" href="/publications/showPublication.cfm?publication_id=#pub.publication_id#">View Publication Details</a>
@@ -309,7 +309,8 @@ limitations under the License.
 					function reloadAuthors(){ 
 						loadAuthorsDivHTML(#publication_id#,'authorBlock');
 						loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
-						loadPlainCitDivHTML(#publication_id#,'fullCitationPlainDiv','fullCitationPlain');
+						loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
+						loadShortCitDivHTML(#publication_id#,'shortCitationSpan');
 					}
 				</script>
 				<cfset authorBlockContent = getAuthorsForPubHtml(publication_id = "#publication_id#")>
@@ -323,7 +324,8 @@ limitations under the License.
 						loadAttributeControls(#publication_id#,'attributeControls');
 						loadAttributesDivHTML(#publication_id#,'attributesBlock');
 						loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
-						loadPlainCitDivHTML(#publication_id#,'fullCitationPlainDiv','fullCitationPlain');
+						loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
+						loadShortCitDivHTML(#publication_id#,'shortCitationSpan');
 					}
 				</script>
 				<cfset attribControlsContent = getPubAttControls(publication_id = "#publication_id#")>
@@ -335,7 +337,8 @@ limitations under the License.
 					function reloadAttributes(){ 
 						loadAttributesDivHTML(#publication_id#,'attributesBlock');
 						loadFullCitDivHTML(#publication_id#,'fullCitationDiv');
-						loadPlainCitDivHTML(#publication_id#,'fullCitationPlainDiv','fullCitationPlain');
+						loadPlainCitDivHTML(#publication_id#,'fullCitationPlain');
+						loadShortCitDivHTML(#publication_id#,'shortCitationSpan');
 					}
 				</script>
 				<cfset attribBlockContent = getAttributesForPubHtml(publication_id = "#publication_id#")>

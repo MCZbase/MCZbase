@@ -66,15 +66,12 @@ function loadFullCitDivHTML(publication_id,targetDivId) {
 	});
 };
 /** loadPlainCitDivHTML load the value of the current full form
- * of the citation for a publication without html markup into an input control 
- * and into a div.
+ * of the citation for a publication without html markup into an input control.
  * @param publication_id the publication for which to show the citation.
  * @param targetDivId the id without a leading # selector of the element in 
  *  the dom the value of which to replace with the returned text.
- * @param targetDivId the id without a leading # selector of the element in 
- *  the dom the html of which to replace with the returned text.
 */
-function loadPlainCitDivHTML(publication_id,targetDivId, targetInputId) { 
+function loadPlainCitDivHTML(publication_id, targetInputId) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
@@ -88,6 +85,30 @@ function loadPlainCitDivHTML(publication_id,targetDivId, targetInputId) {
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading publication citation plain text");
+		},
+		dataType: "html"
+	});
+};
+/** loadShortCitDivHTML load a block of html showing the current short form
+ * of the citation for a publication.
+ * @param publication_id the publication for which to show the citation.
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadShortCitDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getCitationForPubHtml",
+			form: "short",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			console.log(result);
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading short publication citation text");
 		},
 		dataType: "html"
 	});
