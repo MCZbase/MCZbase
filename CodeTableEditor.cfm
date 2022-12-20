@@ -780,7 +780,12 @@
 		</table>
 	<cfelseif tbl is "ctpublication_attribute"><!---------------------------------------------------->
 		<cfquery name="q" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from ctpublication_attribute order by publication_attribute
+			select 
+				publication_attribute,
+				description,
+				control,
+				mcz_publication_fg
+			from ctpublication_attribute order by publication_attribute
 		</cfquery>
 		<cfquery name="allCTs" datasource="uam_god">
 			select distinct(table_name) as tablename from sys.user_tables where table_name like 'CT%' order by table_name
@@ -793,6 +798,7 @@
 					<th>Publication Attribute</th>
 					<th>Description</th>
 					<th>Control</th>
+					<th>MCZ Publications</th>
 					<th></th>
 				</tr>
 				<tr>
@@ -811,6 +817,12 @@
 						</select>
 					</td>
 					<td>
+						<select name="mcz_publication_fg">
+							<option value="0" selected>No</option>
+							<option value="1">Yes</option>
+						</select>
+					</td>
+					<td>
 						<input type="submit" 
 							value="Insert" 
 							class="insBtn">
@@ -824,6 +836,7 @@
 				<th>Type</th>
 				<th>Description</th>
 				<th>Control</th>
+				<th>MCZ Publications</th>
 			</tr>
 			<cfloop query="q">
 				<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -845,6 +858,14 @@
 								</cfloop>
 							</select>
 						</td>				
+						<td>
+							<select name="mcz_publication_fg">
+								<cfif mcz_publication_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="0" #selected#>No</option>
+								<cfif mcz_publication_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="1" #selected#>Yes</option>
+							</select>
+						</td>
 						<td>
 							<input type="button" 
 								value="Save" 
@@ -1702,7 +1723,8 @@
 			update ctpublication_attribute set 
 				publication_attribute=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_attribute#">,
 				DESCRIPTION=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">,
-				control=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#control#">
+				control=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#control#">,
+				mcz_publication_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mcz_publication_fg#">
 			where
 				publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1866,11 +1888,13 @@
 			insert into ctpublication_attribute (
 				publication_attribute,
 				DESCRIPTION,
-				control
+				control,
+				mcz_publication_fg
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#newData#'>,
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#description#'>,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#control#'>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#control#'>,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#mcz_publication_fg#'>
 			)
 		</cfquery>
 	<cfelseif tbl is "ctnomenclatural_code">
