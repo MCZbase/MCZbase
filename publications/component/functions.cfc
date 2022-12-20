@@ -1132,7 +1132,7 @@ limitations under the License.
 			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getType_result">
 				SELECT 
 					publication_type,
-					get_publication_attribute(publication_id,'journal name') as jtitle,
+					get_publication_attribute(publication_id,'journal name') as jtitle
 				FROM publication
 				WHERE 
 					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
