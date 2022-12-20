@@ -747,6 +747,10 @@ limitations under the License.
 			<cfset row["agent_id"] = "#report.agent_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+			  where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -810,6 +814,10 @@ limitations under the License.
 			<cfset row["updates"] = "#reorder_result.recordcount#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -923,6 +931,10 @@ limitations under the License.
 			<cfset row["status"] = "moved">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -943,6 +955,7 @@ limitations under the License.
 	<cfargument name="publication_author_name_id" type="string" required="yes">
 	<cfargument name="agent_name_id" type="string" required="yes">
 	<cfargument name="author_role" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="yes">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -965,6 +978,10 @@ limitations under the License.
 			<cfset row["id"] = "#publication_author_name_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1557,6 +1574,13 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfquery name="lookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+				SELECT publication_id
+				FROM publication_attributes
+				WHERE
+					publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfset publication_id = lookup.publication_id>
 			<!--- delete the target attribute --->
 			<cfquery name="deleteAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
 				delete from publication_attributes
@@ -1570,6 +1594,10 @@ limitations under the License.
 			<cfset row["status"] = "deleted">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1621,6 +1649,10 @@ limitations under the License.
 			<cfset row["id"] = "#publication_attribute_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1678,6 +1710,10 @@ limitations under the License.
 			<cfset row["id"] = "#getId.id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1691,33 +1727,6 @@ limitations under the License.
 </cffunction>
 
 <!---------------------------------------------------------------------------------------------------------->
-<!--- now get the formatted publications --->
-<!--- 
-	<cfinvoke component="/component/publication" method="shortCitation" returnVariable="shortCitation">
-		<cfinvokeargument name="publication_id" value="#publication_id#">
-		<cfinvokeargument name="returnFormat" value="plain">
-	</cfinvoke>
-	<cfinvoke component="/component/publication" method="longCitation" returnVariable="longCitation">
-		<cfinvokeargument name="publication_id" value="#publication_id#">
-		<cfinvokeargument name="returnFormat" value="plain">
-	</cfinvoke>
-
-	<cfquery name="sfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update formatted_publication 
-		set formatted_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shortCitation#">
-		where
-			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-			and format_style = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="short">
-	</cfquery>
-	<cfquery name="lfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update formatted_publication 
-		set formatted_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#longCitation#">
-		where
-			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-			and format_style = 'long'
-	</cfquery>
-	<cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
---->
 
 <!--- getMediaForPubHtml obtain a block of html for editing media related to a publication.
  @param publication_id the publication for which to obtain media
