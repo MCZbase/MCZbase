@@ -26,11 +26,14 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="selectColl">
 		<cfoutput>
+			<!--- TODO: Remove session search --->
 			<cfset pass = "">
 			<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 				<cfset pass = "collection_object">
 			<cfelseif  isdefined("collection_object_id") and listlen(collection_object_id) gt 1>
 				<cfset pass = "collection_object list">
+			<cfelseif isDefined("result_id") AND len(result_id) GT 0>
+				<cfset pass = "result_id"
 			<cfelse>
 				<cfset pass = "sessionsearch">
 			</cfif>
@@ -47,13 +50,15 @@ limitations under the License.
 					collection.collection
 				FROM
 					cataloged_item
-					left outer join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
-					left outer join locality on collecting_event.locality_id = locality.locality_id
+					join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id 
+					join locality on collecting_event.locality_id = locality.locality_id
 					left outer join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
 					left outer join identification on cataloged_item.collection_object_id = identification.collection_object_id
-					left outer join collection on cataloged_item.collection_id = collection.collection_id
+					join collection on cataloged_item.collection_id = collection.collection_id
 					<cfif (not isdefined("collection_object_id")) > 
 						left outer join #session.SpecSrchTab# on cataloged_item.collection_object_id = #session.SpecSrchTab#.collection_object_id
+					<cfelseif  isdefined("result_id") and listlen(result_id) gt 1>
+						join user_search_table on cataloged_item.collection_object_id = user_search_table.collection_object_id
 					</cfif>
 				WHERE
 					identification.accepted_id_fg = 1 AND
@@ -61,6 +66,8 @@ limitations under the License.
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					<cfelseif  isdefined("collection_object_id") and listlen(collection_object_id) gt 1>
 						cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+					<cfelseif  isdefined("result_id") and listlen(result_id) gt 1>
+						result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfelse>
 						#session.SpecSrchTab#.collection_object_id is not null
 					</cfif>
@@ -87,6 +94,9 @@ limitations under the License.
 								<input type="hidden" name="pass" value="#pass#">
 								<cfif isdefined("collection_object_id") AND len(collection_object_id) GT 0 >
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+								</cfif>
+								<cfif isdefined("result_id") AND len(result_id) GT 0 >
+									<input type="hidden" name="result_id" value="#result_id#">
 								</cfif>
 								<div class="form-row mb-3">
 									<div class="col-12 col-sm-8">
@@ -154,6 +164,7 @@ limitations under the License.
 		<cfif NOT isdefined("pass") OR len(pass) EQ 0>
 			<cfthrow message="Error: No means included by which to add to named group.  File a bug report.">
 		</cfif>
+		<!--- TODO: Remove session search --->
 		<cfif pass EQ "sessionsearch">
 			<cftransaction>
 				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -176,6 +187,33 @@ limitations under the License.
 						into underscore_relation (underscore_collection_id, collection_object_id)
 					select #idToAdd#, collection_object_id 
 					from #session.SpecSrchTab# 
+				</cfquery>
+			</cftransaction>
+		<cfelseif pass EQ "result_id">
+			<cftransaction>
+				<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(*) as ct 
+					FROM user_search_table
+					WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"
+				</cfquery>
+				<cfif countToAdd.ct NEQ recordcount>
+					<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add, result set modified since search was run.">
+				</cfif>
+				<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT underscore_collection.underscore_collection_id as id
+					FROM underscore_collection
+					WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				</cfquery>
+				<cfset idToAdd = unColl.id>
+				<cfif unColl.recordcount NEQ 1>
+					<cfthrow message="No such named group found, unable to add cataloged items">
+				</cfif>
+				<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+					INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
+						into underscore_relation (underscore_collection_id, collection_object_id)
+					SELECT #idToAdd#, collection_object_id 
+						FROM user_search_table
+						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"
 				</cfquery>
 			</cftransaction>
 		<cfelseif pass EQ "collection_object" OR pass EQ "collection_object list">
