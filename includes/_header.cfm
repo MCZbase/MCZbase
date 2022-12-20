@@ -171,7 +171,7 @@
 										<a class="dropdown-item" target="_top" href="/agents/editAgent.cfm?action=new">Agent Record</a>
 									</cfif>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
-										<a class="dropdown-item" target="_top" href="/Publication.cfm?action=newPub">Publication Record</a>
+										<a class="dropdown-item" target="_top" href="/publications/Publication.cfm?action=new">Publication Record</a> 
 										<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Project Record</a>
 									</cfif>
 								</div>

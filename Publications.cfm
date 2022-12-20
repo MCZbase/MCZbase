@@ -521,7 +521,7 @@ limitations under the License.
 			};
 			var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/Publication.cfm?publication_id=' + rowData['publication_id'] + '">Edit</a></span>';
+				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="ml-1 px-2 btn btn-xs btn-outline-primary" href="/publications/Publication.cfm?action=edit&publication_id=' + rowData['publication_id'] + '">Edit</a></span>';
 			};
 			var doiCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
