@@ -213,7 +213,7 @@ limitations under the License.
 						into underscore_relation (underscore_collection_id, collection_object_id)
 					SELECT #idToAdd#, collection_object_id 
 						FROM user_search_table
-						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#"
+						WHERE result_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 				</cfquery>
 			</cftransaction>
 		<cfelseif pass EQ "collection_object" OR pass EQ "collection_object list">
