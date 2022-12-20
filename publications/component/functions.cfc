@@ -1130,11 +1130,29 @@ limitations under the License.
 	<cfthread name="getPubAttControlsThread#tn#">
 		<cftry>
 			<cfquery name="getType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getType_result">
-				SELECT publication_type
+				SELECT 
+					publication_type,
+					get_publication_attribute(publication_id,'journal name') as jtitle,
 				FROM publication
 				WHERE 
 					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 			</cfquery>
+			<cfset isMCZPub = false>
+			<cfif len(getType.jtitle) GT 0>
+				<cfquery name="MCZpub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="MCZpub_result">
+					SELECT
+						publication
+					FROM
+						ctmczp_publication
+					WHERE
+						publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.jtitle#">
+				</cfquery>
+				<cfif MCZpub.recordcount EQ 1>
+					<cfset isMCZpub = true>
+				<cfelse>
+					<cfset isMCZpub = false>
+				</cfif>
+			</cfif>
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
 				SELECT publication_attribute
 				FROM cf_pub_type_attribute
@@ -1184,9 +1202,59 @@ limitations under the License.
 								});
 							</script>
 						</div>
-	
 					</cfloop>
 				</div>
+
+				<cfif isMCZpub>
+					<cfquery name="getMCZAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMCZAttributes_result">
+						SELECT publication_attribute,
+						FROM ctpublication_attribute 
+						WHERE
+							mcz_publication_fg = 1
+					</cfquery>
+					<div class="form-row mb-2">
+						<cfloop query="getMCZAttributes">
+							<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
+								SELECT
+									publication_attribute_id, 
+									pub_att_value 
+								FROM publication_attributes
+								WHERE 
+									publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMCZAttributes.publication_attribute#">
+									and
+									publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+							</cfquery>
+			
+							<cfif getAttValue.recordcount EQ 1>
+								<cfset value = getAttValue.pub_att_value>
+							<cfelse>
+								<cfset value = "">
+							</cfif>
+		
+							<div class="col-12 col-md-4">
+								<label class="data-entry-label">#getMCZAttributes.publication_attribute#</label>
+								<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
+								<cfset control = getPubAttributeControl(attribute = "#getMCZAttributes.publication_attribute#",value="#value#",name="#getMCZAttributes.publication_attribute#",id="#id#")>
+								#control#
+								<script>	
+									$('###id#').change(function(event){ 
+										console.log($('###id#').val()); 
+										$('##attributeControlsFeedbackDiv').html("saving...");
+										<cfif len(getAttValue.publication_attribute_id) GT 0>
+											if ($("###id#").val() == "") { 
+												deleteAttribute("#getAttValue.publication_attribute_id#", reloadAllAttributes, "attributeControlsFeedbackDiv");
+											} else {  
+												saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
+											}
+										<cfelse>
+											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAllAttributes); 
+										</cfif>
+									});
+								</script>
+							</div>
+						</cfloop>
+					</div>
+				</cfif>
 			</cfoutput>
 		<cfcatch>
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1310,18 +1378,21 @@ limitations under the License.
 						description
 					FROM ctpublication_attribute 
 					WHERE
-						ctpublication_attribute.publication_attribute NOT IN (
-							SELECT distinct publication_attribute 
-							FROM publication_attributes
-							WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttribute.publication_id#">
-						)
-						OR
-						ctpublication_attribute.publication_attribute NOT IN (
-							SELECT publication_attribute
-							FROM cf_pub_type_attribute
-							WHERE
-								publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
-						)
+						(
+							ctpublication_attribute.publication_attribute NOT IN (
+								SELECT distinct publication_attribute 
+								FROM publication_attributes
+								WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getAttribute.publication_id#">
+							)
+							OR
+							ctpublication_attribute.publication_attribute NOT IN (
+								SELECT publication_attribute
+								FROM cf_pub_type_attribute
+								WHERE
+									publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
+							)
+						) AND 
+						mcz_publication_fg = 0
 					ORDER BY ctpublication_attribute.publication_attribute
 				</cfquery>
 				<cfoutput>
