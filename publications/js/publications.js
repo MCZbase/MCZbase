@@ -66,12 +66,15 @@ function loadFullCitDivHTML(publication_id,targetDivId) {
 	});
 };
 /** loadPlainCitDivHTML load the value of the current full form
- * of the citation for a publication without html markup into an input control.
+ * of the citation for a publication without html markup into an input control 
+ * and into a div.
  * @param publication_id the publication for which to show the citation.
  * @param targetDivId the id without a leading # selector of the element in 
  *  the dom the value of which to replace with the returned text.
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the html of which to replace with the returned text.
 */
-function loadPlainCitDivHTML(publication_id,targetDivId) { 
+function loadPlainCitDivHTML(publication_id,targetDivId, targetInputId) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
@@ -80,7 +83,8 @@ function loadPlainCitDivHTML(publication_id,targetDivId) {
 			publication_id: publication_id
 		},
 		success: function (result) {
-			$("#" + targetDivId ).val(result);
+			$("#" + targetDivId ).html(result);
+			$("#" + targetInputId ).val(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading publication citation plain text");
