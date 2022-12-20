@@ -322,7 +322,7 @@ limitations under the License.
 								<a class="dropdown-item" target="_top" href="/Agents.cfm">Agents</a>
 								<a class="dropdown-item" href="/Publications.cfm">Publications</a>
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/SpecimenUsage.cfm">Projects (old)</a><!--- old --->
+									<a class="dropdown-item" href="/SpecimenUsage.cfm">Projects</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Projects</a>
 								</cfif>	
