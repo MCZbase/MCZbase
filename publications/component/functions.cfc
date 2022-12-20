@@ -747,6 +747,10 @@ limitations under the License.
 			<cfset row["agent_id"] = "#report.agent_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+			  where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -810,6 +814,10 @@ limitations under the License.
 			<cfset row["updates"] = "#reorder_result.recordcount#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -923,6 +931,10 @@ limitations under the License.
 			<cfset row["status"] = "moved">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -943,6 +955,7 @@ limitations under the License.
 	<cfargument name="publication_author_name_id" type="string" required="yes">
 	<cfargument name="agent_name_id" type="string" required="yes">
 	<cfargument name="author_role" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="yes">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -965,6 +978,10 @@ limitations under the License.
 			<cfset row["id"] = "#publication_author_name_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1090,7 +1107,7 @@ limitations under the License.
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
 						<cfif len(variables.attribute) GT 0>
-							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#")>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#",required_field="true")>
 							<div id="input_block_#id#">#inputBlockContent#</div>
 						<cfelse>
 							<div id="input_block_#id#">
@@ -1284,6 +1301,7 @@ limitations under the License.
 	@param value the value to set for the attribute in the input
 	@param name the name for the input used when submitting the input in a form
 	@param id the id in the DOM for the input, without a leading # selector
+	@param required if true then set the input as required with a required color background.
 	@return html for a text input, a select input, or a text input bound to an autocomplete, depending
 		on the value of ctpublication_attribute.control for the specified attribute.
 --->
@@ -1292,9 +1310,17 @@ limitations under the License.
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="name" type="string" required="yes">
 	<cfargument name="id" type="string" required="yes">
+	<cfargument name="required_field" type="string" required="no">
 
+	<cfif isdefined("required_field") AND required_field EQ "true">
+		<cfset reqdClr = "reqdClr">
+		<cfset req = "required">
+	<cfelse>
+		<cfset reqdClr = "">
+		<cfset req = "">
+	</cfif>
 	<!--- base response is a text input --->
-	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input reqdClr' required value='#encodeForHtml(value)#'>" > <!--- " --->
+	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input #reqdClr#' #req# value='#encodeForHtml(value)#'>" > <!--- " --->
 	<cftry>
 		<cfquery name="getAttControl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttControl_result">
 			SELECT control
@@ -1332,7 +1358,7 @@ limitations under the License.
 				</cfif>
 				<cfif listlen(columnList) is 1>
 					<!--- there is one column to use, we know what to do --->
-					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select reqdClr' required>" > <!--- " --->
+					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select #reqdClr#' #req#>" > <!--- " --->
 					<cfloop query="getVocabulary">
 						<cfset ctValue = getVocabulary[columnList]>
 						<cfif value EQ ctValue>
@@ -1427,7 +1453,7 @@ limitations under the License.
 						</div>
 						<div class="col-12">
 							<label for="attr_value_#id#" class="data-entry-label">Value</a>
-							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#")>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#",required_field="true")>
 							<div id="input_block_#id#">#inputBlockContent#</div>
 						</div>
 						<div class="col-12">
@@ -1548,6 +1574,13 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfquery name="lookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
+				SELECT publication_id
+				FROM publication_attributes
+				WHERE
+					publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_attribute_id#">
+			</cfquery>
+			<cfset publication_id = lookup.publication_id>
 			<!--- delete the target attribute --->
 			<cfquery name="deleteAttribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteAttribute_result">
 				delete from publication_attributes
@@ -1561,6 +1594,10 @@ limitations under the License.
 			<cfset row["status"] = "deleted">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookup.publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1612,6 +1649,10 @@ limitations under the License.
 			<cfset row["id"] = "#publication_attribute_id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1669,6 +1710,10 @@ limitations under the License.
 			<cfset row["id"] = "#getId.id#">
 			<cfset data[1] = row>
 			<cftransaction action="commit">
+			<cfquery name="triggerFormatted" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="triggerFormatted_result">
+				update publication set last_update_date = CURRENT_TIMESTAMP 
+				where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
@@ -1682,33 +1727,6 @@ limitations under the License.
 </cffunction>
 
 <!---------------------------------------------------------------------------------------------------------->
-<!--- now get the formatted publications --->
-<!--- 
-	<cfinvoke component="/component/publication" method="shortCitation" returnVariable="shortCitation">
-		<cfinvokeargument name="publication_id" value="#publication_id#">
-		<cfinvokeargument name="returnFormat" value="plain">
-	</cfinvoke>
-	<cfinvoke component="/component/publication" method="longCitation" returnVariable="longCitation">
-		<cfinvokeargument name="publication_id" value="#publication_id#">
-		<cfinvokeargument name="returnFormat" value="plain">
-	</cfinvoke>
-
-	<cfquery name="sfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update formatted_publication 
-		set formatted_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shortCitation#">
-		where
-			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-			and format_style = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="short">
-	</cfquery>
-	<cfquery name="lfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update formatted_publication 
-		set formatted_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#longCitation#">
-		where
-			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
-			and format_style = 'long'
-	</cfquery>
-	<cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
---->
 
 <!--- getMediaForPubHtml obtain a block of html for editing media related to a publication.
  @param publication_id the publication for which to obtain media

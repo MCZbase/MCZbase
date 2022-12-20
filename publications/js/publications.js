@@ -22,10 +22,10 @@ limitations under the License.
  * @param the tag to use, supported values: i, b, sub, sup.
  **/
 function markup(textAreaId, tag){
-	var len = $("##"+textAreaId).val().length;
-	var start = $("##"+textAreaId)[0].selectionStart;
-	var end = $("##"+textAreaId)[0].selectionEnd;
-	var selection = $("##"+textAreaId).val().substring(start, end);
+	var len = $("#"+textAreaId).val().length;
+	var start = $("#"+textAreaId)[0].selectionStart;
+	var end = $("#"+textAreaId)[0].selectionEnd;
+	var selection = $("#"+textAreaId).val().substring(start, end);
 	if (selection.length>0){
 		var replace = selection;
 		if (tag=='i') { 
@@ -37,7 +37,7 @@ function markup(textAreaId, tag){
 		} else if(tag=='sup') { 
 			replace = '<sup>' + selection + '</sup>';
 		}
-		$("##"+textAreaId).val($("##"+textAreaId).val().substring(0,start) + replace + $("##"+textAreaId).val().substring(end,len));
+		$("#"+textAreaId).val($("#"+textAreaId).val().substring(0,start) + replace + $("#"+textAreaId).val().substring(end,len));
 	}
 }
 
@@ -56,6 +56,7 @@ function loadFullCitDivHTML(publication_id,targetDivId) {
 			publication_id: publication_id
 		},
 		success: function (result) {
+			console.log(result);
 			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
@@ -70,7 +71,7 @@ function loadFullCitDivHTML(publication_id,targetDivId) {
  * @param targetDivId the id without a leading # selector of the element in 
  *  the dom the value of which to replace with the returned text.
 */
-function loadPlainCitDivHTML(publication_id,targetDivId) { 
+function loadPlainCitDivHTML(publication_id, targetInputId) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
@@ -79,10 +80,34 @@ function loadPlainCitDivHTML(publication_id,targetDivId) {
 			publication_id: publication_id
 		},
 		success: function (result) {
-			$("#" + targetDivId ).val(result);
+			$("#" + targetInputId ).val(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading publication citation plain text");
+		},
+		dataType: "html"
+	});
+};
+/** loadShortCitDivHTML load a block of html showing the current short form
+ * of the citation for a publication.
+ * @param publication_id the publication for which to show the citation.
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadShortCitDivHTML(publication_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getCitationForPubHtml",
+			form: "short",
+			publication_id: publication_id
+		},
+		success: function (result) {
+			console.log(result);
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading short publication citation text");
 		},
 		dataType: "html"
 	});
@@ -830,7 +855,8 @@ function loadPubAttributeControl(attribute,value,name,id,targetDivId) {
 			attribute: attribute,
 			value: value,
 			name: name,
-			id: id
+			id: id,
+			required_field: "true"
 		},
 		success: function (result) {
 			$("#" + targetDivId ).html(result);
