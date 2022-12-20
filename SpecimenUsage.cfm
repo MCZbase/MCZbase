@@ -448,7 +448,7 @@
 				</li>
 				#namedGroup#
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
-					<li><a href="/Publication.cfm?publication_id=#publication_id#">Edit</a></li>
+					<li><a href="/publications/Publication.cfm?publication_id=#publication_id#">Edit</a></li>
 					<li><a href="/Citation.cfm?publication_id=#publication_id#">Manage Citations</a></li>
 					<cfif isdefined("toproject_id") and len(toproject_id) gt 0>
 						<li><a href="/Project.cfm?action=addPub&publication_id=#publication_id#&project_id=#toproject_id#">Add to Project</a></li>

@@ -256,8 +256,8 @@ limitations under the License.
 							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 						</div>
 						<div class="col-12 col-md-2">
-							<cfif useCount EQ 0>
-								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPubForm.action.value='deletePub';confirmDelete('editPubForm');">
+							<cfif useCount EQ 0 AND NOT isMCZpub>
+								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPubForm.action.value='deletePub'; confirmDialog('Delete this Publication?','Confirm Delete Publication', function() { $('##action').val('deletePub'); $('##editPubForm').removeAttr('onsubmit'); $('##editPubForm').submit(); } );" >
 							<cfelse>
 								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs disabled" disabled>
 							</cfif>
@@ -411,6 +411,13 @@ limitations under the License.
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
 				<cftransaction action="commit">
+				<cfoutput>
+					<main class="container py-3" id="content" >
+						<section class="row border rounded my-2">
+							<h1 class="h2 w-100 px-2 pt-1">Publication Record Deleted</h1>
+						</section>
+					</main>
+				</cfoutput>
 			</cfif>
 		<cfcatch>
 			<cftransaction action="rollback">

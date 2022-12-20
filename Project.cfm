@@ -590,7 +590,7 @@
 							#formatted_publication#
 						</div>
 						<br>
-						<a href="/Publication.cfm?publication_id=#publication_id#">[ Edit Publication ]</a>
+						<a href="/publications/Publication.cfm?publication_id=#publication_id#">[ Edit Publication ]</a>
 						<a href="/Project.cfm?Action=delePub&publication_id=#publication_id#&project_id=#getDetails.project_id#">
 							[ Remove Publication ]
 						</a>

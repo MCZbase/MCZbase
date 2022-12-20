@@ -82,7 +82,7 @@
 		<h2>Publications with no Authors</h2>
 		<cfset i=1>
 		<cfloop query="data">
-			<a href="/Publication.cfm?publication_id=#publication_id#">#publication_type#: #publication_id#</a>
+			<a href="/publications/Publication.cfm?publication_id=#publication_id#">#publication_type#: #publication_id#</a>
 			<br>
 			<cfset i=i+1>
 		</cfloop>
@@ -112,7 +112,7 @@
 					<br>
 					<a href="/publications/showPublication.cfm?publication_id=#publication_id#">Details (This link may not work. These data are suspect. That's why they're here.)</a>
 					<br>
-					<a href="/Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
+					<a href="/publications/Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 				</p>
 			</div>
 			<cfset i=i+1>

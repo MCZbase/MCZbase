@@ -2440,7 +2440,7 @@ limitations under the License.
 								</div>
 								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 									<div class="col-12 col-md-3 mt-2 float-right">
-										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/Publication.cfm?action=newPub">Add New Publication <i class="fas fa-external-link-alt"></i></a>
+										<a class="btn btn-xs btn-outline-primary px-2 float-right" target="_blank" href="/publication/Publication.cfm?action=new">Add New Publication <i class="fas fa-external-link-alt"></i></a>
 									</div>
 								</cfif>
 

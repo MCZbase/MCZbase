@@ -140,7 +140,7 @@ limitations under the License.
 			
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_publications")>
 					<p> 
-						<a class="btn btn-xs btn-primary" href="/Publication.cfm?action=edit&publication_id=#getDetails.publication_id#">Edit Publication Record</a>
+						<a class="btn btn-xs btn-primary" href="/publications/Publication.cfm?action=edit&publication_id=#getDetails.publication_id#">Edit Publication Record</a>
 						<a class="btn btn-xs btn-primary" href="/Citation.cfm?publication_id=#getDetails.publication_id#">Manage Citations</a>
 					</p>
 				</cfif>
