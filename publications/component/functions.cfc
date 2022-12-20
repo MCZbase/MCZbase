@@ -1295,7 +1295,7 @@ limitations under the License.
 	<cfargument name="id" type="string" required="yes">
 	<cfargument name="required_field" type="string" required="no">
 
-	<cfif required_field EQ "true">
+	<cfif isdefined("required_field") AND required_field EQ "true">
 		<cfset reqdClr = "reqdClr">
 		<cfset req = "required">
 	<cfelse>
