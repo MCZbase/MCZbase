@@ -1090,7 +1090,7 @@ limitations under the License.
 					<div class="col-12">
 						<label for="attr_value_#id#" class="data-entry-label">Value</a>
 						<cfif len(variables.attribute) GT 0>
-							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#")>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#variables.attribute#",value="",name="pub_att_value",id="attr_value_#id#",required="true")>
 							<div id="input_block_#id#">#inputBlockContent#</div>
 						<cfelse>
 							<div id="input_block_#id#">
@@ -1284,6 +1284,7 @@ limitations under the License.
 	@param value the value to set for the attribute in the input
 	@param name the name for the input used when submitting the input in a form
 	@param id the id in the DOM for the input, without a leading # selector
+	@param required if true then set the input as required with a required color background.
 	@return html for a text input, a select input, or a text input bound to an autocomplete, depending
 		on the value of ctpublication_attribute.control for the specified attribute.
 --->
@@ -1292,7 +1293,15 @@ limitations under the License.
 	<cfargument name="value" type="string" required="yes">
 	<cfargument name="name" type="string" required="yes">
 	<cfargument name="id" type="string" required="yes">
+	<cfargument name="required" type="string" required="no">
 
+	<cfif required="true">
+		<cfset reqdClr = "reqdClr">
+		<cfset req = "required"
+	<cfelse>
+		<cfset reqdClr = "">
+		<cfset req = ""
+	</cfif>
 	<!--- base response is a text input --->
 	<cfset retval = "<input type='text' name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-input reqdClr' required value='#encodeForHtml(value)#'>" > <!--- " --->
 	<cftry>
@@ -1332,7 +1341,7 @@ limitations under the License.
 				</cfif>
 				<cfif listlen(columnList) is 1>
 					<!--- there is one column to use, we know what to do --->
-					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select reqdClr' required>" > <!--- " --->
+					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select #reqdClr#' #req#>" > <!--- " --->
 					<cfloop query="getVocabulary">
 						<cfset ctValue = getVocabulary[columnList]>
 						<cfif value EQ ctValue>
@@ -1427,7 +1436,7 @@ limitations under the License.
 						</div>
 						<div class="col-12">
 							<label for="attr_value_#id#" class="data-entry-label">Value</a>
-							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#")>
+							<cfset inputBlockContent = getPubAttributeControl(attribute="#getAttribute.publication_attribute#",value="#pub_att_value#",name="pub_att_value",id="attr_value_#id#",required="true")>
 							<div id="input_block_#id#">#inputBlockContent#</div>
 						</div>
 						<div class="col-12">
