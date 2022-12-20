@@ -1211,6 +1211,8 @@ limitations under the License.
 						FROM ctpublication_attribute 
 						WHERE
 							mcz_publication_fg = 1
+							OR
+							publication_attribute = 'issue'
 					</cfquery>
 					<div class="form-row mb-2">
 						<cfloop query="getMCZAttributes">
