@@ -33,7 +33,7 @@ limitations under the License.
 			<cfelseif  isdefined("collection_object_id") and listlen(collection_object_id) gt 1>
 				<cfset pass = "collection_object list">
 			<cfelseif isDefined("result_id") AND len(result_id) GT 0>
-				<cfset pass = "result_id"
+				<cfset pass = "result_id">
 			<cfelse>
 				<cfset pass = "sessionsearch">
 			</cfif>
