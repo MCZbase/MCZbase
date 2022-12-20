@@ -1309,7 +1309,7 @@ limitations under the License.
 				<cfset retval = "#retval#<script>$(document).ready(function() { makeJournalAutocomplete('#encodeForHtml(id)#'); });</script>"><!--- " --->
 			<cfelse>
 				<!--- return a select input with picklist from controlled vocabulary instead --->
-				<cfset controlBits = listToArray(res.control,'.')>
+				<cfset controlBits = listToArray(getAttControl.control,'.')>
 				<cfif ArrayLen(controlBits) EQ 2>
 					<!--- support TABLE.FIELD structure for control as well as TABLE --->
 					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVocabulary_result">
@@ -1319,7 +1319,7 @@ limitations under the License.
 				<cfelse>
 					<cfquery name="getVocabulary" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getVocabulary_result">
 						SELECT * 
-						FROM #res.control#
+						FROM #getAttControl.control#
 					</cfquery>
 				</cfif>
 				<!--- exclude the standard code table columns description and collection_cde from the vocabulary if request was just for TABLE and query selected * --->
