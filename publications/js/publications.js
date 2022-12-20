@@ -56,6 +56,7 @@ function loadFullCitDivHTML(publication_id,targetDivId) {
 			publication_id: publication_id
 		},
 		success: function (result) {
+			console.log(result);
 			$("#" + targetDivId ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
