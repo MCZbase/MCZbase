@@ -256,8 +256,8 @@ limitations under the License.
 							<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 						</div>
 						<div class="col-12 col-md-2">
-							<cfif useCount EQ 0>
-								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPubForm.action.value='deletePub';confirmDelete('editPubForm');">
+							<cfif useCount EQ 0 AND NOT isMCZpub>
+								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs" onclick="editPubForm.action.value='deletePub'; confirmDialog('Delete this Publication?','Confirm Delete Publication', function() { $('##action').val('deletePub'); $('##editPubForm').removeAttr('onsubmit'); $('##editPubForm').submit(); } );" >
 							<cfelse>
 								<input type="button" value="Delete Publication" class="btn btn-danger btn-xs disabled" disabled>
 							</cfif>
