@@ -1154,7 +1154,8 @@ limitations under the License.
 				</cfif>
 			</cfif>
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
-				SELECT publication_attribute
+				SELECT publication_attribute,
+					description
 				FROM cf_pub_type_attribute
 				WHERE
 					publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
@@ -1182,7 +1183,7 @@ limitations under the License.
 						</cfif>
 	
 						<div class="col-12 col-md-4">
-							<label class="data-entry-label">#getAttributes.publication_attribute#</label>
+							<label class="data-entry-label">#getAttributes.publication_attribute# <span class="small">#description#</span></label>
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
@@ -1208,6 +1209,7 @@ limitations under the License.
 				<cfif isMCZpub>
 					<cfquery name="getMCZAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMCZAttributes_result">
 						SELECT publication_attribute,
+							description
 						FROM ctpublication_attribute 
 						WHERE
 							mcz_publication_fg = 1
@@ -1234,7 +1236,7 @@ limitations under the License.
 							</cfif>
 		
 							<div class="col-12 col-md-4">
-								<label class="data-entry-label">#getMCZAttributes.publication_attribute#</label>
+								<label class="data-entry-label">#getMCZAttributes.publication_attribute# <span class="small">#getMCZAttributes.description#</span></label>
 								<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 								<cfset control = getPubAttributeControl(attribute = "#getMCZAttributes.publication_attribute#",value="#value#",name="#getMCZAttributes.publication_attribute#",id="#id#")>
 								#control#
