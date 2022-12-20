@@ -411,6 +411,13 @@ limitations under the License.
 					where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
 				<cftransaction action="commit">
+				<cfoutput>
+					<main class="container py-3" id="content" >
+						<section class="row border rounded my-2">
+							<h1 class="h2 w-100 px-2 pt-1">Publication Record Deleted</h1>
+						</section>
+					</main>
+				</cfoutput>
 			</cfif>
 		<cfcatch>
 			<cftransaction action="rollback">
