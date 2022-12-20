@@ -1154,8 +1154,7 @@ limitations under the License.
 				</cfif>
 			</cfif>
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
-				SELECT publication_attribute,
-					description
+				SELECT publication_attribute
 				FROM cf_pub_type_attribute
 				WHERE
 					publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getType.publication_type#">
@@ -1165,10 +1164,16 @@ limitations under the License.
 				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv"></output></h2>
 				<div class="form-row mb-2">
 					<cfloop query="getAttributes">
+						<cfquery name="getDescription" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDescription_result">
+							SELECT description
+							FROM ctpublication_attribute 
+							WHERE 
+								publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
+						</cfquery>
 						<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
 							SELECT
 								publication_attribute_id, 
-								pub_att_value 
+								pub_att_value
 							FROM publication_attributes
 							WHERE 
 								publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
@@ -1183,7 +1188,7 @@ limitations under the License.
 						</cfif>
 	
 						<div class="col-12 col-md-4">
-							<label class="data-entry-label">#getAttributes.publication_attribute# <span class="small">#description#</span></label>
+							<label class="data-entry-label">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
@@ -1221,10 +1226,10 @@ limitations under the License.
 							<cfquery name="getAttValue" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttValue_result">
 								SELECT
 									publication_attribute_id, 
-									pub_att_value 
+									pub_att_value
 								FROM publication_attributes
 								WHERE 
-									publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMCZAttributes.publication_attribute#">
+									publication_attributes.publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getMCZAttributes.publication_attribute#">
 									and
 									publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 							</cfquery>
