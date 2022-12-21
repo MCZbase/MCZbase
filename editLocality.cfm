@@ -518,11 +518,11 @@
 													#numOfSpecs# #collection# specimens
 												</a>
 												from 
-												<a href="/Locality.cfm?action=findCO&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
+												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
 													#whatSpecs.numOfCollEvents# collecting events
 												</a>
-												&nbsp;
-												<a href="/Locality.cfm?action=findCO&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
+												<br>
+												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
 													(show only by #collection#)
 												</a>
 											</li>
