@@ -1417,13 +1417,14 @@ imgStyleClass=value
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
 						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small" > #showTitleText# </p>'>
-						<cfif len(#copyright_statement#) gt 0>
+							<!---Was this meant to be something else? It currently duplicates the license display--->
+					<!---	<cfif len(#copyright_statement#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<cfset output='#output#<p class="text-center col-12 p-0 my-0 small">'>
 								<cfset output='#output##copyright_statement#'>
 								<cfset output='#output#</p>'>
 							</cfif>
-						</cfif>
+						</cfif>--->
 						<cfif len(#license_uri#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<!---height is needed on the caption within the <p> or the media will not flow well--the above comment works but may not work on other, non specimen detail pages--->
