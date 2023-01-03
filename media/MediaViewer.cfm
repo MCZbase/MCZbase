@@ -69,7 +69,7 @@
 											<li class="col-12 px-1 list-group-item mb-0 h4">Related Media Record(s) </li>
 										</ul>
 									</div>
-									<div class="row mx-0 border-bottom border-gray">
+									<div class="row mx-0">
 										<div class="col-12 p-1">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, preview_uri, media.media_uri,
