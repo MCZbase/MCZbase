@@ -37,18 +37,18 @@
 			<cfloop query="media">
 				<div class="row mx-0">
 					<div class="col-12 px-2 mt-3">
-						<h1 class="h2 mt-4 col-6 float-left px-0 text-center pb-0 mb-0">Media Viewer</h1>
+						<h1 class="h2 mt-4 col-7 float-left px-0 text-center pb-0 mb-0">Media Viewer</h1>
 					</div>
 					<div class="col-12 px-0 px-xl-2 my-2">
 						<div class="viewer">
 						<cfif len(media.media_id) gt 0>
-							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-6 float-left mb-2 px-4 pt-3 pb-0">
+							<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-7 float-left mb-2 px-4 pt-3 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
 								<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 							</div>
 						</cfif>
 						</div>
-						<div class="col-12 col-sm-8 col-md-6 col-xl-6 px-4 float-left mb-2 pt-0 pb-0">
+						<div class="col-12 col-sm-8 col-md-6 col-xl-5 px-4 float-left mb-2 pt-0 pb-0">
 							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 							<div id="mediaMetadataBlock#media_id#">
 								#mediaMetadataBlock#
