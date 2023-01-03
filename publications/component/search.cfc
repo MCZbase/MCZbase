@@ -652,6 +652,7 @@ Function getDOIAutocomplete.  Search for dois by name with a substring match
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
 <!---
 Function getJournalNames.  Search for publications by fields
  returning json suitable for a dataadaptor.
@@ -674,6 +675,15 @@ Function getJournalNames.  Search for publications by fields
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
+		<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				journal_name,
@@ -801,6 +811,14 @@ Function getJournalNames.  Search for publications by fields
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
+	<cffinally>
+		<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cfif>
+	</cffinally>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
