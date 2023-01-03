@@ -1205,8 +1205,8 @@ limitations under the License.
 						</cfif>
 	
 						<div class="col-12 col-md-4">
-							<label class="data-entry-label">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
+							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
 							<script>	
@@ -1294,6 +1294,71 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getPubAttControlsThread#tn#" />
 	<cfreturn cfthread["getPubAttControlsThread#tn#"].output>
+</cffunction>
+
+<!--- obtain html for a set of input controls for the attributes relevant to a 
+  given type of publication for the creation of a new publication record.
+  these controls expect to be embedded in the new publication form and do not auto save.
+  @param publication_type the type of publication for which to return inputs.
+  @return html with a set of inputs or an http 500 error
+--->
+<cffunction name="getNewPubAttControls" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_type" type="string" required="yes">
+
+	<cfset variables.publication_type = arguments.publication_type>
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getNewPubAttThread#tn#">
+		<cftry>
+			<cfset isMCZPub = false>
+			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
+				SELECT publication_attribute
+				FROM cf_pub_type_attribute
+				WHERE
+					publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.publication_type#">
+				ORDER BY ordinal ASC
+			</cfquery>
+			<cfoutput>
+				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv"></output></h2>
+				<div class="form-row mb-2">
+					<cfset i = 0>
+					<cfloop query="getAttributes">
+						<cfset i = i+1>
+						<cfquery name="getDescription" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDescription_result">
+							SELECT description
+							FROM ctpublication_attribute 
+							WHERE 
+								publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
+						</cfquery>
+		
+						<cfif getAttValue.recordcount EQ 1>
+							<cfset value = getAttValue.pub_att_value>
+						<cfelse>
+							<cfset value = "">
+						</cfif>
+	
+						<div class="col-12 col-md-4">
+							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
+							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
+							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="",name="#getAttributes.publication_attribute#",id="#id#")>
+							#control#
+						</div>
+					</cfloop>
+				</div>
+
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getNewPubAttThread#tn#" />
+	<cfreturn cfthread["getNewPubAttThread#tn#"].output>
 </cffunction>
 
 <!--- obtain html for an input control for a publication attribute 

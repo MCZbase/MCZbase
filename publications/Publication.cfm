@@ -480,42 +480,47 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="publication_type" class="data-entry-label">Publication Type</label>
-							<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" required>
+							<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" 
+								onChange="loadAttributeControlsForNew($('##publication_type').val(),'attributesBlock');"
+								required>
 								<option value=""></option>
 								<cfloop query="ctpublication_type">
 									<option value="#publication_type#">#publication_type#</option>
 								</cfloop>
 							</select>
-            		</div>
+						</div>
 						<div class="col-12 col-md-3">
 							<label for="published_year" class="data-entry-label">Published Year</label>
 							<input type="text" name="published_year" id="published_year" class="data-entry-input">
-            		</div>
+						</div>
 						<div class="col-12 col-md-3">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
 							<input type="text" name="doi" id="doi" class="data-entry-input">
-            		</div>
+						</div>
 						<div class="col-12 col-md-3">
 							<label for="publication_loc" class="data-entry-label">Storage Location</label>
 							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input">
-            		</div>
+						</div>
 						<div class="col-12 col-md-9">
 							<label for="publication_remarks" class="data-entry-label">Remark</label>
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input">
 						</div>	
 						<div class="col-12 col-md-3">
-            			<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
+							<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
 							<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select" >
 								<option value="1">yes</option>
 								<option value="0">no</option>
 							</select>
-            		</div>
+						</div>
+						<!--- TODO: Authors --->
+						<div class="col-12" id="attribtuesBlock">
+						</div>
 						<div class="col-12 col-md-3">
 							<input type="button" class="btn btn-xs btn-primary" value="Create" 
 								onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } ">
-            		</div>
+						</div>
 						<div class="col-12 col-md-9">
-							Add authors, editors, attributes, media, and lookup DOI after saving.
+							Add authors, editors, additional attributes, media, and lookup DOI after saving.
 						</div>
 					</div>
 				</form>
@@ -532,30 +537,54 @@ limitations under the License.
 			</cfquery>
 			<cfset pid=p.p>a
 			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into publication (
-				publication_id,
-				published_year,
-				publication_type,
-				publication_loc,
-				publication_title,
-				publication_remarks,
-        doi,
-				is_peer_reviewed_fg
-			) values (
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
-				<cfif len(published_year) gt 0>
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">,
-				<cfelse>
-					NULL,
+				INSERT INTO publication (
+					publication_id,
+					published_year,
+					publication_type,
+					publication_loc,
+					publication_title,
+					publication_remarks,
+					doi,
+					is_peer_reviewed_fg
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
+					<cfif len(published_year) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
+				)
+			</cfquery>
+			<!--- TODO: Author names --->
+
+			<!--- if there are any attributes, add them --->
+			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
+				SELECT publication_attribute
+				FROM cf_pub_type_attribute
+				ORDER BY ordinal ASC
+			</cfquery>
+			<cfloop query="getAttributes">
+				<cfif isDefined("#getAttributes.publication_attribute#">
+					<cfset val = evaluate("#getAttributes.publication_attribute#")>
+					<cfif len(val) GT 0>
+						<cfquery name="addAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attAtt_result">
+							INSERT INTO publication_attributes (
+								publication_attribute, 
+								pub_att_value
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#val#">
+							)
+						</cfquery>
+					</cfif>
 				</cfif>
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
-        		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
-			)
-		</cfquery>
+			<cfloop>
 		</cftransaction>
 		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
 	</cfoutput>

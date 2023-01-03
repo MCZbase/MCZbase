@@ -459,6 +459,32 @@ function loadAttributeControls(publication_id,targetDivId) {
 	});
 };
 
+
+/** loadAttributeControlsForNew load a block of html for editing
+ *  attributes of a new publication for a specified publication type
+ *  these controls will not auto save changes, but need to be enclosed in the new
+ *  publication form.
+ * @param publication_type the publication type for which to load attribute controls
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadAttributeControlsForNew(publication_type,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getNewPubAttControls",
+			publication_type: publication_type
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading attribute controls for publication");
+		},
+		dataType: "html"
+	});
+};
+
 /** loadMediaDivHTML load a block of html for editing/viewing
  *  media related a publication.
  * @param publication_id the publication for which to load media
