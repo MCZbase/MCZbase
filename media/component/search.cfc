@@ -1394,8 +1394,8 @@ imgStyleClass=value
 								<cfset showTitleText = "#left(showTitleText,70)#..." >
 							</cfif>
 						</cfif>
-						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 300 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
-							<cfif len(showTitleText) GT 300>
+						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 600 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+							<cfif len(showTitleText) GT 600>
 								<cfset showTitleText = "#left(showTitleText,300)#..." >
 							</cfif>
 						</cfif>
