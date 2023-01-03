@@ -522,11 +522,11 @@ limitations under the License.
 							<script>
 								function launchAddAuthorDialog(author_count) { 
 									console.log(author_count);
-									openAddAuthorEditorDialogForNew(dialogid, author_count, 'author');
+									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', author_count, 'author');
 								}
 								function launchAddEditorDialog(author_count) { 
 									console.log(author_count);
-									openAddAuthorEditorDialogForNew(dialogid, author_count, 'editor');
+									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', author_count, 'editor');
 								}
 								function addAuthorRow() { 
 									var author_count = $('##author_count').val();
