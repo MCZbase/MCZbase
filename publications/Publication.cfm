@@ -570,7 +570,7 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfloop query="getAttributes">
-				<cfif isDefined("#getAttributes.publication_attribute#">
+				<cfif isDefined("#getAttributes.publication_attribute#")>
 					<cfset val = evaluate("#getAttributes.publication_attribute#")>
 					<cfif len(val) GT 0>
 						<cfquery name="addAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attAtt_result">
