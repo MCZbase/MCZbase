@@ -40,13 +40,13 @@
 						<h1 class="h2 my-4 col-12 float-left text-center">Media Viewer</h1>
 						<div class="viewer">
 							<cfif len(media.media_id) gt 0>
-								<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-7 float-left mb-2 pt-3 pb-0">
+								<div class="rounded border bg-light col-12 col-md-6 col-xl-7 float-left mb-2 pt-3 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="900",captionAs="textLinks")>
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 							</cfif>
 						</div>
-						<div class="col-12 col-sm-4 col-md-6 col-xl-5 float-left mb-2 pt-0 pb-0">
+						<div class="col-12 col-md-6 col-xl-5 float-left mb-2 pt-0 pb-0">
 							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 							<div id="mediaMetadataBlock#media_id#">
 								#mediaMetadataBlock#
