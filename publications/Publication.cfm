@@ -565,7 +565,7 @@ limitations under the License.
 
 			<!--- if there are any attributes, add them --->
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
-				SELECT publication_attribute
+				SELECT replace(publication_attribute,' ','_') as publication_attribute
 				FROM cf_pub_type_attribute
 				ORDER BY ordinal ASC
 			</cfquery>

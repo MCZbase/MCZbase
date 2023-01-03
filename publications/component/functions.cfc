@@ -1312,7 +1312,8 @@ limitations under the License.
 		<cftry>
 			<cfset isMCZPub = false>
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
-				SELECT publication_attribute
+				SELECT publication_attribute,
+					replace(publication_attribute,' ','_') as attribute_name
 				FROM cf_pub_type_attribute
 				WHERE
 					publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.publication_type#">
@@ -1333,7 +1334,7 @@ limitations under the License.
 						<div class="col-12 col-md-4">
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
-							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="",name="#getAttributes.publication_attribute#",id="#id#")>
+							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="",name="#getAttributes.attribute_name#",id="#id#")>
 							#control#
 						</div>
 					</cfloop>
