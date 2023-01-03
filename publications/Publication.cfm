@@ -566,10 +566,11 @@ limitations under the License.
 			<!--- if there are any attributes, add them --->
 			<!--- obtain form with spaces replaced with underscores for variable passed from form, and without for database value --->
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
-				SELECT regexp_replace(publication_attribute,'[^A-Za-z]','_') as publication_attribute_name,
+				SELECT 
+					distinct
+					regexp_replace(publication_attribute,'[^A-Za-z]','_') as publication_attribute_name,
 					publication_attribute
 				FROM cf_pub_type_attribute
-				ORDER BY ordinal ASC
 			</cfquery>
 			<cfloop query="getAttributes">
 				<cfif isDefined("#getAttributes.publication_attribute_name#")>
