@@ -72,46 +72,42 @@
 											<li class="col-12 px-1 list-group-item mb-0 h4">Related Media Record(s) </li>
 										</ul>
 									</div>
-									<div>
-										<!---<cfloop query="spec">--->
-											<div class="row mx-0 border-bottom border-gray">
-												<div class="col-12 p-1">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id, preview_uri, media.media_uri,
-																get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-																media.mime_type, media.media_type, media.auto_protocol, media.auto_host
-															from media_relations
-																 left join media on media_relations.media_id = media.media_id
-																 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-															where (media_relationship like '%cataloged_item%' OR media_relationship like '%collecting_event%' OR media_relationship like '%agent%')
-																AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-														</cfquery>
-															<cfset i= 1>
-															<cfloop query="relm">
-															<div class="border-light w-100 col-md-3 col-lg-2 col-xl-2 px-1 float-left">
-																<cfif len(media.media_id) gt 0>
-																	<cfif relm.media_id eq '#media.media_id#'> 
-																		<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
-																	<cfelse>	
-																		<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
-																	</cfif>
-																<ul class="list-group px-0">
-																	<li class="list-group-item px-0 mx-1">
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
-																		<div class="bg-white px-0 float-left" style="min-height: 135px;"> #mediablock#</div>
-																	</div>
-																	</li>
-																</ul>
-																</cfif>
-															</div>
-															<cfset i=i+1>
-															</cfloop>
-													<div id="targetDiv"></div>
+									<div class="row mx-0 border-bottom border-gray">
+										<div class="col-12 p-1">
+											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct media.media_id, preview_uri, media.media_uri,
+													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+													media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+												from media_relations
+													 left join media on media_relations.media_id = media.media_id
+													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+												where (media_relationship like '%cataloged_item%' OR media_relationship like '%collecting_event%' OR media_relationship like '%agent%')
+													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+											</cfquery>
+											<cfset i= 1>
+											<cfloop query="relm">
+												<div class="border-light w-100 col-md-3 col-lg-2 col-xl-2 px-1 float-left">
+													<cfif len(media.media_id) gt 0>
+														<cfif relm.media_id eq '#media.media_id#'> 
+															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
+														<cfelse>	
+															<cfset activeimg = "border-lt-gray bg-white float-left px-1 pt-2">
+														</cfif>
+													<ul class="list-group px-0">
+														<li class="list-group-item px-0 mx-1">
+														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
+														<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+															<div class="bg-white px-0 float-left" style="min-height: 135px;"> #mediablock#</div>
+														</div>
+														</li>
+													</ul>
+													</cfif>
 												</div>
-											</div>
-								<!---		</cfloop>--->
+												<cfset i=i+1>
+											</cfloop>
+											<div id="targetDiv"></div>
+										</div>
 									</div>
 								</div>
 							</div>

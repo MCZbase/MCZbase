@@ -1553,7 +1553,7 @@ imgStyleClass=value
 		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
 				<table class="table table-responsive-sm border-none small90">
-					<thead class="thead-light">
+					<thead class="thead-dark">
 						<tr>
 							<th scope="col">Label</th>
 							<th scope="col">Value</th>
