@@ -72,7 +72,7 @@ limitations under the License.
 										<input type="text" id="journal_name" name="journal_name" class="data-entry-input reqdClr" required aria-labelledby="journal_name_label" >
 										<script>
 											$(document).ready(function () {
-												$('##pref_name').change(function () {
+												$('##journal_name').change(function () {
 													checkJournalExists($('##journal_name').val(),'matchesFeedback');
 												});
 											});
