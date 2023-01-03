@@ -515,15 +515,55 @@ limitations under the License.
 								<option value="0">no</option>
 							</select>
 						</div>
-						<!--- TODO: Authors --->
-						<div class="col-12" id="attributesBlock">
+						<!--- authors/editors --->
+						<div class="col-12 form-row">
+							<input type="hidden" name="author_count" id="author_count" value="0">
+							<input type="hidden" name="editor_count" id="author_count" value="0">
+							<script>
+								function launchAddAuthorDialog(author_count,target) { 
+									console.log(author_count);
+									console.log(target) // author/editor;
+<!--- TODO: Dialog --->
+								}
+								function addAuthorRow() { 
+									var author_count = $('##author_count').val();
+									author_count = author_count + 1;
+									$('##author_count').val(author_count);
+									$('##authorList').append('
+										<li>
+											<input type="hidden" id="author_name_id_"+author_count>
+											<input type="text" id="author_name'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">
+										</li>
+										');
+								};
+								function addEditorRow() { 
+									var editor_count = $('##editor_count').val();
+									editor_count = editor_count + 1;
+									$('##editor_count').val(editor_count);
+									$('##editorList').append('<li>Not yet implemented</li>');
+								}
+							</script>
+							<div class="col-12 col-md-6">
+								Authors
+								<h2 class="h3" >Authors</h2> 
+								<button class="btn btn-xs btn-primary" onclick=" addAuthorRow(); ">Add Author</button>
+								<ol id="authorList"></ol>
+							</div>
+							<div class="col-12 col-md-6">
+								<h2 class="h3" >Editors</h2> 
+								<button class="btn btn-xs btn-primary" onclick=" addEditorRow(); ">Add Editor</button>
+								<ol id="editorList"></ol>
+							</div>
+							<div id="addAuthorEditorDialogDiv"></div>
 						</div>
+						<!--- attributes populated when publication type is selected --->
+						<div class="col-12" id="attributesBlock"></div>
 						<div class="col-12 col-md-3">
 							<input type="button" class="btn btn-xs btn-primary" value="Create" 
 								onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } ">
 						</div>
 						<div class="col-12 col-md-9">
-							Add authors, editors, additional attributes, media, and lookup DOI after saving.
+							Add additional attributes, media, or lookup DOI after saving.
 						</div>
 					</div>
 				</form>
@@ -564,7 +604,36 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
 				)
 			</cfquery>
-			<!--- TODO: Author names --->
+
+			<!--- Author names --->
+			<cfif isDefined("author_count") and len(author_count) GT 0 and author_count NEQ "0">
+				<cfloop var="i" from="1" to="#author_count#">
+					<cfset author_name_id = evaluate("author_name_id#i#")>
+					<cfif isDefined("author_name_id") AND len(author_name_id GT 0>
+						<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAuthor_result">
+							INSERT INTO publication_author_name (
+								publication_id,
+								agent_name_id,
+								author_position,
+								author_role
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_name_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="a">
+							)
+						</cfquery>
+						<cfif insertAuthor_result.recordcount eq 0>
+							<cfthrow message="Failed to properly insert new publication_author_name record">
+						</cfif>
+					</cfif>
+				<cfloop>
+			</cfif>
+
+			<!--- TODO: Editor names --->
+			<cfif isDefined("editor_count") and len(editor_count) GT 0 and editor_count NEQ "0">
+
+			</cfif>
 
 			<!--- if there are any attributes, add them --->
 			<!--- obtain form with spaces replaced with underscores for variable passed from form, and without for database value --->
