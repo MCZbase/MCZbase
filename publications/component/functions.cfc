@@ -1313,7 +1313,7 @@ limitations under the License.
 			<cfset isMCZPub = false>
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
 				SELECT publication_attribute,
-					replace(publication_attribute,' ','_') as attribute_name
+					regexp_replace(publication_attribute,'[^A-Za-z]','_') as attribute_name
 				FROM cf_pub_type_attribute
 				WHERE
 					publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.publication_type#">
