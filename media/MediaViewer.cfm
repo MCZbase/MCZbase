@@ -88,7 +88,7 @@
 																AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 														</cfquery>
 															<cfset i= 1>
-															<cfloop query="relm">
+														<!---	<cfloop query="relm">--->
 															<div class="border-light w-100 col-md-3 col-lg-2 col-xl-1 px-1 float-left">
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
@@ -106,8 +106,8 @@
 																</ul>
 																</cfif>
 															</div>
-															<cfset i=i+1>
-															</cfloop>
+															<!---<cfset i=i+1>
+															</cfloop>--->
 													<div id="targetDiv"></div>
 												</div>
 											</div>
