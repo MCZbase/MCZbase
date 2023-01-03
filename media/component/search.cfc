@@ -1290,7 +1290,7 @@ imgStyleClass=value
 									<cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">
 										<cfset hw = 'width="95" height="auto"'>
 									<cfelse>
-										<cfset hw = 'width="80" height="100"'>
+										<cfset hw = 'width="95" height="auto"'>
 									</cfif>
 								</cfif>
 							</cfif>
