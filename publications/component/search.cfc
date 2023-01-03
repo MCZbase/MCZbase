@@ -707,7 +707,7 @@ Function getJournalNames.  Search for publications by fields
 					<cfelseif left(journal_name,1) EQ "!">
 						and journal_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
 					<cfelseif left(journal_name,1) is "~">
-						AND utl_match.jaro_winkler(journal_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">) >= 0.85
+						AND utl_match.jaro_winkler(journal_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">) >= 0.83
 					<cfelseif left(journal_name,1) is "$">
 						AND soundex(journal_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(journal_name,len(journal_name)-1))#">)
 					<cfelseif left(journal_name,2) is "!$">
