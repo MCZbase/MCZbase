@@ -48,7 +48,7 @@
 							</div>
 						</cfif>
 						</div>
-						<div class="col-12 col-sm-8 col-md-6 col-xl-5 px-4 float-left mb-2 pt-0 pb-0">
+						<div class="col-12 col-sm-8 col-md-6 col-xl-5 px-0 px-md-4 float-left mb-2 pt-0 pb-0">
 							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 							<div id="mediaMetadataBlock#media_id#">
 								#mediaMetadataBlock#
