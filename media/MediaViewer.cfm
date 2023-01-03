@@ -37,7 +37,7 @@
 			<cfloop query="media">
 				<div class="row">
 					<div class="col-12 my-3">
-						<h1 class="h2 mt-4 col-12 mb-2 float-left text-center">Media Viewer</h1>
+						<h1 class="h2 my-4 col-12 float-left text-center">Media Viewer</h1>
 						<div class="viewer">
 							<cfif len(media.media_id) gt 0>
 								<div class="rounded border bg-light col-12 col-sm-8 col-md-6 col-xl-7 float-left mb-2 pt-3 pb-0">
