@@ -804,4 +804,56 @@ Function getJournalNames.  Search for publications by fields
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<!--- check if there is a case and accent insensitive match to a specified journal name 
+ @param journal_name the name to check 
+--->
+<cffunction name="checkJournalNameExists" returntype="any" access="remote" returnformat="json">
+	<cfargument name="journal_name" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+			<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
+				SELECT journal_name
+				FROM 
+					ctjournal_name
+				WHERE 
+					upper(journal_name) = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(journal_name)#'>
+			</cfquery>
+			<cfset matchcount = dupPref.recordcount>
+			<cfset i = 1>
+			<cfloop query="dupPref">
+				<cfset row = StructNew()>
+				<cfset columnNames = ListToArray(dupPref.columnList)>
+				<cfloop array="#columnNames#" index="columnName">
+					<cfset row["#columnName#"] = "#dupPref[columnName][currentrow]#">
+				</cfloop>
+				<cfset data[i] = row>
+				<cfset i = i + 1>
+			</cfloop>
+			<cfreturn #serializeJSON(data)#>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		<cffinally>
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cffinally>
+		</cftry>
+	</cftransaction>
+</cffunction>
+
 </cfcomponent>

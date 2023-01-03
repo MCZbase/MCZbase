@@ -893,3 +893,36 @@ function loadPubAttributeControl(attribute,value,name,id,targetDivId) {
 		dataType: "html"
 	});
 };
+/** function checkJournalExists check to see if there is an accent and case 
+ * insensitive exact match for a specified name against an existing journal
+ *
+ * @param preferred_name a name string to check against existing journal names.
+ * @param target id of a dom element into which to place the results of the check.
+ */
+function checkJournalExists(journal_name,target) {
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+		method : "checkJournalNameExists",
+		journal_name: journal_name
+	},
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		console.log(matches);
+		if (matchcount==0) { 
+			$("#" + target).html("no duplicates.");
+		} else {
+			var s = "s";
+			if (matchcount==1) { 
+				s = "";
+			}
+			$("#" + target).html("<a href='/publications/Journals.cfm?execute=true&method=getJournalNames&journal_name=~" + journal_name + "' target='_blank'>" + matchcount + " journal"+s+" with same name</a>");
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of journal name: "); 
+	},
+		dataType: "html"
+	});
+};
