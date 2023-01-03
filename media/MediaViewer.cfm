@@ -98,7 +98,7 @@
 																	</cfif>
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textFull")>
+																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
 																		<div class="bg-white px-0 float-left" style="min-height: 135px;"> #mediablock#</div>
 																	</div>

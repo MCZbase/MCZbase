@@ -1384,9 +1384,14 @@ imgStyleClass=value
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = "Externally Sourced Media Object">
 						</cfif>
-						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 100 characters is needed --->
+						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 200 characters is needed --->
 							<cfif len(showTitleText) GT 200>
 								<cfset showTitleText = "#left(showTitleText,200)#..." >
+							</cfif>
+						</cfif>
+						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed --->
+							<cfif len(showTitleText) GT 500>
+								<cfset showTitleText = "#left(showTitleText,600)#..." >
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
@@ -1394,8 +1399,8 @@ imgStyleClass=value
 								<cfset showTitleText = "#left(showTitleText,70)#..." >
 							</cfif>
 						</cfif>
-						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 600 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
-							<cfif len(showTitleText) GT 600>
+						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
+							<cfif len(showTitleText) GT 250>
 								<cfset showTitleText = "#left(showTitleText,300)#..." >
 							</cfif>
 						</cfif>
