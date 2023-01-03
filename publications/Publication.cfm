@@ -627,7 +627,7 @@ limitations under the License.
 							<cfthrow message="Failed to properly insert new publication_author_name record">
 						</cfif>
 					</cfif>
-				<cfloop>
+				</cfloop>
 			</cfif>
 
 			<!--- TODO: Editor names --->
