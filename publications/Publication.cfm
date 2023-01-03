@@ -80,6 +80,9 @@ limitations under the License.
 		FROM publication
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
+	<cfif pub.recordcount EQ 0>
+		<cfthrow message="No publication found with the specified publication_id [#encodeForHtml(publication_id#].">
+	</cfif>
 	<cfquery name="MCZpub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="MCZpub_result">
 		SELECT
 			publication
