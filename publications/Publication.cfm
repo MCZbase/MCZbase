@@ -584,7 +584,7 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 				</cfif>
-			<cfloop>
+			</cfloop>
 		</cftransaction>
 		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
 	</cfoutput>
