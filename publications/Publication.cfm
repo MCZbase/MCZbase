@@ -532,10 +532,10 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------------------------------->
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select sq_publication_id.nextval p from dual
+			<cfquery name="seq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_publication_id.nextval id from dual
 			</cfquery>
-			<cfset pid=p.p>a
+			<cfset publication_id=seq.id>
 			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO publication (
 					publication_id,
@@ -547,7 +547,7 @@ limitations under the License.
 					doi,
 					is_peer_reviewed_fg
 				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
 					<cfif len(published_year) gt 0>
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">,
 					<cfelse>
@@ -575,9 +575,11 @@ limitations under the License.
 					<cfif len(val) GT 0>
 						<cfquery name="addAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attAtt_result">
 							INSERT INTO publication_attributes (
+								publication_id,
 								publication_attribute, 
 								pub_att_value
 							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">,
 								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#val#">
 							)
@@ -586,7 +588,7 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 		</cftransaction>
-		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
+		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
 	</cfoutput>
 </cfcase>
 </cfswitch>
