@@ -544,14 +544,13 @@ limitations under the License.
 								}
 							</script>
 							<div class="col-12 col-md-6">
-								Authors
 								<h2 class="h3" >Authors</h2> 
-								<button class="btn btn-xs btn-primary" onclick=" addAuthorRow(); ">Add Author</button>
+								<button type="button" class="btn btn-xs btn-primary" onclick=" addAuthorRow(); ">Add Author</button>
 								<ol id="authorList"></ol>
 							</div>
 							<div class="col-12 col-md-6">
 								<h2 class="h3" >Editors</h2> 
-								<button class="btn btn-xs btn-primary" onclick=" addEditorRow(); ">Add Editor</button>
+								<button type="button" class="btn btn-xs btn-primary" onclick=" addEditorRow(); ">Add Editor</button>
 								<ol id="editorList"></ol>
 							</div>
 							<div id="addAuthorEditorDialogDiv"></div>
