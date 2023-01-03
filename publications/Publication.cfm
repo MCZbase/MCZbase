@@ -520,10 +520,13 @@ limitations under the License.
 							<input type="hidden" name="author_count" id="author_count" value="0">
 							<input type="hidden" name="editor_count" id="author_count" value="0">
 							<script>
-								function launchAddAuthorDialog(author_count,target) { 
+								function launchAddAuthorDialog(author_count) { 
 									console.log(author_count);
-									console.log(target) // author/editor;
-<!--- TODO: Dialog --->
+									openAddAuthorEditorDialogForNew(dialogid, author_count, 'author');
+								}
+								function launchAddEditorDialog(author_count) { 
+									console.log(author_count);
+									openAddAuthorEditorDialogForNew(dialogid, author_count, 'editor');
 								}
 								function addAuthorRow() { 
 									var author_count = $('##author_count').val();
@@ -540,8 +543,13 @@ limitations under the License.
 									var editor_count = $('##editor_count').val();
 									editor_count = editor_count + 1;
 									$('##editor_count').val(editor_count);
-									$('##editorList').append('<li>Not yet implemented</li>');
-								}
+									$('##editorList').append(
+										'<li>'+
+										'	<input type="hidden" id="editor_name_id_"+editor_count>'+
+										'	<input type="text" id="editor_name'+editor_count+'" onClick=" launchAddAuthorDialog('+editor_count+');">'+
+										'</li>'
+										);
+								};
 							</script>
 							<div class="col-12 col-md-6">
 								<h2 class="h3" >Authors</h2> 
