@@ -901,7 +901,7 @@ function loadPubAttributeControl(attribute,value,name,id,targetDivId) {
  */
 function checkJournalExists(journal_name,target) {
 	jQuery.ajax({
-		url: "/publications/component/functions.cfc",
+		url: "/publications/component/search.cfc",
 		data : {
 		method : "checkJournalNameExists",
 		journal_name: journal_name
