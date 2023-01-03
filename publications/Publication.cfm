@@ -564,14 +564,16 @@ limitations under the License.
 			<!--- TODO: Author names --->
 
 			<!--- if there are any attributes, add them --->
+			<!--- obtain form with spaces replaced with underscores for variable passed from form, and without for database value --->
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
-				SELECT replace(publication_attribute,' ','_') as publication_attribute
+				SELECT replace(publication_attribute,' ','_') as publication_attribute_name,
+					publication_attribute
 				FROM cf_pub_type_attribute
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfloop query="getAttributes">
-				<cfif isDefined("#getAttributes.publication_attribute#")>
-					<cfset val = evaluate("#getAttributes.publication_attribute#")>
+				<cfif isDefined("#getAttributes.publication_attribute_name#")>
+					<cfset val = evaluate("#getAttributes.publication_attribute_name#")>
 					<cfif len(val) GT 0>
 						<cfquery name="addAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attAtt_result">
 							INSERT INTO publication_attributes (
