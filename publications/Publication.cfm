@@ -513,7 +513,7 @@ limitations under the License.
 							</select>
 						</div>
 						<!--- TODO: Authors --->
-						<div class="col-12" id="attribtuesBlock">
+						<div class="col-12" id="attributesBlock">
 						</div>
 						<div class="col-12 col-md-3">
 							<input type="button" class="btn btn-xs btn-primary" value="Create" 

@@ -1330,13 +1330,6 @@ limitations under the License.
 							WHERE 
 								publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
 						</cfquery>
-		
-						<cfif getAttValue.recordcount EQ 1>
-							<cfset value = getAttValue.pub_att_value>
-						<cfelse>
-							<cfset value = "">
-						</cfif>
-	
 						<div class="col-12 col-md-4">
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
