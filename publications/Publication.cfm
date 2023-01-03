@@ -529,12 +529,12 @@ limitations under the License.
 									var author_count = $('##author_count').val();
 									author_count = author_count + 1;
 									$('##author_count').val(author_count);
-									$('##authorList').append('
-										<li>
-											<input type="hidden" id="author_name_id_"+author_count>
-											<input type="text" id="author_name'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">
-										</li>
-										');
+									$('##authorList').append(
+										'<li>'+
+										'	<input type="hidden" id="author_name_id_"+author_count>'+
+										'	<input type="text" id="author_name'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
+										'</li>'
+										);
 								};
 								function addEditorRow() { 
 									var editor_count = $('##editor_count').val();
