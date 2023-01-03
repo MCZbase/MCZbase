@@ -87,7 +87,7 @@
 											</cfquery>
 											<cfset i= 1>
 											<cfloop query="relm">
-												<div class="border-light w-100 col-md-3 col-lg-2 col-xl-2 px-1 float-left">
+												<div class="border-light col-md-3 col-lg-2 col-xl-2 float-left">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "border-warning bg-white float-left border-left px-1 pt-2 border-right border-bottom border-top">
