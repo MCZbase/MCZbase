@@ -1294,6 +1294,7 @@ imgStyleClass=value
 									<cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">
 										<cfset hw = 'width="95" height="auto"'>
 										<cfset styles = "height: 124px;margin: 0 auto;width: auto">
+										<cfset minheight = "min-height: auto">
 									<cfelse>
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset styles = "height: 125px;margin: 0 auto;width: auto">
