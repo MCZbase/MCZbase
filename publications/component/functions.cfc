@@ -597,8 +597,10 @@ limitations under the License.
 		<cftry>
 			<cfif role EQ "authors">
 				<cfset roleLabel = "Author">
+				<cfset targetRole = "author">
 			<cfelseif role EQ "editors">
 				<cfset roleLabel = "Editor">
+				<cfset targetRole = "editor">
 			<cfelse>
 				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
 			</cfif>
@@ -658,8 +660,8 @@ limitations under the License.
 									openAddAgentNameOfTypeDialog('addNameTypeDialogDiv', $('##agent_id').val(), $('##form_to_add_span').html());
 								};
 								function setAuthorValues() { 
-									var idcontrol = "#nameform#_name_id_#position#";
-									var namecontrol = "#nameform#_name_#position#";
+									var idcontrol = "#targetRole#_name_id_#position#";
+									var namecontrol = "#targetRole#_name_#position#";
 									$('##'+idcontrol).val($('##author_name_id').val());
 									$('##'+namecontrol).val($('##agent_name').val());
 									$('##addAuthorEditorDialogDiv').dialog('close');
