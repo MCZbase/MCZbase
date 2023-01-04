@@ -336,7 +336,7 @@ limitations under the License.
 					<cfloop query="getImages">
 						<cfif l_relationship_type EQ "shows">
 							<!--- two column specimen media --->
-							<cfset enclosingClass = "col-12 px-1 mb-1 px-md-1 py-1 float-left">
+							<cfset enclosingClass = "col-12 col-md-6 px-1 mb-1 px-md-1 py-1 float-left">
 						<cfelse>
 							<!--- three column for other media types --->
 							<cfset enclosingClass = "col-12 px-2 col-sm-6 col-lg-6 col-xl-4 mb-1 px-md-2 pt-1 float-left">
