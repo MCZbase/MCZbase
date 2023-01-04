@@ -961,6 +961,7 @@ function openAddAuthorEditorDialogForNew(dialogid, position, role) {
 		}, 
 		close: function(event,ui) {
 			$(this).dialog("destroy");
+			$("#"+dialogid).html("");
 		}
 	});
 	thedialog.dialog('open');

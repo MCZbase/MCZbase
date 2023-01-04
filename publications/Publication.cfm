@@ -518,15 +518,15 @@ limitations under the License.
 						<!--- authors/editors --->
 						<div class="col-12 form-row">
 							<input type="hidden" name="author_count" id="author_count" value="0">
-							<input type="hidden" name="editor_count" id="author_count" value="0">
+							<input type="hidden" name="editor_count" id="editor_count" value="0">
 							<script>
 								function launchAddAuthorDialog(author_count) { 
 									console.log(author_count);
 									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', author_count, 'authors');
 								}
-								function launchAddEditorDialog(author_count) { 
-									console.log(author_count);
-									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', author_count, 'editors');
+								function launchAddEditorDialog(editor_count) { 
+									console.log(editor_count);
+									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', editor_count, 'editors');
 								}
 								function addAuthorRow() { 
 									var author_count = $('##author_count').val();
@@ -535,7 +535,7 @@ limitations under the License.
 									$('##authorList').append(
 										'<li>'+
 										'	<input type="hidden" id="author_name_id_"+author_count>'+
-										'	<input type="text" id="author_name'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
+										'	<input type="text" id="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
 										'</li>'
 										);
 								};
@@ -546,7 +546,7 @@ limitations under the License.
 									$('##editorList').append(
 										'<li>'+
 										'	<input type="hidden" id="editor_name_id_"+editor_count>'+
-										'	<input type="text" id="editor_name'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
+										'	<input type="text" id="editor_name_'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
 										'</li>'
 										);
 								};
