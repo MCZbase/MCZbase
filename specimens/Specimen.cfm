@@ -352,7 +352,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!--- three column layout --->
-				<cfset twoThreeColumnClasses="col-sm-9 col-md-9 col-lg-9 col-xl-10 float-left">
+				<cfset twoThreeColumnClasses="col-sm-9 col-md-9 col-lg-9 col-xl-9 float-left">
 			<cfelse>
 				<!--- two column layout --->
 				<cfset twoThreeColumnClasses="col-sm-12 col-md-12 col-lg-12 col-xl-12 float-left">
