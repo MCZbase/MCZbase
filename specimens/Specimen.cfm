@@ -324,7 +324,7 @@ limitations under the License.
 			<cfset specimenMediaCount = getMediaHTML(collection_object_id = "#collection_object_id#", relationship_type = "shows", get_count = 'true')>
 			<cfset specimenMediaCount = val(rereplace(specimenMediaCount,"[^0-9]","","all"))>
 			<cfif specimenMediaCount gt 0>
-				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
+				<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 px-1 mb-2 float-left">
 
 					
 					<!-----------------------------Media----------------------------------> 
