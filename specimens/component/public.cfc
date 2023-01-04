@@ -2734,18 +2734,18 @@ limitations under the License.
 					<div class="col-12 px-0 py-1 small90 font-weight-lessbold border-top-gray">#mediaType1# #conjunction# #mediaType2# #mediaLabel#</div>
 					<cfif localityMedia.recordcount gt 0>
 						<cfloop query="localityMedia">
-							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-2 mb-1 px-md-2 pt-1 float-left"> 
+							<div class="col-6 px-1 col-sm-3 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
 								<div id='locMediaBlock#localityMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#localityMedia.media_id#",size="350",captionAs="textShort")>
 								</div>
 							</div>
 						</cfloop>
 					</cfif>
 					<cfif collEventMedia.recordcount gt 0>
 						<cfloop query="collEventMedia">
-							<div class="col-6 col-sm-3 px-1 col-lg-3 col-xl-2 mb-1 px-md-2 pt-1 float-left"> 
+							<div class="col-6 col-sm-3 px-1 col-lg-3 col-xl-3 mb-1 px-md-2 pt-1 float-left"> 
 								<div id='ceMediaBlock#collEventMedia.media_id#'>
-									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textCaption")>
+									<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#collEventMedia.media_id#",size="350",captionAs="textShort")>
 								</div>
 							</div>
 						</cfloop>
