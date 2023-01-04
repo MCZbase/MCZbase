@@ -1191,7 +1191,7 @@ imgStyleClass=value
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="##f8f9fa !important;">
-	<cfargument name="styles" type="string" required="no" default="height: 80px;margin: 0 auto;width: auto">
+	<cfargument name="styles" type="string" required="no" default="height: 80px;margin: 0 auto;width: 100%">
 	<cfif displayAs EQ "fixedSmallThumb">
 		<cfif size lte 200>
 			<cfset size = 75>
@@ -1248,7 +1248,7 @@ imgStyleClass=value
 						<cfset isDisplayable = false>
 					</cfif>
 					<cfset altEscaped = replace(replace(alt,"'","&##8217;","all"),'"',"&quot;","all") >
-					<cfset hw = 'height="auto" width="100%"'>
+					<cfset hw = 'height="auto"'>
 					<cfif isDisplayable>
 						<!--- the resource specified by media_uri should be an image that can be displayed in a browser with img src=media_uri --->
 						<cfif #displayAs# EQ "fixedSmallThumb">
