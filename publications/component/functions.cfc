@@ -537,7 +537,6 @@ limitations under the License.
 								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
 								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
 							</div>
-							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 							<script>
 								$(document).ready(function() {
 									$('##missingNameDiv').hide();
@@ -649,7 +648,6 @@ limitations under the License.
 								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
 								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
 							</div>
-							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 							<script>
 								$(document).ready(function() {
 									$('##missingNameDiv').hide();
