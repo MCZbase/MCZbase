@@ -1294,7 +1294,7 @@ imgStyleClass=value
 										<cfset hw = 'width="95" height="auto"'>
 										<cfset styles = "height: 124px;margin: 0 auto;width: auto">
 									<cfelse>
-										<cfset hw = 'width="95" height="auto"'>
+										<cfset hw = 'width="auto" height="auto"'>
 										<cfset styles = "height: 125px;margin: 0 auto;width: auto">
 									</cfif>
 								</cfif>
