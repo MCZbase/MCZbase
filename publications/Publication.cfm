@@ -540,7 +540,7 @@ limitations under the License.
 										);
 								};
 								function addEditorRow() { 
-									var editor_count = $('##editor_count').val();
+									var editor_count = parseInt($('##editor_count').val());
 									editor_count = editor_count + 1;
 									$('##editor_count').val(editor_count);
 									$('##editorList').append(
