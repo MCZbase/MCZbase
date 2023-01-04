@@ -661,7 +661,7 @@ limitations under the License.
 									var idcontrol = "#nameform#_name_id_#position#";
 									var namecontrol = "#nameform#_name_#position#";
 									$('##'+idcontrol).val($('##author_name_id').val());
-									$('##'+namecontrol).val($('##author_name').val());
+									$('##'+namecontrol).val($('##agent_name').val());
 									$('##addAuthorEditorDialogDiv').dialog('close');
 								};
 							</script>
