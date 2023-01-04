@@ -534,7 +534,7 @@ limitations under the License.
 									$('##author_count').val(author_count);
 									$('##authorList').append(
 										'<li>'+
-										'	<input type="hidden" id="author_name_id_"'+author_count+'>'+
+										'	<input type="hidden" id="author_name_id_'+author_count+'">'+
 										'	<input type="text" id="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
 										'</li>'
 										);
