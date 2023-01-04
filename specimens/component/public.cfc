@@ -344,7 +344,7 @@ limitations under the License.
 						<div class='#enclosingClass#'>
 							<!---For getMediaBlockHtml variables: use size that expands img to container with max-width: 350px so it look good on desktop and phone; --without displayAs-- captionAs="textShort" (truncated to 50 characters) --->
 							<div id='mediaBlock#getImages.media_id#'>
-								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textCaption")>
+								<cfset mediaBlock= getMediaBlockHtmlUnthreaded(media_id="#getImages.media_id#",size="350",captionAs="textShort")>
 							</div>
 						</div>
 					</cfloop>
