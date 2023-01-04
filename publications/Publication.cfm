@@ -447,14 +447,14 @@ limitations under the License.
 	</cfquery>
 	<cfoutput>
 		<main class="container py-3" id="content" >
-			<section class="row border rounded my-2">
+			<section class="row border rounded my-2 p-1">
 				<h1 class="h2">
 					Create New Publication
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 				</h1>
 				<form name="newPubForm" id="newPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="action" value="createPub">
-					<div class="col-12 form-row">
+					<div class="col-12 form-row pb-1">
 						<div class="col-12 col-md-11">
 							<label for="publication_title" class="data-entry-label">Publication Title</label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
