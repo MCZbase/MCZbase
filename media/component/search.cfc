@@ -1191,7 +1191,7 @@ imgStyleClass=value
 	<cfargument name="captionAs" type="string" required="no" default="textFull">
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="##f8f9fa !important;">
-	<cfargument name="styles" type="string" required="no" default="max-width:100%;max-height:100%">
+	<cfargument name="styles" type="string" required="no" default="height: 120px;margin: 0 auto;width: auto">
 	<cfif displayAs EQ "fixedSmallThumb">
 		<cfif size lte 200>
 			<cfset size = 75>
