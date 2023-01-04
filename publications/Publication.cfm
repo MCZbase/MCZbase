@@ -546,7 +546,7 @@ limitations under the License.
 									$('##editorList').append(
 										'<li>'+
 										'	<input type="hidden" id="editor_name_id_"+editor_count>'+
-										'	<input type="text" id="editor_name'+editor_count+'" onClick=" launchAddAuthorDialog('+editor_count+');">'+
+										'	<input type="text" id="editor_name'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
 										'</li>'
 										);
 								};
