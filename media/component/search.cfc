@@ -1324,7 +1324,7 @@ imgStyleClass=value
 						</cfif>
 					</cfif>
 					<!--- prepare output --->
-					<cfset output='#output#<div class="media_widget" style="min-height: 230px; max-height: 2500px;border: 1px solid gray">'>	
+					<cfset output='#output#<div class="media_widget">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
@@ -1390,9 +1390,9 @@ imgStyleClass=value
 								<cfset showTitleText = "#left(showTitleText,200)#..." >
 							</cfif>
 						</cfif>
-						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed --->
+						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed. Related media (media viewer) --->
 							<cfif len(showTitleText) GT 500>
-								<cfset showTitleText = "#left(showTitleText,600)#..." >
+								<cfset showTitleText = "#left(showTitleText,500)#..." >
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textShort"><!---This is for use with a small size or with "thumb" so that the caption will be short (e.g., specimen details page)--->
@@ -1402,7 +1402,7 @@ imgStyleClass=value
 						</cfif>
 						<cfif #captionAs# EQ "textFull"><!---This is for use with a size and the caption is 250 characters with links and copyright information--The images will fill the container (gray square present) and have a full caption (e.g., edit media page)--->
 							<cfif len(showTitleText) GT 250>
-								<cfset showTitleText = "#left(showTitleText,300)#..." >
+								<cfset showTitleText = "#left(showTitleText,250)#..." >
 							</cfif>
 						</cfif>
 						<!--- clean up broken html tags resulting from truncation of scientific names with <i></i> tags --->
