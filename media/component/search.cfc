@@ -1192,6 +1192,7 @@ imgStyleClass=value
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="##f8f9fa !important;">
 	<cfargument name="styles" type="string" required="no" default="height: 80px;margin: 0 auto;width: 100%">
+	<cfargument name="minheight" type="string" required="no" default="min-height:230px;">
 	<cfif displayAs EQ "fixedSmallThumb">
 		<cfif size lte 200>
 			<cfset size = 75>
@@ -1296,6 +1297,7 @@ imgStyleClass=value
 									<cfelse>
 										<cfset hw = 'width="auto" height="auto"'>
 										<cfset styles = "height: 125px;margin: 0 auto;width: auto">
+										<cfset minheight = "min-height: auto">
 									</cfif>
 								</cfif>
 							</cfif>
@@ -1329,7 +1331,7 @@ imgStyleClass=value
 						</cfif>
 					</cfif>
 					<!--- prepare output --->
-					<cfset output='#output#<div class="media_widget border p-1" style="min-height: 230px;">'>	
+					<cfset output='#output#<div class="media_widget border p-1" style="#minheight#">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
 						<cfset linkTarget = "/media/#media.media_id#">
