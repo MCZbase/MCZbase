@@ -653,6 +653,7 @@ limitations under the License.
 							<script>
 								$(document).ready(function() {
 									$('##missingNameDiv').hide();
+									$('##agent_name').focus();
 								});
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
@@ -663,7 +664,7 @@ limitations under the License.
 									var idcontrol = "#targetRole#_name_id_#position#";
 									var namecontrol = "#targetRole#_name_#position#";
 									$('##'+idcontrol).val($('##author_name_id').val());
-									$('##'+namecontrol).val($('##agent_name').val());
+									$('##'+namecontrol).val($('##author_name_control').html());
 									$('##addAuthorEditorDialogDiv').dialog('close');
 								};
 							</script>

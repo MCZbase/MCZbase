@@ -535,7 +535,7 @@ limitations under the License.
 									$('##authorList').append(
 										'<li>'+
 										'	<input type="hidden" id="author_name_id_'+author_count+'" name="author_name_id_'+author_count+'" >'+
-										'	<input type="text" id="author_name_'+author_count+'" name="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
+										'	<input type="text" class="btn btn-xs btn-light" id="author_name_'+author_count+'" name="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
 										'</li>'
 										);
 								};
