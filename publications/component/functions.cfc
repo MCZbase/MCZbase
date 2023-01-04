@@ -540,6 +540,7 @@ limitations under the License.
 							<script>
 								$(document).ready(function() {
 									$('##missingNameDiv').hide();
+									$('##agent_name').focus();
 								});
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
