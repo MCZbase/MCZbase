@@ -658,8 +658,8 @@ limitations under the License.
 									openAddAgentNameOfTypeDialog('addNameTypeDialogDiv', $('##agent_id').val(), $('##form_to_add_span').html());
 								};
 								function setAuthorValues() { 
-									var idcontrol = nameform + "_name_id_" + position;
-									var namecontrol = nameform + "_name_" + position;
+									var idcontrol = "#nameform#_name_id_#position#";
+									var namecontrol = "#nameform#_name_#position#";
 									$('##'+idcontrol).val($('##author_name_id').val());
 									$('##'+namecontrol).val($('##author_name_control').val());
 									$('##addAuthorEditorDialogDiv').dialog('close');
