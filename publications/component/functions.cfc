@@ -511,7 +511,7 @@ limitations under the License.
 					WHERE 
 						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 						AND 
-						editor_role = 'editor'
+						author_role = 'editor'
 				</cfquery>
 				<cfif editorCount.ct EQ 0>
 					<cfset isFirst = true>
