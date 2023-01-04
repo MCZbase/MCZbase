@@ -1269,6 +1269,7 @@ imgStyleClass=value
 								<cfset displayImage = iiifSize>
 							<cfelse>
 								<cfset displayImage = media_uri>
+									<cfset styles = "height: 123px;margin: 0 auto;width: auto">
 							</cfif>
 						</cfif>
 					<cfelse>
