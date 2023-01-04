@@ -639,8 +639,9 @@ limitations under the License.
 
 			<!--- Editor names --->
 			<cfif isDefined("editor_count") and len(editor_count) GT 0 and editor_count NEQ "0">
-				<cfloop index="i" from="#author_count + 1#" to="#author_count + editor_count#">
-					<cfset editor_name_id = evaluate("editor_name_id_#i#")>
+				<cfloop index="i" from="1" to="#editor_count#">
+					<cfset editor_name_id = evaluate("editor_name_id_#i#")><!--- 1 based, separate from author_position --->
+					<cfset position = i + author_count><!--- author_position is single ordinal counter for both authors and editors --->
 					<cfif isDefined("editor_name_id") AND len(editor_name_id) GT 0>
 						<cfquery name="insertEditor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertEditor_result">
 							INSERT INTO publication_author_name (
@@ -651,7 +652,7 @@ limitations under the License.
 							) VALUES (
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_name_id#">,
-								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#position#">,
 								'editor'
 							)
 						</cfquery>
