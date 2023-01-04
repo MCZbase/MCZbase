@@ -45,11 +45,11 @@
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 							</cfif>
-						</div>
-						<div class="col-12 col-md-6 col-lg-5 col-xl-5 float-left mb-2 pt-0 pb-0">
-							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
-							<div id="mediaMetadataBlock#media_id#">
-								#mediaMetadataBlock#
+							<div class="col-12 col-md-6 col-lg-5 col-xl-5 float-left mb-2 pt-0 pb-0">
+								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+								<div id="mediaMetadataBlock#media_id#">
+									#mediaMetadataBlock#
+								</div>
 							</div>
 						</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
