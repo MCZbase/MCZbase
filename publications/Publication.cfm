@@ -627,7 +627,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_name_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="a">
+								'author'
 							)
 						</cfquery>
 						<cfif insertAuthor_result.recordcount eq 0>
@@ -652,7 +652,7 @@ limitations under the License.
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_name_id#">,
 								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">,
-								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="e">
+								'editor'
 							)
 						</cfquery>
 						<cfif insertEditor_result.recordcount eq 0>
