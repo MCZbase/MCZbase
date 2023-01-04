@@ -1387,8 +1387,8 @@ imgStyleClass=value
 							<cfset showTitleText = "Externally Sourced Media Object">
 						</cfif>
 						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 200 characters is needed --->
-							<cfif len(showTitleText) GT 200>
-								<cfset showTitleText = "#left(showTitleText,200)#..." >
+							<cfif len(showTitleText) GT 197>
+								<cfset showTitleText = "#left(showTitleText,197)#..." >
 							</cfif>
 						</cfif>
 						<cfif #captionAs# EQ "textCaptionFull"><!---This is for use when a full caption (or close to it) is needed. Related media (media viewer) --->
