@@ -534,8 +534,8 @@ limitations under the License.
 									$('##author_count').val(author_count);
 									$('##authorList').append(
 										'<li>'+
-										'	<input type="hidden" id="author_name_id_'+author_count+'">'+
-										'	<input type="text" id="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
+										'	<input type="hidden" id="author_name_id_'+author_count+'" name="author_name_id_'+author_count+'" >'+
+										'	<input type="text" id="author_name_'+author_count+'" name="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
 										'</li>'
 										);
 								};
@@ -545,8 +545,8 @@ limitations under the License.
 									$('##editor_count').val(editor_count);
 									$('##editorList').append(
 										'<li>'+
-										'	<input type="hidden" id="editor_name_id_"+editor_count>'+
-										'	<input type="text" id="editor_name_'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
+										'	<input type="hidden" id="editor_name_id_'+editor_count+'" name="editor_name_id_'+editor_count+'" >'+
+										'	<input type="text" id="editor_name_'+editor_count+'" name="editor_name_'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
 										'</li>'
 										);
 								};
@@ -631,15 +631,35 @@ limitations under the License.
 							)
 						</cfquery>
 						<cfif insertAuthor_result.recordcount eq 0>
-							<cfthrow message="Failed to properly insert new publication_author_name record">
+							<cfthrow message="Failed to properly insert new publication_author_name record for an author">
 						</cfif>
 					</cfif>
 				</cfloop>
 			</cfif>
 
-			<!--- TODO: Editor names --->
+			<!--- Editor names --->
 			<cfif isDefined("editor_count") and len(editor_count) GT 0 and editor_count NEQ "0">
-
+				<cfloop index="i" from="#author_count + 1#" to="#author_count + editor_count#">
+					<cfset editor_name_id = evaluate("editor_name_id_#i#")>
+					<cfif isDefined("editor_name_id") AND len(editor_name_id) GT 0>
+						<cfquery name="insertEditor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertEditor_result">
+							INSERT INTO publication_author_name (
+								publication_id,
+								agent_name_id,
+								author_position,
+								author_role
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_name_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="e">
+							)
+						</cfquery>
+						<cfif insertEditor_result.recordcount eq 0>
+							<cfthrow message="Failed to properly insert new publication_author_name record for an editor">
+						</cfif>
+					</cfif>
+				</cfloop>
 			</cfif>
 
 			<!--- if there are any attributes, add them --->
