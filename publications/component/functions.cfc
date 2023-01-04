@@ -491,7 +491,33 @@ limitations under the License.
 				<cfset maxposition=max_position>
 				<cfif len(maxposition)EQ 0 ><cfset maxposition=0></cfif>
 			</cfloop>
-			<cfif minpositionfortype EQ 0>
+			<cfset isFirst = false>
+			<cfif role EQ "authors">
+				<cfquery name="authorCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="authorCount_result">
+					SELECT count(*) ct
+					FROM publication_author_name
+					WHERE 
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						AND 
+						author_role = 'author'
+				</cfquery>
+				<cfif authorCount.ct EQ 0>
+					<cfset isFirst = true>
+				</cfif>
+			<cfelseif role EQ "editors">
+				<cfquery name="editorCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="editorCount_result">
+					SELECT count(*) ct
+					FROM publication_author_name
+					WHERE 
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						AND 
+						editor_role = 'editor'
+				</cfquery>
+				<cfif editorCount.ct EQ 0>
+					<cfset isFirst = true>
+				</cfif>
+			</cfif>
+			<cfif isFirst>
 				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
 				<cfset newpos=1>
 				<cfset nameform="author">
