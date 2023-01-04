@@ -846,6 +846,7 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
 				okcallback();
 			}
 			$('#form_to_add_span').html('second author');
+			$('#is_first_position').val('2');
 			var result = jQuery.parseJSON(retval);
 			console.log(result);
 			var status = result[0].status;

@@ -550,6 +550,7 @@ limitations under the License.
 								<div id="author_name_control"></div>
 								<input type="hidden" name="author_name_id" id="author_name_id" value="">
 								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+								<input type="hidden" name="is_first_position" id="is_first_position" value="#newpos#">
 							</div>
 							<div class="col-12 col-md-2">
 								<a href="/agents/editAgent.cfm?action=new" aria-label="add a new agent" class="btn btn-xs btn-secondary" target="_blank" >New Agent</a>
@@ -557,7 +558,7 @@ limitations under the License.
 						</div>
 						<div class="form-row">
 							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
+								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# [<span class="small" id="position_to_add_span">#maxposition+1#</span>]</button>
 							</div>
 							<div class="col-12 col-md-9" id="missingNameDiv">
 								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
@@ -577,7 +578,7 @@ limitations under the License.
 							<div id="addNameTypeDialogDiv"></div>
 							<script>
 								$(document).ready(function() {
-									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##is_first_position').val());
 								});
 							</script>
 						</div>
