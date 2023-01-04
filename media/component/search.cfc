@@ -1279,13 +1279,14 @@ imgStyleClass=value
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<cfset sizeParameters='&width=#size#&height=#size#'>
 								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#background_color#">
+								<cfset styles = "height: 120px;margin: 0 auto;width: auto">
 							<cfelse>
 								<!--- use a preview_uri, if one was specified --->
 								<!--- TODO: change test to regex on http... with some sort of is this an image test --->
 								<cfset displayImage = preview_uri>
 								<cfif #displayAs# eq "thumb">
 									<cfset hw = 'width="auto" height="auto"'>
-									<cfset styles = "height: 120px;margin: 0 auto;width: auto">
+									<cfset styles = "height: 121px;margin: 0 auto;width: auto">
 								<cfelse>
 									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
 									<cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">
