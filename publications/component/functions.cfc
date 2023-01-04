@@ -666,6 +666,7 @@ limitations under the License.
 									$('##'+idcontrol).val($('##author_name_id').val());
 									$('##'+namecontrol).val($('##author_name_control').html());
 									$('##addAuthorEditorDialogDiv').dialog('close');
+									$('##'+namecontrol).attr("disabled","disabled");
 								};
 							</script>
 							<div id="addNameTypeDialogDiv"></div>
