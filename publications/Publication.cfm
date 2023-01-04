@@ -615,7 +615,7 @@ limitations under the License.
 			<!--- Author names --->
 			<cfif isDefined("author_count") and len(author_count) GT 0 and author_count NEQ "0">
 				<cfloop index="i" from="1" to="#author_count#">
-					<cfset author_name_id = evaluate("author_name_id#i#")>
+					<cfset author_name_id = evaluate("author_name_id_#i#")>
 					<cfif isDefined("author_name_id") AND len(author_name_id) GT 0>
 						<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAuthor_result">
 							INSERT INTO publication_author_name (
