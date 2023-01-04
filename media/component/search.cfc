@@ -1285,7 +1285,7 @@ imgStyleClass=value
 								<cfset displayImage = preview_uri>
 								<cfif #displayAs# eq "thumb">
 									<cfset hw = 'width="auto" height="auto"'>
-									<cfset styles = "max-width:150px;max-height:100px;">
+									<cfset styles = "height: 120px;margin: 0 auto;width: auto">
 								<cfelse>
 									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
 									<cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">
