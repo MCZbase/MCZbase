@@ -930,11 +930,11 @@ function checkJournalExists(journal_name,target) {
 /** openAddAuthorEditorDialogForNew, create and open a dialog to add authors or editors to a 
  * publication for which a publication record does not yet exist.
  * @param dialogid id to give to the dialog
- * @param author_count the number of this author/editor to identify the relevant inputs to 
+ * @param position the number of this author/editor to identify the relevant inputs to 
  *  bind the results to.
  * @param role the role for the dialog to create either authors or editors
  */
-function openAddAuthorEditorDialogForNew(dialogid, author_count, role) {
+function openAddAuthorEditorDialogForNew(dialogid, position, role) {
 	var title = "Add " + role + " to publication.";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
@@ -960,9 +960,6 @@ function openAddAuthorEditorDialogForNew(dialogid, author_count, role) {
 			}
 		}, 
 		close: function(event,ui) {
-			if (jQuery.type(okcallback)==='function') {
-				okcallback();
-			}
 			$(this).dialog("destroy");
 		}
 	});
@@ -971,9 +968,9 @@ function openAddAuthorEditorDialogForNew(dialogid, author_count, role) {
 		url: "/publications/component/functions.cfc",
 		type: "post",
 		data: {
-			method: "addAuthorEditorHtml",
+			method: "addAuthorEditorNewHtml",
 			returnformat: "plain",
-			author_count: author_count,
+			position: position,
 			role: role
 		},
 		success: function (data) {

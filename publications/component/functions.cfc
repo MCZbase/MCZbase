@@ -442,8 +442,8 @@ limitations under the License.
 	<cfargument name="role" type="string" required="yes">
 	<cfset variables.publication_id = arguments.publication_id>
 	<cfset variables.role = arguments.role>
-	<cfthread name="getAuthorEditorHtmlThread">
 
+	<cfthread name="getAuthorEditorHtmlThread">
 		<cftry>
 			<cfif role EQ "authors">
 				<cfset roleLabel = "Author">
@@ -564,6 +564,121 @@ limitations under the License.
 						</div>
 					</div>
 					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAuthorEditorHtmlThread" />
+	<cfreturn getAuthorEditorHtmlThread.output>
+</cffunction>
+
+
+<!--- addAuthorEditorNewHtml obtain a block of html to populate a dialog for adding an author or editor
+ to a new publication form, where a publication record does not yet exist.
+ @param position the position of the author/editor to identify the controls to which to add values,
+  similar role, but not identical to publication_author_name.author_position, which is a single counter.
+ @param role the role in which to add new agents, allowed values authors or editors.
+ @return html form for a dialog to add authors/editors to populate controls on a new publication form.
+---->
+<cffunction name="addAuthorEditorNewHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="position" type="string" required="yes">
+	<cfargument name="role" type="string" required="yes">
+	<cfset variables.position = arguments.position>
+	<cfset variables.role = arguments.role>
+
+	<cfthread name="getAuthorEditorHtmlThread">
+		<cftry>
+			<cfif role EQ "authors">
+				<cfset roleLabel = "Author">
+			<cfelseif role EQ "editors">
+				<cfset roleLabel = "Editor">
+			<cfelse>
+				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
+			</cfif>
+			<cfif position EQ 1>
+				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
+				<cfset newpos=1>
+				<cfset nameform="author">
+			<cfelse>
+				<!--- there is at least a first author if we are adding authors, or at least a first editor if we are adding editors --->
+				<cfset newpos=2>
+				<cfset nameform="second author">
+			</cfif>
+			<cfoutput>
+				<div class="form-row">
+					<div class="col-12">
+						<h3 class="h4" >Add #roleLabel#</h3>
+						<div class="form-row">
+							<div class="col-12 col-md-5">
+								<label for="agent_name" class="data-entry-label">Pick an agent to add as an #roleLabel#</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="agent_name" id="agent_name" class="form-control rounded-right data-entry-input form-control-sm reqdClr" aria-label="Agent Name" aria-describedby="agent_name_label" value="" required>
+									<input type="hidden" name="agent_id" id="agent_id" value="">
+								</div>
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="agent_view" class="data-entry-label">Selected Agent</label>
+								<div id="agent_view"></div>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
+								<div id="author_name_control"></div>
+								<input type="hidden" name="author_name_id" id="author_name_id" value="">
+								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+							</div>
+							<div class="col-12 col-md-2">
+								<a href="/agents/editAgent.cfm?action=new" aria-label="add a new agent" class="btn btn-xs btn-secondary" target="_blank" >New Agent</a>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-12 col-md-3">
+								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="setAuthorValues();" disabled >Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
+							</div>
+							<div class="col-12 col-md-9" id="missingNameDiv">
+								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
+								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
+							</div>
+							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
+							<script>
+								$(document).ready(function() {
+									$('##missingNameDiv').hide();
+								});
+								function showAddAuthorNameDialog() {
+									console.log($('##agent_id').val());
+									console.log($('##next_author_position').val()); 
+									openAddAgentNameOfTypeDialog('addNameTypeDialogDiv', $('##agent_id').val(), $('##form_to_add_span').html());
+								};
+								function setAuthorValues() { 
+									var idcontrol = nameform + "_name_id_" + position;
+									var namecontrol = nameform + "_name_" + position;
+									$('##'+idcontrol).val($('##author_name_id').val());
+									$('##'+namecontrol).val($('##author_name_control').val());
+									$('##addAuthorEditorDialogDiv').dialog('close');
+								};
+							</script>
+							<div id="addNameTypeDialogDiv"></div>
+							<script>
+								$(document).ready(function() {
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
+								});
+							</script>
+						</div>
+						<div class="col-12" id="listOfAuthorsDiv">
+							<ol id="authorListOnDialog">
+							</ol>
+						</div>
+					</div>
 				</div>
 			</cfoutput>
 		<cfcatch>
