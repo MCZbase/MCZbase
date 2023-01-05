@@ -40,7 +40,7 @@
 
 	<main class="container-fluid" id="content">
 		<div class="row">
-			<div class="col-12 pb-4">
+			<div class="col-12 pb-4 mt-3">
 			<cfloop query="media">
 				<div class="row">
 					<div class="col-12 my-3">
@@ -53,7 +53,7 @@
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 							</cfif>
-							<div class="col-12 col-md-8 col-xl-9 float-left mb-2 pt-0 pb-0">
+							<div class="col-12 col-md-8 col-xl-9 float-left mb-2 pt-1 pb-0">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
