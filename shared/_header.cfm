@@ -154,7 +154,6 @@ limitations under the License.
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	</cfif>
-	<cfinclude template="/includes/functionLib.cfm">
 	<link rel="stylesheet" type="text/css" href="/includes/style.css" />
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
