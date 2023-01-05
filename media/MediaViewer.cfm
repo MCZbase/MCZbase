@@ -97,7 +97,7 @@
 												<div class="border-light col-md-3 col-lg-2 col-xl-2 float-left">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border-warning bg-light border-left px-1 pt-2 border-right border-bottom border-top">
+															<cfset activeimg = "border bg-light border-left px-1 pt-2 ">
 														<cfelse>	
 															<cfset activeimg = "border-lt-gray bg-white px-1 pt-2">
 														</cfif>
