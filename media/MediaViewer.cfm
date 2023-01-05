@@ -51,7 +51,7 @@
 									<h1 class="h2 my-2 col-12 float-left text-center">Media Viewer</h1>
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-										<p>Place cursor in top left corner and zoom with mousewheel to see zoom to larger image.</p>
+										<p>Place cursor in top left corner of media and zoom in with mousewheel to see larger image.</p>
 								</div>
 							</cfif>
 							<div class="col-12 col-md-8 col-xl-9 float-left mb-2 pt-0 pb-0">
