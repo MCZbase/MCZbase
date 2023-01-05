@@ -202,7 +202,7 @@ limitations under the License.
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-4">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
-							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
+							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input" placeholder="10.1000/xyz123">
 						</div>
 						<div class="col-12 col-md-4" id="doiLinkDiv">
 							<cfset crossref = "guestquery/">
@@ -498,7 +498,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
-							<input type="text" name="doi" id="doi" class="data-entry-input">
+							<input type="text" name="doi" id="doi" class="data-entry-input" placeholder="10.1000/xyz123">
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="publication_loc" class="data-entry-label">Storage Location</label>
