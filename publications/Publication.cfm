@@ -691,6 +691,14 @@ limitations under the License.
 				</cfif>
 			</cfloop>
 		</cftransaction>
+		<cftransaction>
+			<!--- trigger rebuld of formatted publication --->
+			<cfquery name="rebuild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="rebuild_result">
+				UPDATE publication 
+				SET last_update_date = CURRENT_TIMESTAMP
+				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+		</cftransaction>
 		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
 	</cfoutput>
 </cfcase>
