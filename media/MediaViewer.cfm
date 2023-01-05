@@ -38,7 +38,7 @@
 			.viewer img {box-shadow: 8px 2px 30px black;margin-bottom: .5em;}
 		</style>
 
-	<main class="container-fluid" id="content">
+	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mt-3 mb-5">
 			<cfloop query="media">
