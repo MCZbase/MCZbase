@@ -47,12 +47,12 @@
 						
 						<div class="viewer">
 							<cfif len(media.media_id) gt 0>
-								<div class="rounded border bg-light col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
+								<div class="rounded border-warning border-top border-left border-right border-bottom bg-light col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 								
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 										<h1 class="h2 mb-1 col-12 float-left text-center">Media Viewer</h1>
-										<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image . Pan to see different parts of image.</p>
+										<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image.</p>
 								</div>
 							</cfif>
 							<div class="col-12 col-md-7 col-xl-10 float-left mb-2 pt-0 pb-0">
@@ -97,7 +97,7 @@
 												<div class="border-light col-md-3 col-lg-2 col-xl-2 float-left">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "border bg-light border-left px-1 pt-2 ">
+															<cfset activeimg = "border-warning border-right border-bottom border-top bg-light border-left px-1 pt-2 ">
 														<cfelse>	
 															<cfset activeimg = "border-lt-gray bg-white px-1 pt-2">
 														</cfif>
