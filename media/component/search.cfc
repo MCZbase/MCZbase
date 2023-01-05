@@ -1240,7 +1240,7 @@ imgStyleClass=value
 						<cfset iiifSchemeServerPrefix = "http://iiif.mcz.harvard.edu/iiif/3/">
 						<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 						<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
-						<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
+						<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/#size#,/0/default.jpg">
 						<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^!100,95/0/default.jpg">
 					</cfif>
 					<cfset isDisplayable = false>
@@ -1345,8 +1345,8 @@ imgStyleClass=value
 					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="image#i#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
 					<cfset output='#output#</a>'>
-					<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##image#i#").addimagezoom({zoomrange: [3, 10],
-						magnifiersize: [900,900],magnifierpos:"right",cursorshade:true,largeimage:"#displayImage#"})})</script>'>
+					<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##image#i#").addimagezoom({zoomrange: [3, 5],
+						magnifiersize: [600,600],magnifierpos:"right",cursorshade:true,largeimage:"#displayImage#"})})</script>'>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">
