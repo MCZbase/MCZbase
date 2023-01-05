@@ -12,22 +12,22 @@
   </cfoutput>
   <cfelse>
 
-  <!--- Find the requested media object --->
-  <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    select media_uri, mime_type, media_type, media_id,
-           get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
-		   nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
-		   nvl(
-		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
-		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
-              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
- 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
-		   , 'Unrelated image') mrstr
-    from MEDIA
-        where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-              AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-</cfquery>
+	  <!--- Find the requested media object --->
+	  <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select media_uri, mime_type, media_type, media_id,
+			   get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
+			   nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
+			   nvl(
+				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
+				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
+				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
+				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
+			   , 'Unrelated image') mrstr
+		from MEDIA
+			where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+				  AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+	</cfquery>
   <cfloop query="m" endrow="1">
 	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select mczbase.get_media_descriptor(media_id) media_descriptor 
@@ -41,58 +41,18 @@
 		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			and media_relationship = 'shows cataloged_item'
 	</cfquery>
-    <cfset relatedItemA="">
-    <cfset guidOfRelatedSpecimen="">
-    <cfset relatedItemEndA="">
-    <cfloop query="mcrguid" endrow="1">
-      <!--- Get the guid and formulated it as a hyperlink for the first related cataloged_item.   --->
-      <!--- If the media object shows no cataloged_item, then the link isn't added  --->
-      <!--- If the media object shows more than one cataloged item, then the link here is only to the first one.  --->
-      <cfset relatedItemA="<a href='/guid/#relatedGuid#'>">
-      <cfset guidOfRelatedSpecimen="#relatedGuid#">
-      <cfset relatedItemEndA="</a>">
-    </cfloop>
-
-    <!---  Determine scaling information for the set of images from the selected image --->
-    
-   
-
-    <cfif len(guidOfRelatedSpecimen)>
-      <cfset relatedItem="#guidOfRelatedSpecimen#">
-      <cfelse>
-      <cfset relatedItem="#mrstr#">
-    </cfif>
 
     <cfoutput>
       <div id="mediacontain">
-      <div class="media_head">
-        <h3>Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
-      </div>
-      <div class="layoutbox">
-      <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
-      <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
-
-       <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
-            <div class="media_image targetarea" style="height:500px;min-height: 470px;width:500px;">
-      			<img id="multizoom1" src='#m.media_uri#' width="500px" alt="image">
-      		</div>
-       <cfelse>
-        <div class="targetarea media_image" style="height:500px; width:500px;">
-            <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw# alt="image">
-        </div>
-    </cfif>
-      <!---  Enclosing div reserves a place for metadata about the currently selected image --->
-      <!---  div multizoomdescription is the bit to hold the medatadata that will be replaced by multizoom.js when a different image is picked --->
-
-      <!--- tip  (added to each replaced multizoomdescription) --->
-  
-</cfoutput>
-
-    <cfoutput>
-      </div>
-      </div>
-      <!-- end mediacontain -->
-    </cfoutput>
+		<div class="media_head">
+		<h3>Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
+		</div>
+		<div class="layoutbox">
+			<div class="targetarea media_image" style="height:500px; width:500px;">
+				<img id="multizoom1" border="0" src='#m.media_uri#' width="500" height="500" alt="image">
+			</div>
+		</div>
+	</cfoutput>
   </cfloop>
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
