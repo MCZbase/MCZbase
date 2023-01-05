@@ -47,10 +47,11 @@
 						
 						<div class="viewer">
 							<cfif len(media.media_id) gt 0>
-								<div class="rounded border bg-light col-12 col-md-4 col-xl-3 float-left py-2 mt-4 pb-0">
-									<h1 class="h2 my-2 col-12 float-left text-center">Media Viewer</h1>
+								<div class="rounded border bg-light col-12 col-md-4 col-xl-3 float-left py-1 mt-2 pb-0">
+								
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+										<h1 class="h2 my-2 col-12 float-left text-center">Media Viewer</h1>
 										<p>Place cursor in top left corner of media and zoom in with mousewheel to see larger image.</p>
 								</div>
 							</cfif>
