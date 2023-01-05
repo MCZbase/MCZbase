@@ -3,7 +3,6 @@
 <cfset usealternatehead="image" />
 <cfinclude template="/shared/_header.cfm">
 <!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
-	<link rel="stylesheet" href="/includes/js/multizoom/multizoom.css" type="text/css"/>
 	<link rel="stylesheet" href="/includes/css/mediacontain.css"/>
 	<script type="text/javascript" src="/includes/js/multizoom/multizoom.js"></script>
 <cfif NOT isDefined("media_id")>
