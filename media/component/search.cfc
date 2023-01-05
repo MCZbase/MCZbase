@@ -1232,8 +1232,19 @@ imgStyleClass=value
 				ORDER BY LENGTH(MCZBASE.get_media_title(media.media_id)) DESC
 			</cfquery>
 			<cfif media.recordcount EQ 1>
-				<cfset i= i+1>
+				<cfset i= 1>
 				<cfloop query="media">
+					<script type="text/javascript">
+					jQuery(document).ready(function($){
+					  $('##image#i#').addimagezoom({// single image zoom
+						zoomrange: [3, 10],
+						magnifiersize: [300,300],
+						magnifierpos:'right',
+						cursorshade:true,
+						largeimage:'' //<-- No comma after last option!
+					  })
+					})
+					</script>
 					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu">
 						<cfset iiifSchemeServerPrefix = "http://iiif.mcz.harvard.edu/iiif/3/">
@@ -1333,7 +1344,17 @@ imgStyleClass=value
 						</cfif>
 					</cfif>
 					<!--- prepare output --->
-			
+					<script type="text/javascript">
+					jQuery(document).ready(function($){
+					  $('##image#i#').addimagezoom({// single image zoom
+						zoomrange: [3, 10],
+						magnifiersize: [300,300],
+						magnifierpos:'right',
+						cursorshade:true,
+						largeimage:'' //<-- No comma after last option!
+					  })
+					})
+					</script>
 					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
@@ -1456,17 +1477,7 @@ imgStyleClass=value
 					<cfset output='#output#</div>'>
 				<cfset i= i+1>
 				</cfloop>
-				<script type="text/javascript">
-				jQuery(document).ready(function($){
-				  $('##image#i#').addimagezoom({// single image zoom
-					zoomrange: [3, 10],
-					magnifiersize: [300,300],
-					magnifierpos:'right',
-					cursorshade:true,
-					largeimage:'' //<-- No comma after last option!
-				  })
-				})
-				</script>
+
 			</cfif>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
