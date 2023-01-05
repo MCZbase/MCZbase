@@ -2,60 +2,8 @@
 
 <cfinclude template="/shared/_header.cfm">
 <!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
-	<link rel="stylesheet" href="/includes/css/mediacontain.css"/>
-	<script type="text/javascript" src="/includes/js/multizoom/multizoom.js"></script>
-<cfif NOT isDefined("media_id")>
-  <cfoutput>
-    <h2>No Media Object Specified</h2>
-  </cfoutput>
-  <cfelse>
 
-	  <!--- Find the requested media object --->
-	  <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select media_uri, mime_type, media_type, media_id,
-			   get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
-			   nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
-			   nvl(
-				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
-				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
-				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
-				  MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
-			   , 'Unrelated image') mrstr
-		from MEDIA
-			where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-				  AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-	</cfquery>
-  <cfloop query="m" endrow="1">
-	<cfquery name="alt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select mczbase.get_media_descriptor(media_id) media_descriptor 
-		from media 
-		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL"value="#media_id#"> 
-	</cfquery> 
-	<cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-		select distinct 'MCZ:'||collection_cde||':'||cat_num as relatedGuid 
-		from media_relations
-			left join cataloged_item on related_primary_key = collection_object_id
-		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-			and media_relationship = 'shows cataloged_item'
-	</cfquery>
-
-    <cfoutput>
-      <div id="mediacontain">
-	
-		<div class="layoutbox">
-			<div class="targetarea media_image" style="height:500px; width:500px;">
-				<img id="multizoom1" border="0" src='#m.media_uri#' width="500" height="500" alt="image">
-			</div>
-		</div>
-	</cfoutput>
-  </cfloop>
-  <!--- on m, loop to get single media record with given media_id  --->
-</cfif>
-<!--- media_id is defined --->
-<cfinclude template="/shared/_footer.cfm">
-
-<!---<cfinclude template="/shared/_header.cfm">
+<script type="text/javascript" src="/includes/js/multizoom/multizoom.js"></script>
 <script type='text/javascript' src='/media/js/media.js'></script>
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
@@ -108,7 +56,7 @@
 								</div>
 							</div>
 						</div>
-						<!---specimen records relationships and other possible associations to media on those records--->
+						specimen records relationships and other possible associations to media on those records
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
 						from media_relations
@@ -181,4 +129,3 @@
 	
 	
 <cfinclude template="/shared/_footer.cfm">
---->
