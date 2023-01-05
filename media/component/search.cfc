@@ -1232,6 +1232,7 @@ imgStyleClass=value
 				ORDER BY LENGTH(MCZBASE.get_media_title(media.media_id)) DESC
 			</cfquery>
 			<cfif media.recordcount EQ 1>
+				<cfset i= i+1>
 				<cfloop query="media">
 					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu">
@@ -1332,6 +1333,7 @@ imgStyleClass=value
 						</cfif>
 					</cfif>
 					<!--- prepare output --->
+			
 					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
@@ -1340,7 +1342,7 @@ imgStyleClass=value
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
 					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img id="image" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
+					<cfset output='#output#<img id="image#i#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
 					<cfset output='#output#</a>'>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
@@ -1430,6 +1432,17 @@ imgStyleClass=value
 							<!--- close an unclosed italic tag resulting from truncation --->
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
+						<script type="text/javascript">
+						jQuery(document).ready(function($){
+						  $('##image#i#').addimagezoom({// single image zoom
+							zoomrange: [3, 10],
+							magnifiersize: [300,300],
+							magnifierpos:'right',
+							cursorshade:true,
+							largeimage:'#output#' //<-- No comma after last option!
+						  })
+						})
+						</script>
 						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small" > #showTitleText# </p>'>
 							<!---Was this meant to be something else? It currently duplicates the license display--->
 					<!---	<cfif len(#copyright_statement#) gt 0>
@@ -1451,6 +1464,7 @@ imgStyleClass=value
 						<cfset output='#output#</div>'>
 					</cfif>
 					<cfset output='#output#</div>'>
+				<cfset i= i+1>
 				</cfloop>
 			</cfif>
 		<cfcatch>

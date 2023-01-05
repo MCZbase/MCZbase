@@ -1,10 +1,13 @@
 <cfset pageTitle="Media Viewer">
 
 <cfinclude template="/shared/_header.cfm">
-<!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
-
-<script type="text/javascript" src="/includes/js/multizoom/multizoom.js"></script>
 <script type='text/javascript' src='/media/js/media.js'></script>
+<!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<script type="text/javascript" src="/includes/js/multizoom/multizoom.js"></script>
+
+
+
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
@@ -56,7 +59,7 @@
 								</div>
 							</div>
 						</div>
-						specimen records relationships and other possible associations to media on those records
+						<!---specimen records relationships and other possible associations to media on those records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
 						from media_relations
@@ -95,15 +98,17 @@
 														<cfelse>	
 															<cfset activeimg = "border-lt-gray bg-white px-1 pt-2">
 														</cfif>
-													<ul class="list-group px-0">
-														<li class="list-group-item px-0 mx-1">
-														<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-														<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
-															<!---Media Zoom/Related link should populate the area at the top with its image and metadata. Need something new on search.cfc? --->
-															<div class="bg-white px-0" style="min-height: 135px;"> #mediablock#</div>
-														</div>
-														</li>
-													</ul>
+
+														<ul class="list-group px-0">
+															<li class="list-group-item px-0 mx-1">
+															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
+															<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+																<!---Media Zoom/Related link should populate the area at the top with its image and metadata. Need something new on search.cfc? --->
+																<div class="bg-white px-0" style="min-height: 135px;"> #mediablock#</div>
+															</div>
+															</li>
+														</ul>
+
 													</cfif>
 												</div>
 												<cfset i=i+1>
