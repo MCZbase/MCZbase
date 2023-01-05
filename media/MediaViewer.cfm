@@ -44,9 +44,7 @@
 
     <cfoutput>
       <div id="mediacontain">
-		<div class="media_head">
-		<h3>Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
-		</div>
+	
 		<div class="layoutbox">
 			<div class="targetarea media_image" style="height:500px; width:500px;">
 				<img id="multizoom1" border="0" src='#m.media_uri#' width="500" height="500" alt="image">
