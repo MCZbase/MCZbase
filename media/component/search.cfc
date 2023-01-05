@@ -1432,17 +1432,7 @@ imgStyleClass=value
 							<!--- close an unclosed italic tag resulting from truncation --->
 							<cfset showTitleText = "#showTitleText#</i>">
 						</cfif>
-						<script type="text/javascript">
-						jQuery(document).ready(function($){
-						  $('##image#i#').addimagezoom({// single image zoom
-							zoomrange: [3, 10],
-							magnifiersize: [300,300],
-							magnifierpos:'right',
-							cursorshade:true,
-							largeimage:'#output#' //<-- No comma after last option!
-						  })
-						})
-						</script>
+
 						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small" > #showTitleText# </p>'>
 							<!---Was this meant to be something else? It currently duplicates the license display--->
 					<!---	<cfif len(#copyright_statement#) gt 0>
@@ -1466,6 +1456,17 @@ imgStyleClass=value
 					<cfset output='#output#</div>'>
 				<cfset i= i+1>
 				</cfloop>
+				<script type="text/javascript">
+				jQuery(document).ready(function($){
+				  $('##image#i#').addimagezoom({// single image zoom
+					zoomrange: [3, 10],
+					magnifiersize: [300,300],
+					magnifierpos:'right',
+					cursorshade:true,
+					largeimage:'' //<-- No comma after last option!
+				  })
+				})
+				</script>
 			</cfif>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
