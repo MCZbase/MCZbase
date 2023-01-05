@@ -1578,7 +1578,7 @@ limitations under the License.
 					<!--- there is one column to use, we know what to do --->
 					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select #reqdClr#' #req#>" > <!--- " --->
 					<cfif req NEQ "required">
-						<cfset retval = "<option value=''></option>"> <!--- allow blank option for non-required fields --->
+						<cfset retval =  "#retval#<option value=''></option>"> <!--- allow blank option for non-required fields --->
 					</cfif>
 					<cfloop query="getVocabulary">
 						<cfset ctValue = getVocabulary[columnList]>
