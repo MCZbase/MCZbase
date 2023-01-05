@@ -1346,7 +1346,7 @@ imgStyleClass=value
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
 					<cfset output='#output#</a>'>
 					<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2, 12],
-						magnifiersize: [600,600],magnifierpos:"right",magvertcenter:true,imagevertcenter:true,cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
+						magnifiersize: [200,200],magnifierpos:"right",magvertcenter:true,imagevertcenter:true,cursorshade:true,largeimage:"#iiifFull#"})})</script>'>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">
