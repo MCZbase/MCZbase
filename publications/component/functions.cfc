@@ -38,9 +38,9 @@ limitations under the License.
 					<cfif form EQ "short">
 						mczbase.getshortcitation(publication_id) as citation
 					<cfelseif form EQ "plain">
-						mczbase.assemble_fullcitation(publication_id,0) as citation
+						mczbase.get_citation(publication_id,'long',1) as citation
 					<cfelse>
-						mczbase.getfullcitation(publication_id) as citation
+						mczbase.get_citation(publication_id,'long',0) as citation
 					</cfif>
 				FROM publication
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
