@@ -154,6 +154,8 @@ limitations under the License.
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	</cfif>
+</cfif>
+<cfif CGI.script_name CONTAINS "/media/" AND CGI.script_name IS "/MediaViewer.cfm">
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
 	<script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
