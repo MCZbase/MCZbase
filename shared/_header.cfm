@@ -157,11 +157,11 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name IS "/MediaViewer.cfm">
 	<style>
-		.magnifyarea { /* CSS to add shadow to magnified image. Optional */
-			box-shadow: 5px 5px 7px #818181;
-			-webkit-box-shadow: 5px 5px 7px #818181;
-			-moz-box-shadow: 5px 5px 7px #818181;
-			filter: progid:DXImageTransform.Microsoft.dropShadow(color=#818181, offX=5, offY=5, positive=true);
+		.magnifyarea { 
+			box-shadow: 5px 5px 7px ##818181;
+			-webkit-box-shadow: 5px 5px 7px ##818181;
+			-moz-box-shadow: 5px 5px 7px ##818181;
+			filter: progid:DXImageTransform.Microsoft.dropShadow(color=##818181, offX=5, offY=5, positive=true);
 			background: white;
 		}
 
@@ -196,18 +196,13 @@ limitations under the License.
 			border-width: 0; /* avoid default borders in some browsers */
 		}
 
-		/*
-		 * Local change: description to multizoomdescription to disambiguate from mczstyles  
-		#description, #description2 {
-		*/
 		#multizoomdescription, #multizoomdescription2 {
 			position: absolute; /* required for description folows image bottom (descpos: true) */
 			width: 500px; /* should be width of zoomable image container (.targetarea) */
 			text-align: center;
 			font: normal 95% Arial,sans-serif;
 			margin-top: 0; /* when following image bottom, this sets a fixed distance for that */
-			color: #222;
-			/*background-color: #fff;*/
+			color: ##222;
 		}
 	</style>
 </cfif>
