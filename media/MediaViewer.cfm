@@ -1,7 +1,7 @@
 <cfset pageTitle="Media Viewer">
 	
 <cfset usealternatehead="image" />
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
 
 <cfif NOT isDefined("media_id")>
@@ -424,7 +424,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
 <!--- media_id is defined --->
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
 
 <!---<cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/media/js/media.js'></script>
