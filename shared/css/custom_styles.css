@@ -113,7 +113,7 @@ table td .small {
 .bg-verylightteal {
 	background-color: #f2f9ff;
 }
-.bg-warninglight {background-color:antiquewhite;}
+.hightlight_media {border: 2px solid #a51c30;background-color:#dee2e6; }
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
