@@ -47,11 +47,11 @@
 						
 						<div class="viewer">
 							<cfif len(media.media_id) gt 0>
-								<div class="rounded border bg-light col-12 col-md-4 col-xl-3 float-left py-1 mt-2 pb-0">
+								<div class="rounded border bg-light col-12 col-md-4 col-xl-3 float-left pt-2 mt-2 pb-0">
 								
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-										<h1 class="h2 my-2 col-12 float-left text-center">Media Viewer</h1>
+										<h1 class="h2 mb-1 col-12 float-left text-center">Media Viewer</h1>
 										<p>Place cursor in top left corner of media and zoom in with mousewheel to see larger image.</p>
 								</div>
 							</cfif>
@@ -73,10 +73,10 @@
 						</cfquery>
 						<cfif len(spec.pk) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
-								<div class="search-box mt-4 w-100">
+								<div class="search-box mt-2 w-100">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item mb-0 h4">Related Media Record(s) </li>
+											<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Record(s) </li>
 										</ul>
 									</div>
 									<div class="row mx-0">
