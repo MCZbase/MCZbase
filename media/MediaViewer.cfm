@@ -40,7 +40,7 @@
 
 	<main class="container-fluid" id="content">
 		<div class="row">
-			<div class="col-12 pb-4 mt-3">
+			<div class="col-12 pb-4 mt-3 mb-5">
 			<cfloop query="media">
 				<div class="row">
 					<div class="col-12 my-3">
