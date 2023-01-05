@@ -1,6 +1,5 @@
 <cfset pageTitle="Media Viewer">
-	
-<cfset usealternatehead="image" />
+
 <cfinclude template="/shared/_header.cfm">
 <!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
 	<link rel="stylesheet" href="/includes/css/mediacontain.css"/>
