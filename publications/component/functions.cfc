@@ -1315,6 +1315,20 @@ limitations under the License.
 					<cfset isMCZpub = false>
 				</cfif>
 			</cfif>
+			<cfif NOT isMCZpub>
+				<!--- check if the publication has an MCZ Publication attribute (as in books published by the MCZ) --->
+				<cfquery name="getMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMCZ_result">
+					SELECT count(*) ct
+					FROM publication_attributes
+					WHERE 
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						AND
+						publication_attribute = 'MCZ publication'
+				</cfquery>
+				<cfif getMCZ.ct GT 0>
+					<cfset isMCZpub = true>
+				</cfif>
+			</cfif>
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
 				SELECT publication_attribute
 				FROM cf_pub_type_attribute
