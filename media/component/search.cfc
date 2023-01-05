@@ -1334,17 +1334,7 @@ imgStyleClass=value
 						</cfif>
 					</cfif>
 					<!--- prepare output --->
-					<script type="text/javascript">
-					jQuery(document).ready(function($){
-					  $('##image#i#').addimagezoom({// single image zoom
-						zoomrange: [3, 10],
-						magnifiersize: [300,300],
-						magnifierpos:'right',
-						cursorshade:true,
-						largeimage:'#displayImage#' //<-- No comma after last option!
-					  })
-					})
-					</script>
+
 					<cfset output='#output#<div class="media_widget p-1" style="#minheight#">'>	
 					<!--- WARNING: if no caption text is shown, the image MUST link to the media metadata record, not the media object, otherwise rights information and other essential metadata are not shown to or reachable by the user. --->
 					<cfif #captionAs# EQ "textNone">
@@ -1355,6 +1345,8 @@ imgStyleClass=value
 					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="image#i#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#">'>
 					<cfset output='#output#</a>'>
+					<cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##image#i#").addimagezoom({zoomrange: [3, 10],
+						magnifiersize: [900,900],magnifierpos:"right",cursorshade:true,largeimage:"#displayImage#"})})</script>'>
 					<cfif #captionAs# EQ "textNone">
 						<!---textNone is used when we don't want any text (including links) below the thumbnail. This is used on Featured Collections of cataloged items on the specimenBrowse.cfm and grouping/index.cfm pages--->
 					<cfelseif #captionAs# EQ "textLinks">
