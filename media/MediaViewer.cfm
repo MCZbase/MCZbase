@@ -48,7 +48,7 @@
 						<h1 class="h2 my-4 col-12 float-left text-center">Media Viewer</h1>
 						<div class="viewer">
 							<cfif len(media.media_id) gt 0>
-								<div class="rounded border bg-light col-12 col-md-6 col-lg-7 col-xl-7 float-left mb-2 pt-3 pb-0">
+								<div class="rounded border bg-light col-12 col-md-6 col-lg-6 col-xl-6 float-left mb-2 pt-3 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="600",captionAs="textLinks")>
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
