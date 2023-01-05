@@ -196,7 +196,7 @@ limitations under the License.
 			border-width: 0; /* avoid default borders in some browsers */
 		}
 
-		#multizoomdescription, #multizoomdescription2 {
+		##multizoomdescription, ##multizoomdescription2 {
 			position: absolute; /* required for description folows image bottom (descpos: true) */
 			width: 500px; /* should be width of zoomable image container (.targetarea) */
 			text-align: center;
