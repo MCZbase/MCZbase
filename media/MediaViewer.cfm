@@ -5,7 +5,7 @@
 <!---  Displays an image and other images in a set related by the relationship shows cataloged_item --->
 <script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="/includes/js/multizoom/multizoom.js"></script>
+<script type="text/javascript" src="/media/js/multizoom.js"></script>
 
 
 
@@ -36,7 +36,6 @@
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 30px black;margin-bottom: .5em;}
-			.slider {height: auto;}
 		</style>
 
 	<main class="container-fluid" id="content">
