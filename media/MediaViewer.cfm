@@ -67,36 +67,12 @@
            </cfoutput>
         </cfif>
         <cftry>
-          <cfquery name="addh" datasource="uam_god" timeout="2">
-			   insert into media_labels 
-					(media_id, 
-					media_label, 
-					label_value, 
-					assigned_by_agent_id
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediatocheck.media_id#">, 
-					'height', 
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#img.height#">, 
-					0
-				)
-			</cfquery>
+
           <cfcatch>
           </cfcatch>
         </cftry>
         <cftry>
-          <cfquery name="addw" datasource="uam_god" timeout="2">
-			   insert into media_labels 
-					(media_id, 
-					media_label, 
-					label_value, 
-					assigned_by_agent_id
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediatocheck.media_id#">,
-					'width', 
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#img.width#">,
-					 0
-				)
-			</cfquery>
+
           <cfcatch>
           </cfcatch>
         </cftry>
@@ -229,7 +205,6 @@
 
       <!--- tip  (added to each replaced multizoomdescription) --->
     <div class="image_box">
-        <p class="tipbox instruction1">Mouse over image to see zoom window, scroll wheel zooms in and out. <a href="##otherimages">Select other images of same specimen below</a>.</p>
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
       <cfoutput> </cfoutput> </cfoutput>
@@ -396,7 +371,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           </div>
 
           <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
           </div>
           <!-- end media_thumbs -->
         </cfoutput>
@@ -405,7 +379,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           </div>
 
           <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">There is only one image of this specimen.</p>
           </div>
 
           </div>
