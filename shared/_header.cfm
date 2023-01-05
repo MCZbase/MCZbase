@@ -156,7 +156,60 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfif CGI.script_name IS "/MediaViewer.cfm">
+	<style>
+		.magnifyarea { /* CSS to add shadow to magnified image. Optional */
+			box-shadow: 5px 5px 7px #818181;
+			-webkit-box-shadow: 5px 5px 7px #818181;
+			-moz-box-shadow: 5px 5px 7px #818181;
+			filter: progid:DXImageTransform.Microsoft.dropShadow(color=#818181, offX=5, offY=5, positive=true);
+			background: white;
+		}
 
+		.targetarea { /* CSS for container div(s) of the zoomable image */
+			width: 500px; /* wide or wider than the widest zoomable image */
+			height: auto; /* high or higher than the tallest zoomable image */
+			margin-top:inherit;
+		}
+
+		#two { /* Added CSS for second target div of zoomable images */
+			height: 600px; /* high or higher than the tallest zoomable image */
+		}
+
+		.targetarea img { /* zoomable image */
+			margin: auto; /* for horizontal centering */
+			display: block; /* also for horizontal centering */
+			position: relative; /* along with on the fly calculations in script, for vertical centering */
+			border-width: 0;
+		}
+
+		.thumbs { /* divs holding the trigger links - styles optional, used here to center their links below their respective zoomable image */
+			padding-top: 25px;
+			width: 500px;
+			text-align: center;
+		}
+
+		.thumbs a { /* trigger links on the thumbnail images */
+			text-decoration: none; /* avoid underlines of images, text or spaces in these links */
+		}
+
+		.thumbs img { /* trigger images - the thumbnails used to load new zoomable images into the targetarea */
+			border-width: 0; /* avoid default borders in some browsers */
+		}
+
+		/*
+		 * Local change: description to multizoomdescription to disambiguate from mczstyles  
+		#description, #description2 {
+		*/
+		#multizoomdescription, #multizoomdescription2 {
+			position: absolute; /* required for description folows image bottom (descpos: true) */
+			width: 500px; /* should be width of zoomable image container (.targetarea) */
+			text-align: center;
+			font: normal 95% Arial,sans-serif;
+			margin-top: 0; /* when following image bottom, this sets a fixed distance for that */
+			color: #222;
+			/*background-color: #fff;*/
+		}
+	</style>
 </cfif>
 <cfif CGI.script_name IS "/users/UserProfile.cfm">
 	<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
