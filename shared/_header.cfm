@@ -171,7 +171,7 @@ limitations under the License.
 			margin-top:inherit;
 		}
 
-		#two { /* Added CSS for second target div of zoomable images */
+		##two { /* Added CSS for second target div of zoomable images */
 			height: 600px; /* high or higher than the tallest zoomable image */
 		}
 
