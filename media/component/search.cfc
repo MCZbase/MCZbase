@@ -1234,17 +1234,7 @@ imgStyleClass=value
 			<cfif media.recordcount EQ 1>
 				<cfset i= 1>
 				<cfloop query="media">
-					<script type="text/javascript">
-					jQuery(document).ready(function($){
-					  $('##image#i#').addimagezoom({// single image zoom
-						zoomrange: [3, 10],
-						magnifiersize: [300,300],
-						magnifierpos:'right',
-						cursorshade:true,
-						largeimage:'' //<-- No comma after last option!
-					  })
-					})
-					</script>
+
 					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu">
 						<cfset iiifSchemeServerPrefix = "http://iiif.mcz.harvard.edu/iiif/3/">
@@ -1351,7 +1341,7 @@ imgStyleClass=value
 						magnifiersize: [300,300],
 						magnifierpos:'right',
 						cursorshade:true,
-						largeimage:'' //<-- No comma after last option!
+						largeimage:'#displayImage#' //<-- No comma after last option!
 					  })
 					})
 					</script>
