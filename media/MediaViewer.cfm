@@ -91,6 +91,7 @@
 												where (media_relationship like '%cataloged_item%' OR media_relationship like '%collecting_event%' OR media_relationship like '%agent%')
 													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+												ORDER BY media.media_type asc
 											</cfquery>
 											<cfset i= 1>
 											<cfloop query="relm">
