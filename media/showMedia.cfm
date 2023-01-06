@@ -30,7 +30,6 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
 	<cfloop query="media">
-		
 		<div class="container">
 			<div class="row">
 				<div class="col-12 px-1 px-md-0 pb-4">
@@ -47,7 +46,7 @@
 							</div>
 							<div class="col-12 px-0 my-2">
 								<cfif len(media.media_id) gt 0>
-									<div class="rounded border bg-light col-12 col-sm-8 col-md-3 float-left my-2 pt-3 pb-0">
+									<div class="rounded border bg-light col-12 col-md-3 float-left my-2 pt-3 pb-0">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textLinks")>
 										<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 									</div>
