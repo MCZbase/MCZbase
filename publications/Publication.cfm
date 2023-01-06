@@ -496,7 +496,7 @@ limitations under the License.
 						<script>
 							function handlePublicationTypeChange() { 
 								loadAttributeControlsForNew($('##publication_type').val(),'attributesBlock');
-								if ($("##publication_type").val()=="journal") { 
+								if ($("##publication_type").val()=="journal article") { 
 									$("##addEditorButton").button("disable");			
 								} else { 
 									$("##addEditorButton").button("enable");			
