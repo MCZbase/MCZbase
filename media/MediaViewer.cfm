@@ -99,7 +99,7 @@
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "highlight_media rounded px-1 pt-2 ">
 														<cfelse>	
-															<cfset activeimg = "border-lt-gray rounded bg-white px-1 pt-2">
+															<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
 														</cfif>
 
 														<ul class="list-group px-0">
