@@ -1192,7 +1192,7 @@ imgStyleClass=value
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="##f8f9fa !important;">
 	<cfargument name="styles" type="string" required="no" default="height: 76px;margin: 0 auto;width:auto;">
-	<cfargument name="minheight" type="string" required="no" default="min-height:150px;">
+	<cfargument name="minheight" type="string" required="no" default="min-height:140px;">
 	<cfif displayAs EQ "fixedSmallThumb">
 		<cfif size lte 200>
 			<cfset size = 75>
@@ -1229,7 +1229,7 @@ imgStyleClass=value
 				WHERE 
 					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-				ORDER BY media_type, LENGTH(MCZBASE.get_media_title(media.media_id)) DESC
+				ORDER BY LENGTH(MCZBASE.get_media_title(media.media_id)) DESC
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfset i= 1>

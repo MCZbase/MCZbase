@@ -107,7 +107,7 @@
 															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 															<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
 																<!---Media Zoom/Related link should populate the area at the top with its image and metadata. Need something new on search.cfc? --->
-																<div class=" px-0" style="min-height: 135px;"> #mediablock#</div>
+																<div class=" px-0"> #mediablock#</div>
 															</div>
 															</li>
 														</ul>
