@@ -29,7 +29,7 @@
 	</cfquery>
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
-			.viewer img {box-shadow: 8px 2px 30px black;margin-bottom: .5em;}
+			.viewer img {box-shadow: 8px 2px 20px gray;margin-bottom: .5em;}
 		</style>
 
 	<main class="container-fluid pb-5" id="content">
