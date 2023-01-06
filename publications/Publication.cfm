@@ -493,6 +493,16 @@ limitations under the License.
 									<option value="#publication_type#">#publication_type#</option>
 								</cfloop>
 							</select>
+						<script>
+							function handlePublicationTypeChange() { 
+								loadAttributeControlsForNew($('##publication_type').val(),'attributesBlock');
+								if ($("##publication_type").val()=="journal") { 
+									$("##addEditorButton").button("disable");			
+								} else { 
+									$("##addEditorButton").button("enable");			
+								}
+							};
+						</script>
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
@@ -560,7 +570,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<h2 class="h3" >Editors</h2> 
-								<button type="button" class="btn btn-xs btn-primary" onclick=" addEditorRow(); ">Add Editor</button>
+								<button type="button" class="btn btn-xs btn-primary" onclick=" addEditorRow(); " id="addEditorButton">Add Editor</button>
 								<ol id="editorList"></ol>
 							</div>
 							<div id="addAuthorEditorDialogDiv"></div>
