@@ -517,12 +517,18 @@ limitations under the License.
 					<cfset isFirst = true>
 				</cfif>
 			</cfif>
-			<cfif isFirst>
-				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
-				<cfset newpos=1>
-				<cfset nameform="author">
+			<cfif role EQ "authors">
+				<cfif isFirst>
+					<!--- there is no first author if we are adding authors, use first author form of name --->
+					<cfset newpos=1>
+					<cfset nameform="author">
+				<cfelse>
+					<!--- there is at least a first author if we are adding authors. --->
+					<cfset newpos=2>
+					<cfset nameform="second author">
+				</cfif>
 			<cfelse>
-				<!--- there is at least a first author if we are adding authors, or at least a first editor if we are adding editors --->
+				<!--- all editors use the second author form of the author name --->
 				<cfset newpos=2>
 				<cfset nameform="second author">
 			</cfif>
