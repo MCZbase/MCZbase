@@ -156,9 +156,17 @@ limitations under the License.
 	</cfif>
 </cfif>
 <cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
+	<script type="text/javascript">
+		if (screen.width >= 960) {
+		var head    = document.getElementsByTagName('head')[0];
+		var script  = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src  = '/media/js/multizoom.js';
+		head.appendChild(script);
+		}
+	</script>
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript" src="/media/js/multizoom.js"></script>
 </cfif>
 <cfif CGI.script_name IS "/users/UserProfile.cfm">
 	<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
