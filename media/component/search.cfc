@@ -1241,7 +1241,7 @@ imgStyleClass=value
 						<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 						<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 						<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
-						<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^,70/0/default.jpg">
+						<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
 					</cfif>
 					<cfset isDisplayable = false>
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
