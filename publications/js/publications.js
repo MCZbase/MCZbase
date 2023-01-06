@@ -459,6 +459,32 @@ function loadAttributeControls(publication_id,targetDivId) {
 	});
 };
 
+
+/** loadAttributeControlsForNew load a block of html for editing
+ *  attributes of a new publication for a specified publication type
+ *  these controls will not auto save changes, but need to be enclosed in the new
+ *  publication form.
+ * @param publication_type the publication type for which to load attribute controls
+ * @param targetDivId the id without a leading # selector of the element in 
+ *  the dom the content of which to replace with the returned html.
+*/
+function loadAttributeControlsForNew(publication_type,targetDivId) { 
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		data : {
+			method : "getNewPubAttControls",
+			publication_type: publication_type
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading attribute controls for publication");
+		},
+		dataType: "html"
+	});
+};
+
 /** loadMediaDivHTML load a block of html for editing/viewing
  *  media related a publication.
  * @param publication_id the publication for which to load media
@@ -820,6 +846,7 @@ function addAuthor(agent_name_id,publication_id,author_position,author_role,okca
 				okcallback();
 			}
 			$('#form_to_add_span').html('second author');
+			$('#is_first_position').val('2');
 			var result = jQuery.parseJSON(retval);
 			console.log(result);
 			var status = result[0].status;
@@ -867,3 +894,92 @@ function loadPubAttributeControl(attribute,value,name,id,targetDivId) {
 		dataType: "html"
 	});
 };
+/** function checkJournalExists check to see if there is an accent and case 
+ * insensitive exact match for a specified name against an existing journal
+ *
+ * @param preferred_name a name string to check against existing journal names.
+ * @param target id of a dom element into which to place the results of the check.
+ */
+function checkJournalExists(journal_name,target) {
+	jQuery.ajax({
+		url: "/publications/component/search.cfc",
+		data : {
+		method : "checkJournalNameExists",
+		journal_name: journal_name
+	},
+	success: function (result) {
+		var matches = jQuery.parseJSON(result);
+		var matchcount = matches.length;
+		console.log(matches);
+		if (matchcount==0) { 
+			$("#" + target).html("no duplicates.");
+		} else {
+			var s = "s";
+			if (matchcount==1) { 
+				s = "";
+			}
+			$("#" + target).html("<a href='/publications/Journals.cfm?execute=true&method=getJournalNames&journal_name=~" + journal_name + "' target='_blank'>" + matchcount + " journal"+s+" with same name</a>");
+		}
+	},
+	error: function (jqXHR, textStatus, error) {
+		handleFail(jqXHR,textStatus,error, "Error checking existence of journal name: "); 
+	},
+		dataType: "html"
+	});
+};
+
+/** openAddAuthorEditorDialogForNew, create and open a dialog to add authors or editors to a 
+ * publication for which a publication record does not yet exist.
+ * @param dialogid id to give to the dialog
+ * @param position the number of this author/editor to identify the relevant inputs to 
+ *  bind the results to.
+ * @param role the role for the dialog to create either authors or editors
+ */
+function openAddAuthorEditorDialogForNew(dialogid, position, role) {
+	var title = "Add " + role + " to publication.";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.8);
+	h = Math.floor(h *.5);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true, 
+		stack: true, 
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 320,
+		minHeight: 250,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$(this).dialog('close'); 
+			}
+		}, 
+		close: function(event,ui) {
+			$(this).dialog("destroy");
+			$("#"+dialogid).html("");
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/publications/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "addAuthorEditorNewHtml",
+			returnformat: "plain",
+			position: position,
+			role: role
+		},
+		success: function (data) {
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading dialog to add author/editor to new publication");
+		}
+	});
+}

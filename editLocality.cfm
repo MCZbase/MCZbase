@@ -415,7 +415,9 @@
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
 			count(cataloged_item.cat_num) numOfSpecs,
-			collection.collection
+			count(collecting_event.collecting_event_id) numOfCollEvents,
+			collection.collection,
+			collection.collection_id
 		from
 			cataloged_item,
 			collection,
@@ -425,7 +427,8 @@
 			cataloged_item.collection_id = collection.collection_id and
 			collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		GROUP BY
-			collection.collection
+			collection.collection,
+			collection.collection_id
   	</cfquery>
 	<cfquery name="collectingEvents" datasource="uam_god">
 		SELECT count(collecting_event_id) ct 
@@ -492,8 +495,15 @@
 									contains no specimens. Please delete it if you don't have plans for it!</font>
 								<cfelseif #whatSpecs.recordcount# is 1>
 									<font color="##FF0000">This Locality (#locDet.locality_id#)
-									contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
-									<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
+										contains 
+										<a href="SpecimenResults.cfm?locality_id=#locality_id#">
+											#whatSpecs.numOfSpecs# #whatSpecs.collection# specimens
+										</a>
+										from 
+										<a href="/Locality.cfm?action=findCO&locality_id=#locality_id#&include_counts=true">
+											#whatSpecs.numOfCollEvents# collecting events
+										</a>
+									</font>
 									</h3><h3>
 									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>.
 								<cfelse>
@@ -503,7 +513,19 @@
 									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
 									<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
 										<cfloop query="whatSpecs">
-											<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
+											<li style="margin-left: 1.5em;">
+												<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection=#whatSpecs.collection#">
+													#numOfSpecs# #collection# specimens
+												</a>
+												from 
+												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
+													#whatSpecs.numOfCollEvents# collecting events
+												</a>
+												<br>
+												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
+													(show only by #collection#)
+												</a>
+											</li>
 										</cfloop>
 									</ul>
 								</cfif>
