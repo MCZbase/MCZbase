@@ -1229,7 +1229,7 @@ imgStyleClass=value
 				WHERE 
 					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-				ORDER BY media_type Desc
+				ORDER BY LENGTH(MCZBASE.get_media_title(media.media_id)) DESC
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfset i= 1>
@@ -1312,7 +1312,7 @@ imgStyleClass=value
 								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#background_color#">
 							<cfelse>
 								<!--- fall back on an svg image of an appropriate generic icon --->
-								<cfset styles = "max-width:125px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+								<cfset styles = "max-width:200px;max-height:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
 									<cfset displayImage = "/shared/images/tag-placeholder.png">
