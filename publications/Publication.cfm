@@ -52,6 +52,8 @@ limitations under the License.
 <cfset includeJQXEditor="true">
 <cfinclude template="/shared/_header.cfm">
 
+<cfset help_publication_title = "Capitalize first letter and proper nouns in title, all else is lower case.  Italicize genus and species combinations in the title by selecting the text and clicking the i button. If a genus appears alone it should also be italicized.  No period is needed at the end of the title.">
+
 <cfswitch expression="#action#">
 <cfcase value="edit">
 	<cfinclude template="/publications/component/functions.cfc" runonce="true">
@@ -150,7 +152,7 @@ limitations under the License.
 					<input type="hidden" name="fullCitationPlain" id="fullCitationPlain" value="#pub.full_citation_plain#">
 					<div class="form-row mb-2 bg-verylightteal">
 						<div class="col-12 col-md-11 mr-0">
-							<label for="publication_title" class="data-entry-label">Publication Title</label>
+							<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required>#pub.publication_title#</textarea>
 						</div>
 						<div class="col-12 col-md-1 ml-0 row">
@@ -456,7 +458,7 @@ limitations under the License.
 					<input type="hidden" name="action" value="createPub">
 					<div class="col-12 form-row pb-1">
 						<div class="col-12 col-md-11">
-							<label for="publication_title" class="data-entry-label">Publication Title</label>
+							<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
 						</div>
 						<div class="col-12 col-md-1 ml-0 row">
