@@ -1192,7 +1192,7 @@ imgStyleClass=value
 	<cfargument name="background_class" type="string" required="no" default="bg-light">
 	<cfargument name="background_color" type="string" required="no" default="##f8f9fa !important;">
 	<cfargument name="styles" type="string" required="no" default="height: 76px;margin: 0 auto;width:auto;">
-	<cfargument name="minheight" type="string" required="no" default="min-height:139px;">
+	<cfargument name="minheight" type="string" required="no" default="min-height:150px;">
 	<cfif displayAs EQ "fixedSmallThumb">
 		<cfif size lte 200>
 			<cfset size = 75>
