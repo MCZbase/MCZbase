@@ -26,7 +26,7 @@ var featuredimagezoomer = { // the two options for Featured Image Zoomer:
 jQuery.noConflict();
 
 (function($){
-if($(window).width() <= 1200){
+if($(window).width() <= 1000){
 	$('head').append('<style type="text/css">.featuredimagezoomerhidden {visibility: hidden!important;}</style>');
 
 	$.fn.multizoomhide = function(){
