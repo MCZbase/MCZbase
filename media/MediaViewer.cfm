@@ -3,12 +3,6 @@
 <cfinclude template="/shared/_header.cfm">
 <script type='text/javascript' src='/media/js/media.js'></script>
 
-<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js"></script>
-<script type="text/javascript" src="/media/js/multizoom.js"></script>
-
-
-
 <cfinclude template="/media/component/search.cfc" runOnce="true">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
