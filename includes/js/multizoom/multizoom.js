@@ -142,7 +142,7 @@ jQuery.noConflict();
 				magcoords.left = coords.left + $tracker.width() + specs.ro;
 			}
 			$mag.css({left: magcoords.left, top:coords.top}).show(); //position magnifier DIV on page
-			specs.$statusdiv.html('<span class="small">Zoom Level:</span> '+specs.curpower+'<div class="smaller">Use Mouse Wheel <br>to Zoom In/Out</div>');
+			specs.$statusdiv.html('Current Zoom: '+specs.curpower+'<div style="font-size:80%">Use Mouse Wheel to Zoom In/Out</div>');
 			if (showstatus) //show status DIV? (only when a range of zoom is defined)
 				fiz.showstatusdiv(specs, 400, 2000);
 		},
