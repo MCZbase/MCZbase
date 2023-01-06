@@ -155,9 +155,9 @@ limitations under the License.
 		<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 	</cfif>
 </cfif>
-<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
+<!---<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
 	<link rel="stylesheet" href="/includes/css/mediacontain.css"/>
-</cfif>
+</cfif>--->
 <cfif CGI.script_name IS "/users/UserProfile.cfm">
 	<script type="text/javascript" src="/shared/js/login_scripts.js"></script> 
 	<script type="text/javascript" src="/users/js/profile.js"></script> 
