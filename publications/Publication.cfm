@@ -486,7 +486,7 @@ limitations under the License.
 						<div class="col-12 col-md-3">
 							<label for="publication_type" class="data-entry-label">Publication Type</label>
 							<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" 
-								onChange="loadAttributeControlsForNew($('##publication_type').val(),'attributesBlock');"
+								onChange="handlePublicationTypeChange();"
 								required>
 								<option value=""></option>
 								<cfloop query="ctpublication_type">
