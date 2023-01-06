@@ -102,7 +102,7 @@ table td .small {
 	border: 2px solid darkgrey !important;
 }
 .border-wide-ltgrey {
-	border: 2px solid #dbe0e1 !important;
+	border: 2px solid #dbe0e1 !important;background-color:#F9FBFF; 
 }
 .border-bottom-black {
 	border-bottom: 8px solid black;
@@ -116,7 +116,7 @@ table td .small {
 .bg-verylightteal {
 	background-color: #f2f9ff;
 }
-.highlight_media {border: 2px solid #a51c30;background-color:#F9FBFF; }
+.highlight_media {border: 2px solid #a51c30;background-color: white;}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
