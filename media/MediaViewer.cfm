@@ -41,11 +41,11 @@
 						
 						<div class="viewer">
 							<cfif len(media.media_id) gt 0>
-								<div class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
+								<div class="rounded border-wide-ltgrey col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 								
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-										<h1 class="h2 mb-1 col-12 float-left text-center">Media Viewer</h1>
+										<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
 										<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
 								</div>
 							</cfif>
@@ -92,9 +92,9 @@
 												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
-															<cfset activeimg = "highlight_media rounded px-1 pt-2 ">
+															<cfset activeimg = "border-wide-ltgrey rounded px-1 pt-2 ">
 														<cfelse>	
-															<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
+															<cfset activeimg = "highlight_media rounded bg-white px-1 pt-2">
 														</cfif>
 
 														<ul class="list-group px-0">
