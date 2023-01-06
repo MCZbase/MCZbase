@@ -38,9 +38,9 @@ limitations under the License.
 					<cfif form EQ "short">
 						mczbase.getshortcitation(publication_id) as citation
 					<cfelseif form EQ "plain">
-						mczbase.assemble_fullcitation(publication_id,0) as citation
+						mczbase.get_citation(publication_id,'long',1) as citation
 					<cfelse>
-						mczbase.getfullcitation(publication_id) as citation
+						mczbase.get_citation(publication_id,'long',0) as citation
 					</cfif>
 				FROM publication
 				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
@@ -442,8 +442,8 @@ limitations under the License.
 	<cfargument name="role" type="string" required="yes">
 	<cfset variables.publication_id = arguments.publication_id>
 	<cfset variables.role = arguments.role>
-	<cfthread name="getAuthorEditorHtmlThread">
 
+	<cfthread name="getAuthorEditorHtmlThread">
 		<cftry>
 			<cfif role EQ "authors">
 				<cfset roleLabel = "Author">
@@ -491,7 +491,154 @@ limitations under the License.
 				<cfset maxposition=max_position>
 				<cfif len(maxposition)EQ 0 ><cfset maxposition=0></cfif>
 			</cfloop>
-			<cfif minpositionfortype EQ 0>
+			<cfset isFirst = false>
+			<cfif role EQ "authors">
+				<cfquery name="authorCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="authorCount_result">
+					SELECT count(*) ct
+					FROM publication_author_name
+					WHERE 
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						AND 
+						author_role = 'author'
+				</cfquery>
+				<cfif authorCount.ct EQ 0>
+					<cfset isFirst = true>
+				</cfif>
+			<cfelseif role EQ "editors">
+				<cfquery name="editorCount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="editorCount_result">
+					SELECT count(*) ct
+					FROM publication_author_name
+					WHERE 
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						AND 
+						author_role = 'editor'
+				</cfquery>
+				<cfif editorCount.ct EQ 0>
+					<cfset isFirst = true>
+				</cfif>
+			</cfif>
+			<cfif role EQ "authors">
+				<cfif isFirst>
+					<!--- there is no first author if we are adding authors, use first author form of name --->
+					<cfset newpos=1>
+					<cfset nameform="author">
+				<cfelse>
+					<!--- there is at least a first author if we are adding authors. --->
+					<cfset newpos=2>
+					<cfset nameform="second author">
+				</cfif>
+			<cfelse>
+				<!--- all editors use the second author form of the author name --->
+				<cfset newpos=2>
+				<cfset nameform="second author">
+			</cfif>
+			<cfoutput>
+				<div class="form-row">
+					<div class="col-12">
+						<h3 class="h4" >Add #roleLabel#</h3>
+						<div class="form-row">
+							<div class="col-12 col-md-5">
+								<label for="agent_name" class="data-entry-label">Pick an agent to add as an #roleLabel#</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="agent_name" id="agent_name" class="form-control rounded-right data-entry-input form-control-sm reqdClr" aria-label="Agent Name" aria-describedby="agent_name_label" value="" required>
+									<input type="hidden" name="agent_id" id="agent_id" value="">
+								</div>
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="agent_view" class="data-entry-label">Selected Agent</label>
+								<div id="agent_view"></div>
+							</div>
+							<div class="col-12 col-md-2">
+								<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
+								<div id="author_name_control"></div>
+								<input type="hidden" name="author_name_id" id="author_name_id" value="">
+								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+								<input type="hidden" name="is_first_position" id="is_first_position" value="#newpos#">
+							</div>
+							<div class="col-12 col-md-2">
+								<a href="/agents/editAgent.cfm?action=new" aria-label="add a new agent" class="btn btn-xs btn-secondary" target="_blank" >New Agent</a>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-12 col-md-3">
+								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# [<span class="small" id="position_to_add_span">#maxposition+1#</span>]</button>
+							</div>
+							<div class="col-12 col-md-9" id="missingNameDiv">
+								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
+								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
+							</div>
+							<script>
+								$(document).ready(function() {
+									$('##missingNameDiv').hide();
+									$('##agent_name').focus();
+								});
+								function showAddAuthorNameDialog() {
+									console.log($('##agent_id').val());
+									console.log($('##next_author_position').val()); 
+									openAddAgentNameOfTypeDialog('addNameTypeDialogDiv', $('##agent_id').val(), $('##form_to_add_span').html());
+								};
+							</script>
+							<div id="addNameTypeDialogDiv"></div>
+							<script>
+								$(document).ready(function() {
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##is_first_position').val());
+								});
+							</script>
+						</div>
+						<div class="col-12" id="listOfAuthorsDiv">
+							<ol id="authorListOnDialog">
+								<cfloop query="getAuthorsEditors">
+									<li>#getAuthorsEditors.agent_name#</li>
+								</cfloop>
+							</ol>
+						</div>
+					</div>
+					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAuthorEditorHtmlThread" />
+	<cfreturn getAuthorEditorHtmlThread.output>
+</cffunction>
+
+
+<!--- addAuthorEditorNewHtml obtain a block of html to populate a dialog for adding an author or editor
+ to a new publication form, where a publication record does not yet exist.
+ @param position the position of the author/editor to identify the controls to which to add values,
+  similar role, but not identical to publication_author_name.author_position, which is a single counter.
+ @param role the role in which to add new agents, allowed values authors or editors.
+ @return html form for a dialog to add authors/editors to populate controls on a new publication form.
+---->
+<cffunction name="addAuthorEditorNewHtml" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="position" type="string" required="yes">
+	<cfargument name="role" type="string" required="yes">
+	<cfset variables.position = arguments.position>
+	<cfset variables.role = arguments.role>
+
+	<cfthread name="getAuthorEditorHtmlThread">
+		<cftry>
+			<cfif role EQ "authors">
+				<cfset roleLabel = "Author">
+				<cfset targetRole = "author">
+			<cfelseif role EQ "editors">
+				<cfset roleLabel = "Editor">
+				<cfset targetRole = "editor">
+			<cfelse>
+				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
+			</cfif>
+			<cfif position EQ 1>
 				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
 				<cfset newpos=1>
 				<cfset nameform="author">
@@ -523,7 +670,7 @@ limitations under the License.
 								<label for="agent_name_control" class="data-entry-label">#roleLabel#</label>
 								<div id="author_name_control"></div>
 								<input type="hidden" name="author_name_id" id="author_name_id" value="">
-								<input type="hidden" name="next_author_position" id="next_author_position" value="#maxposition+1#">
+								<input type="hidden" name="next_author_position" id="next_author_position" value="#position#">
 							</div>
 							<div class="col-12 col-md-2">
 								<a href="/agents/editAgent.cfm?action=new" aria-label="add a new agent" class="btn btn-xs btn-secondary" target="_blank" >New Agent</a>
@@ -531,21 +678,29 @@ limitations under the License.
 						</div>
 						<div class="form-row">
 							<div class="col-12 col-md-3">
-								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="addAuthor($('##author_name_id').val(),'#publication_id#',$('##next_author_position').val(),'#role#',reloadAuthors);" disabled >Add as #roleLabel# <span id="position_to_add_span">#maxposition+1#</span></button>
+								<button class="btn btn-xs btn-primary disabled" id="addButton" onclick="setAuthorValues();" disabled >Add as #roleLabel# <span id="position_to_add_span">#position#</span></button>
 							</div>
 							<div class="col-12 col-md-9" id="missingNameDiv">
 								Missing the <span id="form_to_add_span">#nameform#</span> form of the author name for this agent.
 								<button class="btn btn-xs btn-primary disabled" id="addNameButton" onclick="showAddAuthorNameDialog();" disabled >Add</button>
 							</div>
-							<!--- TODO: Add UI elements to add a new agent with author names if no matches --->
 							<script>
 								$(document).ready(function() {
 									$('##missingNameDiv').hide();
+									$('##agent_name').focus();
 								});
 								function showAddAuthorNameDialog() {
 									console.log($('##agent_id').val());
 									console.log($('##next_author_position').val()); 
 									openAddAgentNameOfTypeDialog('addNameTypeDialogDiv', $('##agent_id').val(), $('##form_to_add_span').html());
+								};
+								function setAuthorValues() { 
+									var idcontrol = "#targetRole#_name_id_#position#";
+									var namecontrol = "#targetRole#_name_#position#";
+									$('##'+idcontrol).val($('##author_name_id').val());
+									$('##'+namecontrol).val($('##author_name_control').html());
+									$('##addAuthorEditorDialogDiv').dialog('close');
+									$('##'+namecontrol).attr("disabled","disabled");
 								};
 							</script>
 							<div id="addNameTypeDialogDiv"></div>
@@ -557,13 +712,9 @@ limitations under the License.
 						</div>
 						<div class="col-12" id="listOfAuthorsDiv">
 							<ol id="authorListOnDialog">
-								<cfloop query="getAuthorsEditors">
-									<li>#getAuthorsEditors.agent_name#</li>
-								</cfloop>
 							</ol>
 						</div>
 					</div>
-					<!--- TODO: Save and continue button, handling switch from first author to second author if first was added --->
 				</div>
 			</cfoutput>
 		<cfcatch>
@@ -1170,6 +1321,20 @@ limitations under the License.
 					<cfset isMCZpub = false>
 				</cfif>
 			</cfif>
+			<cfif NOT isMCZpub>
+				<!--- check if the publication has an MCZ Publication attribute (as in books published by the MCZ) --->
+				<cfquery name="getMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getMCZ_result">
+					SELECT count(*) ct
+					FROM publication_attributes
+					WHERE 
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						AND
+						publication_attribute = 'MCZ publication'
+				</cfquery>
+				<cfif getMCZ.ct GT 0>
+					<cfset isMCZpub = true>
+				</cfif>
+			</cfif>
 			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
 				SELECT publication_attribute
 				FROM cf_pub_type_attribute
@@ -1205,8 +1370,8 @@ limitations under the License.
 						</cfif>
 	
 						<div class="col-12 col-md-4">
-							<label class="data-entry-label">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
+							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
 							<script>	
@@ -1296,6 +1461,65 @@ limitations under the License.
 	<cfreturn cfthread["getPubAttControlsThread#tn#"].output>
 </cffunction>
 
+<!--- obtain html for a set of input controls for the attributes relevant to a 
+  given type of publication for the creation of a new publication record.
+  these controls expect to be embedded in the new publication form and do not auto save.
+  @param publication_type the type of publication for which to return inputs.
+  @return html with a set of inputs or an http 500 error
+--->
+<cffunction name="getNewPubAttControls" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="publication_type" type="string" required="yes">
+
+	<cfset variables.publication_type = arguments.publication_type>
+
+	<cfset tn = REReplace(CreateUUID(), "[-]", "", "all") >
+	<cfthread name="getNewPubAttThread#tn#">
+		<cftry>
+			<cfset isMCZPub = false>
+			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
+				SELECT publication_attribute,
+					regexp_replace(publication_attribute,'[^A-Za-z]','_') as attribute_name
+				FROM cf_pub_type_attribute
+				WHERE
+					publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#variables.publication_type#">
+				ORDER BY ordinal ASC
+			</cfquery>
+			<cfoutput>
+				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv"></output></h2>
+				<div class="form-row mb-2">
+					<cfset i = 0>
+					<cfloop query="getAttributes">
+						<cfset i = i+1>
+						<cfquery name="getDescription" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDescription_result">
+							SELECT description
+							FROM ctpublication_attribute 
+							WHERE 
+								publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">
+						</cfquery>
+						<div class="col-12 col-md-4">
+							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
+							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
+							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="",name="#getAttributes.attribute_name#",id="#id#")>
+							#control#
+						</div>
+					</cfloop>
+				</div>
+
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getNewPubAttThread#tn#" />
+	<cfreturn cfthread["getNewPubAttThread#tn#"].output>
+</cffunction>
+
 <!--- obtain html for an input control for a publication attribute 
 	@param attribute the attribute for which to return an input
 	@param value the value to set for the attribute in the input
@@ -1359,6 +1583,9 @@ limitations under the License.
 				<cfif listlen(columnList) is 1>
 					<!--- there is one column to use, we know what to do --->
 					<cfset retval = "<select name='#encodeForHtml(name)#' id='#encodeForHtml(id)#' class='data-entry-select #reqdClr#' #req#>" > <!--- " --->
+					<cfif req NEQ "required">
+						<cfset retval =  "#retval#<option value=''></option>"> <!--- allow blank option for non-required fields --->
+					</cfif>
 					<cfloop query="getVocabulary">
 						<cfset ctValue = getVocabulary[columnList]>
 						<cfif value EQ ctValue>

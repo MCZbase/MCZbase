@@ -67,9 +67,20 @@ limitations under the License.
 							<form name="newJournalTitle" id="newJournalTitle" action="/publications/Journal.cfm" method="post" class="px-2">
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mt-2 mb-2">
-									<div class="col-md-12">
+									<div class="col-12 col-md-10">
 										<label for="journal_name" id="journal_name_label" class="data-entry-label">Serial/Journal Title</label>
 										<input type="text" id="journal_name" name="journal_name" class="data-entry-input reqdClr" required aria-labelledby="journal_name_label" >
+										<script>
+											$(document).ready(function () {
+												$('##journal_name').change(function () {
+													checkJournalExists($('##journal_name').val(),'matchesFeedback');
+												});
+											});
+										</script>
+									</div>
+									<div class="col-12 col-md-2">
+										<label for="matchesFeedback" class="data-entry-label">Duplicate check</label>
+										<output id="matchesFeedback" class="text-success font-weight-lessbold p-1"></output>
 									</div>
 								</div>
 								<div class="form-row mb-2">

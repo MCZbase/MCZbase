@@ -52,6 +52,8 @@ limitations under the License.
 <cfset includeJQXEditor="true">
 <cfinclude template="/shared/_header.cfm">
 
+<cfset help_publication_title = "Capitalize first letter and proper nouns in title, all else is lower case.  Italicize genus and species combinations in the title by selecting the text and clicking the i button. If a genus appears alone it should also be italicized.  No period is needed at the end of the title.">
+
 <cfswitch expression="#action#">
 <cfcase value="edit">
 	<cfinclude template="/publications/component/functions.cfc" runonce="true">
@@ -71,8 +73,8 @@ limitations under the License.
 			is_peer_reviewed_fg,
 			doi,
 			mczbase.getshortcitation(publication_id) as short_citation, 
-			mczbase.getfullcitation(publication_id) as full_citation,
-			mczbase.assemble_fullcitation(publication_id,0) as full_citation_plain,
+			mczbase.get_citation(publication_id,'long',0) as full_citation,
+			mczbase.get_citation(publication_id,'long',1) as full_citation_plain,
 			get_publication_attribute(publication_id,'begin page') as spage,
 			get_publication_attribute(publication_id,'journal name') as jtitle,
 			get_publication_attribute(publication_id,'volume') as volume,
@@ -80,6 +82,9 @@ limitations under the License.
 		FROM publication
 		WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
+	<cfif pub.recordcount EQ 0>
+		<cfthrow message="No publication found with the specified publication_id [#encodeForHtml(publication_id)#].">
+	</cfif>
 	<cfquery name="MCZpub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="MCZpub_result">
 		SELECT
 			publication
@@ -147,7 +152,7 @@ limitations under the License.
 					<input type="hidden" name="fullCitationPlain" id="fullCitationPlain" value="#pub.full_citation_plain#">
 					<div class="form-row mb-2 bg-verylightteal">
 						<div class="col-12 col-md-11 mr-0">
-							<label for="publication_title" class="data-entry-label">Publication Title</label>
+							<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required>#pub.publication_title#</textarea>
 						</div>
 						<div class="col-12 col-md-1 ml-0 row">
@@ -199,7 +204,7 @@ limitations under the License.
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-4">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (DOI)</label>
-							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input">
+							<input type="text" id="doi" name="doi" value="#encodeForHtml(pub.doi)#" class="data-entry-input" placeholder="10.1000/xyz123">
 						</div>
 						<div class="col-12 col-md-4" id="doiLinkDiv">
 							<cfset crossref = "guestquery/">
@@ -444,16 +449,16 @@ limitations under the License.
 	</cfquery>
 	<cfoutput>
 		<main class="container py-3" id="content" >
-			<section class="row border rounded my-2">
+			<section class="row border rounded my-2 p-1">
 				<h1 class="h2">
 					Create New Publication
 					<img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 				</h1>
 				<form name="newPubForm" id="newPubForm" method="post" action="Publication.cfm">
 					<input type="hidden" name="action" value="createPub">
-					<div class="col-12 form-row">
+					<div class="col-12 form-row pb-1">
 						<div class="col-12 col-md-11">
-							<label for="publication_title" class="data-entry-label">Publication Title</label>
+							<label for="publication_title" class="data-entry-label">Publication Title <span class="small">#help_publication_title#</span></label>
 							<textarea name="publication_title" id="publication_title" class="reqdClr w-100" rows="3" required></textarea>
 						</div>
 						<div class="col-12 col-md-1 ml-0 row">
@@ -480,42 +485,104 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="publication_type" class="data-entry-label">Publication Type</label>
-							<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" required>
+							<select name="publication_type" id="publication_type" class="reqdClr data-entry-select" 
+								onChange="handlePublicationTypeChange();"
+								required>
 								<option value=""></option>
 								<cfloop query="ctpublication_type">
 									<option value="#publication_type#">#publication_type#</option>
 								</cfloop>
 							</select>
-            		</div>
+						<script>
+							function handlePublicationTypeChange() { 
+								loadAttributeControlsForNew($('##publication_type').val(),'attributesBlock');
+								if ($("##publication_type").val()=="journal article") { 
+									$("##addEditorButton").button("disable");			
+								} else { 
+									$("##addEditorButton").button("enable");			
+								}
+							};
+						</script>
+						</div>
 						<div class="col-12 col-md-3">
-							<label for="published_year" class="data-entry-label">Published Year</label>
-							<input type="text" name="published_year" id="published_year" class="data-entry-input">
-            		</div>
+							<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
+							<input type="text" name="published_year" id="published_year" class="data-entry-input" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, for ranges of years, after saving record, add and use the published year range attribute.">
+						</div>
 						<div class="col-12 col-md-3">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
-							<input type="text" name="doi" id="doi" class="data-entry-input">
-            		</div>
+							<input type="text" name="doi" id="doi" class="data-entry-input" placeholder="10.1000/xyz123">
+						</div>
 						<div class="col-12 col-md-3">
 							<label for="publication_loc" class="data-entry-label">Storage Location</label>
 							<input type="text" name="publication_loc" id="publication_loc" class="data-entry-input">
-            		</div>
+						</div>
 						<div class="col-12 col-md-9">
 							<label for="publication_remarks" class="data-entry-label">Remark</label>
 							<input type="text" name="publication_remarks" id="publication_remarks" class="data-entry-input">
 						</div>	
 						<div class="col-12 col-md-3">
-            			<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
+							<label for="is_peer_reviewed_fg" class="data-entry-label">Peer Reviewed?</label>
 							<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="data-entry-select" >
 								<option value="1">yes</option>
 								<option value="0">no</option>
 							</select>
-            		</div>
+						</div>
+						<!--- authors/editors --->
+						<div class="col-12 form-row">
+							<input type="hidden" name="author_count" id="author_count" value="0">
+							<input type="hidden" name="editor_count" id="editor_count" value="0">
+							<script>
+								function launchAddAuthorDialog(author_count) { 
+									console.log(author_count);
+									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', author_count, 'authors');
+								}
+								function launchAddEditorDialog(editor_count) { 
+									console.log(editor_count);
+									openAddAuthorEditorDialogForNew('addAuthorEditorDialogDiv', editor_count, 'editors');
+								}
+								function addAuthorRow() { 
+									var author_count = parseInt($('##author_count').val());
+									author_count = author_count + 1;
+									$('##author_count').val(author_count);
+									$('##authorList').append(
+										'<li>'+
+										'	<input type="hidden" id="author_name_id_'+author_count+'" name="author_name_id_'+author_count+'" >'+
+										'	<input type="text" class="btn btn-xs btn-light" id="author_name_'+author_count+'" name="author_name_'+author_count+'" onClick=" launchAddAuthorDialog('+author_count+');">'+
+										'</li>'
+										);
+								};
+								function addEditorRow() { 
+									var editor_count = parseInt($('##editor_count').val());
+									editor_count = editor_count + 1;
+									$('##editor_count').val(editor_count);
+									$('##editorList').append(
+										'<li>'+
+										'	<input type="hidden" id="editor_name_id_'+editor_count+'" name="editor_name_id_'+editor_count+'" >'+
+										'	<input type="text" class="btn btn-xs btn-light" id="editor_name_'+editor_count+'" name="editor_name_'+editor_count+'" onClick=" launchAddEditorDialog('+editor_count+');">'+
+										'</li>'
+										);
+								};
+							</script>
+							<div class="col-12 col-md-6">
+								<h2 class="h3" >Authors</h2> 
+								<button type="button" class="btn btn-xs btn-primary" onclick=" addAuthorRow(); ">Add Author</button>
+								<ol id="authorList"></ol>
+							</div>
+							<div class="col-12 col-md-6">
+								<h2 class="h3" >Editors</h2> 
+								<button type="button" class="btn btn-xs btn-primary" onclick=" addEditorRow(); " id="addEditorButton">Add Editor</button>
+								<ol id="editorList"></ol>
+							</div>
+							<div id="addAuthorEditorDialogDiv"></div>
+						</div>
+						<!--- attributes populated when publication type is selected --->
+						<div class="col-12" id="attributesBlock"></div>
 						<div class="col-12 col-md-3">
 							<input type="button" class="btn btn-xs btn-primary" value="Create" 
 								onClick="if (checkFormValidity($('##newPubForm')[0])) { submit();  } ">
-            		</div>
+						</div>
 						<div class="col-12 col-md-9">
-							Add authors, editors, attributes, media, and lookup DOI after saving.
+							Add additional attributes, media, or lookup DOI after saving.
 						</div>
 					</div>
 				</form>
@@ -527,37 +594,124 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------------------------------->
 	<cfoutput>
 		<cftransaction>
-			<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select sq_publication_id.nextval p from dual
+			<cfquery name="seq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_publication_id.nextval id from dual
 			</cfquery>
-			<cfset pid=p.p>a
+			<cfset publication_id=seq.id>
 			<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into publication (
-				publication_id,
-				published_year,
-				publication_type,
-				publication_loc,
-				publication_title,
-				publication_remarks,
-        doi,
-				is_peer_reviewed_fg
-			) values (
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
-				<cfif len(published_year) gt 0>
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">,
-				<cfelse>
-					NULL,
+				INSERT INTO publication (
+					publication_id,
+					published_year,
+					publication_type,
+					publication_loc,
+					publication_title,
+					publication_remarks,
+					doi,
+					is_peer_reviewed_fg
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+					<cfif len(published_year) gt 0>
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">,
+					<cfelse>
+						NULL,
+					</cfif>
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
+				)
+			</cfquery>
+
+			<!--- Author names --->
+			<cfif isDefined("author_count") and len(author_count) GT 0 and author_count NEQ "0">
+				<cfloop index="i" from="1" to="#author_count#">
+					<cfset author_name_id = evaluate("author_name_id_#i#")>
+					<cfif isDefined("author_name_id") AND len(author_name_id) GT 0>
+						<cfquery name="insertAuthor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertAuthor_result">
+							INSERT INTO publication_author_name (
+								publication_id,
+								agent_name_id,
+								author_position,
+								author_role
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#author_name_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#i#">,
+								'author'
+							)
+						</cfquery>
+						<cfif insertAuthor_result.recordcount eq 0>
+							<cfthrow message="Failed to properly insert new publication_author_name record for an author">
+						</cfif>
+					</cfif>
+				</cfloop>
+			</cfif>
+
+			<!--- Editor names --->
+			<cfif isDefined("editor_count") and len(editor_count) GT 0 and editor_count NEQ "0">
+				<cfloop index="i" from="1" to="#editor_count#">
+					<cfset editor_name_id = evaluate("editor_name_id_#i#")><!--- 1 based, separate from author_position --->
+					<cfset position = i + author_count><!--- author_position is single ordinal counter for both authors and editors --->
+					<cfif isDefined("editor_name_id") AND len(editor_name_id) GT 0>
+						<cfquery name="insertEditor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertEditor_result">
+							INSERT INTO publication_author_name (
+								publication_id,
+								agent_name_id,
+								author_position,
+								author_role
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_name_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#position#">,
+								'editor'
+							)
+						</cfquery>
+						<cfif insertEditor_result.recordcount eq 0>
+							<cfthrow message="Failed to properly insert new publication_author_name record for an editor">
+						</cfif>
+					</cfif>
+				</cfloop>
+			</cfif>
+
+			<!--- if there are any attributes, add them --->
+			<!--- obtain form with spaces replaced with underscores for variable passed from form, and without for database value --->
+			<cfquery name="getAttributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getAttributes_result">
+				SELECT 
+					distinct
+					regexp_replace(publication_attribute,'[^A-Za-z]','_') as publication_attribute_name,
+					publication_attribute
+				FROM cf_pub_type_attribute
+			</cfquery>
+			<cfloop query="getAttributes">
+				<cfif isDefined("#getAttributes.publication_attribute_name#")>
+					<cfset val = evaluate("#getAttributes.publication_attribute_name#")>
+					<cfif len(val) GT 0>
+						<cfquery name="addAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="attAtt_result">
+							INSERT INTO publication_attributes (
+								publication_id,
+								publication_attribute, 
+								pub_att_value
+							) VALUES (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getAttributes.publication_attribute#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#val#">
+							)
+						</cfquery>
+					</cfif>
 				</cfif>
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
-        		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
-			)
-		</cfquery>
+			</cfloop>
 		</cftransaction>
-		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
+		<cftransaction>
+			<!--- trigger rebuld of formatted publication --->
+			<cfquery name="rebuild" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="rebuild_result">
+				UPDATE publication 
+				SET last_update_date = CURRENT_TIMESTAMP
+				WHERE publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			</cfquery>
+		</cftransaction>
+		<cflocation url="/publications/Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
 	</cfoutput>
 </cfcase>
 </cfswitch>

@@ -652,6 +652,7 @@ Function getDOIAutocomplete.  Search for dois by name with a substring match
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
 <!---
 Function getJournalNames.  Search for publications by fields
  returning json suitable for a dataadaptor.
@@ -674,6 +675,15 @@ Function getJournalNames.  Search for publications by fields
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
+		<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				journal_name,
@@ -697,7 +707,7 @@ Function getJournalNames.  Search for publications by fields
 					<cfelseif left(journal_name,1) EQ "!">
 						and journal_name <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">
 					<cfelseif left(journal_name,1) is "~">
-						AND utl_match.jaro_winkler(journal_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">) >= 0.85
+						AND utl_match.jaro_winkler(journal_name, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(journal_name,len(journal_name)-1)#">) >= 0.83
 					<cfelseif left(journal_name,1) is "$">
 						AND soundex(journal_name) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(journal_name,len(journal_name)-1))#">)
 					<cfelseif left(journal_name,2) is "!$">
@@ -801,7 +811,67 @@ Function getJournalNames.  Search for publications by fields
 		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
 		<cfabort>
 	</cfcatch>
+	<cffinally>
+		<cfif isDefined("journal_name") AND len(journal_name) GT 0>
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cfif>
+	</cffinally>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<!--- check if there is a case and accent insensitive match to a specified journal name 
+ @param journal_name the name to check 
+--->
+<cffunction name="checkJournalNameExists" returntype="any" access="remote" returnformat="json">
+	<cfargument name="journal_name" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+			<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="dupPref_result">
+				SELECT journal_name
+				FROM 
+					ctjournal_name
+				WHERE 
+					upper(journal_name) = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#ucase(journal_name)#'>
+			</cfquery>
+			<cfset matchcount = dupPref.recordcount>
+			<cfset i = 1>
+			<cfloop query="dupPref">
+				<cfset row = StructNew()>
+				<cfset columnNames = ListToArray(dupPref.columnList)>
+				<cfloop array="#columnNames#" index="columnName">
+					<cfset row["#columnName#"] = "#dupPref[columnName][currentrow]#">
+				</cfloop>
+				<cfset data[i] = row>
+				<cfset i = i + 1>
+			</cfloop>
+			<cfreturn #serializeJSON(data)#>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		<cffinally>
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cffinally>
+		</cftry>
+	</cftransaction>
+</cffunction>
+
 </cfcomponent>
