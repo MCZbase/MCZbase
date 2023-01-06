@@ -28,11 +28,11 @@ jQuery.noConflict();
 (function($){
 
 	$('head').append('<style type="text/css">.featuredimagezoomerhidden {visibility: hidden!important;}</style>');
-
+if($(window).width() <= 2000){
 	$.fn.multizoomhide = function(){
 		return $('<style type="text/css">' + this.selector + ' {visibility: hidden;}<\/style>').appendTo('head');
 	};
-
+}
 	$.fn.addmultizoom = function(options){
 
 		var indoptions = {largeimage: options.largeimage}, $imgObj = $(options.imgObj + ':not(".thumbs")'),
