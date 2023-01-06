@@ -1525,7 +1525,7 @@ imgStyleClass=value
 			order by agent_name.agent_name
 		</cfquery>
 		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct collecting_event.verbatim_locality
+			select distinct collecting_event.verbatim_locality,collecting_event.collecting_event_id
 			from media_relations
 				left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
