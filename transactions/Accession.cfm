@@ -652,7 +652,7 @@ limitations under the License.
 						<input type="button" value="Add Items (Search &amp; Manage)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/Specimens.cfm?action=fixedSearch&collection_id=#accessionDetails.collection_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/Specimens.cfm?execute=true&action=fixedSearch&accn_number=#accessionDetails.accn_number#');">
+							onClick="window.open('/Specimens.cfm?execute=true&action=fixedSearch&accn_number=%3D#accessionDetails.accn_number#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateItemSections(); ">
 					</div>
