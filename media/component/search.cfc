@@ -1261,7 +1261,7 @@ imgStyleClass=value
 						<cfelseif #displayAs# EQ "thumb">
 							<cfset displayImage = preview_uri>
 							<cfset hw = 'width="auto" height="auto"'>
-							<cfset styles = "max-width:100px;max-height:95px;">
+							<cfset styles = "max-height:70px;">
 							<cfif host EQ "mczbase.mcz.harvard.edu">
 								<cfset displayImage = iiifThumb>
 							</cfif>
