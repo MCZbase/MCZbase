@@ -1342,7 +1342,7 @@ imgStyleClass=value
 					<cfelse>
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
-					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="Use featured image at top of page for zoom">'>
+					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 <cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>
