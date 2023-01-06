@@ -495,8 +495,8 @@ limitations under the License.
 							</select>
 						</div>
 						<div class="col-12 col-md-3">
-							<label for="published_year" class="data-entry-label">Published Year</label>
-							<input type="text" name="published_year" id="published_year" class="data-entry-input">
+							<label for="published_year" class="data-entry-label">Published Year (yyyy only)</label>
+							<input type="text" name="published_year" id="published_year" class="data-entry-input" placeholder="yyyy" pattern="[0-9]{4}" title="numeric four digit year of publication, for ranges of years, after saving record, add and use the published year range attribute.">
 						</div>
 						<div class="col-12 col-md-3">
 							<label for="doi" class="data-entry-label">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
