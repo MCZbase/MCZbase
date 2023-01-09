@@ -40,7 +40,7 @@
 								<cfif media.media_type eq 'image'>
 								<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/MediaViewer.cfm?media_id=#media_id#'">Media Viewer</button>
 								<cfelse>
-									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#">Text File</a>
+									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#">Media File</a>
 								</cfif>
 							<cfelse>
 								<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#>">External Viewer <img src="/images/linkOut.gif" alt="arrow out"></a>
