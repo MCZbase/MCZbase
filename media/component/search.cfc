@@ -1364,7 +1364,7 @@ imgStyleClass=value
 									
 								<cfelse>
 									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
-									<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
+									<cfset output='#output#(<a class="d-none d-md-inline-block" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
 								</cfif>
 								<cfif len(iiifFull) GT 0>
 									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
