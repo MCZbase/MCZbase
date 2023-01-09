@@ -1361,11 +1361,12 @@ imgStyleClass=value
 								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 							<cfelse>
 								<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
-								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related/</a>)'>
-							<cfelse>
-							<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
-							<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
-							</cfif>
+									<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="switchImages(#media_id#)">
+									<cfset output='#output#(<a role="button" href="javascript:void(0)" class="btn btn-xs small py-0 anchorFocus" id="btn_pane" onClick="switchImages(#media_id#)">)'>
+								<cfelse>
+									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
+									<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
+								</cfif>
 								<cfif len(iiifFull) GT 0>
 									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
 								<cfelse>
