@@ -1313,7 +1313,7 @@ imgStyleClass=value
 							<cfelse>
 								<!--- fall back on an svg image of an appropriate generic icon --->
 								
-								<cfset size = "200">
+								<cfset size = "100">
 								<cfset styles = "max-height:200px;width:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<!--- pick placeholder --->
