@@ -1300,7 +1300,7 @@ imgStyleClass=value
 					
 									<cfelse>
 											<cfset hw = 'width="auto" height="auto"'>
-											<cfset styles = "height: 101px;margin: 0 auto;width: auto">
+											<cfset styles = "height: 76px;margin: 0 auto;width: auto">
 											<cfset minheight = "min-height: auto">
 									</cfif>
 								</cfif>
