@@ -1298,9 +1298,14 @@ imgStyleClass=value
 										<cfset styles = "height: auto;margin: 0 auto;width: auto">
 										<cfset minheight = "min-height: auto">
 									<cfelse>
-										<cfset hw = 'width="auto" height="auto"'>
-										<cfset styles = "height: 100px;margin: 0 auto;width: auto">
-										<cfset minheight = "min-height: auto">
+										<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
+											<cfset size = "200">
+											<cfset styles = "max-height:;width:auto;">
+										<cfelse>
+											<cfset hw = 'width="auto" height="auto"'>
+											<cfset styles = "height: 100px;margin: 0 auto;width: auto">
+											<cfset minheight = "min-height: auto">
+										</cfif>
 									</cfif>
 								</cfif>
 							</cfif>
@@ -1314,11 +1319,12 @@ imgStyleClass=value
 								<!--- fall back on an svg image of an appropriate generic icon --->
 								<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
 									<cfset size = "200">
+										<cfset styles = "max-height:;width:auto;">
 								<cfelse>
 									<cfset size = "90">
 								</cfif>
 								
-								<cfset styles = "max-height:auto;width:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
+								<!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<!--- pick placeholder --->
 								<cfif media_type is "image">
