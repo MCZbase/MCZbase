@@ -1386,7 +1386,7 @@ imgStyleClass=value
 							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
-								<cfset output='#output#(<a role="button" href="javascript:void(0)" id="btn_pane" class="" onClick="switchImages(#media_id#,300,'textLinks')">zoom/related</a>)'>
+								<cfset output='#output#(<a href="javascript:void(0)" id="btn_pane" class="" onClick="switchImages(#media_id#,#size#,#captionAs#)">zoom/related</a>)'>
 							<cfelse>
 								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
 								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
