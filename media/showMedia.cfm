@@ -31,7 +31,7 @@
 </cfquery>
 	<div class="container">
 		<div class="row">
-			<div class="col-12 px-1 px-md-0 pb-4">
+			<div class="col-11 mx-auto px-1 px-md-0 pb-4">
 				<main class="content">
 					<div class="row mx-0">
 						<div class="col-12 px-0 border-bottom border-dark my-3">
@@ -54,7 +54,7 @@
 									<div class="mx-auto text-center h2 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 							</cfif>
-							<div class="float-left col-12 col-md-9 px-0 mt-1 pl-md-4">
+							<div class="float-left col-12 col-md-9 px-0 mt-2 pl-md-4">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
