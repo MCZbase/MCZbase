@@ -121,7 +121,7 @@ jQuery.noConflict();
 				magnifiersize:[200, 200],
 				cursorshadecolor: '#fff',
 				cursorshadeopacity: 0.3,
-				cursorshadeborder: '1px solid #deebec',
+				cursorshadeborder: '1px solid #dddddd',
 				cursorshade: false,
 				leftoffset: 15, //offsets here are used (added to) the width of the magnifyarea when
 				rightoffset: 10 //calculating space requirements and to position it visa vis any drop shadow
