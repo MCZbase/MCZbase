@@ -39,7 +39,7 @@
 				<div class="row">
 					<div class="col-12 my-3">
 						
-						<div class="viewer">
+						<div id="viewer">
 							<cfif len(media.media_id) gt 0>
 								<div class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
