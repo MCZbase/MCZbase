@@ -34,8 +34,8 @@
 			<div class="col-12 px-1 px-md-0 pb-4">
 				<main class="content">
 					<div class="row mx-0">
-						<div class="col-12 px-0 border-bottom border-dark mt-4">
-							<h1 class="h2 my-2 pb-2 px-2"> Media Record 	
+						<div class="col-12 px-0 border-bottom border-dark my-3">
+							<h1 class="h2 my-2 py-2 px-2"> Media Record 	
 							<cfif media.media_uri contains 'mczbase'>
 								<cfif media.media_type eq 'image'>
 								<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/MediaViewer.cfm?media_id=#media_id#'">Media Viewer</button>
