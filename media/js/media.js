@@ -79,7 +79,7 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
  *  @param 
  *  @param 
  */
-function switchImages(media_id,targetDivId) { 
+function switchImages(media_id,viewer) { 
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
@@ -87,7 +87,7 @@ function switchImages(media_id,targetDivId) {
 			media_id: media_id,
 		},
 		success: function (result) {
-			$("#" + targetDivId ).html(result);
+			$("#" + viewer ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading related image");
