@@ -74,6 +74,30 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
 	};
 };
 
+
+/** Switch between images on mediaViewer for zoom/related
+ *  @param 
+ *  @param 
+ */
+function switchImages(media_id,targetDivId) { 
+	jQuery.ajax({
+		url: "/media/component/search.cfc",
+		data : {
+			method : "getMediaBlockHtmlUnthreaded",
+			media_id: media_id,
+		},
+		success: function (result) {
+			$("#" + targetDivId ).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading related image");
+		},
+		dataType: "html"
+	});
+};
+
+
+
 /** Make a pair of media_label_type and media_label_values control into an autocomplete 
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param typeControl the id for a select who's selected value is the media_label to lookup values for (without a leading # selector).

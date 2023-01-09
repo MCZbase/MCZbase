@@ -39,10 +39,9 @@
 				<div class="row">
 					<div class="col-12 my-3">
 						
-						<div class="viewer">
+						<div class="viewer targetarea">
 							<cfif len(media.media_id) gt 0>
 								<div class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
-								
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 										<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
@@ -89,7 +88,7 @@
 											</cfquery>
 											<cfset i= 1>
 											<cfloop query="relm">
-												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
+												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "highlight_media rounded px-1 pt-2 ">
