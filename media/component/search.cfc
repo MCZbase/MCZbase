@@ -1290,7 +1290,7 @@ imgStyleClass=value
 								<cfset displayImage = preview_uri>
 								<cfif #displayAs# eq "thumb">
 									<cfset hw = 'width="auto" height="auto"'>
-									<cfset styles = "height: 76px;margin: 0 auto;width: auto">
+									<cfset styles = "height: 76px;margin: 0 auto;width: auto;">
 								<cfelse>
 									<!---for shared drive images when the displayAs=thumb attribute is not used and a size is used instead. Since most of our intrinsic thumbnails in "preview_uri" field are around 150px or smaller, I will use that as the width. Height is "auto" for landscape and portrait.  --[changed from 100 to auto-3/14/22 MK ledgers were too tall--need to check other types--it was changed at some point] ---->
 									<cfif #media_uri# CONTAINS "nrs" OR #media_URI# CONTAINS "morphosource">
@@ -1646,7 +1646,7 @@ imgStyleClass=value
 											<cfloop query="spec"><cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id, media.auto_protocol, media.auto_host
 											from media_relations left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-											</cfquery><a class="font-weight-lessbold" href="#relm.auto_protocol#/#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
+											</cfquery><a class="font-weight-lessbold" href="#relm.auto_host#/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship contains 'shows agent'>:<cfloop query="agents">
 											<cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id, media.auto_protocol, media.auto_host from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#agents.agent_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#agents.agent_id#">#agents.agent_name#</a><span>, </span></cfloop>
