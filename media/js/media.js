@@ -83,7 +83,7 @@ function switchImages(media_id,viewer) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
-			method : 'getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>',
+			method : 'getMediaBlockHtmlUnthreaded',
 			media_id: media_id,
 		},
 		success: function (result) {

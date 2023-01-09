@@ -38,21 +38,18 @@
 			<cfloop query="media">
 				<div class="row">
 					<div class="col-12 my-3">
-						
-						<div id="viewer">
-							<cfif len(media.media_id) gt 0>
-								<div class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
-									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-										<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
-										<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
-								</div>
-							</cfif>
-							<div class="col-12 col-md-7 col-xl-10 float-left my-2 pt-0 pb-0">
-								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
-								<div id="mediaMetadataBlock#media_id#">
-									#mediaMetadataBlock#
-								</div>
+						<cfif len(media.media_id) gt 0>
+							<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
+								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
+								<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+									<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
+									<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
+							</div>
+						</cfif>
+						<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-0 pb-0">
+							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+							<div id="mediaMetadataBlock#media_id#">
+								#mediaMetadataBlock#
 							</div>
 						</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
