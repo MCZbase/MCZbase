@@ -87,9 +87,9 @@
 											<cfloop query="relm">
 												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 													<cfif len(media.media_id) gt 0>
-														<cfif relm.media_id eq '#media.media_id#'> 
+														<cfif relm.media_id eq '#media.media_id#' and relm.media_id lt 2> 
 															<!---<cfset activeimg = "highlight_media rounded px-1 pt-2 ">--->
-															
+															No Related Media
 														<cfelse>	
 															<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
 															<ul class="list-group px-0">
