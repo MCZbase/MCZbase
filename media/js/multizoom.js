@@ -232,7 +232,7 @@ jQuery.noConflict();
 			}
 			$img.css({visibility: 'visible'});
 			setting.largeimage = setting.largeimage || $img.get(0).src;
-			$magnifier=$('<div class="magnifyarea" style="position:absolute;z-index:5000;width:'+setting.magnifiersize[0]+'px;height:'+setting.magnifiersize[1]+'px;left:-10000px;top:-10000px;visibility:hidden;overflow:hidden;border:1px solid black;background-color: lightgray; " />')
+			$magnifier=$('<div class="magnifyarea" style="position:absolute;z-index:5000;width:'+setting.magnifiersize[0]+'px;height:'+setting.magnifiersize[1]+'px;left:-10000px;top:-10000px;visibility:hidden;overflow:hidden;border:1px solid black;background-color:lightgray; " />')
 				.append('<div style="position:relative;left:0;top:0;z-index:'+basezindex+';" />')
 				.appendTo(document.body) //create magnifier container
 			//following lines - create featured image zoomer divs, and absolutely positioned them for placement over the thumbnail and each other:
