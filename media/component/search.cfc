@@ -1312,6 +1312,8 @@ imgStyleClass=value
 								<cfset displayImage = "/media/rescaleImage.cfm?use_thumb=true&media_id=#media.media_id##sizeParameters#&background_color=#background_color#">
 							<cfelse>
 								<!--- fall back on an svg image of an appropriate generic icon --->
+								
+								<cfset size = "200">
 								<cfset styles = "max-height:200px;width:auto;"><!---auto is need here because the text img is portrait size -- svg files so it shouldn't matter too much.--->
 								<cfset hw = 'height="#size#" width="#size#"'>
 								<!--- pick placeholder --->
