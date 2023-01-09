@@ -1297,15 +1297,13 @@ imgStyleClass=value
 										<cfset hw = 'width="95" height="auto"'>
 										<cfset styles = "height: auto;margin: 0 auto;width: auto">
 										<cfset minheight = "min-height: auto">
-									<cfelse>
-										<cfif CGI.script_name CONTAINS "/media/">
+									<cfelseif CGI.script_name CONTAINS "/media/">
 											<cfset size = "200">
 											<cfset styles = "max-height:;width:auto;">
-										<cfelse>
+									<cfelse>
 											<cfset hw = 'width="auto" height="auto"'>
 											<cfset styles = "height: 100px;margin: 0 auto;width: auto">
 											<cfset minheight = "min-height: auto">
-										</cfif>
 									</cfif>
 								</cfif>
 							</cfif>
