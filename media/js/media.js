@@ -79,7 +79,7 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
  *  @param 
  *  @param 
  */
-function switchImages(targetDiv,media_id) { 
+function switchImages(targetDiv,media_id=media_id,viewer) { 
 	console.log("loadSwitch() called for " + targetDiv);
 	jQuery.ajax({
 		url: "/specimens/component/public.cfc",
