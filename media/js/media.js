@@ -84,7 +84,7 @@ function switchImages(targetDiv,media_id,size,captionAs,viewer) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
-			method : 'getMediaBlockHtml,
+			method : 'switchMedia',
 			media_id: media_id,
 			size: 300,
 			captionAs: textLinks
