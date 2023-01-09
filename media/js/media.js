@@ -79,7 +79,8 @@ function makeMediaLabelAutocomplete(valueControl,media_label) {
  *  @param 
  *  @param 
  */
-function switchImages(media_id,viewer) { 
+function switchImages(targetDiv,media_id) { 
+	console.log("loadSwitch() called for " + targetDiv);
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
@@ -87,7 +88,7 @@ function switchImages(media_id,viewer) {
 			media_id: media_id,
 		},
 		success: function (result) {
-			$("#" + viewer ).html(result);
+			$("#" + targetDiv ).html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"loading related image");
@@ -186,7 +187,6 @@ function makeMediaURIPartAutocomplete(valueControl,targetField) {
 		};
 	}
 };
-
 function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) { 
 	var targetObject = $('#'+typeControl).val().trim().split(" ").pop();
 	console.log(targetObject);
@@ -250,8 +250,6 @@ function makeAnyMediaRelationAutocomplete(valueControl,typeControl,idControl) {
 	}
 
 }
-
-
 function loadMediaRelations(targetDiv, media_id) { 
 	console.log("loadHello() called for " + targetDiv);
 	jQuery.ajax({
@@ -270,7 +268,6 @@ function loadMediaRelations(targetDiv, media_id) {
 		dataType: "html"
 	});
 };
-
 function getMediaMetadata(targetDiv, media_id) { 
 	console.log("Where is it? " + targetDiv);
 	jQuery.ajax({
@@ -289,7 +286,6 @@ function getMediaMetadata(targetDiv, media_id) {
 		dataType: "html"
 	});
 };
-
 function saveMediaRelationship(targetDiv, media_id, media_relations_id) { 
 	console.log("loadRelation() called for " + targetDiv);
 	jQuery.ajax({
@@ -307,7 +303,6 @@ function saveMediaRelationship(targetDiv, media_id, media_relations_id) {
 		dataType: "html"
 	});
 };
-
 function createMedia(targetDiv, media_id, media_relations_id) { 
 	console.log("loadRelation() called for " + targetDiv);
 	jQuery.ajax({
