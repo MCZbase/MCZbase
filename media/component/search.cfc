@@ -1298,7 +1298,7 @@ imgStyleClass=value
 										<cfset styles = "height: auto;margin: 0 auto;width: auto">
 										<cfset minheight = "min-height: auto">
 									<cfelse>
-										<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
+										<cfif CGI.script_name CONTAINS "/media/">
 											<cfset size = "200">
 											<cfset styles = "max-height:;width:auto;">
 										<cfelse>
