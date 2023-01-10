@@ -129,6 +129,17 @@ limitations under the License.
 		ORDER BY
 			occurs_page_number asc, scientific_name
 	</cfquery>
+	<cfquery name="taxonPublications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonPublications_result">
+		SELECT distinct
+			taxonomy.taxon_name_id,
+			taxonomy.display_name,
+			taxonomy.author_text
+		FROM
+			taxonomy_publication,
+			JOIN taxonomy on taxonomy_publication.taxon_name_id=taxonomy.taxon_name_id
+		WHERE
+			taxonomy_publication.publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+	</cfquery>
 
 	<section class="row">
 		<div class="col-12 mb-5"> 
@@ -253,6 +264,19 @@ limitations under the License.
 						</cfloop>
 					</cfif>
 				</ul>
+
+				<cfif taxonPublications.recordcount GT 0>
+					<h2 class="h4">Taxa Related to #getDetails.short_citation#:</h2>
+					<ul>
+						<cfloop query="taxonPublications">
+							<li>
+								<a href="/taxonomy/showTaxonomy?taxon_name_id=#taxonPublications.taxon_name_id#">
+									#taxonPublications.display_name# <span class='sm-caps font-weight-normal small90'>#taxonPublications.author_text#</span>
+								</a>
+							</li>
+						</cfloop>
+					</ul>
+				</cfif>
 				
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<div class="row">
