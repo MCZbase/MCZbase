@@ -29,7 +29,7 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 </cfquery>
-	<div class="container px-0">
+	<div class="container px-0 py-1">
 		<div class="row">
 			<div class="col-10 mx-auto px-1 px-md-0 pb-4">
 				<main class="content">
