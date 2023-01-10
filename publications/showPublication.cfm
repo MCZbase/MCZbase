@@ -135,7 +135,7 @@ limitations under the License.
 			taxonomy.display_name,
 			taxonomy.author_text
 		FROM
-			taxonomy_publication,
+			taxonomy_publication
 			JOIN taxonomy on taxonomy_publication.taxon_name_id=taxonomy.taxon_name_id
 		WHERE
 			taxonomy_publication.publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
