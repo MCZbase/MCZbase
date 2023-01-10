@@ -270,7 +270,7 @@ function loadRelatedImages(targetDiv, media_id) {
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
-			method : "getMediaBlockHtmlUnthreaded",
+			method : "getMediaBlockHtml",
 			media_id : media_id,
 	
 		},
