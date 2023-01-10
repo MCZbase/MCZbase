@@ -270,7 +270,7 @@ limitations under the License.
 					<ul>
 						<cfloop query="taxonPublications">
 							<li>
-								<a href="/taxonomy/showTaxonomy?taxon_name_id=#taxonPublications.taxon_name_id#">
+								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#taxonPublications.taxon_name_id#">
 									#taxonPublications.display_name# <span class='sm-caps font-weight-normal small90'>#taxonPublications.author_text#</span>
 								</a>
 							</li>
