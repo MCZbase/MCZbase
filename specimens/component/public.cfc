@@ -156,10 +156,11 @@ limitations under the License.
 										<cfelse>
 											col-6 </cfif>
 									">
+								<cfset thisLink='<a href="/name/#summary.scientific_name#" class="text-dark font-weight-bold">#summary.scientific_name#</a>'>
 										<div class="col-12 px-0">
 											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num#</h1>
 											<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
-												<a class="text-dark font-weight-bold" href="javascript:void(0)">#summary.scientific_name#</a>
+												#thisLink#
 											</h2>
 										</div>
 									</div>
