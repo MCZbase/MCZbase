@@ -27,17 +27,7 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct
-		mr.media_relationship, label
-	From
-		media_relations mr, ctmedia_relationship ct
-	WHERE 
-		mr.media_relationship = ct.media_relationship 
-	and
-		mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-	ORDER BY mr.media_relationship
-</cfquery>
+
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
@@ -47,6 +37,17 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
+				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct
+						mr.media_relationship, label
+					From
+						media_relations mr, ctmedia_relationship ct
+					WHERE 
+						mr.media_relationship = ct.media_relationship 
+					and
+						mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+					ORDER BY mr.media_relationship
+				</cfquery>
 				<div class="row">
 					<div class="col-12 my-3">
 						<cfif len(media.media_id) gt 0>
@@ -104,7 +105,7 @@
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												ORDER BY media.media_type asc
 											</cfquery>
-												<cfif media_rel.media_relationship contains 'shows agent'>:<cfloop query="agents"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an, media_relations m where agent_name='Ruth D. Turner' and an.agent_id=m.related_primary_key and m.media_relationship='shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#">#agents.agent_name# </a><span>, </span><cfloop query="relm2"><a class="font-weight-lessbold" href="/media/#relm2.media_id#">#relm2.media_id# </a></cfloop></cfloop>
+										<cfif media_rel.media_relationship contains 'shows agent'>:<cfloop query="agents"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an, media_relations m where agent_name='Ruth D. Turner' and an.agent_id=m.related_primary_key and m.media_relationship='shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#">#agents.agent_name# </a><span>, </span><cfloop query="relm2"><a class="font-weight-lessbold" href="/media/#relm2.media_id#">#relm2.media_id# </a></cfloop></cfloop>
 										</cfif>
 											
 											</cfquery>
