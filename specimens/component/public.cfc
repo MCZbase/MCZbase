@@ -83,7 +83,7 @@ limitations under the License.
 						collecting_event.verbatim_date,
 						collecting_event.began_date,
 						collecting_event.ended_date,
-						MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date,collecting_event.ended_date,1,0) as pretty_date,
+						MCZBASE.get_scientific_name(cataloged_item.collection_object_id) as sci_name, MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date,collecting_event.ended_date,1,0) as pretty_date,
 						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 						geog_auth_rec.higher_geog,
 						<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
@@ -156,7 +156,7 @@ limitations under the License.
 										<cfelse>
 											col-6 </cfif>
 									">
-								<cfset thisLink='<a href="/name/#summary.scientific_name#" class="text-dark font-weight-bold">#summary.scientific_name#</a>'>
+								<cfset thisLink='<a href="/name/#summary.sci_name#" class="text-dark font-weight-bold">#summary.sci_name#</a>'>
 										<div class="col-12 px-0">
 											<h1 class="col-12 mb-1 h4 font-weight-bold">MCZ #summary.collection# #summary.cat_num#</h1>
 											<h2 class="col-12 d-inline-block mt-0 mb-0 mb-xl-1">
