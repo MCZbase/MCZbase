@@ -27,6 +27,17 @@
 		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct
+		mr.media_relationship, label
+	From
+		media_relations mr, ctmedia_relationship ct
+	WHERE 
+		mr.media_relationship = ct.media_relationship 
+	and
+		mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+	ORDER BY mr.media_relationship
+</cfquery>
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
@@ -61,7 +72,17 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
 								and (media_relations.media_relationship like '%cataloged_item%' OR media_relations.media_relationship like '%collecting_event%')
 						</cfquery>
-						<cfif len(spec.pk) gt 0>
+						<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct agent_name.agent_name, agent.agent_id
+							from media_relations
+								left join agent on media_relations.related_primary_key = agent.agent_id
+								left join agent_name on agent_name.agent_id = agent.agent_id
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+									and media_relations.media_relationship = 'shows agent'
+							and agent_name_type = 'preferred'
+							order by agent_name.agent_name
+						</cfquery>
+						<cfif len(spec.pk) gt 0 OR len(agents.agent_id) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -82,6 +103,10 @@
 													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												ORDER BY media.media_type asc
+											</cfquery>
+												<cfif media_rel.media_relationship contains 'shows agent'>:<cfloop query="agents"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an, media_relations m where agent_name='Ruth D. Turner' and an.agent_id=m.related_primary_key and m.media_relationship='shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#">#agents.agent_name# </a><span>, </span><cfloop query="relm2"><a class="font-weight-lessbold" href="/media/#relm2.media_id#">#relm2.media_id# </a></cfloop></cfloop>
+										</cfif>
+											
 											</cfquery>
 											<cfset i= 1>
 											<cfloop query="relm">
