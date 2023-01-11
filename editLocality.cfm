@@ -521,10 +521,18 @@
 												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
 													#whatSpecs.numOfCollEvents# collecting events
 												</a>
-												<br>
-												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-													(show only by #collection#)
-												</a>
+												<cfquery name="findWhichCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT count(collecting_event_id) ct, collection_cde, collection_id
+													FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+													WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#locality_id#">
+													GROUP BY collection_cde, collection_id
+												</cfquery>
+												<cfif findWhichCollection.recordcount EQ 1 and findWhichCollection.collection_id EQ whatSpecs.collection_id>
+													<br>
+													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
+														(show only #findWhichCollection.ct# used by #collection#)
+													</a>
+												</cfif>
 											</li>
 										</cfloop>
 									</ul>
