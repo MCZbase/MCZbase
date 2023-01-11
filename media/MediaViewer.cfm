@@ -66,7 +66,7 @@
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 							where media_id = <cfqueryparam  value="#media.media_id#" CFSQLType="CF_SQL_DECIMAL"> 
-							and media_relations.media_relationship = <cfqueryparam value="#rels.media_relationship#" CFSQLType="CF_SQL_VARCHAR">
+							and media_relations.media_relationship = '#rels.#media_relationship#'
 							</cfquery>
 						<cfif len(rels.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
