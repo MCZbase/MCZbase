@@ -499,13 +499,9 @@
 										<a href="SpecimenResults.cfm?locality_id=#locality_id#">
 											#whatSpecs.numOfSpecs# #whatSpecs.collection# specimens
 										</a>
-										from 
-										<a href="/Locality.cfm?action=findCO&locality_id=#locality_id#&include_counts=true">
-											#whatSpecs.numOfCollEvents# collecting events
-										</a>
 									</font>
 									</h3><h3>
-									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>.
+									from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true">#collectingEvents.ct# collecting events</a>.
 								<cfelse>
 									<font color="##FF0000">This Locality (#locDet.locality_id#)
 									contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
