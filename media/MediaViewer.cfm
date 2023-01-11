@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<cfquery name="rels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select media_relations.media_relationship
+						select media_relations.auto_table
 						from media_relations
 							left join media on media_relations.media_id = media.media_id
 						where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
@@ -65,7 +65,7 @@
 							from media_relations
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
-							where media_relations.media_relationship like <cfqueryparam  value="%#rels.media_relationship#%" CFSQLType="CF_SQL_DECIMAL"> 
+							where media_relations.media_relationship contains <cfqueryparam  value="#rels.auto_table#" CFSQLType="CF_SQL_DECIMAL"> 
 							</cfquery>
 						<cfif len(rels.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
