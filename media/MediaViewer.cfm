@@ -88,6 +88,7 @@
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 												where media.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal" >
+												and media_relationship = <cfqueryparam value=#rels.media_relationship# CFSQLType="CF_SQL_varchar" >
 												ORDER BY media.media_type asc
 											</cfquery>
 											<cfset i= 1>
