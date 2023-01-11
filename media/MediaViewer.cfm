@@ -66,7 +66,7 @@
 								<div class="search-box mt-2 w-100 mb-5">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related by Specimen Record(s) </li>
+											<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related by Media Records </li>
 										</ul>
 									</div>
 									<div class="row mx-0">
