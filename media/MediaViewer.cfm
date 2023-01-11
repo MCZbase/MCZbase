@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<cfquery name="rels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select ct.auto_table
+						select ctmedia_relationship.auto_table
 						from media_relations
 							left join media on media_relations.media_id = media.media_id
 							left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
