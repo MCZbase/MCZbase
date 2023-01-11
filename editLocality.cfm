@@ -415,7 +415,7 @@
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
 			count(cataloged_item.cat_num) numOfSpecs,
-			count(collecting_event.collecting_event_id) numOfCollEvents,
+			count(distinct collecting_event.collecting_event_id) numOfCollEvents,
 			collection.collection,
 			collection.collection_id
 		from
