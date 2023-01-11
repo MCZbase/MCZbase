@@ -518,7 +518,7 @@
 													#whatSpecs.numOfCollEvents# collecting events
 												</a>
 												<cfquery name="findWhichCollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													SELECT count(collecting_event_id) ct, collection_cde, collection_id
+													SELECT count(distinct collecting_event_id) ct, collection_cde, collection_id
 													FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 													WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#locality_id#">
 														AND collecting_event_id in (
