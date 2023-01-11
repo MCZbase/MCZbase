@@ -58,6 +58,7 @@
 							left join media on media_relations.media_id = media.media_id
 						where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
 							</cfquery>
+						<cfloop query="rels">
 						<!---specimen records relationships and other possible associations to media on those records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
@@ -76,7 +77,6 @@
 										</ul>
 									</div>
 									<div class="row mx-0">
-										<cfloop query="rels">
 										<div class="col-12 p-1">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, preview_uri, media.media_uri,
@@ -116,7 +116,7 @@
 											</cfloop>
 											<div id="targetDiv"></div>
 										</div>
-										</cfloop>
+										
 									</div>
 								</div>
 							</div>
@@ -125,6 +125,7 @@
 								<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 							</div>
 						</cfif>
+						</cfloop>
 					</div>
 				</div>
 			</cfloop>
