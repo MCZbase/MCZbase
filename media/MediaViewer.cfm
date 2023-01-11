@@ -56,7 +56,7 @@
 						select ct.auto_table
 						from media_relations
 							left join media on media_relations.media_id = media.media_id
-							left join ctmedia_relationship on media.relations.media_relationship = ctmedia_relationship.media_relationship
+							left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
 						where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
 							</cfquery>
 						<cfloop query="rels">
