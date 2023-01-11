@@ -531,7 +531,7 @@
 												<cfif findWhichCollection.recordcount EQ 1 and findWhichCollection.collection_id EQ whatSpecs.collection_id>
 													<br>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-														(show only #findWhichCollection.ct# used by #collection#)
+														(#findWhichCollection.ct# used only by #collection#)
 													</a>
 												</cfif>
 											</li>
