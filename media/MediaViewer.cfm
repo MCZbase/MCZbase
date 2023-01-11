@@ -83,15 +83,11 @@
 									<div class="row mx-0">
 										<div class="col-12 p-1">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, preview_uri, media.media_uri,
-													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-													media.mime_type, media.media_type, media.auto_protocol, media.auto_host
+												select distinct related_primary_key
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-												where media_relationship like <cfqueryparam value=#rels.media_relationship# CFSQLType="CF_SQL_varchar" >
-												and related_primary_key = <cfqueryparam value=#rels.related_primary_key# CFSQLType="CF_SQL_varchar" >
-													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+												where media.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal" >
 												ORDER BY media.media_type asc
 											</cfquery>
 											<cfset i= 1>
