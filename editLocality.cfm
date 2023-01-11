@@ -524,7 +524,7 @@
 														AND collecting_event_id in (
 															SELECT collecting_event_id
 															FROM cataloged_item 
-															WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="whatSpecs.collection_id">
+															WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#whatSpecs.collection_id#">
 														)
 													GROUP BY collection_cde, collection_id
 												</cfquery>
