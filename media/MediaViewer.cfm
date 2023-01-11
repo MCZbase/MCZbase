@@ -65,7 +65,7 @@
 						</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
 						<cfquery name="specificrel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
+						select distinct media_id,flat.collection_object_id, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
 						from media_relations
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
@@ -98,7 +98,7 @@
 											<cfloop query="specificrel">
 												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 													<cfif len(media.media_id) gt 0>
-														<cfif relm.media_id eq '#media.media_id#'> 
+														<cfif specificrel.media_id eq '#media.media_id#'> 
 															<cfset activeimg = "highlight_media rounded px-1 pt-2 ">
 														<cfelse>	
 															<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
@@ -106,8 +106,8 @@
 														
 														<ul class="list-group px-0">
 															<li class="list-group-item px-0 mx-1">
-															<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-															<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+															<cfset mediablock= getMediaBlockHtml(media_id="#specificrel.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
+															<div class="#activeimg# image#i#" id="mediaBlock#specificrel.media_id#">
 																<!---Media Zoom/Related link should populate the area at the top with its image and metadata. Need something new on search.cfc? --->
 																<div class=" px-0"> #mediablock#</div>
 															</div>
