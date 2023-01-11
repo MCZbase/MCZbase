@@ -114,7 +114,7 @@
 							</div>
 						<cfelse>
 							<div class="col-auto px-2 float-left">
-								<h3 class="h4 mt-3 w-100 px-4 font-italic">No relationships to other media records</h3>
+								<h3 class="h4 mt-3 w-100 px-4 font-italic">Other media records not displayed. Click Media IDs to see.</h3>
 							</div>
 						</cfif>
 					</div>
