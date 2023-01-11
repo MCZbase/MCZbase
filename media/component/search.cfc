@@ -1234,7 +1234,6 @@ imgStyleClass=value
 			<cfif media.recordcount EQ 1>
 				<cfset i= 1>
 				<cfloop query="media">
-
 					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu">
 						<cfset iiifSchemeServerPrefix = "http://iiif.mcz.harvard.edu/iiif/3/">
@@ -1395,7 +1394,7 @@ imgStyleClass=value
 							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
-								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#relm.media_id#">zoom/related</a>)'>
+								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
 							<cfelse>
 								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
 								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
