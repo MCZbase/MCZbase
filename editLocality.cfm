@@ -506,7 +506,7 @@
 									<font color="##FF0000">This Locality (#locDet.locality_id#)
 									contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
 									</h3><h3>
-									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
+									from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
 									<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
 										<cfloop query="whatSpecs">
 											<li style="margin-left: 1.5em;">
