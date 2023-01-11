@@ -86,12 +86,11 @@
 											<cfset i= 1>
 											<cfloop query="rels">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct related_primary_key
+												select related_primary_key
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 												where media.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal" >
-												and media_relationship = <cfqueryparam value=#rels.media_relationship# CFSQLType="CF_SQL_varchar" >
 												ORDER BY media.media_type asc
 											</cfquery>
 												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
