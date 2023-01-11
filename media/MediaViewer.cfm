@@ -52,7 +52,7 @@
 								#mediaMetadataBlock#
 							</div>
 						</div>
-						<cfquery name="rels" datasource="" username="" password="">
+						<cfquery name="rels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select media_relations.media_relationship
 						from media_relations
 							left join media on media_relations.media_id = media.media_id
