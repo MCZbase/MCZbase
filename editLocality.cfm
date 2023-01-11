@@ -521,6 +521,11 @@
 													SELECT count(collecting_event_id) ct, collection_cde, collection_id
 													FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
 													WHERE locality_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#locality_id#">
+														AND collecting_event_id in (
+															SELECT collecting_event_id
+															FROM cataloged_item 
+															WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="whatSpecs.collection_id">
+														)
 													GROUP BY collection_cde, collection_id
 												</cfquery>
 												<cfif findWhichCollection.recordcount EQ 1 and findWhichCollection.collection_id EQ whatSpecs.collection_id>
