@@ -59,21 +59,21 @@
 						where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
 							</cfquery>
 						<cfloop query="rels">
-						<!---specimen records relationships and other possible associations to media on those records--->
-						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
-						from media_relations
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
-							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
-						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-								and media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_Varchar" value="#rels.media_relationship#">
-						</cfquery>
+							<!---specimen records relationships and other possible associations to media on those records--->
+							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
+							from media_relations
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
+							where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
+							and media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.media_relationship#">
+							</cfquery>
 						<cfif len(rels.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
 										<ul class="list-group list-group-horizontal text-white">
-											<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (<cfloop></cfloop>)) </li>
+											<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (<cfloop></cfloop>) </li>
 										</ul>
 									</div>
 									<div class="row mx-0">
