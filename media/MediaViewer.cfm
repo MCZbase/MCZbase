@@ -54,7 +54,7 @@
 						</div>
 						<cfquery name="rels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct
-								mr.media_relationship, label, mr.related_primary_key
+								mr.media_relationship, label, mr.related_primary_key,mr.media_id
 							From
 								media_relations mr, ctmedia_relationship ct
 							WHERE 
@@ -86,11 +86,11 @@
 											<cfset i= 1>
 											<cfloop query="rels">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select related_primary_key, media_relations.media_id
+												select related_primary_key, media.media_id
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-												where media.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal" >
+												where media.media_id = <cfqueryparam value=#rels.media_id# CFSQLType="CF_SQL_decimal" >
 												ORDER BY media.media_type asc
 											</cfquery>
 												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
