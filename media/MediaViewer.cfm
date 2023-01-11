@@ -62,7 +62,7 @@
 						<cfloop query="rels">
 							<!---specimen records relationships and other possible associations to media on those records--->
 							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct media_id, ctmedia_relationship.auto_table
+							select distinct media_relations.related_primary_key, ctmedia_relationship.auto_table
 							from media_relations
 								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
 							where ctmedia_relationship.auto_table = <cfqueryparam  value="#rels.auto_table#" CFSQLType="CF_SQL_Varchar"> 
@@ -83,7 +83,7 @@
 											left join media on media_relations.media_id = media.media_id
 											left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
 											where ctmedia_relationship.auto_table = <cfqueryparam value=#rels.auto_table# CFSQLType="CF_SQL_VARCHAR" >
-											AND media_relations.media_id = <cfqueryparam value=#spec.media_id# CFSQLType="CF_SQL_DECIMAL" >
+											AND media_relations.related_primary_key = <cfqueryparam value=#spec.related_primary_key# CFSQLType="CF_SQL_DECIMAL" >
 											AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 											ORDER BY media.media_type asc
 											</cfquery>
