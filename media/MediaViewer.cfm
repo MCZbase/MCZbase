@@ -67,7 +67,7 @@
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
 								and media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_Varchar" value="#rels.media_relationship#">
 						</cfquery>
-						<cfif len(spec.pk) gt 0>
+						<cfif len(rels.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -76,6 +76,7 @@
 										</ul>
 									</div>
 									<div class="row mx-0">
+										<cfloop query="rels">
 										<div class="col-12 p-1">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, preview_uri, media.media_uri,
@@ -115,6 +116,7 @@
 											</cfloop>
 											<div id="targetDiv"></div>
 										</div>
+										</cfloop>
 									</div>
 								</div>
 							</div>
