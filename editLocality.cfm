@@ -510,7 +510,7 @@
 									<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
 										<cfloop query="whatSpecs">
 											<li style="margin-left: 1.5em;">
-												<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection=#whatSpecs.collection#">
+												<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#whatSpecs.collection_id#">
 													#numOfSpecs# #collection# specimens
 												</a>
 												from 
