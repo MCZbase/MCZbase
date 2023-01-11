@@ -86,7 +86,7 @@
 											<cfset i= 1>
 											<cfloop query="rels">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select related_primary_key
+												select related_primary_key, media_id
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
