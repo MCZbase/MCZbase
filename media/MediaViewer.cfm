@@ -65,7 +65,7 @@
 							select distinct media_id, ctmedia_relationship.auto_table
 							from media_relations
 								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
-							where ctmedia_relationship.auto_table contains <cfqueryparam  value="#rels.auto_table#" CFSQLType="CF_SQL_DECIMAL"> 
+							where ctmedia_relationship.auto_table contains <cfqueryparam  value="#rels.auto_table#" CFSQLType="CF_SQL_Varchar"> 
 							</cfquery>
 						<cfif len(rels.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
