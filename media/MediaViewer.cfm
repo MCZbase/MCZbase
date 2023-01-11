@@ -82,6 +82,9 @@
 									</div>
 									<div class="row mx-0">
 										<div class="col-12 p-1">
+							
+											<cfset i= 1>
+											<cfloop query="rels">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct related_primary_key
 												from media_relations
@@ -91,8 +94,6 @@
 												and media_relationship = <cfqueryparam value=#rels.media_relationship# CFSQLType="CF_SQL_varchar" >
 												ORDER BY media.media_type asc
 											</cfquery>
-											<cfset i= 1>
-											<cfloop query="relm">
 												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
