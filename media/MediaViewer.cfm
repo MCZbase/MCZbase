@@ -52,14 +52,25 @@
 								#mediaMetadataBlock#
 							</div>
 						</div>
+						<cfquery name="rels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct
+								mr.media_relationship, label
+							From
+								media_relations mr, ctmedia_relationship ct
+							WHERE 
+								mr.media_relationship = ct.media_relationship 
+							and
+								mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
+							ORDER BY mr.media_relationship
+						</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
-						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="specificrel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
 						from media_relations
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-								and (media_relations.media_relationship like '%cataloged_item%' OR media_relations.media_relationship like '%collecting_event%')
+								and (media_relations.media_relationship like '#rels.media_relationship#' OR media_relations.media_relationship like '%collecting_event%')
 						</cfquery>
 						<cfif len(spec.pk) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
@@ -71,7 +82,7 @@
 									</div>
 									<div class="row mx-0">
 										<div class="col-12 p-1">
-											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<!---<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 												select distinct media.media_id, preview_uri, media.media_uri,
 													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 													media.mime_type, media.media_type, media.auto_protocol, media.auto_host
@@ -82,9 +93,9 @@
 													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												ORDER BY media.media_type asc
-											</cfquery>
+											</cfquery>--->
 											<cfset i= 1>
-											<cfloop query="relm">
+											<cfloop query="specificrel">
 												<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 													<cfif len(media.media_id) gt 0>
 														<cfif relm.media_id eq '#media.media_id#'> 
