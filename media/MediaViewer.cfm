@@ -62,11 +62,10 @@
 						<cfloop query="rels">
 							<!---specimen records relationships and other possible associations to media on those records--->
 							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
+							select distinct media_id, ctmedia_relationship.auto_table
 							from media_relations
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
-								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
-							where media_relations.media_relationship contains <cfqueryparam  value="#rels.auto_table#" CFSQLType="CF_SQL_DECIMAL"> 
+								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
+							where ctmedia_relationship.auto_table contains <cfqueryparam  value="#rels.auto_table#" CFSQLType="CF_SQL_DECIMAL"> 
 							</cfquery>
 						<cfif len(rels.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
@@ -79,14 +78,14 @@
 									<div class="row mx-0">
 										<div class="col-12 p-1">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, preview_uri, media.media_uri,
+												select distinct media.media_id, preview_uri, media.media_uri
 													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 													media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 												where media_relations.media_relationship = <cfqueryparam value=#rels.media_relationship# CFSQLType="CF_SQL_VARCHAR" >
-													AND media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+													AND media_relations.related_primary_key = <cfqueryparam value=#spec.media_id# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												ORDER BY media.media_type asc
 											</cfquery>
