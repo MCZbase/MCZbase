@@ -67,7 +67,7 @@
 								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
 							where ctmedia_relationship.auto_table = <cfqueryparam  value="#rels.auto_table#" CFSQLType="CF_SQL_Varchar"> 
 							</cfquery>
-						<cfif len(rels.media_relationship) gt 0>
+						<cfif len(rels.auto_table) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
 									<div class="search-box-header px-2 mt-0 mediaTableHeader">
