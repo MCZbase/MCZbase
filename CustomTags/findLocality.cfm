@@ -149,7 +149,7 @@
 				<cfelseif collnOper is "notUsedBy">
 					AND locality.locality_id  not in
 						(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
-				<cfif collnOper is "eventUsedOnlyBy">
+				<cfelseif collnOper is "eventUsedOnlyBy">
 					AND collecting_event.collecting_event_id in
 							(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 					AND collecting_event.collecting_event_id not in
