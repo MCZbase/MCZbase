@@ -134,7 +134,7 @@
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-														and (media_relations.media_description = 'shows cataloged_item' or media_relations.media_description = 'documents cataloged_item')
+														and (media_relations.media_relationship = 'shows cataloged_item' or media_relations.media_relationship = 'documents cataloged_item')
 													</cfquery>
 												</cfloop>
 												</cfif>
