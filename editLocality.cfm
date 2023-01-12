@@ -417,6 +417,7 @@
 			count(cataloged_item.cat_num) numOfSpecs,
 			count(distinct collecting_event.collecting_event_id) numOfCollEvents,
 			collection.collection,
+			collection.collection_cde,
 			collection.collection_id
 		from
 			cataloged_item,
@@ -428,6 +429,7 @@
 			collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		GROUP BY
 			collection.collection,
+			collection.collection_cde,
 			collection.collection_id
   	</cfquery>
 	<cfquery name="collectingEvents" datasource="uam_god">
@@ -497,7 +499,7 @@
 									<font color="##FF0000">This Locality (#locDet.locality_id#)
 										contains 
 										<a href="SpecimenResults.cfm?locality_id=#locality_id#">
-											#whatSpecs.numOfSpecs# #whatSpecs.collection# specimens
+											#whatSpecs.numOfSpecs# #whatSpecs.collection_cde# specimens
 										</a>
 									</font>
 									</h3><h3>
@@ -511,7 +513,7 @@
 										<cfloop query="whatSpecs">
 											<li style="margin-left: 1.5em;">
 												<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#whatSpecs.collection_id#">
-													#numOfSpecs# #collection# specimens
+													#numOfSpecs# #collection_cde# specimens
 												</a>
 												from 
 												<cfquery name="countSole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -538,7 +540,7 @@
 												<cfset numShared = countShared.recordcount>
 												<cfif numShared EQ 0>
 													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-														#numSole# #collection# only collecting events
+														#numSole# #collection_cde# only collecting events
 													</a>
 												<cfelse>
 													<cfquery name="sharedWith" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -565,15 +567,15 @@
 													</cfloop>
 													<cfif numSole EQ 0>
 														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-															#numSole# #collection# collecting events (shared with #sharedNames#)
+															#numSole# #collection_cde# collecting events (shared with #sharedNames#)
 														</a>
 													<cfelse>
 														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-															#numSole# #collection# only collecting events
+															#numSole# #collection_cde# only collecting events
 														</a>
 														<br>
-														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-															#numSole# #collection# collecting events (shared with #sharedNames#)
+														and <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
+															#numSole# #collection_cde# collecting events (shared with #sharedNames#)
 														</a>
 													</cfif>
 												</cfif>
