@@ -81,6 +81,7 @@
 									left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 								WHERE media_relations.media_relationship = 'collecting_event'
 								and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relations.media_id#" list="yes">
+								</cfquery>
 							</cfif>
 							<cfloop query="spec">
 							<cfif len(media_rel.media_relationship) gt 0>
