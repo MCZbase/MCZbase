@@ -54,7 +54,7 @@
 						</div>
 						<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct
-								mr.media_relationship, ct.label, mr.related_primary_key
+								mr.media_relationship, ct.label, mr.related_primary_key, ct.auto_table
 							From
 								media_relations mr, ctmedia_relationship ct
 							WHERE 
@@ -90,8 +90,12 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (
-											#media_rel.media_relationship#: 
-													<cfif #spec.media_relationship# eq 'shows collecting_event'><a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#coll.collecting_event_id#">#coll.verbatim_locality#  #coll.collecting_source# #coll.verbatim_date# <cfif spec.ended_date gt 0>(#coll.ended_date#)</cfif>  </a><cfelse>#spec.pk#
+													#media_rel.media_relationship#: 
+													<cfif #media_rel.auto_table# eq 'collecting_event'><a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#coll.collecting_event_id#">#coll.verbatim_locality#  #coll.collecting_source# #coll.verbatim_date# <cfif spec.ended_date gt 0>(#coll.ended_date#)</cfif>  </a>
+													<cfelseif #media_rel.auto_table# eq 'cataloged_item'>#spec.guid#
+													<cfelse>
+														
+													Need rel	
 													</cfif>
 												)</li>
 											</ul>
