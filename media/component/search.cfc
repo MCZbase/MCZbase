@@ -1538,7 +1538,7 @@ imgStyleClass=value
 				left join agent_name on agent_name.agent_id = agent.agent_id
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and media_relationship.auto_table = 'agent'
+				and mczbase.ctmedia_relationship.auto_table = 'agent'
 				and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
