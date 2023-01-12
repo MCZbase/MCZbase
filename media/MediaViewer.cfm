@@ -73,7 +73,7 @@
 									left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 									left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 								WHERE media_relations.media_relationship = <cfqueryparam value="#media_rel.media_relationship#" cfsqltype="CF_SQL_VARCHAR" list="yes">
-								AND media_relations.media_relations_id = <cfqueryparam value="#media_rel.media_relations_id#" cfsqltype="CF_SQL_VARCHAR">
+								AND media_relations.related_primary_key = <cfqueryparam value="#media_rel.related_primary_key#" cfsqltype="CF_SQL_VARCHAR">
 								</cfquery>
 							</cfif>
 							<cfloop query="spec">
@@ -83,7 +83,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (
-											#spec.media_relationship#: #spec.pk# <cfif #spec.media_relationship# eq 'shows collecting_event'><a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">#spec.verbatim_locality#  #spec.collecting_source# #spec.verbatim_date# <cfif spec.ended_date gt 0>(#spec.ended_date#)</cfif>  </a><cfelse>#spec.pk#</cfif>
+											#spec.media_relationship#: <cfif #spec.media_relationship# eq 'shows collecting_event'><a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">#spec.verbatim_locality#  #spec.collecting_source# #spec.verbatim_date# <cfif spec.ended_date gt 0>(#spec.ended_date#)</cfif>  </a><cfelse>#spec.pk#</cfif>
 												)</li>
 											</ul>
 										</div>
