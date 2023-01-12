@@ -89,7 +89,7 @@
 									<div class="search-box mt-2 w-100 mb-5">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (
+												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records &mdash;
 													#media_rel.media_relationship#: 
 													<cfif #media_rel.auto_table# eq 'collecting_event'><a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#coll.collecting_event_id#">#coll.verbatim_locality#  #coll.collecting_source# #coll.verbatim_date# <cfif coll.ended_date gt 0>(#coll.ended_date#)</cfif>  </a>
 													<cfelseif #media_rel.auto_table# eq 'cataloged_item'>#spec.guid#
@@ -97,7 +97,7 @@
 														
 													Need rel	
 													</cfif>
-												)</li>
+												</li>
 											</ul>
 										</div>
 										<div class="row mx-0">
