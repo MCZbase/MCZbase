@@ -105,9 +105,10 @@
 													#media_rel.media_relationship#: 
 													<cfif #media_rel.auto_table# eq 'collecting_event'><a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a>
 													<cfelseif #media_rel.auto_table# eq 'cataloged_item'>#spec.guid#
-													<cfelse>
-														
-													Need rel	
+													<cfelseif #media_rel.auto_table# eq 'agent'>#agent.agent_name#
+														<cfelse>
+														Need Relationship
+													
 													</cfif>
 												</li>
 											</ul>
@@ -161,20 +162,6 @@
 													</cfloop>
 												</cfif>
 											</cfif>
-												<!---<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select distinct media.media_id, preview_uri, media.media_uri,media_relations.related_primary_key,
-														get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-														media.mime_type, media.media_type, media.auto_protocol, media.auto_host
-													from media_relations
-														 left join media on media_relations.media_id = media.media_id
-														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-													left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
-													where mczbase.ctmedia_relationship.description = any('shows', 'ledger','documents','transcript','related','created')
-													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-													<cfif #media_rel.auto_table# eq 'cataloged_item'>and media_relations.related_primary_key = <cfqueryparam value=#spec.rpk#></cfif>
-													<cfif #media_rel.auto_table# eq 'collecting_event'>and media_relations.related_primary_key = <cfqueryparam value=#coll.collecting_event_id#></cfif>
-													ORDER BY media.media_type asc
-												</cfquery>--->
 												<cfset i= 1>
 												<cfloop query="relm">
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
