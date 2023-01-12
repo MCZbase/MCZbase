@@ -54,12 +54,27 @@
 						</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
+						SELECT nedia_relations.media_relations_id, media_relations.media_id, media_relations.media_relationship, media_relations.created_by_agent_id, media_relations.related_primary_key, media.mask_media_fg
+						FROM media_relations
+						LEFT JOIN media on media.media_id = media_relations.media_id
+						<cfif media_relations.media_relationship like '%cataloged_item%'>
+							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+						</cfif>
+						<cfif media_relations.media_relationship like '%collecting_event%'>
+							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
+						</cfif>
+						<cfif media_relations.media_relationship like '%agent%'>
+							left join agent on media_relations.related_primary_key = agent.agent_id
+						</cfif>
+						WHERE media.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							
+							<!---select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event,
+							get_media_id_for_relation(spec.media_id)
 						from media_relations
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-								and (media_relations.media_relationship like '%cataloged_item%' OR media_relations.media_relationship like '%collecting_event%')
+								and (media_relations.media_relationship like '%cataloged_item%' OR media_relations.media_relationship like '%collecting_event%')--->
 						</cfquery>
 						<cfif len(spec.pk) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
