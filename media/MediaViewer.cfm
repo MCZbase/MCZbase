@@ -71,8 +71,7 @@
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship 
-							WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-									and ctmedia_relationship.auto_table = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#" list="yes">'
+							WHERE ctmedia_relationship.auto_table = <cfqueryparam value="#media_rel.media_relationship#" cfsqltype="CF_SQL_VARCHAR" list="yes">
 							</cfquery>
 
 						</cfif>
@@ -94,8 +93,7 @@
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-												where media_relations.related_primary_key = '#spec.pk#'
-												<!---<cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" > --->
+												where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												ORDER BY media.media_type asc
 											</cfquery>
@@ -118,7 +116,6 @@
 															</div>
 															</li>
 														</ul>
-
 													</cfif>
 												</div>
 												<cfset i=i+1>
