@@ -83,7 +83,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (
-											#spec.media_relationship#: #spec.pk# <cfif #spec.media_relationship# = 'shows collecting_event'>hello</cfif>
+											#spec.media_relationship#: #spec.pk# <cfif #spec.media_relationship# eq 'shows collecting_event'>hello</cfif>
 												)</li>
 											</ul>
 										</div>
