@@ -175,14 +175,14 @@
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 														<cfif len(media.media_id) gt 0>
 															<cfif relm.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "highlight_media rounded px-1 pt-2 " style="max-height: 185px;min-height:180px;">
+																<cfset activeimg = "highlight_media rounded px-1 pt-2">
 															<cfelse>	
-																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2" style="max-height: 185px;min-height: 180px;">
+																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
 															</cfif>
 															<ul class="list-group px-0">
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
+																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="max-height: 185px;min-height: 180px;">
 																	<div class=" px-0"> #mediablock#</div>
 																</div>
 																</li>
