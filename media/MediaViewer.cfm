@@ -175,9 +175,9 @@
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 														<cfif len(media.media_id) gt 0>
 															<cfif relm.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "highlight_media rounded px-1 pt-2 ">
+																<cfset activeimg = "highlight_media rounded px-1 pt-2 " style="max-height: 185px;min-height:180px;">
 															<cfelse>	
-																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
+																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2" style="max-height: 185px;min-height: 180px;">
 															</cfif>
 															<ul class="list-group px-0">
 																<li class="list-group-item px-0 mx-1">
