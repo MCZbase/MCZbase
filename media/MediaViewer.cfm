@@ -57,13 +57,13 @@
 						SELECT nedia_relations.media_relations_id, media_relations.media_id, media_relations.media_relationship, media_relations.created_by_agent_id, media_relations.related_primary_key, media.mask_media_fg
 						FROM media_relations
 						LEFT JOIN media on media.media_id = media_relations.media_id
-						<cfif media_relations.media_relationship contains 'cataloged_item'>
+						<cfif spec.media_relationship contains 'cataloged_item'>
 							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 						</cfif>
-						<cfif media_relations.media_relationship contains 'collecting_event'>
+						<cfif spec.media_relationship contains 'collecting_event'>
 							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 						</cfif>
-						<cfif media_relations.media_relationship contains 'agent'>
+						<cfif spec.media_relationship contains 'agent'>
 							left join agent on media_relations.related_primary_key = agent.agent_id
 						</cfif>
 						WHERE media.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
@@ -87,7 +87,7 @@
 									<div class="row mx-0">
 										<div class="col-12 p-1">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, preview_uri, media.media_uri,
+												select distinct media.media_id, preview_uri, media.media_uri,media_relations.media_relationship,
 													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 													media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 												from media_relations
