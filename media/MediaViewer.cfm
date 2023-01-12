@@ -98,7 +98,7 @@
 														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 													left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 													where (media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" > OR media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_VARCHAR" >)
-													and mczbase.ctmedia_relationship.description = any('shows', 'ledger','documents')
+													and mczbase.ctmedia_relationship.description = any('shows', 'ledger','documents','transcript','related','created')
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 													ORDER BY media.media_type asc
 												</cfquery>
