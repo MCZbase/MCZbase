@@ -1351,7 +1351,7 @@ imgStyleClass=value
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
 					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center">'>
-					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#" title="Click for full image">'>
+					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 							<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>
 					<cfif #captionAs# EQ "textNone">
@@ -1651,6 +1651,7 @@ imgStyleClass=value
 										<cfif media_rel.media_relationship contains 'shows collecting_event'>:<cfloop query="collecting_eventRel">
 											<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 										</cfif>
+										
 									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
 								</cfloop> 
