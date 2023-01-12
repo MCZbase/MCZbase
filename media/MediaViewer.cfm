@@ -64,7 +64,7 @@
 							ORDER BY mr.media_relationship
 						</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->						
-						<cfif media_rel.media_relationship contains 'cataloged_item'>
+						<cfif len(media_rel.media_relationship) gt 0>
 							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct media_id,media_relations.related_primary_key as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
 							FROM media_relations
