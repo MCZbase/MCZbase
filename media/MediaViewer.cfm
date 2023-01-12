@@ -37,7 +37,7 @@
 		order by guid
 	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct agent_name.agent_name, agent.agent_id, mczbase.ctmedia_relationship.auto_table
+		select distinct agent_name.agent_name, mczbase.ctmedia_relationship.auto_table
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
 			left join agent_name on agent_name.agent_id = agent.agent_id
