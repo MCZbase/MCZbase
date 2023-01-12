@@ -145,7 +145,7 @@
 															where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 															and m.media_relationship like '%agent%'
 														</cfquery>
-														<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents.agent_name#</a><span>, </span>
+														<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm.agent_id#"> #agents.agent_name#</a><span>, </span>
 													</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'collecting_event'>:
