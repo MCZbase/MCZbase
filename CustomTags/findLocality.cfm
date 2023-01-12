@@ -105,9 +105,9 @@
 			min_depth,
 			depth_units,
 			<cfif includeCounts >
-				MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality
+				MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality,
 			<cfelse>
-				null as collcountlocality
+				null as collcountlocality,
 			</cfif>
 			<cfif includeCECounts >
 				MCZBASE.get_collcodes_for_collevent(collecting_event.collecting_event_id)  as collcountcollevent
