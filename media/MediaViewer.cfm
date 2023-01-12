@@ -145,7 +145,7 @@
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-														and media_relations.media_description = 'ledger'
+														and media_relations.media_relationship = 'ledger entry for cataloged_item'
 													</cfquery>
 												</cfloop>
 												</cfif>
