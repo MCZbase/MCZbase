@@ -1536,9 +1536,11 @@ imgStyleClass=value
 			from media_relations
 				left join agent on media_relations.related_primary_key = agent.agent_id
 				left join agent_name on agent_name.agent_id = agent.agent_id
+				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relations.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relations.media_relationship = 'shows agent'
-			and agent_name_type = 'preferred'
+				and media_relations.auto_table = 'agent'
+				and media_relations.media_relationship <> 'created by agent'
+				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
 		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1547,6 +1549,13 @@ imgStyleClass=value
 				left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relations.media_relationship = 'shows collecting_event'
+		</cfquery>
+		<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct transaction_id
+			from media_relations
+				left join loan on media_relations.related_primary_key = loan.transaction_id
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and media_relations.media_relationship = 'shows collecting_event'
 		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
