@@ -48,7 +48,7 @@
 	order by agent_name.agent_name
 </cfquery>
 <cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source,, mczbase.ctmedia_relationship.auto_table
+	select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source, mczbase.ctmedia_relationship.auto_table
 	from media_relations
 		left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
