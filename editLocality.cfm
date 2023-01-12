@@ -574,9 +574,13 @@
 															#numSole# #collection_cde# only collecting events
 														</a>
 														<br>
-														and <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+														and <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
 															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
 														</a>
+														<br>
+														  All <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+															#numSole+numShared# #collection_cde# collecting events
+														</a>.
 													</cfif>
 												</cfif>
 											</li>
