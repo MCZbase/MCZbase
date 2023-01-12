@@ -72,7 +72,7 @@
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 									left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 								WHERE media_relations.auto_table = 'cataloged_item'
-								AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relations.media_id#" list="yes">
+								AND media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_rel.media_id#" list="yes">
 								</cfquery>
 								<cfquery name="coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT distinct media_id,media_relations.media_relationship,collecting_event.collecting_event_id,collecting_event.verbatim_locality, collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source
@@ -80,7 +80,7 @@
 									left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 									left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 								WHERE media_relations.media_relationship = 'collecting_event'
-								and <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_relations.media_id#" list="yes">
+								and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_rel.media_id#" list="yes">
 								</cfquery>
 							</cfif>
 							<cfloop query="spec">
