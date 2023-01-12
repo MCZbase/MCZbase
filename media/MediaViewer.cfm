@@ -36,15 +36,6 @@
 			and mczbase.ctmedia_relationship.media_relationship = 'shows cataloged_item'
 		order by guid
 	</cfquery>
-	<cfquery name="ledg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct collection_object_id as pk, guid, mczbase.ctmedia_relationship.auto_table
-		from media_relations
-			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and mczbase.ctmedia_relationship.media_relationship = 'ledger entry for cataloged_item'
-		order by guid
-	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table
 		from media_relations
@@ -126,9 +117,6 @@
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'cataloged_item'>
 														#media_rel.label#: #spec.guid#
-													</cfif>
-														<cfif #media_rel.description# eq 'ledger'>
-														#media_rel.label#: #ledg.guid#
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'agent'>
 														#media_rel.label#: #agents.agent_name#
