@@ -82,7 +82,7 @@
 									<div class="search-box mt-2 w-100 mb-5">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (<cfloop query="media_rel">#media_rel.media_relationship#</cfloop>) </li>
+												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (<cfloop query="media_rel"><cfquery="title">select media_relationship from </cfquery>#media_rel.media_relationship#</cfloop>) </li>
 											</ul>
 										</div>
 										<div class="row mx-0">
@@ -96,7 +96,7 @@
 														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 													left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-													and mczbase.ctmedia_relationship.description = 'shows'
+													and (mczbase.ctmedia_relationship.description = 'shows' OR mczbase.ctmedia_relationship.description = 'ledger')
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 													ORDER BY media.media_type asc
 												</cfquery>
