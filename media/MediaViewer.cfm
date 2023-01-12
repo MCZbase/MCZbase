@@ -113,7 +113,7 @@
 													Related Media Records &mdash; 
 													<cfif #media_rel.auto_table# eq 'collecting_event'>
 														<a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
-															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</a>
+															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif></a>
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'cataloged_item'>
 														#media_rel.media_relationship#: #spec.guid#
