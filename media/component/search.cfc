@@ -1593,7 +1593,7 @@ imgStyleClass=value
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
-					mr.media_relationship, label
+					mr.media_relationship, label,ct.auto_table
 				From
 					media_relations mr, ctmedia_relationship ct
 				WHERE 
@@ -1660,7 +1660,7 @@ imgStyleClass=value
 							<td>
 								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
 									<div class="comma2 d-inline">
-										<cfif media_rel.media_relationship contains 'cataloged_item'>: <cfloop query="spec"><cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id
+										<cfif ct.auto_table eq 'cataloged_item'>: <cfloop query="spec"><cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id
 											from media_relations left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 											</cfquery><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
