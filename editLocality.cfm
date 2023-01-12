@@ -567,7 +567,7 @@
 													</cfloop>
 													<cfif numSole EQ 0>
 														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-															#numShared# #collection_cde# collecting events (shared with #sharedNames#)
+															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
 														</a>
 													<cfelse>
 														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
@@ -575,7 +575,7 @@
 														</a>
 														<br>
 														and <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-															#numShared# #collection_cde# collecting events (shared with #sharedNames#)
+															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
 														</a>
 													</cfif>
 												</cfif>
