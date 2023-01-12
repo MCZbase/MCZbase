@@ -65,7 +65,7 @@
 						</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
 						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT media_relations.media_relations_id, media_relations.media_id, media_relations.media_relationship, media_relations.created_by_agent_id, media_relations.related_primary_key, media.mask_media_fg
+						SELECT media_relations.media_relations_id, media_relations.media_id, media_relations.media_relationship, media_relations.created_by_agent_id, media_relations.related_primary_key, media.mask_media_fg,collection_object_id as pk, guid
 						FROM media_relations
 						LEFT JOIN media on media.media_id = media_relations.media_id
 						<cfif media_rel.media_relationship contains 'cataloged_item'>
