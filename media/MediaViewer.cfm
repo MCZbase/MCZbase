@@ -165,6 +165,7 @@
 												</cfif>
 											</cfif>
 												<cfset i= 1>
+													<!---thumbnails added below--->
 												<cfloop query="relm">
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 														<cfif len(media.media_id) gt 0>
