@@ -77,9 +77,11 @@
 						<cfif len(media.media_id) gt 0>
 							<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-								<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
-									<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
-									<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
+								<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
+									#mediablock# 
+								</div>
+								<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
+								<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
 							</div>
 						</cfif>
 						<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-0 pb-0">
@@ -102,14 +104,13 @@
 						</cfquery>
 						<cfloop query="media_rel">
 						<!---specimen records relationships and other possible associations to media on those records--->
-				
 							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-5">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records &mdash; #media_rel.media_relationship# 
+													Related Media Records &mdash; #media_rel.media_relationship#: 
 													<cfif #media_rel.auto_table# eq 'collecting_event'>
 														<a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
 															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>
@@ -136,7 +137,7 @@
 													</cfquery>
 												</cfloop>
 												</cfif>
-												<cfif media_rel.auto_table eq 'ledger'>: 
+												<cfif media_rel.auto_table eq 'ledger'> 
 												<cfloop query="spec">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id 
