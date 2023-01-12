@@ -72,10 +72,11 @@
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 								left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 							WHERE media_relations.media_relationship = <cfqueryparam value="#media_rel.media_relationship#" cfsqltype="CF_SQL_VARCHAR" list="yes">
-							AND media_relations.media_id = <cfqueryparam value="#media.media_id#" cfsqltype="CF_SQL_VARCHAR"/>						</cfquery>
+							AND media_relations.media_id = <cfqueryparam value="#media.media_id#" cfsqltype="CF_SQL_VARCHAR"/>						
+							</cfquery>
 
 						</cfif>
-						<cfloop query="spec">#spec.pk#
+						<cfloop query="spec">
 						<cfif len(media_rel.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
@@ -93,7 +94,9 @@
 												from media_relations
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+												left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 												where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+												and mczbase.ctmedia_relationship.description = '#shows#'
 												AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												ORDER BY media.media_type asc
 											</cfquery>
