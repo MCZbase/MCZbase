@@ -90,7 +90,7 @@
 						</div>
 						<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct
-								mr.media_relationship, ct.label, mr.related_primary_key, ct.auto_table
+								mr.media_relationship, ct.label, ct.auto_table
 							From
 								media_relations mr, ctmedia_relationship ct
 							WHERE 
