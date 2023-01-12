@@ -63,21 +63,43 @@
 								mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 							ORDER BY mr.media_relationship
 						</cfquery>
-						<!---specimen records relationships and other possible associations to media on those records--->
-						<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT media_relations.media_relations_id, media_relations.media_id, media_relations.media_relationship, media_relations.created_by_agent_id, media_relations.related_primary_key, media.mask_media_fg,collection_object_id as pk, guid
-						FROM media_relations
-						LEFT JOIN media on media.media_id = media_relations.media_id
+						<!---specimen records relationships and other possible associations to media on those records--->						
 						<cfif media_rel.media_relationship contains 'cataloged_item'>
-							left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT distinct media_id,media_relations.related_primary_key, flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event,
+								get_media_id_for_relation(spec.media_id)
+							FROM media_relations
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
+								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship 
+							WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
+								and ctmedia_relationship.auto_table = 'cataloged_item'
+							</cfquery>
 						</cfif>
 						<cfif media_rel.media_relationship contains 'collecting_event'>
-							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
+							<cfquery name="coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT distinct media_id,flat.collection_object_id as pk, collecting_event.collecting_event_id,collecting_event.verbatim_locality as collecting_event
+							FROM media_relations
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
+								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship 
+							WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
+									and ctmedia_relationship.auto_table = 'collecting_event'
+							</cfquery>
 						</cfif>
 						<cfif media_rel.media_relationship contains 'agent'>
-							left join agent on media_relations.related_primary_key = agent.agent_id
+							<cfquery name="agen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select distinct agent_name.agent_name, agent.agent_id
+								from media_relations
+									left join agent on media_relations.related_primary_key = agent.agent_id
+									left join agent_name on agent_name.agent_id = agent.agent_id
+									left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship
+								where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+								and ctmedia_relationship.auto_table = 'collecting_event'
+								and agent_name_type = 'preferred'
+								order by agent_name.agent_name
+							</cfquery>
 						</cfif>
-						WHERE media.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							
 							<!---select distinct media_id,flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event,
 							get_media_id_for_relation(spec.media_id)
@@ -105,7 +127,7 @@
 													 left join media on media_relations.media_id = media.media_id
 													 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 												where (media_relationship like '%cataloged_item%' OR media_relationship like '%collecting_event%' OR media_relationship like '%agent%')
-													AND related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+													AND (related_primary_key = <cfqueryparam value=#spec.related_primary_key# CFSQLType="CF_SQL_DECIMAL" > OR 
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 												ORDER BY media.media_type asc
 											</cfquery>
