@@ -8,6 +8,10 @@
 <cfif isdefined("include_counts") AND include_counts EQ 1 >
 	<cfset includeCounts=true>
 </cfif>
+<cfset includeCECounts = false>
+<cfif isdefined("include_ce_counts") AND include_ce_counts EQ 1 >
+	<cfset includeCECounts=true>
+</cfif>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
 	<cfif not isdefined("collnOper") or len(collnOper) is 0>
 		<cfset collnOper="usedOnlyBy">
@@ -104,6 +108,11 @@
 				MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality
 			<cfelse>
 				null as collcountlocality
+			</cfif>
+			<cfif includeCECounts >
+				MCZBASE.get_collcodes_for_collevent(collecting_event.collecting_event_id)  as collcountcollevent
+			<cfelse>
+				null as collcountcollevent
 			</cfif>
 		from
 			geog_auth_rec

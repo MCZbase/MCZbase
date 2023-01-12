@@ -2148,6 +2148,7 @@ You deleted a collecting event.
 					maximum_elevation,
 					orig_elev_units,
 					collcountlocality,
+					collcountcollevent,
 					curated_fg
 				from localityResults
 				order by
@@ -2207,6 +2208,11 @@ You deleted a collecting event.
 			<td>#verbatim_date#</td>
 			<td>#collecting_source#</td>
 			<td>#collecting_method#</td>
+			<cfif include_counts EQ 1 and length(collcountcollevent) GT 0>
+				<td>
+					#collcountcollevent#
+				</td>
+			</cfif>
 		</tr>
 	</cfloop>
 </table>
