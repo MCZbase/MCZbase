@@ -157,7 +157,9 @@
 															select distinct media.media_id 
 															from media_relations 
 															left join media on media_relations.media_id = media.media_id 
+															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 															where media_relations.related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
+															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 														</cfquery>
 													</cfloop>
 												</cfif>
