@@ -99,7 +99,6 @@
 													left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 													where media_relations.related_primary_key = <cfqueryparam value=#spec.rpk#>
 													and mczbase.ctmedia_relationship.description = any('shows', 'ledger','documents','transcript','related','created')
-													and 
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 													ORDER BY media.media_type asc
 												</cfquery>
