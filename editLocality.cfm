@@ -564,7 +564,7 @@
 													<cfloop query="sharedWith">
 														<cfset sharedNames = "#sharedNames##separator##sharedWith.collection_cde#">
 														<cfset separator= ";">
-													<cfloop>
+													</cfloop>
 													<cfif numSole EQ 0>
 														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
 															#numSole# #collection# collecting events (shared with #sharedNames#)
