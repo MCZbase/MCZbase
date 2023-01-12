@@ -2208,7 +2208,7 @@ You deleted a collecting event.
 			<td>#verbatim_date#</td>
 			<td>#collecting_source#</td>
 			<td>#collecting_method#</td>
-			<cfif include_counts EQ 1 and length(collcountcollevent) GT 0>
+			<cfif include_counts EQ 1 and len(collcountcollevent) GT 0>
 				<td>
 					#collcountcollevent#
 				</td>
