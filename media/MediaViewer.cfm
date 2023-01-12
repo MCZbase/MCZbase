@@ -116,10 +116,10 @@
 															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif></a>
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'cataloged_item'>
-														#media_rel.media_relationship#: #spec.guid#
+														#media_rel.label#: #spec.guid#
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'agent'>
-														#media_rel.media_relationship#: #agents.agent_name#
+														#media_rel.label#: #agents.agent_name#
 													</cfif>
 												</li>
 											</ul>
