@@ -521,7 +521,6 @@
 															flatTableName.collecting_event_id = flat1.collecting_event_id
 													WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 															and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#whatSpecs.collection_id#">
-														)
 													GROUP BY flatTableName.collecting_event_id
 													HAVING count(distinct flatTableName.collection_cde) = 1
 												</cfquery>
@@ -533,7 +532,6 @@
 															flatTableName.collecting_event_id = flat1.collecting_event_id
 													WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 															and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#whatSpecs.collection_id#">
-														)
 													GROUP BY flatTableName.collecting_event_id
 													HAVING count(distinct flatTableName.collection_cde) > 1
 												</cfquery>
