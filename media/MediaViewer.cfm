@@ -84,8 +84,9 @@
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (
 													<cfloop query="media_rel">
-														<cfquery="title">
-													select media_relationship from media_relations where related_primary_key = <cfqueryparam value="#spec.related_primary_key#" cfsqltype="CF_SQL_DECIMAL"/></cfquery>
+													<cfquery="title" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select media_relationship from media_relations where related_primary_key = <cfqueryparam value="#spec.related_primary_key#" cfsqltype="CF_SQL_DECIMAL"/>
+													</cfquery>
 														#title.media_relationship#
 													</cfloop>) </li>
 											</ul>
