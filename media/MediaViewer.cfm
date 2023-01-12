@@ -83,7 +83,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (
-											#spec.media_relationship#: #spec.pk# <cfif #spec.media_relationship# eq 'shows collecting_event'><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">#spec.verbatim_locality#  #spec.collecting_source# #spec.verbatim_date# <cfif spec.ended_date gt 0>(#spec.ended_date#)</cfif>  </a><cfelse>#spec.pk#</cfif>
+											#spec.media_relationship#: #spec.pk# <cfif #spec.media_relationship# eq 'shows collecting_event'><a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">#spec.verbatim_locality#  #spec.collecting_source# #spec.verbatim_date# <cfif spec.ended_date gt 0>(#spec.ended_date#)</cfif>  </a><cfelse>#spec.pk#</cfif>
 												)</li>
 											</ul>
 										</div>
