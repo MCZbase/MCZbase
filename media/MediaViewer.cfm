@@ -116,7 +116,7 @@
 													<cfelseif #media_rel.auto_table# eq 'cataloged_item'>
 														#spec.guid#
 													<cfelseif #media_rel.auto_table# eq 'agent'>
-														#agent.agent_name#
+														#agents.agent_name#
 													<cfelse>
 														Need Relationship
 													</cfif>
