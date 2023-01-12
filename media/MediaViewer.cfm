@@ -72,7 +72,7 @@
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 								left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
 							WHERE media_relations.media_relationship = <cfqueryparam value="#media_rel.media_relationship#" cfsqltype="CF_SQL_VARCHAR" list="yes">
-							</cfquery>
+							AND media_relations.media_id = <cfqueryparam value="#media.media_id#" cfsqltype="CF_SQL_VARCHAR"/>						</cfquery>
 
 						</cfif>
 						<cfloop query="spec">#spec.pk#
