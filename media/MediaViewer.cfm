@@ -147,7 +147,7 @@
 													</cfquery>
 												</cfloop>
 												</cfif>
-												<cfif media_rel.auto_table eq 'agent'>:
+												<cfif media_rel.auto_table eq 'agent'>
 													<cfloop query="agents">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select m.media_id
@@ -167,7 +167,6 @@
 															left join media on media_relations.media_id = media.media_id 
 															where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
 														</cfquery>
-													<!---	<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span>--->
 													</cfloop>
 												</cfif>
 											</cfif>
