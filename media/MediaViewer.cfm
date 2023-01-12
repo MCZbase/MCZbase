@@ -28,33 +28,33 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collection_object_id as pk, guid, mczbase.ctmedia_relationship.auto_table
-	from media_relations
-		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-	where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and media_relations.media_relationship like '%cataloged_item%'
-	order by guid
-</cfquery>
-<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct agent_name.agent_name, agent.agent_id, mczbase.ctmedia_relationship.auto_table
-	from media_relations
-		left join agent on media_relations.related_primary_key = agent.agent_id
-		left join agent_name on agent_name.agent_id = agent.agent_id
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and media_relations.media_relationship = 'shows agent'
-	and agent_name_type = 'preferred'
-	order by agent_name.agent_name
-</cfquery>
-<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source, mczbase.ctmedia_relationship.auto_table
-	from media_relations
-		left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-	where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and media_relations.media_relationship = 'shows collecting_event'
-</cfquery>
+		select distinct collection_object_id as pk, guid, mczbase.ctmedia_relationship.auto_table
+		from media_relations
+			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+		order by guid
+	</cfquery>
+	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct agent_name.agent_name, agent.agent_id, mczbase.ctmedia_relationship.auto_table
+		from media_relations
+			left join agent on media_relations.related_primary_key = agent.agent_id
+			left join agent_name on agent_name.agent_id = agent.agent_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			and mczbase.ctmedia_relationship.auto_table = 'agent'
+			and agent_name_type = 'preferred'
+		order by agent_name.agent_name
+	</cfquery>
+	<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source, mczbase.ctmedia_relationship.auto_table
+		from media_relations
+			left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+	</cfquery>
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
