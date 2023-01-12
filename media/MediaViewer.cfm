@@ -87,7 +87,7 @@
 									<div class="row mx-0">
 										<div class="col-12 p-1">
 											<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select distinct media.media_id, preview_uri, media.media_uri,media_relations.media_relationship,
+												select distinct media.media_id, preview_uri, media.media_uri,media_relations.related_primary_key,
 													get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 													media.mime_type, media.media_type, media.auto_protocol, media.auto_host
 												from media_relations
