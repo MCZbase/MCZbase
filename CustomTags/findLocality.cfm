@@ -157,6 +157,11 @@
 				<cfelseif collnOper is "eventUsedBy">
 					AND collecting_event.collecting_event_id in
 							(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+				<cfelseif collnOper is "eventSharedOnlyBy">
+					AND collecting_event.collecting_event_id in
+							(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					AND collecting_event.collecting_event_id in
+							(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 				</cfif>
 			</cfif>
 			<cfif isdefined("geology_attribute") and len(#geology_attribute#) gt 0>
