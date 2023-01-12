@@ -134,10 +134,11 @@
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+														and (media_relations.media_description = 'shows' or media_relations.media_description = 'documents')
 													</cfquery>
 												</cfloop>
 												</cfif>
-												<cfif media_rel.auto_table eq 'ledger'> 
+												<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id 
