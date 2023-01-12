@@ -67,7 +67,7 @@
 						<!---specimen records relationships and other possible associations to media on those records--->						
 							<cfif len(media.media_id) gt 0>
 								<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct media_id,flat.collection_object_id as pk, media_relations.related_primary_key as rpk,media_relations.media_relationship
+								SELECT distinct media_id,flat.collection_object_id as pk, flat.guid, media_relations.related_primary_key as rpk,media_relations.media_relationship
 								FROM media_relations
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 									left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
