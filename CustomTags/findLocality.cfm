@@ -8,6 +8,10 @@
 <cfif isdefined("include_counts") AND include_counts EQ 1 >
 	<cfset includeCounts=true>
 </cfif>
+<cfset includeCECounts = false>
+<cfif isdefined("include_ce_counts") AND include_ce_counts EQ 1 >
+	<cfset includeCECounts=true>
+</cfif>
 <cfif isdefined("collection_id") and len(collection_id) gt 0>
 	<cfif not isdefined("collnOper") or len(collnOper) is 0>
 		<cfset collnOper="usedOnlyBy">
@@ -101,9 +105,14 @@
 			min_depth,
 			depth_units,
 			<cfif includeCounts >
-				MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality
+				MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality,
 			<cfelse>
-				null as collcountlocality
+				null as collcountlocality,
+			</cfif>
+			<cfif includeCECounts >
+				MCZBASE.get_collcodes_for_collevent(collecting_event.collecting_event_id)  as collcountcollevent
+			<cfelse>
+				null as collcountcollevent
 			</cfif>
 		from
 			geog_auth_rec
@@ -140,6 +149,19 @@
 				<cfelseif collnOper is "notUsedBy">
 					AND locality.locality_id  not in
 						(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+				<cfelseif collnOper is "eventUsedOnlyBy">
+					AND collecting_event.collecting_event_id in
+							(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					AND collecting_event.collecting_event_id not in
+							(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+				<cfelseif collnOper is "eventUsedBy">
+					AND collecting_event.collecting_event_id in
+							(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+				<cfelseif collnOper is "eventSharedOnlyBy">
+					AND collecting_event.collecting_event_id in
+							(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					AND collecting_event.collecting_event_id in
+							(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 				</cfif>
 			</cfif>
 			<cfif isdefined("geology_attribute") and len(#geology_attribute#) gt 0>

@@ -415,8 +415,9 @@
 	<cfquery name="whatSpecs" datasource="uam_god">
   		SELECT
 			count(cataloged_item.cat_num) numOfSpecs,
-			count(collecting_event.collecting_event_id) numOfCollEvents,
+			count(distinct collecting_event.collecting_event_id) numOfCollEvents,
 			collection.collection,
+			collection.collection_cde,
 			collection.collection_id
 		from
 			cataloged_item,
@@ -428,6 +429,7 @@
 			collecting_event.locality_id=  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		GROUP BY
 			collection.collection,
+			collection.collection_cde,
 			collection.collection_id
   	</cfquery>
 	<cfquery name="collectingEvents" datasource="uam_god">
@@ -497,34 +499,90 @@
 									<font color="##FF0000">This Locality (#locDet.locality_id#)
 										contains 
 										<a href="SpecimenResults.cfm?locality_id=#locality_id#">
-											#whatSpecs.numOfSpecs# #whatSpecs.collection# specimens
-										</a>
-										from 
-										<a href="/Locality.cfm?action=findCO&locality_id=#locality_id#&include_counts=true">
-											#whatSpecs.numOfCollEvents# collecting events
+											#whatSpecs.numOfSpecs# #whatSpecs.collection_cde# specimens
 										</a>
 									</font>
 									</h3><h3>
-									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>.
+									from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#collectingEvents.ct# collecting events</a>.
 								<cfelse>
 									<font color="##FF0000">This Locality (#locDet.locality_id#)
 									contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a></font>
 									</h3><h3>
-									in <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#">#collectingEvents.ct# collecting events</a>:</font>
+									from <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&include_counts=true&include_ce_counts=true">#collectingEvents.ct# collecting events</a>:</font>
 									<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
 										<cfloop query="whatSpecs">
 											<li style="margin-left: 1.5em;">
-												<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection=#whatSpecs.collection#">
-													#numOfSpecs# #collection# specimens
+												<a href="SpecimenResults.cfm?locality_id=#locality_id#&collection_id=#whatSpecs.collection_id#">
+													#numOfSpecs# #collection_cde# specimens
 												</a>
 												from 
-												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-													#whatSpecs.numOfCollEvents# collecting events
-												</a>
-												<br>
-												<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true">
-													(show only by #collection#)
-												</a>
+												<cfquery name="countSole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT flatTableName.collecting_event_id 
+													FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
+															flatTableName.collecting_event_id = flat1.collecting_event_id
+													WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+															and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#whatSpecs.collection_id#">
+													GROUP BY flatTableName.collecting_event_id
+													HAVING count(distinct flatTableName.collection_cde) = 1
+												</cfquery>
+												<cfset numSole = countSole.recordcount>
+												<cfquery name="countShared" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													SELECT flatTableName.collecting_event_id 
+													FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+														left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1 on
+															flatTableName.collecting_event_id = flat1.collecting_event_id
+													WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+															and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#whatSpecs.collection_id#">
+													GROUP BY flatTableName.collecting_event_id
+													HAVING count(distinct flatTableName.collection_cde) > 1
+												</cfquery>
+												<cfset numShared = countShared.recordcount>
+												<cfif numShared EQ 0>
+													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+														#numSole# #collection_cde# only collecting events
+													</a>
+												<cfelse>
+													<cfquery name="sharedWith" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														SELECT DISTINCT collection_cde 
+														FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+
+														WHERE collecting_event_id in (
+															SELECT flatTableName.collecting_event_id 
+															FROM <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flatTableName
+																left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat1
+																	on flatTableName.collecting_event_id = flat1.collecting_event_id
+															WHERE flatTableName.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+																and flat1.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#whatSpecs.collection_id#">
+															GROUP BY flatTableName.collecting_event_id
+															HAVING count(distinct flatTableName.collection_cde) > 1
+														)
+														and collection_cde <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#whatSpecs.collection_cde#">
+													</cfquery>
+													<cfset sharedNames = "">
+													<cfset separator= "">
+													<cfloop query="sharedWith">
+														<cfset sharedNames = "#sharedNames##separator##sharedWith.collection_cde#">
+														<cfset separator= ";">
+													</cfloop>
+													<cfif numSole EQ 0>
+														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
+														</a>
+													<cfelse>
+														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+															#numSole# #collection_cde# only collecting events
+														</a>
+														<br>
+														and <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
+														</a>
+														<br>
+														  All <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+															#numSole+numShared# #collection_cde# collecting events
+														</a>.
+													</cfif>
+												</cfif>
 											</li>
 										</cfloop>
 									</ul>
