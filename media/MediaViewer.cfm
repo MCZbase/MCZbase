@@ -118,7 +118,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-												<cfif media_rel.auto_table eq 'cataloged_item'>: 
+												<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id 
