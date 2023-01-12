@@ -143,7 +143,7 @@
 															from agent_name an 
 															left join media_relations m on an.agent_id=m.related_primary_key 
 															where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
-															and m.media_relationship like '%agent%'
+															and m.media_relationship <> 'created by agent'
 														</cfquery>
 														<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm.agent_id#"> #agents.agent_name#</a><span>, </span>
 													</cfloop>
