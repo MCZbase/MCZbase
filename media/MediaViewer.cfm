@@ -101,7 +101,7 @@
 						</div>
 						<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct
-								mr.media_relationship, ct.label, ct.auto_table
+								mr.media_relationship, ct.label, ct.auto_table, ct.description
 							From
 								media_relations mr, ctmedia_relationship ct
 							WHERE 
@@ -126,6 +126,9 @@
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'cataloged_item'>
 														#media_rel.label#: #spec.guid#
+													</cfif>
+														<cfif #media_rel.description# eq 'ledger'>
+														#media_rel.label#: #ledg.guid#
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'agent'>
 														#media_rel.label#: #agents.agent_name#
@@ -153,7 +156,7 @@
 														select distinct media.media_id 
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
-														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+														where related_primary_key = <cfqueryparam value=#ledg.pk# CFSQLType="CF_SQL_DECIMAL" >
 														and media_relations.media_relationship = 'ledger entry for cataloged_item'
 													</cfquery>
 												</cfloop>
