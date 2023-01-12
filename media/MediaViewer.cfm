@@ -67,7 +67,7 @@
 						<!---specimen records relationships and other possible associations to media on those records--->						
 							<cfif len(media.media_id) gt 0>
 								<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct media_id,flat.collection_object_id as pk, media_relations.related_primary_key as rpk,media_relations.media_relationship,collecting_event.collecting_event_id,collecting_event.verbatim_locality as collecting_event
+								SELECT distinct media_id,flat.collection_object_id as pk, media_relations.related_primary_key as rpk,media_relations.media_relationship,collecting_event.collecting_event_id,collecting_event.verbatim_locality, collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source
 								FROM media_relations
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 									left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
@@ -83,7 +83,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records (
-											#spec.media_relationship#: #spec.pk#
+											#spec.media_relationship#: #spec.pk# <cfif #spec.media_relationship# = 'shows collecting_event'>hello</cfif>
 												)</li>
 											</ul>
 										</div>
