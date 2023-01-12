@@ -89,6 +89,7 @@
 								mr.media_relationship = ct.media_relationship 
 							and
 								mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+							and mr.media_relationship <> 'created by agent'
 							ORDER BY mr.media_relationship
 						</cfquery>
 						<cfloop query="media_rel">
