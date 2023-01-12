@@ -2154,6 +2154,13 @@ You deleted a collecting event.
 				order by
 					higher_geog, spec_locality, verbatim_locality
 			</cfquery>
+	
+		<cfset include_ce_counts = false>
+		<cfif include_counts EQ 1>
+			<cfif len(localityResults.collcountcollevent) GT 0>
+				<cfset include_ce_counts = true>
+			</cfif>
+		</cfif>
 
 <table border>
 	<tr>
@@ -2166,6 +2173,7 @@ You deleted a collecting event.
 		<td><b>Verb.&nbsp;Date</b></td>
 		<td><b>Source</b></td>
 		<td><b>Method</b></td>
+		<cfif include_ce_counts><td>Specimens (for coll event)</td></cfif>
 	</tr>
 	<cfloop query="localityResults">
 		<input type="hidden" name="collecting_event_id" value="#collecting_event_id#" />
@@ -2208,7 +2216,7 @@ You deleted a collecting event.
 			<td>#verbatim_date#</td>
 			<td>#collecting_source#</td>
 			<td>#collecting_method#</td>
-			<cfif include_counts EQ 1 and len(collcountcollevent) GT 0>
+			<cfif include_ce_counts>
 				<td>
 					#collcountcollevent#
 				</td>
