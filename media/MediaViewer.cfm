@@ -67,7 +67,7 @@
 						<!---specimen records relationships and other possible associations to media on those records--->						
 							<cfif len(media.media_id) gt 0>
 								<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT distinct media_id,flat.collection_object_id as pk, media_relations.related_primary_key,media_relations.media_relationship,collecting_event.collecting_event_id,collecting_event.verbatim_locality as collecting_event
+								SELECT distinct media_id,flat.collection_object_id as pk, media_relations.related_primary_key as rpk,media_relations.media_relationship,collecting_event.collecting_event_id,collecting_event.verbatim_locality as collecting_event
 								FROM media_relations
 									left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 									left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
@@ -97,8 +97,9 @@
 														 left join media on media_relations.media_id = media.media_id
 														 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
 													left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
-													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk#>
+													where media_relations.related_primary_key = <cfqueryparam value=#spec.rpk#>
 													and mczbase.ctmedia_relationship.description = any('shows', 'ledger','documents','transcript','related','created')
+													and 
 													AND MCZBASE.is_media_encumbered(media.media_id)  < 1
 													ORDER BY media.media_type asc
 												</cfquery>
