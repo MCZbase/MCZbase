@@ -155,6 +155,7 @@
 															left join media_relations m on an.agent_id=m.related_primary_key 
 															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 															and m.media_relationship <> 'created by agent'
+															and m.media_relationship = 'shows agent'
 														</cfquery>
 													</cfloop>
 												</cfif>
