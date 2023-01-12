@@ -52,19 +52,9 @@
 								#mediaMetadataBlock#
 							</div>
 						</div>
-						<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct
-								mr.media_relationship, ct.label
-							From
-								media_relations mr, ctmedia_relationship ct
-							WHERE 
-								mr.media_relationship = ct.media_relationship 
-							and
-								mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-							ORDER BY mr.media_relationship
-						</cfquery>
+					
 						<!---specimen records relationships and other possible associations to media on those records--->						
-						<cfif len(media_rel.media_relationship) gt 0>
+						<cfif len(media.media_id) gt 0>
 							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							SELECT distinct media_id,flat.collection_object_id as pk, collecting_event.collecting_event_id,collecting_event.verbatim_locality as collecting_event
 							FROM media_relations
@@ -77,6 +67,17 @@
 
 						</cfif>
 						<cfloop query="spec">
+							<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct
+								mr.media_relationship, ct.label
+							From
+								media_relations mr, ctmedia_relationship ct
+							WHERE 
+								mr.media_relationship = ct.media_relationship 
+							and
+								mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+							ORDER BY mr.media_relationship
+						</cfquery>
 						<cfif len(media_rel.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
