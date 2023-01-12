@@ -557,7 +557,7 @@
 															GROUP BY flatTableName.collecting_event_id
 															HAVING count(distinct flatTableName.collection_cde) > 1
 														)
-														and collection_cde <> 'Mamm'													
+														and collection_cde <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#whatSpecs.collection_cde#">
 													</cfquery>
 													<cfset sharedNames = "">
 													<cfset separator= "">
