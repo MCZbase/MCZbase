@@ -150,7 +150,7 @@
 												<cfif media_rel.auto_table eq 'agent'>
 													<cfloop query="agents">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select m.media_id
+															select distinct m.media_id
 															from agent_name an 
 															left join media_relations m on an.agent_id=m.related_primary_key 
 															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
