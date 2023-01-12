@@ -54,7 +54,7 @@
 						</div>
 						<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select distinct
-								mr.media_relationship, ct.label, mr.media_relations_id
+								mr.media_relationship, ct.label, mr.related_primary_key
 							From
 								media_relations mr, ctmedia_relationship ct
 							WHERE 
