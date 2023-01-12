@@ -72,7 +72,7 @@
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship 
 							WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
-									and ctmedia_relationship.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#" list="yes">
+									and ctmedia_relationship.auto_table = '<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#" list="yes">'
 							</cfquery>
 
 						</cfif>
