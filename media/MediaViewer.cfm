@@ -55,6 +55,14 @@
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 	</cfquery>
+	<cfquery name="transactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select transaction_id
+		from media_relations
+			left join loan on media_relations.related_primary_key = loan.transaction_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+	</cfquery>
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
@@ -126,7 +134,6 @@
 														left join media on media_relations.media_id = media.media_id 
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													</cfquery>
-														<!---<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>--->
 												</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'ledger'>: 
@@ -137,19 +144,17 @@
 														left join media on media_relations.media_id = media.media_id 
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													</cfquery>
-														<!---<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>--->
 												</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'agent'>:
 													<cfloop query="agents">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> 
-															select m.media_id,an.agent_id 
+															select m.media_id
 															from agent_name an 
 															left join media_relations m on an.agent_id=m.related_primary_key 
 															where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 															and m.media_relationship <> 'created by agent'
 														</cfquery>
-														<!---<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm.agent_id#"> #agents.agent_name#</a><span>, </span>--->
 													</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'collecting_event'>:
@@ -173,12 +178,10 @@
 															<cfelse>	
 																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
 															</cfif>
-
 															<ul class="list-group px-0">
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">
-																	<!---Media Zoom/Related link should populate the area at the top with its image and metadata. Need something new on search.cfc? --->
 																	<div class=" px-0"> #mediablock#</div>
 																</div>
 																</li>
