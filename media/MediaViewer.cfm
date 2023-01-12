@@ -108,7 +108,7 @@
 							left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
 								and (media_relations.media_relationship like '%cataloged_item%' OR media_relations.media_relationship like '%collecting_event%')--->
-						</cfquery>
+				<!---		</cfquery>--->
 						<cfif len(media_rel.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
