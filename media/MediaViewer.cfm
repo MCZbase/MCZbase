@@ -75,7 +75,7 @@
 							</cfquery>
 
 						</cfif>
-						<cfloop query="spec"></cfloop>
+						<cfloop query="spec">
 						<cfif len(media_rel.media_relationship) gt 0>
 							<div class="col-12 col-xl-12 px-0 float-left">
 								<div class="search-box mt-2 w-100 mb-5">
