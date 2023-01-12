@@ -66,7 +66,7 @@
 						<!---specimen records relationships and other possible associations to media on those records--->						
 						<cfif len(media_rel.media_relationship) gt 0>
 							<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT distinct media_id,media_relations.related_primary_key as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event
+							SELECT distinct media_id,media_relations.related_primary_key as pk
 							FROM media_relations
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on media_relations.related_primary_key = flat.collection_object_id
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
