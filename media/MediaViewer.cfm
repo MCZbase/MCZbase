@@ -69,7 +69,7 @@
 							SELECT distinct media_id,media_relations.related_primary_key, flat.collection_object_id as pk, flat.collectors as agent, collecting_event.verbatim_locality as collecting_event,
 								get_media_id_for_relation(spec.media_id)
 							FROM media_relations
-								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on media_relations.related_primary_key = flat.collection_object_id
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 								left join ctmedia_relationship on media_relations.media_relationship = ctmedia_relationship.media_relationship 
 							WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#"> 
