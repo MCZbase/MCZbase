@@ -539,7 +539,7 @@
 												</cfquery>
 												<cfset numShared = countShared.recordcount>
 												<cfif numShared EQ 0>
-													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+													<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
 														#numSole# #collection_cde# only collecting events
 													</a>
 												<cfelse>
@@ -566,15 +566,15 @@
 														<cfset separator= ";">
 													</cfloop>
 													<cfif numSole EQ 0>
-														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
 															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
 														</a>
 													<cfelse>
-														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
 															#numSole# #collection_cde# only collecting events
 														</a>
 														<br>
-														and <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=usedBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+														and <a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
 															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
 														</a>
 													</cfif>
