@@ -11,7 +11,23 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct 
+		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
+		MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
+		MCZBASE.get_media_dcrights(media.media_id) as display, 
+		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
+		MCZBASE.get_media_credit(media.media_id) as credit, 
+		MCZBASE.get_media_descriptor(media.media_id) as alttag,
+		MCZBASE.get_media_owner(media.media_id) as owner
+	From
+		media
+	WHERE 
+		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		AND MCZBASE.is_media_encumbered(media_id)  < 1 
+	</cfquery>
+	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct collection_object_id as pk, guid,, mczbase.ctmedia_relationship.auto_table
 	from media_relations
 		left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
@@ -39,21 +55,6 @@
 	where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			and media_relations.media_relationship = 'shows collecting_event'
 </cfquery>
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct 
-		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
-		MCZBASE.get_media_dctermsrights(media.media_id) as uri, 
-		MCZBASE.get_media_dcrights(media.media_id) as display, 
-		MCZBASE.is_media_encumbered(media.media_id) hideMedia,
-		MCZBASE.get_media_credit(media.media_id) as credit, 
-		MCZBASE.get_media_descriptor(media.media_id) as alttag,
-		MCZBASE.get_media_owner(media.media_id) as owner
-	From
-		media
-	WHERE 
-		media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
-		AND MCZBASE.is_media_encumbered(media_id)  < 1 
-	</cfquery>
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
