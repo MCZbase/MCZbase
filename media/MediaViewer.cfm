@@ -71,7 +71,7 @@
 								left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 								left join collecting_event on flat.collecting_event_id = collecting_event.collecting_event_id
 								left join MCZBASE.ctmedia_relationship on media_relations.media_relationship = mczbase.ctmedia_relationship.media_relationship 
-							WHERE MCZBASE.ctmedia_relationship.auto_table = <cfqueryparam value="#media_rel.media_relationship#" cfsqltype="CF_SQL_VARCHAR" list="yes">
+							WHERE media_relations.media_relationship = <cfqueryparam value="#media_rel.media_relationship#" cfsqltype="CF_SQL_VARCHAR" list="yes">
 							</cfquery>
 
 						</cfif>
