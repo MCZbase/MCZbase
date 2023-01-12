@@ -93,18 +93,18 @@
 							ORDER BY mr.media_relationship
 						</cfquery>
 						<cfloop query="media_rel">
-						<!---specimen records relationships and other possible associations to media on those records--->						
-
+						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfloop query="spec">
 							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-5">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
-												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">Related Media Records &mdash;
-													#media_rel.media_relationship#: 
+												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
+													Related Media Records &mdash; #media_rel.media_relationship#: 
 													<cfif #media_rel.auto_table# eq 'collecting_event'>
-														<a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>
+														<a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
+															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>
 													<cfelseif #media_rel.auto_table# eq 'cataloged_item'>
 														#spec.guid#
 													<cfelseif #media_rel.auto_table# eq 'agent'>
@@ -126,7 +126,7 @@
 														left join media on media_relations.media_id = media.media_id 
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													</cfquery>
-														<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>
+														<!---<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>--->
 												</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'ledger'>: 
@@ -137,7 +137,7 @@
 														left join media on media_relations.media_id = media.media_id 
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													</cfquery>
-														<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>
+														<!---<a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span>--->
 												</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'agent'>:
@@ -149,7 +149,7 @@
 															where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 															and m.media_relationship <> 'created by agent'
 														</cfquery>
-														<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm.agent_id#"> #agents.agent_name#</a><span>, </span>
+														<!---<a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm.agent_id#"> #agents.agent_name#</a><span>, </span>--->
 													</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'collecting_event'>:
@@ -160,7 +160,7 @@
 															left join media on media_relations.media_id = media.media_id 
 															where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
 														</cfquery>
-														<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span>
+													<!---	<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span>--->
 													</cfloop>
 												</cfif>
 											</cfif>
