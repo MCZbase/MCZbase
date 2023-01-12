@@ -145,19 +145,9 @@
 														select distinct media.media_id 
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
+														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-														and (media_relations.media_relationship = 'shows cataloged_item' or media_relations.media_relationship = 'documents cataloged_item')
-													</cfquery>
-												</cfloop>
-												</cfif>
-												<cfif media_rel.auto_table eq 'cataloged_item'> 
-												<cfloop query="ledg">
-													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id 
-														from media_relations 
-														left join media on media_relations.media_id = media.media_id 
-														where related_primary_key = <cfqueryparam value=#ledg.pk# CFSQLType="CF_SQL_DECIMAL" >
-														and media_relations.media_relationship = 'ledger entry for cataloged_item'
+														and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 													</cfquery>
 												</cfloop>
 												</cfif>
@@ -180,6 +170,7 @@
 															from media_relations 
 															left join media on media_relations.media_id = media.media_id 
 															where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
+															and media_relations.
 														</cfquery>
 													</cfloop>
 												</cfif>
