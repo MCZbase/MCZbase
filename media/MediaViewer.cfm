@@ -75,7 +75,7 @@
 				<div class="row">
 					<div class="col-12 my-3">
 						<cfif len(media.media_id) gt 0>
-							<div id="viewer targetarea" class="viewer rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
+							<div id="viewer targetarea" class="theviewer rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 								<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
 									#mediablock# 
