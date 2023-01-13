@@ -171,7 +171,7 @@
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													</cfquery>
-											
+												</cfloop>
 												<cfset i= 1>
 													<!---thumbnails added below--->
 												<cfloop query="relm">
@@ -186,7 +186,7 @@
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 190px;">
-																	<div class="px-0"><span class="px-2 smaller">media/#relm.media_id#: #spec.tab#</span> #mediablock#</div>
+																	<div class="px-0"><span class="px-2 smaller">media/#relm.media_id#: </span> #mediablock#</div>
 																</div>
 																</li>
 															</ul>
@@ -195,7 +195,7 @@
 													<cfset i=i+1>
 												</cfloop>
 												<div id="targetDiv"></div>
-													</cfloop>
+												
 											</cfif>
 											</div>
 
