@@ -163,13 +163,15 @@
 														</cfquery>
 													</cfloop>
 												<cfelse>
-												<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
-													from media_relations 
-													left join media on media_relations.media_id = media.media_id 
-													left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >									
-												</cfquery>
+													<cfloop query="spec">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
+															from media_relations 
+															left join media on media_relations.media_id = media.media_id 
+															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >									
+														</cfquery>
+													</cfloop>
 												</cfif>
 												<cfset i= 1>
 													<!---thumbnails added below--->
