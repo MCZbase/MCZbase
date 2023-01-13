@@ -31,7 +31,7 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct flat.collection_object_id as pk, flat.guid, mczbase.ctmedia_relationship.auto_table, flat.collecting_event_id
+		select distinct flat.collection_object_id as pk, flat.guid, mczbase.ctmedia_relationship.auto_table, collecting_event.verbatim_locality, collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source
 		from media_relations
 			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -114,17 +114,14 @@
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
 													Related Media Records &mdash; 
 													<cfif #media_rel.auto_table# eq 'collecting_event'>
-														#media_rel.label#: <a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
-															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif></a>
+														#media_rel.label#: <a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">
+															#spec.verbatim_locality#  #spec.collecting_source# #spec.verbatim_date# <cfif spec.ended_date gt 0>(#spec.ended_date#)</cfif></a>
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'cataloged_item'>
-														#media_rel.label#: <a class="text-white text-decoration-underline font-weight-lessbold" href="/s.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#spec.guid#</a>
+														#media_rel.label#: <a class="text-white text-decoration-underline font-weight-lessbold" href="/s.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">#spec.guid#</a>
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'agent'>
 														#media_rel.label#: #agents.agent_name#
-													</cfif>
-														<cfif #media_rel.auto_table# eq 'publication'>
-														#media_rel.label#: #pubs.ppk#
 													</cfif>
 												</li>
 											</ul>
