@@ -58,7 +58,7 @@
         and locality_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
         UNION
-        select distinct agent_name.id as pk, mczbase.ctmedia_relationship.auto_table as tab
+        select distinct agent_name.agent_id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
 			left join agent_name on agent_name.agent_id = agent.agent_id
@@ -84,7 +84,7 @@
         and accn.transaction_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'accn'
 	</cfquery>
-	<!---<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
@@ -95,22 +95,8 @@
 			and agent_name_type = 'preferred'
 		order by agent_name.agent_name
 	</cfquery>
-	<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source, mczbase.ctmedia_relationship.auto_table
-		from media_relations
-			left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
-	</cfquery>
-	<cfquery name="transactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select transaction_id
-		from media_relations
-			left join loan on media_relations.related_primary_key = loan.transaction_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
-	</cfquery>--->
+
+
 		<style>
 			.theviewer {width: auto; height: auto;margin:auto;}
 			.tviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
