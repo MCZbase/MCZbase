@@ -61,7 +61,7 @@
 			where c.collection_object_id = mr.related_primary_key
 			and c.collection_object_id = ci.collection_object_id
 			and mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			mr.media_relationship = 'shows cataloged_item'
+			and mr.media_relationship = 'shows cataloged_item'
 	</cfquery>
 		<style>
 			.theviewer {width: auto; height: auto;margin:auto;}
