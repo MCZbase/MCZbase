@@ -159,29 +159,6 @@
 														</cfquery>
 													</cfloop>
 												</cfif>
-												<!---<cfif media_rel.auto_table eq 'collecting_event'>:
-													<cfloop query="collecting_eventRel">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id 
-															from media_relations 
-															left join media on media_relations.media_id = media.media_id 
-															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
-															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
-														</cfquery>
-</cfloop></cfif>--->
-												<!---<cfif media_rel.auto_table eq 'publication'>
-													<cfloop query="pubs">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media_id
-															from citation 
-															left join media_relations on citation.collection_object_id=media_relations.related_primary_key 
-															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key=<cfqueryparam cfsqltype="cf_sql_decimal" value="#pubs.ppk#" />
-															and (mczbase.ctmedia_relationship.auto_table = 'publication')
-														</cfquery>
-													</cfloop>
-												</cfif>--->
 											</cfif>
 												<cfset i= 1>
 													<!---thumbnails added below--->
@@ -206,7 +183,6 @@
 													<cfset i=i+1>
 												</cfloop>
 												<div id="targetDiv"></div>
-											</cfif>
 											</div>
 										</div>
 									</div>
@@ -220,7 +196,6 @@
 					</div>
 				</div>
 			</cfloop>
-			</div>
 			</div>
 		</div>
 	</main>
