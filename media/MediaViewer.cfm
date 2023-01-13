@@ -140,7 +140,7 @@
 															left join citation on citation.publication_id = publication.publication_id
 															left join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
 															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-															and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' OR mczbase.ctmedia_relationship.auto_table = 'publication')
+															and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item')
 														</cfquery>
 													</cfloop>
 													<cfloop query="pubs">
@@ -149,7 +149,8 @@
 															from citation 
 															left join media_relations on citation.collection_object_id=media_relations.related_primary_key 
 															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key=<cfqueryparam cfsqltype="cf_sql_decimal" value="#pubs.ppk#" /> ;
+															where media_relations.related_primary_key=<cfqueryparam cfsqltype="cf_sql_decimal" value="#pubs.ppk#" />
+															and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item')
 														</cfquery>
 													</cfloop>
 												</cfif>
