@@ -183,7 +183,7 @@
 															left join citation on citation.collection_object_id = flat.collection_object_id
 															left join publication on publication.publication_id = citation.publication_id
 															left join media_relations on media_relations.related_primary_key = publication.publication_id
-															where flat.collection_object_id = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+															where flat.collection_object_id = <cfqueryparam value=#pubs.pk# CFSQLType="CF_SQL_DECIMAL" >
 															and media_relations.media_id is not null
 														</cfquery>
 													</cfloop>
