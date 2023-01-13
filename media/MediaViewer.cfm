@@ -168,7 +168,7 @@
 															select distinct m.media_id
 															from agent_name an 
 															left join media_relations m on an.agent_id=m.related_primary_key 
-															left join mczbase.ctmedia_relationship ct on ct.media_relationship = media_relations.media_relationship
+															left join mczbase.ctmedia_relationship ct on ct.media_relationship = m.media_relationship
 															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 															and ct.media_relationship <> 'created by agent'
 															and ct.auto_table = 'agent'
