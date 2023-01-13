@@ -113,12 +113,8 @@
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
 													Related Media Records &mdash; 
-													<cfif #media_rel.auto_table# eq 'collecting_event'>
-														#media_rel.label#: <a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">
-															#spec.verbatim_locality#  #spec.collecting_source# #spec.verbatim_date# <cfif spec.ended_date gt 0>(#spec.ended_date#)</cfif></a>
-													</cfif>
-													<cfif #media_rel.auto_table# eq 'cataloged_item'>
-														#media_rel.label#: <a class="text-white text-decoration-underline font-weight-lessbold" href="/s.cfm?action=srch&collecting_event_id=#spec.collecting_event_id#">#spec.guid#</a>
+													<cfif #media_rel.auto_table# eq 'cataloged_item' OR #media_rel.auto_table# eq 'collecting_event' or #media_rel.auto_table# eq 'publication' >
+														#media_rel.label#: <a class="text-white text-decoration-underline font-weight-lessbold" href="guid/#spec.guid#">#spec.guid#</a>
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'agent'>
 														#media_rel.label#: #agents.agent_name#
