@@ -55,19 +55,19 @@ limitations under the License.
 					left outer join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id 
 					left outer join identification on cataloged_item.collection_object_id = identification.collection_object_id
 					join collection on cataloged_item.collection_id = collection.collection_id
-					<cfif (not isdefined("collection_object_id")) > 
-						left outer join #session.SpecSrchTab# on cataloged_item.collection_object_id = #session.SpecSrchTab#.collection_object_id
-					<cfelseif  isdefined("result_id") and listlen(result_id) gt 1>
+					<cfif isdefined("result_id") and listlen(result_id) gt 1>
 						join user_search_table on cataloged_item.collection_object_id = user_search_table.collection_object_id
+					<cfelseif (not isdefined("collection_object_id")) > 
+						left outer join #session.SpecSrchTab# on cataloged_item.collection_object_id = #session.SpecSrchTab#.collection_object_id
 					</cfif>
 				WHERE
 					identification.accepted_id_fg = 1 AND
-					<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
+					<cfif isdefined("result_id") and listlen(result_id) gt 1>
+						result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
+					<cfelseif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					<cfelseif  isdefined("collection_object_id") and listlen(collection_object_id) gt 1>
 						cataloged_item.collection_object_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-					<cfelseif  isdefined("result_id") and listlen(result_id) gt 1>
-						result_id=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#result_id#">
 					<cfelse>
 						#session.SpecSrchTab#.collection_object_id is not null
 					</cfif>
