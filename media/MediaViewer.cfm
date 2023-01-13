@@ -62,7 +62,8 @@
 			select distinct media_relations.media_id, cataloged_item.collection_object_id as ppk
 			from media_relations
 			left join citation on citation.collection_object_id = media_relations.related_primary_key
-			left join cataloged_item on citation.collection_object_id = catatloged_item.collection_object_id
+			left join citation on citation.collection_object_id = media_relations.related_primary_key
+			left join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
 			where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			and media_relations.media_relationship = 'shows cataloged_item'
 	</cfquery>
