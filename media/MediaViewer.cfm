@@ -164,15 +164,14 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-												<cfloop query="spec">
-													<cfloop query='media_rel'>
-													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id 
-														from media_relations 
-														left join media on media_relations.media_id = media.media_id 
-														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
-													</cfquery>
+												<cfloop query='media_rel'>
+												<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select distinct media.media_id 
+													from media_relations 
+													left join media on media_relations.media_id = media.media_id 
+													left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
+												</cfquery>
 												<cfset i= 1>
 													<!---thumbnails added below--->
 												<cfloop query="relm">
@@ -197,10 +196,8 @@
 												</cfloop>
 												<div id="targetDiv"></div>
 												</cfloop>
-												</cfloop>
 											</cfif>
 											</div>
-
 										</div>
 									</div>
 								</div>
