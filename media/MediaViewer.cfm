@@ -11,10 +11,7 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-<style>
-	.theviewer {width: auto; height: auto;margin:auto;}
-	.theviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
-</style>
+
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -31,16 +28,13 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct flat.collection_object_id as pk, flat.guid, mczbase.ctmedia_relationship.auto_table, collecting_event.verbatim_locality, collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source
+		select distinct collection_object_id as pk, guid, mczbase.ctmedia_relationship.auto_table
 		from media_relations
 			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-			left join citation on citation.collection_object_id = flat.collection_object_id
-			left join publication on publication.publication_id = citation.publication_id 
-			left join collecting_event on flat.collecting_event_id = flat.collecting_event_id
-			where (media_relations.media_relationship = 'shows publication' OR media_relations.media_relationship = 'shows cataloged_item')
-			and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-		order by flat.guid
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			and (mczbase.ctmedia_relationship.media_relationship = 'shows cataloged_item')
+		order by guid
 	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table
@@ -53,23 +47,27 @@
 			and agent_name_type = 'preferred'
 		order by agent_name.agent_name
 	</cfquery>
-<!---	<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct collecting_event.verbatim_locality,collecting_event.COLLECTING_EVENT_ID, collecting_event.VERBATIM_DATE, collecting_event.ended_date, collecting_event.collecting_source, mczbase.ctmedia_relationship.auto_table
 		from media_relations
 			left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
-	</cfquery>--->
-<!---	<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct cataloged_item.collection_object_id as ppk
-		from cataloged_item  
-		left join citation on citation.collection_object_id = cataloged_item.collection_object_id
-		left join publication on publication.publication_id = citation.publication_id
-		left join media_relations on publication.PUBLICATION_ID=media_relations.related_primary_key 
-		where media_relations.media_relationship = 'shows publication'	
-		and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-	</cfquery>--->
+	</cfquery>
+	<cfquery name="transactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select transaction_id
+		from media_relations
+			left join loan on media_relations.related_primary_key = loan.transaction_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+	</cfquery>
+		<style>
+			.theviewer {width: auto; height: auto;margin:auto;}
+			.tviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+		</style>
+
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -108,13 +106,17 @@
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
-									<div class="search-box mt-2 w-100 mb-3">
+									<div class="search-box mt-2 w-100 mb-5">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
 													Related Media Records &mdash; 
-													<cfif #media_rel.auto_table# eq 'cataloged_item' OR #media_rel.auto_table# eq 'collecting_event' or #media_rel.auto_table# eq 'publication' >
-														#media_rel.label#: <a class="text-white text-decoration-underline font-weight-lessbold" href="guid/#spec.guid#">#spec.guid#</a>
+													<cfif #media_rel.auto_table# eq 'collecting_event'>
+														#media_rel.label#: <a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
+															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif></a>
+													</cfif>
+													<cfif #media_rel.auto_table# eq 'cataloged_item'>
+														#media_rel.label#: #spec.guid#
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'agent'>
 														#media_rel.label#: #agents.agent_name#
@@ -125,20 +127,20 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-												<cfif media_rel.auto_table eq 'cataloged_item' OR media_rel.auto_table eq 'publication' OR media_rel.auto_table eq 'collecting_event'> 
-													<cfloop query="spec">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id 
-															from media_relations 
-															left join media on media_relations.media_id = media.media_id 
-															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-															left join publication on media_relations.related_primary_key = publication.publication_id
-															left join citation on citation.publication_id = publication.publication_id
-															left join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
-															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-															and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' or mczbase.ctmedia_relationship.auto_table = 'publication' OR mczbase.ctmedia_relationship.auto_table = 'collecting_event')
-														</cfquery>
-													</cfloop>
+												<cfif media_rel.auto_table eq 'cataloged_item'> 
+												<cfloop query="spec">
+													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct media.media_id 
+														from media_relations 
+														left join media on media_relations.media_id = media.media_id 
+														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+														left join publication on media_relations.related_primary_key = publication.publication_id
+														left join citation on citation.publication_id = publication.publication_id
+														left join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
+														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+														and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' OR mczbase.ctmedia_relationship.auto_table = 'publication')
+													</cfquery>
+												</cfloop>
 												</cfif>
 												<cfif media_rel.auto_table eq 'agent'>
 													<cfloop query="agents">
@@ -149,6 +151,18 @@
 															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 															and m.media_relationship <> 'created by agent'
 															and m.media_relationship = 'shows agent'
+														</cfquery>
+													</cfloop>
+												</cfif>
+												<cfif media_rel.auto_table eq 'collecting_event'>:
+													<cfloop query="collecting_eventRel">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id 
+															from media_relations 
+															left join media on media_relations.media_id = media.media_id 
+															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+															where media_relations.related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
+															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 														</cfquery>
 													</cfloop>
 												</cfif>
@@ -177,6 +191,7 @@
 												</cfloop>
 												<div id="targetDiv"></div>
 											</div>
+
 										</div>
 									</div>
 								</div>
@@ -185,10 +200,12 @@
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 								</div>
 							</cfif>
+			
 						</cfloop>
 					</div>
 				</div>
 			</cfloop>
+			</div>
 			</div>
 		</div>
 	</main>
