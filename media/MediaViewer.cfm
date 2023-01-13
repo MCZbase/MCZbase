@@ -142,8 +142,6 @@
 								#mediaMetadataBlock#
 							</div>
 						</div>
-
-						<cfloop query="media_rel">
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
@@ -203,7 +201,6 @@
 								</div>
 							</cfif>
 			
-						</cfloop>
 					</div>
 				</div>
 			</cfloop>
