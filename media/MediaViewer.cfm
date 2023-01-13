@@ -168,7 +168,7 @@
 													and agent_name_type = 'preferred'
 													and agent.agent_id is not null
 													and mczbase.ctmedia_relationship.auto_table = 'agent'
-													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
+													and media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 												</cfquery>
 												<cfset i= 1>
 													<!---thumbnails added below--->
