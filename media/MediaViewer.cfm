@@ -148,7 +148,7 @@
 															from citation 
 															left join media_relations on citation.collection_object_id=media_relations.related_primary_key 
 															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key=<cfqueryparam cfsqltype="cf_sql_varchar" value="#pubs.ppk#" /> ;
+															where media_relations.related_primary_key=<cfqueryparam cfsqltype="cf_sql_decimal" value="#pubs.ppk#" /> ;
 														</cfquery>
 													</cfloop>
 												</cfif>
