@@ -63,15 +63,6 @@
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 	</cfquery>
-		<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select collection_object_id as pk
-		from media_relations
-			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and (mczbase.ctmedia_relationship.media_relationship = 'shows publication')
-		order by guid
-	</cfquery>
 		<style>
 			.viewer {width: auto; height: auto;margin:auto;}
 			.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
@@ -172,19 +163,6 @@
 															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 															where media_relations.related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
 															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
-														</cfquery>
-													</cfloop>
-												</cfif>
-												<cfif media_rel.auto_table eq 'publication'>:
-													<cfloop query="pubs">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media_relations.media_id
-															from flat
-															left join citation on citation.collection_object_id = flat.collection_object_id
-															left join publication on publication.publication_id = citation.publication_id
-															left join media_relations on media_relations.related_primary_key = publication.publication_id
-															where flat.collection_object_id = <cfqueryparam value=#pubs.pk# CFSQLType="CF_SQL_DECIMAL" >
-															and media_relations.media_id is not null
 														</cfquery>
 													</cfloop>
 												</cfif>
