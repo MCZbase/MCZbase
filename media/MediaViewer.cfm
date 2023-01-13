@@ -28,15 +28,56 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct collection_object_id as pk, guid, mczbase.ctmedia_relationship.auto_table
+	select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
-			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+			left join cataloged_item on related_primary_key = collection_object_id
+            left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+        where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        UNION
+        select distinct collecting_event_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		from media_relations
+			left join collecting_event on related_primary_key = collecting_event_id
+            left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        UNION
+        select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		from media_relations
+			left join citation on related_primary_key = citation.COLLECTION_OBJECT_ID
+            left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        and collection_object_id is not null
+        UNION
+        select distinct locality_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		from media_relations
+			left join locality on related_primary_key = locality.Locality_ID
+            left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        and locality_id is not null
+        UNION
+        select distinct agent_name.agent_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		from media_relations
+			left join agent on media_relations.related_primary_key = agent.agent_id
+			left join agent_name on agent_name.agent_id = agent.agent_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and (mczbase.ctmedia_relationship.media_relationship = 'shows cataloged_item')
-		order by guid
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        and agent_name_type = 'preferred'
+        and agent.agent_id is not null
+        UNION
+         select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		from media_relations
+			left join loan on media_relations.related_primary_key = loan.transaction_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        and loan.transaction_id is not null
+        UNION
+         select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		from media_relations
+			left join accn on media_relations.related_primary_key = accn.transaction_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        and accn.transaction_id is not null
 	</cfquery>
-	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<!---<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
@@ -62,7 +103,7 @@
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
-	</cfquery>
+	</cfquery>--->
 		<style>
 			.theviewer {width: auto; height: auto;margin:auto;}
 			.tviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
@@ -127,7 +168,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-												<cfif media_rel.auto_table eq 'cataloged_item'> 
+												<cfif media_rel.auto_table eq '#media_rel.auto_table#'> 
 												<cfloop query="spec">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id 
@@ -138,11 +179,10 @@
 														left join citation on citation.publication_id = publication.publication_id
 														left join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
 														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-														and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' OR mczbase.ctmedia_relationship.auto_table = 'publication')
 													</cfquery>
 												</cfloop>
 												</cfif>
-												<cfif media_rel.auto_table eq 'agent'>
+<!---												<cfif media_rel.auto_table eq 'agent'>
 													<cfloop query="agents">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
@@ -165,7 +205,7 @@
 															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 														</cfquery>
 													</cfloop>
-												</cfif>
+												</cfif>--->
 											</cfif>
 												<cfset i= 1>
 													<!---thumbnails added below--->
