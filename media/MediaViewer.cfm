@@ -11,7 +11,10 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-
+<style>
+	.theviewer {width: auto; height: auto;margin:auto;}
+	.theviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+</style>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -63,11 +66,6 @@
 			and mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 			and mr.media_relationship = 'shows cataloged_item'
 	</cfquery>
-		<style>
-			.theviewer {width: auto; height: auto;margin:auto;}
-			.theviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
-		</style>
-
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -120,6 +118,9 @@
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'agent'>
 														#media_rel.label#: #agents.agent_name#
+													</cfif>
+														<cfif #media_rel.auto_table# eq 'publication'>
+														#media_rel.label#: #pubs.ppk#
 													</cfif>
 												</li>
 											</ul>
