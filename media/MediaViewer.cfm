@@ -31,12 +31,13 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct flat.collection_object_id as pk, flat.guid, mczbase.ctmedia_relationship.auto_table
+		select distinct flat.collection_object_id as pk, flat.guid, mczbase.ctmedia_relationship.auto_table, flat.collecting_event_id
 		from media_relations
 			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			left join citation on citation.collection_object_id = flat.collection_object_id
 			left join publication on publication.publication_id = citation.publication_id 
+			left join collecting_event on flat.collecting_event_id = flat.collecting_event_id
 			where (media_relations.media_relationship = 'shows publication' OR media_relations.media_relationship = 'shows cataloged_item')
 			and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		order by flat.guid
