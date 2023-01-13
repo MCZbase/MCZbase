@@ -164,7 +164,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-												<cfloop query='media_rel'>
+												<cfloop query='spec'>
 												<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct media.media_id 
 													from media_relations 
@@ -174,7 +174,7 @@
 												</cfquery>
 												<cfset i= 1>
 													<!---thumbnails added below--->
-												<cfloop query="relm">
+												<cfloop query="media_rel">
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 														<cfif len(media.media_id) gt 0>
 															<cfif relm.media_id eq '#media.media_id#'> 
