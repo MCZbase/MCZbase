@@ -127,7 +127,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-												<cfif media_rel.auto_table eq 'cataloged_item'> 
+												<cfif media_rel.auto_table eq 'cataloged_item' OR media_rel.auto_table eq 'publication'> 
 												<cfloop query="spec">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id 
@@ -137,7 +137,7 @@
 														left join publication on media_relations.related_primary_key = publication.publication_id
 														left join citation on citation.publication_id = publication.publication_id
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
-														and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+														and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' OR mczbase.ctmedia_relationship.auto_table = 'publication')
 													</cfquery>
 												</cfloop>
 												</cfif>
