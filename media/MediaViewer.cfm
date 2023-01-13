@@ -33,7 +33,7 @@
 			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and (mczbase.ctmedia_relationship.media_relationship = 'shows cataloged_item')
+			and mczbase.ctmedia_relationship.media_relationship = 'shows cataloged_item'
 		order by guid
 	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -55,13 +55,13 @@
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 	</cfquery>
-	<cfquery name="transactions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select transaction_id
-		from media_relations
-			left join loan on media_relations.related_primary_key = loan.transaction_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+	<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct mr.media_id, ci.collection_object_id as ppk
+			from media_relations mr, citation c, cataloged_item ci
+			where c.collection_object_id = mr.related_primary_key
+			and c.collection_object_id = ci.collection_object_id
+			and mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			mr.media_relationship = 'shows cataloged_item'
 	</cfquery>
 		<style>
 			.theviewer {width: auto; height: auto;margin:auto;}
@@ -165,8 +165,16 @@
 															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 														</cfquery>
 													</cfloop>
-												<cfelse>
-													Loop
+												<cfif media_rel.auto_table eq 'cataloged_item'>
+													<cfloop query="pubs">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media_id
+															from citation 
+															left join media_relations on citation.collection_object_id=media_relations.related_primary_key 
+															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+															where media_relations.related_primary_key=<cfqueryparam cfsqltype="cf_sql_varchar" value="#pubs.ppk#" /> ;
+														</cfquery>
+													</cfloop>
 												</cfif>
 											</cfif>
 												<cfset i= 1>
