@@ -32,26 +32,26 @@
 		from media_relations
 			left join cataloged_item on related_primary_key = collection_object_id
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-        where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+        where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
         UNION
         select distinct collecting_event_id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join collecting_event on related_primary_key = collecting_event_id
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
         UNION
         select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join citation on related_primary_key = citation.COLLECTION_OBJECT_ID
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
         and collection_object_id is not null
         UNION
         select distinct locality_id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join locality on related_primary_key = locality.Locality_ID
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
         and locality_id is not null
         UNION
         select distinct agent_name.agent_id as pk, mczbase.ctmedia_relationship.auto_table as tab
@@ -59,7 +59,7 @@
 			left join agent on media_relations.related_primary_key = agent.agent_id
 			left join agent_name on agent_name.agent_id = agent.agent_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
         and agent_name_type = 'preferred'
         and agent.agent_id is not null
         UNION
@@ -67,14 +67,14 @@
 		from media_relations
 			left join loan on media_relations.related_primary_key = loan.transaction_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
         and loan.transaction_id is not null
         UNION
          select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join accn on media_relations.related_primary_key = accn.transaction_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
         and accn.transaction_id is not null
 	</cfquery>
 	<!---<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
