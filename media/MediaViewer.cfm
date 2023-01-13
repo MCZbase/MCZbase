@@ -149,7 +149,7 @@
 								#mediaMetadataBlock#
 							</div>
 						</div>
-							<cfloop query='media_rel'>
+					
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
@@ -165,6 +165,7 @@
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
 												<cfloop query="spec">
+													<cfloop query='media_rel'>
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id 
 														from media_relations 
@@ -172,7 +173,6 @@
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													</cfquery>
-										
 												<cfset i= 1>
 													<!---thumbnails added below--->
 												<cfloop query="relm">
@@ -197,6 +197,7 @@
 												</cfloop>
 												<div id="targetDiv"></div>
 												</cfloop>
+												</cfloop>
 											</cfif>
 											</div>
 
@@ -208,7 +209,6 @@
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 								</div>
 							</cfif>
-							</cfloop>
 					</div>
 				</div>
 			</cfloop>
