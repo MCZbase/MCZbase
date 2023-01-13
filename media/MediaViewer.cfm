@@ -132,7 +132,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-												<cfif media_rel.auto_table eq 'cataloged_item' OR media_rel.auto_table eq 'publication'> 
+												<cfif media_rel.auto_table eq 'cataloged_item' OR media_rel.auto_table eq 'publication' OR media_rel.auto_table eq 'collecting_event'> 
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id 
@@ -169,7 +169,7 @@
 															where media_relations.related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
 															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 														</cfquery>
-													</cfloop>--->
+</cfloop></cfif>--->
 												<!---<cfif media_rel.auto_table eq 'publication'>
 													<cfloop query="pubs">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
