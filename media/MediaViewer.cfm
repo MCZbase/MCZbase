@@ -151,17 +151,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records &mdash; 
-													<cfif #media_rel.auto_table# eq 'collecting_event'>
-														#media_rel.label#: <a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
-															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif></a>
-													<cfelseif #media_rel.auto_table# eq 'cataloged_item'>
-														#media_rel.label#: #spec.guid#
-													<cfelseif #media_rel.auto_table# eq 'agent'>
-														#media_rel.label#: #agents.agent_name#
-													<cfelse>
-														No title
-													</cfif>
+													Related Media Records &mdash; <cfloop query='media_rel'>#media_rel.label#</cfloop>
 												</li>
 											</ul>
 										</div>
