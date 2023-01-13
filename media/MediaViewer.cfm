@@ -11,7 +11,10 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-
+<style>
+	.theviewer {width: auto; height: auto;margin:auto;}
+	.tviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+</style>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct 
 		media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -96,12 +99,6 @@
 			and media_relations.media_relationship <> 'created by agent'
 		order by agent_name.agent_name
 	</cfquery>
-
-
-		<style>
-			.theviewer {width: auto; height: auto;margin:auto;}
-			.tviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
-		</style>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct
 			mr.media_relationship, ct.label, ct.auto_table, ct.description
@@ -118,6 +115,19 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
+			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct
+					mr.media_relationship, ct.label, ct.auto_table, ct.description
+				From
+					media_relations mr, ctmedia_relationship ct
+				WHERE 
+					mr.media_relationship = ct.media_relationship 
+				and
+					mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+				and mr.media_relationship <> 'created by agent'
+				ORDER BY mr.media_relationship
+			</cfquery>
+				<cfloop query="media_rel">
 				<div class="row">
 					<div class="col-12 my-3">
 						<cfif len(media.media_id) gt 0>
@@ -164,7 +174,7 @@
 													</cfloop>
 												<cfelse>
 													<cfloop query="spec">
-														<cfif len(spec.pk) gt  0>
+														<cfif len(spec.pk) gt 0>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
 															from media_relations 
@@ -212,6 +222,7 @@
 					</div>
 				</div>
 			</cfloop>
+													</cfloop>
 			</div>
 			</div>
 		</div>
