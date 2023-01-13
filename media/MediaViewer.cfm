@@ -134,6 +134,8 @@
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+														left join publication on media_relations.related_primary_key = publication.publication_id
+														left join citation on citation.publication_id = publication.publication_id
 														where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 														and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 													</cfquery>
@@ -160,6 +162,18 @@
 															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 															where media_relations.related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
 															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+														</cfquery>
+													</cfloop>
+												</cfif>
+												<cfif media_rel.auto_table eq 'publication'>:
+													<cfloop query="collecting_eventRel">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id 
+															from media_relations 
+															left join media on media_relations.media_id = media.media_id 
+															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+															where media_relations.related_primary_key = <cfqueryparam value=#publications.publication_id# CFSQLType="CF_SQL_DECIMAL">
+															and mczbase.ctmedia_relationship.auto_table = 'publication'
 														</cfquery>
 													</cfloop>
 												</cfif>
