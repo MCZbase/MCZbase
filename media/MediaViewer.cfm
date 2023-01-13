@@ -158,7 +158,7 @@
 													left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													UNION
-													select distinct media.media_id, agent_name.agent_name as ang, mczbase.ctmedia_relationship.media_relationship as rel
+													select distinct media.media_id, agent_name.agent_name as rel
 													from media_relations
 													left join media on media_relations.media_id = media.media_id 
 														left join agent on media_relations.related_primary_key = agent.agent_id
