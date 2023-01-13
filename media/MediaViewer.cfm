@@ -143,7 +143,7 @@
 															and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item')
 														</cfquery>
 													</cfloop>
-													<cfloop query="pubs">#pubs.collection_object_id#
+													<cfloop query="pubs">#pubs.ppk#
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media_id
 															from citation 
