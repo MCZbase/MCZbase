@@ -58,7 +58,7 @@
         and locality_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
         UNION
-        select distinct agent_name.agent_name as pk, mczbase.ctmedia_relationship.auto_table as tab
+        select distinct agent_name.id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
 			left join agent_name on agent_name.agent_id = agent.agent_id
