@@ -175,9 +175,6 @@
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-														left join publication on media_relations.related_primary_key = publication.publication_id
-														left join citation on citation.publication_id = publication.publication_id
-														left join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
 														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 													</cfquery>
 												</cfloop>
