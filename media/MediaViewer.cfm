@@ -112,7 +112,7 @@
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
 													Related Media Records &mdash; 
 													<cfif #media_rel.auto_table# eq 'collecting_event'>
-														<a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
+														#media_rel.label#: <a class="text-white font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">
 															#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif></a>
 													</cfif>
 													<cfif #media_rel.auto_table# eq 'cataloged_item'>
