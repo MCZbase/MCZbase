@@ -115,19 +115,7 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
-				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct
-						mr.media_relationship, ct.label, ct.auto_table, ct.description
-					From
-						media_relations mr, ctmedia_relationship ct
-					WHERE 
-						mr.media_relationship = ct.media_relationship 
-					and
-						mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-					and mr.media_relationship <> 'created by agent'
-					ORDER BY mr.media_relationship
-				</cfquery>
-				<cfloop query="media_rel">
+
 				<div class="row">
 					<div class="col-12 my-3">
 						<cfif len(media.media_id) gt 0>
@@ -160,6 +148,19 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
+										<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select distinct
+												mr.media_relationship, ct.label, ct.auto_table, ct.description
+											From
+												media_relations mr, ctmedia_relationship ct
+											WHERE 
+												mr.media_relationship = ct.media_relationship 
+											and
+												mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+											and mr.media_relationship <> 'created by agent'
+											ORDER BY mr.media_relationship
+										</cfquery>
+										<cfloop query="media_rel">
 											<cfif len(media.media_id) gt 0>
 												<cfif media_rel.auto_table eq 'agent'>
 													<cfloop query="agents">
@@ -210,6 +211,7 @@
 												<div id="targetDiv"></div>
 												
 											</cfif>
+										</cfloop>
 											</div>
 										</div>
 									</div>
@@ -221,7 +223,7 @@
 							</cfif>
 					</div>
 				</div>
-			</cfloop>
+		
 			</cfloop>
 			</div>
 			</div>
