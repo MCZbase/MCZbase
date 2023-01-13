@@ -155,19 +155,15 @@
 													select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
 													from media_relations 
 													left join media on media_relations.media_id = media.media_id 
-													left join agent_name on age
 													left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													UNION
-													select distinct agent_name.agent_name, media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
+													select distinct media.media_id, agent_name.agent_name as ang, mczbase.ctmedia_relationship.media_relationship as rel
 													from media_relations
 														left join agent on media_relations.related_primary_key = agent.agent_id
 														left join agent_name on agent_name.agent_id = agent.agent_id
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-													where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-													and agent_name_type = 'preferred'
-													and agent.agent_id is not null
-													and mczbase.ctmedia_relationship.auto_table = 'agent'
+													where agent_name_type = 'preferred'
 													and media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 												</cfquery>
 												<cfset i= 1>
