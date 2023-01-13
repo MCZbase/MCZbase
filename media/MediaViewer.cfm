@@ -180,7 +180,7 @@
 															<ul class="list-group px-0">
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="max-height: 200px;min-height: 180px;">
+																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="max-height: 200px;min-height: 190px;">
 																	<div class=" px-0"><span class="px-2 small">media/#relm.media_id#</span> #mediablock#</div>
 																</div>
 																</li>
