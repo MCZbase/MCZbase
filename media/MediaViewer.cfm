@@ -222,7 +222,7 @@
 					</div>
 				</div>
 			</cfloop>
-													</cfloop>
+			</cfloop>
 			</div>
 			</div>
 		</div>
