@@ -149,6 +149,7 @@
 								#mediaMetadataBlock#
 							</div>
 						</div>
+							<cfloop query='media_rel'>
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
@@ -156,7 +157,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records &mdash; <cfloop query='media_rel'>#media_rel.label#</cfloop>
+													Related Media Records &mdash; 
 												</li>
 											</ul>
 										</div>
@@ -171,7 +172,7 @@
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													</cfquery>
-												</cfloop>
+										
 												<cfset i= 1>
 													<!---thumbnails added below--->
 												<cfloop query="relm">
@@ -195,7 +196,7 @@
 													<cfset i=i+1>
 												</cfloop>
 												<div id="targetDiv"></div>
-												
+												</cfloop>
 											</cfif>
 											</div>
 
@@ -207,7 +208,7 @@
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 								</div>
 							</cfif>
-			
+							</cfloop>
 					</div>
 				</div>
 			</cfloop>
