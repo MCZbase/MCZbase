@@ -28,7 +28,7 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join cataloged_item on related_primary_key = collection_object_id
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -165,7 +165,7 @@
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
+														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													</cfquery>
 												</cfloop>
 												</cfif>
