@@ -150,22 +150,24 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
-										
+												<cfif media_rel.auto_table eq 'agent'>
+													<cfloop query="agents">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct m.media_id
+															from agent_name an 
+															left join media_relations m on an.agent_id=m.related_primary_key 
+															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
+															and m.media_relationship <> 'created by agent'
+															and m.media_relationship = 'shows agent'
+														</cfquery>
+													</cfloop>
+												<cfelse>
 												<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
 													from media_relations 
 													left join media on media_relations.media_id = media.media_id 
 													left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
-													UNION
-													select distinct media.media_id, agent_name.agent_name as rel
-													from media_relations
-													left join media on media_relations.media_id = media.media_id 
-														left join agent on media_relations.related_primary_key = agent.agent_id
-														left join agent_name on agent_name.agent_id = agent.agent_id
-														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-													where agent_name_type = 'preferred'
-													and media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
+													where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >									
 												</cfquery>
 												<cfset i= 1>
 													<!---thumbnails added below--->
