@@ -85,7 +85,7 @@
 		and mczbase.ctmedia_relationship.auto_table = 'accn'
 	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table
+		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table as tab
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
 			left join agent_name on agent_name.agent_id = agent.agent_id
@@ -187,7 +187,7 @@
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
-																	<div class="px-0"><span class="px-2 smaller">media/#relm.media_id#:  </span> #mediablock#</div>
+																	<div class="px-0"><span class="px-2 smaller">media/#relm.media_id#: #spec.tab# </span> #mediablock#</div>
 																</div>
 																</li>
 															</ul>
