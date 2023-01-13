@@ -168,9 +168,10 @@
 															select distinct m.media_id
 															from agent_name an 
 															left join media_relations m on an.agent_id=m.related_primary_key 
+															left join mczbase.ctmedia_relationship ct on ct.media_relationship = media_relations.media_relationship
 															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
-															and m.media_relationship <> 'created by agent'
-															and m.media_relationship = 'shows agent'
+															and ct.media_relationship <> 'created by agent'
+															and ct.auto_table = 'agent'
 														</cfquery>
 													</cfloop>
 												<cfelse>
