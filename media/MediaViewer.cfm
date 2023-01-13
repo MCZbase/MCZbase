@@ -125,7 +125,7 @@
 											</ul>
 										</div>
 										<div class="row mx-0">
-											<div class="col-12 p-1">
+											<div class="col-12 px-1">
 											<cfif len(media.media_id) gt 0>
 												<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
@@ -181,7 +181,7 @@
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 190px;">
-																	<div class=" px-0"><span class="px-2 smaller">media/#relm.media_id#</span> #mediablock#</div>
+																	<div class="px-0"><span class="px-2 smaller">media/#relm.media_id#</span> #mediablock#</div>
 																</div>
 																</li>
 															</ul>
