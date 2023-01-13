@@ -28,21 +28,21 @@
 		AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+		select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join cataloged_item on related_primary_key = collection_object_id
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
         where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
         UNION
-        select distinct collecting_event_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+        select distinct collecting_event_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join collecting_event on related_primary_key = collecting_event_id
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
         UNION
-        select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+        select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join citation on related_primary_key = citation.COLLECTION_OBJECT_ID
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -50,7 +50,7 @@
         and collection_object_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'publication'
         UNION
-        select distinct locality_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+        select distinct locality_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join locality on related_primary_key = locality.Locality_ID
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -58,7 +58,7 @@
         and locality_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
         UNION
-        select distinct agent_name.agent_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+        select distinct agent_name.agent_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
 			left join agent_name on agent_name.agent_id = agent.agent_id
@@ -68,7 +68,7 @@
         and agent.agent_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'agent'
         UNION
-         select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+         select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join loan on media_relations.related_primary_key = loan.transaction_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -76,7 +76,7 @@
         and loan.transaction_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'loan'
         UNION
-         select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab
+         select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join accn on media_relations.related_primary_key = accn.transaction_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -85,7 +85,7 @@
 		and mczbase.ctmedia_relationship.auto_table = 'accn'
 	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table as tab
+		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
 			left join agent_name on agent_name.agent_id = agent.agent_id
