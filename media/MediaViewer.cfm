@@ -166,8 +166,7 @@
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													</cfquery>
-												</cfloop>
-											</cfif>
+											
 												<cfset i= 1>
 													<!---thumbnails added below--->
 												<cfloop query="relm">
@@ -191,6 +190,8 @@
 													<cfset i=i+1>
 												</cfloop>
 												<div id="targetDiv"></div>
+													</cfloop>
+											</cfif>
 											</div>
 
 										</div>
