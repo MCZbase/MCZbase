@@ -118,8 +118,7 @@ table td .small {
 }
 .highlight_media {border: 2px solid #a51c30;background-color:#E2E6EC; }
 
-.theviewer {width: auto; height: auto;margin:auto;}
-.theviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/

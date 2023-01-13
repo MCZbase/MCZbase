@@ -64,8 +64,8 @@
 				and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 	</cfquery>
 		<style>
-			.viewer {width: auto; height: auto;margin:auto;}
-			.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+			.theviewer {width: auto; height: auto;margin:auto;}
+			.theviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
 		</style>
 
 	<main class="container-fluid pb-5" id="content">
