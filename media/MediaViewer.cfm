@@ -108,7 +108,18 @@
 			.theviewer {width: auto; height: auto;margin:auto;}
 			.tviewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
 		</style>
-
+						<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select distinct
+								mr.media_relationship, ct.label, ct.auto_table, ct.description
+							From
+								media_relations mr, ctmedia_relationship ct
+							WHERE 
+								mr.media_relationship = ct.media_relationship 
+							and
+								mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+							and mr.media_relationship <> 'created by agent'
+							ORDER BY mr.media_relationship
+						</cfquery>
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -131,18 +142,7 @@
 								#mediaMetadataBlock#
 							</div>
 						</div>
-						<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select distinct
-								mr.media_relationship, ct.label, ct.auto_table, ct.description
-							From
-								media_relations mr, ctmedia_relationship ct
-							WHERE 
-								mr.media_relationship = ct.media_relationship 
-							and
-								mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-							and mr.media_relationship <> 'created by agent'
-							ORDER BY mr.media_relationship
-						</cfquery>
+
 						<cfloop query="media_rel">
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif len(media_rel.media_relationship) gt 0>
@@ -159,40 +159,16 @@
 											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
 												<cfif media_rel.auto_table eq '#media_rel.auto_table#'> 
-												<cfloop query="spec">
-													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id 
-														from media_relations 
-														left join media on media_relations.media_id = media.media_id 
-														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
-													</cfquery>
-												</cfloop>
-												</cfif>
-<!---												<cfif media_rel.auto_table eq 'agent'>
-													<cfloop query="agents">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct m.media_id
-															from agent_name an 
-															left join media_relations m on an.agent_id=m.related_primary_key 
-															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
-															and m.media_relationship <> 'created by agent'
-															and m.media_relationship = 'shows agent'
-														</cfquery>
-													</cfloop>
-												</cfif>
-												<cfif media_rel.auto_table eq 'collecting_event'>:
-													<cfloop query="collecting_eventRel">
+													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id 
 															from media_relations 
 															left join media on media_relations.media_id = media.media_id 
 															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL">
-															and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 														</cfquery>
 													</cfloop>
-												</cfif>--->
+												</cfif>
 											</cfif>
 												<cfset i= 1>
 													<!---thumbnails added below--->
