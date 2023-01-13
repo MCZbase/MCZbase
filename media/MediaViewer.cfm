@@ -125,7 +125,7 @@
 											</ul>
 										</div>
 										<div class="row mx-0">
-											<div class="col-12 px-1">
+											<div class="col-12 p-1">
 											<cfif len(media.media_id) gt 0>
 												<cfif media_rel.auto_table eq 'cataloged_item'> 
 												<cfloop query="spec">
@@ -173,9 +173,9 @@
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 														<cfif len(media.media_id) gt 0>
 															<cfif relm.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "highlight_media rounded px-1 pt-2">
+																<cfset activeimg = "highlight_media rounded px-1 pt-1">
 															<cfelse>	
-																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 pt-2">
+																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
 															</cfif>
 															<ul class="list-group px-0">
 																<li class="list-group-item px-0 mx-1">
