@@ -1369,7 +1369,7 @@ limitations under the License.
 							<cfset value = "">
 						</cfif>
 	
-						<div class="col-12 col-md-4">
+						<div class="col-12 col-md-4 pb-2">
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
@@ -1979,8 +1979,8 @@ limitations under the License.
 					<h2 class="h3">Media</h2>
 					<div class="col-12 row">
 						<cfloop query="getMedia">
-							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light">
-								<div id="mediaBlock#media_id#" class="border rounded">
+							<div class="col-12 col-sm-6 col-md-4 col-xl-3 bg-light border rounded">
+								<div id="mediaBlock#media_id#">
 									<cfset mediablock= getMediaBlockHtmlUnthreaded(media_id="#media_id#",size="400",captionAs="textMid")>
 									<input type='button' 
 										value="Remove" aria-label="unlink this media record from this publication"
