@@ -126,50 +126,49 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel, label
-														from media_relations 
-														left join media on media_relations.media_id = media.media_id 
-														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
-													</cfquery>
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel, label
+															from media_relations 
+															left join media on media_relations.media_id = media.media_id 
+															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
+														</cfquery>
 													</cfif>
-												</cfloop>
-											<cfset i= 1>
-												<!---thumbnails added below--->
-							<!---LOOP		---><cfloop query="relm">
-													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
-														<cfif len(media.media_id) gt 0>
-															<cfif relm.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "highlight_media rounded px-1 pt-1">
-															<cfelse>	
-																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
+													<cfset i= 1>
+													<!---thumbnails added below--->
+													<cfloop query="relm">
+														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
+															<cfif len(media.media_id) gt 0>
+																<cfif relm.media_id eq '#media.media_id#'> 
+																	<cfset activeimg = "highlight_media rounded px-1 pt-1">
+																<cfelse>	
+																	<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
+																</cfif>
+																<ul class="list-group px-0">
+																	<li class="list-group-item px-0 mx-1">
+																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
+																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
+																		<div class="px-0"><span class="px-2 small90">media/#relm.media_id#: #spec.rel#, #media_rel.media_relationship# </span> #mediablock#</div>
+																	</div>
+																	</li>
+																</ul>
 															</cfif>
-															<ul class="list-group px-0">
-																<li class="list-group-item px-0 mx-1">
-																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
-																	<div class="px-0"><span class="px-2 small90">media/#relm.media_id#: #spec.rel#, #media_rel.media_relationship# </span> #mediablock#</div>
-																</div>
-																</li>
-															</ul>
-														</cfif>
-													</div>
-													<cfset i=i+1>
+														</div>
+														<cfset i=i+1>
+													</cfloop>
+													<div id="targetDiv"></div>
 												</cfloop>
-												<div id="targetDiv"></div>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<cfelse>
-							<div class="col-auto px-2 float-left">
-								<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
-							</div>
-						</cfif>
+							<cfelse>
+								<div class="col-auto px-2 float-left">
+									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
+								</div>
+							</cfif>
 					</div>
 				</div>
 			</cfloop>
