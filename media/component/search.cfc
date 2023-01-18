@@ -1532,7 +1532,7 @@ imgStyleClass=value
 					and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 			order by guid
 		</cfquery>
-		<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct agent_name.agent_name, agent.agent_id
 			from media_relations
 				left join agent on media_relations.related_primary_key = agent.agent_id
@@ -1540,7 +1540,19 @@ imgStyleClass=value
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'agent'
-			<!---	and media_relations.media_relationship <> 'created by agent'--->
+			and media_relations.media_relationship = 'created by agent'
+				and agent_name_type = 'preferred'
+			order by agent_name.agent_name
+		</cfquery>
+		<cfquery name="agents2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct agent_name.agent_name, agent.agent_id
+			from media_relations
+				left join agent on media_relations.related_primary_key = agent.agent_id
+				left join agent_name on agent_name.agent_id = agent.agent_id
+				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.auto_table = 'agent'
+			and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
 		</cfquery>
@@ -1665,7 +1677,7 @@ imgStyleClass=value
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 											</cfquery><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
 										</cfif>
-										<cfif media_rel.media_relationship eq 'created by agent'>:<cfloop query="agents"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> and m.media_relationship = 'created by agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents.agent_name#</a><span>, </span></cfloop>
+										<cfif media_rel.media_relationship eq 'created by agent'>:<cfloop query="agents1"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> and m.media_relationship = 'created by agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents1.agent_name#</a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship eq 'show agent'>:<cfloop query="agents"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> and m.media_relationship = 'documents agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents.agent_name#</a><span>, </span></cfloop>
 										</cfif>
