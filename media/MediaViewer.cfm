@@ -77,8 +77,7 @@
 		and media_relations.media_relationship <> 'created by agent')
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct count(*)
-			mr.media_relationship, ct.label, ct.auto_table, ct.description
+		select distinct mr.media_relationship, ct.label, ct.auto_table, ct.description
 		From
 			media_relations mr, ctmedia_relationship ct
 		WHERE 
