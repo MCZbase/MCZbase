@@ -87,7 +87,7 @@
 		and accn.transaction_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'accn'--->
 	</cfquery>
-	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
