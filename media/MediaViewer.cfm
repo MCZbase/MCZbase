@@ -162,7 +162,7 @@
 											<cfif media_rel.auto_table eq 'agent'>
 												<cfloop query="agents">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct m.media_id
+														select distinct m.media_id, mczbase.ctmedia_relationship.media_relationship as rel, media_relations.related_primary_key
 														from agent_name an 
 														left join media_relations m on an.agent_id=m.related_primary_key 
 														left join mczbase.ctmedia_relationship ct on ct.media_relationship = m.media_relationship
@@ -198,7 +198,7 @@
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
-																	<div class="px-0"><span class="px-2 small">media/#relm.media_id#: #media_rel.media_relationship# #media_relations.related_primary_key#</span> #mediablock#</div>
+																	<div class="px-0"><span class="px-2 small">media/#relm.media_id#: #media_rel.media_relationship# </span> #mediablock#</div>
 																</div>
 																</li>
 															</ul>
