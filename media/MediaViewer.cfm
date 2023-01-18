@@ -177,7 +177,7 @@
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
+														select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel, label
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -200,7 +200,7 @@
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
-																	<div class="px-0"><span class="px-2 small">media/#relm.media_id#: #media_rel.media_relationship# </span> #mediablock#</div>
+																	<div class="px-0"><span class="px-2 small90">media/#relm.media_id#: #relm.label# </span> #mediablock#</div>
 																</div>
 																</li>
 															</ul>
