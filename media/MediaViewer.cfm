@@ -41,7 +41,7 @@
 			mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 		and mr.media_relationship <> 'created by agent'
 		ORDER BY mr.media_relationship
-	</cfquery>
+	</cfquery>#media_rel.auto_table#
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
