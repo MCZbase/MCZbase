@@ -28,76 +28,56 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
+		select cataloged_item.collection_object_id "PK", flat.guid as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
-			left join cataloged_item on related_primary_key = collection_object_id
+			left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
+			left join flat on flat.collection_object_id = cataloged_item.collection_object_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
+		where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 		UNION
-		select distinct collecting_event_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
+		(select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join collecting_event on related_primary_key = collecting_event_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'collecting_event')
 		UNION
-		select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
-		from media_relations
-			left join citation on related_primary_key = citation.COLLECTION_OBJECT_ID
+		(Select citation.publication_id as pk, formatted_publication.formatted_publication as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		from publication
+			left join citation on publication.publication_id = citation.publication_id
+			left join media_relations on media_relations.RELATED_PRIMARY_KEY = publication.PUBLICATION_ID
+			left join formatted_publication on formatted_publication.publication_id = publication.publication_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-		and collection_object_id is not null
-		and mczbase.ctmedia_relationship.auto_table = 'publication'
+		where formatted_publication.format_style = 'short'
+		and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">)
 		UNION
-		select distinct locality_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
-		from media_relations
-			left join locality on related_primary_key = locality.Locality_ID
+		(select loan.transaction_id as pk, loan.loan_number as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		from trans
+			left join loan on trans.transaction_id = loan.transaction_id
+			left join media_relations on loan.transaction_id = media_relations.related_primary_key
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-		and locality_id is not null
-		and mczbase.ctmedia_relationship.auto_table = 'locality'
-<!---		UNION
-		select distinct agent_name.agent_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
-		from media_relations
-			left join agent on media_relations.related_primary_key = agent.agent_id
-			left join agent_name on agent_name.agent_id = agent.agent_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-		and agent_name_type = 'preferred'
-		and agent.agent_id is not null
-		and mczbase.ctmedia_relationship.auto_table = 'agent'
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">)
 		UNION
-		 select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
-		from media_relations
-			left join loan on media_relations.related_primary_key = loan.transaction_id
+		(select locality.locality_id as pk, locality.spec_locality as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		from locality
+			left join media_relations on locality.locality_id = media_relations.related_primary_key
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-		and loan.transaction_id is not null
-		and mczbase.ctmedia_relationship.auto_table = 'loan'
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+		and media_relations.MEDIA_RELATIONSHIP = 'shows locality')
 		UNION
-		 select distinct transaction_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
+		(select agent.agent_id as pk, agent_name.agent_name as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
-			left join accn on media_relations.related_primary_key = accn.transaction_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-		and accn.transaction_id is not null
-		and mczbase.ctmedia_relationship.auto_table = 'accn'--->
-	</cfquery>
-	<cfquery name="agents1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
-		from media_relations
-			left join agent on media_relations.related_primary_key = agent.agent_id
-			left join agent_name on agent_name.agent_id = agent.agent_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join agent_name on agent_name.agent_id = media_relations.related_primary_key
+		left join agent on agent_name.AGENT_ID = agent.agent_id
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
-			and agent_name_type = 'preferred'
-			and media_relations.media_relationship <> 'created by agent'
-		order by agent_name.agent_name
+		and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
+		and agent_name.agent_name_type = 'preferred'
+		and media_relations.media_relationship <> 'created by agent')
 	</cfquery>
 	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct
+		select distinct count(*)
 			mr.media_relationship, ct.label, ct.auto_table, ct.description
 		From
 			media_relations mr, ctmedia_relationship ct
@@ -115,7 +95,7 @@
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
-			<cfloop query="media">
+<!---	LOOP---><cfloop query="media">
 				<div class="row">
 					<div class="col-12 my-3">
 						<cfif len(media.media_id) gt 0>
@@ -147,33 +127,8 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-<!---										<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct
-												mr.media_relationship, ct.label, ct.auto_table, ct.description
-											From
-												media_relations mr, ctmedia_relationship ct
-											WHERE 
-												mr.media_relationship = ct.media_relationship 
-											and
-												mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-											and mr.media_relationship <> 'created by agent'
-											ORDER BY mr.media_relationship
-										</cfquery>--->
-										<cfloop query="media_rel">
-											<cfif media_rel.media_relationship eq 'shows agent'>
-												<cfloop query="agents1">
-													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct m.media_id
-														from agent_name an 
-														left join media_relations m on an.agent_id=m.related_primary_key 
-														left join mczbase.ctmedia_relationship ct on ct.media_relationship = m.media_relationship
-														where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> 
-														and ct.media_relationship <> 'created by agent'
-														and ct.media_relationship = 'shows agent'
-													</cfquery>
-												</cfloop>
-											</cfif>
-											<cfif media_rel.media_relationship eq 'shows cataloged_item'>
+					<!---LOOP		--->	<cfloop query="media_rel">
+											<cfif len(media_rel.media_relationship) gt 0>
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -181,14 +136,14 @@
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >					
+														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 													</cfquery>
 													</cfif>
 												</cfloop>
 											</cfif>
 											<cfset i= 1>
 												<!---thumbnails added below--->
-												<cfloop query="relm">
+							<!---LOOP		---><cfloop query="relm">
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 														<cfif len(media.media_id) gt 0>
 															<cfif relm.media_id eq '#media.media_id#'> 
@@ -200,7 +155,7 @@
 																<li class="list-group-item px-0 mx-1">
 																<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
-																	<div class="px-0"><span class="px-2 small90">media/#relm.media_id#: #media_rel.media_relationship# </span> #mediablock#</div>
+																	<div class="px-0"><span class="px-2 small90">media/#relm.media_id#: #spec.rel#, #media_rel.media_relationship# </span> #mediablock#</div>
 																</div>
 																</li>
 															</ul>
