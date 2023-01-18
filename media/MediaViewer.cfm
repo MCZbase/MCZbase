@@ -159,7 +159,7 @@
 											ORDER BY mr.media_relationship
 										</cfquery>
 										<cfloop query="media_rel">
-											<cfif media_rel.auto_table eq 'agent'>
+											<cfif media_rel.media_relationship eq 'shows agent'>
 												<cfloop query="agents">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct m.media_id
@@ -168,7 +168,7 @@
 														left join mczbase.ctmedia_relationship ct on ct.media_relationship = m.media_relationship
 														where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
 														and ct.media_relationship <> 'created by agent'
-														and ct.auto_table = 'agent'
+														and ct.media_relationship = 'shows agent'
 													</cfquery>
 												</cfloop>
 											<cfelse>
