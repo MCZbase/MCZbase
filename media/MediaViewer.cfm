@@ -157,8 +157,9 @@
 															</cfif>
 														</div>
 														<cfset i=i+1>
+																<div id="targetDiv"></div>
 													</cfloop>
-													<div id="targetDiv"></div>
+												
 												</cfloop>
 											</div>
 										</div>
