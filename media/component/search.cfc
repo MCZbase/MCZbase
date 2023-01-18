@@ -1205,6 +1205,8 @@ imgStyleClass=value
 					mime_type, media_type,
 					auto_extension as extension,
 					auto_host as host,
+					auto_path as path,
+					auto_filename as filename,
 					MCZBASE.get_media_dctermsrights(media.media_id) as license_uri, 
 					MCZBASE.get_media_dcrights(media.media_id) as license_display, 
 					MCZBASE.get_media_dcrights(media.media_id) as dc_rights,
@@ -1230,6 +1232,14 @@ imgStyleClass=value
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfloop query="media">
+					<cfset iiifFull = "">
+						<cfif host EQ "mczbase.mcz.harvard.edu">
+							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
+							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
+							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
+							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
+							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
+					</cfif>
 					<cfset isDisplayable = false>
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
 						<cfset isDisplayable = true>
@@ -1245,11 +1255,15 @@ imgStyleClass=value
 						<cfelseif #displayAs# EQ "thumb">
 							<cfset displayImage = preview_uri>
 							<cfset hw = 'width="auto" height="auto"'>
-							<cfset styles = "max-width:100px;max-height:95px;">
+							<cfset styles = "max-height:70px;">
+							<cfif host EQ "mczbase.mcz.harvard.edu">
+								<cfset displayImage = iiifThumb>
+							</cfif>
 						<cfelse>
 							<cfif host EQ "mczbase.mcz.harvard.edu">
 								<cfset sizeParameters='&width=#size#&height=#size#'>
-								<cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#">
+								<!--- cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#" --->>
+								<cfset displayImage = iiifSize>
 							<cfelse>
 								<cfset displayImage = media_uri>
 							</cfif>
@@ -1333,7 +1347,11 @@ imgStyleClass=value
 								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 							<cfelse>
 								<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
-								<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+								<cfif len(iiifFull) GT 0>
+									<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
+								<cfelse>
+									<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+								</cfif>
 							</cfif>
 							<cfset output='#output#</p>'>
 						<cfset output='#output#</div>'>
