@@ -28,7 +28,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select cataloged_item.collection_object_id "PK", flat.guid as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		select cataloged_item.collection_object_id "PK", flat.guid as wlabel,mczbase.ctmedia_relationship.label as rel
 		from media_relations
 			left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 			left join flat on flat.collection_object_id = cataloged_item.collection_object_id
@@ -36,14 +36,14 @@
 		where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 		UNION
-		(select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		(select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel,mczbase.ctmedia_relationship.label as rel
 		from media_relations
 			left join collecting_event on related_primary_key = collecting_event_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'collecting_event')
 		UNION
-		(Select citation.publication_id as pk, formatted_publication.formatted_publication as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		(Select citation.publication_id as pk, formatted_publication.formatted_publication as wlabel,mczbase.ctmedia_relationship.label as rel
 		from publication
 			left join citation on publication.publication_id = citation.publication_id
 			left join media_relations on media_relations.RELATED_PRIMARY_KEY = publication.PUBLICATION_ID
@@ -52,21 +52,21 @@
 		where formatted_publication.format_style = 'short'
 		and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">)
 		UNION
-		(select loan.transaction_id as pk, loan.loan_number as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		(select loan.transaction_id as pk, loan.loan_number as wlabel,mczbase.ctmedia_relationship.label as rel
 		from trans
 			left join loan on trans.transaction_id = loan.transaction_id
 			left join media_relations on loan.transaction_id = media_relations.related_primary_key
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">)
 		UNION
-		(select locality.locality_id as pk, locality.spec_locality as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		(select locality.locality_id as pk, locality.spec_locality as wlabel,mczbase.ctmedia_relationship.label as rel
 		from locality
 			left join media_relations on locality.locality_id = media_relations.related_primary_key
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 		and media_relations.MEDIA_RELATIONSHIP = 'shows locality')
 		UNION
-		(select agent.agent_id as pk, agent_name.agent_name as wlabel,mczbase.ctmedia_relationship.media_relationship as rel
+		(select agent.agent_id as pk, agent_name.agent_name as wlabel,mczbase.ctmedia_relationship.label as rel
 		from media_relations
 		left join agent_name on agent_name.agent_id = media_relations.related_primary_key
 		left join agent on agent_name.AGENT_ID = agent.agent_id
