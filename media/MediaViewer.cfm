@@ -162,7 +162,7 @@
 											<cfif media_rel.auto_table eq 'agent'>
 												<cfloop query="agents">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct m.media_id, mczbase.ctmedia_relationship.media_relationship as rel, media_relations.related_primary_key
+														select distinct m.media_id
 														from agent_name an 
 														left join media_relations m on an.agent_id=m.related_primary_key 
 														left join mczbase.ctmedia_relationship ct on ct.media_relationship = m.media_relationship
@@ -175,7 +175,7 @@
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel, media_relations.related_primary_key
+														select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
 														from media_relations 
 														left join media on media_relations.media_id = media.media_id 
 														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
