@@ -1553,7 +1553,7 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'agent'
 				---and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
-			and media_relations.media_relationship =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_rel.media_relationship#">
+			and media_relations.media_relationship =<cfqueryparam cfsqltype="CF_SQL_varchar" value="#media_rel.media_relationship#">
 			order by agent_name.agent_name
 		</cfquery>
 		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1603,7 +1603,7 @@ imgStyleClass=value
 					media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
-			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					mr.media_relationship, label,ct.auto_table
 				From
@@ -1613,7 +1613,7 @@ imgStyleClass=value
 				and
 					mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 				ORDER BY mr.media_relationship
-			</cfquery>
+			</cfquery>--->
 		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
 				<table class="table table-responsive-sm border-none small90">
