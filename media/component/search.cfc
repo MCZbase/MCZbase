@@ -1523,6 +1523,17 @@ imgStyleClass=value
 		<cfif media.recordcount EQ 0>
 			<cfthrow message="No media records matching media_id [#encodeForHtml(media_id)#]">
 		</cfif>
+		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				mr.media_relationship, label,ct.auto_table
+			From
+				media_relations mr, ctmedia_relationship ct
+			WHERE 
+				mr.media_relationship = ct.media_relationship 
+			and
+				mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+			ORDER BY mr.media_relationship
+		</cfquery>
 		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid
 			from media_relations
@@ -1542,6 +1553,7 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'agent'
 				---and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
+			and media.rel = media_relations.media_relationship
 			order by agent_name.agent_name
 		</cfquery>
 		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
