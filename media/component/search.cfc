@@ -1367,7 +1367,11 @@ imgStyleClass=value
 							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 						<cfelse>
 							<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
-							<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+							<cfif len(iiifFull) GT 0>
+								<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
+							<cfelse>
+								<cfset output='#output#(<a class="" href="#media_uri#">full</a>)'>
+							</cfif>
 						</cfif>
 						<cfset output='#output#</p>'>
 						<cfset output='#output#<div class="pb-1">'>
