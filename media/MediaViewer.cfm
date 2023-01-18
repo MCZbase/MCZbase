@@ -161,7 +161,6 @@
 													<cfset i=i+1>
 												</cfloop>
 												<div id="targetDiv"></div>
-										</cfloop>
 									</div>
 								</div>
 							</div>
