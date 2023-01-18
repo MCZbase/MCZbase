@@ -30,13 +30,25 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct
+			mr.media_relationship, ct.label, ct.auto_table, ct.description
+		From
+			media_relations mr, ctmedia_relationship ct
+		WHERE 
+			mr.media_relationship = ct.media_relationship 
+		and
+			mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+		and mr.media_relationship <> 'created by agent'
+		ORDER BY mr.media_relationship
+	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct collection_object_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join cataloged_item on related_primary_key = collection_object_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+		and media_rel.auto_table = mczbase.ctmedia_relationship.auto_table
 	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
@@ -58,18 +70,7 @@
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 	</cfquery>
-	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct
-			mr.media_relationship, ct.label, ct.auto_table, ct.description
-		From
-			media_relations mr, ctmedia_relationship ct
-		WHERE 
-			mr.media_relationship = ct.media_relationship 
-		and
-			mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-		and mr.media_relationship <> 'created by agent'
-		ORDER BY mr.media_relationship
-	</cfquery>
+
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
