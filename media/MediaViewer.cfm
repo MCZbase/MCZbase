@@ -95,24 +95,24 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 <!---	LOOP---><cfloop query="media">
-				<div class="row">
-					<div class="col-12 my-3">
-						<cfif len(media.media_id) gt 0>
-							<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
-								<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-								<div class="viewer mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
-									#mediablock# 
+					<div class="row">
+						<div class="col-12 my-3">
+							<cfif len(media.media_id) gt 0>
+								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
+									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
+									<div class="viewer mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
+										#mediablock# 
+									</div>
+									<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
+									<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
 								</div>
-								<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
-								<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
+							</cfif>
+							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-0 pb-0">
+								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+								<div id="mediaMetadataBlock#media_id#">
+									#mediaMetadataBlock#
+								</div>
 							</div>
-						</cfif>
-						<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-0 pb-0">
-							<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
-							<div id="mediaMetadataBlock#media_id#">
-								#mediaMetadataBlock#
-							</div>
-						</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<!---<cfif len(media_rel.media_relationship) gt 0>--->
 								<div class="col-12 col-xl-12 px-0 float-left">
@@ -156,10 +156,9 @@
 																</ul>
 															</cfif>
 														</div>
+														<div id="targetDiv"></div>
 														<cfset i=i+1>
-																<div id="targetDiv"></div>
 													</cfloop>
-												
 												</cfloop>
 											</div>
 										</div>
@@ -170,10 +169,9 @@
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 								</div>
 							</cfif>--->
+						</div>
 					</div>
-				</div>
-			</cfloop>
-			</div>
+				</cfloop>
 			</div>
 		</div>
 	</main>
