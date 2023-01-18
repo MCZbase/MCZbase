@@ -126,8 +126,7 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-					<!---LOOP		--->	<cfloop query="media_rel">
-											<cfif len(media_rel.media_relationship) gt 0>
+
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -139,7 +138,6 @@
 													</cfquery>
 													</cfif>
 												</cfloop>
-											</cfif>
 											<cfset i= 1>
 												<!---thumbnails added below--->
 							<!---LOOP		---><cfloop query="relm">
