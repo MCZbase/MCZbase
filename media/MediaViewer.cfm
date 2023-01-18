@@ -159,34 +159,33 @@
 											ORDER BY mr.media_relationship
 										</cfquery>
 										<cfloop query="media_rel">
-											<cfif len(media.media_id) gt 0>
-												<cfif media_rel.auto_table eq 'agent'>
-													<cfloop query="agents">
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct m.media_id
-															from agent_name an 
-															left join media_relations m on an.agent_id=m.related_primary_key 
-															left join mczbase.ctmedia_relationship ct on ct.media_relationship = m.media_relationship
-															where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
-															and ct.media_relationship <> 'created by agent'
-															and ct.auto_table = 'agent'
-														</cfquery>
-													</cfloop>
-												<cfelse>
-													<cfloop query="spec">
-														<cfif len(spec.pk) gt 0>
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
-															from media_relations 
-															left join media on media_relations.media_id = media.media_id 
-															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >					
-														</cfquery>
-														</cfif>
-													</cfloop>
-												</cfif>
-												<cfset i= 1>
-													<!---thumbnails added below--->
+											<cfif media_rel.auto_table eq 'agent'>
+												<cfloop query="agents">
+													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct m.media_id
+														from agent_name an 
+														left join media_relations m on an.agent_id=m.related_primary_key 
+														left join mczbase.ctmedia_relationship ct on ct.media_relationship = m.media_relationship
+														where an.agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> 
+														and ct.media_relationship <> 'created by agent'
+														and ct.auto_table = 'agent'
+													</cfquery>
+												</cfloop>
+											<cfelse>
+												<cfloop query="spec">
+													<cfif len(spec.pk) gt 0>
+													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
+														from media_relations 
+														left join media on media_relations.media_id = media.media_id 
+														left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+														where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >					
+													</cfquery>
+													</cfif>
+												</cfloop>
+											</cfif>
+											<cfset i= 1>
+												<!---thumbnails added below--->
 												<cfloop query="relm">
 													<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 														<cfif len(media.media_id) gt 0>
@@ -208,18 +207,17 @@
 													<cfset i=i+1>
 												</cfloop>
 												<div id="targetDiv"></div>
-												
 											</cfif>
 										</cfloop>
-											</div>
-										</div>
 									</div>
 								</div>
-							<cfelse>
-								<div class="col-auto px-2 float-left">
-									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
-								</div>
-							</cfif>
+							</div>
+						</div>
+						<cfelse>
+							<div class="col-auto px-2 float-left">
+								<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
+							</div>
+						</cfif>
 					</div>
 				</div>
 			</cfloop>
