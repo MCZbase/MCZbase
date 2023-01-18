@@ -1262,7 +1262,7 @@ imgStyleClass=value
 						<cfelse>
 							<cfif host EQ "mczbase.mcz.harvard.edu">
 								<cfset sizeParameters='&width=#size#&height=#size#'>
-								<!--- cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#" --->>
+								<!--- cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#" --->
 								<cfset displayImage = iiifSize>
 							<cfelse>
 								<cfset displayImage = media_uri>
