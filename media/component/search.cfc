@@ -1550,7 +1550,19 @@ imgStyleClass=value
 				left join agent_name on agent_name.agent_id = agent.agent_id
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and mczbase.ctmedia_relationship.auto_table = 'agent'
+				and mczbase.ctmedia_relationship.auto_table = 'shows agent'
+			and media_relations.media_relationship <> 'created by agent'
+				and agent_name_type = 'preferred'
+			order by agent_name.agent_name
+		</cfquery>
+		<cfquery name="agents3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct agent_name.agent_name, agent.agent_id
+			from media_relations
+				left join agent on media_relations.related_primary_key = agent.agent_id
+				left join agent_name on agent_name.agent_id = agent.agent_id
+				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.media_relationship= 'documents agent'
 			and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
 			order by agent_name.agent_name
@@ -1680,7 +1692,7 @@ imgStyleClass=value
 										</cfif>
 										<cfif media_rel.media_relationship eq 'show agent'>:<cfloop query="agents2"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents2.agent_name#" /> and m.media_relationship = 'shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a><span>, </span></cfloop>
 										</cfif>
-										<cfif media_rel.media_relationship eq 'documents agent'>:<cfloop query="agents2"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents2.agent_name#" /> and m.media_relationship = 'documents agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents2.agent_name#</a><span>, </span></cfloop>
+										<cfif media_rel.media_relationship eq 'documents agent'>:<cfloop query="agents3"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents3.agent_name#" /> and m.media_relationship = 'documents agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents3.agent_name#</a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship contains 'shows collecting_event'>:<cfloop query="collecting_eventRel">
 											<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
