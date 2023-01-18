@@ -60,7 +60,7 @@
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
 		and locality_id is not null
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
-		UNION
+<!---		UNION
 		select distinct agent_name.agent_id as pk, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
 		from media_relations
 			left join agent on media_relations.related_primary_key = agent.agent_id
@@ -85,7 +85,7 @@
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
 		and accn.transaction_id is not null
-		and mczbase.ctmedia_relationship.auto_table = 'accn'
+		and mczbase.ctmedia_relationship.auto_table = 'accn'--->
 	</cfquery>
 	<cfquery name="agents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent_name.agent_name, mczbase.ctmedia_relationship.auto_table as tab,mczbase.ctmedia_relationship.media_relationship as rel
@@ -94,7 +94,7 @@
 			left join agent_name on agent_name.agent_id = agent.agent_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-			and mczbase.ctmedia_relationship.auto_table = 'agent'
+			and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 			and agent_name_type = 'preferred'
 			and media_relations.media_relationship <> 'created by agent'
 		order by agent_name.agent_name
@@ -160,7 +160,7 @@
 										</cfquery>
 										<cfloop query="media_rel">
 											<cfif media_rel.media_relationship eq 'shows agent'>
-												<cfloop query="agents">
+												<cfloop query="agents1">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct m.media_id
 														from agent_name an 
