@@ -1523,17 +1523,6 @@ imgStyleClass=value
 		<cfif media.recordcount EQ 0>
 			<cfthrow message="No media records matching media_id [#encodeForHtml(media_id)#]">
 		</cfif>
-		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct
-				mr.media_relationship, label,ct.auto_table
-			From
-				media_relations mr, ctmedia_relationship ct
-			WHERE 
-				mr.media_relationship = ct.media_relationship 
-			and
-				mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-			ORDER BY mr.media_relationship
-		</cfquery>
 		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct collection_object_id as pk, guid
 			from media_relations
@@ -1551,9 +1540,8 @@ imgStyleClass=value
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'agent'
-				---and media_relations.media_relationship <> 'created by agent'
+				and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
-			and media_relations.media_relationship =<cfqueryparam cfsqltype="CF_SQL_varchar" value="#media_rel.media_relationship#">
 			order by agent_name.agent_name
 		</cfquery>
 		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1603,7 +1591,7 @@ imgStyleClass=value
 					media_keywords.media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
-<!---			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select distinct
 					mr.media_relationship, label,ct.auto_table
 				From
@@ -1613,7 +1601,7 @@ imgStyleClass=value
 				and
 					mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 				ORDER BY mr.media_relationship
-			</cfquery>--->
+			</cfquery>
 		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
 				<table class="table table-responsive-sm border-none small90">
@@ -1677,7 +1665,7 @@ imgStyleClass=value
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 											</cfquery><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
 										</cfif>
-										<cfif media_rel.media_relationship contains 'agent'>:<cfloop query="agents"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> and m.media_relationship like '%agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents.agent_name#</a><span>, </span></cfloop>
+										<cfif media_rel.media_relationship contains 'show agent' OR media_rel.media_relationship contains 'documents agent'>:<cfloop query="agents"><cfquery name="relm2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents.agent_name#" /> and m.media_relationship='shows agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm2.agent_id#"> #agents.agent_name#</a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship contains 'shows collecting_event'>:<cfloop query="collecting_eventRel">
 											<cfquery name="relm3" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
