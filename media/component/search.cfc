@@ -1553,7 +1553,7 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'agent'
 				---and media_relations.media_relationship <> 'created by agent'
 				and agent_name_type = 'preferred'
-			and media.rel = media_relations.media_relationship
+			and media_relations.media_relationship =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_rel.media_relationship#">
 			order by agent_name.agent_name
 		</cfquery>
 		<cfquery name="collecting_eventRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
