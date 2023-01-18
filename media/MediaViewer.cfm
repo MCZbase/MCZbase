@@ -99,7 +99,7 @@
 			and media_relations.media_relationship <> 'created by agent'
 		order by agent_name.agent_name
 	</cfquery>
-	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---	<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct
 			mr.media_relationship, ct.label, ct.auto_table, ct.description
 		From
@@ -110,7 +110,7 @@
 			mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
 		and mr.media_relationship <> 'created by agent'
 		ORDER BY mr.media_relationship
-	</cfquery>
+	</cfquery>--->
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -171,7 +171,8 @@
 														and ct.media_relationship = 'shows agent'
 													</cfquery>
 												</cfloop>
-											<cfelse>
+											</cfif>
+											<cfif media_rel.media_relationship eq 'shows cataloged_item'>
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
