@@ -42,7 +42,7 @@
 		left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and formatted_publication.format_style='short' 
-		and (mczbase.ctmedia_relationship.auto_table = 'publication' OR mczbase.ctmedia_relationship.auto_table = 'ledger')
+		and mczbase.ctmedia_relationship.auto_table = 'publication'
 		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
@@ -50,7 +50,7 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+		and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' OR mczbase.ctmedia_relationship.auto_table = 'ledger')
 		UNION
 		select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
 		from media_relations
