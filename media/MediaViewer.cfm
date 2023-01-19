@@ -72,7 +72,7 @@
 			left join loan on trans.transaction_id = loan.transaction_id
 			left join media_relations on loan.transaction_id = media_relations.related_primary_key
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		where media_relations.media_id in <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">)
+		where media.media_id in <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">)
 		UNION
 		(select locality.locality_id as pk, locality.spec_locality as wlabel,mczbase.ctmedia_relationship.label as rel
 		from locality
