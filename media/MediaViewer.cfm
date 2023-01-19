@@ -69,6 +69,15 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'loan'
 		UNION
+		select accn.transaction_id as pk, accn.accn_number as wlabel
+		from accn
+		left join trans on trans.transaction_id = accn.transaction_id
+		left join media_relations on loan.transaction_id = media_relations.related_primary_key
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'accn'
+		UNION
 		select locality.locality_id as pk, locality.spec_locality as wlabel
 		from locality
 		left join media_relations on locality.locality_id = media_relations.related_primary_key
