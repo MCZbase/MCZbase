@@ -51,7 +51,7 @@
 					left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
 					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and formatted_publication.format_style='short' 
-					UNION</cfif>
+					UNION
 					select flat.collection_object_id "PK", flat.guid as wlabel
 					from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 					left join media_relations on flat.collection_object_id =media_relations.related_primary_key
