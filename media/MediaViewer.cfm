@@ -38,6 +38,7 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 <!---	LOOP---><cfloop query="media">
 					<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct pk from (
 					select citation.publication_id "PK", citation.type_status as wlabel 
 					from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 					left join citation on citation.collection_object_id = flat.collection_object_id 
@@ -101,7 +102,9 @@
 					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 					and agent_name.agent_name_type = 'preferred'
-					and media_relations.media_relationship <> 'created by agent'
+					and media_relations.media_relationship <> 'created by agent')
+						where media_id = 1335
+						order by media.media_type
 					</cfquery>
 					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
