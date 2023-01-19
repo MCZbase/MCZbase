@@ -24,7 +24,7 @@
 		From
 			media
 		WHERE 
-			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#" list="yes">
+			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -33,7 +33,11 @@
 			left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
 			left join flat on flat.collection_object_id = cataloged_item.collection_object_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+			left join citation on publication.publication_id = citation.publication_id
+			left join media_relations on media_relations.RELATED_PRIMARY_KEY = publication.PUBLICATION_ID
+			left join formatted_publication on formatted_publication.publication_id = publication.publication_id
 		where media_relations.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+		and formatted_pu8blication.format_style='short'
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 		UNION
 		(select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel,mczbase.ctmedia_relationship.label as rel
