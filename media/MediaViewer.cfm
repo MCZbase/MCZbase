@@ -46,7 +46,7 @@
         UNION
         (select flat.collection_object_id "PK", flat.guid as wlabel,mczbase.ctmedia_relationship.label as rel
 		from media_relations
-			left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> on flat.collection_object_id =media_relations.related_primary_key
+			left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on flat.collection_object_id =media_relations.related_primary_key
             left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
         Where media.media_id in <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item')
