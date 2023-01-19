@@ -1152,7 +1152,7 @@ You do not have permission to create Higher Geographies
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
 			onClick="document.location='Locality.cfm?Action=deleteCollEvent&collecting_event_id=#encodeForURL(locDet.collecting_event_id)#';">
-		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#encodeForURL(locDet.verbatim_locality)#&began_date=#encodeForURL(locDet.began_date)#&ended_date=#encodeForURL(locDet.ended_date)#&verbatim_date=#encodeForURL(locDet.verbatim_date)#&coll_event_remarks=#encodeForURL(locDet.coll_event_remarks)#&collecting_source=#encodeForURL(locDet.collecting_source)#&collecting_method=#encodeForURL(locDet.collecting_method)#&habitat_desc=#encodeForURL(locDet.habitat_desc)#">
+		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#encodeForURL(locDet.verbatim_locality)#&began_date=#encodeForURL(locDet.began_date)#&ended_date=#encodeForURL(locDet.ended_date)#&verbatim_date=#encodeForURL(locDet.verbatim_date)#&coll_event_remarks=#encodeForURL(locDet.coll_event_remarks)#&collecting_source=#encodeForURL(locDet.collecting_source)#&collecting_method=#encodeForURL(locDet.collecting_method)#&habitat_desc=#encodeForURL(locDet.habitat_desc)#&verbatimDepth=#encodeForURL(locDet.verbatimDepth)#&verbatimElevation=#encodeForURL(locDet.verbatimElevation#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#replace(dLoc,"'", "\'","all")#';">
 	</cfform>
 
@@ -1202,6 +1202,18 @@ You do not have permission to create Higher Geographies
 				<cfelseif isdefined("getLoc.spec_locality")>
 					value="#encodeForHTML(getLoc.spec_locality)#"
 				</cfif>>
+			<table>
+				<tr>
+					<td>
+						<label for="verbatimDepth">Verbatim Depth<label>
+						<input type="text" name="verbatimDepth" value="#encodeForHTML(verbatimDepth)#" id="verbatimDepth" size="30">
+					</td>
+					<td>
+						<label for="verbatimElevation">Verbatim Elevation<label>
+						<input type="text" name="verbatimElevation" value="#encodeForHTML(verbatimElevation)#" id="verbatimElevation" size="30">
+					</td>
+				</tr>
+			</table>
 			<table>
 				<tr>
 					<td><label for="verbatimCoordinates">Verbatim Coordinates (Summary)<label>
@@ -1813,6 +1825,8 @@ You deleted a collecting event.
 			,VERBATIM_DATE
 			,COLLECTING_SOURCE
 			,VERBATIM_LOCALITY
+			,verbtimdepth
+			,verbatimelevation
 			,COLL_EVENT_REMARKS
 			,COLLECTING_METHOD
 			,HABITAT_DESC
@@ -1834,6 +1848,16 @@ You deleted a collecting event.
 			,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLLECTING_SOURCE#">
 			<cfif len(#VERBATIM_LOCALITY#) gt 0>
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIM_LOCALITY#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#VERBATIMDEPTH#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMDEPTH#">
+			<cfelse>
+				,NULL
+			</cfif>
+			<cfif len(#VERBATIMELEVATION#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VERBATIMELEVATION#">
 			<cfelse>
 				,NULL
 			</cfif>
