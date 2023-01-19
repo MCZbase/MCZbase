@@ -866,7 +866,9 @@ You do not have permission to create Higher Geographies
 		    VERBATIMCOORDINATESYSTEM,
 		    VERBATIMSRS,
 		    STARTDAYOFYEAR,
-		    ENDDAYOFYEAR
+		    ENDDAYOFYEAR,
+			verbatimelevation,
+			verbatimdepth
 		from
 			locality
 			inner join geog_auth_rec on (locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id)
@@ -959,21 +961,32 @@ You do not have permission to create Higher Geographies
 
 	<h3 class="wikilink">Edit this Collecting Event:</h3>
 	<cfform name="locality" method="post" action="Locality.cfm">
-    	<input type="hidden" name="Action" value="saveCollEventEdit">
-	    <input type="hidden" name="collecting_event_id" value="#locDet.collecting_event_id#">
+		<input type="hidden" name="Action" value="saveCollEventEdit">
+		<input type="hidden" name="collecting_event_id" value="#locDet.collecting_event_id#">
 		<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 		<div style="border: 1px solid green;padding: .5em;">
-        <label for="verbatim_locality">
-			Verbatim Locality
-		</label>
-		<input type="text" name="verbatim_locality" id="verbatim_locality" value="#encodeForHTML(locDet.verbatim_locality)#" size="115">
-		<table>
-			<tr>
-				<td><label for="verbatimCoordinates">Verbatim Coordinates (summary)<label>
+			<label for="verbatim_locality">Verbatim Locality</label>
+			<input type="text" name="verbatim_locality" id="verbatim_locality" value="#encodeForHTML(locDet.verbatim_locality)#" size="115">
+			<table>
+				<tr>
+					<td>
+						<label for="verbatimDepth">Verbatim Depth<label>
+						<input type="text" name="verbatimDepth" value="#encodeForHTML(locDet.verbatimDepth)#" id="verbatimDepth" size="30">
+					</td>
+					<td>
+						<label for="verbatimElevation">Verbatim Elevation<label>
+						<input type="text" name="verbatimElevation" value="#encodeForHTML(locDet.verbatimElevation)#" id="verbatimElevation" size="30">
+					</td>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<td>
+						<label for="verbatimCoordinates">Verbatim Coordinates (summary)<label>
 						<input type="text" name="verbatimCoordinates" value="#encodeForHTML(locDet.verbatimCoordinates)#" id="verbatimCoordinates" size="115">
-				</td>
-            </tr>
-           </table>
+					</td>
+				</tr>
+			</table>
            <table>
            <tr>
 				<td style="padding-right: 1.5em;"><label for="verbatimLatitude">Verbatim Latitude<label>
