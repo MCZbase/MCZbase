@@ -11,7 +11,10 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-
+<style>
+	.viewer1 {width: auto; height: auto;margin:auto;}
+	.viewer1 img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+</style>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
 			media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
@@ -27,6 +30,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		 select citation.publication_id "PK", media_relations.media_relationship as wlabel 
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
@@ -83,23 +87,29 @@
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>
 
-	<style>
-	.viewer {width: auto; height: auto;margin:auto;}
-	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
-</style>
+
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
-<!---	LOOP---><cfloop query="media">
+			<cfloop query="media">
 				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select media_relationship from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					select distinct
+						mr.media_relationship, ct.label, ct.auto_table, ct.description
+					From
+						media_relations mr, ctmedia_relationship ct
+					WHERE 
+						mr.media_relationship = ct.media_relationship 
+					and
+						mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+					and mr.media_relationship <> 'created by agent'
+					ORDER BY mr.media_relationship
 				</cfquery>
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
 								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-									<div class="viewer mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
+									<div class="viewer1 mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
 									</div>
 									<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
@@ -114,7 +124,7 @@
 							</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif len(media_rel.media_relationship) gt 0>
-								<div class="col-12 col-xl-12 px-0 float-left">
+								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
@@ -128,7 +138,7 @@
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel, label
+															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
 															from media_relations 
 															left join media on media_relations.media_id = media.media_id 
 															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -147,10 +157,12 @@
 																</cfif>
 																<ul class="list-group px-0">
 																	<li class="list-group-item px-0 mx-1">
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
-																		<div class="px-0"><span class="px-2 small90">media/#relm.media_id# </span> #mediablock#</div>
-																	</div>
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
+																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
+																			<div class="px-0">
+																				<span class="px-2 small90">media/#relm.media_id# </span> #mediablock#
+																			</div>
+																		</div>
 																	</li>
 																</ul>
 															</cfif>
