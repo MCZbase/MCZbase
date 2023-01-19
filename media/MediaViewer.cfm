@@ -89,6 +89,7 @@
 		and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent')
+		</cfquery>
 	<style>
 	.viewer {width: auto; height: auto;margin:auto;}
 	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
