@@ -48,7 +48,13 @@
 						</cfquery>
 						<cfloop query="media_keys">
 							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select mr.media_id from media_relations mr, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = #media_keys.related_primary_key#
+								flat.collection_object_id "PK", flat.guid as wlabel
+								from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+								left join media_relations on flat.collection_object_id =media_relations.related_primary_key
+								left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+								left join media on media_relations.media_id = media.media_id
+								where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 							</cfquery>
 						</cfloop>
 					</cfloop>
