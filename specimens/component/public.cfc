@@ -83,7 +83,7 @@ limitations under the License.
 						collecting_event.verbatim_date,
 						collecting_event.began_date,
 						collecting_event.ended_date,
-						MCZBASE.get_scientific_name_truncate(cataloged_item.collection_object_id) as sci_name, MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date,collecting_event.ended_date,1,0) as pretty_date,
+						MCZBASE.GET_SCIENTIFIC_NAME_AUTHS_PL(cataloged_item.collection_object_id) as sci_name, MCZBASE.get_pretty_date(collecting_event.verbatim_date,collecting_event.began_date,collecting_event.ended_date,1,0) as pretty_date,
 						MCZBASE.get_scientific_name_auths(cataloged_item.collection_object_id) as scientific_name,
 						geog_auth_rec.higher_geog,
 						<cfif oneOfUs EQ 0 AND Findnocase("mask coordinates", check.encumbranceDetail) >
