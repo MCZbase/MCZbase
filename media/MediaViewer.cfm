@@ -42,6 +42,7 @@
 		and formatted_publication.format_style='short'
         and media.media_uri is not null
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+		order by media.media_type
         UNION
         (select flat.collection_object_id "PK", flat.guid as wlabel,mczbase.ctmedia_relationship.label as rel
 		from media_relations
@@ -130,7 +131,7 @@
 								</div>
 							</div>
 					<!---	specimen records relationships and other possible associations to media on those records--->
-							<cfloop query = 'media_rel'>
+						<!---	<cfloop query = 'media_rel'>--->
 						
 								<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
@@ -186,7 +187,7 @@
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 								</div>--->
 						
-							</cfloop>
+							<!---</cfloop>--->
 						</div>
 					</div>
 				</cfloop>
