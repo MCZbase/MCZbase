@@ -171,7 +171,7 @@
 																	<li class="list-group-item px-0 mx-1">
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
-																		<div class="px-0"><span class="px-2 small90">media/#relm.media_id#: #spec.rel# </span> #mediablock#</div>
+																		<div class="px-0"><span class="px-2 small90">media/#relm.media_id#: #spec.wlabel# </span> #mediablock#</div>
 																	</div>
 																	</li>
 																</ul>
