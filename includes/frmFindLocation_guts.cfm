@@ -592,6 +592,8 @@
 				<label for="verbatimelevation">Verbatim Elevation</label>
 				<input type="text" name="verbatimelevation" id="verbatimelevation" size="30">
 			</td>
+			<td>
+			</td>
 		</tr>
 	</table>
 		<div id="eventDetail" class="noShow">
