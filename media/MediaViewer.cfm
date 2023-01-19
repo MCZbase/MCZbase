@@ -99,7 +99,7 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 <!---	LOOP---><cfloop query="media">
-					<cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
 						mr.media_relationship, ct.label, ct.auto_table, ct.description
 					From
