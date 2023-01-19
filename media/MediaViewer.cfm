@@ -72,7 +72,7 @@
 		select accn.transaction_id as pk, accn.accn_number as wlabel
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
-		left join media_relations on loan.transaction_id = media_relations.related_primary_key
+		left join media_relations on accn.transaction_id = media_relations.related_primary_key
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
