@@ -28,19 +28,17 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select cataloged_item.collection_object_id "PK", flat.guid as wlabel
-		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> as flat
-		left join cataloged_item on media_relations.related_primary_key = cataloged_item.collection_object_id
-		left join media_relations on flat.collection_object_id = cataloged_item.collection_object_id
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join citation on citation.collection_object_id = flat.collection_object_id
-		left join publication on publication.publication_id = citation.publication_id
-		left join media_relations on media_relations.RELATED_PRIMARY_KEY = publication.publication_id
-		left join formatted_publication on formatted_publication.publication_id = publication.publication_id
-		left join media on media_relations.media_id = media.media_id
+		select citation.collection_object_id "PK", flat.guid as wlabel 
+		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+		left join citation on citation.collection_object_id = flat.collection_object_id 
+		left join publication on publication.publication_id = citation.publication_id 
+		left join media_relations on media_relations.RELATED_PRIMARY_KEY = publication.publication_id 
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship 
+		left join media on media.media_id = media_relations.media_id
+		left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and formatted_publication.format_style='short'
-		and media.media_uri is not null
+		and formatted_publication.format_style='short' 
+		and media.media_uri is not null 
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
@@ -49,7 +47,7 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item')
+		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 		UNION
 		(select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
 		from media_relations
