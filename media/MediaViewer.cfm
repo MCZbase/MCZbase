@@ -91,7 +91,7 @@
 		left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
-		where media.media_id in <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent')
