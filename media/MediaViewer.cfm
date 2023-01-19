@@ -52,14 +52,13 @@
 								from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 								left join media_relations on flat.collection_object_id =media_relations.related_primary_key
 								left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-								left join media on media_relations.media_id = media.media_id
-								where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 							</cfquery>
 						</cfloop>
 					</cfloop>
 						
-			#spec_media.media_id#
+			#spec_media.PK#
 						</cfloop>
 		<!---			<div class="row">
 						<div class="col-12 my-3">
