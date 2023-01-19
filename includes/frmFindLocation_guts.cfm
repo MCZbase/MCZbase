@@ -633,6 +633,18 @@
 					<input type="text" name="collecting_event_id" id="collecting_event_id" >
 				</td>
 			</tr>
+			<tr>
+				<td style="padding-right: 1em;">
+					<label for="verbatimdepth">Verbatim Depth</label>
+					<input type="text" name="verbatimdepth" id="verbatimdepth" size="30">
+				</td>
+				<td>
+					<label for="verbatimelevation">Verbatim Elevation</label>
+					<input type="text" name="verbatimelevation" id="verbatimelevation" size="30">
+				</td>
+				<td>
+				</td>
+			</tr>
 
 		</table>
 		</div>

@@ -1236,7 +1236,7 @@ imgStyleClass=value
 				<cfloop query="media">
 					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu">
-						<cfset iiifSchemeServerPrefix = "http://iiif.mcz.harvard.edu/iiif/3/">
+						<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 						<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 						<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 						<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
@@ -1350,8 +1350,11 @@ imgStyleClass=value
 					<cfelse>
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
-					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center">'>
-					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
+					<cfif host EQ "mczbase.mcz.harvard.edu" AND isDefined("iiifFull") AND len(iiifFull) GT 0>
+						<cfset linkTarget = iiifFull>
+					</cfif>
+					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
+					<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 							<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>
 					<cfif #captionAs# EQ "textNone">
