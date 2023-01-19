@@ -1152,7 +1152,7 @@ You do not have permission to create Higher Geographies
 			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		<input type="button" value="Delete" class="delBtn"
 			onClick="document.location='Locality.cfm?Action=deleteCollEvent&collecting_event_id=#encodeForURL(locDet.collecting_event_id)#';">
-		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#encodeForURL(locDet.verbatim_locality)#&began_date=#encodeForURL(locDet.began_date)#&ended_date=#encodeForURL(locDet.ended_date)#&verbatim_date=#encodeForURL(locDet.verbatim_date)#&coll_event_remarks=#encodeForURL(locDet.coll_event_remarks)#&collecting_source=#encodeForURL(locDet.collecting_source)#&collecting_method=#encodeForURL(locDet.collecting_method)#&habitat_desc=#encodeForURL(locDet.habitat_desc)#&verbatimDepth=#encodeForURL(locDet.verbatimDepth)#&verbatimElevation=#encodeForURL(locDet.verbatimElevation#">
+		<cfset dLoc="Locality.cfm?action=newCollEvent&locality_id=#locDet.locality_id#&verbatim_locality=#encodeForURL(locDet.verbatim_locality)#&began_date=#encodeForURL(locDet.began_date)#&ended_date=#encodeForURL(locDet.ended_date)#&verbatim_date=#encodeForURL(locDet.verbatim_date)#&coll_event_remarks=#encodeForURL(locDet.coll_event_remarks)#&collecting_source=#encodeForURL(locDet.collecting_source)#&collecting_method=#encodeForURL(locDet.collecting_method)#&habitat_desc=#encodeForURL(locDet.habitat_desc)#&verbatimDepth=#encodeForURL(locDet.verbatimDepth)#&verbatimElevation=#encodeForURL(locDet.verbatimElevation)#">
 		<input type="button" value="Create Clone" class="insBtn" onClick="document.location='#replace(dLoc,"'", "\'","all")#';">
 	</cfform>
 
