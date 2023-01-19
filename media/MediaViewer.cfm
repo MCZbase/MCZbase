@@ -38,7 +38,7 @@
 					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select media_relations.media_relationship 
 						from media_relations 
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					</cfquery>
 					<cfloop query="media_rel">
 						<cfquery name="media_keys" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -50,13 +50,12 @@
 							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.media_id from media_relations mr where mr.related_primary_key = #media_keys.related_primary_key#
 							</cfquery>
-							
-							
 						</cfloop>
 					</cfloop>
 						
 			#spec_media.media_id#
-					<div class="row">
+						</cfloop>
+		<!---			<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
 								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
@@ -77,7 +76,7 @@
 					<!---	specimen records relationships and other possible associations to media on those records--->
 						<!---	<cfloop query = 'media_rel'>--->
 						
-								<div class="col-12 col-xl-12 px-0 float-left">
+				<!---				<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
@@ -87,7 +86,7 @@
 											</ul>
 										</div>
 										<div class="row mx-0">
-											<div class="col-12 p-1">
+											<div class="col-12 p-1">--->
 											<!---	<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -134,7 +133,7 @@
 							<!---</cfloop>--->
 						</div>
 					</div>
-				</cfloop>
+				</cfloop>--->
 			</div>
 		</div>
 	</main>
