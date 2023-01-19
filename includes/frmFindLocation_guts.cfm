@@ -583,18 +583,6 @@
 				<input type="text" name="ended_date" id="ended_date">
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<label for="verbatimdepth">Verbatim Depth</label>
-				<input type="text" name="verbatimdepth" id="verbatimdepth" size="30">
-			</td>
-			<td>
-				<label for="verbatimelevation">Verbatim Elevation</label>
-				<input type="text" name="verbatimelevation" id="verbatimelevation" size="30">
-			</td>
-			<td>
-			</td>
-		</tr>
 	</table>
 		<div id="eventDetail" class="noShow">
 			<table cellpadding="0" cellspacign="0">
@@ -643,6 +631,18 @@
                 	<td style="padding-left: 1em;">
 					<label for="collecting_event_id">Collecting Event ID</label>
 					<input type="text" name="collecting_event_id" id="collecting_event_id" >
+				</td>
+			</tr>
+			<tr>
+				<td style="padding-right: 1em;">
+					<label for="verbatimdepth">Verbatim Depth</label>
+					<input type="text" name="verbatimdepth" id="verbatimdepth" size="30">
+				</td>
+				<td>
+					<label for="verbatimelevation">Verbatim Elevation</label>
+					<input type="text" name="verbatimelevation" id="verbatimelevation" size="30">
+				</td>
+				<td>
 				</td>
 			</tr>
 
