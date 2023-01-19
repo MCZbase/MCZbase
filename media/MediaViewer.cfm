@@ -88,7 +88,7 @@
 		where media_id = <cfqueryparam cfsqltype="CF_SQL_DECiMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 		and agent_name.agent_name_type = 'preferred'
-		and media_relations.media_relationship <> 'created by agent');
+		and media_relations.media_relationship <> 'created by agent')
 	<style>
 	.viewer {width: auto; height: auto;margin:auto;}
 	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
@@ -115,8 +115,8 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>
-						<!---specimen records relationships and other possible associations to media on those records--->
-							<!---<cfif len(media_rel.media_relationship) gt 0>--->
+					<!---	specimen records relationships and other possible associations to media on those records--->
+							<cfif len(media_rel.media_relationship) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -166,11 +166,11 @@
 										</div>
 									</div>
 								</div>
-				<!---			<cfelse>
+							<cfelse>
 								<div class="col-auto px-2 float-left">
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 								</div>
-							</cfif>--->
+							</cfif>
 						</div>
 					</div>
 				</cfloop>
