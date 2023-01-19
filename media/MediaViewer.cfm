@@ -40,14 +40,15 @@
 						from media_relations 
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					</cfquery>
-					<cfloop query="media_rel">
+					
 						<cfquery name="media_keys" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select media_relations.related_primary_key 
 							from media_relations 
 							where media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#">
 							and media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 						</cfquery>
-							</cfloop>
+					<cfloop query="media_rel">
+						
 					<cfloop query="media_keys">
 							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select media_id 
@@ -55,10 +56,12 @@
 								where media_relations.related_primary_key = #media_keys.related_primary_key#
 								and media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship">
 							</cfquery>
+								#spec_media.media_id#
 						</cfloop>
+					</cfloop>
 					
 						
-			#spec_media.media_id#
+			
 				</cfloop>
 		<!---			<div class="row">
 						<div class="col-12 my-3">
