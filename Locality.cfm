@@ -1496,6 +1496,16 @@ You deleted a collecting event.
 	<cfelse>
 		,verbatim_locality = null
 	</cfif>
+	<cfif len(#verbatimdepth#) gt 0>
+		,verbatimdepth = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimdepth#">
+	<cfelse>
+		,verbatimdepth = null
+	</cfif>
+	<cfif len(#verbatimelevation#) gt 0>
+		,verbatimelevation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#verbatimelevation#">
+	<cfelse>
+		,verbatimelevation = null
+	</cfif>
 	<cfif len(#COLL_EVENT_REMARKS#) gt 0>
 		,COLL_EVENT_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#COLL_EVENT_REMARKS#">
 	<cfelse>
