@@ -90,9 +90,19 @@
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent')
 		</cfquery>
-	<style>
-	.viewer {width: auto; height: auto;margin:auto;}
-	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+		select distinct
+			mr.media_relationship, ct.label, ct.auto_table, ct.description
+		From
+			media_relations mr, ctmedia_relationship ct
+		WHERE 
+			mr.media_relationship = ct.media_relationship 
+		and
+			mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+		and mr.media_relationship <> 'created by agent'
+		ORDER BY mr.media_relationship
+<style>
+.viewer {width: auto; height: auto;margin:auto;}
+.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
 </style>
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
@@ -117,7 +127,8 @@
 								</div>
 							</div>
 					<!---	specimen records relationships and other possible associations to media on those records--->
-							<cfif len(media_rel.media_relationship) gt 0>
+							<cfloop query = 'media_rel'>
+							<cfif len(media_rel) gt 0>
 								<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -167,11 +178,12 @@
 										</div>
 									</div>
 								</div>
-							<cfelse>
+<!---							<cfelse>
 								<div class="col-auto px-2 float-left">
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
-								</div>
+								</div>--->
 							</cfif>
+							</cfloop>
 						</div>
 					</div>
 				</cfloop>
