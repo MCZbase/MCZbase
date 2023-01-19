@@ -42,7 +42,7 @@
 		left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and formatted_publication.format_style='short' 
-		and mczbase.ctmedia_relationship.auto_table = 'publication'
+		and (mczbase.ctmedia_relationship.auto_table = 'publication' OR mczbase.ctmedia_relationship.auto_table = 'ledger')
 		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
