@@ -51,11 +51,11 @@
 								select mr.media_id from media_relations mr where mr.related_primary_key = #media_keys.related_primary_key#
 							</cfquery>
 							
-							#spec_media.media_id#
+							
 						</cfloop>
 					</cfloop>
 						
-			
+			#spec_media.media_id#
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
