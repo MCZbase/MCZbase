@@ -38,17 +38,16 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 <!---	LOOP---><cfloop query="media">
 					<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select citation.collection_object_id "PK", citation.type_status as wlabel 
+					select citation.publication_id "PK", citation.type_status as wlabel 
 					from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 					left join citation on citation.collection_object_id = flat.collection_object_id 
 					left join publication on publication.publication_id = citation.publication_id 
-					left join media_relations on media_relations.RELATED_PRIMARY_KEY = publication.publication_id 
+					left join media_relations on media_relations.RELATED_PRIMARY_KEY = citation.publication_id 
 					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship 
 					left join media on media.media_id = media_relations.media_id
 					left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
 					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and formatted_publication.format_style='short' 
-					and media.media_uri is not null 
 					and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 					UNION
 					select flat.collection_object_id "PK", flat.guid as wlabel
