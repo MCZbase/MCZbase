@@ -53,7 +53,7 @@
 								select media_id 
 								from media_relations 
 								where media_relations.related_primary_key = #media_keys.related_primary_key#
-								and media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_rel.media_relationship">
+								and media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship">
 							</cfquery>
 						</cfloop>
 					
