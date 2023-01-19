@@ -90,18 +90,7 @@
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent')
 		</cfquery>
-		<cfquery>
-		select distinct
-			mr.media_relationship, ct.label, ct.auto_table, ct.description
-		From
-			media_relations mr, ctmedia_relationship ct
-		WHERE 
-			mr.media_relationship = ct.media_relationship 
-		and
-			mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
-		and mr.media_relationship <> 'created by agent'
-		ORDER BY mr.media_relationship
-		</cfquery>
+
 <style>
 .viewer {width: auto; height: auto;margin:auto;}
 .viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
@@ -110,6 +99,18 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 <!---	LOOP---><cfloop query="media">
+					<cfquery  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct
+						mr.media_relationship, ct.label, ct.auto_table, ct.description
+					From
+						media_relations mr, ctmedia_relationship ct
+					WHERE 
+						mr.media_relationship = ct.media_relationship 
+					and
+						mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+					and mr.media_relationship <> 'created by agent'
+					ORDER BY mr.media_relationship
+					</cfquery>
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
