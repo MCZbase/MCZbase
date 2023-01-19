@@ -48,7 +48,7 @@
 								left join media_relations on flat.collection_object_id =media_relations.related_primary_key
 								left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 								where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-								and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+								and mczbase.ctmedia_relationship.media_relationship = '#media_rel.media_relationship#'
 							</cfquery>
 			
 					</cfloop>
