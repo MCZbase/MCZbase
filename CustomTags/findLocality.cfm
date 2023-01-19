@@ -221,6 +221,20 @@
 					AND upper(verbatim_locality) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(verbatim_locality)#%">
 				</cfif>
 			</cfif>
+			<cfif isdefined("verbatimdepth") and len(#verbatimdepth#) gt 0>
+				<cfif #verbatimdepth# eq 'NULL'>
+					AND verbatimdepth is NULL
+				<cfelse>
+					AND upper(verbatimdepth) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(verbatimdepth)#%">
+				</cfif>
+			</cfif>
+			<cfif isdefined("verbatimelevation") and len(#verbatimelevation#) gt 0>
+				<cfif #verbatimelevation# eq 'NULL'>
+					AND verbatimelevation is NULL
+				<cfelse>
+					AND upper(verbatimelevation) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(verbatimelevation)#%">
+				</cfif>
+			</cfif>
 			<cfif isdefined("coll_event_remarks") and len(#coll_event_remarks#) gt 0>
 				AND upper(coll_event_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(coll_event_remarks)#%">
 			</cfif>
