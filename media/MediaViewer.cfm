@@ -38,7 +38,7 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 <!---	LOOP---><cfloop query="media">
 					<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select citation.collection_object_id "PK", flat.guid as wlabel 
+					select citation.collection_object_id "PK", citation.cited_taxon_name_id as wlabel 
 					from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 					left join citation on citation.collection_object_id = flat.collection_object_id 
 					left join publication on publication.publication_id = citation.publication_id 
