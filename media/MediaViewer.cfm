@@ -131,7 +131,7 @@
 							</div>
 					<!---	specimen records relationships and other possible associations to media on those records--->
 							<cfloop query = 'media_rel'>
-							<cfif len(media_rel) gt 0>
+						
 								<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -185,7 +185,7 @@
 								<div class="col-auto px-2 float-left">
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Related media records not displayed. Click related media IDs above to see.</h3>
 								</div>--->
-							</cfif>
+						
 							</cfloop>
 						</div>
 					</div>
