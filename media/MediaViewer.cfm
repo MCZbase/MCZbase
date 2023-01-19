@@ -35,27 +35,79 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 				<cfloop query="media">
-					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="media_rels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select media_relations.media_relationship 
 						from media_relations 
-						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					</cfquery>
-					<cfquery name="media_keys" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select media_relations.related_primary_key 
-						from media_relations 
-						where media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#">
+					<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select citation.publication_id "PK", media_relations.media_relationship as wlabel 
+					from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+					left join citation on citation.collection_object_id = flat.collection_object_id 
+					left join publication on publication.publication_id = citation.publication_id 
+					left join media_relations on media_relations.RELATED_PRIMARY_KEY = citation.publication_id 
+					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship 
+					left join media on media.media_id = media_relations.media_id
+					left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
+					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and formatted_publication.format_style='short' 
+					UNION</cfif>
+					select flat.collection_object_id "PK", flat.guid as wlabel
+					from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+					left join media_relations on flat.collection_object_id =media_relations.related_primary_key
+					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+					left join media on media_relations.media_id = media.media_id
+					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+					UNION
+					select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
+					from media_relations
+						left join collecting_event on related_primary_key = collecting_event_id
+						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+					 left join media on media_relations.media_id = media.media_id
+					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+					UNION
+					select loan.transaction_id as pk, loan.loan_number as wlabel
+					from loan
+					left join trans on trans.transaction_id = loan.transaction_id
+					left join media_relations on loan.transaction_id = media_relations.related_primary_key
+					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+					left join media on media_relations.media_id = media.media_id
+					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					UNION
+					select locality.locality_id as pk, locality.spec_locality as wlabel
+					from locality
+					left join media_relations on locality.locality_id = media_relations.related_primary_key
+					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+					left join media on media_relations.media_id = media.media_id
+					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and media_relations.MEDIA_RELATIONSHIP = 'shows locality'
+					UNION
+					select agent.agent_id as pk, agent_name.agent_name as wlabel
+					from agent_name
+					left join agent on agent_name.AGENT_ID = agent.agent_id
+					left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+					left join media on media_relations.media_id = media.media_id
+					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
+					and agent_name.agent_name_type = 'preferred'
+					and media_relations.media_relationship <> 'created by agent'
 					</cfquery>
-					<cfloop query="media_keys">
-						<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select media_id 
-							from media_relations 
-							where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_keys.related_primary_key#">
-							and media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#">
-						</cfquery>
-							#spec_media.media_id#
-					</cfloop>
-				</cfloop>
-		<!---			<div class="row">
+					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct
+						mr.media_relationship, ct.label, ct.auto_table, ct.description
+					From
+						media_relations mr, ctmedia_relationship ct
+					WHERE 
+						mr.media_relationship = ct.media_relationship 
+					and
+						mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+					and mr.media_relationship <> 'created by agent'
+					ORDER BY mr.media_relationship
+					</cfquery>
+					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
 								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
@@ -76,7 +128,7 @@
 					<!---	specimen records relationships and other possible associations to media on those records--->
 						<!---	<cfloop query = 'media_rel'>--->
 						
-				<!---				<div class="col-12 col-xl-12 px-0 float-left">
+								<div class="col-12 col-xl-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
@@ -86,8 +138,8 @@
 											</ul>
 										</div>
 										<div class="row mx-0">
-											<div class="col-12 p-1">--->
-											<!---	<cfloop query="spec">
+											<div class="col-12 p-1">
+												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel, label
@@ -97,9 +149,9 @@
 															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 														</cfquery>
 													</cfif>
-													<cfset i= 1>--->
+													<cfset i= 1>
 													<!---thumbnails added below--->
-													<!---<cfloop query="relm">
+													<cfloop query="relm">
 														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
 															<cfif len(media.media_id) gt 0>
 																<cfif relm.media_id eq '#media.media_id#'> 
@@ -120,7 +172,7 @@
 														<div id="targetDiv"></div>
 														<cfset i=i+1>
 													</cfloop>
-												</cfloop>--->
+												</cfloop>
 											</div>
 										</div>
 									</div>
@@ -133,7 +185,7 @@
 							<!---</cfloop>--->
 						</div>
 					</div>
-				</cfloop>--->
+				</cfloop>
 			</div>
 		</div>
 	</main>
