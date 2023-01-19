@@ -41,18 +41,22 @@
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					</cfquery>
 					<cfloop query="media_rel">
-				
+						<cfquery name="media_keys" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select media_relations.related_primary_key 
+							from media_relations 
+							where media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#">
+						</cfquery>
+						<cfloop query="media_keys">
 							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select flat.collection_object_id "PK", flat.guid as wlabel
-								from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-								left join media_relations on flat.collection_object_id =media_relations.related_primary_key
-								where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+								select media_id 
+								from media_relations 
+								where media_relations.related_primary_key = #media_keys.related_primary_key#
 								and media_relations.media_relationship = '#media_rel.media_relationship#'
 							</cfquery>
-			
+						</cfloop>
 					</cfloop>
 						
-			#spec_media.PK#
+			#spec_media.media_id#
 						</cfloop>
 		<!---			<div class="row">
 						<div class="col-12 my-3">
