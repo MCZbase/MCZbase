@@ -47,8 +47,7 @@
 					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship 
 					left join media on media.media_id = media_relations.media_id
 					left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
-					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and formatted_publication.format_style='short' 
+					where formatted_publication.format_style='short' 
 					and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 					UNION
 					select flat.collection_object_id "PK", flat.guid as wlabel
@@ -56,16 +55,14 @@
 					left join media_relations on flat.collection_object_id =media_relations.related_primary_key
 					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					left join media on media_relations.media_id = media.media_id
-					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
+					where mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 					UNION
 					select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
 					from media_relations
 						left join collecting_event on related_primary_key = collecting_event_id
 						left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					 left join media on media_relations.media_id = media.media_id
-					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+					where mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 					UNION
 					select citation.publication_id as pk, formatted_publication.formatted_publication as wlabel
 					from publication
@@ -75,7 +72,6 @@
 					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					left join media on media_relations.media_id = media.media_id
 					where formatted_publication.format_style = 'short'
-					and media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					UNION
 					select loan.transaction_id as pk, loan.loan_number as wlabel
 					from loan
@@ -83,15 +79,13 @@
 					left join media_relations on loan.transaction_id = media_relations.related_primary_key
 					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					left join media on media_relations.media_id = media.media_id
-					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					UNION
 					select locality.locality_id as pk, locality.spec_locality as wlabel
 					from locality
 					left join media_relations on locality.locality_id = media_relations.related_primary_key
 					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					left join media on media_relations.media_id = media.media_id
-					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and media_relations.MEDIA_RELATIONSHIP = 'shows locality'
+					where media_relations.MEDIA_RELATIONSHIP = 'shows locality'
 					UNION
 					select agent.agent_id as pk, agent_name.agent_name as wlabel
 					from agent_name
@@ -99,11 +93,10 @@
 					left join media_relations on agent_name.agent_id = media_relations.related_primary_key
 					left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 					left join media on media_relations.media_id = media.media_id
-					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
+					where mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 					and agent_name.agent_name_type = 'preferred'
 					and media_relations.media_relationship <> 'created by agent'), media
-						where media_id = 1335
+						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						order by media.media_type
 					</cfquery>
 					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
