@@ -102,7 +102,7 @@
 					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 					and agent_name.agent_name_type = 'preferred'
-					and media_relations.media_relationship <> 'created by agent')
+					and media_relations.media_relationship <> 'created by agent'), media
 						where media_id = 1335
 						order by media.media_type
 					</cfquery>
