@@ -42,6 +42,7 @@
 		left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and formatted_publication.format_style='short' 
+		and mczbase.ctmedia_relationship.auto_table = 'publication'
 		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
@@ -66,6 +67,7 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'loan'
 		UNION
 		select locality.locality_id as pk, locality.spec_locality as wlabel
 		from locality
@@ -73,7 +75,7 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and media_relations.MEDIA_RELATIONSHIP = 'shows locality'
+		and mczbase.ctmedia_relationship.auto_table = 'locality'
 		UNION
 		select agent.agent_id as pk, agent_name.agent_name as wlabel
 		from agent_name
@@ -82,7 +84,7 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
+		and mczbase.ctmedia_relationship.auto_table = 'agent'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>
