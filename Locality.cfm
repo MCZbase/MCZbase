@@ -1825,7 +1825,7 @@ You deleted a collecting event.
 			,VERBATIM_DATE
 			,COLLECTING_SOURCE
 			,VERBATIM_LOCALITY
-			,verbtimdepth
+			,verbatimdepth
 			,verbatimelevation
 			,COLL_EVENT_REMARKS
 			,COLLECTING_METHOD
