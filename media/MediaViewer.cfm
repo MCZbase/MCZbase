@@ -41,12 +41,7 @@
 						where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					</cfquery>
 					<cfloop query="media_rel">
-						<cfquery name="media_keys" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select media_relations.related_primary_key 
-							from media_relations 
-							where media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#">
-						</cfquery>
-						<cfloop query="media_keys">
+				
 							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								flat.collection_object_id "PK", flat.guid as wlabel
 								from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
@@ -55,7 +50,7 @@
 								where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 								and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 							</cfquery>
-						</cfloop>
+			
 					</cfloop>
 						
 			#spec_media.PK#
