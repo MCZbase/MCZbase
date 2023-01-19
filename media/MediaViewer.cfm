@@ -48,7 +48,7 @@
 						</cfquery>
 						<cfloop query="media_keys">
 							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select mr.media_id from media_relations mr where mr.related_primary_key = #media_keys.related_primary_key#
+								select mr.media_id from media_relations mr, <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = #media_keys.related_primary_key#
 							</cfquery>
 						</cfloop>
 					</cfloop>
