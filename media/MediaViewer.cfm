@@ -91,9 +91,7 @@
 					where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and mczbase.ctmedia_relationship.media_relationship = 'shows agent'
 					and agent_name.agent_name_type = 'preferred'
-					and media_relations.media_relationship <> 'created by agent'), media
-						where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						order by media.media_type
+					and media_relations.media_relationship <> 'created by agent'
 					</cfquery>
 					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select distinct
