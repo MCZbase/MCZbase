@@ -49,7 +49,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'cataloged_item'
 		UNION
-		(select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
+		select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
 		from media_relations
 			left join collecting_event on related_primary_key = collecting_event_id
 			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
