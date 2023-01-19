@@ -44,7 +44,7 @@
 						<cfquery name="media_keys" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select media_relations.related_primary_key 
 							from media_relations 
-							where media_relations.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_rel.media_relationship#%">
+							where media_relations.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#">
 						</cfquery>
 						<cfloop query="media_keys">
 							<cfquery name="spec_media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
