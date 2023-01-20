@@ -12,8 +12,8 @@
 <cfset maxMedia = 8>
 <cfoutput>
 <style>
-	.viewer1 {width: auto; height: auto;margin:auto;}
-	.viewer1 img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+	.viewer {width: auto; height: auto;margin:auto;}
+	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
 </style>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
@@ -120,7 +120,7 @@
 							<cfif len(media.media_id) gt 0>
 								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-									<div class="viewer1 mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
+									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
 									</div>
 									<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
@@ -159,7 +159,7 @@
 													<cfset i= 1>
 													<!---thumbnails added below--->
 													<cfloop query="relm">
-														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left">
+														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 															<cfif len(media.media_id) gt 0>
 																<cfif relm.media_id eq '#media.media_id#'> 
 																	<cfset activeimg = "highlight_media rounded px-1 pt-1">
@@ -178,9 +178,9 @@
 																</ul>
 															</cfif>
 														</div>
-														<div id="targetDiv"></div>
 														<cfset i=i+1>
 													</cfloop>
+													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
 										</div>
