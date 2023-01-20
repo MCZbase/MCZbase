@@ -2025,8 +2025,6 @@ limitations under the License.
 							collecting_event.verbatimlongitude,
 							collecting_event.verbatimsrs,
 						</cfif>
-						collecting_event.verbatimelevation,
-						collecting_event.verbatimdepth,
 						locality.maximum_elevation,
 						locality.minimum_elevation,
 						locality.orig_elev_units,
@@ -2340,14 +2338,6 @@ limitations under the License.
 						<cfif len(loc_collevent.verbatim_locality) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_locality#</li>
-						</cfif>
-						<cfif len(loc_collevent.verbatimdepth) gt 0>
-							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Depth: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatimdepth#</li>
-						</cfif>
-						<cfif len(loc_collevent.verbatimelevation) gt 0>
-							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Elevation: </li>
-							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatimelevation#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
