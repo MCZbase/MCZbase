@@ -172,7 +172,7 @@ Some Totally Random String Data .....
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT * 
 			FROM bulkloader 
-			WHERE collection_object_id = <cfqueryparm cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<!---  Was hard coded magic number, value of 50 in v3.9 then 30 in v2.5.1  --->
 		<cfif collection_object_id GT #MAXTEMPLATE#>
