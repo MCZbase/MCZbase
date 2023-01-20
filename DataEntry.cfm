@@ -170,7 +170,9 @@ Some Totally Random String Data .....
 			you don't have an ID. <cfabort>
 		</cfif>
 		<cfquery name="data" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from bulkloader where collection_object_id=#collection_object_id#
+			SELECT * 
+			FROM bulkloader 
+			WHERE collection_object_id = <cfqueryparm cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<!---  Was hard coded magic number, value of 50 in v3.9 then 30 in v2.5.1  --->
 		<cfif collection_object_id GT #MAXTEMPLATE#>
@@ -200,7 +202,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT institution_acronym || ' ' || collection_cde as instcoll, collection_id FROM collection
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 		</cfquery>
 		<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -249,7 +251,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctSex_Cde" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT distinct(sex_cde) as sex_cde FROM ctSex_Cde
 			<cfif len(collection_cde) gt 0>
-				WHERE collection_cde='#collection_cde#'
+				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 			</cfif>
 			order by sex_cde
 		</cfquery>
@@ -275,7 +277,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctPartName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT distinct(part_name) FROM ctSpecimen_part_name
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 				order by part_name
         </cfquery>
@@ -289,7 +291,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctPresMeth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			select preserve_method from ctspecimen_preserv_method
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 				order by preserve_method
 		</cfquery>
@@ -297,7 +299,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"  cachedwithin="#createtimespan(0,0,60,0)#">
 			select distinct(attribute_type) from ctattribute_type
 				<cfif len(#collection_cde#) gt 0>
-					WHERE collection_cde='#collection_cde#'
+					WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 				</cfif>
 				order by attribute_type
 		</cfquery>
@@ -305,7 +307,7 @@ Some Totally Random String Data .....
 		<cfquery name="ctAttributeType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			SELECT attribute_type FROM ctattribute_type
 			<cfif len(#collection_cde#) gt 0>
-				WHERE collection_cde='#collection_cde#'
+				WHERE collection_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_cde#">
 			</cfif>
 			order by attribute_type
 		</cfquery>
@@ -547,6 +549,19 @@ Some Totally Random String Data .....
 								</span>--->
 							</td>
 						</tr>
+						<tr>
+							<td align="right"><span class="f11a">Verbatim Depth</span></td>
+							<input type="text"  name="verbatimdepth"
+									class="" size="75"
+									id="verbatimdepth" title="VERBATIM Depth" value="#encodeForHTML(verbatimdepth)#">
+						</tr>
+						<tr>
+							<td align="right"><span class="f11a">Verbatim Elevation</span></td>
+							<input type="text"  name="verbatimelevation"
+									class="" size="75"
+									id="verbatimelevation" title="VERBATIM Elevation" value="#encodeForHTML(verbatimelevation)#">
+						</tr>
+						<tr>
 						<tr>
 							<td align="right"><span class="f11a">Verbatim Date</span></td>
 							<td>
