@@ -1401,8 +1401,8 @@ imgStyleClass=value
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
 								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
-							<cfelse>
-								<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>
+							<!---<cfelse>
+								<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
 								<!---<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>--->
 							</cfif>
 							<cfif len(iiifFull) GT 0>
