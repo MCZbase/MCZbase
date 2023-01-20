@@ -1261,12 +1261,12 @@ imgStyleClass=value
 							<cfset displayImage = preview_uri>
 							<cfset hw = 'width="auto" height="auto"'>
 							<cfset styles = "max-height:70px;">
-							<cfif host EQ "mczbase.mcz.harvard.edu">
+							<cfif host EQ "mczbase-dev.rc.fas.harvard.edu">
 								<cfset displayImage = iiifThumb>
 							</cfif>
 						<cfelse>
 							<!---<cfif host EQ "mczbase.mcz.harvard.edu">--->
-							<cfif host contains "mczbase.mcz.harvard.edu">
+							<cfif host contains "mczbase-dev.rc.fas.harvard.edu">
 								<cfset sizeParameters='&width=#size#&height=#size#'>
 								<!--- cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#" --->
 								<cfset displayImage = iiifSize>
