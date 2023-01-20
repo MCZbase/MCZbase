@@ -1350,11 +1350,13 @@ imgStyleClass=value
 					<cfelse>
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
-					<cfif host EQ "mczbase.mcz.harvard.edu" AND isDefined("iiifFull") AND len(iiifFull) GT 0>
+				<!---	Test removal--->
+					<!---<cfif host EQ "mczbase.mcz.harvard.edu" AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
-					</cfif>
+					</cfif>--->
+						<!---Removed from <img/> tag class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
-					<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" class="#background_class#" title="Click for full image">'>
+					<cfset output='#output#<img src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
 							<cfif isDisplayable><cfset output='#output#<script type="text/javascript">jQuery(document).ready(function($){$("##MID#media.media_id#").addimagezoom({zoomrange: [2,12],magnifiersize:["100%","100%"],magnifierpos:"right",cursorshadecolor:"##fdffd5",imagevertcenter:"true",cursorshade:true,largeimage:"#iiifFull#"})})</script>'></cfif>
 					<cfif #captionAs# EQ "textNone">
