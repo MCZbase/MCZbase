@@ -551,15 +551,19 @@ Some Totally Random String Data .....
 						</tr>
 						<tr>
 							<td align="right"><span class="f11a">Verbatim Depth</span></td>
-							<input type="text"  name="verbatimdepth"
+							<td>
+								<input type="text"  name="verbatimdepth"
 									class="" size="75"
 									id="verbatimdepth" title="VERBATIM Depth" value="#encodeForHTML(verbatimdepth)#">
+							</td>
 						</tr>
 						<tr>
 							<td align="right"><span class="f11a">Verbatim Elevation</span></td>
-							<input type="text"  name="verbatimelevation"
+							<td>
+								<input type="text"  name="verbatimelevation"
 									class="" size="75"
 									id="verbatimelevation" title="VERBATIM Elevation" value="#encodeForHTML(verbatimelevation)#">
+							</td>
 						</tr>
 						<tr>
 						<tr>
