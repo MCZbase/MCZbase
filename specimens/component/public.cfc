@@ -1998,7 +1998,15 @@ limitations under the License.
 						collecting_event.ended_date,
 						collecting_event.startdayofyear,
 						collecting_event.enddayofyear,
-						collecting_event.verbatim_locality,
+						<cfif maskCoordinates>
+							'[Masked]' as verbatim_locality,
+							'' as verbatimdepth,
+							'' as verbatimelevation,
+						<cfelse>
+							collecting_event.verbatim_locality,
+							collecting_event.verbatimdepth,
+							collecting_event.verbatimelevation,
+						</cfif>
 						collecting_event.coll_event_remarks,
 						collecting_event.valid_distribution_fg,
 						collecting_event.collecting_source,
@@ -2018,8 +2026,6 @@ limitations under the License.
 							collecting_event.verbatimlongitude,
 							collecting_event.verbatimsrs,
 						</cfif>
-						collecting_event.verbatimelevation,
-						collecting_event.verbatimdepth,
 						locality.maximum_elevation,
 						locality.minimum_elevation,
 						locality.orig_elev_units,
