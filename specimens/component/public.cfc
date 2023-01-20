@@ -1997,7 +1997,15 @@ limitations under the License.
 						collecting_event.ended_date,
 						collecting_event.startdayofyear,
 						collecting_event.enddayofyear,
-						collecting_event.verbatim_locality,
+						<cfif maskCoordinates>
+							'[Masked]' as verbatim_locality,
+							'' as verbatimdepth,
+							'' as verbatimelevation,
+						<cfelse>
+							collecting_event.verbatim_locality,
+							collecting_event.verbatimdepth,
+							collecting_event.verbatimelevation,
+						</cfif>
 						collecting_event.coll_event_remarks,
 						collecting_event.valid_distribution_fg,
 						collecting_event.collecting_source,
@@ -2332,6 +2340,14 @@ limitations under the License.
 						<cfif len(loc_collevent.verbatim_locality) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Locality: </li>
 							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatim_locality#</li>
+						</cfif>
+						<cfif len(loc_collevent.verbatimdepth) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Depth: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatimdepth#</li>
+						</cfif>
+						<cfif len(loc_collevent.verbatimelevation) gt 0>
+							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Elevation: </li>
+							<li class="list-group-item col-7 col-xl-8 px-0 ">#loc_collevent.verbatimelevation#</li>
 						</cfif>
 						<cfif len(loc_collevent.verbatimcoordinates) gt 0>
 							<li class="list-group-item col-5 col-xl-4 px-0 font-weight-lessbold">Verbatim Coordinates: </li>
