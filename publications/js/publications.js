@@ -333,8 +333,10 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
  * @param feedbackdiv id of an element in the dom without leading pound 
  *  selector into which to place feedback on success.
  * @param okcallback a callback function to invoke on success.
+ * @param hidden_id id of a hidden input that holds the publication_attribute_id without leading pound 
+ *  selector into which to place the id on success.
 */
-function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv, okcallback) { 
+function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv, okcallback, hidden_id) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
@@ -354,6 +356,7 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 				$('#'+feedbackdiv).removeClass('text-warning');
 				$('#'+feedbackdiv).addClass('text-success');
 				$('#'+feedbackdiv).removeClass('text-danger');
+				$('#'+hidden_id).val(result[0].id);
 			}
 			if (okcallback && jQuery.type(okcallback)==='function') {
 				okcallback();
@@ -376,8 +379,10 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
  * @param feedbackdiv id of an element in the dom without leading pound 
  *  selector into which to place feedback on success.
  * @param okcallback a callback function to invoke on success.
+ * @param hidden_id id of a hidden input that holds the publication_attribute_id without leading pound 
+ *  selector the value of which to clear on success
  */
-function deleteAttribute(publication_attribute_id, publication_attribute, okcallback, feedbackdiv) { 
+function deleteAttribute(publication_attribute_id, publication_attribute, okcallback, feedbackdiv, hidden_id) { 
 	jQuery.ajax({
 		dataType: "json",
 		url: "/publications/component/functions.cfc",
@@ -406,6 +411,7 @@ function deleteAttribute(publication_attribute_id, publication_attribute, okcall
 				if (publication_attribute == 'MCZ publication') { 
 					reloadAllAttributes();
 				}
+				$('#'+hidden_id).val();
 			}
 		}
 	});

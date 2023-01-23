@@ -1376,6 +1376,7 @@ limitations under the License.
 							</label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
+							<input type="hidden" id="id_#id#" value="#getAttValue.publication_attribute_id#">
 							<script>	
 								$('###id#').change(function(event){ 
 									console.log($('###id#').val()); 
@@ -1383,15 +1384,15 @@ limitations under the License.
 									$('##attributeControlsFeedbackDiv').addClass('text-warning');
 									$('##attributeControlsFeedbackDiv').removeClass('text-success');
 									$('##attributeControlsFeedbackDiv').removeClass('text-danger');
-									<cfif len(getAttValue.publication_attribute_id) GT 0>
+									if (length($("##id_#id#").val()) > 0) {  
 										if ($("###id#").val() == "") { 
-											deleteAttribute("#getAttValue.publication_attribute_id#","#getAttributes.publication_attribute#", reloadAllAttributes, "attributeControlsFeedbackDiv");
+											deleteAttribute("#getAttValue.publication_attribute_id#","#getAttributes.publication_attribute#", reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 										} else {  
 											saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 										}
-									<cfelse>
-										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes); 
-									</cfif>
+									} else {
+										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes,"id_#id#"); 
+									}
 								});
 							</script>
 						</div>
@@ -1432,19 +1433,20 @@ limitations under the License.
 								<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 								<cfset control = getPubAttributeControl(attribute = "#getMCZAttributes.publication_attribute#",value="#value#",name="#getMCZAttributes.publication_attribute#",id="#id#")>
 								#control#
+								<input type="hidden" id="id_#id#" value="#getAttValue.publication_attribute_id#">
 								<script>	
 									$('###id#').change(function(event){ 
 										console.log($('###id#').val()); 
 										$('##attributeControlsFeedbackDiv').html("saving...");
-										<cfif len(getAttValue.publication_attribute_id) GT 0>
+										if (length($("##id_#id#").val()) > 0) {  
 											if ($("###id#").val() == "") { 
-												deleteAttribute("#getAttValue.publication_attribute_id#","#getMCZAttributes.publication_attribute#" reloadAllAttributes, "attributeControlsFeedbackDiv");
+												deleteAttribute("#getAttValue.publication_attribute_id#","#getMCZAttributes.publication_attribute#" reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 											} else {  
 												saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 											}
-										<cfelse>
-											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes); 
-										</cfif>
+										} else {
+											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, "id_#id#"); 
+										}
 									});
 								</script>
 							</div>
@@ -1774,8 +1776,9 @@ limitations under the License.
 					<cfloop query="atts">
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
+							<input type="hidden" id="id_#atts.publication_attribute#" value="#atts.publication_attribute_id#">
 							<button class="btn btn-xs btn-secondary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
-							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,'#atts.publication_attribute#',reloadAttributes,null);">Delete</button>
+							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,'#atts.publication_attribute#',reloadAttributes,null,'id_#atts.publication_attribute#');">Delete</button>
 						</li>
 						<div id="attEditDialog_#atts.publication_attribute_id#"></div>
 					</cfloop>
