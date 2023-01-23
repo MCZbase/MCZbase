@@ -32,7 +32,7 @@
 	</cfquery>
 
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		 select citation.publication_id "PK", media_relations.media_relationship as wlabel 
+		select citation.publication_id "PK", media_relations.media_relationship as wlabel 
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join citation on citation.collection_object_id = flat.collection_object_id 
 		left join publication on publication.publication_id = citation.publication_id 
@@ -97,8 +97,10 @@
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>
-
-
+<cfquery name="speccount">
+	select count(*) as specct from spec	
+</cfquery>
+#specct#
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
