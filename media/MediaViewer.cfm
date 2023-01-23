@@ -40,6 +40,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship like '%cataloged_item%'
+		and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
 		from media_relations
@@ -48,6 +49,7 @@
 		 left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+		and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select loan.transaction_id as pk, loan.loan_number as wlabel
 		from loan
@@ -57,6 +59,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'loan'
+		and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select accn.transaction_id as pk, accn.accn_number as wlabel
 		from accn
@@ -66,6 +69,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'accn'
+		and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select locality.locality_id as pk, locality.spec_locality as wlabel
 		from locality
@@ -74,6 +78,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
+		and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select agent.agent_id as pk, 'Agent Related' as wlabel
 		from agent_name
