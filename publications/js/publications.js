@@ -357,7 +357,7 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 			}
 			if (okcallback && jQuery.type(okcallback)==='function') {
 				okcallback();
-				if (publication_attribute = 'MCZ publication') { 
+				if (publication_attribute == 'MCZ publication') { 
 					reloadAllAttributes();
 				}
 			}
@@ -403,7 +403,7 @@ function deleteAttribute(publication_attribute_id, publication_attribute, okcall
 					$('#'+feedbackdiv).addClass('text-success');
 					$('#'+feedbackdiv).removeClass('text-danger');
 				}
-				if (publication_attribute = 'MCZ publication') { 
+				if (publication_attribute == 'MCZ publication') { 
 					reloadAllAttributes();
 				}
 			}
