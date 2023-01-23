@@ -1384,14 +1384,14 @@ limitations under the License.
 									$('##attributeControlsFeedbackDiv').addClass('text-warning');
 									$('##attributeControlsFeedbackDiv').removeClass('text-success');
 									$('##attributeControlsFeedbackDiv').removeClass('text-danger');
-									if (length($("##id_#id#").val()) > 0) {  
+									if ($("##id_#id#").val()=="") {  
+										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes,"id_#id#"); 
+									} else {
 										if ($("###id#").val() == "") { 
 											deleteAttribute("#getAttValue.publication_attribute_id#","#getAttributes.publication_attribute#", reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 										} else {  
 											saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 										}
-									} else {
-										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes,"id_#id#"); 
 									}
 								});
 							</script>
@@ -1438,14 +1438,14 @@ limitations under the License.
 									$('###id#').change(function(event){ 
 										console.log($('###id#').val()); 
 										$('##attributeControlsFeedbackDiv').html("saving...");
-										if (length($("##id_#id#").val()) > 0) {  
+										if ($("##id_#id#").val()) = "") {  
+											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, "id_#id#"); 
+										} else {
 											if ($("###id#").val() == "") { 
 												deleteAttribute("#getAttValue.publication_attribute_id#","#getMCZAttributes.publication_attribute#" reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 											} else {  
 												saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 											}
-										} else {
-											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, "id_#id#"); 
 										}
 									});
 								</script>
