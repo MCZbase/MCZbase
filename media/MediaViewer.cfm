@@ -83,17 +83,7 @@
 		and mczbase.ctmedia_relationship.auto_table = 'agent'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
-	</cfquery>
-	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) ct, citation.publication_id "cit", identification.scientific_name as wlabel
-		from cataloged_item
-		left join citation on cataloged_item.collection_object_id = citation.collection_object_id
-		left join identification on identification.collection_object_id = citation.collection_object_ID
-		left join publication on citation.PUBLICATION_ID = publication.PUBLICATION_ID
-		where cataloged_item.collection_object_id in (select collection_object_id from cataloged_item, media_relations where media_relations.related_primary_key = cataloged_item.collection_object_id )
-		group by count(*) ct, citation.publication_id "cit", identification.scientific_name as wlabel
-	</cfquery>
-		
+	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
