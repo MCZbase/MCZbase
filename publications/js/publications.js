@@ -357,6 +357,9 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 			}
 			if (okcallback && jQuery.type(okcallback)==='function') {
 				okcallback();
+				if (publication_attribute = 'MCZ publication') { 
+					reloadAllAttributes();
+				}
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
@@ -369,11 +372,12 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 /** deleteAttribute delete an attribute from a publication.
  * @param publication_attribute_id the primary key of the publication attribute
  *  to delete.
+ * @param publication_attribute the publication attribute to remove.
  * @param feedbackdiv id of an element in the dom without leading pound 
  *  selector into which to place feedback on success.
  * @param okcallback a callback function to invoke on success.
  */
-function deleteAttribute(publication_attribute_id, okcallback, feedbackdiv) { 
+function deleteAttribute(publication_attribute_id, publication_attribute, okcallback, feedbackdiv) { 
 	jQuery.ajax({
 		dataType: "json",
 		url: "/publications/component/functions.cfc",
@@ -398,6 +402,9 @@ function deleteAttribute(publication_attribute_id, okcallback, feedbackdiv) {
 					$('#'+feedbackdiv).removeClass('text-warning');
 					$('#'+feedbackdiv).addClass('text-success');
 					$('#'+feedbackdiv).removeClass('text-danger');
+				}
+				if (publication_attribute = 'MCZ publication') { 
+					reloadAllAttributes();
 				}
 			}
 		}
