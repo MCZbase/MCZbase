@@ -115,6 +115,7 @@
 					and mr.media_relationship <> 'created by agent'
 					ORDER BY mr.media_relationship
 				</cfquery>
+				<cfif media_rel.media_relationship gt 1>
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
@@ -193,6 +194,7 @@
 							</cfif>
 						</div>
 					</div>
+				</cfif>
 				</cfloop>
 			</div>
 		</div>
