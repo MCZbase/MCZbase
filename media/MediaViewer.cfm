@@ -130,7 +130,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
 		UNION
-		SELECT count(*) ct, accn.transaction_id,'Accn' as type 
+		SELECT count(*) ct, accn.transaction_id, 'Accn' as type 
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations on accn.transaction_id = media_relations.related_primary_key
