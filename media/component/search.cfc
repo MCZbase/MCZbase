@@ -1395,15 +1395,16 @@ imgStyleClass=value
 							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
 						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
-						<cfif NOT isDisplayable>
+						<<!------>cfif NOT isDisplayable>
 							<cfif listcontainsnocase(session.roles,"manage_publications")><span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 						<cfelse>
 							<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
 								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
-							<!---<cfelse>
-								<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
-								<!---<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>--->
+							<cfelse>
+								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
+								<!---This makes the zoom/related link show when the media widget is on the specimen and media record page page. Maybe we want the option to change it to MediaSet if not ready to roll out--->
+								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
 							</cfif>
 							<cfif len(iiifFull) GT 0>
 								<cfset output='#output#(<a class="" href="#iiifFull#">full</a>)'>
