@@ -1388,9 +1388,9 @@ limitations under the License.
 										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes,"id_#id#"); 
 									} else {
 										if ($("###id#").val() == "") { 
-											deleteAttribute("#getAttValue.publication_attribute_id#","#getAttributes.publication_attribute#", reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
+											deleteAttribute($("##id_#id#").val(),"#getAttributes.publication_attribute#", reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 										} else {  
-											saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
+											saveAttribute($("##id_#id#").val(), "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 										}
 									}
 								});
@@ -1442,9 +1442,9 @@ limitations under the License.
 											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, "id_#id#"); 
 										} else {
 											if ($("###id#").val() == "") { 
-												deleteAttribute("#getAttValue.publication_attribute_id#","#getMCZAttributes.publication_attribute#" reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
+												deleteAttribute($("##id_#id#").val(),"#getMCZAttributes.publication_attribute#" reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 											} else {  
-												saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
+												saveAttribute($("##id_#id#").val(), "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 											}
 										}
 									});
