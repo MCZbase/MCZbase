@@ -97,7 +97,73 @@
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>
-
+	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT count(*) ct, 'publication' as type 
+		select citation.publication_id "PK", media_relations.media_relationship as wlabel 
+		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+		left join citation on citation.collection_object_id = flat.collection_object_id 
+		left join publication on publication.publication_id = citation.publication_id 
+		left join media_relations on media_relations.RELATED_PRIMARY_KEY = citation.publication_id 
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship 
+		left join media on media.media_id = media_relations.media_id
+		left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and formatted_publication.format_style='short' 
+		and mczbase.ctmedia_relationship.auto_table = 'publication'
+		UNION
+		SELECT count(*) ct, 'cataloged item' as type 
+		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' OR mczbase.ctmedia_relationship.auto_table = 'ledger')
+		UNION
+		SELECT count(*) ct, 'collecting event' as type 
+		from media_relations
+		left join collecting_event on related_primary_key = collecting_event_id
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+		UNION
+		SELECT count(*) ct, 'loan' as type 
+		from loan
+		left join trans on trans.transaction_id = loan.transaction_id
+		left join media_relations on loan.transaction_id = media_relations.related_primary_key
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'loan'
+		UNION
+		SELECT count(*) ct, 'accn' as type 
+		from accn
+		left join trans on trans.transaction_id = accn.transaction_id
+		left join media_relations on accn.transaction_id = media_relations.related_primary_key
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'accn'
+		UNION
+		select count(*) ct, 'agent' as type
+		from agent_name
+		left join agent on agent_name.AGENT_ID = agent.agent_id
+		left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'agent'
+		and agent_name.agent_name_type = 'preferred'
+		and media_relations.media_relationship <> 'created by agent'
+		UNION
+		select count(*) ct, 'locality' as type
+		from locality
+		left join media_relations on locality.locality_id = media_relations.related_primary_key
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.auto_table = 'locality'
+	</cfquery>
 
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
