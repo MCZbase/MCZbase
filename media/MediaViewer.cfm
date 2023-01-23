@@ -116,7 +116,7 @@
 					group by mr.media_relationship, ct.label, ct.auto_table, ct.description
 					ORDER BY mr.media_relationship
 				</cfquery>
-				<cfif media_rel.counter gt 1>
+				<cfif media_rel.counter gt 0>
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
@@ -136,7 +136,7 @@
 								</div>
 							</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
-							<cfif len(media_rel.media_relationship) gt 0>
+							<cfif media_rel.counter gt 1>
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
