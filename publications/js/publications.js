@@ -307,6 +307,9 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 			if (status=='updated') {
 				console.log(status);
 				$('#'+feedbackdiv).html(status);
+				$('#'+feedbackdiv).removeClass('text-warning');
+				$('#'+feedbackdiv).addClass('text-success');
+				$('#'+feedbackdiv).removeClass('text-danger');
 			}
 			if (jQuery.type(okcallback2)==='function') {
 				okcallback2();
@@ -314,6 +317,10 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
+			$('#'+feedbackdiv).html("Error");
+			$('#'+feedbackdiv).removeClass('text-warning');
+			$('#'+feedbackdiv).removeClass('text-success');
+			$('#'+feedbackdiv).addClass('text-danger');
 		},
 		dataType: "json"
 	});
@@ -344,6 +351,9 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 			console.log(status);
 			if (status=='inserted') {
 				$('#'+feedbackdiv).html(status);
+				$('#'+feedbackdiv).removeClass('text-warning');
+				$('#'+feedbackdiv).addClass('text-success');
+				$('#'+feedbackdiv).removeClass('text-danger');
 			}
 			if (okcallback && jQuery.type(okcallback)==='function') {
 				okcallback();
@@ -385,6 +395,9 @@ function deleteAttribute(publication_attribute_id, okcallback, feedbackdiv) {
 				console.log(status);
 				if (feedbackdiv!==undefined && feedbackdiv) { 
 					$('#'+feedbackdiv).html(status);
+					$('#'+feedbackdiv).removeClass('text-warning');
+					$('#'+feedbackdiv).addClass('text-success');
+					$('#'+feedbackdiv).removeClass('text-danger');
 				}
 			}
 		}

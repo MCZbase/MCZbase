@@ -1343,7 +1343,7 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv"></output></h2>
+				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv" class="small"></output></h2>
 				<div class="form-row mb-2">
 					<cfloop query="getAttributes">
 						<cfquery name="getDescription" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDescription_result">
@@ -1373,18 +1373,16 @@ limitations under the License.
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 							<label class="data-entry-label" for="#id#">
 								#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span>
-								<output id="att_feedback_#id#" class="small"></output>
 							</label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
 							<script>	
-								function feedback_#id#(status) {
-									$("##att_feedback_id_#id#").html(status); 
-								}
 								$('###id#').change(function(event){ 
-									$("##att_feedback_id_#id#").html("Saving..."); 
 									console.log($('###id#').val()); 
-									$('##attributeControlsFeedbackDiv').html("saving...");
+									$('##attributeControlsFeedbackDiv').html("Saving...");
+									$('##attributeControlsFeedbackDiv').addClass('text-warning');
+									$('##attributeControlsFeedbackDiv').removeClass('text-success');
+									$('##attributeControlsFeedbackDiv').removeClass('text-danger');
 									<cfif len(getAttValue.publication_attribute_id) GT 0>
 										if ($("###id#").val() == "") { 
 											deleteAttribute("#getAttValue.publication_attribute_id#", reloadAllAttributes, "attributeControlsFeedbackDiv");
