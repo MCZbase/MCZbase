@@ -122,10 +122,9 @@
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and media_relations.media_relationship like '%locality%'
 		UNION
-		SELECT count(*) ct, accn.transaction_id as number, 'Accn' as type 
+		SELECT count(*) ct, accn.accn_num as number, 'Accn' as type 
 		from accn
-		left join trans on trans.transaction_id = accn.transaction_id
-		left join media_relations on accn.transaction_id = media_relations.related_primary_key
+		left join media_relations on accn.accn_num = media_relations.related_primary_key
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and media_relations.media_relationship like 'accn'
 	
