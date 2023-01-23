@@ -31,13 +31,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select citation.publication_id "PK", identification.scientific_name as wlabel
-		from cataloged_item
-		left join citation on cataloged_item.collection_object_id = citation.collection_object_id
-		left join identification on identification.collection_object_id = citation.collection_object_ID
-		left join publication on citation.PUBLICATION_ID = publication.PUBLICATION_ID
-		where cataloged_item.collecton_object_id = #flat.PK#
-		UNION
+	
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
@@ -45,6 +39,13 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item' OR mczbase.ctmedia_relationship.auto_table = 'ledger')
+		UNION
+		select citation.publication_id "PK", identification.scientific_name as wlabel
+		from cataloged_item
+		left join citation on cataloged_item.collection_object_id = citation.collection_object_id
+		left join identification on identification.collection_object_id = citation.collection_object_ID
+		left join publication on citation.PUBLICATION_ID = publication.PUBLICATION_ID
+		where cataloged_item.collecton_object_id = #spec.PK#
 		UNION
 		select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
 		from media_relations
