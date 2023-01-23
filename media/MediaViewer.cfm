@@ -91,6 +91,7 @@
 		left join identification on identification.collection_object_id = citation.collection_object_ID
 		left join publication on citation.PUBLICATION_ID = publication.PUBLICATION_ID
 		where cataloged_item.collection_object_id in (select collection_object_id from cataloged_item, media_relations where media_relations.related_primary_key = cataloged_item.collection_object_id )
+		group by count(*) ct, citation.publication_id "cit", identification.scientific_name as wlabel
 	</cfquery>
 		
 	<main class="container-fluid pb-5" id="content">
