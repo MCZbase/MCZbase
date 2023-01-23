@@ -34,7 +34,7 @@
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select identification.identification_id "PK", media_relations.media_relationship as wlabel 
 		from identification
-		left join media_relations on media_relations.RELATED_PRIMARY_KEY = citation.publication_id 
+		left join media_relations on media_relations.RELATED_PRIMARY_KEY = identification.identification_id 
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship 
 		left join media on media.media_id = media_relations.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
