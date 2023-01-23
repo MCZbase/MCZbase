@@ -129,7 +129,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
-		UNION
+<!---		UNION
 		SELECT count(*) ct, accn.transaction_id as number, 'Accn' as type 
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
@@ -137,7 +137,7 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'accn'
+		and mczbase.ctmedia_relationship.auto_table = 'accn'--->
 	
 	</cfquery>
 	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
