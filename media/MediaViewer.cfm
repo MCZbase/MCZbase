@@ -30,18 +30,6 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<cfquery name="pubcit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select cataloged_item, identification.identification_id "PK", "Citation" as wlabel
-		from identification
-		left join citation on identification.collection_object_id = citation.collection_object_id
-		left join publication on citation.PUBLICATION_ID = publication.PUBLICATION_ID
-		where publication.publication_id = 14434
-	</cfquery>
-	<cfquery name="pubcit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select media_id from publication, media_relations where publication.publication_id = media_relations.related_primary_key
-		and media_relations.media_id = 117877
-		and publication_id = 14434
-	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select citation.publication_id "PK", identification.scientific_name as wlabel
 		from cataloged_item
