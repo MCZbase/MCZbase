@@ -126,7 +126,7 @@
 		from accn
 		left join media_relations on accn.accn_num = media_relations.related_primary_key
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and media_relations.media_relationship like 'accn'
+		and media_relations.media_relationship like '%accn%'
 	
 	</cfquery>
 	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
