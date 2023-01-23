@@ -97,47 +97,37 @@
 		SELECT count(*) ct, collecting_event.collecting_event_id as number, 'Collecting event' as type 
 		from media_relations
 		left join collecting_event on related_primary_key = collecting_event_id
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+		and media_relations.media_relationship like '%collecting_event%'
 		UNION
 		SELECT count(*) ct, loan.transaction_id as number, 'Loan' as type 
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations on loan.transaction_id = media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'loan'
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and media_relations.media_relationship like '%agent%'
 		UNION
 		select count(*) ct, agent_name.agent_id as number, 'Agent' as type
 		from agent_name
 		left join agent on agent_name.AGENT_ID = agent.agent_id
 		left join media_relations on agent_name.agent_id = media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'agent'
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
+		and media_relations.media_relationship like '%agent%'
 		UNION
 		select count(*) ct, locality.locality_id as number, 'locality' as type
 		from locality
 		left join media_relations on locality.locality_id = media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'locality'
-<!---		UNION
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and media_relations.media_relationship like '%locality%'
+		UNION
 		SELECT count(*) ct, accn.transaction_id as number, 'Accn' as type 
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations on accn.transaction_id = media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'accn'--->
+		and media_relations.media_relationship like 'accn'
 	
 	</cfquery>
 	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
