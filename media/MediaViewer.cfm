@@ -36,7 +36,7 @@
 		left join citation on cataloged_item.collection_object_id = citation.collection_object_id
 		left join identification on identification.collection_object_id = citation.collection_object_ID
 		left join publication on citation.PUBLICATION_ID = publication.PUBLICATION_ID
-		where cataloged_item.collecton_object_id = #flat.collection_object_id#
+		where cataloged_item.collecton_object_id = #flat.PK#
 		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
