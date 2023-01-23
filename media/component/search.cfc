@@ -1376,8 +1376,9 @@ imgStyleClass=value
 							<cfelse>
 								<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
 									<!---If on the zoom/related page, i.e., MediaViewer, we don't need a link to it.--->
+									
 								<cfelse><!---Changed else on 1/20/23 to make it easier to test--->
-									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
+									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>---><!-- should make it show on spec details--->
 									<cfset output='#output#(<a class="d-none d-md-inline-block" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
 								</cfif>
 								<cfif len(iiifFull) GT 0>
@@ -1395,7 +1396,7 @@ imgStyleClass=value
 							<cfset output='#output#<span class="d-inline">(<a href="/media.cfm?action=edit&media_id=#media_id#">edit</a>) </span>'>
 						</cfif>
 						<cfset output='#output#(<a class="" href="/media/#media_id#">Media Record</a>)'>
-						<<!------>cfif NOT isDisplayable>
+						<cfif NOT isDisplayable>
 							<cfif listcontainsnocase(session.roles,"manage_publications")><span class="sr-only">#media_type# (#mime_type#)</span></cfif>
 							<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 						<cfelse>
@@ -1403,7 +1404,7 @@ imgStyleClass=value
 								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
 							<cfelse>
 								<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
-								<!---This makes the zoom/related link show when the media widget is on the specimen and media record page page. Maybe we want the option to change it to MediaSet if not ready to roll out--->
+								
 								<cfset output='#output#(<a class="" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
 							</cfif>
 							<cfif len(iiifFull) GT 0>
