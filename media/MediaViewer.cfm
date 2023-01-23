@@ -39,8 +39,7 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.media_relationship like '%cataloged_item%'
-		and mczbase.ctmedia_relationship.auto_table != 'ledger'
+		and mczbase.ctmedia_relationship.media_relationship like 'shows cataloged_item'
 		UNION
 		select flat.collecting_event_id as pk, 'Collecting Event' as wlabel
 		from media_relations mr
