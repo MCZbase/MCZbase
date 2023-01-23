@@ -86,7 +86,7 @@
 	</cfquery>
 	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 
-		SELECT count(*) ct, 'Cataloged item' as type 
+		SELECT count(*) ct, flat.collection_object_id, 'Cataloged item' as type 
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -94,7 +94,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item')
 		UNION
-		SELECT count(*) ct, 'Collecting event' as type 
+		SELECT count(*) ct, collecting_event.collecting_event_id, 'Collecting event' as type 
 		from media_relations
 		left join collecting_event on related_primary_key = collecting_event_id
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -102,7 +102,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 		UNION
-		SELECT count(*) ct, 'Loan' as type 
+		SELECT count(*) ct, loan.loan_number, 'Loan' as type 
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations on loan.transaction_id = media_relations.related_primary_key
@@ -111,7 +111,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'loan'
 		UNION
-		select count(*) ct, 'Agent' as type
+		select count(*) ct, agent_name.agent_id, 'Agent' as type
 		from agent_name
 		left join agent on agent_name.AGENT_ID = agent.agent_id
 		left join media_relations on agent_name.agent_id = media_relations.related_primary_key
@@ -122,7 +122,7 @@
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
 		UNION
-		select count(*) ct, 'locality' as type
+		select count(*) ct, locality.locality_id, 'locality' as type
 		from locality
 		left join media_relations on locality.locality_id = media_relations.related_primary_key
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -130,7 +130,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
 		UNION
-		SELECT count(*) ct, 'Accn' as type 
+		SELECT count(*) ct, accn.accn_number,'Accn' as type 
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations on accn.transaction_id = media_relations.related_primary_key
