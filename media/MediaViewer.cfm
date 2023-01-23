@@ -116,7 +116,7 @@
 					group by mr.media_relationship, ct.label, ct.auto_table, ct.description
 					ORDER BY mr.media_relationship
 				</cfquery>
-				<cfif #media_rel.media_relationship# gt 1>
+				<cfif count(#media_rel.media_relationship#) gt 1>
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
