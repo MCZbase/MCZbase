@@ -102,7 +102,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
 		UNION
-		SELECT count(*) ct, loan.loan_number, 'Loan' as type 
+		SELECT count(*) ct, loan.transaction_id, 'Loan' as type 
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations on loan.transaction_id = media_relations.related_primary_key
