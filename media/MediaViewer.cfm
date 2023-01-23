@@ -23,13 +23,15 @@
 			MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 			MCZBASE.get_media_credit(media.media_id) as credit, 
 			MCZBASE.get_media_descriptor(media.media_id) as alttag,
-			MCZBASE.get_media_owner(media.media_id) as owner
+			MCZBASE.get_media_owner(media.media_id) as owner,
+			MCZBASE.get_MCZ_PUBS_LINKS(media.media_id) as publinks
 		From
 			media
 		WHERE 
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
@@ -81,16 +83,17 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
 		UNION
-		select agent.agent_id as pk, 'Agent related' as wlabel
+		select agent.agent_id as pk, 'Agent Related' as wlabel
 		from agent_name
 		left join agent on agent_name.AGENT_ID = agent.agent_id
-		left join media_relations on agent_name.agent_id = media_relations.related_primary_key
+		left join media_relations on agent.agent_id = media_relations.related_primary_key
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'agent'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
+		and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
