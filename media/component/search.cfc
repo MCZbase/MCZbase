@@ -1355,7 +1355,7 @@ imgStyleClass=value
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
 					</cfif>
-						<!---Removed from <img/> tag class="#background_class#"--->
+						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->
 					<cfset output='#output#<a href="#linkTarget#" class="d-block w-100 active text-center" title="click to access media">'>
 					<cfset output='#output#<img id="MID#media.media_id#" src="#displayImage#" alt="#alt#" #hw# style="#styles#" title="Click for full image">'>
 					<cfset output='#output#</a>'>
@@ -1375,8 +1375,8 @@ imgStyleClass=value
 								<cfset output='#output#(<a class="" href="#media_uri#">media file</a>)'>
 							<cfelse>
 								<cfif CGI.script_name CONTAINS "/MediaViewer.cfm">
-									
-								<cfelse>
+									<!---If on the zoom/related page, i.e., MediaViewer, we don't need a link to it.--->
+								<cfelse><!---Changed else on 1/20/23 to make it easier to test--->
 									<!---<cfset output='#output#(<a class="" href="/MediaSet.cfm?media_id=#media_id#">zoom/related</a>)'>--->
 									<cfset output='#output#(<a class="d-none d-md-inline-block" href="/media/MediaViewer.cfm?media_id=#media_id#">zoom/related</a>)'>
 								</cfif>
@@ -1420,7 +1420,7 @@ imgStyleClass=value
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = "Externally Sourced Media Object">
 						</cfif>
-						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 200 characters is needed --->
+						<cfif #captionAs# EQ "textCaption"><!---This is for use when a caption of 197 characters is needed --->
 							<cfif len(showTitleText) GT 197>
 								<cfset showTitleText = "#left(showTitleText,197)#..." >
 							</cfif>
@@ -1459,8 +1459,8 @@ imgStyleClass=value
 						</cfif>
 
 						<cfset output='#output#<p class="text-center col-12 my-0 p-0 small" > #showTitleText# </p>'>
-							<!---Was this meant to be something else? It currently duplicates the license display--->
-					<!---	<cfif len(#copyright_statement#) gt 0>
+						<!---Was this meant to be something else? It currently duplicates the license display--->
+					<!---<cfif len(#copyright_statement#) gt 0>
 							<cfif #captionAs# EQ "TextFull">
 								<cfset output='#output#<p class="text-center col-12 p-0 my-0 small">'>
 								<cfset output='#output##copyright_statement#'>
@@ -1495,10 +1495,7 @@ imgStyleClass=value
 	</cfoutput>
 </cffunction>
 
-<!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc -- Michelle--->	
 <!--- Media Metadata Table using media_id --->		
-
-
 <cffunction name="getMediaMetadata"  access="remote" returntype="string" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
@@ -1743,6 +1740,9 @@ imgStyleClass=value
 	<cfreturn cfthread["mediaMetadataThread#tn#"].output>
 </cffunction>
 
+			
+			
+<!---BELOW:::FUNCTIONS FOR RELATIONSHIPS and LABELS on EDIT MEDIA AND FUNCTION FOR SHOWING THUMBNAILS FOR showMedia.cfc -- Michelle--->	
 <cffunction name="getMediaRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<!---
