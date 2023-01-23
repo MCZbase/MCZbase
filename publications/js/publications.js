@@ -411,7 +411,7 @@ function deleteAttribute(publication_attribute_id, publication_attribute, okcall
 				if (publication_attribute == 'MCZ publication') { 
 					reloadAllAttributes();
 				}
-				$('#'+hidden_id).val();
+				$('#'+hidden_id).val("");
 			}
 		}
 	});
