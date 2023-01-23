@@ -97,7 +97,7 @@
 		SELECT count(*) ct, collecting_event.collecting_event_id as number, 'Collecting event' as type 
 		from media_relations
 		left join collecting_event on related_primary_key = collecting_event_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and media_relations.media_relationship like '%collecting_event%'
 		UNION
 		SELECT count(*) ct, loan.transaction_id as number, 'Loan' as type 
@@ -126,7 +126,7 @@
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations on accn.transaction_id = media_relations.related_primary_key
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and media_relations.media_relationship like 'accn'
 	
 	</cfquery>
