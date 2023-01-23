@@ -98,9 +98,9 @@
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>
 <cfquery name="speccount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(*) as specct from spec	
+	select count(*) as specct from (select PK from spec where PK is not nul)	
 </cfquery>
-#speccount.specct#
+
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
