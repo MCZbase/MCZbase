@@ -99,7 +99,6 @@
 	</cfquery>
 	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT count(*) ct, 'publication' as type 
-		select citation.publication_id "PK", media_relations.media_relationship as wlabel 
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join citation on citation.collection_object_id = flat.collection_object_id 
 		left join publication on publication.publication_id = citation.publication_id 
