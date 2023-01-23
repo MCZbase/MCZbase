@@ -1809,6 +1809,9 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfif len(publication_attribute_id) EQ 0>
+				<cfthrow message="Attempt to delete a publication attribute with an empty publication_attribute_id">
+			</cfif>
 			<cfquery name="lookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
 				SELECT publication_id
 				FROM publication_attributes
