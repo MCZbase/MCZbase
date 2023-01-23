@@ -85,18 +85,7 @@
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>
 	<cfquery name="uses" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT count(*) ct, 'Publication' as type 
-		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-		left join citation on citation.collection_object_id = flat.collection_object_id 
-		left join publication on publication.publication_id = citation.publication_id 
-		left join media_relations on media_relations.RELATED_PRIMARY_KEY = citation.publication_id 
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship 
-		left join media on media.media_id = media_relations.media_id
-		left join formatted_publication on formatted_publication.publication_id = publication.publication_id 
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and formatted_publication.format_style='short' 
-		and mczbase.ctmedia_relationship.auto_table = 'publication'
-		UNION
+
 		SELECT count(*) ct, 'Cataloged item' as type 
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
