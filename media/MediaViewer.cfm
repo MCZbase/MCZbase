@@ -93,6 +93,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (mczbase.ctmedia_relationship.auto_table = 'cataloged_item')
+		group by count(*) ct,flat.collection_object_id, 'Cataloged item' as type 
 		UNION
 		SELECT count(*) ct, collecting_event.collecting_event_id, 'Collecting event' as type 
 		from media_relations
@@ -101,6 +102,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'collecting_event'
+		group by count(*) ct,collecting_event.collecting_event_id, 'Collecting event' as type 
 		UNION
 		SELECT count(*) ct, loan.transaction_id, 'Loan' as type 
 		from loan
@@ -110,6 +112,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'loan'
+		group by count(*) ct, loan.transaction_id, 'Loan' as type 
 		UNION
 		select count(*) ct, agent_name.agent_id, 'Agent' as type
 		from agent_name
@@ -121,6 +124,7 @@
 		and mczbase.ctmedia_relationship.auto_table = 'agent'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
+		group by count(*) ct, agent_name.agent_id, 'Agent' as type
 		UNION
 		select count(*) ct, locality.locality_id, 'locality' as type
 		from locality
@@ -129,8 +133,9 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
+		group by count(*) ct, accn.transaction_id,'Accn' as type 
 		UNION
-		SELECT count(*) ct, accn.transaction_id,'Accn' as type 
+		SELECT count(*) ct, locality.locality_id, 'locality' as type
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations on accn.transaction_id = media_relations.related_primary_key
@@ -138,6 +143,7 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'accn'
+		group by count(*) ct, accn.transaction_id,'Accn' as type 
 	</cfquery>
 	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select SELECT count(*) ct, citation.publication_id "cit", identification.scientific_name as wlabel
