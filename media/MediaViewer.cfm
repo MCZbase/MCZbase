@@ -104,7 +104,7 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
 				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*), mr.media_relationship, ct.label, ct.auto_table, ct.description
+					select count(*) as counter, mr.media_relationship, ct.label, ct.auto_table, ct.description
 					From
 						media_relations mr, ctmedia_relationship ct
 					WHERE 
@@ -116,7 +116,7 @@
 					group by mr.media_relationship, ct.label, ct.auto_table, ct.description
 					ORDER BY mr.media_relationship
 				</cfquery>
-				<cfif count(media_rel.media_relationship) gt 1>
+				<cfif media_rel.counter gt 1>
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
