@@ -100,7 +100,7 @@
 <cfquery name="speccount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) as specct from spec	
 </cfquery>
-#specct#
+#speccount.specct#
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
