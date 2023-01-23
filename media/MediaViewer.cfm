@@ -128,7 +128,7 @@
 								</div>
 							</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
-							<cfif media_rel.RecordCount gt 1>
+							<cfif media_rel.RecordCount gt 0>
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -152,6 +152,7 @@
 													</cfif>
 													<cfset i= 1>
 													<!---thumbnails added below--->
+													<cfif relm.RecordCount gt 1>
 													<cfloop query="relm">
 														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 															<cfif len(media.media_id) gt 0>
@@ -174,6 +175,7 @@
 														</div>
 														<cfset i=i+1>
 													</cfloop>
+													</cfif>
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
