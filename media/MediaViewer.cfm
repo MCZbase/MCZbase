@@ -97,9 +97,7 @@
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>
-<cfquery name="speccount" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(*) as specct from (select PK from spec where PK is not null)	
-</cfquery>
+
 
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
