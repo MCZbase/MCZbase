@@ -73,7 +73,7 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
 		UNION
-		select agent.agent_id as pk, agent_name.agent_name as wlabel
+		select agent.agent_id as pk, 'Agent related' as wlabel
 		from agent_name
 		left join agent on agent_name.AGENT_ID = agent.agent_id
 		left join media_relations on agent_name.agent_id = media_relations.related_primary_key
