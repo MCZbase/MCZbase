@@ -135,7 +135,7 @@
 								</div>
 							</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
-							<cfif spec.RecordCount gt 1>
+							<cfif media.RecordCount gt 1>
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
