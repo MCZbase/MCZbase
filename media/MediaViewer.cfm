@@ -42,11 +42,11 @@
 		and mczbase.ctmedia_relationship.media_relationship like '%cataloged_item%'
 		and mczbase.ctmedia_relationship.auto_table != 'ledger'
 		UNION
-		select collecting_event_id as pk, collecting_event.verbatim_locality as wlabel
-		from media_relations
-			left join collecting_event on related_primary_key = collecting_event_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		 left join media on media_relations.media_id = media.media_id
+		select flat.collecting_event_id as pk, flat.collecting_event.verbatim_locality as wlabel
+		from media_relations mr
+			left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on mr.related_primary_key = flat.collecting_event_id
+			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = mr.media_relationship
+		 left join media on mr.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship = 'shows collecting_event'
 		UNION
