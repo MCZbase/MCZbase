@@ -140,7 +140,7 @@
 		and mczbase.ctmedia_relationship.auto_table = 'accn'
 	</cfquery>
 	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select SELECT count(*) ct, citation.publication_id "cit", identification.scientific_name as wlabel
+		select count(*) ct, citation.publication_id "cit", identification.scientific_name as wlabel
 		from cataloged_item
 		left join citation on cataloged_item.collection_object_id = citation.collection_object_id
 		left join identification on identification.collection_object_id = citation.collection_object_ID
