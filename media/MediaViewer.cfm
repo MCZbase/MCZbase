@@ -163,7 +163,6 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.auto_table = 'locality'
 	</cfquery>
-
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -206,7 +205,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records 
+													Related Media Records #uses.type# 
 												</li>
 											</ul>
 										</div>
