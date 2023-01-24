@@ -1442,7 +1442,7 @@ limitations under the License.
 											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, "id_#id#"); 
 										} else {
 											if ($("###id#").val() == "") { 
-												deleteAttribute($("##id_#id#").val(),"#getMCZAttributes.publication_attribute#" reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
+												deleteAttribute($("##id_#id#").val(),"#getMCZAttributes.publication_attribute#", reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 											} else {  
 												saveAttribute($("##id_#id#").val(), "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 											}
