@@ -1438,7 +1438,7 @@ limitations under the License.
 									$('###id#').change(function(event){ 
 										console.log($('###id#').val()); 
 										$('##attributeControlsFeedbackDiv').html("saving...");
-										if ($("##id_#id#").val()) = "") {  
+										if ($("##id_#id#").val() == "") {  
 											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, "id_#id#"); 
 										} else {
 											if ($("###id#").val() == "") { 
