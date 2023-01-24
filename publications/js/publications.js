@@ -745,8 +745,9 @@ function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control
  *  @param authorNameControl the id for a page element that can contain an agent name.
  *  @param authorNameIdControl the id of a hidden inmpt to hold the selected agent_name_id for the desired authorship form of the name
  *  @param authorshipPosition 1, >1 for first or second for the author position form for which to find an author name.
+ *  @param role author or editor.
  */
-function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, agentId, authorNameControl, authorNameIdControl, authorshipPosition) { 
+function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, agentId, authorNameControl, authorNameIdControl, authorshipPosition, role) { 
 	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
 		$('#'+idControl).val(agentId);
@@ -806,7 +807,7 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
 			// if result doesn't include the author name/id data, will need to make another call at this point to getAgentNameOfType to find those values for the selected agent_id
-			if (authorshipPosition==1) { 
+			if (authorshipPosition==1 && role=='author') { 
 				$('#'+authorNameControl).html(result.item.firstauthor_name);
 				$('#'+authorNameIdControl).val(result.item.firstauthor_agent_name_id);
 			} else {

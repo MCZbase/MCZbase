@@ -446,8 +446,10 @@ limitations under the License.
 	<cfthread name="getAuthorEditorHtmlThread">
 		<cftry>
 			<cfif role EQ "authors">
+				<cfset targetRole = "author">
 				<cfset roleLabel = "Author">
 			<cfelseif role EQ "editors">
+				<cfset targetRole = "editor">
 				<cfset roleLabel = "Editor">
 			<cfelse>
 				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
@@ -584,7 +586,7 @@ limitations under the License.
 							<div id="addNameTypeDialogDiv"></div>
 							<script>
 								$(document).ready(function() {
-									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##is_first_position').val());
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##is_first_position').val(),"#targetRole#");
 								});
 							</script>
 						</div>
@@ -706,7 +708,7 @@ limitations under the License.
 							<div id="addNameTypeDialogDiv"></div>
 							<script>
 								$(document).ready(function() {
-									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val(),"#targetRole#");
 								});
 							</script>
 						</div>
