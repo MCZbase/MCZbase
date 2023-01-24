@@ -32,13 +32,12 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select flat.collection_object_id, flat.guid
-		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		select cataloged_item.collection_object_id, media_relations_id, media.media_id, media_relationship
+		from  cataloged_item
+		left join media_relations on cataloged_item.collection_object_id =media_relations.related_primary_key
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.media_relationship like 'shows cataloged_item'
+		and media_relationship = 'shows cataloged_item'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select c.publication_id "PK", p.publication_title as wlabel 
