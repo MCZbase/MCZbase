@@ -1778,7 +1778,7 @@ limitations under the License.
 							#atts.publication_attribute#: #atts.pub_att_value#
 							<input type="hidden" id="id_#atts.publication_attribute#" value="#atts.publication_attribute_id#">
 							<button class="btn btn-xs btn-secondary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
-							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,'#atts.publication_attribute#',reloadAttributes,null,'id_#atts.publication_attribute#');">Delete</button>
+							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,'#atts.publication_attribute#',reloadAllAttributes,null,'id_#atts.publication_attribute#');">Delete</button>
 						</li>
 						<div id="attEditDialog_#atts.publication_attribute_id#"></div>
 					</cfloop>
