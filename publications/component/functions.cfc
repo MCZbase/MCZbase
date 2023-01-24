@@ -638,12 +638,12 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
 			</cfif>
-			<cfif position EQ 1>
-				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
+			<cfif position EQ 1 AND targetRole EQ "author">
+				<!--- there is no first author if we are adding authors --->
 				<cfset newpos=1>
 				<cfset nameform="author">
 			<cfelse>
-				<!--- there is at least a first author if we are adding authors, or at least a first editor if we are adding editors --->
+				<!--- there is at least a first author if we are adding authors or we are adding editors --->
 				<cfset newpos=2>
 				<cfset nameform="second author">
 			</cfif>
