@@ -86,7 +86,7 @@
 		left join agent on agent_name.AGENT_ID = agent.agent_id
 		left join media_relations on agent.agent_id = media_relations.related_primary_key
 		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and media_relationship.media_relationship like '%agent%'
+		and media_relations.media_relationship like '%agent%'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>	
