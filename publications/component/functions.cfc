@@ -446,8 +446,10 @@ limitations under the License.
 	<cfthread name="getAuthorEditorHtmlThread">
 		<cftry>
 			<cfif role EQ "authors">
+				<cfset targetRole = "author">
 				<cfset roleLabel = "Author">
 			<cfelseif role EQ "editors">
+				<cfset targetRole = "editor">
 				<cfset roleLabel = "Editor">
 			<cfelse>
 				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
@@ -584,7 +586,7 @@ limitations under the License.
 							<div id="addNameTypeDialogDiv"></div>
 							<script>
 								$(document).ready(function() {
-									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##is_first_position').val());
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##is_first_position').val(),"#targetRole#");
 								});
 							</script>
 						</div>
@@ -638,12 +640,12 @@ limitations under the License.
 			<cfelse>
 				<cfthrow message="Add Author or Editor Dialog must be created with role='authors' or role='editors'. [#encodeForHtml(role)#] is not an acceptable value.">
 			</cfif>
-			<cfif position EQ 1>
-				<!--- there is no first author if we are adding authors, or no first editor if we are adding editors --->
+			<cfif position EQ 1 AND targetRole EQ "author">
+				<!--- there is no first author if we are adding authors --->
 				<cfset newpos=1>
 				<cfset nameform="author">
 			<cfelse>
-				<!--- there is at least a first author if we are adding authors, or at least a first editor if we are adding editors --->
+				<!--- there is at least a first author if we are adding authors or we are adding editors --->
 				<cfset newpos=2>
 				<cfset nameform="second author">
 			</cfif>
@@ -706,7 +708,7 @@ limitations under the License.
 							<div id="addNameTypeDialogDiv"></div>
 							<script>
 								$(document).ready(function() {
-									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val());
+									makeRichAuthorPicker('agent_name', 'agent_id', 'agent_name_icon', 'agent_view', null, 'author_name_control','author_name_id',$('##next_author_position').val(),"#targetRole#");
 								});
 							</script>
 						</div>
@@ -1343,7 +1345,7 @@ limitations under the License.
 				ORDER BY ordinal ASC
 			</cfquery>
 			<cfoutput>
-				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv"></output></h2>
+				<h2 class="h3">Attributes <output id="attributeControlsFeedbackDiv" class="small"></output></h2>
 				<div class="form-row mb-2">
 					<cfloop query="getAttributes">
 						<cfquery name="getDescription" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getDescription_result">
@@ -1371,22 +1373,28 @@ limitations under the License.
 	
 						<div class="col-12 col-md-4 pb-2">
 							<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
-							<label class="data-entry-label" for="#id#">#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span></label>
+							<label class="data-entry-label" for="#id#">
+								#getAttributes.publication_attribute# <span class="small">#getDescription.description#</span>
+							</label>
 							<cfset control = getPubAttributeControl(attribute = "#getAttributes.publication_attribute#",value="#value#",name="#getAttributes.publication_attribute#",id="#id#")>
 							#control#
+							<input type="hidden" id="id_#id#" value="#getAttValue.publication_attribute_id#">
 							<script>	
 								$('###id#').change(function(event){ 
 									console.log($('###id#').val()); 
-									$('##attributeControlsFeedbackDiv').html("saving...");
-									<cfif len(getAttValue.publication_attribute_id) GT 0>
+									$('##attributeControlsFeedbackDiv').html("Saving...");
+									$('##attributeControlsFeedbackDiv').addClass('text-warning');
+									$('##attributeControlsFeedbackDiv').removeClass('text-success');
+									$('##attributeControlsFeedbackDiv').removeClass('text-danger');
+									if ($("##id_#id#").val()=="") {  
+										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes,"id_#id#"); 
+									} else {
 										if ($("###id#").val() == "") { 
-											deleteAttribute("#getAttValue.publication_attribute_id#", reloadAllAttributes, "attributeControlsFeedbackDiv");
+											deleteAttribute($("##id_#id#").val(),"#getAttributes.publication_attribute#", reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 										} else {  
-											saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
+											saveAttribute($("##id_#id#").val(), "#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 										}
-									<cfelse>
-										saveNewAttribute("#publication_id#", "#getAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAllAttributes); 
-									</cfif>
+									}
 								});
 							</script>
 						</div>
@@ -1427,19 +1435,20 @@ limitations under the License.
 								<cfset id = "input_#REReplace(CreateUUID(), "[-]", "", "all")#" >
 								<cfset control = getPubAttributeControl(attribute = "#getMCZAttributes.publication_attribute#",value="#value#",name="#getMCZAttributes.publication_attribute#",id="#id#")>
 								#control#
+								<input type="hidden" id="id_#id#" value="#getAttValue.publication_attribute_id#">
 								<script>	
 									$('###id#').change(function(event){ 
 										console.log($('###id#').val()); 
 										$('##attributeControlsFeedbackDiv').html("saving...");
-										<cfif len(getAttValue.publication_attribute_id) GT 0>
+										if ($("##id_#id#").val() == "") {  
+											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, "id_#id#"); 
+										} else {
 											if ($("###id#").val() == "") { 
-												deleteAttribute("#getAttValue.publication_attribute_id#", reloadAllAttributes, "attributeControlsFeedbackDiv");
+												deleteAttribute($("##id_#id#").val(),"#getMCZAttributes.publication_attribute#", reloadAttributes, "attributeControlsFeedbackDiv","id_#id#");
 											} else {  
-												saveAttribute("#getAttValue.publication_attribute_id#", "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
+												saveAttribute($("##id_#id#").val(), "#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAttributes, null); 
 											}
-										<cfelse>
-											saveNewAttribute("#publication_id#", "#getMCZAttributes.publication_attribute#", $("###id#").val(), "attributeControlsFeedbackDiv", reloadAllAttributes); 
-										</cfif>
+										}
 									});
 								</script>
 							</div>
@@ -1769,8 +1778,9 @@ limitations under the License.
 					<cfloop query="atts">
 						<li>
 							#atts.publication_attribute#: #atts.pub_att_value#
+							<input type="hidden" id="id_#atts.publication_attribute#" value="#atts.publication_attribute_id#">
 							<button class="btn btn-xs btn-secondary" onclick="openEditAttributeDialog('attEditDialog_#atts.publication_attribute_id#','#atts.publication_attribute_id#','#atts.publication_attribute#',reloadAttributes);">Edit</button>
-							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,reloadAttributes,null);">Delete</button>
+							<button class="btn btn-xs btn-warning" onclick="deleteAttribute(#atts.publication_attribute_id#,'#atts.publication_attribute#',reloadAllAttributes,null,'id_#atts.publication_attribute#');">Delete</button>
 						</li>
 						<div id="attEditDialog_#atts.publication_attribute_id#"></div>
 					</cfloop>
@@ -1801,6 +1811,9 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfif len(publication_attribute_id) EQ 0>
+				<cfthrow message="Attempt to delete a publication attribute with an empty publication_attribute_id">
+			</cfif>
 			<cfquery name="lookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookup_result">
 				SELECT publication_id
 				FROM publication_attributes

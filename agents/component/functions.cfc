@@ -2066,6 +2066,7 @@ limitations under the License.
 			<cfset updatePerson = false>
 			<cfset insertPerson = false>
 			<cfset removePerson = false>
+			<cfset convertFromPerson = false>
 			<cfif lookupType.existing_agent_type IS "person" and provided_agent_type IS "person">
 				<!--- update existing person and agent records --->
 				<cfset updateAgent = true>
@@ -2081,16 +2082,21 @@ limitations under the License.
 				<cfset updateAgent = true>
 				<cfset updatePerson = false>
 				<cfset insertPerson = true>
-			<cfelse>
+			<cfelseif lookupType.existing_agent_type IS NOT "person" and provided_agent_type IS "person">
 				<!--- TODO: Support changing a person to a non-person --->
 				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
 				<cfset updateAgent = true>
 				<cfset removePerson = true>
+				<cfset convertFromPerson = true>
+			<cfelse>
+				<!--- Catch errors --->
+				<cfthrow message="unknown/unsupported conversion types">
 			</cfif>
 			<cfif updateAgent>
 				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE agent SET
 						edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#vetted#'>
+						,agent_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#provided_agent_type#'>
 						<cfif len(#biography#) gt 0>
 							, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
 						<cfelse>
@@ -2271,6 +2277,115 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- Convert a person agent into a non-person agent
+ @param agent_id the agent for whom to add an agent ranking
+ @param new_agent_type the agent_type to convert the person to
+ @return json structure with status=changed and id=agent_id of the agent, 
+   or http 500 status on an error.
+--->
+<cffunction name="convertFromPerson" access="remote">
+	<cfargument name="agent_id" type="numeric" required="yes">
+	<cfargument name="new_agent_type" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfif NOT listcontainsnocase(session.roles,"manage_agents")>
+				<cfthrow message="Not Authorized">
+			</cfif>
+			<cfquery name="checkType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkType_result">
+				SELECT agent_type 
+				FROM agent
+				WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<cfif checkType.recordcount NEQ 1 OR checkType.agent_type NEQ "person" >
+				<cfthrow message="Unable to convert, agent not found or already not a person.">
+			</cfif>
+			<cfquery name="getPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPerson_result">
+				SELECT
+					PREFIX,
+					LAST_NAME,
+					FIRST_NAME,
+					MIDDLE_NAME,
+					SUFFIX,
+					nvl(birth_date,to_char(BIRTH_DATE_DATE,'yyyy-mm-dd')) as birth,
+					nvl(death_date,to_char(DEATH_DATE_DATE,'yyyy-mm-dd')) as death
+				FROM person
+				WHERE person_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+			</cfquery>
+			<cfif getPerson.recordcount EQ 0 >
+				<!--- error case, agent typed as person, but with no person record, allow change --->					
+				<cfquery name="updateType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateType_result">
+					UPDATE agent 
+					SET agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_agent_type#">
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+			<cfelse>
+				<!--- normal case extract data from person table, store in agent, then change agent type --->
+				<cfloop query="getPerson">
+					<cfset name = "#prefix# #first_name# #middle_name# #last_name# #suffix#">
+					<cfset name = trim(replace(name,"  "," ", "all"))>
+					<!--- add the assembled parts of the name in the person record as an aka agent name --->
+					<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addName_result">
+						INSERT into agent_name (
+							agent_id, 
+							agent_name_type,
+							agent_name,
+							agent_name_id
+						) values (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+							'aka',
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
+							SQ_AGENT_NAME_ID.nextval
+						)
+					</cfquery>
+					<!--- store birth/death dates in remarks, with indication of comversion from person record ---->
+					<cfset remark = "Agent converted from agent of type person with name [#name#]">
+					<cfif len(birth) GT 0>
+						<cfset remark = "#remark# Birth Date [#birth#]">
+					</cfif>
+					<cfif len(death) GT 0>
+						<cfset remark = "#remark# Death Date [#death#]">
+					</cfif>
+					<cfset remark="#remark#.">
+					<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgent_result">
+						UPDATE agent
+						SET agent_remarks = nvl2(agent_remarks, agent_remarks||'; ' , '') || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">>
+						WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+					</cfquery>
+				</cfloop>
+				<cfquery name="updateType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateType_result">
+					UPDATE agent 
+					SET agent_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_agent_type#">
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<cfif updateType_result.recordcount NEQ 1>
+					<cfthrow message="Error setting new type on agent.">
+				</cfif>
+				<cfquery name="removePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="removePerson_result">
+					DELETE from person
+					WHERE agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<cfif removePerson_result.recordcount NEQ 1>
+					<cfthrow message="Error deleting person record for agent.">
+				</cfif>
+			</cfif>
+			<cftransaction action="commit">
+			<cfset row = StructNew()>
+			<cfset row["status"] = "changed">
+			<cfset row["id"] = "#agent_id#">
+			<cfset data[1] = row>
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 <!--- Obtain the ranks for an agent 
  @param agent_id the agent for whom to retrieve the ranks
