@@ -31,7 +31,16 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-
+	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select flat.collection_object_id, flat.guid
+		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
+		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+		left join media on media_relations.media_id = media.media_id
+		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and mczbase.ctmedia_relationship.media_relationship like 'shows cataloged_item'
+		
+	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
@@ -41,11 +50,17 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship like 'shows cataloged_item'
 		UNION
+		select c.collection_object_id "PK", p.publication_type as wlabel 
+		from publication p, media_relations mr, citation c
+		where mr.RELATED_PRIMARY_KEY = p.publication_id 
+		and c.publication_id = p.publication_id
+		and c.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#">
+		UNION
 		select flat.collecting_event_id as pk, 'Collecting Event' as wlabel
 		from media_relations mr
-			left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on mr.related_primary_key = flat.collecting_event_id
-			left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = mr.media_relationship
-		 left join media on mr.media_id = media.media_id
+		left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on mr.related_primary_key = flat.collecting_event_id
+		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = mr.media_relationship
+		left join media on mr.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship = 'shows collecting_event'
 		UNION
