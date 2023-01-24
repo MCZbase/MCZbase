@@ -55,6 +55,7 @@
 		where mr.RELATED_PRIMARY_KEY = p.publication_id 
 		and c.publication_id = p.publication_id
 		and c.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#">
+		and mr.media_relationship like 'shows publication'
 		UNION
 		select flat.collecting_event_id as pk, 'Collecting Event' as wlabel
 		from media_relations mr
