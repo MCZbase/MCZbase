@@ -41,27 +41,23 @@
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select c.publication_id "PK", p.publication_title as wlabel 
-		from publication p, media_relations mr, citation c
-		where mr.RELATED_PRIMARY_KEY = p.publication_id 
-		and c.publication_id = p.publication_id
-		and c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#"> 
-		and mr.media_relationship = 'shows publication'
+		from publication p
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join citation c on c.publication_id = p.publication_id
+		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#"> 
+		and mr.media_relationship like '%publication%'
 		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.media_relationship = 'shows cataloged_item'
+		and media_relations.media_relationship like '%cataloged_item%'
 		UNION
-		select flat.collecting_event_id as pk, 'Collecting Event' as wlabel
+		select flat.collecting_event_id as pk, media_relations.media_relationship as wlabel
 		from media_relations mr
 		left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on mr.related_primary_key = flat.collecting_event_id
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = mr.media_relationship
-		left join media on mr.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.media_relationship = 'shows collecting_event'
+		and media_relations.media_relationship like '%collecting_event%'
 		UNION
 		select loan.transaction_id as pk, loan.loan_number as wlabel
 		from loan
@@ -70,33 +66,27 @@
 		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'loan'
+		and media_relations.media_relationship like '%loan%'
 		UNION
 		select accn.transaction_id as pk, accn.accn_number as wlabel
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations on accn.transaction_id = media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'accn'
+		where media_relations.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and media_relations.media_relationship like '%accn%'
 		UNION
 		select locality.locality_id as pk, locality.spec_locality as wlabel
 		from locality
 		left join media_relations on locality.locality_id = media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'locality'
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and media_relations.media_relationship like '%locality%'
 		UNION
 		select agent.agent_id as pk, agent_name.agent_name as wlabel
 		from agent_name
 		left join agent on agent_name.AGENT_ID = agent.agent_id
 		left join media_relations on agent.agent_id = media_relations.related_primary_key
-		left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-		left join media on media_relations.media_id = media.media_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and mczbase.ctmedia_relationship.auto_table = 'agent'
+		where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and media_relationship.media_relationship like '%agent%'
 		and agent_name.agent_name_type = 'preferred'
 		and media_relations.media_relationship <> 'created by agent'
 	</cfquery>	
