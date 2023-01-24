@@ -47,15 +47,15 @@
 		where c.collection_object_id =#collid.collection_object_id#
 		and mr.media_relationship like '%publication'
 		UNION
-		select flat.collection_object_id "PK", flat.guid as wlabel
-		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
-		left join media_relations mr on flat.collection_object_id = mr.related_primary_key
+		select ci.collection_object_id "PK", ci.cat_num as wlabel
+		from cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%cataloged_item'
 		UNION
-		select flat.collecting_event_id as pk, mr.media_relationship as wlabel
+		select ce.collecting_event_id as pk, mr.media_relationship as wlabel
 		from media_relations mr
-		left join <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat on mr.related_primary_key = flat.collecting_event_id
+		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%collecting_event'
 		UNION
