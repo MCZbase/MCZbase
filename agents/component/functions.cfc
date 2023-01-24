@@ -2341,7 +2341,7 @@ limitations under the License.
 					<cfif len(death) GT 0>
 						<cfset remark = "#remark# Death Date [#death#]">
 					</cfif>
-					<cfset remark="#remark#."
+					<cfset remark="#remark#.">
 					<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAgent_result">
 						UPDATE agent
 						SET agent_remarks = nvl2(agent_remarks, agent_remarks||'; ' , '') || <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#remark#">>
