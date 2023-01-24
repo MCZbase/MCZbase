@@ -2066,6 +2066,7 @@ limitations under the License.
 			<cfset updatePerson = false>
 			<cfset insertPerson = false>
 			<cfset removePerson = false>
+			<cfset convertFromPerson = false>
 			<cfif lookupType.existing_agent_type IS "person" and provided_agent_type IS "person">
 				<!--- update existing person and agent records --->
 				<cfset updateAgent = true>
@@ -2082,15 +2083,21 @@ limitations under the License.
 				<cfset updatePerson = false>
 				<cfset insertPerson = true>
 			<cfelse>
+			<cfelseif lookupType.existing_agent_type IS NOT "person" and provided_agent_type IS "person">
 				<!--- TODO: Support changing a person to a non-person --->
 				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
 				<cfset updateAgent = true>
 				<cfset removePerson = true>
+				<cfset convertFromPerson = true>
+			<cfelse>
+				<!--- Catch errors --->
+				<cfthrow message="unknown/unsupported conversion types">
 			</cfif>
 			<cfif updateAgent>
 				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					UPDATE agent SET
 						edited=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#vetted#'>
+						,agent_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#provided_agent_type#'>
 						<cfif len(#biography#) gt 0>
 							, biography = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#biography#'>
 						<cfelse>
