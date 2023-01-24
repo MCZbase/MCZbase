@@ -40,33 +40,33 @@
 		and media_relationship = 'shows cataloged_item'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select c.publication_id "PK", p.publication_title as wlabel 
+		select c.publication_id "PK", 'Publication' as wlabel 
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
 		where c.collection_object_id =#collid.collection_object_id#
 		and mr.media_relationship like '%publication'
 		UNION
-		select ci.collection_object_id "PK", ci.cat_num as wlabel
+		select ci.collection_object_id "PK", 'Cataloged Item' as wlabel
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%cataloged_item'
 		UNION
-		select ce.collecting_event_id as pk, mr.media_relationship as wlabel
+		select ce.collecting_event_id as pk, 'Collecting Event' as wlabel
 		from media_relations mr
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%collecting_event'
 		UNION
-		select loan.transaction_id as pk, loan.loan_number as wlabel
+		select loan.transaction_id as pk, 'Loan' as wlabel
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%loan'
 		UNION
-		select accn.transaction_id as pk, accn.accn_number as wlabel
+		select accn.transaction_id as pk, 'Accn' as wlabel
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
