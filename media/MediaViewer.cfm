@@ -45,7 +45,7 @@
 		from publication p, media_relations mr, citation c
 		where mr.RELATED_PRIMARY_KEY = p.publication_id 
 		and c.publication_id = p.publication_id
-		and c.collection_object_id = #collid.collection_object_id#
+		and c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#"> 
 		and mr.media_relationship like 'shows publication'
 		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
