@@ -39,9 +39,15 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship like 'shows cataloged_item'
-		
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select c.publication_id "PK", p.publication_title as wlabel 
+		from publication p, media_relations mr, citation c
+		where mr.RELATED_PRIMARY_KEY = p.publication_id 
+		and c.publication_id = p.publication_id
+		and c.collection_object_id = #collid.collection_object_id#
+		and mr.media_relationship like 'shows publication'
+		UNION
 		select flat.collection_object_id "PK", flat.guid as wlabel
 		from <cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif> flat
 		left join media_relations on flat.collection_object_id =media_relations.related_primary_key
@@ -49,13 +55,6 @@
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mczbase.ctmedia_relationship.media_relationship like 'shows cataloged_item'
-		UNION
-		select c.collection_object_id "PK", p.publication_type as wlabel 
-		from publication p, media_relations mr, citation c
-		where mr.RELATED_PRIMARY_KEY = p.publication_id 
-		and c.publication_id = p.publication_id
-		and c.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#">
-		and mr.media_relationship like 'shows publication'
 		UNION
 		select flat.collecting_event_id as pk, 'Collecting Event' as wlabel
 		from media_relations mr
