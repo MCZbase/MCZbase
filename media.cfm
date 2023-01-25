@@ -211,7 +211,7 @@
 				<cfset metadata = imageReader.getImageMetadata(0)>
 				[<cfdump var="#metadata#">]
 			<cfelse>
-				[#media.auto_path]#]
+				[#media.auto_path#]
 			</cfif>
 
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
