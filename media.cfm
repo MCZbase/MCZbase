@@ -211,7 +211,7 @@
 				<cfset imageReader.setInput(fileReader) >
 				<cfset metadata = imageReader.getImageMetadata(0)>
 				<cfset formatNames = metadata.getMetadataFormatNames()>
-				<cfloop list="formatNames" index="format">
+				<cfloop list="#formatNames#" index="format">
 					[<cfdump var="#metadata.getAsTree('#format#')#">]
 				</cfloop>
 			<cfelse>
