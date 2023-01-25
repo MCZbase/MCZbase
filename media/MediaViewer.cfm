@@ -91,6 +91,7 @@
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
 		OR mr.media_relationship = 'documents agent')
+		and mr.media_relationship not like '%ledger%'
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
