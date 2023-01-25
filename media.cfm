@@ -212,7 +212,7 @@
 				<cfset metadata = imageReader.getImageMetadata(0)>
 				<cfset formatNames = metadata.getMetadataFormatNames()>
 				<cfobject type="Java" class="javax.imageio.metadata.IIOMetadataNode" name="metadataNode">
-				<cfobject type="Java" class="org.w3c.dom.NodeList" name="childNodes">
+				<cfobject type="Java" class="org.w3c.dom.NodeList" name="children">
 				<cfobject type="Java" class="org.w3c.dom.NamedNodeMap" name="attributeNodes">
 				<cfloop array="#formatNames#" index="format">
 					<cfset node = metadata.getAsTree('#format#')>
