@@ -215,8 +215,8 @@
 				<cfobject type="Java" class="org.w3c.dom.NodeList" name="childNodes">
 				<cfloop array="#formatNames#" index="format">
 					<cfset node = metadata.getAsTree('#format#')>
-					[#node.getNodeName()#][#node.getNodeValue#]
-					<cfset children = node.getChildNodes>
+					[#node.getNodeName()#][#node.getNodeValue()#]
+					<cfset children = node.getChildNodes()>
 					[<cfdump var="#children#">]
 				</cfloop>
 			<cfelse>
