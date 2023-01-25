@@ -137,10 +137,9 @@
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id, mczbase.ctmedia_relationship.media_relationship as rel
+															select distinct media.media_id
 															from media_relations 
 															left join media on media_relations.media_id = media.media_id 
-															left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
 														</cfquery>
 													</cfif>
