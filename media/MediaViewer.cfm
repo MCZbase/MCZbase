@@ -90,6 +90,7 @@
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship like '%agent%'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'created by agent'
 		
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
