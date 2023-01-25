@@ -89,7 +89,7 @@
 		UNION
 		select agent.agent_id as pk, 'Agent Name' as wlabel
 		from agent_name an
-		left join agent on an.AGENT_ID = agent.agent_id
+		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%agent%'
