@@ -90,9 +90,7 @@
 		where mr.media_id = #media_id#
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship <> 'created by agent'
-		and (mr.media_relationship = 'shows handwriting of agent' 
-		OR mr.media_relationship = 'shows agent' 
-		OR mr.media_relationship = 'documents agent')
+		and mr.media_relationship like '%agent%'
 		
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
@@ -144,6 +142,8 @@
 															from media_relations 
 															left join media on media_relations.media_id = media.media_id 
 															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
+															and media_relations.media_relationship <> 'created by agent'
+															and media_relations.media_relationship <> 'ledger entry for cataloged_item'
 														</cfquery>
 													</cfif>
 													<cfset i= 1>
