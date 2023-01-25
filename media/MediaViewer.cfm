@@ -59,27 +59,27 @@
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%cataloged_item'
+		and mr.media_relationship = 'shows cataloged_item'
 		UNION
 		select ce.collecting_event_id as pk, 'Collecting Event' as wlabel
 		from media_relations mr
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%collecting_event'
+		and mr.media_relationship = 'shows collecting_event'
 		UNION
 		select loan.transaction_id as pk, 'Loan' as wlabel
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%loan'
+		and mr.media_relationship = 'documents loan'
 		UNION
 		select accn.transaction_id as pk, 'Accn' as wlabel
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
 		where mr.media_id= #media_id#
-		and mr.media_relationship like '%accn'
+		and mr.media_relationship = 'documents accn'
 		UNION
 		select locality.locality_id as pk, 'Locality' as wlabel
 		from locality
