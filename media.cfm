@@ -217,6 +217,11 @@
 					<cfset node = metadata.getAsTree('#format#')>
 					[#node.getNodeName()#][#node.getNodeValue()#]
 					<cfset children = node.getChildNodes()>
+					<cfset childCount = children.getLength()>
+					[children=#childcount#]
+					<cfloop from="1" to="#childCount#" index="i">
+						[<cfdump var="#children.item(i)#">]
+					</cfloop>
 					[<cfdump var="#children#">]
 					[<cfdump var="#node.getAttributes()#">]
 				</cfloop>
