@@ -97,17 +97,11 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
 				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(*) as counter, mr.media_relationship, ct.label, ct.auto_table, ct.description
-					From
-						media_relations mr, ctmedia_relationship ct
-					WHERE 
-						mr.media_relationship = ct.media_relationship 
-					and
-						mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and mr.media_relationship <> 'created by agent'
-					having count(*) > 0
-					group by mr.media_relationship, ct.label, ct.auto_table, ct.description
-					ORDER BY mr.media_relationship
+					select media_relationship From media_relations
+					WHERE media_relationship
+					and media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and media_relationship <> 'created by agent'
+					ORDER BY media_relationship
 				</cfquery>
 					<div class="row">
 						<div class="col-12 my-3">
