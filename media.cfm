@@ -211,8 +211,13 @@
 				<cfset imageReader.setInput(fileReader) >
 				<cfset metadata = imageReader.getImageMetadata(0)>
 				<cfset formatNames = metadata.getMetadataFormatNames()>
-				<cfloop list="#formatNames#" index="format">
-					[<cfdump var="#metadata.getAsTree('#format#')#">]
+				<cfobject type="Java" class="javax.imageio.metadata.IIOMetadataNode" name="metadataNode">
+				<cfobject type="Java" class="org.w3c.dom.NodeList" name="childNodes">
+				<cfloop array="#formatNames#" index="format">
+					<cfset node = metadata.getAsTree('#format#')>
+					[#node.getNodeName()#][#node.getNodeValue#]
+					<cfset children = node.getChildNodes>
+					[<cfdump var="#children#">]
 				</cfloop>
 			<cfelse>
 				[#media.auto_host#]
