@@ -206,9 +206,9 @@
 				<cfobject type="Java" class="javax.imageio.metadata.IIOMetadata" name="metadata">
     			<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
-  				<cfset fileReader = fileReaderProxy.init(JavaCast("java.io.file",targetFile)) >
+  				<cfset fileReader = fileReaderProxy.init(targetFile) >
 				<cfset imageReader = imageReaderClass.getImageReadersByMIMEType(JavaCast("string",media.mime_type)).next() >
-				<cfset imageReader = imageReader.setInput(JavaCast("javax.imageio.stream.FileImageInputStream",fileReader)) >
+				<cfset imageReader = imageReader.setInput(fileReader) >
 				<cfset metadata = imageReader.getImageMetadata(0)>
 				[<cfdump var="#metadata#">]
 			<cfelse>
