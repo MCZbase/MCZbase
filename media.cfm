@@ -155,7 +155,18 @@
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+		SELECT MEDIA_ID, 
+			MEDIA_URI, 
+			MIME_TYPE, 
+			MEDIA_TYPE, 
+			PREVIEW_URI, 
+			MEDIA_LICENSE_ID, 
+			MASK_MEDIA_FG,
+			AUTO_PROTOCOL,
+			AUTO_HOST,
+			AUTO_PATH,
+			AUTO_FILENAME,
+			AUTO_EXTENSION, 
 			mczbase.get_media_descriptor(media_id) as alttag 
 		FROM media 
 		WHERE media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
@@ -185,7 +196,21 @@
 				Edit Media 
 			 	<img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]">
 			</h2>
-  
+			<cfif auto_path = "mczbase.mcz.harvard.edu">
+				<cfset fileProxy = CreateObject("java","java.io.File") >
+				<cfset fileReaderProxy = CreateObject("java","javax.imageio.stream.FileImageInputStream") >
+				<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
+				<cfset imageReaderProxy = CreateObject("java","java.imageio.ImageReader") >
+				<cfobject type="Java" class="javax.imageio.ImageReader" name="imageReader">
+				<cfobject type="Java" class="javax.imageio.metadata.IIOMetadata" name="metadata">
+    			<cfset targetFileName = "#Application.webDirectory#/#auto_path##auto_filename#" >
+				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
+  				<cfset fileReader = fileReaderProxy.init(JavaCast("java.io.file",targetFile)) >
+				<cfset imageReader = imageReaderProxy.init(JavaCast("javax.imageio.stream.FileImageInputStream",fileReader)) >
+				<cfset metadata = imageReader.getImageMetadata(0)>
+				<cfdump var="#metadata#">	
+			</cfif>
+
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
     <form name="editMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveEdit">
