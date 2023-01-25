@@ -53,7 +53,7 @@
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
-		and mr.media_relationship like '%publication%'
+		and mr.media_relationship = 'shows publication'
 		UNION
 		select ci.collection_object_id as pk, 'Cataloged Item' as wlabel
 		from cataloged_item ci
