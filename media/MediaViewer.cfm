@@ -48,18 +48,23 @@
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and mr.media_relationship like '%publication%'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'created by agent'
 		UNION
 		select ci.collection_object_id as pk, 'cataloged_item' as wlabel
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%cataloged_item%'
+		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'created by agent'
 		UNION
 		select ce.collecting_event_id as pk, 'collecting_event' as wlabel
 		from media_relations mr
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 		where mr.media_id = #media_id#
 		and mr.media_relationship = 'shows collecting_event'
+		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'created by agent'
 		UNION
 		select loan.transaction_id as pk, 'Loan' as wlabel
 		from loan
@@ -67,6 +72,8 @@
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
 		where mr.media_id = #media_id#
 		and mr.media_relationship like '%loan%'
+		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'created by agent'
 		UNION
 		select accn.transaction_id as pk, 'accn' as wlabel
 		from accn
@@ -74,13 +81,17 @@
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
 		where mr.media_id= #media_id#
 		and mr.media_relationship like '%accn%'
+		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'created by agent'
 		UNION
 		select locality.locality_id as pk, 'locality' as wlabel
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
 		where mr.media_id = #media_id#
-		and (mr.media_relationship like '%locality%' 
-		)
+		and mr.media_relationship like '%locality%' 
+		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'created by agent'
+		
 		UNION
 		select agent.agent_id as pk, 'agent' as wlabel
 		from agent_name an
