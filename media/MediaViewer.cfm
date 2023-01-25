@@ -89,6 +89,7 @@
 		where mr.media_id = #media_id#
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship like '%agent%'
+		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
