@@ -46,6 +46,7 @@
 		left join citation c on c.publication_id = p.publication_id
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and mr.media_relationship = 'shows publication'
+		and mr.media_relationship not like '%ledger%'
 		UNION
 		select ci.collection_object_id as pk, 'Cataloged Item' as wlabel
 		from cataloged_item ci
@@ -81,7 +82,7 @@
 		OR mr.media_relationship = 'documents locality' 
 		)
 		UNION
-		select agent.agent_id as pk, 'Agent Name' as wlabel
+		select agent.agent_id as pk, 'Shows Agent' as wlabel
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
@@ -90,7 +91,6 @@
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
 		OR mr.media_relationship = 'documents agent')
-		and mr.media_id <> 36168
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
