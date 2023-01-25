@@ -97,9 +97,9 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
 				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select media_relationship From media_relations
-					WHERE media_relationship
-					and media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					SELECT media_relationship 
+					FROM media_relations
+					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship <> 'created by agent'
 					ORDER BY media_relationship
 				</cfquery>
