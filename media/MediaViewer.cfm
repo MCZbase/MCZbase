@@ -31,6 +31,7 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+		#publinks#
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select cataloged_item.collection_object_id, media_relations_id, media.media_id, media_relationship
 		from  cataloged_item
@@ -48,7 +49,7 @@
 		and mr.media_relationship = 'shows publication'
 		and mr.media_relationship not like '%ledger%'
 		UNION
-		select ci.collection_object_id as pk, 'Cataloged Item' as wlabel
+		select ci.collection_object_id as pk, 'Shows Cataloged Item' as wlabel
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		where mr.media_id = #media_id#
