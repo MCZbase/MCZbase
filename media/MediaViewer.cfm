@@ -73,18 +73,18 @@
 		where mr.media_id= #media_id#
 		and mr.media_relationship like '%accn'
 		UNION
-		select locality.locality_id as pk, locality.spec_locality as wlabel
+		select locality.locality_id as pk, 'Locality' as wlabel
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%locality'
+		and mr.media_relationship like '%locality%'
 		UNION
-		select agent.agent_id as pk, an.agent_name as wlabel
+		select agent.agent_id as pk, 'Agent Name' as wlabel
 		from agent_name an
 		left join agent on an.AGENT_ID = agent.agent_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%agent'
+		and mr.media_relationship like '%agent%'
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship <> 'created by agent'
 	</cfquery>	
