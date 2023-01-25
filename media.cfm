@@ -218,6 +218,7 @@
 					[#node.getNodeName()#][#node.getNodeValue()#]
 					<cfset children = node.getChildNodes()>
 					[<cfdump var="#children#">]
+					[<cfdump var="#node.getAttributes()#">]
 				</cfloop>
 			<cfelse>
 				[#media.auto_host#]
