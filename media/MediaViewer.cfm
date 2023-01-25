@@ -96,6 +96,7 @@
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
 		OR mr.media_relationship = 'documents agent')
+		and media_id <> 36168
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
