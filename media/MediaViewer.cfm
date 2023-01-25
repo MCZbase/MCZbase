@@ -31,7 +31,6 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-		#publinks#
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select cataloged_item.collection_object_id, media_relations_id, media.media_id, media_relationship
 		from  cataloged_item
