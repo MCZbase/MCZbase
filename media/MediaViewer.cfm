@@ -42,7 +42,7 @@
 		and media_relationship <> 'ledger entry for cataloged_item'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select c.publication_id as pk, 'publication' as wlabel
+		select distinct c.publication_id as pk, mr.media_relations_id as wlabel
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
