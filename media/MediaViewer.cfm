@@ -85,7 +85,9 @@
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%locality%'
+		and (mr.media_relationship = 'shows locality' 
+		OR mr.media_relationship = 'documents locality' 
+		)
 		UNION
 		select agent.agent_id as pk, 'Agent Name' as wlabel
 		from agent_name an
