@@ -197,6 +197,7 @@
 			 	<img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]">
 			</h2>
 			<cfif media.auto_path EQ "mczbase.mcz.harvard.edu">
+				<h3>EXIF</h3>
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfset fileReaderProxy = CreateObject("java","javax.imageio.stream.FileImageInputStream") >
 				<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
@@ -208,7 +209,7 @@
   				<cfset fileReader = fileReaderProxy.init(JavaCast("java.io.file",targetFile)) >
 				<cfset imageReader = imageReaderProxy.init(JavaCast("javax.imageio.stream.FileImageInputStream",fileReader)) >
 				<cfset metadata = imageReader.getImageMetadata(0)>
-				<cfdump var="#metadata#">	
+				[<cfdump var="#metadata#">]
 			</cfif>
 
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
