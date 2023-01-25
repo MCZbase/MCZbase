@@ -110,6 +110,54 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 	});
 	confirmDialog.dialog('moveToTop');
 };
+/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
+ * types it as a jquery-ui modal dialog and displays it, invokes the specified callback 
+ * function when OK is pressed, or an alternative callback if canceled or closed.
+ *
+ * @param dialogText the text to place in the dialog.
+ * @prarm dialogTitle for the dialog header.
+ * @param okFunction callback function to invoke upon a press of the OK button.
+ * @param cancelFunction callback function to invoke upon a press of the Cancel button.
+ */
+function confirmOrCancelDialog(dialogText, dialogTitle, okFunction, cancelFunction) {
+	var confirmDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+		modal: true,
+		resizable: false,
+		draggable: true,
+		width: 'auto',
+		minHeight: 80,
+		title: dialogTitle,
+		buttons: {
+			OK: function () {
+				if (jQuery.type(okFunction)==='function') {
+					okFunction();
+				} 
+				cancelFunction = "";
+				$(this).dialog('destroy');
+			},
+			Cancel: function () {
+				if (jQuery.type(cancelFunction)==='function') {
+					cancelFunction();
+				} 
+				cancelFunction = "";
+				$(this).dialog('destroy');
+			}
+		},
+		close: function() {
+			if (jQuery.type(cancelFunction)==='function') {
+				cancelFunction();
+			} 
+			$(this).dialog( "destroy" );
+		},
+		open: function (event, ui) { 
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		} 
+	});
+	confirmDialog.dialog('moveToTop');
+};
 
 /** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
  * types it as a jquery-ui modal dialog styled as a warning and displays it, invokes 
