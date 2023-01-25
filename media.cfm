@@ -219,8 +219,9 @@
 					<cfset children = node.getChildNodes()>
 					<cfset childCount = children.getLength()>
 					[children=#childcount#]
-					<cfloop from="1" to="#childCount#" index="i">
-						[<cfdump var="#children.item(i)#">]
+					<cfloop from="0" to="#childCount-1#" index="i">
+						[#children.item(i).getNodeName()#]
+						[#children.item(i).getNodeValue()#]
 					</cfloop>
 					[<cfdump var="#children#">]
 					[<cfdump var="#node.getAttributes()#">]
