@@ -39,14 +39,15 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and media_relationship = 'shows cataloged_item'
 	</cfquery>
-	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name = "collspec" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select c.publication_id "PK", 'Publication' as wlabel 
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
 		where c.collection_object_id =#collid.collection_object_id#
-		and mr.media_relationship like '%publication'
-		UNION
+		and mr.media_relationship like '%publication%'
+	</cfquery>
+	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id "PK", 'Cataloged Item' as wlabel
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
