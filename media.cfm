@@ -225,8 +225,8 @@
 						[#children.item(i).getNodeValue()#]
 						<cset attributeNodes = children.item(i).getAttributes() >
 						<cfloop from="0" to="#childCount-1#" index="j">
-							[#children.item(i).item(j).getNodeName()#]
-							[#children.item(i).item(j).getNodeValue()#]
+							[#children.item(i).getAttributes().item(j).getNodeName()#]
+							[#children.item(i).getAttributes().item(j).getNodeValue()#]
 						</cfloop>
 					</cfloop>
 					<cset attributeNodes = node.getAttributes() >
