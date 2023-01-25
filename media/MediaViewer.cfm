@@ -49,6 +49,7 @@
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and mr.media_relationship like '%publication%'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and mr.media_relationship <> 'shows cataloged_item'
 		and mr.media_relationship <> 'created by agent'
 		UNION
 		select ci.collection_object_id as pk, 'cataloged_item' as wlabel
