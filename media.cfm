@@ -211,8 +211,9 @@
 				<cfset imageReader.setInput(fileReader) >
 				<cfset metadata = imageReader.getImageMetadata(0)>
 				<cfset formatNames = metadata.getMetadataFormatNames()>
-				[<cfdump var="#metadata#">]
-				[<cfdump var="#metadata.getAsTree('javax_imageio_1.0')#">]
+				<cfloop list="formatNames" index="format">
+					[<cfdump var="#metadata.getAsTree('#format#')#">]
+				</cfloop>
 			<cfelse>
 				[#media.auto_host#]
 			</cfif>
