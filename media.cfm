@@ -213,6 +213,7 @@
 				<cfset formatNames = metadata.getMetadataFormatNames()>
 				<cfobject type="Java" class="javax.imageio.metadata.IIOMetadataNode" name="metadataNode">
 				<cfobject type="Java" class="org.w3c.dom.NodeList" name="childNodes">
+				<cfobject type="Java" class="javax.imageio.metadata.IIONamedNodeMap" name="attributeNodes">
 				<cfloop array="#formatNames#" index="format">
 					<cfset node = metadata.getAsTree('#format#')>
 					[#node.getNodeName()#][#node.getNodeValue()#]
@@ -222,9 +223,18 @@
 					<cfloop from="0" to="#childCount-1#" index="i">
 						[#children.item(i).getNodeName()#]
 						[#children.item(i).getNodeValue()#]
+						<cset attributeNodes = children.item(i).getAttributes() >
+						<cfloop from="0" to="#childCount-1#" index="j">
+							[#children.item(i).item(j).getNodeName()#]
+							[#children.item(i).item(j).getNodeValue()#]
+						</cfloop>
 					</cfloop>
-					[<cfdump var="#children#">]
-					[<cfdump var="#node.getAttributes()#">]
+					<cset attributeNodes = node.getAttributes() >
+					<cfset attCount = attributeNodes.getLength()>
+					<cfloop from="0" to="#childCount-1#" index="j">
+						[#attributeNodes.item(j).getNodeName()#]
+						[#attributeNodes.item(j).getNodeValue()#]
+					</cfloop>
 				</cfloop>
 			<cfelse>
 				[#media.auto_host#]
