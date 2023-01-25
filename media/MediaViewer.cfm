@@ -89,11 +89,11 @@
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
 		where mr.media_id = #media_id#
 		and an.agent_name_type = 'preferred'
+		and mr.media_relationship <> 'created by agent'
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
 		OR mr.media_relationship = 'documents agent')
-		and mr.media_relationship not like '%ledger%'
-		and mr.media_relationship <> 'created by agent'
+		
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
