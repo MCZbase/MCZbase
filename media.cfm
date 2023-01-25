@@ -232,7 +232,7 @@
 					</cfloop>
 					<cset attributeNodes = node.getAttributes() >
 					<cfset attCount = attributeNodes.getLength()>
-					<cfloop from="0" to="#childCount-1#" index="j">
+					<cfloop from="0" to="#attCount-1#" index="j">
 						[#attributeNodes.item(j).getNodeName()#]
 						[#attributeNodes.item(j).getNodeValue()#]
 					</cfloop>
