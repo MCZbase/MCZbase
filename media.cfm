@@ -196,7 +196,7 @@
 				Edit Media 
 			 	<img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]">
 			</h2>
-			<cfif auto_path = "mczbase.mcz.harvard.edu">
+			<cfif auto_path EQ "mczbase.mcz.harvard.edu">
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfset fileReaderProxy = CreateObject("java","javax.imageio.stream.FileImageInputStream") >
 				<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
