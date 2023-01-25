@@ -68,7 +68,7 @@
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		and mr.media_relationship <> 'created by agent'
 		UNION
-		select loan.transaction_id as pk,  'Loan' as wlabel
+		select loan.transaction_id as pk, 'Loan' as wlabel
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
@@ -86,7 +86,7 @@
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		and mr.media_relationship <> 'created by agent'
 		UNION
-		select locality.locality_id as pk,  'locality' as wlabel
+		select locality.locality_id as pk, 'locality' as wlabel
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
 		where mr.media_id = #media_id#
@@ -176,7 +176,7 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
 																			<div class="px-0">
-																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# c.media_id#(media/#relm.media_id#)
+																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# (media/#relm.media_id#)
 																				</span> 
 																				#mediablock#
 																			</div>
