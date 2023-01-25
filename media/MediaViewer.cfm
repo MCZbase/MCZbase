@@ -39,14 +39,6 @@
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and media_relationship = 'shows cataloged_item'
 	</cfquery>
-<!---		<cfquery name = "collspec" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select c.publication_id 
-		from publication p
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-		left join citation c on c.publication_id = p.publication_id
-		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
-		and mr.media_relationship like '%publication%'
-	</cfquery>--->
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select c.publication_id as pk, 'Publication' as wlabel
 		from publication p
@@ -98,7 +90,7 @@
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
 		OR mr.media_relationship = 'documents agent')
-		and media_id <> 36168
+		and mr.media_id <> 36168
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
@@ -111,7 +103,7 @@
 					WHERE 
 						mr.media_relationship = ct.media_relationship 
 					and
-						mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#" list="yes">
+						mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and mr.media_relationship <> 'created by agent'
 					having count(*) > 0
 					group by mr.media_relationship, ct.label, ct.auto_table, ct.description
