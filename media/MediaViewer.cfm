@@ -32,12 +32,13 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select cataloged_item.collection_object_id, media_relations_id, media.media_id, media_relationship
+		select cataloged_item.collection_object_id
 		from  cataloged_item
 		left join media_relations on cataloged_item.collection_object_id =media_relations.related_primary_key
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and media_relationship = 'shows cataloged_item'
+		and (media_relationship = 'shows cataloged_item' OR media_relationship = 'shows publication')
+		and media_relationship <> 'ledger entry for cataloged_item'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select c.publication_id as pk, 'Publication' as wlabel
@@ -46,7 +47,7 @@
 		left join citation c on c.publication_id = p.publication_id
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and mr.media_relationship = 'shows publication'
-		and mr.media_relationship not like '%ledger%'
+		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select ci.collection_object_id as pk, 'Shows Cataloged Item' as wlabel
 		from cataloged_item ci
@@ -160,7 +161,9 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
 																			<div class="px-0">
-																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# (media/#relm.media_id#)</span> #mediablock#
+																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# (media/#relm.media_id#)
+																				</span> 
+																				#mediablock#
 																			</div>
 																		</div>
 																	</li>
