@@ -48,9 +48,9 @@
 		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
-		and mr.auto_table = 'publication'
-		and mr.auto_table <> 'cataloged_item'
-		and mr.auto_table <> 'agent'
+		and ct.auto_table = 'publication'
+		and ct.auto_table <> 'cataloged_item'
+		and ct.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select ci.collection_object_id as pk, ct.auto_table as wlabel
@@ -58,8 +58,8 @@
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-		and mr.auto_table = 'cataloged_item'
-		and mr.auto_table <> 'agent'
+		and ct.auto_table = 'cataloged_item'
+		and ct.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select ce.collecting_event_id as pk, ct.auto_table as wlabel
@@ -67,8 +67,8 @@
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-		and mr.auto_table = 'collecting_event'
-		and mr.auto_table <> 'agent'
+		and ct.auto_table = 'collecting_event'
+		and ct.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select loan.transaction_id as pk, ct.auto_table as wlabel
@@ -77,9 +77,9 @@
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-		and mr.auto_table = 'loan'
-		and mr.auto_table <> 'cataloged_item'
-		and mr.auto_table <> 'agent'
+		and ct.auto_table = 'loan'
+		and ct.auto_table <> 'cataloged_item'
+		and ct.auto_table <> 'agent'
 		UNION
 		select accn.transaction_id as pk, ct.auto_table as wlabel
 		from accn
@@ -87,9 +87,9 @@
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-		and mr.auto_table = 'accn'
-		and mr.auto_table <> 'cataloged_item'
-		and mr.auto_table <> 'agent'
+		and ct.auto_table = 'accn'
+		and ct.auto_table <> 'cataloged_item'
+		and ct.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select locality.locality_id as pk, ct.auto_table as wlabel
