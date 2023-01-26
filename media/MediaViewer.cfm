@@ -46,7 +46,7 @@
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
-		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
+		left join mczbase.ctmedia_relations ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and mr.auto_table = 'publication'
 		and mr.auto_table <> 'cataloged_item'
@@ -56,7 +56,7 @@
 		select ci.collection_object_id as pk, ct.auto_table as wlabel
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
-		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
+		left join mczbase.ctmedia_relations ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
 		and mr.auto_table = 'cataloged_item'
 		and mr.auto_table <> 'agent'
@@ -65,7 +65,7 @@
 		select ce.collecting_event_id as pk, ct.auto_table as wlabel
 		from media_relations mr
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
-		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
+		left join mczbase.ctmedia_relations ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
 		and mr.auto_table = 'collecting_event'
 		and mr.auto_table <> 'agent'
@@ -75,7 +75,7 @@
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
-		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
+		left join mczbase.ctmedia_relations ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
 		and mr.auto_table = 'loan'
 		and mr.auto_table <> 'cataloged_item'
@@ -85,7 +85,7 @@
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
-		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
+		left join mczbase.ctmedia_relations ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id= #media_id#
 		and mr.auto_table = 'accn'
 		and mr.auto_table <> 'cataloged_item'
@@ -95,7 +95,7 @@
 		select locality.locality_id as pk, ct.auto_table as wlabel
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
-		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
+		left join mczbase.ctmedia_relations ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
 		and mr.auto_table = 'locality' 
 		and mr.auto_table <> 'cataloged_item'
@@ -105,13 +105,12 @@
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
-		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
+		left join mczbase.ctmedia_relations ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
 		and an.agent_name_type = 'preferred'
 		and mr.auto_table = 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		and mr.media_relationship <> 'created by agent'
-		
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
