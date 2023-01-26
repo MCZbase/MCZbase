@@ -1612,12 +1612,12 @@ imgStyleClass=value
 			and m.media_URI not like '%nrs%'
 		</cfquery>
 		<cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select m.media_id as pk, publication_title, ct.media_relationship as wlabel
+			select m.media_id as pk, ct.media_relationship as wlabel
 			from media_relations mr  
 			left join media m on m.media_id = mr.media_id
-			left join citation c on c.publication_id = p.publication_id
+			left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
+			where flat.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
 			and ct.description = 'ledger'
 		</cfquery>
 		<cfloop query="media">
