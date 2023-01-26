@@ -40,26 +40,22 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
-	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select p.publication_id as pk, ct.auto_table as wlabel
+		<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select p.publication_id as pk, ct.media_relationship as wlabel
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and ct.auto_table = 'publication'
-		and ct.media_relationship <> 'ledger entry for cataloged_item'
-		and ct.auto_table <> 'agent'
-		and ct.auto_table <> 'ledger entry for cataloged_item'
-		UNION
+	</cfquery>
+	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.auto_table as wlabel
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
-		and ct.auto_table <> 'agent'
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select ce.collecting_event_id as pk, ct.auto_table as wlabel
 		from media_relations mr
@@ -67,8 +63,6 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'collecting_event'
-		and ct.auto_table <> 'agent'
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select loan.transaction_id as pk, ct.auto_table as wlabel
 		from loan
@@ -77,8 +71,6 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'loan'
-		and ct.auto_table <> 'cataloged_item'
-		and ct.auto_table <> 'agent'
 		UNION
 		select accn.transaction_id as pk, ct.auto_table as wlabel
 		from accn
@@ -87,9 +79,6 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'accn'
-		and ct.auto_table <> 'cataloged_item'
-		and ct.auto_table <> 'agent'
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
 		select locality.locality_id as pk, ct.auto_table as wlabel
 		from locality
@@ -97,8 +86,6 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'locality' 
-		and ct.auto_table <> 'cataloged_item'
-		and ct.auto_table <> 'agent'
 		UNION
 		select agent.agent_id as pk, ct.auto_table as wlabel
 		from agent_name an
@@ -108,7 +95,6 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and an.agent_name_type = 'preferred'
 		and ct.auto_table = 'agent'
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		and mr.media_relationship <> 'created by agent'
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
@@ -155,15 +141,25 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id
-															from media_relations mr
-															left join media on mr.media_id = media.media_id
-															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
-															and mr.media_relationship <> 'created by agent'
-														</cfquery>
-													</cfif>
+														<cfif spec.wlabel = 'shows publication'>
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																select distinct media.media_id, mr.media_relationship
+																from media_relations mr
+																left join media on mr.media_id = media.media_id
+																left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+																where mr.related_primary_key =14434
+																and mr.media_relationship = 'shows publication'
+															</cfquery>
+														<cfelse>
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																select distinct media.media_id
+																from media_relations mr
+																left join media on mr.media_id = media.media_id
+																left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+																where mr.related_primary_key = <cfqueryparam value=#pubs.pk# >
+																and mr.media_relationship <> 'created by agent'
+															</cfquery>
+														</cfif>
 													<cfset i= 1>
 													<!---thumbnails added below--->
 													<cfif relm.RecordCount gt 0>
