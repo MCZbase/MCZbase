@@ -1653,7 +1653,7 @@ imgStyleClass=value
 				and ct.description <> 'ledger'
 				and m.media_URI not like '%nrs%'
 				 UNION
-				select an.agent_name as pk, ct.label, mr.media_relationship as rel
+				select distinct an.agent_name as pk, mr.media_relationship,ct.Label as label, ct.auto_table
 				from agent_name an
 				left join media_relations mr on mr.related_primary_key = an.AGENT_ID
 				left join media m on m.media_id = mr.media_id
