@@ -1652,6 +1652,15 @@ imgStyleClass=value
 				and ct.description = 'publication'
 				and ct.description <> 'ledger'
 				and m.media_URI not like '%nrs%'
+				 UNION
+				select an.agent_name as pk, ct.label, mr.media_relationship as rel
+				from agent_name an
+				left join media_relations mr on mr.related_primary_key = an.AGENT_ID
+				left join media m on m.media_id = mr.media_id
+				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+				where ct.AUTO_TABLE = 'agent'
+				and (agent_name = 'agent1.agent_name' OR agent_name = 'agent2.agent_name' OR agent_name = 'agent3.agent_name' OR agent_name = 'agent4.agent_name')
+				and agent_name_type = 'preferred'
 			</cfquery>
 		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
