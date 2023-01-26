@@ -1641,7 +1641,7 @@ imgStyleClass=value
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				UNION
-				select distinct mr.media_id as pk,flat.cat_num, mr.mediact.Label as label, mr.media_relationship, ct.auto_table
+				select distinct mr.media_id as pk,flat.cat_num,ct.Label as label, mr.media_relationship, ct.auto_table
 				from flat
 				left join media_relations mr on flat.collection_object_id = mr.related_primary_key
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
