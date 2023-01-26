@@ -1636,18 +1636,18 @@ imgStyleClass=value
 			</cfquery>
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct mr.media_id as pk, ct.Label as label, mr.media_relationship, ct.auto_table 
+				select distinct mr.media_id as pk, ct.description,ct.Label as label, mr.media_relationship, ct.auto_table 
 				from media_relations mr 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				UNION
-				select distinct mr.media_id as pk, ct.Label as label, mr.media_relationship, ct.auto_table
+				select distinct mr.media_id as pk,flat.cat_num, mr.mediact.Label as label, mr.media_relationship, ct.auto_table
 				from flat
 				left join media_relations mr on flat.collection_object_id = mr.related_primary_key
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
 				UNION
-				select distinct mr.media_id as pk,ct.Label as label, ct.media_relationship, ct.auto_table
+				select distinct mr.media_id as pk,p.publication_title,ct.Label as label, ct.media_relationship, ct.auto_table
 				from publication p
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 				left join media m on m.media_id = mr.media_id
