@@ -1636,7 +1636,7 @@ imgStyleClass=value
 			</cfquery>
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct ct.description as pk,mr.media_relationship, ct.description,ct.Label as label,  ct.auto_table 
+				select distinct ct.description as pk,mr.media_relationship, ct.Label as label, ct.auto_table 
 				from media_relations mr 
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
