@@ -40,15 +40,6 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
-<!---		<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select p.publication_id as pk, ct.media_relationship as wlabel
-		from publication p
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-		left join citation c on c.publication_id = p.publication_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
-		and ct.auto_table = 'publication'
-	</cfquery>--->
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.media_relationship as wlabel
 		from publication p
@@ -157,6 +148,7 @@
 															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 															and mr.media_relationship <> 'created by agent'
+															and media.media_id <> 36168
 														</cfquery>
 													</cfif>
 													<cfset i= 1>
