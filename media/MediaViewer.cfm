@@ -57,6 +57,7 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and ct.auto_table = 'publication'
+		and ct.description <> 'ledger'
 		UNION
 		select ci.collection_object_id as pk, ct.auto_table as wlabel
 		from cataloged_item ci
@@ -154,8 +155,7 @@
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-															where mr.related_primary_key = <cfif spec.wlabel eq 'shows publication'>
-															<cfqueryparam value=#pubs.pk#><cfelse><cfqueryparam value=#spec.pk# ></cfif>
+															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 															and mr.media_relationship <> 'created by agent'
 														</cfquery>
 													</cfif>
