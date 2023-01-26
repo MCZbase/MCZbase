@@ -1636,15 +1636,18 @@ imgStyleClass=value
 			</cfquery>
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select mr.media_id as pk, mr.media_relationship as rel 
+				select mr.media_id as pk, ct.label as label, mr.media_relationship as rel 
 				from media_relations mr 
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				UNION
-				select mr.media_id as pk, mr.media_relationship from flat, media_relations mr
+				select mr.media_id as pk, ct.label as label, mr.media_relationship as rel
+				from flat
+				left join media_relations mr on flat.collection_object_id = mr.related_primary_key
+				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
-				and flat.collection_object_id = mr.related_primary_key
+				and 
 				UNION
-				select mr.media_id as pk, ct.media_relationship as rel
+				select mr.media_id as pk,ct.label as label, ct.media_relationship as rel
 				from publication p
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 				left join media m on m.media_id = mr.media_id
@@ -1654,7 +1657,7 @@ imgStyleClass=value
 				and ct.description = 'publication'
 				and ct.description <> 'ledger'
 				and m.media_URI not like '%nrs%'
-				mr.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				ORDER BY mr.media_relationship
 			</cfquery>
 		
