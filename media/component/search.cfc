@@ -1656,8 +1656,6 @@ imgStyleClass=value
 				and ct.description = 'publication'
 				and ct.description <> 'ledger'
 				and m.media_URI not like '%nrs%'
-				mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				ORDER BY mr.media_relationship
 			</cfquery>
 		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
