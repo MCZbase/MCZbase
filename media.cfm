@@ -216,19 +216,21 @@
 				<cfobject type="Java" class="org.w3c.dom.NamedNodeMap" name="attributeNodes">
 				<cfloop array="#formatNames#" index="format">
 					<cfset node = metadata.getAsTree('#format#')>
-					[#node.getNodeName()#][#node.getNodeValue()#]
+					[#node.getNodeName()#][#node.getNodeValue()#][#node.getUserObject()#]
 					<cfset children = node.getChildNodes()>
 					<cfset childCount = children.getLength()>
 					[children=#childcount#]
 					<cfloop from="0" to="#childCount-1#" index="i">
 						[#children.item(i).getNodeName()#]
 						[#children.item(i).getNodeValue()#]
+						[#children.item(i).getUserObject()#]
 						<cfset attributeNodes = children.item(i).getAttributes() >
 						[#attributeNodes.getLength()#]
 						<cfloop from="0" to="#attributeNodes.getLength()-1#" index="j">
 							[#children.item(i).getAttributes().item(j).getNodeName()#]
 							[#children.item(i).getAttributes().item(j).getNodeValue()#]
 						</cfloop>
+						[subchildren=#children.item(i).getChildNodes().getLength()#]
 					</cfloop>
 					<cset attributeNodes = node.getAttributes() >
 					<cfset attCount = attributeNodes.getLength()>
