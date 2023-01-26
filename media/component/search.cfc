@@ -1659,7 +1659,7 @@ imgStyleClass=value
 				left join media m on m.media_id = mr.media_id
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where ct.AUTO_TABLE = 'agent'
-				and agent_name = any(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agent1.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agent2.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agent3.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agent4.agent_name#>)
+				and agent_name = any(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents1.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents2.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents3.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents4.agent_name#>)
 				and agent_name_type = 'preferred'
 			</cfquery>
 		
