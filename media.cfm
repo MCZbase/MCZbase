@@ -205,8 +205,9 @@
     			<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
 				<cfset metadata = imageMetadataReader.readMetadata(targetFile) >
+				<cfset assembledString = metadataExtractor.extractToString(metadata) >
 				[#metadata.toString()#]
-				[#metadataExtractor.extractToString(metadata)#]
+				[#assembledString#]
 			<cfelse>
 				[#media.auto_host#]
 			</cfif>
