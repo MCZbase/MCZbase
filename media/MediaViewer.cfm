@@ -50,7 +50,7 @@
 		and ct.auto_table = 'publication'
 		and ct.media_relationship <> 'ledger entry for cataloged_item'
 		and ct.auto_table <> 'agent'
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
+		and ct.auto_table <> 'ledger entry for cataloged_item'
 		UNION
 		select ci.collection_object_id as pk, ct.auto_table as wlabel
 		from cataloged_item ci
