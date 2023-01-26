@@ -155,7 +155,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfloop query="spec">
-													<cfif len(spec.pk) gt 0 and spec.wlabel neq 'publication'>
+													<cfif len(spec.pk) gt 0 and spec.wlabel eq 'publication'>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
