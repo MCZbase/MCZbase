@@ -156,7 +156,7 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0 and spec.wlabel eq 'publication'>
-							<!---							<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
@@ -166,7 +166,7 @@
 															and mr.media_relationship <> 'cataloged_item'
 															and ct.auto_table = '#spec.wlabel#'
 														</cfquery>
-													<cfelse>--->
+													<cfelse>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -179,7 +179,7 @@
 													</cfif>
 													<cfset i= 1>
 													<!---thumbnails added below--->
-													<cfif relm.RecordCount gt 1>
+													<cfif relm.RecordCount gt 0>
 													<cfloop query="relm">
 														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 															<cfif len(media.media_id) gt 0>
