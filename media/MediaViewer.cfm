@@ -110,7 +110,7 @@
 		and an.agent_name_type = 'preferred'
 		and mr.auto_table = 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'created by agent' --- If created by agent is active, there is a potential of thousands of related images.
+		and mr.media_relationship <> 'created by agent'
 		
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
@@ -159,23 +159,23 @@
 													<cfif len(spec.pk) gt 0 and spec.auto_table neq 'publication'>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
-															from media_relations 
-															left join media on media_relations.media_id = media.media_id
-															left join ctmedia_relationship on media_relations.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
-															and media_relations.media_relationship <> 'created by agent'
-															and media_relations.media_relationship <> 'cataloged_item'
-															and ctmedia_relationship.auto_table = '#spec.wlabel#'
+															from media_relations mr
+															left join media on mr.media_id = media.media_id
+															left join ctmedia_relationship ct on ct.media_relationship = mr.media_relationship
+															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
+															and mr.media_relationship <> 'created by agent'
+															and mr.media_relationship <> 'cataloged_item'
+															and ct.auto_table = '#spec.wlabel#'
 														</cfquery>
 													<cfelse>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
-															from media_relations 
-															left join media on media_relations.media_id = media.media_id
-															left join ctmedia_relationship on media_relations.media_relationship = media_relations.media_relationship
-															where media_relations.related_primary_key = <cfqueryparam value=#spec.pk# >
-															and media_relations.media_relationship <> 'created by agent'
-															and ctmedia_relationship.auto_table = '#spec.wlabel#'
+															from media_relations mr
+															left join media on mr.media_id = media.media_id
+															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
+															and mr.media_relationship <> 'created by agent'
+															and ct.auto_table = '#spec.wlabel#'
 														</cfquery>
 													</cfif>
 													<cfset i= 1>
