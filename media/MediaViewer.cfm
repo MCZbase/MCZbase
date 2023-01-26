@@ -32,14 +32,13 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct cataloged_item.collection_object_id
-		from  cataloged_item
-		left join media_relations on cataloged_item.collection_object_id =media_relations.related_primary_key
-		left join media on media_relations.media_id = media.media_id
-		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and media_relationship = 'cataloged_item'
-		and media_relationship <> 'shows publication'
-		and media_relationship <> 'ledger entry for cataloged_item'
+		select distinct ci.collection_object_id
+		from  cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'cataloged_item'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.auto_table as wlabel
