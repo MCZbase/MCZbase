@@ -202,7 +202,7 @@
 				<cfobject type="Java" class="com.drew.imaging.ImageMetadataReader" name="imageMetadataReader">
 				<cfobject type="Java" class="com.drew.metadata.Metadata" name="metadata">
 				<cfobject type="Java" class="com.drew.metadata.Directory" name="metadataDirectory">
-				<cfobject type="Java" class="com.drew.metadata.Tag" name="tag">
+				<cfobject type="Java" class="com.drew.metadata.Tag" name="metadataTag">
     			<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
 				<cfset metadata = imageMetadataReader.readMetadata(targetFile) >
