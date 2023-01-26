@@ -163,7 +163,7 @@
 															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 															and mr.media_relationship <> 'created by agent'
-															and ct.auto_table = '#spec.wlabel#'
+												
 														</cfquery>
 													</cfif>
 													<cfset i= 1>
