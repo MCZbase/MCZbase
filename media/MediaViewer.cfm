@@ -37,73 +37,80 @@
 		left join media_relations on cataloged_item.collection_object_id =media_relations.related_primary_key
 		left join media on media_relations.media_id = media.media_id
 		where media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and media_relationship like '%cataloged_item%'
+		and media_relationship = 'cataloged_item'
 		and media_relationship <> 'shows publication'
 		and media_relationship <> 'ledger entry for cataloged_item'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select p.publication_id as pk, 'publication' as wlabel
+		select p.publication_id as pk, ct.auto_table as wlabel
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
+		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
-		and mr.media_relationship like '%publication%'
+		and mr.auto_table = 'publication'
+		and mr.auto_table <> 'cataloged_item'
+		and mr.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'shows cataloged_item'
-		and mr.media_relationship <> 'created by agent'
 		UNION
-		select ci.collection_object_id as pk, 'cataloged_item' as wlabel
+		select ci.collection_object_id as pk, ct.auto_table as wlabel
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%cataloged_item%'
+		and mr.auto_table = 'cataloged_item'
+		and mr.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'created by agent'
 		UNION
-		select ce.collecting_event_id as pk, 'collecting_event' as wlabel
+		select ce.collecting_event_id as pk, ct.auto_table as wlabel
 		from media_relations mr
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
+		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
-		and mr.media_relationship = 'shows collecting_event'
+		and mr.auto_table = 'collecting_event'
+		and mr.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'created by agent'
 		UNION
-		select loan.transaction_id as pk, 'Loan' as wlabel
+		select loan.transaction_id as pk, ct.auto_table as wlabel
 		from loan
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
+		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%loan%'
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'created by agent'
+		and mr.auto_table = 'loan'
+		and mr.auto_table <> 'cataloged_item'
+		and mr.auto_table <> 'agent'
 		UNION
-		select accn.transaction_id as pk, 'accn' as wlabel
+		select accn.transaction_id as pk, ct.auto_table as wlabel
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
+		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id= #media_id#
-		and mr.media_relationship like '%accn%'
+		and mr.auto_table = 'accn'
+		and mr.auto_table <> 'cataloged_item'
+		and mr.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'created by agent'
 		UNION
-		select locality.locality_id as pk, 'locality' as wlabel
+		select locality.locality_id as pk, ct.auto_table as wlabel
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
+		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
-		and mr.media_relationship like '%locality%' 
-		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'created by agent'
-		
+		and mr.auto_table = 'locality' 
+		and mr.auto_table <> 'cataloged_item'
+		and mr.auto_table <> 'agent'
 		UNION
-		select agent.agent_id as pk, 'agent' as wlabel
+		select agent.agent_id as pk, ct.auto_table as wlabel
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
+		left join mczbase.ctmedia_relations.media_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
 		and an.agent_name_type = 'preferred'
-		and mr.media_relationship like '%agent%'
+		and mr.auto_table = 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
-		and mr.media_relationship <> 'created by agent'
+		and mr.media_relationship <> 'created by agent' --- If created by agent is active, there is a potential of thousands of related images.
 		
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
@@ -149,7 +156,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfloop query="spec">
-													<cfif len(spec.pk) gt 0>
+													<cfif len(spec.pk) gt 0 and spec.auto_table neq 'publication'>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations 
@@ -159,7 +166,7 @@
 															and media_relations.media_relationship <> 'created by agent'
 															and ctmedia_relationship.auto_table = '#spec.wlabel#'
 														</cfquery>
-													</cfif>
+													<cfelse>
 													<cfset i= 1>
 													<!---thumbnails added below--->
 													<cfif relm.RecordCount gt 1>
