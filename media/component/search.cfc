@@ -1636,31 +1636,12 @@ imgStyleClass=value
 			</cfquery>
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct flat.guid as pk, mr.media_relationship,ct.Label as label, ct.auto_table
-				from flat
-				left join media_relations mr on flat.collection_object_id = mr.related_primary_key
+				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+				from media_relations mr
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
-				UNION
-				select distinct p.publication_title as pk, mr.media_relationship,ct.Label as label, ct.auto_table
-				from publication p
-				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-				left join media m on m.media_id = mr.media_id
-				left join citation c on c.publication_id = p.publication_id
-				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-				where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
-				and ct.description = 'publication'
-				and ct.description <> 'ledger'
-				and m.media_URI not like '%nrs%'
-				 UNION
-				select distinct an.agent_name as pk, mr.media_relationship,ct.Label as label, ct.auto_table
-				from agent_name an
-				left join media_relations mr on mr.related_primary_key = an.AGENT_ID
-				left join media m on m.media_id = mr.media_id
-				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-				where ct.AUTO_TABLE = 'agent'
-				and agent_name = any(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents1.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents2.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents3.agent_name#>, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value=#agents4.agent_name#>)
-				and agent_name_type = 'preferred'
+				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				
+			
 			</cfquery>
 		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
