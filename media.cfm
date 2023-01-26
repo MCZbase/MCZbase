@@ -207,6 +207,11 @@
 				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
 				<cfset metadata = imageMetadataReader.readMetadata(targetFile) >
 				[#metadata.toString()#]
+				<cfset i = metadata.getDirectories()>
+				<cfloop condition="#i.hasNext()#">
+					<cfset metadataDirectory=i.next()>
+					[#metadataDirectory.toString()#]
+				</cfloop>
 			<cfelse>
 				[#media.auto_host#]
 			</cfif>
