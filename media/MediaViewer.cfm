@@ -49,7 +49,7 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and ct.auto_table = 'publication'
-		and ct.auto_relationship <> 'ledger entry for cataloged_item'
+		and ct.media_relationship <> 'ledger entry for cataloged_item'
 		and ct.auto_table <> 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		UNION
