@@ -236,7 +236,12 @@
 						<cfloop from="0" to="#children2.getLength()-1#" index="k">
 							[#children2.item(k).getNodeName()#]
 							[#children2.item(k).getNodeValue()#]
-							<!---[#children2.item(k).getUserObject()#]--->
+							[ 
+								<cftry>
+									#children2.item(k).getUserObject()#
+								<cfcatch>(data)</cfcatch>
+								</cftry>
+							]
 							[childrendepth3=#children2.item(k).getChildNodes().getLength()#]
 						</cfloop>
 					</cfloop>
