@@ -1644,7 +1644,7 @@ imgStyleClass=value
 				from flat
 				left join media_relations mr on flat.collection_object_id = mr.related_primary_key
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
 				UNION
 				select mr.media_id as pk,ct.label as label, ct.media_relationship as rel
 				from publication p
@@ -1652,7 +1652,7 @@ imgStyleClass=value
 				left join media m on m.media_id = mr.media_id
 				left join citation c on c.publication_id = p.publication_id
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-				where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+				where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
 				and ct.description = 'publication'
 				and ct.description <> 'ledger'
 				and m.media_URI not like '%nrs%'
