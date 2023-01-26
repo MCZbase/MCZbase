@@ -154,7 +154,7 @@
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-															where mr.related_primary_key = <cfif spec.wlabel = 'shows publication'>
+															where mr.related_primary_key = <cfif spec.wlabel eq 'shows publication'>
 															<cfqueryparam value=#pubs.pk#><cfelse><cfqueryparam value=#spec.pk# ></cfif>
 															and mr.media_relationship <> 'created by agent'
 														</cfquery>
