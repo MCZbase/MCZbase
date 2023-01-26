@@ -1638,6 +1638,7 @@ imgStyleClass=value
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select mr.media_id as pk, ct.Label as label, mr.media_relationship as rel 
 				from media_relations mr 
+				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				UNION
 				select mr.media_id as pk, ct.Label as label, mr.media_relationship as rel
