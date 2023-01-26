@@ -149,13 +149,13 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-														<cfif spec.wlabel = 'shows publication'>
+														<cfif #spec.wlabel# = 'shows publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct media.media_id, mr.media_relationship
 																from media_relations mr
 																left join media on mr.media_id = media.media_id
 																left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-																where mr.related_primary_key =14434
+																where mr.related_primary_key =<cfqueryparam value=#pubs.pk# >
 																and mr.media_relationship = 'shows publication'
 															</cfquery>
 														<cfelse>
@@ -164,7 +164,7 @@
 																from media_relations mr
 																left join media on mr.media_id = media.media_id
 																left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-																where mr.related_primary_key = <cfqueryparam value=#pubs.pk# >
+																where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 																and mr.media_relationship <> 'created by agent'
 															</cfquery>
 														</cfif>
