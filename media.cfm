@@ -201,7 +201,7 @@
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" class="com.drew.imaging.ImageMetadataReader" name="imageMetadataReader">
 				<cfobject type="Java" class="com.drew.metadata.Metadata" name="metadata">
-				<cfobject type="Java" class="edu.harvard.mcz.extractmetadata.Extract" name="metadataExtractor">
+				<cfset metadataExtractor = CreateObject("java","edu.harvard.mcz.extractmetadata.Extract") >
     			<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
 				<cfset metadata = imageMetadataReader.readMetadata(targetFile) >
