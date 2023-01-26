@@ -97,9 +97,9 @@
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-		and mr.auto_table = 'locality' 
-		and mr.auto_table <> 'cataloged_item'
-		and mr.auto_table <> 'agent'
+		and ct.auto_table = 'locality' 
+		and ct.auto_table <> 'cataloged_item'
+		and ct.auto_table <> 'agent'
 		UNION
 		select agent.agent_id as pk, ct.auto_table as wlabel
 		from agent_name an
@@ -108,7 +108,7 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and an.agent_name_type = 'preferred'
-		and mr.auto_table = 'agent'
+		and ct.auto_table = 'agent'
 		and mr.media_relationship <> 'ledger entry for cataloged_item'
 		and mr.media_relationship <> 'created by agent'
 	</cfquery>	
