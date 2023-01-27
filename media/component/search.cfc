@@ -1708,7 +1708,7 @@ imgStyleClass=value
 										<cfif media_rel.media_relationship contains 'shows collecting_event'>:<cfloop query="collecting_eventRel">
 										<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 										</cfif>
-										<cfif media_rel.media_relationship eq 'shows publication'>:<cfloop query="publication">
+										<cfif media_rel.media_relationship eq 'shows publication'>: publication title<cfloop query="publication">
 										<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id, publication.publication_title from media_relations left join media on media_relations.media_id = media.media_id left join publication on media_relations.related_primary_key = publication.publication_id where related_primary_key = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_DECIMAL"> and media_relations.media_relationship = 'shows publication'</cfquery>#relm6.publication_title# <span>, </span></cfloop>
 										</cfif>
 									</div>
