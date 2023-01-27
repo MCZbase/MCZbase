@@ -142,9 +142,13 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
+												<cfif spec.wlabel eq 'shows publication'> 
+													<cfset varrelm = "and ct.auto_table = 'publication'">
+												<cfelse>
+													<cfset varrelm = "">
+												</cfif>
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-														<cfif spec.wlabel eq 'shows publication'> 
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -152,16 +156,7 @@
 															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 															and mr.media_relationship <> 'created by agent'
-															and ct.auto_table = 'publication'
-															</cfquery>
-														<cfelse>
-															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id
-															from media_relations mr
-															left join media on mr.media_id = media.media_id
-															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
-															and mr.media_relationship <> 'created by agent'
+															#varrelm#
 															</cfquery>
 														</cfif>
 													</cfif>
