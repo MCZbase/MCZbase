@@ -1622,7 +1622,7 @@ imgStyleClass=value
 			where media_relations.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table <> 'cataloged_item'
 				and mczbase.ctmedia_relationship.description = 'ledger'
-				
+				and media.media_type <> 'image'
 			order by guid
 		</cfquery>
 		<cfloop query="media">
