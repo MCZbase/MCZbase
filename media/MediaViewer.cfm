@@ -102,7 +102,7 @@
 		and ct.auto_table = 'locality' 
 		UNION
 		select distinct a.agent_id as pk, an.agent_name as wlabel, ct.label as label
-		from agent_name an, media_relations mr, agent a, ctmedia_relations ct
+		from agent_name an, media_relations mr, agent a, ctmedia_relationship ct
 		where an.agent_id = a.agent_id
 		and ct.media_relationship = mr.media_relationship
 		and mr.related_primary_key = a.agent_id
