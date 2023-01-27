@@ -1696,7 +1696,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
-								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
+								<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label##plural#</span>
 									<div class="comma2 d-inline">
 										<cfif media_rel.auto_table eq 'cataloged_item'>: <cfloop query="spec"><cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id
 											from media_relations left join media on media_relations.media_id = media.media_id
