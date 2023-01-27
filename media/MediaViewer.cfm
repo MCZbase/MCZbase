@@ -42,7 +42,7 @@
 	</cfquery>
 
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label
+		select (select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join media m on m.media_id = mr.media_id
@@ -100,7 +100,7 @@
 		and mr.media_relationship <> 'created by agent'
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
-		OR mr.media_relationship = 'documents agent')
+		OR mr.media_relationship = 'documents agent')) from dual order by pk
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
