@@ -1717,7 +1717,8 @@ imgStyleClass=value
 										<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship eq 'shows publication'>: 
-											<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct publication.publication_title,publication.pub_short from publication on publication.publication_id where publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> </cfquery> #relm7.pub_short# #relm7.publication_title#<span>, </span></cfloop>
+											<cfloop query="publication">
+												<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct p.publication_title,p.pub_short from publication p, formatted_publication fp where p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> </cfquery> #relm7.pub_short# #relm7.publication_title#<span>, </span></cfloop>
 										</cfif>
 									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
