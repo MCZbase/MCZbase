@@ -90,7 +90,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'locality' 
 		UNION
-		select agent.agent_id as pk, 'Shows Agent' as wlabel, ct.label as label
+		select agent.agent_id as pk, an.agent_name as wlabel, ct.label as label
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
@@ -185,7 +185,7 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
 																			<div class="px-0">
-																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# <cfif media_rel.media_relationship eq 'shows agent'>#spec.pk#</cfif> (media/#relm.media_id#)
+																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# <cfif media_rel.media_relationship eq 'shows agent'>#spec.wlabel#</cfif> (media/#relm.media_id#)
 																				</span> 
 																				#mediablock#
 																			</div>
