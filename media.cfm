@@ -202,7 +202,7 @@
 				<cfimage source="#targetFileName#" name="image">
 				<cfset metadata = ImageGetEXIFMetadata(image) >
 				<cfdump var="#metadata#">
-			<cfif media.auto_host EQ "mczbase.mcz.harvard.edu" AND media.mime_type NEQ "image/jpeg">
+			<cfelseif media.auto_host EQ "mczbase.mcz.harvard.edu" AND media.mime_type NEQ "image/jpeg">
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfobject type="Java" class="com.drew.imaging.ImageMetadataReader" name="imageMetadataReader">
 				<cfobject type="Java" class="com.drew.metadata.Metadata" name="metadata">
