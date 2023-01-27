@@ -143,7 +143,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfif spec.wlabel eq 'shows publication'> 
-													<cfset varrelm = 'and ct.auto_table = 'publication''>
+													<cfset varrelm = 'publication'>
 												<cfelse>
 													<cfset varrelm = ''>
 												</cfif>
@@ -156,7 +156,7 @@
 														left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 														and mr.media_relationship <> 'created by agent'
-														#varrelm#
+														and ct.auto_table = #varrelm#
 														</cfquery>
 													</cfif>
 													<cfset i= 1>
