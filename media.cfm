@@ -198,7 +198,7 @@
 			</h2>
 			<cfif media.auto_host EQ "mczbase.mcz.harvard.edu" AND media.mime_type EQ "image/jpeg">
 				<h3>EXIF Metadata</h3>
-    			<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
+				<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 				<cfimage source="#targetFileName#" name="image">
 				<cfset metadata = ImageGetEXIFMetadata(image) >
 				<cfdump var="#metadata#">
@@ -206,14 +206,57 @@
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfset fileReaderProxy = CreateObject("java","javax.imageio.stream.FileImageInputStream") >
 				<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
+				<cfobject type="Java" class="javax.imageio.ImageIO" name="imageReaderClass">
+				<cfobject type="Java" class="javax.imageio.ImageReader" name="imageReader">
+				<cfobject type="Java" class="javax.imageio.metadata.IIOMetadata" name="metadata">
 				<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
 				<cfset fileReader = fileReaderProxy.init(targetFile) >
-				<cfset imageReader = imageReaderProxy.init(fileReader) >
+				<cfset imageReader = imageReaderClass.getImageReadersByMIMEType(JavaCast("string",media.mime_type)).next() >
+				<cfset imageReader.setInput(fileReader) >
 				<cfset metadata = imageReader.getImageMetadata(0)>
-				[#metadata.toString()#]
-				<cfdump var="#metadata#">  
-
+				<cfset formatNames = metadata.getMetadataFormatNames()>
+				<cfobject type="Java" class="javax.imageio.metadata.IIOMetadataNode" name="metadataNode">
+				<cfobject type="Java" class="org.w3c.dom.NodeList" name="children">
+				<cfobject type="Java" class="org.w3c.dom.NodeList" name="children2">
+				<cfobject type="Java" class="org.w3c.dom.NamedNodeMap" name="attributeNodes">
+				<cfloop array="#formatNames#" index="format">
+					<cfset node = metadata.getAsTree('#format#')>
+					[#node.getNodeName()#][#node.getNodeValue()#][#node.getUserObject()#]
+					<cfset children = node.getChildNodes()>
+					<cfset childCount = children.getLength()>
+					[children=#childcount#]
+					<cfloop from="0" to="#childCount-1#" index="i">
+						[#children.item(i).getNodeName()#]
+						[#children.item(i).getNodeValue()#]
+						[#children.item(i).getUserObject()#]
+						<cfset attributeNodes = children.item(i).getAttributes() >
+						[#attributeNodes.getLength()#]
+						<cfloop from="0" to="#attributeNodes.getLength()-1#" index="j">
+							[#children.item(i).getAttributes().item(j).getNodeName()#]
+							[#children.item(i).getAttributes().item(j).getNodeValue()#]
+						</cfloop>
+						<cfset children2 = children.item(i).getChildNodes()>
+						[childrendepth2=#children2.getLength()#]
+						<cfloop from="0" to="#children2.getLength()-1#" index="k">
+							[#children2.item(k).getNodeName()#]
+							[#children2.item(k).getNodeValue()#]
+							[ 
+								<cftry>
+									#children2.item(k).getUserObject()#
+								<cfcatch>(data)</cfcatch>
+								</cftry>
+							]
+							[childrendepth3=#children2.item(k).getChildNodes().getLength()#]
+						</cfloop>
+					</cfloop>
+					<cset attributeNodes = node.getAttributes() >
+					<cfset attCount = attributeNodes.getLength()>
+					<cfloop from="0" to="#attCount-1#" index="j">
+						[#attributeNodes.item(j).getNodeName()#]
+						[#attributeNodes.item(j).getNodeValue()#]
+					</cfloop>
+				</cfloop>
 			</cfif>
 
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
