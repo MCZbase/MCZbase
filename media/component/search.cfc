@@ -1601,7 +1601,7 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'loan'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select p.publication_id as pk, publication_title, ct.media_relationship as wlabel, fp.formatted_publication as pub_short
+			select p.publication_id as pk
 			from publication p
 			left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 			left join media m on m.media_id = mr.media_id
