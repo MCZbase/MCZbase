@@ -198,12 +198,10 @@
 			</h2>
 			<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
 				<h3>EXIF</h3>
-				<cfset metadataExtractorProxy = CreateObject("java","edu.harvard.mcz.extractmetadata.Extract") >
-				<cfobject type="java" class="edu.harvard.mcz.extractmetadata.Extract" name="metadataExtractor" >
     			<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
-				<cfset metadataExtractor = metadataExtractorProxy.init(JavaCast("string",targetFileName))>
-				<cfset assembledString = metadataExtractor.getString() >
-				[#assembledString#]
+				<cfimage source="#targetFileName#" name="image">
+				<cfset metadata = ImageGetEXIFMetadata(image) >
+				<cfdump var="#metadata#">
 			<cfelse>
 				[#media.auto_host#]
 			</cfif>
