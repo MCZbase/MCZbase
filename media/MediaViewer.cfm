@@ -101,12 +101,16 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'locality' 
 		UNION
-		select distinct a.agent_id as pk, an.agent_name as wlabel, ct.label as label
-		from agent_name an, media_relations mr, agent a, ctmedia_relationship ct
-		where an.agent_id = a.agent_id
-		and ct.media_relationship = mr.media_relationship
-		and mr.related_primary_key = a.agent_id
-		and a.agent_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#agents.agent_id#">
+		select agent.agent_id as pk, 'Shows Agent' as wlabel
+		from agent_name an
+		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
+		left join media_relations mr on agent.agent_id = mr.related_primary_key
+		where mr.media_id = #media_id#
+		and an.agent_name_type = 'preferred'
+		and mr.media_relationship <> 'created by agent'
+		and (mr.media_relationship = 'shows handwriting of agent' 
+		OR mr.media_relationship = 'shows agent' 
+		OR mr.media_relationship = 'documents agent')
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
