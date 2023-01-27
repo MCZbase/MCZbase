@@ -105,6 +105,7 @@
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = #media_id#
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship <> 'created by agent'
