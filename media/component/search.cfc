@@ -1518,7 +1518,8 @@ imgStyleClass=value
 				MCZBASE.is_media_encumbered(media.media_id) hideMedia,
 				MCZBASE.get_media_credit(media.media_id) as credit, 
 				MCZBASE.get_media_descriptor(media.media_id) as alttag,
-				MCZBASE.get_media_owner(media.media_id) as owner
+				MCZBASE.get_media_owner(media.media_id) as owner,
+				MCZBASE.get_media_title(media.media_id) as title
 			From
 				media
 			WHERE 
