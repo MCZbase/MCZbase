@@ -100,7 +100,7 @@
 		and mr.media_relationship <> 'created by agent'
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
-		OR mr.media_relationship = 'documents agent')) from dual order by pk
+		OR mr.media_relationship = 'documents agent')) from dual
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
