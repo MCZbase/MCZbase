@@ -1718,7 +1718,7 @@ imgStyleClass=value
 										</cfif>
 										<cfif media_rel.media_relationship eq 'shows publication'>: 
 											<cfloop query="publication">
-												<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct p.publication_title,fp.formatted_publication as pub_long from publication p, formatted_publication fp where p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'long' </cfquery> #relm7.pub_long# <span>, </span></cfloop>
+												<cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct p.publication_title,fp.formatted_publication as pub_long from publication p, formatted_publication fp where p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'long' </cfquery> #relm7.pub_long# <span> &mdash; </span></cfloop>
 										</cfif>
 									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
