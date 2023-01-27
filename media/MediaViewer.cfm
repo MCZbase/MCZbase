@@ -147,7 +147,7 @@
 												
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-		<!---												<cfif spec.wlabel eq 'shows publication'> 
+														<cfif spec.wlabel eq 'shows publication'> 
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -157,7 +157,7 @@
 															and mr.media_relationship <> 'created by agent'
 															and mr.media_relationship = 'shows publication'
 															</cfquery>
-														<cfelse>--->
+														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -166,7 +166,7 @@
 															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 															and mr.media_relationship <> 'created by agent'
 															</cfquery>
-													<!---	</cfif>--->
+														</cfif>
 											
 													</cfif>
 													<cfset i= 1>
