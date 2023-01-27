@@ -1618,9 +1618,11 @@ imgStyleClass=value
 			from media_relations
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+				left join media on media.media_id = media_relations.media_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table <> 'cataloged_item'
 				and mczbase.ctmedia_relationship.description = 'ledger'
+				
 			order by guid
 		</cfquery>
 		<cfloop query="media">
