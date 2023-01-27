@@ -1614,13 +1614,13 @@ imgStyleClass=value
 				and m.media_URI not like '%nrs%'
 		</cfquery>
 		<cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select m.media_id as pk, ct.media_relationship as wlabel
-			from media_relations mr  
-				left join media m on m.media_id = mr.media_id
-				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on mr.related_primary_key = flat.collection_object_id
-				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-			where flat.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
-				and ct.description = 'ledger'
+			select distinct collection_object_id as pk, guid
+			from media_relations
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat on related_primary_key = collection_object_id
+				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.auto_table <> 'cataloged_item'
+			order by guid
 		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
