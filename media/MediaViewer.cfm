@@ -97,6 +97,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and an.agent_name_type = 'preferred'
 		and ct.auto_table = 'agent'
+		and ct.description = 'ledger'
 		and mr.media_relationship <> 'created by agent'
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
