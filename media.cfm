@@ -208,8 +208,8 @@
 				<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
 				<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
-				<cfset fileReader = fileReaderProxy.init(JavaCast("java.io.file",targetFile)) >
-				<cfset imageReader = imageReaderProxy.init(JavaCast("javax.imageio.stream.FileImageInputStream",fileReader)) >
+				<cfset fileReader = fileReaderProxy.init(targetFile) >
+				<cfset imageReader = imageReaderProxy.init(fileReader) >
 				<cfset metadata = imageReader.getImageMetadata(0)>
 				[#metadata.toString()#]
 				<cfdump var="#metadata#">  
