@@ -143,9 +143,9 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfif spec.wlabel eq 'shows publication'> 
-													<cfset varrelm = "and ct.auto_table = 'publication'">
+													<cfset varrelm = 'and ct.auto_table = 'publication''>
 												<cfelse>
-													<cfset varrelm = "">
+													<cfset varrelm = ''>
 												</cfif>
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
