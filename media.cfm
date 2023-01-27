@@ -202,6 +202,18 @@
 				<cfimage source="#targetFileName#" name="image">
 				<cfset metadata = ImageGetEXIFMetadata(image) >
 				<cfdump var="#metadata#">
+			<cfif media.auto_host EQ "mczbase.mcz.harvard.edu" AND media.mime_type NEQ "image/jpeg">
+				<cfset fileProxy = CreateObject("java","java.io.File") >
+				<cfobject type="Java" class="com.drew.imaging.ImageMetadataReader" name="imageMetadataReader">
+				<cfobject type="Java" class="com.drew.metadata.Metadata" name="metadata">
+				<cfobject type="Java" class="com.drew.metadata.Directory" name="metadataDirectory">
+				<cfobject type="Java" class="com.drew.metadata.Tag" name="metadataTag">
+				<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
+				<cfset targetFile = fileProxy.init(JavaCast("string","#targetFileName#")) >
+				<cfset metadata = imageMetadataReader.readMetadata(targetFile) >
+				[#metadata.toString()#]
+				<cfset i = metadata.getDirectories()>
+				<cfdump var="#i#">
 			</cfif>
 
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
