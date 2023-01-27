@@ -1600,14 +1600,6 @@ imgStyleClass=value
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'loan'
 		</cfquery>
-		<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct accn.transaction_id
-			from media_relations
-				left join accn on media_relations.related_primary_key = accn.transaction_id
-				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
-			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and mczbase.ctmedia_relationship.auto_table = 'accn'
-		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select p.publication_id as pk, publication_title, ct.media_relationship as wlabel, fp.formatted_publication as pub_short
 			from publication p
@@ -1719,13 +1711,11 @@ imgStyleClass=value
 										</cfif>
 										<cfif media_rel.media_relationship eq 'shows handwriting of agent'>:<cfloop query="agents4"><cfquery name="relm4" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents4.agent_name#" /> and m.media_relationship = 'shows handwriting of agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm4.agent_id#"> #agents4.agent_name#</a><span>, </span></cfloop>
 										</cfif>
-										<cfif media_rel.media_relationship eq 'documents accn'>:<cfloop query="accns"><cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,accn.transaction_id from accn ac left join media_relations m on ac.accn_num=m.related_primary_key where related_primary_key=<cfqueryparam cfsqltype="cf_sql_decimal" value="#accn.transaction_id#" /> and m.media_relationship = 'documents accn'</cfquery> Accn: #relm5.transaction_id#<span>, </span></cfloop>
-										</cfif>
 										<cfif media_rel.media_relationship contains 'shows collecting_event'>:<cfloop query="collecting_eventRel">
-										<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
+										<cfquery name="relm5" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship eq 'shows publication'>: 
-											<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct publication.publication_title,publication.pub_short from publication on publication.publication_id where publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> </cfquery> #relm7.pub_short# #relm7.publication_title#<span>, </span></cfloop>
+											<cfloop query="publication"><cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct publication.publication_title,publication.pub_short from publication on publication.publication_id where publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> </cfquery> #relm6.pub_short# #relm6.publication_title#<span>, </span></cfloop>
 										</cfif>
 									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
