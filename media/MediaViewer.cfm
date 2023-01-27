@@ -75,7 +75,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'loan'
 		UNION
-		select accn.transaction_id as pk, ct.auto_table as wlabel, ct.label as label
+		select accn.transaction_id as pk, ct.label as wlabel, ct.label as label
 		from accn
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
