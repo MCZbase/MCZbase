@@ -203,6 +203,7 @@
 				<cfset metadata = ImageGetEXIFMetadata(image) >
 				<cfdump var="#metadata#">
 			<cfelseif media.auto_host EQ "mczbase.mcz.harvard.edu" AND media.mime_type NEQ "image/jpeg">
+				<cftry>
 				<cfset fileProxy = CreateObject("java","java.io.File") >
 				<cfset fileReaderProxy = CreateObject("java","javax.imageio.stream.FileImageInputStream") >
 				<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
@@ -257,6 +258,10 @@
 						[#attributeNodes.item(j).getNodeValue()#]
 					</cfloop>
 				</cfloop>
+				<cfcatch>
+				<cfdump var="#cfcatch#">
+				</cfcatch>
+				</cftry>
 			</cfif>
 
     <a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
