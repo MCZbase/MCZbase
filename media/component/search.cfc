@@ -1649,7 +1649,7 @@ imgStyleClass=value
 				from media_relations mr
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				and ct.description <> ledger
+				and ct.description <> 'ledger'
 				<!---UNION
 				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
 				from media_relations mr
