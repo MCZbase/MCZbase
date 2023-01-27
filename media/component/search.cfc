@@ -1611,6 +1611,7 @@ imgStyleClass=value
 			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
 			and ct.description = 'publication'
 			and ct.description <> 'ledger'
+			and m.media_URI not like '%nrs%'
 		</cfquery>
 		<cfquery name="ledger" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select m.media_id as pk, ct.media_relationship as wlabel
