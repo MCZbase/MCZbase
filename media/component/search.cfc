@@ -1621,6 +1621,7 @@ imgStyleClass=value
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where flat.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
 			and ct.description = 'ledger'
+			and ct.description is not null
 		</cfquery>
 		<cfloop query="media">
 			<cfquery name="labels" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
