@@ -1719,8 +1719,8 @@ imgStyleClass=value
 										<cfif media_rel.media_relationship eq 'shows publication'>: 
 										<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct p.publication_title,fp.formatted_publication as pub_long from publication p, formatted_publication fp where p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'long' </cfquery> #relm7.pub_long# <span> &mdash; </span></cfloop>
 										</cfif>
-										<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'>: 
-										<cfloop query="ledger"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct ci.cat_num from cataloged_item ci where ci.collection_object_id = <cfqueryparam value=#ledger.pk# CFSQLType="CF_SQL_VARCHAR">  </cfquery> #relm8.cat_num# <span> &mdash; </span></cfloop>
+										<cfif media_rel.media_relationship eq 'cataloged_item'>: 
+										<cfloop query="ledger"><cfquery name="relm8" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct ci.cat_num from cataloged_item ci where ci.collection_object_id = <cfqueryparam value=#ledger.pk# CFSQLType="CF_SQL_VARCHAR"> </cfquery> #relm8.cat_num# <span> &mdash; </span></cfloop>
 										</cfif>
 									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
