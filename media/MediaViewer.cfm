@@ -42,7 +42,7 @@
 	</cfquery>
 
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select (select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label
+		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join media m on m.media_id = mr.media_id
@@ -100,7 +100,7 @@
 		and mr.media_relationship <> 'created by agent'
 		and (mr.media_relationship = 'shows handwriting of agent' 
 		OR mr.media_relationship = 'shows agent' 
-		OR mr.media_relationship = 'documents agent')) from dual
+		OR mr.media_relationship = 'documents agent'))
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
@@ -155,7 +155,7 @@
 															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
 															and mr.media_relationship <> 'created by agent'
-																and mr.media_relationship = 'shows publication'
+															and mr.media_relationship = 'shows publication'
 															</cfquery>
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
