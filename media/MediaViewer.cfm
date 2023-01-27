@@ -40,7 +40,7 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
-	<cfquery name = "agents" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---	<cfquery name = "agents" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select agent.agent_id as pk
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
@@ -51,7 +51,7 @@
 		and ct.auto_table = 'agent'
 		and ct.description <> 'ledger'
 		and mr.media_relationship <> 'created by agent'
-	</cfquery>
+	</cfquery>--->
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label
 		from publication p
@@ -168,7 +168,7 @@
 															and mr.media_relationship <> 'created by agent'
 																and mr.media_relationship = 'shows publication'
 															</cfquery>
-														<cfelseif spec.wlabel contains 'agent'> 
+									<!---					<cfelseif spec.wlabel contains 'agent'> 
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -176,7 +176,7 @@
 															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam value=#agents.pk# >
 															and mr.media_relationship <> 'created by agent'
-															</cfquery>
+															</cfquery>--->
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
