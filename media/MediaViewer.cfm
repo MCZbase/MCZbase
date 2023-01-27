@@ -41,7 +41,7 @@
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
 	<cfquery name = "agents" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent.agent_id
+		select agent.agent_id as pk
 		from agent_name an
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
