@@ -1649,12 +1649,24 @@ imgStyleClass=value
 				from media_relations mr
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				and ct.description <> ledger
+				<!---UNION
+				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+				from media_relations mr
+				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+				where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#publication.pk#">--->
+			</cfquery>
+			<cfquery name="media_rel2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+				from media_relations mr
+				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				UNION
 				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
 				from media_relations mr
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#publication.pk#">
-			</cfquery>		
+			</cfquery>	
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
 				<table class="table table-responsive-sm border-none small90">
 					<thead class="thead-dark">
@@ -1723,7 +1735,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Associated with: </span></th>
 							<td>
-								<span class="text-capitalize">#media_rel.label#</span>
+								<cfloop query="media_rel2"><span class="text-capitalize">#media_rel.label#</span>
 									<div class="comma2 d-inline">
 										<cfif media_rel.auto_table eq 'cataloged_item'>: <cfloop query="spec"><cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id
 											from media_relations left join media on media_relations.media_id = media.media_id
@@ -1738,7 +1750,7 @@ imgStyleClass=value
 										</cfif>
 									</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-							
+								</cfloop> 
 							</td>
 						</tr>
 						<cfelse>
