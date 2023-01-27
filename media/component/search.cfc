@@ -1729,6 +1729,9 @@ imgStyleClass=value
 											from media_relations left join media on media_relations.media_id = media.media_id
 											where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 											and media_relations.media_relationship = 'ledger entry for cataloged_item'
+											and media_relations.media_relationship <> 'shows cataloged_item'
+											and media_relations.media_relationship <> 'documents cataloged_item'
+											and media_relations.media_relationship <> 'created by agent'
 											</cfquery><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
 										</cfif>
 										<cfif media_rel.media_relationship eq 'shows publication'>:<cfloop query="publication"><cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id, publication.publication_title from media_relations left join media on media_relations.media_id = media.media_id left join publication on media_relations.related_primary_key = publication.publication_id where related_primary_key = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and media_relations.media_relationship = 'shows publication'</cfquery> #relm6.publication_title# <span>, </span></cfloop>
