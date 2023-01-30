@@ -574,6 +574,14 @@
 						<label for="eventDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent;">Collecting Event</label> 
 						<button type="button" id="eventDetailCtl" class="btn btn-xs btn-secondary" onclick="toggleEventDetail(#toggleTo#);">#eventButton#</button>
 					</div>
+					<div class="col-12 col-md-6">
+						<label for="verbatimdepth" class="data-entry-label">Verbatim Depth</label>
+						<input type="text" name="verbatimdepth" id="verbatimdepth" size="75" class="data-entry-input">
+					</div>
+					<div class="col-12 col-md-6">
+						<label for="verbatimelevation" class="data-entry-label">Verbatim Elevation</label>
+						<input type="text" name="verbatimelevation" id="verbatimelevation" size="75" class="data-entry-input">
+					</div>
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-1">

@@ -183,7 +183,7 @@ limitations under the License.
 						<cfelse>
 							<cfset vetted="">
 						</cfif>
-						<cfset nameStr = "<strong>#getAgent.preferred_agent_name##vetted#</strong>">
+						<cfset nameStr = "<strong>#getAgent.preferred_agent_name##vetted#</strong>">  <!--- " --->
 						<cfif getAgent.agent_type EQ "person">
 							<!--- add birth death years --->
 							<cfset nameStr = nameStr & assembleYearRange(start_year="#birth_date#",end_year="#death_date#",year_only=false) >
@@ -278,6 +278,12 @@ limitations under the License.
 											$('##end_date').prop('disabled', true);
 										}
 									};
+									function resetToPerson() { 
+										$("##agent_type option[value='person']").prop('selected',true);
+									}
+									function changeTypeFromPerson() { 
+										confirmOrCancelDialog("Change this agent from a person to a non-person type.  On save, name will be moved to an aka name and birth/death dates will be moved to remarks.", "Confirm Change From Person", changeType, resetToPerson);
+									};
 									$(document).ready(function(){
 										changeType();
 									});
@@ -287,10 +293,19 @@ limitations under the License.
 										<label for="agent_type" class="data-entry-label">Type of Agent</label>
 										<cfset curAgentType = getAgent.agent_type>
 										<cfif curAgentType EQ "person">
-											<input type="text"  id="agent_type" class="data-entry-input reqdClr" value="#getAgent.agent_type#" disabled>
-											<input type="hidden" name="agent_type" id="agent_type_hidden" value="#getAgent.agent_type#" >
-											<!--- TODO: functionality to allow change of person to non-person, handling names and dates --->
+											<!--- Backing suppors allow change of person to non-person, saving names and dates as remarks, but ask user first --->
+											<select name="agent_type" id="agent_type" size="1" onChange=" changeTypeFromPerson(); " class="data-entry-select reqdClr" required>
+												<cfloop query="ctAgentType">
+													<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS ctAgentType.agent_type>
+														<cfset selected = "selected='selected'">
+													<cfelse>
+														<cfset selected = "">
+													</cfif>
+													<option value="#ctAgentType.agent_type#" #selected#>#ctAgentType.agent_type#</option>
+												</cfloop>
+											</select>
 										<cfelse>
+											<!--- no potential loss of information, just make the change --->
 											<select name="agent_type" id="agent_type" size="1" onChange=" changeType(); " class="data-entry-select reqdClr" required>
 												<cfloop query="ctAgentType">
 													<cfif isdefined("curAgentType") and len(curAgentType) GT 0 and curAgentType IS ctAgentType.agent_type>

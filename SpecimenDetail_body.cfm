@@ -156,6 +156,22 @@
 		else
 			verbatim_locality
 		end verbatim_locality,
+		case when
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					verbatimdepth is not null
+				then 'Masked'
+		else
+			verbatimdepth
+		end verbatimdepth,
+		case when
+			#oneOfUs# != 1 and
+				concatencumbrances(cataloged_item.collection_object_id) like '%mask coordinates%' and
+					verbatimelevation is not null
+				then 'Masked'
+		else
+			verbatimelevation
+		end verbatimelevation,
 		collecting_time,
 		fish_field_number,
 		min_depth,
@@ -681,6 +697,18 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 								</td>
 							</tr>
 						</cfif>
+					</cfif>
+					<cfif len(one.verbatimdepth) gt 0>
+						<tr class="detailData">
+							<td id="SDCellLeft" class="innerDetailLabel">Verbatim Depth:</td>
+							<td id="SDCellRight">#one.verbatimdepth#</td>
+						</tr>
+					</cfif>
+					<cfif len(one.verbatimelevation) gt 0>
+						<tr class="detailData">
+							<td id="SDCellLeft" class="innerDetailLabel">Verbatim Elevation:</td>
+							<td id="SDCellRight">#one.verbatimelevation#</td>
+						</tr>
 					</cfif>
 					<cfif len(one.locality_remarks) gt 0>
 						<tr class="detailData">

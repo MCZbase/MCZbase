@@ -307,6 +307,9 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 			if (status=='updated') {
 				console.log(status);
 				$('#'+feedbackdiv).html(status);
+				$('#'+feedbackdiv).removeClass('text-warning');
+				$('#'+feedbackdiv).addClass('text-success');
+				$('#'+feedbackdiv).removeClass('text-danger');
 			}
 			if (jQuery.type(okcallback2)==='function') {
 				okcallback2();
@@ -314,6 +317,10 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"adding attribute to publication");
+			$('#'+feedbackdiv).html("Error");
+			$('#'+feedbackdiv).removeClass('text-warning');
+			$('#'+feedbackdiv).removeClass('text-success');
+			$('#'+feedbackdiv).addClass('text-danger');
 		},
 		dataType: "json"
 	});
@@ -326,8 +333,10 @@ function saveAttribute(publication_attribute_id, publication_id, publication_att
  * @param feedbackdiv id of an element in the dom without leading pound 
  *  selector into which to place feedback on success.
  * @param okcallback a callback function to invoke on success.
+ * @param hidden_id id of a hidden input that holds the publication_attribute_id without leading pound 
+ *  selector into which to place the id on success.
 */
-function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv, okcallback) { 
+function saveNewAttribute(publication_id, publication_attribute, pub_att_value , feedbackdiv, okcallback, hidden_id) { 
 	jQuery.ajax({
 		url: "/publications/component/functions.cfc",
 		data : {
@@ -344,9 +353,16 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 			console.log(status);
 			if (status=='inserted') {
 				$('#'+feedbackdiv).html(status);
+				$('#'+feedbackdiv).removeClass('text-warning');
+				$('#'+feedbackdiv).addClass('text-success');
+				$('#'+feedbackdiv).removeClass('text-danger');
+				$('#'+hidden_id).val(result[0].id);
 			}
 			if (okcallback && jQuery.type(okcallback)==='function') {
 				okcallback();
+				if (publication_attribute == 'MCZ publication') { 
+					reloadAllAttributes();
+				}
 			}
 		},
 		error: function (jqXHR, textStatus, error) {
@@ -359,11 +375,14 @@ function saveNewAttribute(publication_id, publication_attribute, pub_att_value ,
 /** deleteAttribute delete an attribute from a publication.
  * @param publication_attribute_id the primary key of the publication attribute
  *  to delete.
+ * @param publication_attribute the publication attribute to remove.
  * @param feedbackdiv id of an element in the dom without leading pound 
  *  selector into which to place feedback on success.
  * @param okcallback a callback function to invoke on success.
+ * @param hidden_id id of a hidden input that holds the publication_attribute_id without leading pound 
+ *  selector the value of which to clear on success
  */
-function deleteAttribute(publication_attribute_id, okcallback, feedbackdiv) { 
+function deleteAttribute(publication_attribute_id, publication_attribute, okcallback, feedbackdiv, hidden_id) { 
 	jQuery.ajax({
 		dataType: "json",
 		url: "/publications/component/functions.cfc",
@@ -385,7 +404,14 @@ function deleteAttribute(publication_attribute_id, okcallback, feedbackdiv) {
 				console.log(status);
 				if (feedbackdiv!==undefined && feedbackdiv) { 
 					$('#'+feedbackdiv).html(status);
+					$('#'+feedbackdiv).removeClass('text-warning');
+					$('#'+feedbackdiv).addClass('text-success');
+					$('#'+feedbackdiv).removeClass('text-danger');
 				}
+				if (publication_attribute == 'MCZ publication') { 
+					reloadAllAttributes();
+				}
+				$('#'+hidden_id).val("");
 			}
 		}
 	});
@@ -719,8 +745,9 @@ function addAuthorName(agent_id,agent_name_type,agent_name,agent_name_id_control
  *  @param authorNameControl the id for a page element that can contain an agent name.
  *  @param authorNameIdControl the id of a hidden inmpt to hold the selected agent_name_id for the desired authorship form of the name
  *  @param authorshipPosition 1, >1 for first or second for the author position form for which to find an author name.
+ *  @param role author or editor.
  */
-function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, agentId, authorNameControl, authorNameIdControl, authorshipPosition) { 
+function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, agentId, authorNameControl, authorNameIdControl, authorshipPosition, role) { 
 	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
 		$('#'+idControl).val(agentId);
@@ -780,7 +807,7 @@ function makeRichAuthorPicker(nameControl, idControl, iconControl, linkControl, 
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
 			// if result doesn't include the author name/id data, will need to make another call at this point to getAgentNameOfType to find those values for the selected agent_id
-			if (authorshipPosition==1) { 
+			if (authorshipPosition==1 && role=='author') { 
 				$('#'+authorNameControl).html(result.item.firstauthor_name);
 				$('#'+authorNameIdControl).val(result.item.firstauthor_agent_name_id);
 			} else {
