@@ -1,8 +1,10 @@
 <!--
-Media.cfm
+media/Media.cfm
+
+media record editor
 
 Copyright 2008-2017 Contributors to Arctos
-Copyright 2008-2020 President and Fellows of Harvard College
+Copyright 2008-2022 President and Fellows of Harvard College
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,7 +20,6 @@ limitations under the License.
 
 -->
 <cfinclude template="/media/component/search.cfc" runOnce="true">
-
 
 <cfif NOT isdefined("action")>
 	<cfset action = "edit">
@@ -59,7 +60,10 @@ limitations under the License.
 
 	<cfcase value="edit">
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, auto_host,
+			select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG, 
+				auto_host,
+				auto_path,
+				auto_filename,
 				mczbase.get_media_descriptor(media_id) as alttag, MCZBASE.get_media_title(media.media_id) as caption 
 			from 
 				media
@@ -83,41 +87,6 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-	<cfset param = "<div class='text-success'>Some text #media_id#</div>">
-	<cfset id_for_counter = "counterElement">
-	<cfset id_for_dialog = "textDialogDiv">
-<!---		<cfoutput>
-			<section id="content" class="container-fluid">
-			<div class="row">
-				<div class="col-12">
-					<cfset counterBlockContent= getCounterHtml(parameter="#param#",other_parameter="param in call from page",id_for_counter="#id_for_counter#",id_for_dialog="#id_for_dialog#")>
-					<div id="counterBlock">
-						#counterBlockContent#
-					</div>
-					<div id="#id_for_dialog#"></div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">--->
-					<!---  invoke the loadHello function to just do a ajax replace of the counterBlock --->
-					<!---<button class="btn btn-primary btn-xs" onClick="loadHello('counterBlock','#param#','param in reload button','#id_for_counter#','#id_for_dialog#');">Reload counterBlock</button>
---->
-					<!--- invoke the increment counter function with the doReload function as a callback --->
-<!---					<button class="btn btn-primary btn-xs" onClick="incrementCounters(doReload);">Increment Counter and Reload</button>--->
-
-					<!--- invoke the increment counter function to replace the html of an element with the id of the counter element (also provided as a parameter to getCounterHtml()) --->
-					<!---<button class="btn btn-primary btn-xs" onClick="incrementCountersUpdate('#id_for_counter#');">Increment Counter</button> --->
-<!---				</div>
-			</div>
-			<script>
-				function doReload() { 
-					console.log("doReload() invoked");
-					loadHello('counterBlock','#param#','param in doReload','#id_for_counter#',"#id_for_dialog#");
-				}
-			</script> 
-		</section>
-		</cfoutput>--->
-	
 
 		<cfoutput>
 
@@ -130,7 +99,6 @@ limitations under the License.
 						</h1>
 						<div class="px-1">
 							<h4 class="pr-3 d-inline-block">Media ID = media/#media_id#</h4>
-							
 						</div>
 						<form name="editMedia" method="post" action="Media.cfm" class="my-2">
 							<input type="hidden" name="action" value="saveEditMedia">
@@ -150,7 +118,22 @@ limitations under the License.
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
 											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
+											<cfif #media.media_uri# contains #application.serverRootUrl#>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
+											<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
+												<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
+												<cfset directory = "#Application.webDirectory#/#auto_path#">
+												<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
+												<cfset iiifIdentifier = "#encodeForURL(replace(auto_path,'/specimen_images/',''))##encodeForURL(auto_filename)#">
+												<cfif fileExists(file)>
+													<output id="fileStatusOutput">[File Exists]</output>
+												<cfelse>
+													<output id="fileStatusOutput">
+													[File Not Found]
+													<cfif NOT directoryExists(directory)>[Directory Not Found]</cfif>
+													</output>
+												</cfif>
+											</cfif>
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
 											</cfif>
@@ -238,11 +221,6 @@ limitations under the License.
 											<div class="col-12">
 												<cfset relationsBlockContent= getMediaRelationsHtml(media_id="#media.media_id#")>
 													
-											
-
-													
-													
-													
 												<div id="relationsBlock">
 													#relationsBlockContent#
 												</div>
@@ -300,7 +278,7 @@ limitations under the License.
 								Create Media 
 								<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
 							</h1>
-<!---							<script>
+							<script>
 								function previewFile(input){
 									var file = $("input[type=file]").get(0).files[0];
 									if(file){
@@ -321,41 +299,27 @@ limitations under the License.
 										reader.readAsDataURL(file);
 									}
 								}
-							</script>--->
+							</script>
 							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
-								<p class="small mb-0">Preview of Media URI </p>
+								<p class="small mb-0">Preview of Media</p>
 								
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
-								<p class="small mb-0">Preview of Preview URI </p>
+								<p class="small mb-0">Preview of Thumbnail</p>
 							</div>
 							
-					
-							<div class="col-12 col-sm-8 col-md-9 col-xl-10 px-0 float-left">
-							
-<!---								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-										<label for="media_uri" class="data-entry-label">Media URI (Shared Drive)</label>
-										<input type="file" name="media_uri" class="reqdClr data-entry-input" onchange="previewFile(this);" required>
-									</div>
-								</div>
-								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-										<label for="preview_uri" class="data-entry-label">Preview URI (Shared Drive)</label>
-										<input type="file" name="preview_uri" onchange="previewPreviewFile(this)" size="105" class="preview data-entry-input">
-									</div>
-								</div>--->
 								<div class="form-row mx-0 mt-0 mb-4">
-									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-									<!---	<p class="pl-3 mt-2 mb-1">OR</p>--->
-										<label for="media_uri" class="data-entry-label">Media URI (No Preview)</label>
+									<div class="col-12 col-md-10 px-0 px-sm-2 px-md-4 float-left">
+										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 									</div>
+									<div class="col-12 col-md-4 px-0 px-sm-2 px-md-4">
+										<button type="button" onClick="getIRIForFile();" >Find on Shared Storage</button>
+									</div>
 								</div>
 								<div class="form-row mx-0 mt-0 mb-4">
 									<div class="col-12 col-xl-10 px-0 px-sm-2 px-md-4 float-left">
-								<!---		<p class="pl-3 mt-2 mb-1">OR</p>--->
-										<label for="preview_uri" class="data-entry-label">Preview URI (No Preview)</label>
+										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 									</div>
 								</div>
