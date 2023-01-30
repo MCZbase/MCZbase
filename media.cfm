@@ -355,14 +355,15 @@
     </form>
 
 			<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
-				<h3>EXIF Metadata</h3>
 				<cftry>
 					<cfif media.mime_type EQ "image/jpeg">
+						<h3>EXIF Metadata</h3>
 						<cfset targetFileName = "#Application.webDirectory#/#media.auto_path##media.auto_filename#" >
 						<cfimage source="#targetFileName#" name="image">
 						<cfset metadata = ImageGetEXIFMetadata(image) >
 						<cfdump var="#metadata#">
-					<cfelse>
+					<cfelseif isdefined("session.roles") and listfindnocase(session.roles,"global_admin")>
+						<h3>EXIF Metadata</h3>
 						<cfset fileProxy = CreateObject("java","java.io.File") >
 						<cfset fileReaderProxy = CreateObject("java","javax.imageio.stream.FileImageInputStream") >
 						<cfobject type="Java" class="javax.imageio.stream.FileImageInputStream" name="fileReader">
