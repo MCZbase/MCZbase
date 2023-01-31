@@ -14,8 +14,6 @@
 <style>
 	.viewer {width: auto; height: auto;margin:auto;}
 	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
-	.magnifyarea {width: auto; height: auto;margin:auto;}
-	.magnifyarea img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
 </style>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
