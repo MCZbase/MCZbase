@@ -1601,6 +1601,14 @@ imgStyleClass=value
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'loan'
 		</cfquery>
+		<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct transaction_id
+			from media_relations
+				left join accn on media_relations.related_primary_key = accn.transaction_id
+				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
+			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+				and mczbase.ctmedia_relationship.auto_table = 'accn'
+		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct p.publication_id as pk
 			from publication p
