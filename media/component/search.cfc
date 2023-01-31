@@ -1602,9 +1602,9 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'loan'
 		</cfquery>
 		<cfquery name="accns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct transaction_id
+			select distinct accn_number
 			from media_relations
-				left join accn on media_relations.related_primary_key = accn.transaction_id
+				left join accn on media_relations.related_primary_key = accn.accn_number
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and mczbase.ctmedia_relationship.auto_table = 'accn'
