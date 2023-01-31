@@ -566,7 +566,7 @@
 														<cfset separator= ";">
 													</cfloop>
 													<cfif numSole EQ 0>
-														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventUsedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
+														<a href="/Locality.cfm?action=findCollEvent&locality_id=#locality_id#&collnOper=eventSharedOnlyBy&collection_id=#whatSpecs.collection_id#&include_counts=true&include_ce_counts=true">
 															#numShared# shared collecting events (#collection_cde# shared with #sharedNames#)
 														</a>
 													<cfelse>
