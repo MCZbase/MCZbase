@@ -185,7 +185,7 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
 																			<div class="px-0">
-																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# (media/#relm.media_id#)
+																				<span class="px-2 small90 font-weight-lessbold"> #spec.label# (media/#relm.media_id#)
 																				</span> 
 																				#mediablock#
 																			</div>
