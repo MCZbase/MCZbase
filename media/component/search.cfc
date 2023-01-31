@@ -1234,8 +1234,10 @@ imgStyleClass=value
 			<cfif media.recordcount EQ 1>
 				<cfset i= 1>
 				<cfloop query="media">
+					<!--- to turn on rewriting to deliver media via iiif server, set enableIIIF to true, to turn of, set to false --->
+					<cfset enableIIIF = true>
 					<cfset iiifFull = "">
-					<cfif host EQ "mczbase.mcz.harvard.edu">
+					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
 						<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 						<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 						<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
@@ -1261,11 +1263,11 @@ imgStyleClass=value
 							<cfset displayImage = preview_uri>
 							<cfset hw = 'width="auto" height="auto"'>
 							<cfset styles = "max-height:70px;">
-							<cfif host EQ "mczbase.mcz.harvard.edu">
+							<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF >
 								<cfset displayImage = iiifThumb>
 							</cfif>
 						<cfelse>
-							<cfif host EQ "mczbase.mcz.harvard.edu">
+							<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
 								<cfset sizeParameters='&width=#size#&height=#size#'>
 								<!--- cfset displayImage = "/media/rescaleImage.cfm?media_id=#media.media_id##sizeParameters#" --->
 								<cfset displayImage = iiifSize>
@@ -1351,8 +1353,7 @@ imgStyleClass=value
 					<cfelse>
 						<cfset linkTarget = "#media.media_uri#">
 					</cfif>
-				<!---	Test removal--->
-					<cfif host EQ "mczbase.mcz.harvard.edu" AND isDefined("iiifFull") AND len(iiifFull) GT 0>
+					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF AND isDefined("iiifFull") AND len(iiifFull) GT 0>
 						<cfset linkTarget = iiifFull>
 					</cfif>
 						<!---Removed on 1/20/23 from <img...> tag: class="#background_class#"--->

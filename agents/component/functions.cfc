@@ -2086,11 +2086,126 @@ limitations under the License.
 				<!--- TODO: Support changing a person to a non-person --->
 				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
 				<cfset updateAgent = true>
-				<cfset removePerson = true>
+				<cfset updatePerson = true>
 				<cfset convertFromPerson = true>
+				<cfset removePerson = true>
 			<cfelse>
 				<!--- Catch errors --->
 				<cfthrow message="unknown/unsupported conversion types">
+			</cfif>
+			<cfif convertFromPerson>
+				<!--- check that a person record exists to be converted from --->
+				<cfquery name="checkForPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT count(*) ct
+					FROM person 
+					WHERE
+						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<!--- gracefully handle error case of an agent typed as a person without a person record  --->
+				<cfif checkForPerson.ct EQ 0>
+					<cfset updatePerson = false>
+				</cfif>
+			</cfif>
+			<!--- Note order of clauses for change from person: save any changes made to the person before extracting to store as remarks --->
+			<cfif updatePerson>
+				<!--- update existing person record --->
+				<cfquery name="editPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE person SET
+						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				<cfif len(#first_name#) gt 0>
+					,first_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#first_name#'>
+				<cfelse>
+					,first_name=null
+				</cfif>
+				<cfif len(#prefix#) gt 0>
+					,prefix=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
+				<cfelse>
+					,prefix=null
+				</cfif>
+				<cfif len(#middle_name#) gt 0>
+					,middle_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#middle_name#'>
+				<cfelse>
+					,middle_name=null
+				</cfif>
+				<cfif len(#last_name#) gt 0>
+					,last_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#last_name#'>
+				<cfelse>
+					,last_name=null
+				</cfif>
+				<cfif len(#suffix#) gt 0>
+					,suffix=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#suffix#'>
+				<cfelse>
+					,suffix=null
+				</cfif>
+				<cfif len(#start_date#) gt 0>
+					,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
+				<cfelse>
+					,birth_date=null
+				</cfif>
+				<cfif len(#end_date#) gt 0>
+					,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
+				<cfelse>
+					,death_date=null
+				</cfif>
+					WHERE
+						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+			</cfif>
+			<cfif convertFromPerson>
+				<!--- obtain person record, append name and birth/death to remarks --->
+				<cfquery name="getPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getPerson_result">
+					SELECT
+						PREFIX,
+						LAST_NAME,
+						FIRST_NAME,
+						MIDDLE_NAME,
+						SUFFIX,
+						nvl(birth_date,to_char(BIRTH_DATE_DATE,'yyyy-mm-dd')) as birth,
+						nvl(death_date,to_char(DEATH_DATE_DATE,'yyyy-mm-dd')) as death
+					FROM person
+					WHERE person_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+				</cfquery>
+				<cfloop query="getPerson">
+					<cfset name = "#prefix# #first_name# #middle_name# #last_name# #suffix#">
+					<cfset name = trim(replace(name,"  "," ", "all"))>
+					<cfset remark = "Agent converted from agent of type person with name [#name#]">
+					<cfif len(birth) GT 0>
+						<cfset remark = "#remark# Birth Date [#birth#]">
+					</cfif>
+					<cfif len(death) GT 0>
+						<cfset remark = "#remark# Death Date [#death#]">
+					</cfif>
+					<cfset remark="#remark#.">
+					<cfif len(agent_remarks) EQ 0>
+						<cfset agent_remarks = remark>
+					<cfelse>
+						<cfset agent_remarks = "#agent_remarks#; #remark#">
+					</cfif>
+					<!--- if name doesn't exist as an AKA, add it. --->
+					<cfquery name="checkForName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="checkForName_result">
+						SELECT count(*) ct 
+						FROM agent_name
+						WHERE
+							agent_name_type = 'aka'
+							and agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+							and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
+					</cfquery>
+					<cfif checkForName.ct EQ 0>
+						<cfquery name="addName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addName_result">
+							INSERT into agent_name (
+								agent_id, 
+								agent_name_type,
+								agent_name,
+								agent_name_id
+							) values (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								'aka',
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">,
+								SQ_AGENT_NAME_ID.nextval
+							)
+						</cfquery>
+					</cfif>
+				</cfloop>
 			</cfif>
 			<cfif updateAgent>
 				<cfquery name="updateAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2173,54 +2288,8 @@ limitations under the License.
 					)
 				</cfquery>
 			</cfif>
-			<cfif updatePerson>
-				<!--- update existing person record --->
-				<cfquery name="editPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					UPDATE person SET
-						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				<cfif len(#first_name#) gt 0>
-					,first_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#first_name#'>
-				<cfelse>
-					,first_name=null
-				</cfif>
-				<cfif len(#prefix#) gt 0>
-					,prefix=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#prefix#'>
-				<cfelse>
-					,prefix=null
-				</cfif>
-				<cfif len(#middle_name#) gt 0>
-					,middle_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#middle_name#'>
-				<cfelse>
-					,middle_name=null
-				</cfif>
-				<cfif len(#last_name#) gt 0>
-					,last_name=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#last_name#'>
-				<cfelse>
-					,last_name=null
-				</cfif>
-				<cfif len(#suffix#) gt 0>
-					,suffix=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#suffix#'>
-				<cfelse>
-					,suffix=null
-				</cfif>
-				<cfif len(#start_date#) gt 0>
-					,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#start_date#'>
-				<cfelse>
-					,birth_date=null
-				</cfif>
-				<cfif len(#end_date#) gt 0>
-					,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#end_date#'>
-				<cfelse>
-					,death_date=null
-				</cfif>
-					WHERE
-						person_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
-				</cfquery>
-			</cfif>
 			<cfif removePerson>
-				<!--- needs enforced foreign keys on coll_object.entered_by_person_id, last_edited_person_id, loan_item.reconciled_by_person_id and deacc_item.reconciled_by_person_id --->
-				<!--- TODO: Support changing a person to a non-person --->
-				<cfthrow message="conversion of a non-person agent to a person is not supported yet">
+				<!--- Note: Various _by_person_id fields have foreign key contraints on agent.agent_id, as person.person_id is actually a foreign key to agent.agent_id --->
 				<cfquery name="deletePerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deletePerson_result">
 					delete from person
 					where

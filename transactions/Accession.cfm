@@ -972,7 +972,34 @@ limitations under the License.
 		>
 			<h1 class="h2">One or more required fields are missing.</h1>
 			<p>You must fill in Collection, Accn Number, Status, Accession Date, Received Date, Nature of Material, Received From, and Accn Type.</p>
-			<p>Use your browser's back button to fix the problem and try again.</p>
+			<p>Use your browser's back button to fix the problem and try again.</p><!--- ' --->
+			Missing:
+			<ul>
+			<cfif not isDefined("collection_id") OR len(collection_id) is 0> 
+				<li>collection_id</li>
+			</cfif>
+			<cfif not isDefined("accn_number") OR len(accn_number) is 0> 
+				<li>accn_number</li>
+			</cfif>
+			<cfif not isDefined("accn_status") OR len(accn_status) is 0> 
+				<li>accn_status</li>
+			</cfif>
+			<cfif not isDefined("received_date") OR len(received_date) is 0> 
+				<li>received_date</li>
+			</cfif>
+			<cfif not isDefined("nature_of_material") OR len(nature_of_material) is 0> 
+				<li>nature_of_material</li>
+			</cfif>
+			<cfif not isDefined("accn_type") OR len(accn_type) is 0> 
+				<li>accn_type</li>
+			</cfif>
+			<cfif not isDefined("accession_date") OR len(accession_date) is 0> 
+				<li>accession_date</li>
+			</cfif>
+			<cfif not isDefined("received_agent_id") OR len(received_agent_id) is 0> 
+				<li>received_agent_id</li>
+			</cfif>
+			</ul>
 			<cfabort>
 		</cfif>
 		<cftransaction>
