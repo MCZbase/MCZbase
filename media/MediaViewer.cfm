@@ -14,6 +14,8 @@
 <style>
 	.viewer {width: auto; height: auto;margin:auto;}
 	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
+	.magnifyarea {width: auto; height: auto;margin:auto;}
+	.magnifyarea img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
 </style>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
@@ -116,13 +118,13 @@
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
-								<div id="viewer targetarea" class="viewer rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
+								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
 									</div>
 									<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
-									<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel to see a larger version of the image. Pan to see different parts of image. </p>
+									<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image. Pan to see different parts of image. </p>
 								</div>
 							</cfif>
 							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-0 pb-0">
