@@ -1206,10 +1206,12 @@ You do not have permission to create Higher Geographies
 				<tr>
 					<td>
 						<label for="verbatimDepth">Verbatim Depth<label>
+						<cfif not isDefined("verbatimDepth")><cfset verbatimDepth = ""></cfif>
 						<input type="text" name="verbatimDepth" value="#encodeForHTML(verbatimDepth)#" id="verbatimDepth" size="30">
 					</td>
 					<td>
 						<label for="verbatimElevation">Verbatim Elevation<label>
+						<cfif not isDefined("verbatimElevation")><cfset verbatimElevation = ""></cfif>
 						<input type="text" name="verbatimElevation" value="#encodeForHTML(verbatimElevation)#" id="verbatimElevation" size="30">
 					</td>
 				</tr>
