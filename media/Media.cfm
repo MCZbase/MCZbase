@@ -89,7 +89,7 @@ limitations under the License.
 		</cfquery>
 
 		<cfoutput>
-		<cfloop query="media">
+
 			<div class="container-fluid container-xl">
 				<div class="row mx-0">
 					<div class="col-12 mt-3 pb-5">
@@ -109,10 +109,10 @@ limitations under the License.
 							<input type="hidden" id="media_id" name="media_id" value="#media.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
-							<!---		<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
+							<!---	<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
 									<div class="mx-auto text-center pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>--->
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
-								<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
+									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
@@ -120,7 +120,6 @@ limitations under the License.
 											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
-											</cfif>
 											<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
 												<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
 												<cfset directory = "#Application.webDirectory#/#auto_path#">
@@ -137,6 +136,7 @@ limitations under the License.
 											</cfif>
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
+											</cfif>
 											</cfif>
 										</div><!---end form-row--->
 										<div class="form-row mx-0 mt-2">
@@ -256,7 +256,6 @@ limitations under the License.
 					</div><!---end col-12--->
 				</div>
 			</div>
-		</cfloop>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
