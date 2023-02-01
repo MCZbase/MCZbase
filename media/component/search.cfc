@@ -2428,15 +2428,16 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="cf_dbuser">
+		<cfquery name="search" datasource="cf_dbuser" result="search_result">
 			select distinct 
+				media_id,
 				auto_path,
 				auto_filename
 			from 
 				media
 			where 
 				media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-				and auto_path = 'mczbase.mcz.harvard.edu'
+				and auto_host = 'mczbase.mcz.harvard.edu'
 				and media_type = 'image'
 				and is_media_encumbered(media_id) = 0
 			order by auto_filename
