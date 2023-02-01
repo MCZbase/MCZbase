@@ -2009,7 +2009,7 @@ imgStyleClass=value
 											</tr>
 										</cfloop>
 									</cfif>--->
-								<form name="labelForm" method="post" action="/Media.cfm">
+								<form name="labelForm" class="col-12 px-0" method="post" action="/Media.cfm">
 									<div class="newRec col-12 px-0">
 										<div class="col-12 col-md-3 px-0 float-left">
 											<input type="hidden" name="action" value="addLabel" />
