@@ -1819,7 +1819,7 @@ imgStyleClass=value
 				<cfset i=1>
 				<cfloop query="getRelationships1">
 					<cfset d=media_relationship>
-						<div class="form-row col-12 px-0 mx-0">	
+						<div class="form-row col-12 mb-2 mb-md-0 px-0 mx-0">	
 							<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 							<label for="relationship__#i#"  class="sr-only">Relationship</label>
 							<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-3 float-left">
