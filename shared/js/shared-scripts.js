@@ -449,7 +449,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
  *  @param the constraint to place on which agents are returned, see getAgentAutocompleteMeta for supported values
  */
 function makeConstrainedRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId, constraint) { 
-	makeConstrainedRichAgentPickerConfig(nameControl, idControl, iconControl, linkControl, agentId, constraint,false);
+	makeConstrainedRichAgentPickerConfig(nameControl, idControl, iconControl, linkControl, agentId, constraint,true);
 }
 /** as makeConstraineRichAgentPicker but configurable to not clear for use with searches
  *  @param clear boolean if true clear controls when not selecting from the picklist, if false then 
