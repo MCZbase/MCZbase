@@ -361,7 +361,7 @@ Function getPublications.  Search for publications by fields
 				<cfif isDefined("editor_agent_id") AND len(editor_agent_id) GT 0>
 					and pubeditor_name.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#editor_agent_id#">
 				<cfelseif isDefined("editor_agent_name") AND len(editor_agent_name) GT 0>
-					and anyeditoragentname like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#author_agent_name#%">
+					and anyeditoragentname.agent_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#author_agent_name#%">
 				</cfif>
 				<cfif isDefined("cited_named_group_id") AND len(cited_named_group_id) GT 0>
 					and underscore_collection_citation.underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#cited_named_group_id#">
