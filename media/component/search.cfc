@@ -2033,13 +2033,10 @@ imgStyleClass=value
 							</div>
 							<cfset i=i+1>
 						</cfloop>
-						<table>
-							<tr>
-								<td class="border-0">
-									<input class="btn btn-xs btn-primary float-left" type="button" value="Save New Label">
-								</td>
-							</tr>
-						</table>
+						<div class="col-12 px-0">
+							<input class="btn btn-xs btn-primary float-left" type="button" value="Save New Label">
+						</div>
+					
 						
 					<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-6 float-right d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
 					</div><!---end id labels--->
