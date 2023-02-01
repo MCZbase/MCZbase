@@ -161,7 +161,7 @@
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
-															where mr.media_relationship = <cfqueryparam value=#spec.wlabel# >
+															and mr.media_relationship = <cfqueryparam value=#spec.wlabel# >
 															and mr.media_relationship <> 'created by agent'
 															</cfquery>
 														</cfif>
