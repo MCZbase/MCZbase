@@ -2125,7 +2125,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 				media
 			where 
 				media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-				and auto_path = 'mczbase.mcz.harvard.edu'
+				and auto_host = 'mczbase.mcz.harvard.edu'
 				and media_type = 'image'
 				and is_media_encumbered(media_id) = 0
 			order by auto_filename
