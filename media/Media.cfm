@@ -89,7 +89,7 @@ limitations under the License.
 		</cfquery>
 
 		<cfoutput>
-
+		<cfloop name="media">
 			<div class="container-fluid container-xl">
 				<div class="row mx-0">
 					<div class="col-12 mt-3 pb-5">
@@ -122,10 +122,10 @@ limitations under the License.
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
 											</cfif>
 											<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
-												<cfset file = "#Application.webDirectory#/#media.auto_path##media.auto_filename#">
-												<cfset directory = "#Application.webDirectory#/#media.auto_path#">
+												<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
+												<cfset directory = "#Application.webDirectory#/#auto_path#">
 												<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
-												<cfset iiifIdentifier = "#encodeForURL(replace(media.auto_path,'/specimen_images/',''))##encodeForURL(media.auto_filename)#">
+												<cfset iiifIdentifier = "#encodeForURL(replace(auto_path,'/specimen_images/',''))##encodeForURL(auto_filename)#">
 												<cfif fileExists(file)>
 													<output id="fileStatusOutput">[File Exists]</output>
 												<cfelse>
@@ -256,6 +256,7 @@ limitations under the License.
 					</div><!---end col-12--->
 				</div>
 			</div>
+		</cfloop>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
