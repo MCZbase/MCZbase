@@ -2117,7 +2117,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 
 	<cftry>
 		<cfset rows = 0>
-		<cfquery name="search" datasource="cf_dbuser">
+		<cfquery name="search" datasource="cf_dbuser" result="search_result">
 			select distinct 
 				auto_path,
 				auto_filename
