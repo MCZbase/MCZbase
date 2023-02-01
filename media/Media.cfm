@@ -133,11 +133,11 @@ limitations under the License.
 													<cfif NOT directoryExists(directory)>[Directory Not Found]</cfif>
 													</output>
 												</cfif>
-											<!---</cfif>--->
+											</cfif>
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
 											</cfif>
-											</cfif>
+										<!---	</cfif>--->
 										</div><!---end form-row--->
 										<div class="form-row mx-0 mt-2">
 											<label for="preview_uri" class="h5 mb-1 mt-2 data-entry-label">Preview URI
