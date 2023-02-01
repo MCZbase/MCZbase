@@ -125,7 +125,7 @@ limitations under the License.
 												<cfset file = "#Application.webDirectory#/#media.auto_path##media.auto_filename#">
 												<cfset directory = "#Application.webDirectory#/#media.auto_path#">
 												<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
-												<cfset iiifIdentifier = "#encodeForURL(replace(auto_path,'/specimen_images/',''))##encodeForURL(auto_filename)#">
+												<cfset iiifIdentifier = "#encodeForURL(replace(media.auto_path,'/specimen_images/',''))##encodeForURL(auto_filename)#">
 												<cfif fileExists(file)>
 													<output id="fileStatusOutput">[File Exists]</output>
 												<cfelse>
