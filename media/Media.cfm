@@ -118,7 +118,7 @@ limitations under the License.
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
 											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
-											<cfif #media.media_uri# contains #application.serverRootUrl#>
+											<cfif #media.media_uri# contains #application.protocol#><!---this was: serverRootUrl  I changed it to protocol temporarily--->
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
 											<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
 												<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
