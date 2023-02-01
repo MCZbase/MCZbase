@@ -608,9 +608,9 @@ limitations under the License.
 						<div class="small mr-2"><span class="font-weight-lessbold">Determiner:</span> #determinedBy#
 							<cfif len(made_date) gt 0>
 								<cfif len(made_date) gt 8>
-									<span class="font-weight-lessbold">on</span> #dateformat(identification.made_date,"yyyy-mm-dd")#
+									<span class="font-weight-lessbold">on</span> #identification.made_date#
 								<cfelse>
-									<span class="font-weight-lessbold">in</span> #dateformat(identification.made_date,"yyyy")#
+									<span class="font-weight-lessbold">in</span> #identification.made_date#
 								</cfif>
 							</cfif>
 						</div>
