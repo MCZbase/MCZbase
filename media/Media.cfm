@@ -92,8 +92,8 @@ limitations under the License.
 
 			<div class="container-fluid container-xl">
 				<div class="row mx-0">
-					<div class="col-12 mt-3 pb-5">
-						<h1 class="h2 px-1 border-bottom border-dark pb-2">Edit Media 
+					<div class="col-12 border-bottom border-dark my-3">
+						<h1 class="h2 px-2 py-2 my-2">Edit Media 
 							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
 							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
 						</h1>
