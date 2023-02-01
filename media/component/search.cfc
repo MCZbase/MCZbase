@@ -2033,8 +2033,10 @@ imgStyleClass=value
 							</div>
 							<cfset i=i+1>
 						</cfloop>
-						<div class="col-12 px-0">
-							<input class="btn btn-xs btn-primary float-left" type="button" value="Save New Label">
+						<div class="row">
+							<div class="col-12 px-0 mt-2">
+								<input class="btn btn-xs btn-primary float-left" type="button" value="Save New Label">
+							</div>
 						</div>
 					
 						
