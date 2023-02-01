@@ -1992,23 +1992,6 @@ imgStyleClass=value
 							<div class="row" id="labelDiv__#i#" >		
 								<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#">
 								<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
-<!---									<cfif getLabels.recordcount EQ 0>
-										<tr>
-											<td>None</td>
-											<td></td>
-										</tr>
-									<cfelse>
-										<cfloop query="getLabels">
-											<tr>
-												<td>
-													#media_label# 
-												</td>
-												<td>
-													<a class="btn btn-xs btn-warning" href="/Media.cfm?action=remmedialabel&media_label=#media_label#&label_value=#label_value#&media_id=#getlabels.media_label_id#">Delete</a>
-												</td>
-											</tr>
-										</cfloop>
-									</cfif>--->
 								<form name="labelForm" class="col-12 px-0" method="post" action="/Media.cfm">
 									<div class="newRec col-12 px-0">
 										<div class="col-12 col-md-3 px-0 float-left">
@@ -2023,7 +2006,7 @@ imgStyleClass=value
 										<div class="col-12 col-md-6 px-0 float-left">
 											<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled float-left px-1">
 										</div>
-										<div class="col-12 col-md-3 float-left">
+										<div class="col-12 col-md-3 px-0 px-md-3 float-left">
 											<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit"></input>
 											<input type="submit" value="Save" class="savBtn btn-xs btn-primary">
