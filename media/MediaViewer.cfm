@@ -51,7 +51,7 @@
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
 		and ct.description = 'publication'
 		and ct.description <> 'ledger'
-		and m.media_URI not like '%nrs%'
+		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
 		select ci.collection_object_id as pk, ct.auto_table as wlabel, ct.label as label
 		from cataloged_item ci
@@ -95,12 +95,10 @@
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = #media_id#
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship <> 'created by agent'
-		and (mr.media_relationship = 'shows handwriting of agent' 
-		OR mr.media_relationship = 'shows agent' 
-		OR mr.media_relationship = 'documents agent')
+		and ct.auto_table = 'agent' 
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
@@ -162,8 +160,8 @@
 															select distinct media.media_id
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
-															left join ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam value=#spec.pk# >
+															where mr.media_relationship = <cfqueryparam value=#spec.wlabel# >
 															and mr.media_relationship <> 'created by agent'
 															</cfquery>
 														</cfif>
