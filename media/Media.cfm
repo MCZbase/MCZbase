@@ -233,7 +233,7 @@ limitations under the License.
 												<div id="relationsBlock">
 													#relationsBlockContent#
 												</div>
-												<div id="#id_for_dialog#"></div>
+												<div id=""></div>
 												<div class="col-9 px-0 pt-2 float-left">
 											<!---		<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>--->
