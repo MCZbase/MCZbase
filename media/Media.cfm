@@ -123,7 +123,7 @@ limitations under the License.
 											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<!---<cfif #media.media_uri# contains #application.serverRootUrl#>--->
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
-									<!---commented this and cfif above (was missing </cfif>). I did it to work on the page. It was creating an error that I couldn't clear even with the closing tag put in--->
+									<!---Commented this and cfif above (was missing </cfif>). I did it to work on the page. It was creating an error that I couldn't clear even with the closing tag put in 2/1/23--->
 										<!---	<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
 												<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
 												<cfset directory = "#Application.webDirectory#/#auto_path#">
