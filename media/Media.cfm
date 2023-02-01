@@ -121,23 +121,23 @@ limitations under the License.
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
 											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
-											<!---<cfif #media.media_uri# contains #application.serverRootUrl#>--->
+									<!---<cfif #media.media_uri# contains #application.serverRootUrl#>--->
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
 									<!---Commented this and cfif above (was missing </cfif>). I did it to work on the page. It was creating an error that I couldn't clear even with the closing tag put in 2/1/23--->
-										<!---	<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
-												<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
-												<cfset directory = "#Application.webDirectory#/#auto_path#">
-												<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
-												<cfset iiifIdentifier = "#encodeForURL(replace(auto_path,'/specimen_images/',''))##encodeForURL(auto_filename)#">
-												<cfif fileExists(file)>
-													<output id="fileStatusOutput">[File Exists]</output>
-												<cfelse>
-													<output id="fileStatusOutput">
-													[File Not Found]
-													<cfif NOT directoryExists(directory)>[Directory Not Found]</cfif>
-													</output>
-												</cfif>
-											</cfif>--->
+									<!---	<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
+											<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
+											<cfset directory = "#Application.webDirectory#/#auto_path#">
+											<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
+											<cfset iiifIdentifier = "#encodeForURL(replace(auto_path,'/specimen_images/',''))##encodeForURL(auto_filename)#">
+											<cfif fileExists(file)>
+												<output id="fileStatusOutput">[File Exists]</output>
+											<cfelse>
+												<output id="fileStatusOutput">
+												[File Not Found]
+												<cfif NOT directoryExists(directory)>[Directory Not Found]</cfif>
+												</output>
+											</cfif>
+										</cfif>--->
 											<cfif #media.media_uri# contains #application.serverRootUrl#>
 												<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
 											</cfif>
