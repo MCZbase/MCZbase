@@ -2106,4 +2106,50 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- function getMediaFilePath backing for a media file lookup to support delegate for 
+  cantaloupe, given a media_id, return the path below specimen_images and the filename.
+  @param media_id the media record to look up
+  @return json structure containing 
+--->
+<cffunction name="getMediaFilePath" access="remote" returntype="any" returnformat="json">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="cf_dbuser">
+			select distinct 
+				auto_path,
+				auto_filename
+			from 
+				media
+			where 
+				media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+				and auto_path = 'mczbase.mcz.harvard.edu'
+				and media_type = 'image'
+				and is_media_encumbered(media_id) = 0
+			order by auto_filename
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.media_id#">
+			<cfset row["filename"] = "#search.auto_filename#" >
+			<cfset row["path"] = "#search.auto_path#" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
