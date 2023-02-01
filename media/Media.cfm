@@ -89,7 +89,7 @@ limitations under the License.
 		</cfquery>
 
 		<cfoutput>
-		<cfloop name="media">
+		<cfloop query="media">
 			<div class="container-fluid container-xl">
 				<div class="row mx-0">
 					<div class="col-12 mt-3 pb-5">
