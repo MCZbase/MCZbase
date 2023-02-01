@@ -121,8 +121,8 @@ limitations under the License.
 											<!---<cfif #media.media_uri# contains #application.serverRootUrl#>--->
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
 											<cfif media.auto_host EQ "mczbase.mcz.harvard.edu">
-												<cfset file = "#Application.webDirectory#/#auto_path##auto_filename#">
-												<cfset directory = "#Application.webDirectory#/#auto_path#">
+												<cfset file = "#Application.webDirectory#/#media.auto_path##media.auto_filename#">
+												<cfset directory = "#Application.webDirectory#/#media.auto_path#">
 												<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 												<!---<cfset iiifIdentifier = "#encodeForURL(replace(auto_path,'/specimen_images/',''))##encodeForURL(auto_filename)#">--->
 												<cfif fileExists(file)>
