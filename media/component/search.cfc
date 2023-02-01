@@ -2006,7 +2006,7 @@ imgStyleClass=value
 										<div class="col-12 col-md-5 col-xl-6 px-0 float-left">
 											<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#"  class="data-entry-input inputDisabled float-left px-1">
 										</div>
-										<div class="col-12 col-md-4 col-xl-3 px-0 mt-2 mt-md-0 float-left">
+										<div class="col-12 col-md-4 col-xl-3 px-0 mb-2 mb-md-0 float-left">
 											<button class="btn btn-danger btn-xs float-left small" id="deleteLabel" onClick="deleteLabel(media_id)"> Delete </button>
 											<input class="btn btn-secondary btn-xs mx-0 small float-left edit-toggle__#i#" type="button" value="Edit"></input>
 											<input type="submit" value="Save" class="savBtn btn-xs btn-primary">
