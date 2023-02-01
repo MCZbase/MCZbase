@@ -249,7 +249,7 @@ limitations under the License.
 											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90"><a class="btn-link h5" type="button" >Add Row</a> &bull; Please add a "description."</span>
 											</label>
 										</h2>
-										<div class="row">
+										<div class="">
 											<div class="col-12">
 												<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
 												<div id="labelBlock">
