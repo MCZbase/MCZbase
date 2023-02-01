@@ -755,6 +755,9 @@ limitations under the License.
 										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for media">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
 										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new media search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/media/findMedia.cfm';" >New Search</button>
+										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_media")>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new media record" href="#Application.serverRootUrl#/media.cfm?action=newMedia">Create New Media</a>
+										</cfif>
 									</div>
 								</div>
 	

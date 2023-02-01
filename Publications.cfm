@@ -287,7 +287,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makeConstrainedRichAgentPicker('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author'));
+											$(makeConstrainedRichAgentPickerConfig('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author',false));
 										});
 									</script>
 									<div class="col-12 col-md-4 col-xl-3">
@@ -312,7 +312,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makeConstrainedRichAgentPicker('editor_agent_name', 'editor_agent_id', 'editor_agent_name_icon', 'editor_agent_view', '#editor_agent_id#','editor'));
+											$(makeConstrainedRichAgentPickerConfig('editor_agent_name', 'editor_agent_id', 'editor_agent_name_icon', 'editor_agent_view', '#editor_agent_id#','editor',false));
 										});
 									</script>
 									<div class="col-12 col-md-6 col-xl-2">

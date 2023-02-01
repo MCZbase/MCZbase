@@ -449,6 +449,13 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
  *  @param the constraint to place on which agents are returned, see getAgentAutocompleteMeta for supported values
  */
 function makeConstrainedRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId, constraint) { 
+	makeConstrainedRichAgentPickerConfig(nameControl, idControl, iconControl, linkControl, agentId, constraint,false);
+}
+/** as makeConstraineRichAgentPicker but configurable to not clear for use with searches
+ *  @param clear boolean if true clear controls when not selecting from the picklist, if false then 
+ *    leave the value in nameControl but clear the other controls.
+ */
+function makeConstrainedRichAgentPickerConfig(nameControl, idControl, iconControl, linkControl, agentId, constraint, clear) { 
 	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
 		$('#'+idControl).val(agentId);
@@ -504,10 +511,18 @@ function makeConstrainedRichAgentPicker(nameControl, idControl, iconControl, lin
 			$('#'+iconControl).removeClass('bg-light');
 		},
 		change: function(event,ui) { 
-			if(!ui.item){
+			if(!ui.item && clear){
 				// handle a change that isn't a selection from the pick list, clear the controls.
 				$('#'+idControl).val("");
 				$('#'+nameControl).val("");
+				$('#'+iconControl).removeClass('bg-lightgreen');
+				$('#'+iconControl).addClass('bg-light');	
+				$('#'+linkControl).html("");
+				$('#'+linkControl).removeAttr('aria-label');
+			} else if(!ui.item && !clear){
+				// support use with searches
+				// handle a change that isn't a selection from the pick list, clear the controls.
+				$('#'+idControl).val("");
 				$('#'+iconControl).removeClass('bg-lightgreen');
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+linkControl).html("");
