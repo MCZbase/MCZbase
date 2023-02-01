@@ -120,7 +120,7 @@ limitations under the License.
 								<div class="col-12 col-md-9 col-xl-10 pb-4 pb-xl-2 px-0 px-md-2 float-left">
 									<div class="col-12 col-xl-9 px-0 px-xl-2 float-left">
 										<div class="form-row mx-0 mt-2">	
-											<cfset enableIIIF = true>
+							<!---				<cfset enableIIIF = true>
 											<cfset iiifFull = "">
 											<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
 												<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
@@ -128,8 +128,8 @@ limitations under the License.
 												<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 												<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 												<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
-											</cfif>
-											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#iiifFull#" class="infoLink" target="_blank">open</a>)</label>
+											</cfif>--->
+											<label for="media_uri" class="h5 mb-1 mt-0 data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
 											<!---<cfif #media.media_uri# contains #application.serverRootUrl#>--->
 											<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input small reqdClr">
 										
