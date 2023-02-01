@@ -2119,6 +2119,7 @@ getCounterHtml returns a block of html displaying information from the cf_hellow
 		<cfset rows = 0>
 		<cfquery name="search" datasource="cf_dbuser" result="search_result">
 			select distinct 
+				media_id,
 				auto_path,
 				auto_filename
 			from 
