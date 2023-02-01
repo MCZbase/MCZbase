@@ -152,6 +152,7 @@
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 															and mr.media_relationship <> 'created by agent'
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+															and media.media_id <> <cfqueryparam cffsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<cfset i= 1>
 														<!---thumbnails added below--->
