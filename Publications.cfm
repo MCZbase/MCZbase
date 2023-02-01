@@ -287,7 +287,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makeConstrainedRichAgentPickerConfig('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author'.false));
+											$(makeConstrainedRichAgentPickerConfig('author_agent_name', 'author_agent_id', 'author_agent_name_icon', 'author_agent_view', '#author_agent_id#','author',false));
 										});
 									</script>
 									<div class="col-12 col-md-4 col-xl-3">
