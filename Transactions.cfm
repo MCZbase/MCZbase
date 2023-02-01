@@ -1271,6 +1271,7 @@ limitations under the License.
 											<button class="btn-xs btn-primary px-2 mr-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new loan" href="/transactions/Loan.cfm?action=newLoan">Create New Loan</a>
 										</div>
 									</div>
 								</form>
@@ -1747,6 +1748,7 @@ limitations under the License.
 											<button class="btn-xs btn-primary px-2 mr-2" id="accnSearchButton" type="submit" aria-label="Search Accessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new accession search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAccessions';" >New Search</button>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new accession" href="/transactions/Accession.cfm?action=new">Create New Accession</a>
 										</div>
 									</div>
 								</form>
@@ -2203,6 +2205,7 @@ limitations under the License.
 											<button class="btn-xs btn-primary px-2 mr-2" id="deaccnSearchButton" type="submit" aria-label="Search Deaccessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new deaccession search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findDeaccessions';" >New Search</button>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new deaccession" href="/transactions/Deaccession.cfm?action=new">Create New Deaccession</a>
 										</div>
 									</div>
 								</form>
@@ -2602,6 +2605,7 @@ limitations under the License.
 											<button class="btn-xs btn-primary px-2 mr-2" id="borrowSearchButton" type="submit" aria-label="Search Borrows">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new borrow search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findBorrows';" >New Search</button>
+											<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new borrow" href="/transactions/Borrow.cfm?action=new">Create New Borrow</a>
 										</div>
 									</div>
 								</form>

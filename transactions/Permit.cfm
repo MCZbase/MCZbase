@@ -67,6 +67,19 @@ limitations under the License.
 	<cfcase value="search">
 		<div id="overlaycontainer" style="position: relative;">
 			<main id="content">
+				<cfif isdefined("permit_id") and len(permit_id) GT 0>
+					<cfquery name="lookupPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupPermit_result">
+						SELECT permit_title, permit_number, permit_type, specific_type
+						FROM permit
+						WHERE permit_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="permit_id">
+					</cfquery>
+					<cfloop query="lookupPermit">
+						<cfset permit_title=lookupPermit.permit_title>
+						<cfset permit_number=lookupPermit.permit_number>
+						<cfset permit_type=lookupPermit.permit_type>
+						<cfset specific_type=lookupPermit.specific_type>
+					</cfloop>
+				</cfif>
 				<!--- ensure fields have empty values present if not defined. --->
 				<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
 				<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
@@ -222,6 +235,7 @@ limitations under the License.
 												<button class="btn-xs btn-primary px-2 mt-2" id="permitSearchButton" type="submit" aria-label="Search permits">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn-xs btn-warning mt-2" aria-label="Reset search form to inital values" onclick="">Reset</button>
 												<button type="button" class="btn-xs btn-warning mt-2" aria-label="Start a permit search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/transactions/Permit.cfm?action=search';" >New Search</button>
+												<a class="btn-xs btn-secondary my-2 text-decoration-none" aria-label="Create a new permissions and rights record" href="/transactions/Permit.cfm?action=new">Create New Permissions&amp;Rights</a>
 											</div>
 										</div>
 									</form>
