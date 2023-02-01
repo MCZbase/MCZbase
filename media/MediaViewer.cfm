@@ -114,7 +114,7 @@
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
-								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 my-2 pb-0">
+								<div id="viewer targetarea" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 mt-4 mb-3 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textLinks")>
 									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
@@ -183,7 +183,7 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  style="height: 200px;">
 																			<div class="px-0">
-																				<span class="px-2 small90 font-weight-lessbold"> #spec.wlabel# (media/#relm.media_id#)
+																				<span class="px-2 small90 font-weight-lessbold"> #spec.label# (media/#relm.media_id#)
 																				</span> 
 																				#mediablock#
 																			</div>
