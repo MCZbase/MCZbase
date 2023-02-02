@@ -551,19 +551,17 @@ function loadNamedGroupActivityTable(underscore_collection_id, start_date, end_d
          queryformat : 'column'
       }
 	).done(function (result) {
-			console.log(result);
 			var table=$('<table>').addClass('table table-responsive table-striped d-lg-table');
 			var head=$('<thead>').addClass('thead-light');
 			head.append('<tr><th>Cataloged Items Entered</th><th>Part Count</th><th>Georeferences Added</th><th>Verified Georeferences Added</th></tr>');
 			table.append(head);
 			var body=$('<tbody>');
-			for (record in result[0]) {
-				console.log(record);
+			for (var i in result) {
 				var row = $("<tr>")
-				row.append("<td>" + record.catitems_entered + "</td>");
-				row.append("<td>" + record.part_count+ "</td>");
-				row.append("<td>" + record.georeferences_added + "</td>");
-				row.append("<td>" + record.verified_georeferences_added + "</td>");
+				row.append("<td>" + result[i].catitems_entered + "</td>");
+				row.append("<td>" + result[i].part_count+ "</td>");
+				row.append("<td>" + result[i].georeferences_added + "</td>");
+				row.append("<td>" + result[i].verified_georeferences_added + "</td>");
 				body.append(row);
          }
 			table.append(body);
