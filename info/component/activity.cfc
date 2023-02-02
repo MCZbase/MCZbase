@@ -17,13 +17,28 @@ limitations under the License.
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 <cf_rolecheck>
 
-<!--- getCollobjectActivity obtain activity statistics for a set of cataloged items over a period of time 
+<!--- getCollobjectActivity obtain activity statistics for a set of cataloged items over a period of time.
+  @param underscore_collection_id if specified, limit to cataloged items in a particular named group.
+  @param result_id if specified, limit to cataloged items in a user's search result.  One of underscore_collection_id
+    and result_id can be specified, if both are provided, only underscore_collection_id will be used, if neither
+    are specified results will count from all cataloged items.
+  @param start_date a date, in the form yyyy-mm-dd, to be used as the earliest date for georeference determinations and 
+    the entered date for cataloged items.  Note that georeference determinations on specimens entered outside the specified
+    start and end dates will not be counted.
+  @param end_date a date, in the form yyyy-mm-dd, to be used as the latest date for georeference determinations and
+    the entered date for cataloged items.  If neither start_date nor end_date are provided, results will count from all dates.
+    If only one of start_date and end_date are specified, then it will be ignored.
+  @param group_by_collection, if equal to true, then group the results by collection code, otherwise provide one set of counts.
+  @return a json structure containing collection, catitem_entered, part_ct, collobj_georefed, collobj_georef_verified
+    if group_by_collection is not true, then one row with collection="All", otherwise one row for each 
+    collection found.  
 --->
 <cffunction name="getCollObjectActivity" access="remote" returntype="any" returnformat="json">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="result_id" type="string" required="no">
 	<cfargument name="start_date" type="string" required="no">
 	<cfargument name="end_date" type="string" required="no">
+	<cfargument name="group_by_collection" type="string" required="no">
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -33,6 +48,9 @@ limitations under the License.
 				sum(flatTableName.total_parts) as part_ct,
 				count(distinct lat_long.locality_id) as collobj_georefed,
 				count(distinct verified_lat_long.locality_id) as collobj_georef_verified
+				<cfif isDefined("group_by_collection") and group_by_collection EQ "true" >
+					flatTableName.collection_cde
+				</cfif>
 			FROM
 				<cfif session.flatTableName EQ "FLAT">flat<cfelse>filtered_flat</cfif> flatTableName
 				left join lat_long on flatTableName.locality_id = lat_long.locality_id
@@ -62,11 +80,19 @@ limitations under the License.
 				<cfif isDefined("start_date") and len(start_date) GT 0 and isDefined("end_date") and len(end_date) GT 0>
 					and coll_object.entered_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#start_date#"> AND <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#end_date#">
 				</cfif>
+			<cfif isDefined("group_by_collection") and group_by_collection EQ "true" >
+				GROUP BY
+					flatTableName.collection_cde
+			</cfif>
 		</cfquery>
 
 		<cfloop query="activity">
 			<cfset row = StructNew()>
-			<cfset row["collection"] = "all">
+			<cfif isDefined("group_by_collection") and group_by_collection EQ "true" >
+				<cfset row["collection"] = "#collection_cde#">
+			<cfelse>
+				<cfset row["collection"] = "all">
+			</cfif>
 			<cfset row["catitems_entered"] = "#catitem_entered#">
 			<cfset row["part_count"] = "#part_ct#">
 			<cfset row["georeferences_added"] = "#collobj_georefed#">
