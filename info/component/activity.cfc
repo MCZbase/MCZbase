@@ -31,10 +31,10 @@ limitations under the License.
 			SELECT 
 				count(distinct flatTableName.collection_object_id) as catitem_entered,
 				sum(flatTableName.total_parts) as part_ct,
-				count(lat_long.locality_id) as collobj_georefed,
-				count(verified_lat_long.locality_id) as collobj_georef_verified
+				count(distinct lat_long.locality_id) as collobj_georefed,
+				count(distinct verified_lat_long.locality_id) as collobj_georef_verified
 			FROM
-				<cfif session.flatTableName EQ "FLAT">flat<cfelse>filtered_flat</cfif> as flatTableName
+				<cfif session.flatTableName EQ "FLAT">flat<cfelse>filtered_flat</cfif> flatTableName
 				left join lat_long on flatTableName.locality_id = lat_long.locality_id
 					<cfif isDefined("start_date") and len(start_date) GT 0 and isDefined("end_date") and len(end_date) GT 0>
 						and determined_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#start_date#"> AND <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#end_date#">
