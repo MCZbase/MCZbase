@@ -82,7 +82,7 @@ limitations under the License.
 					flatTableName.collection_object_id is not null
 				</cfif>
 				<cfif isDefined("start_date") and len(start_date) GT 0 and isDefined("end_date") and len(end_date) GT 0>
-					and coll_object.entered_date 
+					and coll_object.coll_object_entered_date 
 						between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#start_date#">,'yyyy-mm-dd')
 							AND to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#end_date#">,'yyyy-mm-dd')
 				</cfif>
