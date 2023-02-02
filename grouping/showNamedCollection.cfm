@@ -1262,6 +1262,14 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
+							<cfif oneOfUs EQ 1>
+								<div id="activityDiv"></div>
+								<script>
+									$(document).ready(function () {
+										loadNamedGroupActivityTable('#getNamedGroup.underscore_collection_id#','','','activityDiv'); 
+									});
+								</script>
+							</cfif>
 						</section>
 					</div>
 				</article>

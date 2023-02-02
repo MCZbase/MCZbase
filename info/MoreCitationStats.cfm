@@ -21,12 +21,15 @@
 		</tr>
 		<cfloop query="pt">
 			<cfquery name="t" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
-				select count(*) cnt from publication where IS_PEER_REVIEWED_FG=1 and publication_type='#publication_type#'
+				SELECT count(*) cnt 
+				FROM publication 
+				WHERE IS_PEER_REVIEWED_FG=1
+					and publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
 			</cfquery>
 			<cfquery name="ctn" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 				select count(*) cnt from publication,citation where 
 				publication.publication_id=citation.publication_id and
-				publication_type='#publication_type#'
+				publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
 			</cfquery>
 			<cfset ppr=t.cnt/pt.c * 100>
 			<tr>
@@ -209,9 +212,9 @@
 		</tr>
 	<cfloop query="c">
 		<cfquery name="loaned" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
-			select 
+			SELECT 
 				sum(items_loaned_by_collection)	tot
-			from (
+			FROM (
 				select 
 					collection,
 					count(*) items_loaned_by_collection
@@ -224,9 +227,9 @@
 					collection.collection_id=cataloged_item.collection_id and
 					cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
 					specimen_part.collection_object_id=loan_item.collection_object_id and
-					collection.collection_id=#collection_id#
+					collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				group by collection
-				union
+				UNION
 				select 
 					collection,
 					count(*) items_loaned_by_collection
@@ -237,10 +240,10 @@
 				where
 					collection.collection_id=cataloged_item.collection_id and
 					cataloged_item.collection_object_id=loan_item.collection_object_id and
-					collection.collection_id=#collection_id#
+					collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				group by collection
 				)
-			 group by collection
+			 GROUP BY collection
 		</cfquery>
 		<cfquery name="loanedSpec" datasource="uam_god" cachedwithin="#createtimespan(0,0,60,0)#">
 			select count(distinct(collection_object_id)) tot from (
@@ -253,7 +256,7 @@
 				where
 					loan_item.collection_object_id=specimen_part.collection_object_id and
 					specimen_part.derived_from_cat_item=cataloged_item.collection_object_id and
-					cataloged_item.collection_id=#collection_id#
+					cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				UNION
 				select 
 					cataloged_item.collection_object_id
@@ -262,7 +265,7 @@
 					cataloged_item
 				where
 					loan_item.collection_object_id=cataloged_item.collection_object_id and
-					cataloged_item.collection_id=#collection_id#
+					cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				)					
 		</cfquery>
 		<cfset numLoaned=0>
@@ -277,7 +280,7 @@
 				cataloged_item
 			where
 				citation.collection_object_id=cataloged_item.collection_object_id and
-				cataloged_item.collection_id=#collection_id#
+				cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		</cfquery>
 		<tr>
 			<td>#collection#</td>
