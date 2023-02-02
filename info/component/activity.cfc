@@ -86,7 +86,9 @@ limitations under the License.
 			</cfif>
 		</cfquery>
 
+		<cfset i = 0>
 		<cfloop query="activity">
+			<cfset i = i+1>
 			<cfset row = StructNew()>
 			<cfif isDefined("group_by_collection") and group_by_collection EQ "true" >
 				<cfset row["collection"] = "#collection_cde#">
@@ -97,7 +99,7 @@ limitations under the License.
 			<cfset row["part_count"] = "#part_ct#">
 			<cfset row["georeferences_added"] = "#collobj_georefed#">
 			<cfset row["verified_georefences_added"] = "#collobj_georef_verified#">
-			<cfset data[1] = row>
+			<cfset data[i] = row>
 		</cfloop>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
