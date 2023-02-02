@@ -64,12 +64,15 @@ limitations under the License.
 				</cfif>
 		</cfquery>
 
-		<cfset row = StructNew()>
-		<cfset row["catitems_entered"] = "#catitem_entered#">
-		<cfset row["part_count"] = "#part_ct#">
-		<cfset row["georeferences_added"] = "#collobj_georefed#">
-		<cfset row["verified_georefences_added"] = "#collobj_georef_verified#">
-		<cfset data[1] = row>
+		<cfloop query="activity">
+			<cfset row = StructNew()>
+			<cfset row["collection"] = "all">
+			<cfset row["catitems_entered"] = "#catitem_entered#">
+			<cfset row["part_count"] = "#part_ct#">
+			<cfset row["georeferences_added"] = "#collobj_georefed#">
+			<cfset row["verified_georefences_added"] = "#collobj_georef_verified#">
+			<cfset data[1] = row>
+		</cfloop>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
