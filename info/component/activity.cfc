@@ -104,7 +104,7 @@ limitations under the License.
 			<cfset row["catitems_entered"] = "#catitem_entered#">
 			<cfset row["part_count"] = "#part_ct#">
 			<cfset row["georeferences_added"] = "#collobj_georefed#">
-			<cfset row["verified_georefences_added"] = "#collobj_georef_verified#">
+			<cfset row["verified_georeferences_added"] = "#collobj_georef_verified#">
 			<cfset data[i] = row>
 		</cfloop>
 	<cfcatch>

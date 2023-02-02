@@ -531,3 +531,43 @@ function saveEditsFromFormCallback(formId,methodUrl,outputDivId,action,successCa
 		}
 	});
 };
+
+/** function loadNamedGroupActivityTable populate a table with data entry activity information 
+ * about a named group.
+ * 
+ * @param underscore_collection_id the named group for which to display activity information.
+ * @param start_date a date in the form yyyy-mm-dd for the start of the activity to report.
+ * @param end_date a date in the form yyyy-mm-dd for the end of the activity to report.
+ * @param targetDiv the id for an element in the dom the content of which to replace with the table.
+ */
+function loadNamedGroupActivityTable(underscore_collection_id, start_date, end_date, targetDiv) {
+   jQuery.getJSON("/info/component/activity.cfc",
+      {
+         method : "getCollObjectActivity",
+         underscore_collection_id : underscore_collection_id,
+			start_date : start_date,
+			end_date : end_date,
+         returnformat : "json",
+         queryformat : 'column'
+      }
+	).done(function (result) {
+			var table=$('<table>').addClass('table table-responsive table-striped d-lg-table');
+			var head=$('<thead>').addClass('thead-light');
+			head.append('<tr><th>Cataloged Items Entered</th><th>Part Count</th><th>Georeferences Added</th><th>Verified Georeferences Added</th></tr>');
+			table.append(head);
+			var body=$('<tbody>');
+			for (record in result) {
+				var row = $("<tr>")
+				row.append("<td>" + record.catitems_entered + "</td>");
+				row.append("<td>" + record.part_count+ "</td>");
+				row.append("<td>" + record.georeferences_added + "</td>");
+				row.append("<td>" + record.verified_georeferences_added + "</td>");
+				body.append(row);
+         }
+			table.append(body);
+			$('#'+targetDiv).append(table);
+      }
+   ).fail(function(jqXHR,textStatus,error){
+      handleFail(jqXHR,textStatus,error,"obtaining activity information for a named group.");
+   });
+}
