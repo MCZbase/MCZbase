@@ -49,7 +49,7 @@ limitations under the License.
 				count(distinct lat_long.locality_id) as collobj_georefed,
 				count(distinct verified_lat_long.locality_id) as collobj_georef_verified
 				<cfif isDefined("group_by_collection") and group_by_collection EQ "true" >
-					flatTableName.collection_cde
+					, flatTableName.collection_cde
 				</cfif>
 			FROM
 				<cfif session.flatTableName EQ "FLAT">flat<cfelse>filtered_flat</cfif> flatTableName
