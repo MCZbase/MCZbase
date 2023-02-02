@@ -55,13 +55,13 @@ limitations under the License.
 				<cfif session.flatTableName EQ "FLAT">flat<cfelse>filtered_flat</cfif> flatTableName
 				left join lat_long on flatTableName.locality_id = lat_long.locality_id
 					<cfif isDefined("start_date") and len(start_date) GT 0 and isDefined("end_date") and len(end_date) GT 0>
-						and determined_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#start_date#"> AND <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#end_date#">
+						and lat_long.determined_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#start_date#"> AND <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#end_date#">
 					</cfif>
 				left join lat_long verified_lat_long on flatTableName.locality_id = verified_lat_long.locality_id
 					and verified_lat_long.accepted_lat_long_fg = 1
 					and verified_lat_long.verificationstatus like 'verified%'
 					<cfif isDefined("start_date") and len(start_date) GT 0 and isDefined("end_date") and len(end_date) GT 0>
-						and determined_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#start_date#"> AND <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#end_date#">
+						and verified_lat_long.determined_date between <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#start_date#"> AND <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#end_date#">
 					</cfif>
 				join coll_object on flatTableName.collection_object_id = coll_object.collection_object_id
 				<cfif isDefined("underscore_collection_id") and len(underscore_collection_id) GT 0>
