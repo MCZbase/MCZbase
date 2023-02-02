@@ -1269,7 +1269,7 @@ limitations under the License.
 										loadNamedGroupActivityTable('#getNamedGroup.underscore_collection_id#','','','activityDiv'); 
 									});
 								</script>
-							<cfif>
+							</cfif>
 						</section>
 					</div>
 				</article>
