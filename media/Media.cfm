@@ -90,9 +90,8 @@ limitations under the License.
 
 		<cfoutput>
 
-			<div class="container-fluid container-xl">
+			<div class="container-fluid container-xl mb-5">
 				<div class="row mx-0">
-				
 						<div class="col-12 border-bottom border-dark my-3">
 							<h1 class="h2 px-0 py-2 my-2">Edit Media 
 								<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
