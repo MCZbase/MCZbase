@@ -79,6 +79,6 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
-</cfunction>
+</cffunction>
 
 </cfcomponent>
