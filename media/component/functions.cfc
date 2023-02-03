@@ -359,12 +359,12 @@ Backing methods for managing media
 				from
 					media_relations
 				where
-					media_relations.media_relationship=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relationship#">
+					media_relations.media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
 			</cfquery>
-			<section id="mediaRelationsTableSection" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
+			<section id="mediaRelationsTableSection" tabindex="0" aria-label="Relationships for this media record" class="container">
 			<div class="col-12 mt-0" id="mediaRelationsTable">
-			<h2 class="h4 pl-3" tabindex="0">#media# Relations
-			<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#','#transaction#'); handleChange();" class="col-5"> Add Relationship</button>		
+			<h2 class="h4 pl-3" tabindex="0">Media Relationships
+			<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_media_relationship" onclick=" addMediaRelationToForm('','','','#containing_form_id#','#relationship#'); handleChange();" class="col-5"> Add Relationship</button>		
 			</h2>		
 				<cfset i=1>
 				<cfloop query="mediaRelationship">
