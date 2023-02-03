@@ -268,7 +268,7 @@ limitations under the License.
 								</script>
 								<div class="col-12 mt-1" id="relationsTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-									Loading Relations....  <span id='relationsWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+									Loading Relations....  <span id='relationsWarningSpan' style="display:none;">(if relationships don't appear here, there is an error).</span>
 										<script>
 											$(document).ready(function() { 
 												$('##relationsWarningSpan').delay(1000).fadeIn(300);
