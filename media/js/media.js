@@ -360,7 +360,10 @@ function loadMediaRelations(targetDiv, media_id) {
 	});
 };
 
-function addMediaRelationToForm (id,media_relationship,key,formid) {
+
+
+
+function addMediaRelationshipToForm (id,media_relationship,key,formid) {
 	if (typeof id == "undefined") {
 		id = "";
 	 }
@@ -370,9 +373,9 @@ function addMediaRelationToForm (id,media_relationship,key,formid) {
 	if (typeof key == "undefined") {
 		role = "";
 	 }
-	jQuery.getJSON("/media/component/functions.cfc",
+	jQuery.getJSON("/media/component/search.cfc",
 		{
-			method : "getMedia_Relationship",
+			method : "getMediaRelationsHtml",
 			media_relationship :media_relationship,
 			returnformat : "json",
 			queryformat : 'column'
@@ -381,14 +384,6 @@ function addMediaRelationToForm (id,media_relationship,key,formid) {
 			var i=parseInt($('#numRelations').val())+1;
 			var d= '';
 			d+='<div class="row px-0 alert alert-warning my-0 py-1 border-top border-bottom" id="new_media_relations_div_'+i+'">';
-			d+='<div class="col-12 col-md-4">';
-			d+=' <div class="input-group">';
-			d+='  <input type="hidden" id="media_id_' + i + '" name="media_id_' + i + '" value="' + id + '" >';
-			d+='  <input type="hidden" name="media_relations_id_' + i + '" id="media_relations_id_' + i + '" value="new">';
-			d+='   <input type="text" id="media_relationship_' + i + '" name="media_relationship_' + i + '" required class="goodPick form-control data-entry-input data-height" size="30" value="' + name + '" >';
-			d+='  </div>';
-			d+=' </div>';
-			d+='</div>';
 			d+='<div class="col-12 col-md-4">';
 			d+=' <select name="media_relationship_' + i + '" id="media_relationship_' + i + '" class="data-entry-select data-height">';
 			for (a=0; a<data.ROWCOUNT; ++a) {
@@ -406,8 +401,8 @@ function addMediaRelationToForm (id,media_relationship,key,formid) {
 			d+='   onClick=\' confirmDialog("Remove not-yet saved new relationship from this media record?", "Confirm Unlink Relation", function() { $("#new_media_relations_div_'+i+'").remove(); } ); \'>Remove</button>';
 			d+='</div>';
 			d+='</div>';
-			$('#numAgents').val(i);
-			jQuery('#transactionAgentsTable').append(d);
+			$('#numRelations').val(i);
+			jQuery('#mediaRelationsTable').append(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";
