@@ -229,8 +229,8 @@ limitations under the License.
 												</div>
 												<div id=""></div>
 												<div class="col-9 px-0 pt-2 float-left">
-											<!---		<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
-													</button>--->
+													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
+													</button>
 													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
 													</button>
 												</div>
@@ -256,7 +256,7 @@ limitations under the License.
 							</div>
 						</form>
 								
-						<form id="editRelationsForm">
+						<!---<form id="editRelationsForm">
 							<div class="form-row my-1">
 								<script>
 									function reloadMediaRelationships() { 
@@ -267,7 +267,7 @@ limitations under the License.
 										});
 								</script>
 								<div class="col-12 mt-1" id="relationsTableContainerDiv">
-									<img src='/shared/images/indicator.gif'>
+								<img src='/shared/images/indicator.gif'>
 									Loading Relations....  <span id='relationsWarningSpan' style="display:none;">(if relationships don't appear here, there is an error).</span>
 									<script>
 										$(document).ready(function() { 
@@ -284,7 +284,7 @@ limitations under the License.
 										});
 								</script>
 							</div>	
-						</form>
+						</form>--->
 					</div><!---end col-12--->
 				</div>
 			</div>

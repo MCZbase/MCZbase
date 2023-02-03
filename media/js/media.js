@@ -311,7 +311,7 @@ function deleteMediaRelations(media_relations_id) {
 function loadRelationsTable(relationsDiv,media_id,containingFormId,changeHandler){ 
 	$('#' + relationsDiv).html(" <div class='my-2 text-center'><img src='/shared/images/indicator.gif'> Loading...</div>");
 	jQuery.ajax({
-		url : "/media/component/functions.cfc",
+		url : "/media/component/search.cfc",
 		type : "get",
 		data : {
 			method: 'relationsTableHtml',
@@ -344,7 +344,7 @@ function loadRelationsTable(relationsDiv,media_id,containingFormId,changeHandler
 function loadMediaRelations(targetDiv, media_id) { 
 	console.log("loadMediaRelations() called for " + targetDiv);
 	jQuery.ajax({
-		url: "/media/component/functions.cfc",
+		url: "/media/component/search.cfc",
 		data : {
 			method : "getMediaRelationsHtml",
 			media_id : media_id,
@@ -406,8 +406,8 @@ function addMediaRelationToForm (id,media_relationship,key,formid) {
 			d+='   onClick=\' confirmDialog("Remove not-yet saved new relationship from this media record?", "Confirm Unlink Relation", function() { $("#new_media_relations_div_'+i+'").remove(); } ); \'>Remove</button>';
 			d+='</div>';
 			d+='</div>';
-			$('#numRelations').val(i);
-			jQuery('#mediaRelationsTable').append(d);
+			$('#numAgents').val(i);
+			jQuery('#transactionAgentsTable').append(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";
@@ -419,7 +419,7 @@ function addMediaRelationToForm (id,media_relationship,key,formid) {
 			message = jqXHR.responseText;
 		}
 		if (!error) { error = ""; } 
-		messageDialog('Error adding relationships to media record: '+message, 'Error: '+error.substring(0,50));
+		messageDialog('Error adding relationships to transaction record: '+message, 'Error: '+error.substring(0,50));
 	});
 }							
 function saveMediaRelationship(targetDiv, media_id, media_relations_id) { 
