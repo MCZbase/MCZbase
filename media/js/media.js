@@ -360,7 +360,68 @@ function loadMediaRelations(targetDiv, media_id) {
 	});
 };
 
-
+function addMediaRelationToForm (id,media_relationship,key,formid) {
+	if (typeof id == "undefined") {
+		id = "";
+	 }
+	if (typeof media_relationship == "undefined") {
+		name = "";
+	 }
+	if (typeof key == "undefined") {
+		role = "";
+	 }
+	jQuery.getJSON("/media/component/functions.cfc",
+		{
+			method : "getMedia_Relationship",
+			media_relationship :media_relationship,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (data) {
+			var i=parseInt($('#numRelations').val())+1;
+			var d= '';
+			d+='<div class="row px-0 alert alert-warning my-0 py-1 border-top border-bottom" id="new_media_relations_div_'+i+'">';
+			d+='<div class="col-12 col-md-4">';
+			d+=' <div class="input-group">';
+			d+='  <input type="hidden" id="media_id_' + i + '" name="media_id_' + i + '" value="' + id + '" >';
+			d+='  <input type="hidden" name="media_relations_id_' + i + '" id="media_relations_id_' + i + '" value="new">';
+			d+='   <input type="text" id="media_relationship_' + i + '" name="media_relationship_' + i + '" required class="goodPick form-control data-entry-input data-height" size="30" value="' + name + '" >';
+			d+='  </div>';
+			d+=' </div>';
+			d+='</div>';
+			d+='<div class="col-12 col-md-4">';
+			d+=' <select name="media_relationship_' + i + '" id="media_relationship_' + i + '" class="data-entry-select data-height">';
+			for (a=0; a<data.ROWCOUNT; ++a) {
+				d+='<option ';
+				if(role==data.DATA.related_primary_key[a]){
+					d+=' selected="selected"';
+				}
+				d+=' value="' + data.DATA.media_relationship[a] + '">'+ data.DATA.media_relationship[a] +'</option>';
+			}
+			d+=' </select>';
+			d+='</div>';
+			d+='<div class="col-12 col-md-3">';
+			d+=' <button type="button" ';
+			d+='   class="btn btn-xs btn-warning float-left"';
+			d+='   onClick=\' confirmDialog("Remove not-yet saved new relationship from this media record?", "Confirm Unlink Relation", function() { $("#new_media_relations_div_'+i+'").remove(); } ); \'>Remove</button>';
+			d+='</div>';
+			d+='</div>';
+			$('#numRelations').val(i);
+			jQuery('#mediaRelationsTable').append(d);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		var message = "";
+		if (error == 'timeout') {
+			message = ' Server took too long to respond.';
+		} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+			message = ' Backing method did not return JSON.';
+		} else {
+			message = jqXHR.responseText;
+		}
+		if (!error) { error = ""; } 
+		messageDialog('Error adding relationships to media record: '+message, 'Error: '+error.substring(0,50));
+	});
+}							
 function saveMediaRelationship(targetDiv, media_id, media_relations_id) { 
 	console.log("loadRelation() called for " + targetDiv);
 	jQuery.ajax({
