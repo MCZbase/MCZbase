@@ -346,22 +346,13 @@ Backing methods for managing media
 	<cfthread name="getRelationsHtmlThread">
 		<cftry>
 			<cfquery name="relationsType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select media_relationship
+				select media_relationship,related_primary_key, media_id, media_relations_id
 				from media_relations
 				where
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfset relationship = relationsType.media_relationship>
-			<cfquery name="mediaRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					media_relations_id,media_id,
-					relationsType.media_relationship
-				from
-					media_relations
-				where
-					media_relations.media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
-			</cfquery>
-			<section id="mediaRelationsTableSection" tabindex="0" aria-label="Relationships for this media record" class="container">
+			<section id="mediaRelTableSection" tabindex="0" aria-label="Relationships for this media record" class="container">
 			<div class="col-12 mt-0" id="mediaRelationsTable">
 			<h2 class="h4 pl-3" tabindex="0">Media Relationships
 			<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_media_relationship" onclick=" addMediaRelationToForm('','','','#containing_form_id#','#relationship#'); handleChange();" class="col-5"> Add Relationship</button>		
