@@ -416,8 +416,8 @@ Backing methods for managing media
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getAgentHtmlThread" />
-	<cfreturn getAgentHtmlThread.output>
+	<cfthread action="join" name="getRelationsHtmlThread" />
+	<cfreturn getRelationsHtmlThread.output>
 </cffunction>
 
 			
