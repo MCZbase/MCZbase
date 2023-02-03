@@ -282,8 +282,8 @@ function loadRelatedImages(targetDiv, media_id) {
  * @param containingFormId the id for the form containing the agent table, without a leading # id selector.
  * @param changeHandler callback function to pass to monitorForChanges to be called when input values change.
  */
-function loadRelationsTable(agentsDiv,media_id,containingFormId,changeHandler){ 
-	$('#' + agentsDiv).html(" <div class='my-2 text-center'><img src='/shared/images/indicator.gif'> Loading...</div>");
+function loadRelationsTable(relationsDiv,media_id,containingFormId,changeHandler){ 
+	$('#' + relationsDiv).html(" <div class='my-2 text-center'><img src='/shared/images/indicator.gif'> Loading...</div>");
 	jQuery.ajax({
 		url : "/media/component/functions.cfc",
 		type : "get",
@@ -307,7 +307,7 @@ function loadRelationsTable(agentsDiv,media_id,containingFormId,changeHandler){
 				message = jqXHR.responseText;
 			}
 			if (!error) { error = ""; } 
-			messageDialog('Error retrieving agents for transaction record: '+message, 'Error: '+error.substring(0,50));
+			messageDialog('Error retrieving relationships for media record: '+message, 'Error: '+error.substring(0,50));
 		}
 	});
 }

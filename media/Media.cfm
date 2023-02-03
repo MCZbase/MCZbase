@@ -212,6 +212,33 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
+						<div class="form-row my-1">
+							<script>
+								function reloadMediaRelations() { 
+									loadRelationsTable("agentTableContainerDiv",#media_id#,"editRelationsForm",handleChange);
+								}
+								$(document).ready(function() {
+									reloadMediaRelations();
+								});
+							</script>
+							<div class="col-12 mt-1" id="relationsTableContainerDiv">
+								<img src='/shared/images/indicator.gif'>
+								Loading Relationships....  <span id='relationsWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
+								<script>
+								$(document).ready(function() { 
+									$('##relationsWarningSpan').delay(1000).fadeIn(300);
+								});
+								</script>
+							</div>
+							<script>
+								$(document).ready(function() { 
+									$('##relationsTableContainerDiv').on('domChanged',function() {
+										console.log("dom change within relationsTableContainerDiv");
+										monitorForChanges('editRelationsForm',handleChange);
+									});
+								});
+							</script>
+						</div>
 			<!---			<form id="relationshipForm">
 							<div class="col-12 px-1 float-left">
 								<div class="form-row my-1">
