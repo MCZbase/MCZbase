@@ -340,4 +340,94 @@ Backing methods for managing media
 	 <cfreturn theResult>
 </cffunction>
 
+<cffunction name="relationsTableHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="containing_form_id" type="string" required="yes">
+	<cfthread name="getRelationsHtmlThread">
+		<cftry>
+			<cfquery name="relationsType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select media_relationship
+				from media_relations
+				where
+				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			</cfquery>
+			<cfset relationship = relationsType.media_relationship>
+			<cfquery name="mediaRelationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					media_relations_id,media_id,
+					relationsType.media_relationship
+				from
+					media_relations
+				where
+					media_relations.media_relationship=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relationship#">
+			</cfquery>
+			<section id="mediaRelationsTableSection" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
+			<div class="col-12 mt-0" id="mediaRelationsTable">
+			<h2 class="h4 pl-3" tabindex="0">#media# Relations
+			<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#','#transaction#'); handleChange();" class="col-5"> Add Relationship</button>		
+			</h2>		
+				<cfset i=1>
+				<cfloop query="mediaRelationship">
+					<cfset rowstyle = "list-odd">
+					<cfif (i MOD 2) EQ 0> 
+						<cfset rowstyle = "list-even">
+					</cfif>
+					<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
+						<div class="col-12 col-md-4 mt-2 mt-md-0 pr-md-0">
+			<!---	???	---><input type="hidden" name="media_relations_id_#i#" id="media_relations_id_#i#" value="#media_relations_id#">
+							<input type="hidden" name="media_relations_id_#i#" id="media_relations_id_#i#" value="#media_relations_id#">
+							<input type="text" name="media_rel_#i#" id="media_rel_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#related_primary_key#">
+								<div class="col-12 col-md-4">
+									<select name="media_relationship_#i#" aria-label="related primary key in this #relationsType#" id="media_relationship_#i#" class="data-entry-select">
+										<cfloop query="ctmedia_relationship">
+											<cfif ctmedia_relationship.media_relationship is mediaRelationship.media_relationship>
+													<cfset sel = 'selected="selected"'>
+											<cfelse>
+													<cfset sel = ''>
+											</cfif>
+											<option #sel# value="#media_relationship#">#media_relationship#</option>
+										</cfloop>
+									</select>
+								</div>
+									<div class="col-12 col-md-3">
+										<button type="button" 
+											class="btn btn-xs btn-warning float-left mt-2 mt-md-0 mb-1 mr-2" 
+											onClick=' confirmDialog("Remove #media_relationship# as #mediaRelationship.media_relationship# from this #mediaRelationship# ?", "Confirm Unlink relationship", function() { deleteMediaRelationship(#trans_agent_id#); } ); '
+											>Remove</button>
+										<button type="button" 
+											class="btn btn-xs btn-secondary mt-2 mt-md-0 mb-1 float-left" 
+											onClick="cloneRelationsOnMedia(#media_id#,'#media_relationship#','#mediaRelationships.related_primary_key#');"
+											>Clone</button>
+									</div>
+									<cfset i=i+1>	
+								</div>
+							</cfloop>
+							<cfset na=i-1>
+							<input type="hidden" id="numRelations" name="numRelations" value="#nr#">
+					</div>
+				</section>
+				<script>
+					function cloneRelationsOnMedia(media_id,media_relationship,related_primary_key) { 
+						// add trans_agent record
+						addMediaRelationToForm(media_id,media_relationship,related_primary_key,'#containing_form_id#','#relationship#');
+						// trigger save needed
+						handleChange();
+					}
+				</script>
+			</cfoutput>
+		<cfcatch>
+			<cfset error_message = cfcatchToErrorMessage(cfcatch)>
+			<cfset function_called = "#GetFunctionCalledName()#">
+			<cfoutput>
+				<h2 class="h3">Error in #function_called#:</h2>
+				<div>#error_message#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAgentHtmlThread" />
+	<cfreturn getAgentHtmlThread.output>
+</cffunction>
+
+			
 </cfcomponent>

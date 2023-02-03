@@ -311,6 +311,75 @@ function loadRelationsTable(relationsDiv,media_id,containingFormId,changeHandler
 		}
 	});
 }
+
+/** deleteMediaRelations given a media_relations_id delete the referenced row from media_relations
+ * removing the agent from the role specified in that record from a transaction, on success
+ * invoke reloadTransactionAgents() to reload the agent list for the transaction.
+ * @param trans_agent_id the primary key of trans_agent to delete.
+ */
+function deleteMediaRelations(media_relations_id) {
+	jQuery.getJSON("/media/component/functions.cfc",
+		{
+			method : "removeMediaRelations",
+			media_relations_id : media_relations_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS == "1") { 
+				reloadMediaRelationships();
+			} else {
+				messageDialog("Error removing relationship from media relations: " + result.DATA.MESSAGE, "Error removing relationship");
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing relationship from media record");
+	});
+};
+
+/** function loadRelationsTable request the html to populate a div with an editable table of relationships for a 
+ * transaction.
+ *
+ * Assumes the presence of a change() function defined within scole containg the agent table.
+ *
+ * @param relationsDiv the id for the div to load the media_relations table into, without a leading # id selector.
+ * @param media_id the media_id of the media record for which to load agents.
+ * @param containingFormId the id for the form containing the media relationship table, without a leading # id selector.
+ * @param changeHandler callback function to pass to monitorForChanges to be called when input values change.
+ */
+function loadRelationsTable(relationsDiv,media_id,containingFormId,changeHandler){ 
+	$('#' + relationsDiv).html(" <div class='my-2 text-center'><img src='/shared/images/indicator.gif'> Loading...</div>");
+	jQuery.ajax({
+		url : "/media/component/functions.cfc",
+		type : "get",
+		data : {
+			method: 'relationsTableHtml',
+			media_id: media_id,
+			containing_form_id: containingFormId
+		},
+		success : function (data) {
+			$('#' + relationsDiv).html(data);
+			monitorForChanges(containingFormId,changeHandler);
+		},
+		error: function(jqXHR,textStatus,error){
+			$('#' + relationsDiv).html('Error loading relationships.');
+			var message = "";
+			if (error == 'timeout') {
+				message = ' Server took too long to respond.';
+			} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+				message = ' Backing method did not return JSON.';
+			} else {
+				message = jqXHR.responseText;
+			}
+			if (!error) { error = ""; } 
+			messageDialog('Error retrieving relationships for media record: '+message, 'Error: '+error.substring(0,50));
+		}
+	});
+}
+
+
+
+
 function loadMediaRelations(targetDiv, media_id) { 
 	console.log("loadMediaRelations() called for " + targetDiv);
 	jQuery.ajax({
