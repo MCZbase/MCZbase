@@ -108,7 +108,7 @@ limitations under the License.
 							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#getRelations.media_relations_id#">
 							<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
 							<input type="hidden" id="related_primary_key" name="related_primary_key" value="#getRelations.related_primary_key#">
-							<input type="hidden" id="media_id" name="media_id" value="#media.media_id#">
+							<input type="hidden" id="media_id" name="media_id" value="#getRelations.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
 							<!---		<cfset mediablock= getMediaBlockHtml(media_id="#media.media_id#",size="400",captionAs="textFull")>
