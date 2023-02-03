@@ -212,36 +212,7 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
-						<form class="col-12" name="editRelationsForm" id="editRelationsForm" action="/media/Media.cfm" method="post">
-							<div class="form-row my-1">
-								<script>
-									function reloadMediaRelations() { 
-										loadRelationsTable("relationsTableContainerDiv",#media_id#,"editRelationsForm",handleChange);
-									}
-									$(document).ready(function() {
-										reloadMediaRelations();
-									});
-								</script>
-								<div class="col-12 mt-1" id="relationsTableContainerDiv">
-									<img src='/shared/images/indicator.gif'>
-									Loading Relationships....  <span id='relationsWarningSpan' style="display:none;">(if relationships don't appear here, there is an error).</span>
-									<script>
-									$(document).ready(function() { 
-										$('##relationsWarningSpan').delay(1000).fadeIn(300);
-									});
-									</script>
-								</div>
-								<script>
-									$(document).ready(function() { 
-										$('##relationsTableContainerDiv').on('domChanged',function() {
-											console.log("dom change within relationsTableContainerDiv");
-											monitorForChanges('editRelationsForm',handleChange);
-										});
-									});
-								</script>
-							</div>
-						</form>
-			<!---			<form id="relationshipForm">
+						<form id="relationshipForm">
 							<div class="col-12 px-1 float-left">
 								<div class="form-row my-1">
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
@@ -249,37 +220,7 @@ limitations under the License.
 											<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label float-left"><span class="font-weight-bold h4">Media Relationships |</span> <a class="btn-link h5" type="button" onClick="">Add Row</a> &bull; <a class="btn-link h5" type="button" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</a>
 											</label>
 										</h2>
-								
-								<div class="form-row my-1">
-									<script>
-										function reloadTransactionAgents() { 
-											loadRelationshipTable("relationsTableContainerDiv",#media_id#,"editRelationsForm",handleChange);
-										}
-										$(document).ready(function() {
-											reloadRelationshipTable();
-										});
-									</script>
-							<div class="col-12 mt-1" id="relationsTableContainerDiv">
-								<img src='/shared/images/indicator.gif'>
-								Loading Relationships....  <span id='relationsWarningSpan' style="display:none;">(if relationships don't appear here, there is an error).</span>
-								<script>
-								$(document).ready(function() { 
-									$('##relationsWarningSpan').delay(1000).fadeIn(300);
-								});
-								</script>
-							</div>
-							<script>
-								$(document).ready(function() { 
-									$('##relationsTableContainerDiv').on('domChanged',function() {
-										console.log("dom change within relationsTableContainerDiv");
-										monitorForChanges('editLoanForm',handleChange);
-									});
-								});
-							</script>
-						</div>
-				--->			
-										
-		<!---								<div class="row">
+										<div class="row">
 											<div class="col-12">
 												<cfset relationsBlockContent= getMediaRelationsHtml(media_id="#media.media_id#")>
 													
@@ -288,14 +229,15 @@ limitations under the License.
 												</div>
 												<div id=""></div>
 												<div class="col-9 px-0 pt-2 float-left">
+											<!---		<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
+													</button>--->
 													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
 													</button>
 												</div>
 											</div>
 										</div>
-									</div>--->
-							
-								<!---
+									</div>
+									<!---	end col-12 Start of Label Block--->
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 										<h2>
 											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90"><a class="btn-link h5" type="button" >Add Row</a> &bull; Please add a "description."</span>
@@ -309,10 +251,10 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-									</div>
-								</div>
+									</div><!---end col-6--->	
+								</div><!---end form-row Relationships and labels--->
 							</div>
-						</form>--->
+						</form>
 					</div><!---end col-12--->
 				</div>
 			</div>
