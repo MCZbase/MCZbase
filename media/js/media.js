@@ -363,7 +363,7 @@ function loadMediaRelations(targetDiv, media_id) {
 
 
 
-function addMediaRelationshipToForm (id,media_relationship,key,formid) {
+function addMediaRelationshipToForm (media_id,media_relationship,key,formid) {
 	if (typeof id == "undefined") {
 		id = "";
 	 }
@@ -376,7 +376,8 @@ function addMediaRelationshipToForm (id,media_relationship,key,formid) {
 	jQuery.getJSON("/media/component/search.cfc",
 		{
 			method : "getMediaRelationsHtml",
-			media_relationship :media_relationship,
+			media_id :media_id,
+			media_relationship:media_relationship,
 			returnformat : "json",
 			queryformat : 'column'
 		},
