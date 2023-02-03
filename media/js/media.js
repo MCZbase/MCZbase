@@ -271,6 +271,46 @@ function loadRelatedImages(targetDiv, media_id) {
  *  @param media_id for the media.
  *  not working now - 
  */
+
+/** function loadAgentTable request the html to populate a div with an editable table of agents for a 
+ * transaction.
+ *
+ * Assumes the presence of a change() function defined within scole containg the agent table.
+ *
+ * @param agentsDiv the id for the div to load the agent table into, without a leading # id selector.
+ * @param tranasaction_id the transaction_id of the transaction for which to load agents.
+ * @param containingFormId the id for the form containing the agent table, without a leading # id selector.
+ * @param changeHandler callback function to pass to monitorForChanges to be called when input values change.
+ */
+function loadRelationsTable(agentsDiv,media_id,containingFormId,changeHandler){ 
+	$('#' + agentsDiv).html(" <div class='my-2 text-center'><img src='/shared/images/indicator.gif'> Loading...</div>");
+	jQuery.ajax({
+		url : "/media/component/functions.cfc",
+		type : "get",
+		data : {
+			method: 'relationsTableHtml',
+			media_id: media_id,
+			containing_form_id: containingFormId
+		},
+		success : function (data) {
+			$('#' + mediaDiv).html(data);
+			monitorForChanges(containingFormId,changeHandler);
+		},
+		error: function(jqXHR,textStatus,error){
+			$('#' + mediaDiv).html('Error loading media relationships.');
+			var message = "";
+			if (error == 'timeout') {
+				message = ' Server took too long to respond.';
+			} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+				message = ' Backing method did not return JSON.';
+			} else {
+				message = jqXHR.responseText;
+			}
+			if (!error) { error = ""; } 
+			messageDialog('Error retrieving agents for transaction record: '+message, 'Error: '+error.substring(0,50));
+		}
+	});
+}
 function loadMediaRelations(targetDiv, media_id) { 
 	console.log("loadMediaRelations() called for " + targetDiv);
 	jQuery.ajax({
@@ -289,6 +329,8 @@ function loadMediaRelations(targetDiv, media_id) {
 		dataType: "html"
 	});
 };
+
+
 function saveMediaRelationship(targetDiv, media_id, media_relations_id) { 
 	console.log("loadRelation() called for " + targetDiv);
 	jQuery.ajax({
