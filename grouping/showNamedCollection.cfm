@@ -797,7 +797,7 @@ limitations under the License.
 											and flat.PHYLCLASS is not null
 										ORDER BY flat.phylclass asc
 									</cfquery>
-									<cfset taxonQuery1_time = taxonQuery_result.ExecutionTime>
+									<cfset taxonQuery_time = taxonQuery_result.ExecutionTime>
 									<cfset taxonQuery2_time = "not run">
 									<cfset taxonQuery3_time = "not run">
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
@@ -1294,11 +1294,11 @@ limitations under the License.
 								<li>points2=#points2_result.ExecutionTime#</li>
 								<li>agentQuery=#agentQuery_result.ExecutionTime#</li>
 								<li>taxonQuery=#taxonQuery_time#</li>
-								<li>taxonQuery2=#taxonQuery_time#</li>
-								<li>taxonQuery3=#taxonQuery_time#</li>
+								<li>taxonQuery2=#taxonQuery2_time#</li>
+								<li>taxonQuery3=#taxonQuery3_time#</li>
 								<li>marine=#marine_result.ExecutionTime#</li>
 								<li>geogQuery=#geogQuery_time#</li>
-								<li>geogQuery2=#geogQuery_time#</li>
+								<li>geogQuery2=#geogQuery2_time#</li>
 								<li>islands=#islandsQuery_result.ExecutionTime#</li>
 								<li>collectors=#collectors_result.ExecutionTime#</li>
 								<li>directCitations=#directCitations_result.ExecutionTime#</li>
