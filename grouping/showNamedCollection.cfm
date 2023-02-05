@@ -19,8 +19,11 @@ limitations under the License.
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
+<cfif not isdefined("debug")>
+	<cfset debug ="">
+</cfif>
 <cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
-	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getNamedGroup_result">
+	<cfquery name="getTitle" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTitleGroup_result">
 		SELECT collection_name
 		FROM underscore_collection
 		WHERE underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -55,7 +58,7 @@ limitations under the License.
 			<cflocation url="/errors/forbidden.cfm" addtoken="false">
 		</cfif>
 		<!---for specimen record grid--->
-		<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#">
+		<cfquery name="specimens" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#CreateTimespan(24,0,0,0)#" result="specimens_result">
 			SELECT * FROM (
 				SELECT DISTINCT flat.guid, flat.scientific_name
 				FROM
@@ -68,7 +71,7 @@ limitations under the License.
 				) 
 		</cfquery>
 		<cfset otherimagetypes = 0>
-		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+		<cfquery name="specimenMedia_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="specimenMedia_raw_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 			<cfif len(displayed_media_id) GT 0>
 			SELECT distinct media.media_id, 
 				media.media_uri, 
@@ -135,7 +138,7 @@ limitations under the License.
 			var specimenImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentSpecimenImage = 1;
 		</script>
-		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+		<cfquery name="agentImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agentImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 			SELECT DISTINCT media.media_id, media.media_uri, 
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
 				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
@@ -187,7 +190,7 @@ limitations under the License.
 			var agentImageSetMetadata = JSON.parse('#imageSetMetadata#');
 			var currentAgentImage = 1;
 		</script>
-		<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
+		<cfquery name="collectingImagesForCarousel_raw" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectingImagesForCarousel_raw_result" cachedwithin="#CreateTimespan(24,0,0,0)#">
 			SELECT DISTINCT media_uri, media.media_id,
 				MCZBASE.get_media_descriptor(media.media_id) as alt,
 				MCZBASE.is_media_encumbered(media.media_id)  as encumb,
@@ -469,7 +472,7 @@ limitations under the License.
 									</section><!--- end specimen images ---> 	
 								</cfif>
 								<!---  occurrence map --->
-								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points_result">
+								<cfquery name="points2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="points2_result">
 									SELECT median(flat.dec_lat) as mylat, median(flat.dec_long) as mylng, min(flat.dec_lat) as minlat, 
 									min(flat.dec_long) as minlong, max(flat.dec_lat) as maxlat, max(flat.dec_long) as maxlong
 									from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat
@@ -794,6 +797,9 @@ limitations under the License.
 											and flat.PHYLCLASS is not null
 										ORDER BY flat.phylclass asc
 									</cfquery>
+									<cfset taxonQuery1_time = taxonQuery_result.ExecutionTime>
+									<cfset taxonQuery2_time = "not run">
+									<cfset taxonQuery3_time = "not run">
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to orders instead if very few classes --->
 										<cfquery name="taxonQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="taxonQuery_result">
@@ -807,6 +813,7 @@ limitations under the License.
 												and flat.PHYLCLASS is not null and flat.phylorder is not null
 											ORDER BY flat.phylclass asc, flat.phylorder asc
 										</cfquery>
+										<cfset taxonQuery2_time = taxonQuery_result.ExecutionTime>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0 AND taxonQuery.recordcount LT 5 >
 										<!--- try expanding to families instead if very few orders --->
@@ -821,6 +828,7 @@ limitations under the License.
 												and flat.PHYLCLASS is not null and flat.family is not null
 											ORDER BY flat.phylorder asc, flat.family asc
 										</cfquery>
+										<cfset taxonQuery3_time = taxonQuery_result.ExecutionTime>
 									</cfif>
 									<cfif taxonQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -915,8 +923,10 @@ limitations under the License.
 											and flat.country is not null
 										ORDER BY flat.country asc
 									</cfquery>
+									<cfset geogQuery_time = geogQuery_result.ExecutionTime>
+									<cfset geogQuery2_time = "not run">
 									<cfif geogQuery.recordcount GT 0 AND geogQuery.recordcount LT 5 >
-										<!--- try expanding to families instead if very few orders --->
+										<!--- try expanding to state province instead if very few countries --->
 										<cfquery name="geogQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geogQuery_result">
 											SELECT DISTINCT flat.country || ': ' || flat.state_prov as geog, flat.state_prov as geoglink, 'state_prov' as rank,
 												flat.country, flat.state_prov
@@ -928,6 +938,7 @@ limitations under the License.
 												and flat.state_prov is not null
 											ORDER BY flat.country asc, flat.state_prov asc
 										</cfquery>
+										<cfset geogQuery2_time = geogQuery_result.ExecutionTime>
 									</cfif>
 									<cfif geogQuery.recordcount GT 0>
 										<div class="col-12 pb-3">
@@ -1186,7 +1197,7 @@ limitations under the License.
 											ORDER BY
 												type, MCZBASE.getshortcitation(publication_id)
 										</cfquery>
-										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations">
+										<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citations_result">
 											SELECT
 												distinct 
 												formatted_publication.formatted_publication, 
@@ -1269,6 +1280,31 @@ limitations under the License.
 										loadNamedGroupActivityTable('#getNamedGroup.underscore_collection_id#','','','activityDiv'); 
 									});
 								</script>
+							</cfif>
+							<cfif debug EQ "true">
+								<div>
+								<ul>
+								<li>getTitleGroup=#getTitleGroup_result.ExecutionTime#</li>
+								<li>getNamedGroup=#getNamedGroup_result.ExecutionTime#</li>
+								<li>specimens=#specimens_result.ExecutionTime#</li>
+								<li>specimenMedia_raw=#specimenMedia_raw_result.ExecutionTime#</li>
+								<li>agentImagesForCarousel_raw=#agentImagesForCarousel_raw_result.ExecutionTime#</li>
+								<li>collectingImagesForCarousel_raw=#collectingImagesForCarousel_raw_result.ExecutionTime#</li>
+								<li>points=#points_result.ExecutionTime#</li>
+								<li>points2=#points2_result.ExecutionTime#</li>
+								<li>agentQuery=#agentQuery_result.ExecutionTime#</li>
+								<li>taxonQuery=#taxonQuery_time#</li>
+								<li>taxonQuery2=#taxonQuery_time#</li>
+								<li>taxonQuery3=#taxonQuery_time#</li>
+								<li>marine=#marine_result.ExecutionTime#</li>
+								<li>geogQuery=#geogQuery_time#</li>
+								<li>geogQuery2=#geogQuery_time#</li>
+								<li>islands=#islandsQuery_result.ExecutionTime#</li>
+								<li>collectors=#collectors_result.ExecutionTime#</li>
+								<li>directCitations=#directCitations_result.ExecutionTime#</li>
+								<li>citations=#citations_result.ExecutionTime#</li>
+								</ul>
+								</div>
 							</cfif>
 						</section>
 					</div>
