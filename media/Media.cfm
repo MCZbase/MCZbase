@@ -352,7 +352,7 @@ limitations under the License.
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 								<p class="small mb-1">Preview of Thumbnail</p>
 								<div class="form-row mx-0 my-2">
-									<div class="col-12 col-xl-12 float-left">
+									<div class="col-12">
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 									</div>
@@ -374,7 +374,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 float-left">
+									<div class="col-12">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
@@ -385,18 +385,14 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-4 px-0 px-sm-2 px-md-4 float-left">
+									<div class="col-12">
 										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
-										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
+										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select col-12 col-md-4">
 											<option value="0" selected="selected">Public</option>
 											<option value="1">Hidden</option>
 										</select>
 									</div>
-								</div>
-							</div>
-								<div class="form-row mx-0 mt-2">
-									<!---NOTES to USER--->
-									<div class="col-12 px-0 px-sm-2 px-md-4">
+									<div class="col-12">
 										<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
 											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
@@ -404,6 +400,7 @@ limitations under the License.
 										</ul>
 									</div>
 								</div>
+							</div>
 							</div>
 						</div>
 					</div>
