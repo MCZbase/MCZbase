@@ -317,7 +317,7 @@ limitations under the License.
 							</div>
 							<div class="rounded border bg-light col-12 col-md-2 float-left mb-3 py-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
-								<p class="small mb-1">Media Image</p>
+								<p class="small mb-1">Media Image (preview shows here)</p>
 								
 							</div>
 							<div class="col-12 col-xl-10 px-0">
