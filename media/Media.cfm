@@ -353,7 +353,7 @@ limitations under the License.
 									<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 									<p class="small mb-1">Preview of Thumbnail</p>
 								</div>
-								<div class="form-row mx-0 my-2">
+								<div class="form-row mx-0 mt-2 mb-4">
 									<div class="col-12 col-md-9  px-md-5">
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
