@@ -299,8 +299,10 @@ limitations under the License.
 												<dd>Other number accepts single numbers, ranges of numbers, comma separated lists of numbers, and ranges of numbers, but for most cases with prefixes, search for just a single prefixed number with an exact match search (e.g. =BT-782)</dd>
 												<dt><span class="text-info font-weight-bold">Taxonomy and Higher Geography Fields</span> </dt>
 												<dd>Search for a substring (e.g. murex), an exact match (e.g. =Murex), or a comma separated list (e.g. Vulpes,Urocyon).</dd>
-												<dt><span class="text-info font-weight-bold">Any Geography (kewyword) Field</span> </dt>
+												<dt><span class="text-info font-weight-bold">Any Geography (keyword) Field</span> </dt>
 												<dd>This field runs a keyword search on a large set of geography fields.  See the Keyword Search Help for guidance.</dd>
+												<dt><span class="text-info font-weight-bold">Keyword Search Field</span> </dt>
+												<dd>This field does the same thing as the Keyword Search.  See the Keyword Search Help for guidance.</dd>
 												<dt><span class="text-info font-weight-bold">Dates</span></dt>
 												<dd>Collecting Events are stored in two date fields (date began and date ended), plus a verbatim field.  Date Collected searches on both the began date and end date for collecting events.  A range search on Date Collected (e.g. 1980/1985) will find all cataloged items where both the date began and date ended fall within the specified range.  Usually you will want to search on Date Collected.  The began date and ended date fields can be searched separately for special cases, in particular cases where the collecting date range is poorly constrained.  Search on Began Date 1700-01-01 Ended Date 1800-01-01/1899-12-31 to find all material where the began date is not known, but the end date has been constrained to sometime in the 1800s (contrast with Date Collected 1800-01-01/1899-12-31 which finds material where both the start and end dates are in the 1800s).</dd>
 												<dt><span class="text-info font-weight-bold">Media Type</span></dt>
@@ -984,8 +986,58 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
+											<div class="col-12 px-4 py-2">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
+													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
+														General/ Metadata
+													</div>
+												</div>
+												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<!--- reserve two columns for the debug control --->
+														<cfset keyword_cols="col-md-2">
+													<cfelse>
+														<cfset keyword_cols="col-md-4">
+													</cfif>
+													<div class="col-12 mb-1 #keyword_cols#">
+														<cfif not isdefined("keyword")>
+															<cfset keyword="">
+														</cfif>
+														<label for="keyword" class="data-entry-label small">Keyword Search</label>
+														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#" >
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+														<cfif not isdefined("coll_object_entered_date")>
+															<cfset coll_object_entered_date="">
+														</cfif>
+														<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
+														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+														<cfif not isdefined("last_edit_date")>
+															<cfset last_edit_date="">
+														</cfif>
+														<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
+														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+													</div>
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<div class="col-12 mb-1 col-md-2">
+															<label class="data-entry-label small" for="debug">Debug JSON</label>
+															<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
+																<option value=""></option>
+																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																<option value="true" #selected#>Debug JSON</option>
+															</select>
+														</div>
+													</cfif>
+												</div>
+											</div>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<div class="col-12 py-2">
+												<div class="col-12 search-form-basic-odd px-4 py-2">
 													<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
 														<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
 															Transactions&nbsp;&nbsp;
@@ -1031,36 +1083,46 @@ limitations under the License.
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
+															<cfif not isdefined("received_date")>
+																<cfset received_date="">
+															</cfif>
+															<label for="received_date" class="data-entry-label small">Date Received</label>
+															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#" >
+														</div>
+														<div class="col-12 mb-1 col-md-2">
+															<cfif not isdefined("accn_status")>
+																<cfset accn_status="">
+															</cfif>
+															<label for="accn_status" class="data-entry-label small">Accession Status
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+															</label>
+															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete("accn_status","ACCN_STATUS");
+																});
+															</script>
+														</div>
+														<div class="col-12 mb-1 col-md-2">
+															<cfif not isdefined("accn_type")>
+																<cfset accn_type="">
+															</cfif>
+															<label for="accn_type" class="data-entry-label small">Accession Type
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+															</label>
+															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
+																});
+															</script>
+														</div>
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
 															<label for="deaccession_number" class="data-entry-label small">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
-														</div>
-														<!--- TODO: Move from manage transactions section --->
-														<div class="col-12 mb-1 col-md-2">
-															<cfif not isdefined("coll_object_entered_date")>
-																<cfset coll_object_entered_date="">
-															</cfif>
-															<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
-															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
-														</div>
-														<div class="col-12 mb-1 col-md-2">
-															<cfif not isdefined("last_edit_date")>
-																<cfset last_edit_date="">
-															</cfif>
-															<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
-															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
-														</div>
-														<div class="col-12 mb-1 col-md-2">
-															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-																<label class="data-entry-label small" for="debug">Debug JSON</label>
-																<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
-																	<option value=""></option>
-																	<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-																	<option value="true" #selected#>Debug JSON</option>
-																</select>
-															</cfif>
 														</div>
 													</div>
 												</div>

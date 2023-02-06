@@ -1113,6 +1113,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="determiner" type="string" required="no">
 	<cfargument name="determiner_id" type="string" required="no">
 	<cfargument name="keyword" type="string" required="no">
+	<cfargument name="received_date" type="string" required="no">
 
 	<cfargument name="debug" type="string" required="no">
 	<cfargument name="recordstartindex" type="string" required="no">
@@ -1628,6 +1629,28 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfif isDefined("accn_number") AND len(accn_number) GT 0>
 			<cfset field = '"field": "accn_number"'>
 			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accn_number#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("received_date") AND len(received_date) GT 0>
+			<cfset field = '"field": "RECEIVED_DATE"'>
+			<cfset searchText = reformatDateSearchTerm(searchText="#received_date#") >
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#searchText#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("accn_status") AND len(accn_status) GT 0>
+			<cfset field = '"field": "accn_status"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accn_status#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
+		<cfif isDefined("accn_type") AND len(accn_type) GT 0>
+			<cfset field = '"field": "accn_type"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#accn_type#",separator="#separator#",nestDepth="#nest#")>
 			<cfset separator = ",">
 			<cfset join='"join":"and",'>
 			<cfset nest = nest + 1>
