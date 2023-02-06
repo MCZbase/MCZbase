@@ -383,7 +383,7 @@ limitations under the License.
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 col-md-12">
 												<div class="col-12 col-xl-6 float-left">
-													<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"> Multiple relationships possible. 	<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label><button type="button" class="btn btn-secondary btn-xs ui-widget float-left" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','media'); handleChange();"> Add </button>
+													<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold float-left" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"> Multiple relationships possible. 	<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label><button type="button" class="btn btn-secondary btn-xs ui-widget float-left" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','media'); handleChange();"> Add </button>
 													<div id="relationshipDiv">
 														<cfset i=1>
 														<cfloop>
