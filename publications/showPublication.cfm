@@ -283,7 +283,7 @@ limitations under the License.
 							<li>
 								<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#citedNamedGroups.underscore_collection_id#">
 									#citedNamedGroups.collection_name# 
-									<span class='sm-caps font-weight-normal small90'>
+									<span class='small90'>
 										#citedNamedGroups.type#
 										<cfif len(citedNamedGroups.pages) GT 0>pp. #citedNamedGroups.pages#</cfif>
 									</span>
