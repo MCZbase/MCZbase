@@ -1031,40 +1031,62 @@ limitations under the License.
 															<input type="text" name="accn_number" class="data-entry-input inputHeight" id="accn_number" placeholder="nnnnn" value="#encodeForHtml(accn_number)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
+															<cfif not isdefined("received_date")>
+																<cfset received_date="">
+															</cfif>
+															<label for="received_date" class="data-entry-label small">Date Received</label>
+															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#" >
+														</div>
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
 															<label for="deaccession_number" class="data-entry-label small">Deaccession ##</label>
 															<input type="text" name="deaccession_number" class="data-entry-input inputHeight" id="deaccession_number" placeholder="Dyyyy-n-Col" value="#encodeForHtml(deaccession_number)#" >
 														</div>
-														<!--- TODO: Move from manage transactions section --->
-														<div class="col-12 mb-1 col-md-2">
-															<cfif not isdefined("coll_object_entered_date")>
-																<cfset coll_object_entered_date="">
-															</cfif>
-															<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
-															<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
-														</div>
-														<div class="col-12 mb-1 col-md-2">
-															<cfif not isdefined("last_edit_date")>
-																<cfset last_edit_date="">
-															</cfif>
-															<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
-															<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
-														</div>
-														<div class="col-12 mb-1 col-md-2">
-															<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
-																<label class="data-entry-label small" for="debug">Debug JSON</label>
-																<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
-																	<option value=""></option>
-																	<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
-																	<option value="true" #selected#>Debug JSON</option>
-																</select>
-															</cfif>
-														</div>
 													</div>
 												</div>
 											</cfif>
+											<div class="col-12 py-2">
+												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
+													<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
+														General/Metadata&nbsp;&nbsp;
+													</div>
+												</div>
+												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
+													<div class="col-12 mb-1 col-md-2">
+														<cfif not isdefined("basic_keywpord")>
+															<cfset keyword="">
+														</cfif>
+														<label for="keyword" class="data-entry-label small">Keyword Search</label>
+														<input type="text" name="keyword" class="data-entry-input inputHeight" id="keyword" value="#encodeForHtml(keyword)#" >
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+														<cfif not isdefined("coll_object_entered_date")>
+															<cfset coll_object_entered_date="">
+														</cfif>
+														<label for="coll_object_entered_date" class="data-entry-label small">Date Entered</label>
+														<input type="text" name="coll_object_entered_date" class="data-entry-input inputHeight" id="coll_object_entered_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(coll_object_entered_date)#" >
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+														<cfif not isdefined("last_edit_date")>
+															<cfset last_edit_date="">
+														</cfif>
+														<label for="last_edit_date" class="data-entry-label small">Last Updated on</label>
+														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+															<label class="data-entry-label small" for="debug">Debug JSON</label>
+															<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
+																<option value=""></option>
+																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
+																<option value="true" #selected#>Debug JSON</option>
+															</select>
+														</cfif>
+													</div>
+												</div>
+											</div>
 											<div id="searchButtons">
 												<div class="form-row mx-0 px-4 my-1 pb-1">
 													<div class="col-12 px-2 py-2 py-sm-0">
