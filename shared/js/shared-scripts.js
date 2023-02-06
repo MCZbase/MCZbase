@@ -742,8 +742,11 @@ function countCharsLeft(elementid, maxsize, outputelementid){
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the optional id for a hidden input that is to hold the selected id (without a leading # selector),
  *    use null if there is no control to hold the selected underscore_collection_id (as in a search widget).
+ *  @param clear optional if true (default) clear both name and id controls if change is not a selection from the pick list.
+ *    if false, then just clear the idControl if the value is not a selection from the pick list to support search 
+ *    on substrings.
  */
-function makeNamedCollectionPicker(nameControl,idControl) {
+function makeNamedCollectionPicker(nameControl,idControl,clear=true) {
    $('#'+nameControl).autocomplete({
       source: function (request, response) {
          $.ajax({
@@ -771,6 +774,16 @@ function makeNamedCollectionPicker(nameControl,idControl) {
 				$('#'+idControl).val(result.item.id);
 			}
       },
+		change: function(event,ui) { 
+			if(!ui.item && clear){
+				// handle a change that isn't a selection from the pick list, clear both controls
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
+			} else if(!ui.item && !clear){
+				// just clear the id control
+				$('#'+idControl).val("");
+			}
+		},
       minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta "collection name * (description)" instead of value in picklist.

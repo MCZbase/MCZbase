@@ -126,6 +126,20 @@ limitations under the License.
 		<cfset collection = lookupCollection_cde.code>
 	</cfloop>
 </cfif>
+<cfif not isdefined("underscore_collection") AND isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
+	<!--- if underscore collection id was provided, but not a collection name, lookup the collection name --->
+	<cfquery name="lookupNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupNamedGroup_result">
+		SELECT
+			collection_name
+		FROM
+			underscore_collection
+		WHERE
+			underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+	</cfquery>
+	<cfloop query="lookupNamedGroup">
+		<cfset underscore_collection = lookupNamedGroup.collection_name>
+	</cfloop>
+</cfif>
 
 <cfoutput>
 <style>
@@ -1021,6 +1035,16 @@ limitations under the License.
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
 													<div class="col-12 mb-1 col-md-2">
+														<label for="underscore_collection" class="data-entry-label small">Named Group</label>
+														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
+														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
+														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
+														<input type="text" id="underscore_collection" name="underscore_collection" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeNamedCollectionPicker('underscore_collection','underscore_collection_id',false);
+															});
+														</script>
 													</div>
 													<div class="col-12 mb-1 col-md-2">
 													</div>
