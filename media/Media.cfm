@@ -322,7 +322,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-xl-12 px-0">
 								<div class="form-row mx-0 my-2">
-									<div class="col-12 px-0 float-left">
+									<div class="col-12 col-md-8 px-md-5 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
