@@ -87,16 +87,18 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
+
 		<cfoutput>
+
 			<div class="container-fluid container-xl pb-5">
 				<div class="row mx-0">
-					<div class="col-12 px-2 border-bottom border-dark my-3">
-						<h1 class="h2 px-0 py-2 my-2">Edit Media 
-							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
-							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
-						</h1>
-					</div>
-					<div class="col-12 px-0 my-0">
+						<div class="col-12 px-2 border-bottom border-dark my-3">
+							<h1 class="h2 px-0 py-2 my-2">Edit Media 
+								<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
+								<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
+							</h1>
+						</div>
+						<div class="col-12 px-0 my-0">
 						<div class="px-1">
 							<h4 class="pr-3 d-inline-block">Media ID = media/#media_id#</h4>
 						</div>
@@ -210,13 +212,7 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
-						<form id="relationshipForm">
-							<input type="hidden" name="action" value="saveMediaRelationship">
-							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#getRelations.recordcount#">
-							<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
-							<input type="hidden" id="related_primary_key" name="related_primary_key" value="#getRelations.related_primary_key#">
-							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#getRelations.media_relations_id#">
-							<input type="hidden" id="media_id" name="media_id" value="#getRelations.media_id#">
+			
 							<div class="col-12 px-1 float-left">
 								<div class="form-row my-1">
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
@@ -226,6 +222,13 @@ limitations under the License.
 										</h2>
 										<div class="row">
 											<div class="col-12">
+											<form id="relationshipForm">
+												<input type="hidden" name="action" value="saveMediaRelationship">
+												<input type="hidden" id="number_of_relations" name="number_of_relations" value="#getRelations.recordcount#">
+												<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
+												<input type="hidden" id="related_primary_key" name="related_primary_key" value="#getRelations.related_primary_key#">
+												<input type="hidden" id="media_relations_id" name="media_relations_id" value="#getRelations.media_relations_id#">
+												<input type="hidden" id="media_id" name="media_id" value="#getRelations.media_id#">
 												<cfset relationsBlockContent= getMediaRelationsHtml(media_id='#media.media_id#')>
 												<div id="relationsBlock">
 													#relationsBlockContent#
@@ -233,42 +236,33 @@ limitations under the License.
 												<div class="col-9 px-0 pt-2 float-left">
 													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>
-													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationshipForm','#media_id#');">Save Relationships 
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationshipForm','#media_id#','#related_primary_key#','#media_relations_id#','#media_id#');">Save Relationships 
 													</button>
-													<script>
-														$(document).ready(function() { 
-															$('##relationsBlock').on('domChanged',function() {
-																console.log("dom change within relationsBlock");
-																monitorForChanges('relationshipForm',handleChange);
-															});
-														});
-													</script>
 												</div>
+											</form>
 											</div>
 										</div>
 									</div>
-								</div>
+									<!---	end col-12 Start of Label Block--->
+									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
+										<h2>
+											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90"><a class="btn-link h5" type="button" >Add Row</a> &bull; Please add a "description."</span>
+											</label>
+										</h2>
+										<form id="labelForm">
+											<div class="col-12">
+												<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
+												<div id="labelBlock">
+													#labelBlockContent#
+												</div>
+											</div>
+										</form>
+									</div><!---end col-6--->	
+								</div><!---end form-row Relationships and labels--->
 							</div>
 						</form>
-						<form id="labelForm">
-							<div class="row mx-0">
-								<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
-									<h2>
-									<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90"><a class="btn-link h5" type="button" >Add Row</a> &bull; Please add a "description."</span>
-									</label>
-								</h2>
-									<div class="col-12">
-										<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
-										<div id="labelBlock">
-											#labelBlockContent#
-										</div>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-<!---<form id="editRelationsForm">
+								
+						<!---<form id="editRelationsForm">
 							<div class="form-row my-1">
 								<script>
 									function reloadMediaRelationships() { 
@@ -297,6 +291,8 @@ limitations under the License.
 								</script>
 							</div>	
 						</form>--->
+					</div><!---end col-12--->
+				</div>
 			</div>
 		</cfoutput>
 	</cfcase>
