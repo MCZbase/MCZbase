@@ -1114,6 +1114,8 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	<cfargument name="determiner_id" type="string" required="no">
 	<cfargument name="keyword" type="string" required="no">
 	<cfargument name="received_date" type="string" required="no">
+	<cfargument name="underscore_collection_id" type="string" required="no">
+	<cfargument name="underscore_collection" type="string" required="no">
 
 	<cfargument name="debug" type="string" required="no">
 	<cfargument name="recordstartindex" type="string" required="no">
@@ -1728,6 +1730,24 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 		<cfset separator = ",">
 		<cfset join='"join":"and",'>
 		<cfset nest = nest + 1>
+	</cfif>
+
+	<cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
+		<cfset field = '"field": "UNDERSCORE_COLLECTION_ID_RAW"'>
+		<cfset comparator = '"comparator": "="'>
+		<cfset value = encodeForJSON(underscore_collection_id)>
+		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
+		<cfset separator = ",">
+		<cfset join='"join":"and",'>
+		<cfset nest = nest + 1>
+	<cfelse>
+		<cfif isDefined("underscore_collection") AND len(underscore_collection) GT 0>
+			<cfset field = '"field": "COLLECTION_NAME"'>
+			<cfset search_json = search_json & constructJsonForField(join="#join#",field="#field#",value="#underscore_collection#",separator="#separator#",nestDepth="#nest#")>
+			<cfset separator = ",">
+			<cfset join='"join":"and",'>
+			<cfset nest = nest + 1>
+		</cfif>
 	</cfif>
 
 	<cfset search_json = "#search_json#]">

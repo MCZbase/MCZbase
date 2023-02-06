@@ -140,6 +140,17 @@ limitations under the License.
 		WHERE
 			taxonomy_publication.publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
+	<cfquery name="citedNamedGroups" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="citedNamedGroups_result">
+		SELECT collection_name, type, pages, remarks, mask_fg, underscore_collection.underscore_collection_id 
+		FROM
+			underscore_collection_citation
+			JOIN underscore_collection on underscore_collection_citation.underscore_collection_id = underscore_collection.underscore_collection_id
+		WHERE
+			underscore_collection_citation.publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			<cfif NOT isdefined("session.roles") OR listfindnocase(session.roles,"coldfusion_user") EQ 0>
+				and mask_fg = 0
+			</cfif>
+	</cfquery>
 
 	<section class="row">
 		<div class="col-12 mb-5"> 
@@ -264,6 +275,23 @@ limitations under the License.
 						</cfloop>
 					</cfif>
 				</ul>
+
+				<cfif citedNamedGroups.recordcount GT 0>
+					<h2 class="h4">Named Groups Related to #getDetails.short_citation#:</h2>
+					<ul>
+						<cfloop query="citedNamedGroups">
+							<li>
+								<a href="/grouping/showNamedCollection.cfm?underscore_collection_id=#citedNamedGroups.underscore_collection_id#">
+									#citedNamedGroups.collection_name# 
+									<span class='small90'>
+										#citedNamedGroups.type#
+										<cfif len(citedNamedGroups.pages) GT 0>pp. #citedNamedGroups.pages#</cfif>
+									</span>
+								</a>
+							</li>
+						</cfloop>
+					</ul>
+				</cfif>
 
 				<cfif taxonPublications.recordcount GT 0>
 					<h2 class="h4">Taxa Related to #getDetails.short_citation#:</h2>

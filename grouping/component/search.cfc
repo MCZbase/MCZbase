@@ -59,7 +59,9 @@ limitations under the License.
 				<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
 					AND mask_fg = 0
 				</cfif>
-				<cfif isDefined("collection_name") and len(collection_name) gt 0>
+				<cfif isDefined("underscore_collection_id") and len(underscore_collection_id) gt 0>
+					AND underscore.collection.underscore_Collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				<cfelseif isDefined("collection_name") and len(collection_name) gt 0>
 					and collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#collection_name#%">
 				</cfif>
 				<cfif isDefined("underscore_collection_type") and len(underscore_collection_type) gt 0>
