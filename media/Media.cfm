@@ -376,7 +376,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-11 my-2">
+									<div class="col-12 col-md-8 my-2">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
@@ -387,7 +387,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 my-2">
+									<div class="col-12 col-md-4 float-left my-2">
 										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select col-12 col-md-4">
 											<option value="0" selected="selected">Public</option>
