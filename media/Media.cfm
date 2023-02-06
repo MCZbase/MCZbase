@@ -350,17 +350,19 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row mx-0">
-								<div class="col-12 col-md-4 px-md-5 my-2 float-left">
-									<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
-									<p class="small mb-1">Thumbnail on Shared Storage</p>
-								
-								</div>
 								<div class="form-row mx-0">
-									<div class="col-12 col-md-9 px-md-5 mt-2 mb-4 float-left">
+									<div class="col-12 col-md-4 px-md-5 float-left">
+										<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="">
+										<p class="small mb-1">Thumbnail on Shared Storage</p>
+									</div>
+									<div class="col-12 col-md-7 px-md-5 mt-2 mb-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview </button>
 									</div>
+								</div>
+								<div class="form-row mx-0">
+									
 									<div class="col-12 col-md-4 pl-md-5 pr-md-4 mt-4 mb-2 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
@@ -404,73 +406,70 @@ limitations under the License.
 											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
 										</ul>
 									</div>
-										<div class="col-12 pb-5 px-0">
-							<div class="form-row mt-2 mx-0">
-								<div class="col-12 col-xl-10 px-0">
-									<div class="col-12 px-0 float-left">
-										<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible.<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
-										<div id="relationshipDiv">
-											<cfset i=1>
-											<cfloop>
-												<div id="relationshiperror"></div>
-												<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-6 float-left">
-													<option value="">None/Unpick</option>
-													<cfloop query="ctmedia_relationship">
-														<option value="#media_relationship#">#media_relationship#</option>
-													</cfloop>
-												</select>
-												<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 data-entry-input float-left">
-												<input type="hidden" name="related_id__1" id="related_id__1">
-											</cfloop>
-											<div class="col-12 float-left">	
-												<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','loan'); handleChange();"> Add Relationships</button>
-											<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>--->
-											</div>
-										</div>
-									</div>
-									<div class="col-12 px-0 float-left">
-										<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
-										</label>
-										<div id="labels">
-											<div class="form-row mx-0 px-0 col-12">
-												<select class="data-entry-select col-12 col-md-6 float-left">
-													<option>Description</option>
-												</select>
-												<input class="data-entry-input col-12 col-md-6 float-left reqdClr" type="text" name="label_value__0" id="label_value__0" value="" required>
-											</div>
-											<cfset i=1>
-											<cfloop>
-												<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
-													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-12 col-md-6 float-left">
-														<option value="delete">Select label...</option>
-														<cfloop query="ctmedia_label">
-															<option value="#media_label#">#media_label#</option>
+									<div class="col-12 pb-5 px-0">
+										<div class="form-row mt-2 mx-0">
+											<div class="col-12 col-xl-10 px-0">
+												<div class="col-12 px-0 float-left">
+													<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible.<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
+													<div id="relationshipDiv">
+														<cfset i=1>
+														<cfloop>
+															<div id="relationshiperror"></div>
+															<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-6 float-left">
+																<option value="">None/Unpick</option>
+																<cfloop query="ctmedia_relationship">
+																	<option value="#media_relationship#">#media_relationship#</option>
+																</cfloop>
+															</select>
+															<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 data-entry-input float-left">
+															<input type="hidden" name="related_id__1" id="related_id__1">
 														</cfloop>
-													</select>
-													<input class="data-entry-input col-12 col-md-6 float-left" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+														<div class="col-12 float-left">	
+															<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','loan'); handleChange();"> Add Relationships</button>
+														<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>--->
+														</div>
+													</div>
 												</div>
-												<cfset i=i+1>
-											</cfloop>
-											<div class="col-12 float-left">
-												<!---<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
-												<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_label" onclick=" addLabelsForm('','','','createLabelForm','loan'); handleChange();">Add Label</button>
+												<div class="col-12 px-0 float-left">
+													<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+													</label>
+													<div id="labels">
+														<div class="form-row mx-0 px-0 col-12">
+															<select class="data-entry-select col-12 col-md-6 float-left">
+																<option>Description</option>
+															</select>
+															<input class="data-entry-input col-12 col-md-6 float-left reqdClr" type="text" name="label_value__0" id="label_value__0" value="" required>
+														</div>
+														<cfset i=1>
+														<cfloop>
+															<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
+																<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-12 col-md-6 float-left">
+																	<option value="delete">Select label...</option>
+																	<cfloop query="ctmedia_label">
+																		<option value="#media_label#">#media_label#</option>
+																	</cfloop>
+																</select>
+																<input class="data-entry-input col-12 col-md-6 float-left" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+															</div>
+															<cfset i=i+1>
+														</cfloop>
+														<div class="col-12 float-left">
+															<!---<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
+															<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_label" onclick=" addLabelsForm('','','','createLabelForm','loan'); handleChange();">Add Label</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-row mx-0 mt-2">
+											<div class="col-12 px-0 float-left">
+												<input type="submit" value="Create Media" onclick="createMedia()" class="btn btn-xs btn-primary">
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="form-row mx-0 mt-2">
-								<div class="col-12 px-0 float-left">
-									<input type="submit" value="Create Media" onclick="createMedia()" class="btn btn-xs btn-primary">
-								</div>
-							</div>
 						</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row mx-0">
-					
 					</div>
 				</form>
 				<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
