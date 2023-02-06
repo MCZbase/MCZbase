@@ -348,8 +348,8 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-4 float-left p-2 float-left">
-								<div class="col-12 my-2 float-left">
+							<div class="row mx-0">
+								<div class="col-12 col-md-4 my-2 float-left">
 									<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 									<p class="small mb-1">Preview of Thumbnail</p>
 								</div>
