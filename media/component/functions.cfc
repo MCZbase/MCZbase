@@ -311,7 +311,7 @@ Backing methods for managing media
   @param media_relations_id the primary key value for the record to delete.
   @return a structure containing status and message or a http 500
 --->
-<cffunction name="deleteMediaRelation" returntype="query" access="remote">
+<!---<cffunction name="deleteMediaRelation" returntype="query" access="remote">
 	 <cfargument name="media_relations_id" type="string" required="yes">
 	 <cftry>
 	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
@@ -338,7 +338,7 @@ Backing methods for managing media
 	 </cfcatch>
 	 </cftry>
 	 <cfreturn theResult>
-</cffunction>
+</cffunction>--->
 
 <!---<cffunction name="relationsTableHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
