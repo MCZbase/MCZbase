@@ -356,7 +356,7 @@ limitations under the License.
 								
 								</div>
 								<div class="form-row mx-0">
-									<div class="col-12 col-md-9 px-md-5 mt-2 mb-4">
+									<div class="col-12 col-md-8 px-md-5 mt-2 mb-4">
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview </button>
