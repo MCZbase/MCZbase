@@ -345,7 +345,7 @@ limitations under the License.
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
-										<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview Media Image</button>
+										<button type="button" class="btn btn-secondary btn-xs ui-widget mt-2 float-right ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
 									</div>
 								</div>
 							</div>
@@ -353,7 +353,7 @@ limitations under the License.
 								<div class="col-12 col-md-4 px-md-5 my-2 float-left">
 									<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 									<p class="small mb-1">Thumbnail on Shared Storage</p>
-									<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview Thumbnail</button>
+									<button type="button" class="btn btn-secondary btn-xs ui-widget pt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview </button>
 								</div>
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-9 px-md-5 mt-2 mb-4">
