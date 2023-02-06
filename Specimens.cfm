@@ -1036,7 +1036,7 @@ limitations under the License.
 													</div>
 													<div class="col-12 mb-1 col-md-2">
 														<label for="underscore_collection" class="data-entry-label small">Named Group
-															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
+															<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##underscore_collection').val('NOT NULL'); $('##underscore_collection_id').val(""); return false;" > (Any) <span class="sr-only">use NOT NULL to find cataloged items in any named group</span></a>
 														</label>
 														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
 														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
