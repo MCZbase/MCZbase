@@ -356,7 +356,7 @@ limitations under the License.
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 									</div>
-									<div class="col-12 col-md-6 col-xl-4 px-0 float-left">
+									<div class="col-12 col-md-6 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
 											<option value=""></option>
@@ -365,7 +365,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-6 col-xl-4 px-0 px-sm-2 px-md-4 float-left">
+									<div class="col-12 col-md-5 px-4 my-3 float-left">
 										<label for="media_type" class="data-entry-label">Media Type</label>
 										<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 											<option value=""></option>
@@ -374,13 +374,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-								</div>
-							</div>
-								<div class="form-row col-12 px-0 mx-0 mt-2">
-									
-								</div>
-								<div class="form-row mx-0 mt-2">
-									<div class="col-12 col-sm-8 col-md-6 px-0 px-sm-2 px-md-4 float-left">
+									<div class="col-12 float-left">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
@@ -391,8 +385,6 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-								</div>
-								<div class="form-row mx-0 mt-2">
 									<div class="col-12 col-md-4 px-0 px-sm-2 px-md-4 float-left">
 										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
@@ -401,6 +393,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
+							</div>
 								<div class="form-row mx-0 mt-2">
 									<!---NOTES to USER--->
 									<div class="col-12 px-0 px-sm-2 px-md-4">
