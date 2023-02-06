@@ -126,6 +126,20 @@ limitations under the License.
 		<cfset collection = lookupCollection_cde.code>
 	</cfloop>
 </cfif>
+<cfif not isdefined("underscore_collection") AND isdefined("underscore_collection_id") AND len(underscore_collection_id) GT 0 >
+	<!--- if underscore collection id was provided, but not a collection name, lookup the collection name --->
+	<cfquery name="lookupNamedGroup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="lookupNamedGroup_result">
+		SELECT
+			collection_name
+		FROM
+			underscore_collection
+		WHERE
+			underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+	</cfquery>
+	<cfloop query="lookupNamedGroup">
+		<cfset underscore_collection = lookupNamedGroup.collection_name>
+	</cfloop>
+</cfif>
 
 <cfoutput>
 <style>
