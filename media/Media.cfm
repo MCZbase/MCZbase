@@ -310,7 +310,6 @@ limitations under the License.
 					<input type="hidden" id="preview_uri" name="preview_uri" value="">
 					<input type="hidden" id="mask_media_fg" name="mask_media_fg" value="">
 					<input type="hidden" id="media_uri" name="media_uri" value="">
-			
 					<div class="row mx-0">
 						<div class="col-12 px-0 mt-4 pb-2">
 							<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
@@ -346,7 +345,7 @@ limitations under the License.
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 								<p class="small mb-0">Preview of Thumbnail</p>
 							</div>
-							
+							<div class="col-12 col-sm-8 col-md-9 col-xl-10 float-left mb-3 py-3">
 								<div class="form-row mx-0 mt-0 mb-4">
 									<div class="col-12 col-md-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
