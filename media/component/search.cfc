@@ -1874,7 +1874,6 @@ imgStyleClass=value
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="media_relationship" type="string" required="yes">
 	<cfargument name="related_primary_key" type="string" required="yes">
-	<cfargument name="media_relations_id" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
@@ -1882,7 +1881,6 @@ imgStyleClass=value
 				update media_relations set
 				media_relationship=<cfqueryparam cfsqltype="cf_sql_varchar" value="#media_relationship#" /> ,
 				related_primary_key=<cfqueryparam cfsqltype="cf_sql_number" value="#related_primary_key#" /> ,
-				media_relations_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_relations_id#" />
 				where media_id=<cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
 			</cfquery>
 			<cfloop from="1" to="#number_of_relations#" index="n">

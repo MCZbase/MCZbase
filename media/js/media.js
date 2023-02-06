@@ -420,16 +420,14 @@ function addMediaRelationshipToForm (media_id,media_relationship,key,formid) {
 		messageDialog('Error adding relationships to transaction record: '+message, 'Error: '+error.substring(0,50));
 	});
 }							
-function saveMediaRelationship(targetDiv, media_id, media_relationship,related_primary_key,media_relations_id) { 
+function saveMediaRelationship(targetDiv, media_id,media_relationship) { 
 	console.log("loadRelation() called for " + targetDiv);
 	jQuery.ajax({
 		url: "/media/component/search.cfc",
 		data : {
 			method : "updateMediaRelationship",
 			media_id : media_id,
-			media_relationship:media_relationship,
-			related_primary_key:related_primary_key,
-			media_relations_id:media_relations_id
+			media_relationship:media_relationship
 		},
 		success: function (result) {
 			$("#" + targetDiv).html(result);
