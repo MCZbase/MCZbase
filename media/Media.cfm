@@ -212,7 +212,7 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
-						<form id="relationshipForm">
+						<form id="relationsForm">
 							<input type="hidden" name="action" value="saveMediaRelationship">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#getRelations.recordcount#">
 							<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
