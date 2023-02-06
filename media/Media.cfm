@@ -394,13 +394,13 @@ limitations under the License.
 														<cfset i=1>
 														<cfloop>
 															<div id="relationshiperror"></div>
-															<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-6 float-left">
+															<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" class="data-entry-select col-12 col-md-5 float-left">
 																<option value="">None/Unpick</option>
 																<cfloop query="ctmedia_relationship">
 																	<option value="#media_relationship#">#media_relationship#</option>
 																</cfloop>
 															</select>
-															<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 data-entry-input float-left">
+															<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-7 data-entry-input float-left">
 															<input type="hidden" name="related_id__1" id="related_id__1">
 														</cfloop>
 													</div>
@@ -412,21 +412,21 @@ limitations under the License.
 													</label>
 													<div id="labels">
 														<div class="form-row mx-0 px-0 col-12">
-															<select class="data-entry-select col-12 col-md-6 float-left">
+															<select class="data-entry-select col-12 col-md-5 float-left">
 																<option>Description</option>
 															</select>
-															<input class="data-entry-input col-12 col-md-6 float-left reqdClr" type="text" name="label_value__0" id="label_value__0" value="" required>
+															<input class="data-entry-input col-12 col-md-7 float-left reqdClr" type="text" name="label_value__0" id="label_value__0" value="" required>
 														</div>
 														<cfset i=1>
 														<cfloop>
 															<div id="labelsDiv__#i#" class="form-row mx-0 px-0 col-12">
-																<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-12 col-md-6 float-left">
+																<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select col-12 col-md-5 float-left">
 																	<option value="delete">Select label...</option>
 																	<cfloop query="ctmedia_label">
 																		<option value="#media_label#">#media_label#</option>
 																	</cfloop>
 																</select>
-																<input class="data-entry-input col-12 col-md-6 float-left" type="text" name="label_value__#i#" id="label_value__#i#" value="">
+																<input class="data-entry-input col-12 col-md-7 float-left" type="text" name="label_value__#i#" id="label_value__#i#" value="">
 															</div>
 															<cfset i=i+1>
 														</cfloop>
