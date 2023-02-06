@@ -311,11 +311,13 @@ limitations under the License.
 					<input type="hidden" id="mask_media_fg" name="mask_media_fg" value="">
 					<input type="hidden" id="media_uri" name="media_uri" value="">
 					<div class="row mx-0">
-						<div class="col-12 px-0 mt-4 pb-2">
-							<h1 class="h2 px-1 border-bottom border-dark mb-3 pb-2">
-								Create Media 
-								<i onClick="getMCZDocs('Media')" class="fas fa-circle-info" alt="[ help ]"></i>
+						<div class="col-12 px-0 mt-1 pb-2">
+						<div class="col-12 px-2 border-bottom border-dark my-3">
+							<h1 class="h2 px-0 py-2 my-2">Edit Media 
+								<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
+								<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
 							</h1>
+						</div>
 							<script>
 								function previewFile(input){
 									var file = $("input[type=file]").get(0).files[0];
