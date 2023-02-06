@@ -231,7 +231,7 @@ limitations under the License.
 												<div class="col-9 px-0 pt-2 float-left">
 													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>
-													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_id#');">Save Relationships 
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_relationship#',#media_id#');">Save Relationships 
 													</button>
 												</div>
 											</div>
