@@ -1055,7 +1055,7 @@ limitations under the License.
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
 													<div class="col-12 mb-1 col-md-2">
-														<cfif not isdefined("basic_keywpord")>
+														<cfif not isdefined("keyword")>
 															<cfset keyword="">
 														</cfif>
 														<label for="keyword" class="data-entry-label small">Keyword Search</label>
