@@ -379,7 +379,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-12  px-md-5 my-2">
-										<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
+										<ul class="list-group float-left border-danger border-right border-left mt-2 border-bottom border-top rounded p-2">
 											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
 											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
