@@ -320,7 +320,7 @@ limitations under the License.
 								<p class="small mb-1">Media Image</p>
 								
 							</div>
-							<div class="col-12 col-xl-9 px-0">
+							<div class="col-12 col-xl-10 px-0">
 								<div class="form-row mx-0 my-2">
 									<div class="col-12 col-xl-11 px-md-5 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
