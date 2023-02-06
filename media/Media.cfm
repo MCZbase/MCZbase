@@ -354,7 +354,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-8 pl-md-5 pr-md-4 my-2">
+									<div class="col-12 col-md-8 pl-md-4 pr-md-4 my-2">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
@@ -379,7 +379,7 @@ limitations under the License.
 											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
 										</ul>
 									</div>
-									<div class="col-12 pl-md-5 pb-5 px-0">
+									<div class="col-12 pl-md-4 pb-5 px-0">
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 col-md-12 px-0">
 												<div class="col-12 col-xl-6 float-left">
