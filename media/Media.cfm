@@ -336,7 +336,6 @@ limitations under the License.
 											<button type="button" class="btn btn-secondary btn-xs float-right mt-1" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
 									</div>
 								</div>
-								
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-4 pl-md-5 pr-md-4 mt-2 mb-2 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
@@ -358,7 +357,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="border col-3 float-left">test</div>
+							
 							<div class="col-12 col-xl-12 px-0">
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-5 pl-md-5 pr-md-4 my-2">
