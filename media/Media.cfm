@@ -352,19 +352,18 @@ limitations under the License.
 							<div class="">
 								<div class="form-row mx-0">
 									<div class="col-12">
-									<div class="col-12 col-md-4 pl-md-5 pt-3 pr-0 float-left">
-										<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="">
-										<p class="small mb-1">Thumbnail on Shared Storage</p>
-									</div>
-									<div class="col-12 col-md-6 mt-5 mb-4 float-left">
-										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
-										<input name="preview_uri" class="reqdClr data-entry-input" required>
-											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview </button>
-									</div>
+										<div class="col-12 col-md-4 pl-md-5 pt-3 pr-0 float-left">
+											<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="">
+											<p class="small mb-1">Thumbnail on Shared Storage</p>
+										</div>
+										<div class="col-12 col-md-6 mt-2 mb-4 float-left">
+											<label for="preview_uri" class="data-entry-label">Preview IRI</label>
+											<input name="preview_uri" class="reqdClr data-entry-input" required>
+												<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview </button>
+										</div>
 									</div>
 								</div>
 								<div class="form-row mx-0">
-									
 									<div class="col-12 col-md-4 pl-md-5 pr-md-4 mt-4 mb-2 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
@@ -408,7 +407,7 @@ limitations under the License.
 											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
 										</ul>
 									</div>
-									<div class="col-12 pb-5 px-0">
+									<div class="col-12 px-md-5 pb-5 px-0">
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 col-xl-10 px-0">
 												<div class="col-12 px-0 float-left">
