@@ -407,7 +407,7 @@ limitations under the License.
 											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
 										</ul>
 									</div>
-									<div class="col-12 px-md-5 pb-5 px-0">
+									<div class="col-12 pl-md-5 pb-5 px-0">
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 col-md-12 px-0">
 												<div class="col-12 col-xl-6 px-0 float-left">
