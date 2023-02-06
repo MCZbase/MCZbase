@@ -339,7 +339,7 @@ limitations under the License.
 							</script>
 							<div class="rounded border bg-light col-12 col-md-4 float-left mb-3 py-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
-								<p class="small mb-1">Media</p>
+								<p class="small mb-1">Media Image</p>
 								<div class="form-row mx-0 my-2">
 									<div class="col-12 px-0 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
@@ -357,7 +357,7 @@ limitations under the License.
 											<p class="small mb-1">Thumbnail on Shared Storage</p>
 										</div>--->
 										<div class="col-12 col-md-7 px-md-5 mt-2 mb-4 float-left">
-											<label for="preview_uri" class="data-entry-label">Preview IRI</label>
+											<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
 											<input name="preview_uri" class="reqdClr data-entry-input" required>
 												<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
 										</div>
