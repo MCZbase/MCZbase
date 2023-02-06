@@ -326,14 +326,14 @@ limitations under the License.
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
-										<button type="button" class="btn btn-secondary btn-xs ui-widget mt-1 float-right ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
+										<button type="button" class="btn btn-secondary btn-xs ui-widget mt-2 float-right ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
 									</div>
 								</div>
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-8 px-md-5 mt-0 mb-2 float-left">
 										<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
-											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-1 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
+											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
 									</div>
 								</div>
 								<div class="form-row mx-0">
@@ -355,15 +355,6 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12  px-md-5 my-2">
-										<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
-											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
-											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
-											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
-										</ul>
-									</div>
-								</div>
-								<div class="form-row mx-0">
 									<div class="col-12 col-md-8 pl-md-5 pr-md-4 my-2">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
@@ -382,7 +373,13 @@ limitations under the License.
 											<option value="1">Hidden</option>
 										</select>
 									</div>
-									
+									<div class="col-12  px-md-5 my-2">
+										<ul class="list-group float-left border-success border-right border-left mt-2 border-bottom border-top rounded p-2">
+											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
+											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
+											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+										</ul>
+									</div>
 									<div class="col-12 pl-md-4 pb-5 px-0">
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 col-md-12">
