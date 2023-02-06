@@ -426,9 +426,8 @@ limitations under the License.
 														</cfloop>
 													</div>
 												</div>
+												
 											</div>
-										</div>
-										<div class="form-row mx-0 mt-2">
 											<div class="col-12 float-left">
 												<input type="submit" value="Create Media Record" onclick="createMedia()" class="btn btn-xs btn-primary">
 											</div>
