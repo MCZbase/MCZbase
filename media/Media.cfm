@@ -315,7 +315,7 @@ limitations under the License.
 							<div class="col-12 px-2 border-bottom border-dark my-3">
 								<h1 class="h2 px-0 py-2 my-2">Create Media </h1>
 							</div>
-							<div class="rounded border bg-light col-12 col-md-3 float-left mb-3 py-3">
+							<div class="rounded border bg-light col-12 col-md-2 float-left mb-3 py-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
 								<p class="small mb-1">Media Image</p>
 								
