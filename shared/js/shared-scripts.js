@@ -783,6 +783,7 @@ function makeNamedCollectionPicker(nameControl,idControl,clear=true) {
 				// just clear the id control
 				$('#'+idControl).val("");
 			}
+		},
       minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta "collection name * (description)" instead of value in picklist.
