@@ -338,21 +338,21 @@ limitations under the License.
 									}
 								}
 							</script>
-							<div class="rounded border bg-light col-12 col-sm-4 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-3">
+							<div class="rounded border bg-light col-12 col-sm-5 col-md-4 col-xl-3 float-left mb-3 pt-3 pb-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
 								<p class="small mb-0">Preview of Media</p>
 								
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 								<p class="small mb-0">Preview of Thumbnail</p>
 							</div>
-							<div class="col-12 col-sm-8 col-md-9 col-xl-10 float-left mb-3 py-3">
+							<div class="col-12 col-sm-7 col-md-8 col-xl-9 float-left mb-3 py-3">
 								<div class="form-row mx-0 mt-0 mb-4">
 									<div class="col-12 col-md-10 px-0 px-sm-2 px-md-4 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 									</div>
 									<div class="col-12 col-md-4 px-0 px-sm-2 px-md-4">
-										<button type="button" onClick="getIRIForFile();" >Find on Shared Storage</button>
+										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
 									</div>
 								</div>
 								<div class="form-row mx-0 mt-0 mb-4">
