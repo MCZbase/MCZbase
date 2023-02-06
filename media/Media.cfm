@@ -354,7 +354,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-8 pl-md-4 pr-md-4 my-2">
+									<div class="col-12 col-md-8 pl-md-5 pr-md-4 my-2">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
@@ -381,7 +381,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 pl-md-4 pb-5 px-0">
 										<div class="form-row mt-2 mx-0">
-											<div class="col-12 col-md-12 px-0">
+											<div class="col-12 col-md-12">
 												<div class="col-12 col-xl-6 float-left">
 													<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible. 	<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','loan'); handleChange();"> Add</button><!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
 													<div id="relationshipDiv">
