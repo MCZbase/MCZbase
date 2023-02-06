@@ -252,18 +252,20 @@ limitations under the License.
 							</form>
 						<form id="labelForm">
 							<!---	end col-12 Start of Label Block--->
-							<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
-								<h2>
+							<div class="row mx-0">
+								<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
+									<h2>
 									<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90"><a class="btn-link h5" type="button" >Add Row</a> &bull; Please add a "description."</span>
 									</label>
 								</h2>
-								<div class="col-12">
-									<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
-									<div id="labelBlock">
-										#labelBlockContent#
+									<div class="col-12">
+										<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
+										<div id="labelBlock">
+											#labelBlockContent#
+										</div>
 									</div>
 								</div>
-							</div><!---end col-6--->	
+							</div>
 						</form>
 					</div>
 				</div>
