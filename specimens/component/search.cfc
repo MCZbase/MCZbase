@@ -1733,7 +1733,7 @@ function ScriptNumberListPartToJSON (atom, fieldname, nestDepth, leadingJoin) {
 	</cfif>
 
 	<cfif isDefined("underscore_collection_id") AND len(underscore_collection_id) GT 0>
-		<cfset field = '"field": "UNDERSCORE_COLLECTION_ID"'>
+		<cfset field = '"field": "UNDERSCORE_COLLECTION_ID_RAW"'>
 		<cfset comparator = '"comparator": "="'>
 		<cfset value = encodeForJSON(underscore_collection_id)>
 		<cfset search_json = '#search_json##separator#{"nest":"#nest#",#join##field#,#comparator#,"value": "#value#"}'>
