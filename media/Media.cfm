@@ -428,7 +428,7 @@ limitations under the License.
 												</div>
 												
 											</div>
-											<div class="col-12 float-left">
+											<div class="col-11 px-3 ml-1 float-left">
 												<input type="submit" value="Create Media Record" onclick="createMedia()" class="btn btn-xs btn-primary">
 											</div>
 										</div>
