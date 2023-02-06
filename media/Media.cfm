@@ -367,7 +367,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-4 px-0 mb-2 mt-4 float-left">
+									<div class="col-12 col-md-4 px-0 pr-md-5 mb-2 mt-4 float-left">
 										<label for="media_type" class="data-entry-label">Media Type</label>
 										<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 											<option value=""></option>
