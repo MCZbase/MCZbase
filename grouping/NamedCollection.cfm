@@ -109,7 +109,7 @@ limitations under the License.
 												<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
 												<script>
 													$(document).ready(function() {
-														makeNamedCollectionPicker('collection_name',null);
+														makeNamedCollectionPicker('collection_name',null,false);
 													});
 												</script>
 											</div>

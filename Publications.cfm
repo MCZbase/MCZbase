@@ -428,7 +428,7 @@ limitations under the License.
 										<input type="hidden" id="cited_named_group_id" name="cited_named_group_id" value="#encodeForHtml(cited_named_group_id)#" >
 										<script>
 											$(document).ready(function() {
-												makeNamedCollectionPicker("cited_named_group","cited_named_group_id");
+												makeNamedCollectionPicker("cited_named_group","cited_named_group_id",false);
 												$('##cited_named_group').blur( function () {
 													// prevent an invisible cited_named_group_id from being included in the search.
 													if ($('##cited_named_group').val().trim() == "") { 

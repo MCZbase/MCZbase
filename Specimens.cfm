@@ -1028,7 +1028,7 @@ limitations under the License.
 														<input type="text" id="underscore_collection" name="underscore_collection" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection)#" >
 														<script>
 															jQuery(document).ready(function() {
-																makeNamedCollectionPicker('underscore_collection','underscore_collection_id');
+																makeNamedCollectionPicker('underscore_collection','underscore_collection_id',false);
 															});
 														</script>
 													</div>
