@@ -341,7 +341,7 @@ function loadRelationsTable(relationsDiv,media_id,containingFormId,changeHandler
 
 
 
-function loadMediaRelations(targetDiv, media_id, media_relationship, related_primary_key,media_relations_id) { 
+function loadMediaRelations(targetDiv, media_id) { 
 	console.log("loadMediaRelations() called for " + targetDiv);
 	jQuery.ajax({
 		url: "/media/component/search.cfc",

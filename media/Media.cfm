@@ -230,7 +230,7 @@ limitations under the License.
 											<div class="col-12">
 												
 												<script>
-													function reloadMediaRelationships() { 
+													function reloadMediaRelations() { 
 														getMediaRelationsHtml(media_id='#media.media_id#',"relationsForm",handleChange);
 													}
 													$(document).ready(function() {
