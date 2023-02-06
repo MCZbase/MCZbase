@@ -339,19 +339,21 @@ limitations under the License.
 							</script>
 							<div class="rounded border bg-light col-12 col-md-4 float-left mb-3 py-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
-								<p class="small mb-1">Preview of Media</p>
+								<p class="small mb-1">Media</p>
 								<div class="form-row mx-0 my-2">
 									<div class="col-12 px-0 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
+										<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview Media Image</button>
 									</div>
 								</div>
 							</div>
 							<div class="row mx-0">
 								<div class="col-12 col-md-4 px-md-5 my-2 float-left">
 									<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
-									<p class="small mb-1">Preview of Thumbnail</p>
+									<p class="small mb-1">Thumbnail on Shared Storage</p>
+									<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview Thumbnail</button>
 								</div>
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-9 px-md-5 mt-2 mb-4">
@@ -424,8 +426,9 @@ limitations under the License.
 												<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-6 data-entry-input float-left">
 												<input type="hidden" name="related_id__1" id="related_id__1">
 											</cfloop>
-											<div class="col-12 float-left">						
-												<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>
+											<div class="col-12 float-left">	
+												<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','loan'); handleChange();"> Add Relationships</button>
+											<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>--->
 											</div>
 										</div>
 									</div>
@@ -434,8 +437,8 @@ limitations under the License.
 										</label>
 										<div id="labels">
 											<div class="form-row mx-0 px-0 col-12">
-												<select class="data-entry-select col-12 col-md-6 px-0 float-left">
-													<option>description</option>
+												<select class="data-entry-select col-12 col-md-6 float-left">
+													<option>Description</option>
 												</select>
 												<input class="data-entry-input col-12 col-md-6 float-left reqdClr" type="text" name="label_value__0" id="label_value__0" value="" required>
 											</div>
@@ -453,7 +456,8 @@ limitations under the License.
 												<cfset i=i+1>
 											</cfloop>
 											<div class="col-12 float-left">
-												<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+												<!---<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
+												<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_label" onclick=" addLabelsForm('','','','createLabelForm','loan'); handleChange();">Add Label</button>
 											</div>
 										</div>
 									</div>
