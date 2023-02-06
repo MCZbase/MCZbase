@@ -337,7 +337,7 @@ limitations under the License.
 									}
 								}
 							</script>
-							<div class="rounded border bg-light col-12 col-md-6 float-left mb-3 py-3">
+							<div class="rounded border bg-light col-12 col-md-4 float-left mb-3 py-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
 								<p class="small mb-1">Preview of Media</p>
 								<div class="form-row mx-0 my-2">
@@ -348,7 +348,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-md-6 float-left mb-3 py-3 rounded border bg-light">
+							<div class="col-12 col-md-4 float-left mb-3 py-3 rounded border bg-light float-left">
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 								<p class="small mb-1">Preview of Thumbnail</p>
 								<div class="form-row mx-0 my-2">
