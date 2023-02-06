@@ -996,7 +996,7 @@ limitations under the License.
 														<cfset keyword_cols="col-md-2">
 													<cfelse>
 														<cfset keyword_cols="col-md-4">
-													<cfif>
+													</cfif>
 													<div class="col-12 mb-1 #keyword_cols#">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
