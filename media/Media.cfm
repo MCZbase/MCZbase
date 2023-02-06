@@ -231,7 +231,7 @@ limitations under the License.
 												
 												<script>
 													function reloadMediaRelations() { 
-														getMediaRelationsHtml(media_id='#media.media_id#',"relationsForm",handleChange);
+														getMediaRelationsHtml("relationsForm",media_id='#media_id#');
 													}
 													$(document).ready(function() {
 														reloadMediaRelationships();
