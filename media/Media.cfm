@@ -324,7 +324,7 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<div class="col-12 col-xl-11 px-md-5 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
-										<input name="media_uri" class="reqdClr data-entry-input col-11 float-left px-0" required>
+										<input name="media_uri" class="reqdClr data-entry-input col-xl-11 col-md-10 float-left px-0" required>
 										<button type="button" class="btn btn-secondary btn-xs col-auto float-right" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
 										<button type="button" class="btn btn-xs float-left col-auto" onClick="getIRIForFile();" >Find on Shared Storage</button>
 									</div>
@@ -332,7 +332,7 @@ limitations under the License.
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-11 px-md-5 mt-0 mb-2 float-left">
 										<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
-										<input name="preview_uri" class="reqdClr data-entry-input float-left px-0 col-10" required>
+										<input name="preview_uri" class="reqdClr data-entry-input float-left px-0 col-xl-10 col-md-9" required>
 											<button type="button" class="btn btn-secondary btn-xs float-right mt-0 col-auto" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
 									</div>
 								</div>
