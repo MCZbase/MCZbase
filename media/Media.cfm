@@ -312,7 +312,7 @@ limitations under the License.
 					<input type="hidden" id="media_uri" name="media_uri" value="">
 					<div class="row mx-0">
 						<div class="col-12 px-0 mt-1 pb-2">
-						<div class="col-12 px-2 border-bottom border-dark my-3">
+							<div class="col-12 px-2 border-bottom border-dark my-3">
 							<h1 class="h2 px-0 py-2 my-2">Create Media </h1>
 						</div>
 							<script>
@@ -367,7 +367,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-5 px-4 my-2 float-left">
+									<div class="col-12 col-md-5 my-2 float-left">
 										<label for="media_type" class="data-entry-label">Media Type</label>
 										<select name="media_type" id="media_type" class="reqdClr data-entry-select">
 											<option value=""></option>
@@ -387,7 +387,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-4 float-left my-2">
+									<div class="col-12 col-md-4 px-0 float-left my-2">
 										<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 										<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select col-12 col-md-4">
 											<option value="0" selected="selected">Public</option>
@@ -402,7 +402,6 @@ limitations under the License.
 										</ul>
 									</div>
 								</div>
-							</div>
 							</div>
 						</div>
 					</div>
