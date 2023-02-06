@@ -212,7 +212,7 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
-						<form id="relationsForm">
+						<form id="relationshipForm">
 							<input type="hidden" name="action" value="saveMediaRelationship">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#getRelations.recordcount#">
 							<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
@@ -228,20 +228,11 @@ limitations under the License.
 										</h2>
 										<div class="row">
 											<div class="col-12">
-												
-												<script>
-													function reloadMediaRelations() { 
-														getMediaRelationsHtml("relationsForm",media_id='#media_id#');
-													}
-													$(document).ready(function() {
-														reloadMediaRelationships();
-													});
-												</script>
-												<!---<cfset relationsBlockContent= getMediaRelationsHtml(media_id='#media.media_id#')>
+												<cfset relationsBlockContent= getMediaRelationsHtml(media_id='#media.media_id#')>
 													
 												<div id="relationsBlock">
 													#relationsBlockContent#
-												</div>--->
+												</div>
 												<div id=""></div>
 												<div class="col-9 px-0 pt-2 float-left">
 													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
