@@ -359,7 +359,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-xl-12 px-0">
 								<div class="form-row mx-0">
-									<div class="col-12 col-md-8 pl-md-5 pr-md-4 my-2">
+									<div class="col-12 col-md-5 pl-md-5 pr-md-4 my-2">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
