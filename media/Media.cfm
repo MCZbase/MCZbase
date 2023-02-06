@@ -349,7 +349,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-offset-1 col-12 col-md-6 col-xl-7 float-left mb-3 py-3 rounded border bg-light">
+							<div class="offset-md-1 col-12 col-md-6 col-xl-7 float-left mb-3 py-3 rounded border bg-light">
 								<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 								<p class="small mb-1">Preview of Thumbnail</p>
 								<div class="form-row mx-0 my-2">
