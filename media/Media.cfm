@@ -228,17 +228,34 @@ limitations under the License.
 										</h2>
 										<div class="row">
 											<div class="col-12">
-												<cfset relationsBlockContent= getMediaRelationsHtml(media_id='#media.media_id#')>
+												
+												<script>
+													function reloadMediaRelationships() { 
+														getMediaRelationsHtml(media_id='#media.media_id#',"relationsForm",handleChange);
+													}
+													$(document).ready(function() {
+														reloadMediaRelationships();
+													});
+												</script>
+												<!---<cfset relationsBlockContent= getMediaRelationsHtml(media_id='#media.media_id#')>
 													
 												<div id="relationsBlock">
 													#relationsBlockContent#
-												</div>
+												</div>--->
 												<div id=""></div>
 												<div class="col-9 px-0 pt-2 float-left">
 													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>
 													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationshipForm','#media_id#');">Save Relationships 
 													</button>
+													<script>
+														$(document).ready(function() { 
+															$('##relationsBlock').on('domChanged',function() {
+																console.log("dom change within relationsBlock");
+																monitorForChanges('relationshipForm',handleChange);
+															});
+														});
+													</script>
 												</div>
 											</div>
 										</div>
