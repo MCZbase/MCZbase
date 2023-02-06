@@ -327,7 +327,7 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 col-xl-9 px-0">
+							<div class="col-12 col-xl-12 px-0">
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-7 px-md-5 mt-2 mb-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
