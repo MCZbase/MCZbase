@@ -1038,6 +1038,34 @@ limitations under the License.
 															<input type="text" name="received_date" class="data-entry-input inputHeight" id="received_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(received_date)#" >
 														</div>
 														<div class="col-12 mb-1 col-md-2">
+															<cfif not isdefined("accn_status")>
+																<cfset accn_status="">
+															</cfif>
+															<label for="accn_status" class="data-entry-label small">Accession Status
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_status').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+															</label>
+															<input type="text" name="accn_status" class="data-entry-input inputHeight" id="accn_status" value="#encodeForHtml(accn_status)#" >
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete("accn_status","ACCN_STATUS");
+																});
+															</script>
+														</div>
+														<div class="col-12 mb-1 col-md-2">
+															<cfif not isdefined("accn_type")>
+																<cfset accn_type="">
+															</cfif>
+															<label for="accn_type" class="data-entry-label small">Accession Type
+																<a href="javascript:void(0)" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_type').autocomplete('search','%'); return false;" > (&##8595;) <span class="sr-only">open pick list</span></a>
+															</label>
+															<input type="text" name="accn_type" class="data-entry-input inputHeight" id="accn_type" value="#encodeForHtml(accn_type)#" >
+															<script>
+																jQuery(document).ready(function() {
+																	makeCTFieldSearchAutocomplete("accn_type","ACCN_TYPE");
+																});
+															</script>
+														</div>
+														<div class="col-12 mb-1 col-md-2">
 															<cfif not isdefined("deaccession_number")>
 																<cfset deaccession_number="">
 															</cfif>
@@ -1054,7 +1082,13 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
-													<div class="col-12 mb-1 col-md-2">
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<!--- reserve two columns for the debug control --->
+														<cfset keyword_cols="col-md-2">
+													<cfelse>
+														<cfset keyword_cols="col-md-4">
+													<cfif>
+													<div class="col-12 mb-1 #keyword_cols#">
 														<cfif not isdefined("keyword")>
 															<cfset keyword="">
 														</cfif>
@@ -1076,15 +1110,19 @@ limitations under the License.
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
 													<div class="col-12 mb-1 col-md-2">
-														<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+													</div>
+													<div class="col-12 mb-1 col-md-2">
+													</div>
+													<cfif findNoCase('redesign',gitBranch) GT 0 OR (isdefined("session.roles") and listfindnocase(session.roles,"global_admin") ) >
+														<div class="col-12 mb-1 col-md-2">
 															<label class="data-entry-label small" for="debug">Debug JSON</label>
 															<select title="debug" name="debug" id="dbug" class="data-entry-select smaller inputHeight">
 																<option value=""></option>
 																<cfif isdefined("debug") AND len(debug) GT 0><cfset selected=" selected "><cfelse><cfset selected=""></cfif>
 																<option value="true" #selected#>Debug JSON</option>
 															</select>
-														</cfif>
-													</div>
+														</div>
+													</cfif>
 												</div>
 											</div>
 											<div id="searchButtons">
