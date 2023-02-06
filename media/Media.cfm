@@ -352,11 +352,11 @@ limitations under the License.
 							<div class="">
 								<div class="form-row mx-0">
 									<div class="col-12">
-									<div class="col-12 col-md-4 pl-md-5 float-left">
+									<div class="col-12 col-md-4 pl-md-5 pt-3 pr-0 float-left">
 										<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="">
 										<p class="small mb-1">Thumbnail on Shared Storage</p>
 									</div>
-									<div class="col-12 col-md-6 mt-2 mb-4 float-left">
+									<div class="col-12 col-md-6 mt-5 mb-4 float-left">
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview </button>
