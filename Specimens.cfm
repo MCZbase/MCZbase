@@ -986,10 +986,10 @@ limitations under the License.
 													</div>
 												</div>
 											</div>
-											<div class="col-12 py-2">
-												<div class="col-12 col-xl-1 px-1 px-xl-3 px-md-2 float-left">
-													<div class="small95 font-weight-bold d-inline-block text-dark my-1 py-1">
-														General/Metadata&nbsp;&nbsp;
+											<div class="col-12 px-4 py-2">
+												<div class="col-12 col-xl-1 px-2 px-xl-3 px-md-2 float-left">
+													<div class="small95 font-weight-bold d-inline-block text-dark px-0 my-1 py-1">
+														General/ Metadata
 													</div>
 												</div>
 												<div class="form-row col-12 col-xl-11 px-0 mb-0 mx-0">
