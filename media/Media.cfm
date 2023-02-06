@@ -71,7 +71,7 @@ limitations under the License.
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 		<cfquery name="getRelations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select media_relations_id, media_id, media_relationship,created_by_agent_id, related_primary_key 
+			select media_relationship, related_primary_key, media_relations_id, media_id
 			from 
 				media_relations 
 			where 
@@ -105,9 +105,9 @@ limitations under the License.
 						<form name="editMedia" method="post" action="Media.cfm" class="my-2">
 							<input type="hidden" name="action" value="saveEditMedia">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#getRelations.recordcount#">
-							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#getRelations.media_relations_id#">
 							<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
 							<input type="hidden" id="related_primary_key" name="related_primary_key" value="#getRelations.related_primary_key#">
+							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#getRelations.media_relations_id#">
 							<input type="hidden" id="media_id" name="media_id" value="#getRelations.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="rounded border bg-light col-12 col-sm-6 col-md-3 col-xl-2 float-left mb-3 pt-3 pb-2">
