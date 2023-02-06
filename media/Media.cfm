@@ -315,12 +315,12 @@ limitations under the License.
 							<div class="col-12 px-2 border-bottom border-dark my-3">
 								<h1 class="h2 px-0 py-2 my-2">Create Media </h1>
 							</div>
-							<div class="rounded border bg-light col-12 col-md-2 float-left mb-3 py-3">
+							<div class="rounded border bg-light col-12 col-md-3 col-xl-2 float-left mb-3 py-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%"><!---Image can be width 100% and height auto. It will fit the container of col-md-2 width wise and display at natural aspect ratio.--->
 								<p class="small mb-1">Media Image (preview shows here)</p>
 								
 							</div>
-							<div class="col-12 col-xl-10 px-0">
+							<div class="col-12 col-md-10 px-0">
 								<div class="form-row mx-0 my-2">
 									<div class="col-12 col-xl-11 px-md-5 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
@@ -378,7 +378,7 @@ limitations under the License.
 											<option value="1">Hidden</option>
 										</select>
 									</div>
-									<div class="col-12  px-md-5 my-2">
+									<div class="col-12 col-md-12 px-0 px-md-5 my-2">
 										<ul class="list-group float-left border-danger border-right border-left mt-2 border-bottom border-top rounded p-2">
 											<li class="mx-4" style="list-style:circle">Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
 											<li class="mx-4" style="list-style:circle">Remove media immediately if owner requests it</li>
@@ -388,7 +388,7 @@ limitations under the License.
 									<div class="col-12 pl-md-4 pb-5 px-0">
 										<div class="form-row mt-2 mx-0">
 											<div class="col-12 col-md-12">
-												<div class="col-12 col-xl-6 float-left">
+												<div class="col-12 col-md-6 float-left">
 													<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold float-left" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal"> Multiple relationships are possible. </span><button type="button" class="btn btn-secondary btn-xs" id="button_add_relationships" onclick=" addRelationshipForm('','','','newMedia','media'); handleChange();"> Add </button></label>
 													<div id="relationshipDiv">
 														<cfset i=1>
@@ -405,7 +405,7 @@ limitations under the License.
 														</cfloop>
 													</div>
 												</div>
-												<div class="col-12 col-xl-6 float-left">
+												<div class="col-12 col-md-6 float-left">
 													<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | 
 													<span class="font-weight-normal text-dark small90">Please enter a 'description' first.</span>
 													<button type="button" class="btn btn-secondary btn-xs" id="button_add_label" onclick=" addLabelsForm('','','','createLabelForm','loan'); handleChange();">Add</button>
