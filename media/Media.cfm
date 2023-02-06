@@ -407,7 +407,7 @@ limitations under the License.
 												</div>
 												<div class="col-12 col-xl-6 float-left">
 													<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | 
-													<span class="font-weight-normal text-dark small90">Please enter a 'description'.</span>
+													<span class="font-weight-normal text-dark small90">Please enter a 'description' first.</span>
 													<button type="button" class="btn btn-secondary btn-xs" id="button_add_label" onclick=" addLabelsForm('','','','createLabelForm','loan'); handleChange();">Add</button>
 													</label>
 													<div id="labels">
