@@ -349,16 +349,16 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="row mx-0">
-								<div class="col-12 col-md-4 my-2 float-left">
+								<div class="col-12 col-md-4 px-md-5 my-2 float-left">
 									<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="mt-3">
 									<p class="small mb-1">Preview of Thumbnail</p>
 								</div>
 								<div class="form-row mx-0 my-2">
-									<div class="col-12">
+									<div class="col-12 col-md-9">
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 									</div>
-									<div class="col-12 col-md-6 my-2 float-left">
+									<div class="col-12 col-md-5 my-2 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
 											<option value=""></option>
