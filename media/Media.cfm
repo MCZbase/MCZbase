@@ -376,7 +376,7 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 my-2">
+									<div class="col-12 col-md-11 my-2">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
 										</label>
