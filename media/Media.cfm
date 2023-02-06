@@ -313,31 +313,9 @@ limitations under the License.
 					<div class="row mx-0">
 						<div class="col-12 px-0 mt-1 pb-2">
 							<div class="col-12 px-2 border-bottom border-dark my-3">
-							<h1 class="h2 px-0 py-2 my-2">Create Media </h1>
-						</div>
-							<script>
-								function previewFile(input){
-									var file = $("input[type=file]").get(0).files[0];
-									if(file){
-										var reader = new FileReader();
-										reader.onload = function(){
-											$("##previewImg").attr("src", reader.result);
-										}
-										reader.readAsDataURL(file);
-									}
-								}
-								function previewPreviewFile(input){
-									var file = $("input.preview[type=file]").get(0).files[0];
-									if(file){
-										var reader = new FileReader();
-										reader.onload = function(){
-											$("##previewPreviewImg").attr("src", reader.result);
-										}
-										reader.readAsDataURL(file);
-									}
-								}
-							</script>
-							<div class="rounded border bg-light col-12 col-md-4 float-left mb-3 py-3">
+								<h1 class="h2 px-0 py-2 my-2">Create Media </h1>
+							</div>
+							<div class="rounded border bg-light col-12 col-md-3 float-left mb-3 py-3">
 								<img id="previewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" style="width:100%">
 								<p class="small mb-1">Media Image</p>
 								<div class="form-row mx-0 my-2">
@@ -349,18 +327,12 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="col-12 px-0">
+							<div class="col-12 col-xl-9 px-0">
 								<div class="form-row mx-0">
-									<div class="col-12">
-								<!---		<div class="col-12 col-md-4 pl-md-5 pt-3 pr-0 float-left">
-											<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="">
-											<p class="small mb-1">Thumbnail on Shared Storage</p>
-										</div>--->
-										<div class="col-12 col-md-7 px-md-5 mt-2 mb-4 float-left">
-											<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
-											<input name="preview_uri" class="reqdClr data-entry-input" required>
-												<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
-										</div>
+									<div class="col-12 col-md-7 px-md-5 mt-2 mb-4 float-left">
+										<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
+										<input name="preview_uri" class="reqdClr data-entry-input" required>
+											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
 									</div>
 								</div>
 								<div class="form-row mx-0">
@@ -426,7 +398,7 @@ limitations under the License.
 															<input type="hidden" name="related_id__1" id="related_id__1">
 														</cfloop>
 														<div class="col-12 float-left">	
-														
+
 														<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>--->
 														</div>
 													</div>
@@ -456,7 +428,7 @@ limitations under the License.
 														</cfloop>
 														<div class="col-12 float-left">
 															<!---<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
-														
+
 														</div>
 													</div>
 												</div>
