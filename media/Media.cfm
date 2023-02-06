@@ -332,8 +332,8 @@ limitations under the License.
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-11 px-md-5 mt-0 mb-2 float-left">
 										<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
-										<input name="preview_uri" class="reqdClr data-entry-input col-10" required>
-											<button type="button" class="btn btn-secondary btn-xs float-right mt-1 col-2" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
+										<input name="preview_uri" class="reqdClr data-entry-input float-left px-0 col-10" required>
+											<button type="button" class="btn btn-secondary btn-xs float-right mt-0 px-0 col-2" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
 									</div>
 								</div>
 								<div class="form-row mx-0">
