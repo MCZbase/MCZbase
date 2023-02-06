@@ -358,7 +358,7 @@ limitations under the License.
 										<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
 									</div>
-									<div class="col-12 col-md-4 pl-md-5 pr-md-4 mt-4mb-2 float-left">
+									<div class="col-12 col-md-4 pl-md-5 pr-md-4 mt-4 mb-2 float-left">
 										<label for="mime_type" class="data-entry-label">MIME Type</label>
 										<select name="mime_type" id="mime_type" class="reqdClr data-entry-select">
 											<option value=""></option>
