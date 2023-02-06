@@ -1021,6 +1021,16 @@ limitations under the License.
 														<input type="text" name="last_edit_date" class="data-entry-input inputHeight" id="last_edit_date" placeholder="yyyy-mm-dd/yyyy-mm-dd" value="#encodeForHtml(last_edit_date)#" >
 													</div>
 													<div class="col-12 mb-1 col-md-2">
+														<label for="underscore_collection" class="data-entry-label small">Named Group</label>
+														<cfif not isdefined("underscore_collection_id")><cfset underscore_collection_id=""></cfif>
+														<cfif not isdefined("underscore_collection")><cfset underscore_collection=""></cfif>
+														<input type="hidden"  id="underscore_collection_id" name="underscore_collection_id" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection_id)#" >
+														<input type="text" id="underscore_collection" name="underscore_collection" class="data-entry-input inputHeight" value="#encodeForHtml(underscore_collection)#" >
+														<script>
+															jQuery(document).ready(function() {
+																makeNamedCollectionPicker('underscore_collection','underscore_collection_id');
+															});
+														</script>
 													</div>
 													<div class="col-12 mb-1 col-md-2">
 													</div>
