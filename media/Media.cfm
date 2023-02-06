@@ -87,18 +87,16 @@ limitations under the License.
 				media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
 				media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
-
 		<cfoutput>
-
 			<div class="container-fluid container-xl pb-5">
 				<div class="row mx-0">
-						<div class="col-12 px-2 border-bottom border-dark my-3">
-							<h1 class="h2 px-0 py-2 my-2">Edit Media 
-								<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
-								<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
-							</h1>
-						</div>
-						<div class="col-12 px-0 my-0">
+					<div class="col-12 px-2 border-bottom border-dark my-3">
+						<h1 class="h2 px-0 py-2 my-2">Edit Media 
+							<i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>
+							<a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info float-right">Media Record</a>
+						</h1>
+					</div>
+					<div class="col-12 px-0 my-0">
 						<div class="px-1">
 							<h4 class="pr-3 d-inline-block">Media ID = media/#media_id#</h4>
 						</div>
@@ -251,25 +249,24 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<!---	end col-12 Start of Label Block--->
-									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
-										<h2>
-											<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90"><a class="btn-link h5" type="button" >Add Row</a> &bull; Please add a "description."</span>
-											</label>
-										</h2>
-										<div class="">
-											<div class="col-12">
-												<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
-												<div id="labelBlock">
-													#labelBlockContent#
-												</div>
-											</div>
-										</div>
-									</div><!---end col-6--->	
-								</div><!---end form-row Relationships and labels--->
-							</div>
+							</form>
+						<form id="labelForm">
+							<!---	end col-12 Start of Label Block--->
+							<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
+								<h2>
+									<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90"><a class="btn-link h5" type="button" >Add Row</a> &bull; Please add a "description."</span>
+									</label>
+								</h2>
+								<div class="col-12">
+									<cfset labelBlockContent= getLabelsHtml(media_id="#media.media_id#")>
+									<div id="labelBlock">
+										#labelBlockContent#
+									</div>
+								</div>
+							</div><!---end col-6--->	
 						</form>
-								
+					</div>
+				</div>
 						<!---<form id="editRelationsForm">
 							<div class="form-row my-1">
 								<script>
@@ -299,8 +296,6 @@ limitations under the License.
 								</script>
 							</div>	
 						</form>--->
-					</div><!---end col-12--->
-				</div>
 			</div>
 		</cfoutput>
 	</cfcase>
