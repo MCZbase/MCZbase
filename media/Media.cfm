@@ -326,14 +326,14 @@ limitations under the License.
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
-										<button type="button" class="btn btn-secondary btn-xs ui-widget mt-2 float-right ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
+										<button type="button" class="btn btn-secondary btn-xs ui-widget mt-1 float-right ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
 									</div>
 								</div>
 								<div class="form-row mx-0">
 									<div class="col-12 col-md-8 px-md-5 mt-0 mb-2 float-left">
 										<label for="preview_uri" class="data-entry-label">Thumbnail IRI</label>
 										<input name="preview_uri" class="reqdClr data-entry-input" required>
-											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-2 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
+											<button type="button" class="btn btn-secondary btn-xs float-right ui-widget mt-1 ui-corner-all" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview in Popup </button>
 									</div>
 								</div>
 								<div class="form-row mx-0">
