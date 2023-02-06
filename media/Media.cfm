@@ -227,11 +227,9 @@ limitations under the License.
 										<div class="row">
 											<div class="col-12">
 												<cfset relationsBlockContent= getMediaRelationsHtml(media_id='#media.media_id#')>
-													
 												<div id="relationsBlock">
 													#relationsBlockContent#
 												</div>
-												<div id=""></div>
 												<div class="col-9 px-0 pt-2 float-left">
 													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>
@@ -249,9 +247,10 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-							</form>
+								</div>
+							</div>
+						</form>
 						<form id="labelForm">
-							<!---	end col-12 Start of Label Block--->
 							<div class="row mx-0">
 								<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0 pl-lg-2 float-left">	
 									<h2>
@@ -269,7 +268,7 @@ limitations under the License.
 						</form>
 					</div>
 				</div>
-						<!---<form id="editRelationsForm">
+<!---<form id="editRelationsForm">
 							<div class="form-row my-1">
 								<script>
 									function reloadMediaRelationships() { 
