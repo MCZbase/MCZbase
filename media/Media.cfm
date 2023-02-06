@@ -349,13 +349,13 @@ limitations under the License.
 									</div>
 								</div>
 							</div>
-							<div class="">
+							<div class="col-12 px-0">
 								<div class="form-row mx-0">
 									<div class="col-12">
-										<div class="col-12 col-md-4 pl-md-5 pt-3 pr-0 float-left">
+								<!---		<div class="col-12 col-md-4 pl-md-5 pt-3 pr-0 float-left">
 											<img id="previewPreviewImg" src="/shared/images/placeholderGeneric.png" alt="Preview of Img File" width="100" style="width:auto" class="">
 											<p class="small mb-1">Thumbnail on Shared Storage</p>
-										</div>
+										</div>--->
 										<div class="col-12 col-md-6 mt-2 mb-4 float-left">
 											<label for="preview_uri" class="data-entry-label">Preview IRI</label>
 											<input name="preview_uri" class="reqdClr data-entry-input" required>
