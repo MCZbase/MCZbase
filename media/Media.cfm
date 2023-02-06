@@ -404,12 +404,7 @@ limitations under the License.
 											<li class="mx-4" style="list-style:circle">Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
 										</ul>
 									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row mx-0">
-						<div class="col-12 pb-5 px-0">
+										<div class="col-12 pb-5 px-0">
 							<div class="form-row mt-2 mx-0">
 								<div class="col-12 col-xl-10 px-0">
 									<div class="col-12 px-0 float-left">
@@ -470,6 +465,12 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mx-0">
+					
 					</div>
 				</form>
 				<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
