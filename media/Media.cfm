@@ -213,6 +213,12 @@ limitations under the License.
 							</div>
 						</form>
 						<form id="relationshipForm">
+							<input type="hidden" name="action" value="saveMediaRelationship">
+							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#getRelations.recordcount#">
+							<input type="hidden" id="media_relationship" name="media_relationship" value="#getRelations.media_relationship#">
+							<input type="hidden" id="related_primary_key" name="related_primary_key" value="#getRelations.related_primary_key#">
+							<input type="hidden" id="media_relations_id" name="media_relations_id" value="#getRelations.media_relations_id#">
+							<input type="hidden" id="media_id" name="media_id" value="#getRelations.media_id#">
 							<div class="col-12 px-1 float-left">
 								<div class="form-row my-1">
 									<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 px-0  float-left">
@@ -231,7 +237,7 @@ limitations under the License.
 												<div class="col-9 px-0 pt-2 float-left">
 													<button class="btn btn-xs btn-primary float-left mr-4" type="button" onClick="loadMediaRelations('relationsBlock','#media_id#');">Load Relationships 
 													</button>
-													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationsBlock','#media_relationship#','#related_primary_key#','#media_relations_id#','#media_id#');">Save Relationships 
+													<button class="btn btn-xs btn-primary float-left" type="button" onClick="saveMediaRelationship('relationshipForm','#media_relationship#','#related_primary_key#','#media_relations_id#','#media_id#');">Save Relationships 
 													</button>
 												</div>
 											</div>
