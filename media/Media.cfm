@@ -409,9 +409,9 @@ limitations under the License.
 									</div>
 									<div class="col-12 px-md-5 pb-5 px-0">
 										<div class="form-row mt-2 mx-0">
-											<div class="col-12 col-xl-10 px-0">
+											<div class="col-12 col-md-11 px-0">
 												<div class="col-12 px-0 float-left">
-													<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible.<!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
+													<label for="relationships" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem;">Media Relationships | <span class="text-dark small90 font-weight-normal">Multiple relationships to other records are possible. 	<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','loan'); handleChange();"> Add Relationships</button><!---Catalog Number picklist went here. Should it be type ahead now?---></span></label>
 													<div id="relationshipDiv">
 														<cfset i=1>
 														<cfloop>
@@ -426,13 +426,13 @@ limitations under the License.
 															<input type="hidden" name="related_id__1" id="related_id__1">
 														</cfloop>
 														<div class="col-12 float-left">	
-															<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_relationships" onclick=" addRelationshipForm('','','','editRelationsForm','loan'); handleChange();"> Add Relationships</button>
+														
 														<!---	<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#, 'relationshipDiv','addRelationship');">Add Relationship (+)</span>--->
 														</div>
 													</div>
 												</div>
 												<div class="col-12 px-0 float-left">
-													<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>
+													<label for="labels" class="mb-1 mt-2 px-1 data-entry-label font-weight-bold" style="font-size: 1rem">Media Labels  | <span class="font-weight-normal text-dark small90">Note: For media of permits, and other transaction related documents, please enter a 'description' media label.</span>	<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_label" onclick=" addLabelsForm('','','','createLabelForm','loan'); handleChange();">Add Label</button>
 													</label>
 													<div id="labels">
 														<div class="form-row mx-0 px-0 col-12">
@@ -456,7 +456,7 @@ limitations under the License.
 														</cfloop>
 														<div class="col-12 float-left">
 															<!---<span class="infoLink h5 box-shadow-0 col-12 col-md-3 float-right d-block text-right my-1 pr-2" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> --->
-															<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_label" onclick=" addLabelsForm('','','','createLabelForm','loan'); handleChange();">Add Label</button>
+														
 														</div>
 													</div>
 												</div>
