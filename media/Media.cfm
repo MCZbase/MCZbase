@@ -320,9 +320,9 @@ limitations under the License.
 								<p class="small mb-1">Media Image</p>
 								
 							</div>
-							<div class="col-12 col-xl-12 px-0">
+							<div class="col-12 col-xl-9 px-0">
 								<div class="form-row mx-0 my-2">
-									<div class="col-12 col-md-8 px-md-5 float-left">
+									<div class="col-12 col-xl-11 px-md-5 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
 										<input name="media_uri" class="reqdClr data-entry-input" required>
 										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
@@ -355,6 +355,10 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
+								</div>
+							</div>
+							<div class="col-12 col-xl-12 px-0">
+								<div class="form-row mx-0">
 									<div class="col-12 col-md-8 pl-md-5 pr-md-4 my-2">
 										<label for="media_license_id" class="data-entry-label">
 											License  <a class="infoLink btnlink" onClick="popupDefine()">Define Licenses</a>
