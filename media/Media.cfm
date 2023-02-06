@@ -324,9 +324,9 @@ limitations under the License.
 								<div class="form-row mx-0 my-2">
 									<div class="col-12 col-xl-11 px-md-5 float-left">
 										<label for="media_uri" class="data-entry-label">Media IRI</label>
-										<input name="media_uri" class="reqdClr data-entry-input" required>
+										<input name="media_uri" class="reqdClr data-entry-input col-11 px-0" required>
 										<button type="button" class="btn btn-xs" onClick="getIRIForFile();" >Find on Shared Storage</button>
-										<button type="button" class="btn btn-secondary btn-xs float-right" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
+										<button type="button" class="btn btn-secondary btn-xs col-1 px-0 float-right" id="button_add_media" onclick="seeImage('','','','createMediaForm','media'); handleChange();"> Preview</button>
 									</div>
 								</div>
 								<div class="form-row mx-0">
