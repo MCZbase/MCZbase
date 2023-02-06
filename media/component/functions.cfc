@@ -340,7 +340,7 @@ Backing methods for managing media
 	 <cfreturn theResult>
 </cffunction>
 
-<cffunction name="relationsTableHtml" returntype="string" access="remote" returnformat="plain">
+<!---<cffunction name="relationsTableHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfargument name="containing_form_id" type="string" required="yes">
 	<cfthread name="getRelationsHtmlThread">
@@ -365,7 +365,7 @@ Backing methods for managing media
 					</cfif>
 					<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
 						<div class="col-12 col-md-4 mt-2 mt-md-0 pr-md-0">
-			<!---	???	---><input type="hidden" name="media_relations_id_#i#" id="media_relations_id_#i#" value="#media_relations_id#">
+			<input type="hidden" name="media_relations_id_#i#" id="media_relations_id_#i#" value="#media_relations_id#">
 							<input type="hidden" name="media_relationsship_#i#" id="media_relationship_#i#" value="#media_relationship#">
 							<input type="text" name="media_rel_#i#" id="media_rel_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#related_primary_key#">
 								<div class="col-12 col-md-4">
@@ -418,7 +418,7 @@ Backing methods for managing media
 	</cfthread>
 	<cfthread action="join" name="getRelationsHtmlThread" />
 	<cfreturn getRelationsHtmlThread.output>
-</cffunction>
+</cffunction>--->
 
 			
 </cfcomponent>
