@@ -366,7 +366,7 @@ Backing methods for managing media
 					<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
 						<div class="col-12 col-md-4 mt-2 mt-md-0 pr-md-0">
 			<!---	???	---><input type="hidden" name="media_relations_id_#i#" id="media_relations_id_#i#" value="#media_relations_id#">
-							<input type="hidden" name="media_relations_id_#i#" id="media_relations_id_#i#" value="#media_relations_id#">
+							<input type="hidden" name="media_relationsship_#i#" id="media_relationship_#i#" value="#media_relationship#">
 							<input type="text" name="media_rel_#i#" id="media_rel_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#related_primary_key#">
 								<div class="col-12 col-md-4">
 									<select name="media_relationship_#i#" aria-label="related primary key in this #relationsType#" id="media_relationship_#i#" class="data-entry-select">
