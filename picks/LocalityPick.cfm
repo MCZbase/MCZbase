@@ -42,7 +42,7 @@
 			lat_long_ref_source,
 			geolAtts,
 			sovereign_nation,
-			township, township_direction, range, range_direction, section, section_part,
+			township, township_direction, range, range_direction, plss_section, section_part,
 			curated_fg
 		from localityResults
 	</cfquery>

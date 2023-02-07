@@ -101,7 +101,7 @@
 			orig_elev_units,
 			township, township_direction,
 			range, range_direction,
-			section, section_part,
+			section as plss_section, section_part,
 			coordDet.agent_name coordinateDeterminer,
 			concatGeologyAttributeDetail(locality.locality_id) geolAtts,
 			max_depth,
