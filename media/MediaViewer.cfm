@@ -169,11 +169,6 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-														<cfset i = 1>
-														<cfloop query="spec">
-															<cfset relationshipct = '#i#'>
-														<cfset i=i+1>	
-														</cfloop>
 														<!---thumbnails added below--->
 														
 														<cfloop query="relm">
@@ -183,11 +178,13 @@
 																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
 																	<cfelse>	
 																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																	</cfif>#relationshipct#
+																	</cfif>
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#"  <cfif relationshipct gt 3>style="height: 225px;"<cfelse>style="height:200px;"</cfif>>
+																			<div style="height:200px;" class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">  
+																				<cfif len(alttag) GT 200>
+																				<cfset showTitleText = "#left(alttag,200)#..." ></cfif>
 																				<div class="px-0">
 																					<span class="px-2 d-block my-1 small90 font-weight-lessbold text-center"> #spec.label# <br>(media/#relm.media_id#)
 																					</span> 
