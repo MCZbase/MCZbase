@@ -889,6 +889,16 @@ You do not have permission to create Higher Geographies
 			left outer join preferred_agent_name on (accepted_lat_long.determined_by_agent_id = preferred_agent_name.agent_id)
 		where collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
     </cfquery>
+	<cfquery name="geology" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="geology_result">
+		SELECT geology_attributes.geology_attribute, geo_att_value
+		FROM
+			geology_attributes
+			left join ctgeology_attributes on geology_attribtutes.geology_attribute = ctgeology_attributes.geology_attribute
+		WHERE
+			locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locDet.locality_id#">
+		ORDER BY
+			ordinal
+	</cfquery>
 	<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT number_series,
 			MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
@@ -976,6 +986,18 @@ You do not have permission to create Higher Geographies
             	<p>
 						<span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">PLSS:</span> 
 						T #locDet.township# #locDet.township_direction# R #locDet.range# #locDet.range_direction# #locDet.section_part# Sec #locDet.section# 
+					</p>
+				</cfif>
+				<cfif geology.recordcount GT 0>
+					<cfset geologicalAttributes = "">
+					<cfset gSeparator = "">
+					<cfloop query="geology">
+						<cfset geologicalAtrributes="#gSeparator##geology.geo_att_value#">
+						<cfset gSeparator = "; ">
+					</cfloop>
+            	<p>
+						<span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">Geology:</span> 
+						#geologicalAttributes#
 					</p>
 				</cfif>
 		</div>
