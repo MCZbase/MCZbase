@@ -183,7 +183,7 @@
 																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
 																	<cfelse>	
 																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																	</cfif>
+																	</cfif>#relationshipct#
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
