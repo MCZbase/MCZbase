@@ -169,8 +169,9 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-														<!---thumbnails added below--->
 														
+														<!---thumbnails added below--->
+														<cfset i = 1>
 														<cfloop query="relm">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																<cfif len(media.media_id) gt 0>
@@ -182,7 +183,7 @@
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
-																			<div style="height:200px;" class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">  
+																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:200px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block my-1 small90 font-weight-lessbold text-center"> #spec.label# <br>(media/#relm.media_id#)
 																					</span> 
