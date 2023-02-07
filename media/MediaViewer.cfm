@@ -143,9 +143,9 @@
 								and mr.media_relationship <> 'created by agent'
 								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 								and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-							</cfquery>#relmct.ct#
+							</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
-							<cfif media_rel.RecordCount gt 0>
+							<cfif relmct.ct gt 0>
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
