@@ -171,7 +171,7 @@
 														</cfquery>
 														<cfset i = 1>
 														<cfloop query="relmct">
-															<cfset relationshipct = #i#
+															<cfset relationshipct = '#i#'>
 														<cfset i=i+1>	
 														</cfloop>
 														<!---thumbnails added below--->
