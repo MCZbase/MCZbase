@@ -838,6 +838,18 @@ You do not have permission to create Higher Geographies
 			sovereign_nation,
 			collecting_event.collecting_event_id,
 			locality.locality_id,
+			locality.minimum_elevation,
+			locality.maximum_elevation,
+			locality.orig_elev_units,
+			locality.min_depth,
+			locality.max_depth,
+			locality.depth_units,
+			locality.township,
+			locality.township_direction,
+			locality.range,
+			locality.range_direction,
+			locality.section,
+			locality.section_part,
 			verbatim_locality,
 			BEGAN_DATE,
 			ENDED_DATE,
@@ -943,6 +955,29 @@ You do not have permission to create Higher Geographies
                     </cfif></p>
 			</cfif>
             <p><span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">SPECIFIC LOCALITY:</span> #locDet.spec_locality#</p>
+            <p><span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">Sovereign Nation:</span> #locDet.sovereign_nation#</p>
+				<cfif len(locDet.minimum_elevation) GT 0>
+            	<p>
+						<span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">Elevation:</span> 
+						#locDet.minimum_elevation#
+						<cfif len(locDet.maximum_elevation) GT 0 AND locDet.maximum_elevation NEQ locDet.minimum_elevation>- #locDet.maximum_elevation#</cfif>
+						#locDet.elevation_units#
+					</p>
+				</cfif>
+				<cfif len(locDet.min_depth) GT 0>
+            	<p>
+						<span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">Depth:</span> 
+						#locDet.min_depth#
+						<cfif len(locDet.max_depth) GT 0 AND locDet.max_depth NEQ locDet.min_depth>- #locDet.max_depth#</cfif>
+						#locDet.depth_units#
+					</p>
+				</cfif>
+				<cfif len(locDet.township) GT 0>
+            	<p>
+						<span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">PLSS:</span> 
+						T #locDet.township# #locDet.township_direction# R #locDet.range# #locDet.range_direction# #locDet.section_part# Sec #locDet.section# 
+					</p>
+				</cfif>
 		</div>
 
 		<div id="hiddenButton" style="visibility:hidden;margin-bottom: 0; padding-bottom:0;height: 18px; ">
