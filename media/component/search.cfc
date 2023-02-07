@@ -1698,8 +1698,7 @@ imgStyleClass=value
 						<tr>
 							<th scope="row">Relationship#plural#:&nbsp; </span></th>
 							<td>
-							<cfset i=1>
-							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label##i#</span>
+							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
 								<div class="comma2 d-inline">
 									<cfif media_rel.auto_table eq 'cataloged_item'>: <cfloop query="spec"><cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#spec.pk# CFSQLType="CF_SQL_DECIMAL" >
 									</cfquery><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
@@ -1725,7 +1724,6 @@ imgStyleClass=value
 									</cfif>
 								</div>
 								<cfif media_rel.recordcount GT 1><span class="px-1"> | </span></cfif>
-								<cfset i=i+1>
 							</cfloop> 
 							</td>
 						</tr>
