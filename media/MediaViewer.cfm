@@ -170,7 +170,7 @@
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<cfset i = 1>
-														<cfloop query="relmct">
+														<cfloop query="relm">
 															<cfset relationshipct = '#i#'>
 														<cfset i=i+1>	
 														</cfloop>
