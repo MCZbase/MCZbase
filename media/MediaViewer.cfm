@@ -134,9 +134,9 @@
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
 								</div>
-							</div>#media_rel.RecordCount#  -- #mediarelcount#
+							</div>
 						<!---specimen records relationships and other possible associations to media on those records--->
-							<cfif media_rel.RecordCount gt #mediarelcount#>
+							<cfif media_rel.RecordCount gt 0>
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -160,9 +160,18 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
+														<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select count(media.media_id) as ct
+															from media_relations mr
+															left join media on mr.media_id = media.media_id
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+															and mr.media_relationship <> 'created by agent'
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														</cfquery>
 														<cfset i= 1>
 														<!---thumbnails added below--->
-														<cfloop query="relm">
+														<cfloop query="relm">#relmct.ct#
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																<cfif len(media.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
