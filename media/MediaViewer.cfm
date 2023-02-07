@@ -183,8 +183,6 @@
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionFull")>
 																			<div style="height:200px;" class="#activeimg# image#i#" id="mediaBlock#relm.media_id#">  
-																				<cfif len(alttag) GT 200>
-																				<cfset showTitleText = "#left(alttag,200)#..." ></cfif>
 																				<div class="px-0">
 																					<span class="px-2 d-block my-1 small90 font-weight-lessbold text-center"> #spec.label# <br>(media/#relm.media_id#)
 																					</span> 
