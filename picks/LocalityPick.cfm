@@ -41,6 +41,8 @@
 			determined_date,
 			lat_long_ref_source,
 			geolAtts,
+			sovereign_nation,
+			township, township_direction, range, range_direction, section, section_part,
 			curated_fg
 		from localityResults
 	</cfquery>
@@ -72,6 +74,12 @@
 							#NoGeorefBecause#
 						</cfif>
 					</span>
+					<cfif len(#township#) gt 0>
+						<br>
+						<span style="font-size:.7em">
+							PLSS: T#township##township_direction# R#range##range_direction# #section_part# Sec #section#
+						</span>
+					</cfif>
 					<cfif len(#orig_elev_units#) gt 0>
 						<br>
 						<span style="font-size:.7em">
@@ -84,6 +92,10 @@
 							Depth: #min_depth#-#max_depth# #depth_units#
 						</span>
 					</cfif>
+					<br>
+					<span style="font-size:.7em">
+						Sovereign Nation: #sovereign_nation#
+					</span>
 					<cfif len(#locality_remarks#) gt 0>
 						<br>
 						<span style="font-size:.7em">Remarks: #locality_remarks#</span>
