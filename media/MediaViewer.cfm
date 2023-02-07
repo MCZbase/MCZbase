@@ -126,7 +126,7 @@
 										#mediablock# 
 									</div>
 									<h1 class="h2 mb-1 mt-0 col-12 float-left text-center">Media Viewer</h1>
-									<p class="small">Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image. On small mobile devices swipe left. Pan to see different parts of image. </p>
+									<p class="" style="font-size: .83rem;">Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image. On small mobile devices swipe left. Pan to see different parts of image. </p>
 								</div>
 							</cfif>
 							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-3 pb-0">
