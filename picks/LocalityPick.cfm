@@ -77,7 +77,7 @@
 					<cfif len(#township#) gt 0>
 						<br>
 						<span style="font-size:.7em">
-							PLSS: T#township##township_direction# R#range##range_direction# #section_part# Sec #section#
+							PLSS: T#township##township_direction# R#range##range_direction# #section_part# Sec #plss_section#
 						</span>
 					</cfif>
 					<cfif len(#orig_elev_units#) gt 0>
