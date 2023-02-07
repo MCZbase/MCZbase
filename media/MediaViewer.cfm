@@ -123,7 +123,7 @@
 									<p class="small90">Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image. Pan to see different parts of image. </p>
 								</div>
 							</cfif>
-							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-0 pb-0">
+							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-3 pb-0">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
