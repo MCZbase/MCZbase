@@ -134,7 +134,7 @@
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
 								</div>
-							</div>
+							</div>#media_rel.RecordCount#  -- #mediarelcount#
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif media_rel.RecordCount gt #mediarelcount#>
 								<div class="col-12 px-0 float-left">
