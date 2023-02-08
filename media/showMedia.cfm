@@ -51,7 +51,7 @@
 						<div class="col-12 px-0 my-0">
 							<cfif len(media.media_id) gt 0>
 								<div class="rounded border bg-light col-12 col-md-3 float-left my-2 pt-3 pb-0">
-									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textLinks")>
+									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="400",captionAs="textCaptionFull")>
 									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> #mediablock# </div>
 								</div>
 							</cfif>
