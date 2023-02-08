@@ -893,7 +893,7 @@ You do not have permission to create Higher Geographies
 		SELECT geology_attributes.geology_attribute, geo_att_value
 		FROM
 			geology_attributes
-			left join ctgeology_attributes on geology_attribtutes.geology_attribute = ctgeology_attributes.geology_attribute
+			left join ctgeology_attributes on geology_attributes.geology_attribute = ctgeology_attributes.geology_attribute
 		WHERE
 			locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locDet.locality_id#">
 		ORDER BY
