@@ -1229,7 +1229,7 @@ imgStyleClass=value
 				WHERE 
 					media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					AND MCZBASE.is_media_encumbered(media.media_id)  < 1 
-				ORDER BY MCZBASE.get_media_title(media.media_id)
+				ORDER BY LENGTH(MCZBASE.get_media_title(media.media_id)) DESC
 			</cfquery>
 			<cfif media.recordcount EQ 1>
 				<cfset i= 1>
