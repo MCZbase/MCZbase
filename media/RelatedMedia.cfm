@@ -122,7 +122,7 @@
 									<div class="mx-auto text-center h4 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
 									</div>
-									<div class="col-9 float-right mr-4"> 
+									<div class="col-11 float-right mr-4"> 
 										<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 3001;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 											Zoom
 										</button>
