@@ -120,16 +120,18 @@
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
-								<div class="col-12 col-md-5 col-xl-2 float-left pt-2 mt-4 mb-3 pb-0">
+							<div class="col-12 col-md-5 col-xl-2 float-left">
+								<div class="float-left pt-2 mb-3 pb-0">
 									<h2 class="mb-1 mt-0 col-12 float-left text-center">Media Zoom</h2>
 									<p class="d-none d-md-block" style="font-size: .83rem;">Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image. Pan to see different parts of image. </p><p class="d-block d-md-none" style="font-size: .83rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
 								</div>
-								<div id="zoom" class="rounded highlight_media col-12 col-md-5 col-xl-2 float-left pt-2 mt-4 mb-3 pb-0">
+								<div id="zoom" class="rounded highlight_media pt-2 mt-4 mb-3 pb-0">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionFull")>
 									<div class="mx-auto text-center h3 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
 									</div>
 								</div>
+							</div>
 							</cfif>
 							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-3 pb-0">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
