@@ -273,7 +273,7 @@ limitations under the License.
 										<input type="text" id="start_year" name="start_year" class="data-entry-input" aria-labelledby="start_year_label" value="#start_year#">
 									</div>
 									<div class="col-12 col-md-4">
-										<label for="end_year" id="end_year_label" class="data-entry-label">Start Year</label>
+										<label for="end_year" id="end_year_label" class="data-entry-label">End Year</label>
 										<input type="text" id="end_year" name="end_year" class="data-entry-input" aria-labelledby="end_year_label" value="#end_year#">
 									</div>
 								</div>
