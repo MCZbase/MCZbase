@@ -92,10 +92,6 @@
 							Depth: #min_depth#-#max_depth# #depth_units#
 						</span>
 					</cfif>
-					<cfif len(#geolAtts#) gt 0>
-						<br>
-						<span style="font-size:.7em">Geology: #geolAtts#</span>
-					</cfif>
 					<br>
 					<span style="font-size:.7em">
 						Sovereign Nation: #sovereign_nation#
