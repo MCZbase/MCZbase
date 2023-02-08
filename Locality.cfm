@@ -971,7 +971,7 @@ You do not have permission to create Higher Geographies
 						<span style="font-weight: 600;color: ##ff0000; width: 210px; display: inline-block;text-align:right;">Elevation:</span> 
 						#locDet.minimum_elevation#
 						<cfif len(locDet.maximum_elevation) GT 0 AND locDet.maximum_elevation NEQ locDet.minimum_elevation>- #locDet.maximum_elevation#</cfif>
-						#locDet.elevation_units#
+						#locDet.orig_elev_units#
 					</p>
 				</cfif>
 				<cfif len(locDet.min_depth) GT 0>
