@@ -129,7 +129,7 @@
 										<aside class="collapse collapseStyle mt-0 border-warning border-top border-right border-bottom border-left" id="collapseFixed">
 											<div class="card card-body p-3">
 												<h3 class="h4">Media Zoom</h3>
-												<p class="d-none d-md-block" style="font-size: .83rem;line-height:.86rem;">Hovering over the image shows a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Pan to see different parts of image if it goes beyond your screen size. </p><p class="d-block d-md-none" style="font-size: .83rem;line-height:.86rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
+												<p class="d-none d-md-block mb-0" style="font-size: .83rem;line-height:.86rem;">Hovering over the image shows a larger version at zoom level 2. Placing cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Pan to see different parts of image if it goes beyond your screen size. </p><p class="d-block d-md-none mb-0" style="font-size: .83rem;line-height:.86rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
 											</div>
 										</aside>
 									</div>
