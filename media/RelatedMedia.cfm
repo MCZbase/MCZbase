@@ -125,7 +125,7 @@
 								</div>
 								<div class="float-left pl-2 pt-2 mb-2 pb-0">
 									<h2 class="h5 mb-1 mt-0 px-0">Media Zoom</h2>
-									<p class="d-none d-md-block" style="font-size: .83rem;line-height:.86rem;">Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image. Pan to see different parts of image. </p><p class="d-block d-md-none" style="font-size: .83rem;line-height:.86rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
+									<p class="d-none d-md-block" style="font-size: .83rem;line-height:.86rem;">Place cursor in top left corner of media and zoom in with mousewheel or touchpad. Pan to see different parts of image. </p><p class="d-block d-md-none" style="font-size: .83rem;line-height:.86rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
 								</div>
 							</div>
 							</cfif>
