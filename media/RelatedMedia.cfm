@@ -135,6 +135,66 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>
+								<div class="col-10 float-right px-0"> 
+									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+										Search Help
+									</button>
+									<aside class="collapse collapseStyle" id="collapseFixed">
+										<div class="card card-body pl-4 py-3 pr-3">
+											<h2 class="headerSm">Basic Search Help</h2>
+											<p>
+												This help applies to the basic specimen search and some other search forms in MCZbase.
+												Many fields are autocompletes, values can be selected off of the picklist, or a partial match can be entered in the field.
+												Most fields will accept search operators, described below, which alter the behaviour of the search.
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")> 
+													(see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Search_Operators" target="_blank">Search Operators</a>). For more examples, see: <a href="https://code.mcz.harvard.edu/wiki/index.php/Basic_Specimen_Search" target="_blank">Basic Specimen Search</a>
+												</cfif>.
+											</p>
+											<h2 class="headerSm">Special operators that are entered in the field by themselves with no other value</h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">NULL</span></dt>
+												<dd>Find records where this field is empty.</dd>
+												<dt><span class="text-info font-weight-bold">NOT NULL</span></dt>
+												<dd>Find records where this field contains some non-empty value.</dd>
+											</dl>
+											<h2 class="headerSm">Operators entered as the first character in a field, followed by a search term (e.g. =Murex). </h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">=</span></dt>
+												<dd>Perform a (case insensitive, in most cases) exact match search. Fields which take this operator append a wild card to the beginning and end of the search term unless this operator is used.</dd>
+												<dt><span class="text-info font-weight-bold">!</span></dt>
+												<dd>Perform a (case insensitive, in most cases) exact match <strong>not</strong> search. Will find records where the value in the field does not match the specified search term. </dd>
+												<dt><span class="text-info font-weight-bold">~</span></dt>
+												<dd>Find nearby strings. Finds matches where the value in the field is a small number of character substitutions away from the provided search term. Makes the comparison using the jaro winkler string distance, with a threshold set, depending on the search, on 0.80 or 0.90.</dd> 
+												<dt><span class="text-info font-weight-bold">$</span> </dt>
+												<dd> Find sound alike strings. Finds matches where the value in the field sounds like the provided search term. Makes the comparison using the soundex algorithm.</dd>
+											</dl>
+											<h2 class="headerSm">Wild cards that may be accepted where a search can take a = operator, but that operator is not used.</h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">%</span></dt>
+												<dd>Match any number of characters. (added at the beginning and end of strings for all fields that can take an = operator where that operator is not used).</dd>
+												<dt><span class="text-info font-weight-bold">_</span></dt> 
+												<dd>Match exactly one character.</dd>
+											</dl>
+											<h2 class="headerSm">Guidance for specific fields</h2>
+											<dl class="mb-0"> 
+												<dt><span class="text-info font-weight-bold">Catalog Number</span></dt>
+												<dd>Catalog number accepts single numbers (e.g. 1100), ranges of numbers (e.g. 100-110), comma separated lists of number (or search, e.g. 100,110), ranges of numbers with prefixes (e.g. R-200-210 or R-200-R-210), or ranges of numbers with suffixes (e.g. 1-a-50 or 1-a-50-a).  Wildcards are not added to catalog number searches (so =1 and 1 return the same result).  To search with wildcards or to limit both prefixes and suffixes, use the search builder.</dd>
+												<dt><span class="text-info font-weight-bold">Other Number</span></dt> 
+												<dd>Other number accepts single numbers, ranges of numbers, comma separated lists of numbers, and ranges of numbers, but for most cases with prefixes, search for just a single prefixed number with an exact match search (e.g. =BT-782)</dd>
+												<dt><span class="text-info font-weight-bold">Taxonomy and Higher Geography Fields</span> </dt>
+												<dd>Search for a substring (e.g. murex), an exact match (e.g. =Murex), or a comma separated list (e.g. Vulpes,Urocyon).</dd>
+												<dt><span class="text-info font-weight-bold">Any Geography (keyword) Field</span> </dt>
+												<dd>This field runs a keyword search on a large set of geography fields.  See the Keyword Search Help for guidance.</dd>
+												<dt><span class="text-info font-weight-bold">Keyword Search Field</span> </dt>
+												<dd>This field does the same thing as the Keyword Search.  See the Keyword Search Help for guidance.</dd>
+												<dt><span class="text-info font-weight-bold">Dates</span></dt>
+												<dd>Collecting Events are stored in two date fields (date began and date ended), plus a verbatim field.  Date Collected searches on both the began date and end date for collecting events.  A range search on Date Collected (e.g. 1980/1985) will find all cataloged items where both the date began and date ended fall within the specified range.  Usually you will want to search on Date Collected.  The began date and ended date fields can be searched separately for special cases, in particular cases where the collecting date range is poorly constrained.  Search on Began Date 1700-01-01 Ended Date 1800-01-01/1899-12-31 to find all material where the began date is not known, but the end date has been constrained to sometime in the 1800s (contrast with Date Collected 1800-01-01/1899-12-31 which finds material where both the start and end dates are in the 1800s).</dd>
+												<dt><span class="text-info font-weight-bold">Media Type</span></dt>
+												<dd>Click on (Any) to paste NOT NULL into the field, this will find records where there are any related media.</dd>
+											</dl>
+										</div>
+									</aside>
+								</div>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(media.media_id) as ct
 								from media_relations mr
