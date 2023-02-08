@@ -126,9 +126,9 @@
 										<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 											Zoom
 										</button>
-										<aside class="collapse collapseStyle" id="collapseFixed">
-											<div class="card card-body pl-4 py-3 pr-3">
-												<h2 class="headerSm">Media Zoom</h2>
+										<aside class="collapse collapseStyle mt-0" id="collapseFixed">
+											<div class="card card-body p-2">
+												<h3 class="h4">Media Zoom</h3>
 												<p class="d-none d-md-block" style="font-size: .83rem;line-height:.86rem;">Hovering over the image shows a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Pan to see different parts of image if it goes beyond your screen size. </p><p class="d-block d-md-none" style="font-size: .83rem;line-height:.86rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
 											</div>
 										</aside>
