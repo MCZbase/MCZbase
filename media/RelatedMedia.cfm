@@ -114,28 +114,7 @@
 				</cfquery>
 				<cfset mediarelcount = #media_rel_count.ct#>
 					<div class="row">
-						<div class="col-12 my-3">
-							<cfif len(media.media_id) gt 0>
-							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
-								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-4 mb-0 pb-1">
-									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionLong")>
-									<div class="mx-auto text-center h4 pt-1" id="mediaBlock#media.media_id#"> 
-										#mediablock# 
-									</div>
-								</div>
-								<div class="float-left pl-2 pt-2 mb-2 pb-0">
-									<h2 class="h5 mb-1 mt-0 px-0">Media Zoom</h2>
-									<p class="d-none d-md-block" style="font-size: .83rem;line-height:.86rem;">Place cursor in top left corner of media and zoom in with mousewheel or touchpad. Pan to see different parts of image. </p><p class="d-block d-md-none" style="font-size: .83rem;line-height:.86rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
-								</div>
-							</div>
-							</cfif>
-							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-3 pb-0">
-								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
-								<div id="mediaMetadataBlock#media_id#">
-									#mediaMetadataBlock#
-								</div>
-							</div>
-								<div class="col-10 float-right px-0"> 
+						<div class="col-10 float-right px-0"> 
 									<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 										Search Help
 									</button>
@@ -195,6 +174,28 @@
 										</div>
 									</aside>
 								</div>
+						<div class="col-12 my-3">
+							<cfif len(media.media_id) gt 0>
+							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
+								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-4 mb-0 pb-1">
+									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionLong")>
+									<div class="mx-auto text-center h4 pt-1" id="mediaBlock#media.media_id#"> 
+										#mediablock# 
+									</div>
+								</div>
+								<div class="float-left pl-2 pt-2 mb-2 pb-0">
+									<h2 class="h5 mb-1 mt-0 px-0">Media Zoom</h2>
+									<p class="d-none d-md-block" style="font-size: .83rem;line-height:.86rem;">Place cursor in top left corner of media and zoom in with mousewheel or touchpad. Pan to see different parts of image. </p><p class="d-block d-md-none" style="font-size: .83rem;line-height:.86rem;"> Tap image and swipe left to see larger version. Tap area off image to close.  </p>
+								</div>
+							</div>
+							</cfif>
+							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-3 pb-0">
+								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
+								<div id="mediaMetadataBlock#media_id#">
+									#mediaMetadataBlock#
+								</div>
+							</div>
+								
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(media.media_id) as ct
 								from media_relations mr
