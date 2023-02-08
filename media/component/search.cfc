@@ -1408,7 +1408,7 @@ imgStyleClass=value
 								<cfset output='#output#(<a class="" href="/media/RelatedMedia.cfm?media_id=#media_id#">Related Media</a>) '>
 							</cfif>
 							<cfif len(iiifFull) GT 0>
-								<cfset output='#output#(<a class="" href="#iiifFull#">Full</a>)'>
+								<cfset output='#output#(<a class="" href="#iiifFull#">Lg. Image</a>)'>
 							<cfelse>
 								<cfset output='#output#(<a class="" href="#media_uri#">Full</a>)'>
 							</cfif>
