@@ -123,7 +123,7 @@
 										#mediablock# 
 									</div>
 									<div class="col-9 float-right mr-4"> 
-										<button class="btn btn-xs btn-dark help-btn border-0" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+										<button class="btn btn-xs btn-dark help-btn border-0" style="right: -30px; top:-126px;transform:none; z-index: 3001;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 											Zoom
 										</button>
 										<aside class="collapse collapseStyle mt-0" id="collapseFixed">
