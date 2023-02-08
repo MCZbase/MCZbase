@@ -992,7 +992,7 @@ You do not have permission to create Higher Geographies
 					<cfset geologicalAttributes = "">
 					<cfset gSeparator = "">
 					<cfloop query="geology">
-						<cfset geologicalAtrributes="#gSeparator##geology.geo_att_value#">
+						<cfset geologicalAtrributes="#geologicalAttributes##gSeparator##geology.geological_attribute#:#geology.geo_att_value#">
 						<cfset gSeparator = "; ">
 					</cfloop>
             	<p>
