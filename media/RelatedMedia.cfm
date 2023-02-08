@@ -11,10 +11,6 @@
 </cfif>
 <cfset maxMedia = 8>
 <cfoutput>
-<style>
-	.viewer {width: auto; height: auto;margin:auto;}
-	.viewer img {box-shadow: 8px 2px 20px black;margin-bottom: .5em;}
-</style>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
 			media.media_id,media.media_uri,media.mime_type,media.media_type,media.preview_uri, 
