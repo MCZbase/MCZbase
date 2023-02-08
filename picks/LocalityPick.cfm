@@ -83,13 +83,13 @@
 					<cfif len(#orig_elev_units#) gt 0>
 						<br>
 						<span style="font-size:.7em">
-							Elevation: #minimum_elevation#-#maximum_elevation# #orig_elev_units#
+							Elevation: #minimum_elevation#<cfif len(maximum_elevation) GT 0 AND maximum_elevation NEQ minimum_elevation>-#maximum_elevation#</cfif> #orig_elev_units#
 						</span>
 					</cfif>
 					<cfif len(#depth_units#) gt 0>
 						<br>
 						<span style="font-size:.7em">
-							Depth: #min_depth#-#max_depth# #depth_units#
+							Depth: #min_depth#<cfif len(max_depth) GT 0 AND max_depth NEQ min_depth>-#max_depth#</cfif> #depth_units#
 						</span>
 					</cfif>
 					<br>
