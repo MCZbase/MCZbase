@@ -159,6 +159,7 @@
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+																and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															</cfquery>
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
