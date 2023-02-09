@@ -157,6 +157,7 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
+														#spec.auto_table#
 														<cfif spec.auto_table eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
