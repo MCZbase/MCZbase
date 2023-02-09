@@ -198,22 +198,16 @@
 											</div>
 											<div class="col-12 p-1">
 													<cfquery name="relm0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id
-														from media_relations mr
-														left join media on mr.media_id = media.media_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#" >
-														and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
-														and mr.media_relationship <> 'created by agent'
-														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														 select collection_object_id, cat_num from media_relations,flat 
+       													 where media_relations.related_primary_key = flat.collection_object_id and media_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 												<cfloop query="collid">
 													<cfif len(collid.collection_object_id) gt 0>
-													
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id
 														from media_relations mr
 														left join media on mr.media_id = media.media_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm0.media_id#" >
+														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm0.collection_object_id#" >
 														and mr.media_relationship <> 'created by agent'
 														</cfquery>
 														<!---thumbnails added below--->
