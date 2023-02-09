@@ -164,7 +164,6 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -176,7 +175,6 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-														
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">
