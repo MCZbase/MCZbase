@@ -161,10 +161,14 @@
 														<cfif spec.auto_table eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
-                                                            from media_relations,flat 
-                                                            where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#">
-                                                            and flat.collection_object_id = media_relations.related_primary_key
-														
+                                                            from media_relations mr 
+															left join publication on mr.RELATED_PRIMARY_KEY = p.publication_id 
+															left join media m on m.media_id = mr.media_id
+															left join citation c on c.publication_id = p.publication_id
+															where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+															and ct.description = 'publication'
+															and ct.description <> 'ledger'
+															and m.auto_host <> 'nrs.harvard.edu'
 															</cfquery>
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
