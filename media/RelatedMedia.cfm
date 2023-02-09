@@ -162,7 +162,7 @@
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
                                                             from media_relations mr 
-															left join publication on mr.RELATED_PRIMARY_KEY = p.publication_id 
+															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
