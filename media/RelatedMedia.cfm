@@ -36,7 +36,18 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
-
+	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select get_citation(p.publication_id,'long',0) as cit
+		from publication p
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join media m on m.media_id = mr.media_id
+		left join citation c on c.publication_id = p.publication_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
+		and ct.description = 'publication'
+		and ct.description <> 'ledger'
+		and m.auto_host <> 'nrs.harvard.edu'
+	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from publication p
@@ -96,6 +107,7 @@
 		and mr.media_relationship <> 'created by agent'
 		and ct.auto_table = 'agent' 
 	</cfquery>	
+	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -113,7 +125,7 @@
 					ORDER BY media_relationship
 				</cfquery>
 				<cfset mediarelcount = #media_rel_count.ct#>
-					<div class="row">
+					<div class="row">#pub.cit#
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
 							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
@@ -176,7 +188,7 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 														</cfquery>
-														<cfset citation = get_citation(13737, 'short')>#citation#
+														<cfset citation = >#citation#
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">
