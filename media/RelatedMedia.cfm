@@ -107,7 +107,7 @@
 					ORDER BY media_relationship
 				</cfquery>
 					<div class="row">
-						<div class="col-12 my-3">
+						<div class="col-12 mt-3">
 							<cfif len(media.media_id) gt 0>
 							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
 								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-4 mb-0 pb-1">
@@ -150,7 +150,6 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-														
 														<cfif spec.auto_table eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
