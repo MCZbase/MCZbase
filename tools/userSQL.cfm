@@ -1,12 +1,16 @@
 <cfinclude template = "/includes/_header.cfm">
 <cfset title="user SQL">
-    <cfif not isdefined("sql")>
-        <cfset sql = "SELECT 'test' FROM dual">
-    </cfif>
-    <cfif not isdefined("format")>
-        <cfset format = "table">
-    </cfif>
-	    <cfoutput>
+	<cfif not isdefined("sql")>
+		<!--- if sql is defined, it takes priority, otherwise pre-populated form can't be changed --->
+		<cfif isDefined("input_sql") and len(input_sql) GT 0> 
+			<cfset sql = input_sql>
+		<cfelse>
+			<cfset sql = "SELECT 'test' FROM dual">
+	</cfif>
+	<cfif not isdefined("format")>
+		<cfset format = "table">
+	</cfif>
+	<cfoutput>
 	    <form method="post" action="">
 	        <input type="hidden" name="action" value="run">
 	        <label for="sql">SQL</label>
