@@ -36,7 +36,6 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
-
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from publication p
@@ -156,7 +155,7 @@
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
                                                             from media_relations mr 
-															left join publication on mr.RELATED_PRIMARY_KEY = p.publication_id 
+															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
 															where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
