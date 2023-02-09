@@ -36,14 +36,16 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
-		<cfset showLocality=0>
-		<cfset showEvent=0>
 
 		<div id="overlaycontainer" style="position: relative;"> 
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
-					<cfinclude template = "/localities/searchLocationForm.cfm">
+					<form name="searchForm" id="searchForm">
+						<cfset showLocality=0>
+						<cfset showEvent=0>
+						<cfinclude template = "/localities/searchLocationForm.cfm">
+					</form>
 		
 					<!--- Results table as a jqxGrid. --->
 					<section class="container-fluid">
@@ -120,7 +122,7 @@ limitations under the License.
 								},
 								root: 'underscoreCollectionRecord',
 								id: 'underscore_collection_id',
-								url: '/grouping/component/search.cfc?' + $('##searchForm').serialize(),
+								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
 									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
