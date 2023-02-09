@@ -109,7 +109,7 @@ limitations under the License.
 								</li>
 								<li class="nav-item mb-1">
 									<cfset cflf = chr(13) & chr(10) >
-									<cfset query="SELECT count(collection_object_id) ct, scientific_name, author_text sciname_author #cflf#FROM user_sql#cflf#JOIN flat ON user_sql.collection_object_id = flat.collection_object_id#cflf#WHERE user_sql.result_id='#result_id#'#cflf#GROUP BY scientific_name, author_text">
+									<cfset query="SELECT count(collection_object_id) ct, scientific_name, author_text sciname_author #cflf#FROM user_search_table#cflf#JOIN flat ON user_search_table.collection_object_id = flat.collection_object_id#cflf#WHERE user_search_table.result_id='#result_id#'#cflf#GROUP BY scientific_name, author_text">
 									<a href="/tools/userSQL.cfm?sql=#encodeForURL(query)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Run SQL Queries on this Result</a>
 								</li>
 	<!---
