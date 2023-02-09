@@ -150,8 +150,9 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
+														
 														<cfif spec.auto_table eq 'publication'>
-															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
                                                             from media_relations mr 
 															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
@@ -161,30 +162,6 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
-															<cfloop query="relm1">
-															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-																<cfif len(media.media_id) gt 0>
-																	<cfif relm.media_id eq '#media.media_id#'> 
-																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
-																	<cfelse>	
-																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																	</cfif>
-																	<ul class="list-group px-0">
-																		<li class="list-group-item px-0 mx-1">
-																			<cfset mediablock= getMediaBlockHtml(media_id="#relm1.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:210px;">
-																				<div class="px-0">
-																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #spec.label# <br>(media/#relm1.media_id#)
-																					</span> 
-																					#mediablock#
-																				</div>
-																			</div>
-																		</li>
-																	</ul>
-																</cfif>
-															</div>
-															<cfset i=i+1>
-														</cfloop>
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
