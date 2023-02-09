@@ -82,16 +82,15 @@ limitations under the License.
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/showNamedCollection.cfm?underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Localities.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '">'+value+'</a></span>';
 					};
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-							return '<span class="cellRenderClasses" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">Edit</a></span>';
-							return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><a target="_blank" class="px-2 btn-xs btn-outline-primary" href="#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '">Edit</a></span>';
+							var id = encodeURIComponent(rowData['geog_auth_rec_id']);
+							return '<a target="_blank" href="/Localities.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
 						};
 					</cfif>
-
 
 					$(document).ready(function() {
 						/* Setup jqxgrid for Search */
@@ -109,24 +108,35 @@ limitations under the License.
 								datatype: "json",
 								datafields:
 								[
-									{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
-									{ name: 'COLLECTION_NAME', type: 'string' },
-									{ name: 'UNDERSCORE_COLLECTION_TYPE', type: 'string' },
-									{ name: 'VISIBILITY', type: 'string' },
-									{ name: 'DESCRIPTION', type: 'string' },
-									{ name: 'AGENTNAME', type: 'string' },
-									{ name: 'SPECIMEN_COUNT', type: 'string' },
-									{ name: 'HTML_DESCRIPTION', type: 'string' }
+									{ name: 'GEOG_AUTH_REC_ID', type: 'string' },
+									{ name: 'CONTINENT_OCEAN', type: 'string' },
+									{ name: 'COUNTRY', type: 'string' },
+									{ name: 'STATE_PROV', type: 'string' },
+									{ name: 'COUNTY', type: 'string' },
+									{ name: 'QUAD', type: 'string' },
+									{ name: 'FEATURE', type: 'string' },
+									{ name: 'ISLAND', type: 'string' },
+									{ name: 'ISLAND_GROUP', type: 'string' },
+									{ name: 'SEA', type: 'string' },
+									{ name: 'VALID_CATALOG_TERM_FG', type: 'string' },
+									{ name: 'SOURCE_AUTHORITY', type: 'string' },
+									{ name: 'HIGHER_GEOG', type: 'string' },
+									{ name: 'OCEAN_REGION', type: 'string' },
+									{ name: 'OCEAN_SUBREGION', type: 'string' },
+									{ name: 'WATER_FEATURE', type: 'string' },
+									{ name: 'WKT_POLYGON', type: 'string' },
+									{ name: 'HIGHERGEOGRAPHYID_GUID_TYPE', type: 'string' },
+									{ name: 'HIGHERGEOGRAPHYID', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									commit(true);
 								},
-								root: 'underscoreCollectionRecord',
-								id: 'underscore_collection_id',
+								root: 'geog_auth_record',
+								id: 'geog_auth_rec_id',
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing specimen search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing higher geography search: "); 
 								},
 								async: true
 							};
@@ -164,18 +174,28 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: getColHidProp('COLLECTION_NAME', false), cellsrenderer: linkIdCellRenderer },
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-										{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_ID', false), cellsrenderer: editCellRenderer },
-									<cfelse>
-										{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_ID', true) },
+									{ text: 'ID', datafield: : 'GEOG_AUTH_REC_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
+										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
-									{text: 'Type', datafield: 'UNDERSCORE_COLLECTION_TYPE', width: 100, hidable: true, hidden: getColHidProp('UNDERSCORE_COLLECTION_TYPE', false) },
-									{text: 'Visibility', datafield: 'VISIBILITY', width: 100, hidable: true, hidden: getColHidProp('VISIBILITY', true) },
-									{text: 'Agents', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: getColHidProp('AGENTNAME', false) },
-									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: getColHidProp('SPECIMEN_COUNT', false) },
-									{text: 'Featured Data', datafield: 'HTML_DESCRIPTION', hideable: true, hidden: getColHidProp('HTML_DESCRIPTION', true) },
-									{text: 'Overview', datafield: 'DESCRIPTION', hideable: true, hidden: getColHidProp('DESCRIPTION', false) }
+									{ text: 'Continent/Ocean', datafield: : 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
+									{ text: 'Ocean Region', datafield: : 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
+									{ text: 'Ocean Subregion', datafield: : 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },
+									{ text: 'Sea', datafield: : 'SEA',width: 100, hideabel: true, hidden: getColHidProp('SEA',true)  },
+									{ text: 'Water Feature', datafield: : 'WATER_FEATURE',width: 100, hideabel: true, hidden: getColHidProp('WATER_FEATURE',true)  },
+									{ text: 'Island Group', datafield: : 'ISLAND_GROUP',width: 100, hideabel: true, hidden: getColHidProp('ISLAND_GROUP',true)  },
+									{ text: 'Island', datafield: : 'ISLAND',width: 100, hideabel: true, hidden: getColHidProp('ISLAND',true)  },
+									{ text: 'Country', datafield: : 'COUNTRY',width: 100, hideabel: true, hidden: getColHidProp('COUNTRY',true)  },
+									{ text: 'State/Province', datafield: : 'STATE_PROV',width: 100, hideabel: true, hidden: getColHidProp('STATE_PROF',true)  },
+									{ text: 'County', datafield: : 'COUNTY',width: 100, hideabel: true, hidden: getColHidProp('COUNTY',true)  },
+									{ text: 'Feature', datafield: : 'FEATURE',width: 100, hideabel: true, hidden: getColHidProp('FEATURE',true)  },
+									{ text: 'Quad', datafield: : 'QUAD',width: 100, hideabel: true, hidden: getColHidProp('QUAD',true)  },
+									{ text: 'Valid', datafield: : 'VALID_CATALOG_TERM_FG',width: 100, hideabel: true, hidden: getColHidProp('VALID_CATALOG_TERM_FG',true)  },
+									{ text: 'Source Authority', datafield: : 'SOURCE_AUTHORITY',width: 100, hideabel: true, hidden: getColHidProp('SOURCE_AUTHORITY',true)  },
+									{ text: 'WKT', datafield: : 'WKT_POLYGON',width: 100, hideabel: true, hidden: getColHidProp('WKT_POLYGON',true)  },
+									{ text: 'GUID Type', datafield: : 'HIGHERGEOGRAPHYID_GUID_TYPE',width: 100, hideabel: true, hidden: getColHidProp('HIGHERGEOGRPAHYID_GUID_TYPE',true)  },
+									{ text: 'GUID', datafield: : 'HIGHERGEOGRAPHYID',width: 100, hideabel: true, hidden: getColHidProp('HIGHERGEOGRAPHYID',true)  }
+									{ text: 'Higher Geography', datafield: : 'HIGHER_GEOG', hideabel: true, hidden: getColHidProp('HIGHER_GEOG',false) }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
