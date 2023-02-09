@@ -164,7 +164,7 @@
                                                             from media_relations,flat 
                                                             where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#">
                                                             and flat.collection_object_id = media_relations.related_primary_key
-															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														
 															</cfquery>
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
