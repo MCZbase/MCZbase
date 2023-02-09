@@ -279,7 +279,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			WHERE
 				geog_auth_rec_id is not null
 				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
-					and higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#%higher_geog%#">
+					and higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#higher_geog#%">
 				</cfif>
 			ORDER BY
 				higher_geography
