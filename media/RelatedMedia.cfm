@@ -107,10 +107,10 @@
 					ORDER BY media_relationship
 				</cfquery>
 					<div class="row">
-						<div class="col-12 mt-3">
+						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
 							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
-								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-4 mb-0 pb-1">
+								<div id="zoom" class="rounded highlight_media float-left py-2 px-2 mt-4 mb-0 pb-1">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionLong")>
 									<div class="mx-auto text-center h4 mb-0 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
@@ -138,7 +138,7 @@
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif media_rel.recordcount gt 0>  
 								<div class="col-12 px-0 float-left">
-									<div class="search-box mt-4 w-100 mb-3">
+									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
