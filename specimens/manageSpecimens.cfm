@@ -108,7 +108,8 @@ limitations under the License.
 									<a href="javascript:void(0)" class="nav-link btn btn-secondary btn-xs disabled">Print Labels</a>
 								</li>
 								<li class="nav-item mb-1">
-									<cfset query="SELECT count(collection_object_id) ct, scientific_name, author_text sciname_author \nFROM user_sql\nJOIN flat ON user_sql.collection_object_id = flat.collection_object_id\nWHERE user_sql.result_id='#result_id#'\nGROUP BY scientific_name, author_text">
+									<cfset cflf = chr(13) & chr(10) >
+									<cfset query="SELECT count(collection_object_id) ct, scientific_name, author_text sciname_author #cflf#FROM user_sql#cflf#JOIN flat ON user_sql.collection_object_id = flat.collection_object_id#cflf#WHERE user_sql.result_id='#result_id#'#cflf#GROUP BY scientific_name, author_text">
 									<a href="/tools/userSQL.cfm?sql=#encodeForURL(query)#" class="nav-link btn btn-secondary btn-xs" target="_blank">Run SQL Queries on this Result</a>
 								</li>
 	<!---
