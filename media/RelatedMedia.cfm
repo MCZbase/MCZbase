@@ -167,8 +167,12 @@
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														<cfif spec.auto_table eq 'publication'>
-															<cfset spec.auto_table eq 'cataloged_item'>
-														</cfif>
+															select distinct media.media_id
+                                                            from media_relations,flat 
+                                                            where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="collid.collection_object_id">
+                                                            and flat.collection_object_id = media_relations.related_primary_key
+															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														<cfelse>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -178,6 +182,7 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
+													</cfif>
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">
