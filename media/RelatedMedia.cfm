@@ -113,7 +113,7 @@
 					ORDER BY media_relationship
 				</cfquery>
 				<cfset mediarelcount = #media_rel_count.ct#>
-					<div class="row">
+					<div class="row">#collid.collection_object_id#
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
 							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
@@ -124,7 +124,7 @@
 									</div>
 									<div class="col-11 float-right mr-4"> 
 										<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 500;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
-											Zoom#collid.collection_object_id#
+											Zoom
 										</button>
 										<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 1;">
 											<div class="card card-body p-3">
