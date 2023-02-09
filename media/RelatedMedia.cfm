@@ -203,7 +203,7 @@
 														select distinct media.media_id
 														from media_relations mr
 														left join media on mr.media_id = media.media_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#colls.collection_object_id#" >
+														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#" >
 														and mr.media_relationship <> 'created by agent'
 														</cfquery>
 														<!---thumbnails added below--->
