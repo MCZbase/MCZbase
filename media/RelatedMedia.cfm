@@ -197,9 +197,7 @@
 												</cfloop>
 											</div>
 											<div class="col-12 p-1">
-												<cfloop query="collid">
-													<cfif len(collid.collection_object_id) gt 0>
-														<cfquery name="relm0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													<cfquery name="relm0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id
 														from media_relations mr
 														left join media on mr.media_id = media.media_id
@@ -208,6 +206,9 @@
 														and mr.media_relationship <> 'created by agent'
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
+												<cfloop query="collid">
+													<cfif len(collid.collection_object_id) gt 0>
+													
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id
 														from media_relations mr
