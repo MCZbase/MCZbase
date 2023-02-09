@@ -113,7 +113,7 @@
 					ORDER BY media_relationship
 				</cfquery>
 				<cfset mediarelcount = #media_rel_count.ct#>
-					<div class="row">#collid.collection_object_id#
+					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
 							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
@@ -165,7 +165,7 @@
 															left join publication on mr.RELATED_PRIMARY_KEY = p.publication_id 
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
-															where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
 															</cfquery>
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
