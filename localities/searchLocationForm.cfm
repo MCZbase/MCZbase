@@ -68,11 +68,13 @@
 							(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
 						</span>
 					</label>
-					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input">
+					<cfif not isDefined("higher_geog")><cfset higher_geog=""></cfif>
+					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value="#higher_geog#"> 
 				</div>
 				<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
 					<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
-					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input">
+					<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
+					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input" value="#geog_auth_rec_id#">
 				</div>
 				<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
@@ -87,7 +89,8 @@
 								(<button type="button" tabindex="-1" aria-hidden="true" class="btn-link p-0 border-0 bg-light" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;" >=<span class="sr-only">prefix with = for exact match</span></button>)
 							</span>
 						</label>
-						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input">
+						<cfif not isDefined("continent_ocean")><cfset continent_ocean=""></cfif>
+						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#continent_ocean#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('continent_ocean','continent_ocean');

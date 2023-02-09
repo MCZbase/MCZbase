@@ -27,7 +27,7 @@ Function getSpecLocalityAutocomplete.  Search for spec_locality by name with a s
 --->
 <cffunction name="getSpecLocalityAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
-	<!--- perform wildcard search anywhere in taxonomy.phylum --->
+	<!--- perform wildcard search anywhere in locality.spec_locality --->
 	<cfset name = "%#term#%"> 
 
 	<cfset data = ArrayNew(1)>
@@ -75,7 +75,7 @@ Function getCountryAutocomplete.  Search for country by name with a substring ma
 --->
 <cffunction name="getCountryAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
-	<!--- perform wildcard search anywhere in taxonomy.phylum --->
+	<!--- perform wildcard search anywhere in geog_auth_rec.country --->
 	<cfset name = "%#term#%"> 
 
 	<cfset data = ArrayNew(1)>
@@ -249,6 +249,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="state_prov" type="string" required="no">
 	<cfargument name="county" type="string" required="no">
 	<cfargument name="highergeographyid" type="string" required="no">
+	<cfargument name="highergeographyid_guid_type" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -279,14 +280,350 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			WHERE
 				geog_auth_rec_id is not null
 				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
-					and higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#higher_geog#%">
+					<cfif left(higher_geog,1) is "=">
+						AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
+					<cfelse>
+						and geog_auth_rec.higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#higher_geog#%">
+					</cfif>
+				</cfif>
+				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
+						and geog_auth_rec.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
+				</cfif>
+				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
+					<cfif upper(continent_ocean) EQ "NULL">
+						and geog_auth_rec.continent_ocean IS NULL
+					<cfelseif upper(continent_ocean) EQ "NOT NULL">
+						and geog_auth_rec.continent_ocean IS NOT NULL
+					<cfelseif left(continent_ocean,1) is "=">
+						AND upper(geog_auth_rec.continent_ocean) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
+					<cfelseif left(continent_ocean,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.continent_ocean, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(continent_ocean,len(continent_ocean)-1)#">) >= 0.90
+					<cfelseif left(continent_ocean,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.continent_ocean, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(continent_ocean,len(continent_ocean)-1)#">) < 0.90
+					<cfelseif left(continent_ocean,1) is "!">
+						AND upper(geog_auth_rec.continent_ocean) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
+					<cfelse>
+						<cfif find(',',continent_ocean) GT 0>
+							AND upper(geog_auth_rec.continent_ocean) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(continent_ocean)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.continent_ocean) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(continent_ocean)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("country") AND len(country) gt 0>
+					<cfif upper(country) EQ "NULL">
+						and geog_auth_rec.country IS NULL
+					<cfelseif upper(country) EQ "NOT NULL">
+						and geog_auth_rec.country IS NOT NULL
+					<cfelseif left(country,1) is "=">
+						AND upper(geog_auth_rec.country) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
+					<cfelseif left(country,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.country, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(country,len(country)-1)#">) >= 0.90
+					<cfelseif left(country,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.country, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(country,len(country)-1)#">) < 0.90
+					<cfelseif left(country,1) is "!">
+						AND upper(geog_auth_rec.country) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
+					<cfelse>
+						<cfif find(',',country) GT 0>
+							AND upper(geog_auth_rec.country) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(country)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.country) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(country)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("state_prov") AND len(state_prov) gt 0>
+					<cfif upper(state_prov) EQ "NULL">
+						and geog_auth_rec.state_prov IS NULL
+					<cfelseif upper(state_prov) EQ "NOT NULL">
+						and geog_auth_rec.state_prov IS NOT NULL
+					<cfelseif left(state_prov,1) is "=">
+						AND upper(geog_auth_rec.state_prov) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-1))#">
+					<cfelseif left(state_prov,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.state_prov, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(state_prov,len(state_prov)-1)#">) >= 0.90
+					<cfelseif left(state_prov,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.state_prov, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(state_prov,len(state_prov)-1)#">) < 0.90
+					<cfelseif left(state_prov,1) is "!">
+						AND upper(geog_auth_rec.state_prov) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-1))#">
+					<cfelse>
+						<cfif find(',',state_prov) GT 0>
+							AND upper(geog_auth_rec.state_prov) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(state_prov)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.state_prov) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(state_prov)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("county") AND len(county) gt 0>
+					<cfif upper(county) EQ "NULL">
+						and geog_auth_rec.county IS NULL
+					<cfelseif upper(county) EQ "NOT NULL">
+						and geog_auth_rec.county IS NOT NULL
+					<cfelseif left(county,1) is "=">
+						AND upper(geog_auth_rec.county) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-1))#">
+					<cfelseif left(county,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.county, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(county,len(county)-1)#">) >= 0.90
+					<cfelseif left(county,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.county, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(county,len(county)-1)#">) < 0.90
+					<cfelseif left(county,1) is "!">
+						AND upper(geog_auth_rec.county) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-1))#">
+					<cfelse>
+						<cfif find(',',county) GT 0>
+							AND upper(geog_auth_rec.county) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(county)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.county) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(county)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("quad") AND len(quad) gt 0>
+					<cfif upper(quad) EQ "NULL">
+						and geog_auth_rec.quad IS NULL
+					<cfelseif upper(quad) EQ "NOT NULL">
+						and geog_auth_rec.quad IS NOT NULL
+					<cfelseif left(quad,1) is "=">
+						AND upper(geog_auth_rec.quad) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-1))#">
+					<cfelseif left(quad,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.quad, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(quad,len(quad)-1)#">) >= 0.90
+					<cfelseif left(quad,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.quad, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(quad,len(quad)-1)#">) < 0.90
+					<cfelseif left(quad,1) is "!">
+						AND upper(geog_auth_rec.quad) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-1))#">
+					<cfelse>
+						<cfif find(',',quad) GT 0>
+							AND upper(geog_auth_rec.quad) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(quad)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.quad) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(quad)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("feature") AND len(feature) gt 0>
+					<cfif upper(feature) EQ "NULL">
+						and geog_auth_rec.feature IS NULL
+					<cfelseif upper(feature) EQ "NOT NULL">
+						and geog_auth_rec.feature IS NOT NULL
+					<cfelseif left(feature,1) is "=">
+						AND upper(geog_auth_rec.feature) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-1))#">
+					<cfelseif left(feature,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(feature,len(feature)-1)#">) >= 0.90
+					<cfelseif left(feature,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(feature,len(feature)-1)#">) < 0.90
+					<cfelseif left(feature,1) is "!">
+						AND upper(geog_auth_rec.feature) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-1))#">
+					<cfelse>
+						<cfif find(',',feature) GT 0>
+							AND upper(geog_auth_rec.feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(feature)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(feature)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("island") AND len(island) gt 0>
+					<cfif upper(island) EQ "NULL">
+						and geog_auth_rec.island IS NULL
+					<cfelseif upper(island) EQ "NOT NULL">
+						and geog_auth_rec.island IS NOT NULL
+					<cfelseif left(island,1) is "=">
+						AND upper(geog_auth_rec.island) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-1))#">
+					<cfelseif left(island,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.island, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island,len(island)-1)#">) >= 0.90
+					<cfelseif left(island,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.island, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island,len(island)-1)#">) < 0.90
+					<cfelseif left(island,1) is "!">
+						AND upper(geog_auth_rec.island) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-1))#">
+					<cfelse>
+						<cfif find(',',island) GT 0>
+							AND upper(geog_auth_rec.island) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.island) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("island_group") AND len(island_group) gt 0>
+					<cfif upper(island_group) EQ "NULL">
+						and geog_auth_rec.island_group IS NULL
+					<cfelseif upper(island_group) EQ "NOT NULL">
+						and geog_auth_rec.island_group IS NOT NULL
+					<cfelseif left(island_group,1) is "=">
+						AND upper(geog_auth_rec.island_group) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-1))#">
+					<cfelseif left(island_group,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.island_group, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island_group,len(island_group)-1)#">) >= 0.90
+					<cfelseif left(island_group,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.island_group, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island_group,len(island_group)-1)#">) < 0.90
+					<cfelseif left(island_group,1) is "!">
+						AND upper(geog_auth_rec.island_group) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-1))#">
+					<cfelse>
+						<cfif find(',',island_group) GT 0>
+							AND upper(geog_auth_rec.island_group) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island_group)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.island_group) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island_group)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("ocean_region") AND len(ocean_region) gt 0>
+					<cfif upper(ocean_region) EQ "NULL">
+						and geog_auth_rec.ocean_region IS NULL
+					<cfelseif upper(ocean_region) EQ "NOT NULL">
+						and geog_auth_rec.ocean_region IS NOT NULL
+					<cfelseif left(ocean_region,1) is "=">
+						AND upper(geog_auth_rec.ocean_region) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-1))#">
+					<cfelseif left(ocean_region,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.ocean_region, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_region,len(ocean_region)-1)#">) >= 0.90
+					<cfelseif left(ocean_region,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.ocean_region, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_region,len(ocean_region)-1)#">) < 0.90
+					<cfelseif left(ocean_region,1) is "!">
+						AND upper(geog_auth_rec.ocean_region) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-1))#">
+					<cfelse>
+						<cfif find(',',ocean_region) GT 0>
+							AND upper(geog_auth_rec.ocean_region) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_region)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.ocean_region) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_region)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0>
+					<cfif upper(ocean_subregion) EQ "NULL">
+						and geog_auth_rec.ocean_subregion IS NULL
+					<cfelseif upper(ocean_subregion) EQ "NOT NULL">
+						and geog_auth_rec.ocean_subregion IS NOT NULL
+					<cfelseif left(ocean_subregion,1) is "=">
+						AND upper(geog_auth_rec.ocean_subregion) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-1))#">
+					<cfelseif left(ocean_subregion,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.ocean_subregion, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_subregion,len(ocean_subregion)-1)#">) >= 0.90
+					<cfelseif left(ocean_subregion,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.ocean_subregion, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_subregion,len(ocean_subregion)-1)#">) < 0.90
+					<cfelseif left(ocean_subregion,1) is "!">
+						AND upper(geog_auth_rec.ocean_subregion) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-1))#">
+					<cfelse>
+						<cfif find(',',ocean_subregion) GT 0>
+							AND upper(geog_auth_rec.ocean_subregion) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_subregion)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.ocean_subregion) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_subregion)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("sea") AND len(sea) gt 0>
+					<cfif upper(sea) EQ "NULL">
+						and geog_auth_rec.sea IS NULL
+					<cfelseif upper(sea) EQ "NOT NULL">
+						and geog_auth_rec.sea IS NOT NULL
+					<cfelseif left(sea,1) is "=">
+						AND upper(geog_auth_rec.sea) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-1))#">
+					<cfelseif left(sea,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.sea, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(sea,len(sea)-1)#">) >= 0.90
+					<cfelseif left(sea,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.sea, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(sea,len(sea)-1)#">) < 0.90
+					<cfelseif left(sea,1) is "!">
+						AND upper(geog_auth_rec.sea) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-1))#">
+					<cfelse>
+						<cfif find(',',sea) GT 0>
+							AND upper(geog_auth_rec.sea) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sea)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.sea) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sea)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("water_feature") AND len(water_feature) gt 0>
+					<cfif upper(water_feature) EQ "NULL">
+						and geog_auth_rec.water_feature IS NULL
+					<cfelseif upper(water_feature) EQ "NOT NULL">
+						and geog_auth_rec.water_feature IS NOT NULL
+					<cfelseif left(water_feature,1) is "=">
+						AND upper(geog_auth_rec.water_feature) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-1))#">
+					<cfelseif left(water_feature,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.water_feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(water_feature,len(water_feature)-1)#">) >= 0.90
+					<cfelseif left(water_feature,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.water_feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(water_feature,len(water_feature)-1)#">) < 0.90
+					<cfelseif left(water_feature,1) is "!">
+						AND upper(geog_auth_rec.water_feature) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-1))#">
+					<cfelse>
+						<cfif find(',',water_feature) GT 0>
+							AND upper(geog_auth_rec.water_feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(water_feature)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.water_feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(water_feature)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("source_authority") AND len(source_authority) gt 0>
+					<cfif left(source_authority,1) is "=">
+						AND upper(geog_auth_rec.source_authority) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-1))#">
+					<cfelseif left(source_authority,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.source_authority, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(source_authority,len(source_authority)-1)#">) >= 0.90
+					<cfelseif left(source_authority,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.source_authority, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(source_authority,len(source_authority)-1)#">) < 0.90
+					<cfelseif left(source_authority,1) is "!">
+						AND upper(geog_auth_rec.source_authority) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-1))#">
+					<cfelse>
+						<cfif find(',',source_authority) GT 0>
+							AND upper(geog_auth_rec.source_authority) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(source_authority)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.source_authority) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(source_authority)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0>
+					<cfif upper(highergeographyid) EQ "NULL">
+						and geog_auth_rec.highergeographyid IS NULL
+					<cfelseif upper(highergeographyid) EQ "NOT NULL">
+						and geog_auth_rec.highergeographyid IS NOT NULL
+					<cfelseif left(highergeographyid,1) is "=">
+						AND upper(geog_auth_rec.highergeographyid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-1))#">
+					<cfelseif left(highergeographyid,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid,len(highergeographyid)-1)#">) >= 0.90
+					<cfelseif left(highergeographyid,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid,len(highergeographyid)-1)#">) < 0.90
+					<cfelseif left(highergeographyid,1) is "!">
+						AND upper(geog_auth_rec.highergeographyid) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-1))#">
+					<cfelse>
+						<cfif find(',',highergeographyid) GT 0>
+							AND upper(geog_auth_rec.highergeographyid) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.highergeographyid) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0>
+					<cfif upper(highergeographyid_guid_type) EQ "NULL">
+						and geog_auth_rec.highergeographyid_guid_type IS NULL
+					<cfelseif upper(highergeographyid_guid_type) EQ "NOT NULL">
+						and geog_auth_rec.highergeographyid_guid_type IS NOT NULL
+					<cfelseif left(highergeographyid_guid_type,1) is "=">
+						AND upper(geog_auth_rec.highergeographyid_guid_type) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1))#">
+					<cfelseif left(highergeographyid_guid_type,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid_guid_type, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1)#">) >= 0.90
+					<cfelseif left(highergeographyid_guid_type,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid_guid_type, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1)#">) < 0.90
+					<cfelseif left(highergeographyid_guid_type,1) is "!">
+						AND upper(geog_auth_rec.highergeographyid_guid_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1))#">
+					<cfelse>
+						<cfif find(',',highergeographyid_guid_type) GT 0>
+							AND upper(geog_auth_rec.highergeographyid_guid_type) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid_guid_type)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.highergeographyid_guid_type) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid_guid_type)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
+					<cfif upper(continent_ocean) EQ "NULL">
+						and geog_auth_rec.continent_ocean IS NULL
+					<cfelseif upper(continent_ocean) EQ "NOT NULL">
+						and geog_auth_rec.continent_ocean IS NOT NULL
+					<cfelseif left(continent_ocean,1) is "=">
+						AND upper(geog_auth_rec.continent_ocean) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
+					<cfelseif left(continent_ocean,1) is "~">
+						AND utl_match.jaro_winkler(geog_auth_rec.continent_ocean, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(continent_ocean,len(continent_ocean)-1)#">) >= 0.90
+					<cfelseif left(continent_ocean,1) is "!~">
+						AND utl_match.jaro_winkler(geog_auth_rec.continent_ocean, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(continent_ocean,len(continent_ocean)-1)#">) < 0.90
+					<cfelseif left(continent_ocean,1) is "!">
+						AND upper(geog_auth_rec.continent_ocean) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
+					<cfelse>
+						<cfif find(',',continent_ocean) GT 0>
+							AND upper(geog_auth_rec.continent_ocean) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(continent_ocean)#" list="yes"> )
+						<cfelse>
+							AND upper(geog_auth_rec.continent_ocean) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(continent_ocean)#%">
+						</cfif>
+					</cfif>
 				</cfif>
 			ORDER BY
 				higher_geog
 		</cfquery>
-<!---
-	?higher_geog=&geog_auth_rec_id=&continent_ocean=&ocean_region=&ocean_subregion=&sea=&island=&island_group=&feature=&water_feature=&country=&state_prov=&county==Middlesex&quad=
---->
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
