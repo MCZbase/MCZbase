@@ -209,6 +209,7 @@
 														left join media on mr.media_id = media.media_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relm0.collection_object_id#" >
 														and mr.media_relationship <> 'created by agent'
+														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<!---thumbnails added below--->
 														<cfset i = 1>
