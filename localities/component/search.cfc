@@ -229,4 +229,85 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<!---   Function getHigherGeographies
+   Obtain a list of higher geographies in a form suitable for display in a jqxgrid
+	@return json containing data about higher geographies matching specified search criteria.
+--->
+<cffunction name="getHigherGeographies" access="remote" returntype="any" returnformat="json">
+	<cfargument name="higher_geog" type="string" required="no">
+	<cfargument name="geog_auth_rec_id" type="string" required="no">
+	<cfargument name="continent_ocean" type="string" required="no">
+	<cfargument name="ocean_region" type="string" required="no">
+	<cfargument name="ocean_subregion" type="string" required="no">
+	<cfargument name="sea" type="string" required="no">
+	<cfargument name="island" type="string" required="no">
+	<cfargument name="island_group" type="string" required="no">
+	<cfargument name="feature" type="string" required="no">
+	<cfargument name="water_feature" type="string" required="no">
+	<cfargument name="country" type="string" required="no">
+	<cfargument name="state_prov" type="string" required="no">
+	<cfargument name="county" type="string" required="no">
+	<cfargument name="highergeographyid" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				geog_auth_rec_id,
+				continent_ocean,
+				country,
+				state_prov,
+				county,
+				quad,
+				feature,
+				island,
+				island_group,
+				sea,
+				valid_catalog_term_fg,
+				source_authority,
+				higher_geog,
+				ocean_region,
+				ocean_subregion,
+				water_feature,
+				wkt_polygon,
+				highergeographyid_guid_type,
+				highergeographyid 
+			FROM 
+				geog_auth_rec
+			WHERE
+				geog_auth_rec_id is not null
+				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
+					and higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#%higher_geog%#">
+				</cfif>
+			ORDER BY
+				higher_geography
+		</cfquery>
+<!---
+	?higher_geog=&geog_auth_rec_id=&continent_ocean=&ocean_region=&ocean_subregion=&sea=&island=&island_group=&feature=&water_feature=&country=&state_prov=&county==Middlesex&quad=
+--->
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset columnNames = ListToArray(search.columnList)>
+			<cfloop array="#columnNames#" index="columnName">
+				<cfset row["#columnName#"] = "#search[columnName][currentrow]#">
+			</cfloop>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset error_message = trim(cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset function_called = "#GetFunctionCalledName()#">
+		<cfscript> reportError(function_called="#function_called#",error_message="#error_message#");</cfscript>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

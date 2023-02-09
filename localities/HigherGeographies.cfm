@@ -44,6 +44,7 @@ limitations under the License.
 					<form name="searchForm" id="searchForm">
 						<cfset showLocality=0>
 						<cfset showEvent=0>
+						<input type="hidden" id="method" name="method" value="getHigherGeographies">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
 		
