@@ -34,7 +34,7 @@
 		left join media m on mr.media_id = m.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and (ct.auto_table = 'cataloged_item' or ct.auto_table = 'publication')
+		and ct.auto_table = 'cataloged_item'
 	</cfquery>
 
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -48,15 +48,6 @@
 		and ct.description = 'publication'
 		and ct.description <> 'ledger'
 		and m.auto_host <> 'nrs.harvard.edu'
-		UNION
-		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
-		from publication p
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-		left join media m on m.media_id = mr.media_id
-		left join citation c on c.publication_id = p.publication_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
-		and ct.description <> 'publication'
 		UNION
 		select ci.collection_object_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 		from cataloged_item ci
@@ -131,7 +122,7 @@
 										</button>
 										<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 1;">
 											<div class="card card-body p-3">
-												<h3 class="h5 mb-1">Media Zoom </h3>
+												<h3 class="h5 mb-1">Media Zoom #collid.collection_object_id#</h3>
 												<p class="d-none d-md-block mb-0" style="font-size: .83rem;line-height:.90rem;">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related button on images below to switch images.</p><p class="d-block d-md-none mb-0" style="font-size: .83rem;line-height:.90rem;"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
 											</div>
 										</aside>
@@ -160,15 +151,27 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id
-														from media_relations mr
-														left join media on mr.media_id = media.media_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-														and mr.media_relationship <> 'created by agent'
-														and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
-														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														</cfquery>
+														
+														<cfif spec.auto_table eq 'publication'>
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id
+                                                            from media_relations mr 
+															left join publication on mr.RELATED_PRIMARY_KEY = p.publication_id 
+															left join media m on m.media_id = mr.media_id
+															left join citation c on c.publication_id = p.publication_id
+															where media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
+															</cfquery>
+														<cfelse>
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id
+															from media_relations mr
+															left join media on mr.media_id = media.media_id
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+															and mr.media_relationship <> 'created by agent'
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+															</cfquery>
+														</cfif>
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">
@@ -199,7 +202,6 @@
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
-									
 										</div>
 									</div>
 								</div>
