@@ -34,7 +34,7 @@
 		left join media m on mr.media_id = m.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = 'cataloged_item'
+		and (ct.auto_table = 'cataloged_item' or ct.auto_table = 'publication')
 	</cfquery>
 
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
