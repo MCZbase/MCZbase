@@ -188,7 +188,6 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 														</cfquery>
-														<cfset citation = >#citation#
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">
