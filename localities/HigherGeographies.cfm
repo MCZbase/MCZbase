@@ -82,13 +82,13 @@ limitations under the License.
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Localities.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '">'+value+'</a></span>';
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 							var id = encodeURIComponent(rowData['geog_auth_rec_id']);
-							return '<a target="_blank" href="/Localities.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
+							return '<a target="_blank" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
 						};
 					</cfif>
 
