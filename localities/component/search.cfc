@@ -282,7 +282,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					and higher_geog like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#higher_geog#%">
 				</cfif>
 			ORDER BY
-				higher_geography
+				higher_geog
 		</cfquery>
 <!---
 	?higher_geog=&geog_auth_rec_id=&continent_ocean=&ocean_region=&ocean_subregion=&sea=&island=&island_group=&feature=&water_feature=&country=&state_prov=&county==Middlesex&quad=
