@@ -198,7 +198,7 @@
 											</div>
 											<div class="col-12 p-1">
 													<cfquery name="relm0" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														 select collection_object_id, cat_num from media_relations,flat 
+														 select distinct collection_object_id, cat_num from media_relations,flat 
        													 where media_relations.related_primary_key = flat.collection_object_id and media_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 												<cfloop query="collid">
