@@ -291,13 +291,7 @@
 							</cfif>
 						</cfif>
 						<cfif pubs.recordcount gt 0>
-							<cfquery name="pubct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(flat.collection_object_id) as ct
-								from flat
-								left join media_relations mr on mr.related_primary_key = flat.collection_object_id
-								where flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#pubs.pk#" >
-							</cfquery>
-									Publications #pubct.ct#  -- #pubs.pk#
+						#pubs.pk#
 								<cfif pubct.ct gt 0>  
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id
