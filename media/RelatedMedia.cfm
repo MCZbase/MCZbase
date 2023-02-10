@@ -240,8 +240,8 @@
 							</cfquery>
 									Publications
 								<cfif pubct.ct gt 0>  
-								#pubct.ct#
-									<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								#pubct.ct#  -- #spec.pk#
+									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id
 										from media_relations mr
 										left join media on mr.media_id = media.media_id
