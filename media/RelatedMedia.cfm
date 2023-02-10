@@ -31,15 +31,24 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
+				<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct ci.collection_object_id as pk
+					from  cataloged_item ci
+					left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+					left join media m on mr.media_id = m.media_id
+					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+					where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and ct.auto_table = 'cataloged_item'
+				</cfquery>
 				<cfif len(media.publinks) gt 0>
 					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-						select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
+						select p.publication_id as pk, mr.media_relationship as rel
 						from publication p
 						left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 						left join media m on m.media_id = mr.media_id
 						left join citation c on c.publication_id = p.publication_id
 						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-						where c.collection_object_id =110406
+						where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.pk#">
 						and ct.description = 'publication'
 						and ct.description <> 'ledger'
 						and m.auto_host <> 'nrs.harvard.edu'
