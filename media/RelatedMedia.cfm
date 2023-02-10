@@ -41,7 +41,7 @@
 					and ct.auto_table = 'cataloged_item'
 				</cfquery>
 				<cfquery name = "rel" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-					select mr.media_relationships
+					select mr.media_relationship
 					from media_relations mr 
 					left join media m on m.media_id = mr.media_id
 					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
