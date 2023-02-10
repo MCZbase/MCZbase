@@ -287,7 +287,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				geog_auth_rec
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on geog_auth_rec.geog_auth_rec_id=flatTableName.geog_auth_rec_id
 			WHERE
-				geog_auth_rec_id is not null
+				geog_auth_rec.geog_auth_rec_id is not null
 				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
 					<cfif left(higher_geog,1) is "=">
 						AND upper(geog_auth_rec.higher_geog) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(higher_geog,len(higher_geog)-1))#">
