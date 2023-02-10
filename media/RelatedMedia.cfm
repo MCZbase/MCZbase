@@ -231,6 +231,15 @@
 								</div>
 							</cfif>
 						<cfelse>
+							<cfquery name="pubct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(m.media_id) as ct
+								from media_relations mr
+								left join media m on mr.media_id = m.media_id
+								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#" >
+								and mr.media_relationship <> 'created by agent'
+								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+						<cfif pubct.ct gt 0>  
 							Publications
 							<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select distinct media.media_id
@@ -240,7 +249,7 @@
 								and mr.media_relationship <> 'created by agent'
 								and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							</cfquery>
-							<cfif pubscollid.ct gt 0>  
+							<cfif pubct gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
