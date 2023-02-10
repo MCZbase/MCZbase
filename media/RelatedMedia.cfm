@@ -143,7 +143,7 @@
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where (mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#"> OR mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.pk#">)
 								and mr.media_relationship <> 'created by agent'
-								and (ct.auto_table = <cfqueryparam  value="#spec.auto_table#"> OR ct.auto_table = <cfqueryparam  value="#collid.auto_table#">)
+						
 							</cfquery>
 							<cfif relmct.ct gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
