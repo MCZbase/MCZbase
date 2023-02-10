@@ -100,7 +100,7 @@
 		from  cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join media m on mr.media_id = m.media_id
-		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#collid.collection_object_id#">
+		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_decimal" value="#collid.collection_object_id#">
 	</cfquery>
 	<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
