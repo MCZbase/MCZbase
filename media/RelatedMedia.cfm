@@ -241,7 +241,7 @@
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 								and mr.media_relationship <> 'created by agent'
-								and mr.media_relationship <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.descr#">
+								and mr.media_relationship <> 'publication'
 								
 							</cfquery>
 							<cfif relmct.counter eq 0> 
