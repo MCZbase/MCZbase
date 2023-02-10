@@ -31,7 +31,7 @@
 		select related_primary_key as pk from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
 	<cfquery name = "mediaIDs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-		select media_id as mid, media_relationship from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.mid#">
+		select media_id as mid, media_relationship from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
 	</cfquery>
 		
 
