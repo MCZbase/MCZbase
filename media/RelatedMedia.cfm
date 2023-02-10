@@ -47,7 +47,7 @@
 					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 					where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
-				<cfif len(media.publinks) gt 0>
+				<cfif len(rel.media_relationship) gt 0>
 					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
 						select p.publication_id as pk
 						from publication p
