@@ -42,7 +42,7 @@
 				</cfquery>
 				<cfif len(media.publinks) gt 0>
 					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-						select p.publication_id as pk, mr.media_relationship as rel
+						select p.publication_id as pk
 						from publication p
 						left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 						left join media m on m.media_id = mr.media_id
