@@ -250,6 +250,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="county" type="string" required="no">
 	<cfargument name="highergeographyid" type="string" required="no">
 	<cfargument name="highergeographyid_guid_type" type="string" required="no">
+	<cfargument name="return_wkt" type="string" required="no">
+
+	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -272,7 +275,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				ocean_region,
 				ocean_subregion,
 				water_feature,
-				wkt_polygon,
+				<cfif return_wkt EQ "true">
+					wkt_polygon,
+				<cfelse>
+					nvl2(wkt_polygon,'Yes','No') as wkt_polygon,
+				</cfif>
 				highergeographyid_guid_type,
 				highergeographyid 
 			FROM 
