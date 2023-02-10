@@ -153,6 +153,7 @@
 								left join media m on mr.media_id = m.media_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
+								and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif relmct.ct gt 0>  
