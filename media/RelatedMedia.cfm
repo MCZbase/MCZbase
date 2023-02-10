@@ -110,7 +110,7 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
 				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT media_relationship 
+					SELECT media_relationship, media_id
 					FROM media_relations
 					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship <> 'created by agent'
@@ -235,7 +235,7 @@
 													
 						<cfif len(pubscollid.pk) gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table, get_media_rel_summary(media_id)
+						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table, get_media_rel_summary(media_rel.media_id)
 								from publication p
 								left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 								left join media m on m.media_id = mr.media_id
