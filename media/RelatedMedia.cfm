@@ -31,15 +31,28 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
-				
-				<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-					select mr.related_primary_key as pk, mr.media_relationship as rel
-					from media_relations mr
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and mr.media_relationship <> 'created by agent'
-					and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
-				</cfquery>
+				<cfif len(media.publinks) gt 0>
+					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+						select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
+						from publication p
+						left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+						left join media m on m.media_id = mr.media_id
+						left join citation c on c.publication_id = p.publication_id
+						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+						where c.collection_object_id =110406
+						and ct.description = 'publication'
+						and ct.description <> 'ledger'
+						and m.auto_host <> 'nrs.harvard.edu'
+					</cfquery>
+				<cfelse>
+					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+						select mr.related_primary_key as pk, mr.media_relationship as rel
+						from media_relations mr
+						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+						where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						and mr.media_relationship <> 'created by agent'
+					</cfquery>
+				</cfif>
 				<div class="row">
 						<div class="col-12 my-3">
 							<h1 class="h3 px-4 mb-0">Media Related to:</h1>
