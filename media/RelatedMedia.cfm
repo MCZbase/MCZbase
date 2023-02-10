@@ -235,7 +235,7 @@
 													
 						<cfif len(pubscollid.pk) gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table, get_media_rel_summary(media_id)
+						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 								from publication p
 								left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 								left join media m on m.media_id = mr.media_id
@@ -262,7 +262,7 @@
 												<cfloop query="relmct">
 													<cfif len(relmct.pk) gt 0>
 															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id, ct.label, get_media_desc
+															select distinct media.media_id, ct.label
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
