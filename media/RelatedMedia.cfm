@@ -127,7 +127,7 @@
 					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 					where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and mr.media_relationship <> 'created by agent'
-					and ct.description <> 'ledger'
+		
 				</cfquery>
 				<div class="row">
 						<div class="col-12 my-3">
