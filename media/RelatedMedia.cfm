@@ -316,17 +316,15 @@
 													<div class="col-12 p-1">
 														<cfloop query="pubs">
 															<cfif len(pubs.pk) gt 0>
-																<cfif spec.auto_table eq 'publication'>
-																	<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																	select distinct m.media_id
-																	from media_relations mr 
-																	left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
-																	left join media m on m.media_id = mr.media_id
-																	left join citation c on c.publication_id = p.publication_id
-																	where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
-																	and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-																	</cfquery>
-																</cfif>
+																<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																select distinct m.media_id
+																from media_relations mr 
+																left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
+																left join media m on m.media_id = mr.media_id
+																left join citation c on c.publication_id = p.publication_id
+																where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
+																and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+																</cfquery>
 																<!---thumbnails added below--->
 																<cfset i = 1>
 																<cfloop query="relm_pub">
