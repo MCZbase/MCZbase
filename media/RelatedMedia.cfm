@@ -152,7 +152,7 @@
 								from media_relations mr on ci.collection_object_id = mr.related_primary_key
 								left join media m on mr.media_id = m.media_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-								where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								where mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 							</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif relmct.ct gt 0>  
