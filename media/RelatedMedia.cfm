@@ -238,9 +238,9 @@
 								where flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#spec.pk#" >
 								and mr.media_relationship like 'publication'
 							</cfquery>
-									Publications
+									Publications #pubct.ct#  -- #spec.pk#
 								<cfif pubct.ct gt 0>  
-								#pubct.ct#  -- #spec.pk#
+								
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id
 										from media_relations mr
