@@ -234,7 +234,9 @@
 							<cfquery name="pubct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(flat.collection_object_id) as ct
 								from flat
-								where flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#pubscollid.pk#" >
+								left join media_relations mr on mr.related_primary_key = flat.collection_object_id
+								where flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#spec.pk#" >
+								and mr.media_relationship like 'publication'
 							</cfquery>
 									Publications
 								<cfif pubct.ct gt 0>  
