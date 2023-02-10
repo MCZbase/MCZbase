@@ -1,7 +1,7 @@
 <!---
-localities/HigherGeographies.cfm
+localities/Localities.cfm
 
-Find higher geography authority records.
+Find locality records.
 
 Copyright 2023 President and Fellows of Harvard College
 
@@ -24,7 +24,7 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-		<cfset pageTitle = "Search Higher Geographies">
+		<cfset pageTitle = "Search Localities">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Error: Unknown action.">
@@ -42,9 +42,9 @@ limitations under the License.
 			<cfoutput>
 				<main id="content">
 					<form name="searchForm" id="searchForm">
-						<cfset showLocality=0>
+						<cfset showLocality=1>
 						<cfset showEvent=0>
-						<input type="hidden" id="method" name="method" value="getHigherGeographies">
+						<input type="hidden" id="method" name="method" value="getLocalities">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
 		
@@ -81,23 +81,25 @@ limitations under the License.
 					</cfif>
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						<!--- TODO: Higher Geography Details Page --->
+						<!--- TODO: Locality Details Page --->
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '" target="_blank">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
 					};
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						if (value==0) {
 							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">None</span>';
 						} else {
-							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?action=fixedSearch&execute=true&higher_geog==' + rowData['HIGHER_GEOG'] + '" target="_blank">'+value+'</a></span>';
+							var loc = encodeURIComponent(rowData['SPEC_LOCALITY']);
+							var id = encodeURIComponent(rowData['LOCALITY_ID']);
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?execute=true&builderMaxRows=1&action=builderSearch&nestdepth1=1&field1=LOCALITY%3ALOCALITY_LOCALITY_ID_PICK&searchText1=' + loc + '&searchId1='+ id +'" target="_blank">'+value+'</a></span>';
 						}
 					};
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-							var id = encodeURIComponent(rowData['geog_auth_rec_id']);
-							return '<a target="_blank" href="/Locality.cfm?action=editGeog&geog_auth_rec_id=' + id + '">Edit</a>';
+							var id = encodeURIComponent(rowData['LOCALITY_ID']);
+							return '<a target="_blank" href="/editLocality.cfm?locality_id=' + id + '">Edit</a>';
 						};
 					</cfif>
 
@@ -136,17 +138,19 @@ limitations under the License.
 									{ name: 'WKT_POLYGON', type: 'string' },
 									{ name: 'HIGHERGEOGRAPHYID_GUID_TYPE', type: 'string' },
 									{ name: 'HIGHERGEOGRAPHYID', type: 'string' },
-									{ name: 'SPECIMEN_COUNT', type: 'string' }
+									{ name: 'SPECIMEN_COUNT', type: 'string' },
+									{ name: 'LOCALITY_ID', type: 'string' },
+									{ name: 'SPEC_LOCALITY', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									commit(true);
 								},
-								root: 'geog_auth_record',
+								root: 'locality',
 								id: 'geog_auth_rec_id',
 								url: '/localities/component/search.cfc?' + $('##searchForm').serialize(),
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, textStatus, error) {
-									handleFail(jqXHR,textStatus,error, "Error performing higher geography search: "); 
+									handleFail(jqXHR,textStatus,error, "Error performing locality search: "); 
 								},
 								async: true
 							};
@@ -184,11 +188,12 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{ text: 'ID', datafield: 'GEOG_AUTH_REC_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
+									{ text: 'ID', datafield: 'LOCALITY_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
+									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',false)  },
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
 									{ text: 'Ocean Region', datafield: 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
 									{ text: 'Ocean Subregion', datafield: 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },
@@ -217,8 +222,8 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/localities/HigherGeographies.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','higher geography record');
+								$('##resultLink').html('<a href="/localities/Localities.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								gridLoaded('searchResultsGrid','locality record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
