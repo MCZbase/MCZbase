@@ -236,7 +236,7 @@
 								from flat
 								left join media_relations mr on mr.related_primary_key = flat.collection_object_id
 								where flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#spec.pk#" >
-								and mr.media_relationship <> 'publication'
+							
 							</cfquery>
 									Publications #pubct.ct#  -- #spec.pk#
 								<cfif pubct.ct gt 0>  
