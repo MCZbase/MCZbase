@@ -180,8 +180,9 @@
 											<div class="col-12 p-1">
 												<cfloop query="relatednums">
 													<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-													select media_id as mid, media_relationship as rel 
-													from media_relations 
+													select media_id as mid, media_relationship as rel, ct.label 
+													from media_relations mr
+													left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 													where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
 													and media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													</cfquery>
@@ -223,7 +224,9 @@
 																			<cfset mediablock= getMediaBlockHtml(media_id="#mediaids.mid#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																			<div class="#activeimg# image#i#" id="mediaBlock#mediaids.mid#" style="height:210px;">
 																				<div class="px-0">
-																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> <!---#spec.label#---> <br>(media/#mediaids.mid#)
+																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> 
+																					#mediaids.label#	
+																					<br>(media/#mediaids.mid#)
 																					</span> 
 																					#mediablock#
 																				</div>
