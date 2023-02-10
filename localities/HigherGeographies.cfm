@@ -84,6 +84,14 @@ limitations under the License.
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '">'+value+'</a></span>';
 					};
+					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						if (value==0) {
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">None</span>';
+						} else {
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?action=fixedSearch&execute=true&higher_geog==' + rowData['HIGHER_GEOG'] + '">'+value+'</a></span>';
+						}
+					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -126,7 +134,8 @@ limitations under the License.
 									{ name: 'WATER_FEATURE', type: 'string' },
 									{ name: 'WKT_POLYGON', type: 'string' },
 									{ name: 'HIGHERGEOGRAPHYID_GUID_TYPE', type: 'string' },
-									{ name: 'HIGHERGEOGRAPHYID', type: 'string' }
+									{ name: 'HIGHERGEOGRAPHYID', type: 'string' },
+									{ name: 'SPECIMEN_COUNT', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									commit(true);
@@ -175,6 +184,7 @@ limitations under the License.
 								showtoolbar: false,
 								columns: [
 									{ text: 'ID', datafield: 'GEOG_AUTH_REC_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
+									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',true), cellsrenderer: specimensCellRenderer  },
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>

@@ -259,31 +259,33 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				geog_auth_rec_id,
-				continent_ocean,
-				country,
-				state_prov,
-				county,
-				quad,
-				feature,
-				island,
-				island_group,
-				sea,
-				valid_catalog_term_fg,
-				source_authority,
-				higher_geog,
-				ocean_region,
-				ocean_subregion,
-				water_feature,
+				 geog_auth_rec.geog_auth_rec_id,
+				 geog_auth_rec.continent_ocean,
+				 geog_auth_rec.country,
+				 geog_auth_rec.state_prov,
+				 geog_auth_rec.county,
+				 geog_auth_rec.quad,
+				 geog_auth_rec.feature,
+				 geog_auth_rec.island,
+				 geog_auth_rec.island_group,
+				 geog_auth_rec.sea,
+				 geog_auth_rec.valid_catalog_term_fg,
+				 geog_auth_rec.source_authority,
+				 geog_auth_rec.higher_geog,
+				 geog_auth_rec.ocean_region,
+				 geog_auth_rec.ocean_subregion,
+				 geog_auth_rec.water_feature,
 				<cfif return_wkt EQ "true">
-					wkt_polygon,
+					 geog_auth_rec.wkt_polygon,
 				<cfelse>
-					nvl2(wkt_polygon,'Yes','No') as wkt_polygon,
+					 nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
 				</cfif>
-				highergeographyid_guid_type,
-				highergeographyid 
+				 geog_auth_rec.highergeographyid_guid_type,
+				 geog_auth_rec.highergeographyid,
+				 count(flatTableName.collection_object_id) specimen_count
 			FROM 
 				geog_auth_rec
+				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on geog_auth_rec.geog_auth_rec_id=flatTableName.geog_auth_rec_id
 			WHERE
 				geog_auth_rec_id is not null
 				<cfif isDefined("higher_geog") and len(higher_geog) gt 0>
@@ -674,8 +676,32 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						and geog_auth_rec.wkt_polygon IS NOT NULL
 					</cfif>
 				</cfif>
+			GROUP BY
+				 geog_auth_rec.geog_auth_rec_id,
+				 geog_auth_rec.continent_ocean,
+				 geog_auth_rec.country,
+				 geog_auth_rec.state_prov,
+				 geog_auth_rec.county,
+				 geog_auth_rec.quad,
+				 geog_auth_rec.feature,
+				 geog_auth_rec.island,
+				 geog_auth_rec.island_group,
+				 geog_auth_rec.sea,
+				 geog_auth_rec.valid_catalog_term_fg,
+				 geog_auth_rec.source_authority,
+				 geog_auth_rec.higher_geog,
+				 geog_auth_rec.ocean_region,
+				 geog_auth_rec.ocean_subregion,
+				 geog_auth_rec.water_feature,
+				<cfif return_wkt EQ "true">
+					 geog_auth_rec.wkt_polygon,
+				<cfelse>
+					 nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
+				</cfif>
+				 geog_auth_rec.highergeographyid_guid_type,
+				 geog_auth_rec.highergeographyid,
 			ORDER BY
-				higher_geog
+				geog_auth_rec.higher_geog
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
