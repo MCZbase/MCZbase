@@ -235,16 +235,17 @@
 													
 						<cfif spec.recordcount eq 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(m.media_id) as ct
+								select count(m.media_id) as counter, ct.description as desc
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
+								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 								and mr.media_relationship <> 'created by agent'
 								and mr.media_relationship <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.descr#">
 								
 							</cfquery>
-							<cfif relmct.ct eq 0> 
-								<h2>#relmct.ct#</h2>
+							<cfif relmct.counter eq 0> 
+								<h2>#relmct.counter#</h2>
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
