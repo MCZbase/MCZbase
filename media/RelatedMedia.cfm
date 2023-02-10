@@ -240,7 +240,7 @@
 								left join media m on mr.media_id = m.media_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where mr.media_relationship <> 'created by agent'
-								and mr.media_id = 1335						
+								and mr.media_id = 117877					
 							</cfquery>
 							<cfif relmct.recordcount gt 0> 
 						
