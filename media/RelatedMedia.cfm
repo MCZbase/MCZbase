@@ -232,9 +232,9 @@
 							</cfif>
 						<cfelse>
 							<cfquery name="pubct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(mr.media_id) as ct
-								from media_relations mr
-								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#spec.pk#" >
+								select count(publication_id) as ct
+								from flat
+								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#pubscollid.pk#" >
 							</cfquery>
 									Publications
 								<cfif pubct.ct gt 0>  
