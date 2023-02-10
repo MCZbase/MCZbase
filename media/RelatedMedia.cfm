@@ -262,7 +262,7 @@
 												</div>
 												<div class="row mx-0">
 													<div class="col-12 p-1">
-														<cfloop query="spec">
+														<cfloop query="pubscollid">
 															<cfif len(spec.pk) gt 0>
 																<cfif spec.auto_table eq 'publication'>
 																	<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
