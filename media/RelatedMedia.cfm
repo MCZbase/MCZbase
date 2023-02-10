@@ -180,7 +180,10 @@
 											<div class="col-12 p-1">
 												<cfloop query="relatednums">
 													<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-														select media_id as mid, media_relationship as rel from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
+													select media_id as mid, media_relationship as rel 
+													from media_relations 
+													where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
+													and media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													</cfquery>
 	<!---												<cfif len(mediaids.mid) gt 0>
 														<cfif mediaids.rel contains '%publication%'>
