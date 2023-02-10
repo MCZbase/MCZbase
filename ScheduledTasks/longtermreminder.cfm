@@ -66,7 +66,7 @@
 		<!--- loop once for each agent --->
 	<cfloop query="agent" startrow=1 endrow=150>
 	<cfquery name="chkLog" datasource="uam_god">
-		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2022-01-01', 'YYYY-MM-DD')
+		select * from loan_reminder_log where agent_id=#agent.agent_id# and reminder_type = 'L' and date_sent > to_date('2023-01-01', 'YYYY-MM-DD')
 	</cfquery>
 	<cfif chkLog.recordcount EQ 0>
 			<!--- local queries to organize and flatten loan data --->
@@ -292,7 +292,7 @@
 			</cfif>
 			<cfmail 	to="#toaddresses#"
 						cc="#ccaddresses#"
-						bcc="bhaley@oeb.harvard.edu"
+						bcc="bhaley@oeb.harvard.edu;heliumcell@gmail.com"
 						subject="#mailsubject#"
 						from="no_reply_loan_notification@#Application.fromEmail#"
 						replyto="#ValueList(inhouse.address,";")#"
