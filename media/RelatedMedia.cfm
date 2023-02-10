@@ -135,6 +135,17 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
+							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(media.media_id) as ct
+								from media_relations mr
+								left join media on mr.media_id = media.media_id
+								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+								and mr.media_relationship <> 'created by agent'
+								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+								and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							</cfquery>
+						<!---specimen records relationships and other possible associations to media on those records--->
+							<cfif relmct.ct gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif spec.recordcount gt 0>  
 								<div class="col-12 px-0 float-left">
