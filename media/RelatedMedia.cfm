@@ -235,11 +235,12 @@
 													
 						<cfif pubscollid.recordcount gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select m.media_id
-								from media_relations mr
+						        select distinct ci.collection_object_id as pk
+								from  cataloged_item ci
+								left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 								left join media m on mr.media_id = m.media_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-								where mr.media_relationship = '#spec.label#'
+								where ci.collection_object_id = '#spec.pk#'
 									
 							</cfquery>
 							<cfif relmct.recordcount gt 0> 
