@@ -290,7 +290,7 @@
 								</div>
 							</cfif>
 						</cfif>
-						<cfif pubscollid.recordcount gt 0>
+						<cfif collid.recordcount gt 0>
 						#pubs.pk#
 								<cfif pubs.pk gt 0>  
 									<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -301,7 +301,7 @@
 										and mr.media_relationship <> 'created by agent'
 										and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 									</cfquery>
-									<cfif pubs.recordcount gt 0>  
+									<cfif collid.recordcount gt 0>  
 								<!---specimen records relationships and other possible associations to media on those records--->
 										<div class="col-12 px-0 float-left">
 											<div class="search-box mt-3 w-100 mb-3">
