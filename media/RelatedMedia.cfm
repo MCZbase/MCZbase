@@ -261,7 +261,7 @@
 											<div class="col-12 p-1">
 												<cfloop query="relmct">
 													<cfif len(relmct.pk) gt 0>
-														<cfif spec.rel neq 'publication'>helloo
+														helloo
 															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -269,8 +269,7 @@
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmct.pk#" >
 															and mr.media_relationship <> 'created by agent'
 															</cfquery>
-														</cfif>
-														<!---thumbnails added below--->
+													<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm1">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
