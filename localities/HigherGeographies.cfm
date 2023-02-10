@@ -184,10 +184,10 @@ limitations under the License.
 								showtoolbar: false,
 								columns: [
 									{ text: 'ID', datafield: 'GEOG_AUTH_REC_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
-									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',true), cellsrenderer: specimensCellRenderer  },
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
+									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
 									{ text: 'Ocean Region', datafield: 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
 									{ text: 'Ocean Subregion', datafield: 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },
