@@ -236,8 +236,9 @@
 								from media_relations mr
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#pubscollid.pk#" >
 							</cfquery>
-								<cfif pubct.ct gt 0>  
 									Publications
+								<cfif pubct.ct gt 0>  
+								
 									<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id
 										from media_relations mr
