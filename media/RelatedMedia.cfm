@@ -155,7 +155,7 @@
 								</div>
 							</div>	
 						<cfif relatednums.recordcount gt 0>
-							<cfquery name = "mediaIDs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+							<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
 								select media_id as mid, media_relationship as rel from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
 							</cfquery>
 			<!---				<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -181,8 +181,8 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfloop query="mediaIDs">
-													<cfif len(mediaIDs.mid) gt 0>
-														<cfif mediaIDs.rel like '%publication'>
+													<cfif len(mediaids.mid) gt 0>
+														<cfif mediaids.rel eq '%publication%'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
                                                             from media_relations mr 
