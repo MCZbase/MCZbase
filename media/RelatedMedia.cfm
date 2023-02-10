@@ -140,7 +140,7 @@
 										</button>
 										<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 1;">
 											<div class="card card-body p-3">
-												<h3 class="h5 mb-1">Media Zoom #collid.collection_object_id#</h3>
+												<h3 class="h5 mb-1">Media Zoom </h3>
 												<p class="d-none d-md-block mb-0" style="font-size: .83rem;line-height:.90rem;">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related button on images below to switch images.</p><p class="d-block d-md-none mb-0" style="font-size: .83rem;line-height:.90rem;"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
 											</div>
 										</aside>
