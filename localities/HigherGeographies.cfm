@@ -82,14 +82,14 @@ limitations under the License.
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '" target="_blank">'+value+'</a></span>';
 					};
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						if (value==0) {
 							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">None</span>';
 						} else {
-							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?action=fixedSearch&execute=true&higher_geog==' + rowData['HIGHER_GEOG'] + '">'+value+'</a></span>';
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?action=fixedSearch&execute=true&higher_geog==' + rowData['HIGHER_GEOG'] + '" target="_blank">'+value+'</a></span>';
 						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
