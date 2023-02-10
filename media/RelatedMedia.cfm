@@ -176,15 +176,17 @@
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
 														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
+														and ct.description = 'publication'
 														</cfquery>
 													<cfelse>
 														<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
 														select distinct mr.media_id as mid, mr.media_relationship as rel, ct.label 
 														from media_relations mr
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubid.pk#">
+														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
 														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and mr.media_relationship <> 'created by agent'
+														
 														</cfquery>
 													</cfif>
 														<!---thumbnails added below--->
