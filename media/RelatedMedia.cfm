@@ -280,7 +280,7 @@
 							</cfif>
 						</cfif>
 						<cfif pubscollid.recordcount gt 0>
-							#pubscollid.pk#
+							#pubscollid.recordcount#
 								<cfif pubs.pk gt 0>  
 									<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id 
