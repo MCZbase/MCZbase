@@ -1666,7 +1666,7 @@ imgStyleClass=value
 				where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#publication.pk#">
 			</cfquery>		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
-				<table class="table table-responsive-sm border-none small90">
+				<table class="table table-responsive-sm mb-3 border-none small90">
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">Label</th>
