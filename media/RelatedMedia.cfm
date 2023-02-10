@@ -50,9 +50,8 @@
 		UNION
 		select ci.collection_object_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from cataloged_item
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = ci.collection_object_id 
 		left join media m on m.media_id = mr.media_id
-		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#">
 		and ct.description <> 'publication'
