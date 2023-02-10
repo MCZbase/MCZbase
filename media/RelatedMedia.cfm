@@ -294,7 +294,7 @@
 						#pubs.pk#
 								<cfif pubs.pk gt 0>  
 									<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select distinct media.media_id
+										select distinct media.media_id, 
 										from media_relations mr
 										left join media on mr.media_id = media.media_id
 										where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#" >
@@ -330,7 +330,7 @@
 																<cfloop query="relm_pub">
 																	<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																		<cfif len(media.media_id) gt 0>
-																			<cfif relm.media_id eq '#media.media_id#'> 
+																			<cfif relm_pub.media_id eq '#media.media_id#'> 
 																				<cfset activeimg = "highlight_media rounded px-1 pt-1">
 																			<cfelse>	
 																				<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
@@ -340,7 +340,7 @@
 																					<cfset mediablock= getMediaBlockHtml(media_id="#relm_pub.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																					<div class="#activeimg# image#i#" id="mediaBlock#relm_pub.media_id#" style="height:210px;">
 																						<div class="px-0">
-																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #relm_pub.label# <br>(media/#relm_pub.media_id#)
+																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #pubs.label# <br>(media/#relm_pub.media_id#)
 																							</span> 
 																							#mediablock#
 																						</div>
