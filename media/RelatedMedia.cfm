@@ -269,13 +269,12 @@
 												<cfloop query="relmct">
 													<cfif len(relmct.pk) gt 0>
 															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id, ct.label, get_media_desc
+															select distinct media.media_id, ct.label
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmct.pk#" >
 															and mr.media_relationship <> 'created by agent'
-															and ct.auto_table ='#spec.auto_table#'
 															</cfquery>
 													<!---thumbnails added below--->
 														<cfset i = 1>
