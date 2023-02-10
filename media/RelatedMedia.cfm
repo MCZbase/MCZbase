@@ -122,8 +122,12 @@
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
 				<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-					select related_primary_key as pk from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and media_relationship <> 'created by agent'
+					select mr.related_primary_key as pk 
+					from media_relations mr
+					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+					where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and mr.media_relationship <> 'created by agent'
+					and ct.description <> 'ledger'
 				</cfquery>
 				<div class="row">
 						<div class="col-12 my-3">
