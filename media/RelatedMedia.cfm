@@ -144,9 +144,7 @@
 								where (mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#"> OR mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.pk#">)
 								and mr.media_relationship <> 'created by agent'
 								and (ct.auto_table = <cfqueryparam  value="#spec.auto_table#"> OR ct.auto_table = <cfqueryparam  value="#collid.auto_table#">)
-								and m.media_id <> <cfqueryparam  value="#media_id#">
 							</cfquery>
-						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif relmct.ct gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
