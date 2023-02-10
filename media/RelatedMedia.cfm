@@ -232,7 +232,7 @@
 							</cfif>
 						<cfelse>
 							<cfquery name="pubct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(publication_id) as ct
+								select count(flat.collection_object_id) as ct
 								from flat
 								where flat.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#pubscollid.pk#" >
 							</cfquery>
