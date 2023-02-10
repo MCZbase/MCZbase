@@ -282,7 +282,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				 geog_auth_rec.highergeographyid_guid_type,
 				 geog_auth_rec.highergeographyid,
-				 count(flatTableName.collection_object_id) specimen_count
+				 count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				geog_auth_rec
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on geog_auth_rec.geog_auth_rec_id=flatTableName.geog_auth_rec_id
@@ -699,7 +699,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					 nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
 				</cfif>
 				 geog_auth_rec.highergeographyid_guid_type,
-				 geog_auth_rec.highergeographyid,
+				 geog_auth_rec.highergeographyid
 			ORDER BY
 				geog_auth_rec.higher_geog
 		</cfquery>
