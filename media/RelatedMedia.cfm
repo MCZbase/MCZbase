@@ -99,20 +99,15 @@
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
-			<cfloop query="media">
-				<cfquery name="media_rel_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select count(media_relationship)as ct 
-					from media_relations 
-					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				</cfquery>
-				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT media_relationship 
-					FROM media_relations
-					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relationship <> 'created by agent'
-					ORDER BY media_relationship
-				</cfquery>
-				<cfset mediarelcount = #media_rel_count.ct#>
+				<cfloop query="media">
+					<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT media_relationship 
+						FROM media_relations
+						WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+						and media_relationship <> 'created by agent'
+						ORDER BY media_relationship
+					</cfquery>
+					<cfif media_rel.recordcount gt 0>
 					<div class="row">
 						<div class="col-12 my-3">
 							<cfif len(media.media_id) gt 0>
@@ -217,6 +212,7 @@
 							</cfif>
 						</div>
 					</div>
+					</cfif>
 				</cfloop>
 			</div>
 		</div>
