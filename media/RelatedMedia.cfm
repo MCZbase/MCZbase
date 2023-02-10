@@ -124,7 +124,7 @@
 				<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
 					select related_primary_key as pk from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
-					<div class="row">
+				<div class="row">
 						<div class="col-12 my-3">
 							<h1 class="h3 px-4 mb-0">Media Related to:</h1>
 							<cfif len(media.media_id) gt 0>
@@ -245,7 +245,7 @@
 						</cfif>
 						</div>
 					</div>
-				</cfloop>
+			</cfloop>
 			</div>
 		</div>
 	</main>
