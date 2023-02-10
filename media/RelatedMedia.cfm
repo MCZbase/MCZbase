@@ -44,6 +44,14 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
+		UNION
+		select distinct ci.collection_object_id as pk
+		from  cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'cataloged_item'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
