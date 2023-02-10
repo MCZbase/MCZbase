@@ -242,7 +242,7 @@
 								where mr.media_relationship <> 'created by agent'
 								and mr.media_id = 117877					
 							</cfquery>
-							<cfif relmct.recordcount gt 0> 
+							<cfif relmct.recordcount eq 0> 
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -256,7 +256,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfloop query="spec">
-													<cfif len(spec.pk) gt 0>
+													<cfif len(spec.pk) eq 0>
 														<cfif spec.descr eq 'publication'>helloo
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
