@@ -750,6 +750,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="return_wkt" type="string" required="no">
 	<cfargument name="locality_id" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
+	<!--- 
    (	"LOCALITY_ID" NUMBER NOT NULL ENABLE, 
 	"GEOG_AUTH_REC_ID" NUMBER NOT NULL ENABLE, 
 	"MAXIMUM_ELEVATION" NUMBER, 
@@ -772,6 +773,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	"GEOREF_BY" VARCHAR2(50 CHAR), 
 	"SOVEREIGN_NATION" VARCHAR2(255) DEFAULT '[unknown]' NOT NULL ENABLE NOVALIDATE, 
 	"CURATED_FG" NUMBER(1,0) DEFAULT 0, 
+	--->
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
 
@@ -1209,26 +1211,26 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("spec_locality") AND len(spec_locality) gt 0>
 					<cfif ucase(spec_locality) EQ "NULL">
-						and geog_auth_rec.spec_locality IS NULL
+						and locality.spec_locality IS NULL
 					<cfelseif ucase(spec_locality) EQ "NOT NULL">
-						and geog_auth_rec.spec_locality IS NOT NULL
+						and locality.spec_locality IS NOT NULL
 					<cfelseif left(spec_locality,1) is "=">
-						AND upper(geog_auth_rec.spec_locality) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">
+						AND upper(locality.spec_locality) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">
 					<cfelseif left(spec_locality,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.spec_locality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(spec_locality,len(spec_locality)-1)#">) >= 0.90
+						AND utl_match.jaro_winkler(locality.spec_locality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(spec_locality,len(spec_locality)-1)#">) >= 0.90
 					<cfelseif left(spec_locality,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.spec_locality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(spec_locality,len(spec_locality)-1)#">) < 0.90
+						AND utl_match.jaro_winkler(locality.spec_locality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(spec_locality,len(spec_locality)-1)#">) < 0.90
 					<cfelseif left(spec_locality,1) is "$">
-						AND soundex(geog_auth_rec.spec_locality) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">)
+						AND soundex(locality.spec_locality) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">)
 					<cfelseif left(spec_locality,2) is "!$">
-						AND soundex(geog_auth_rec.spec_locality) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-2))#">)
+						AND soundex(locality.spec_locality) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-2))#">)
 					<cfelseif left(spec_locality,1) is "!">
-						AND upper(geog_auth_rec.spec_locality) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">
+						AND upper(locality.spec_locality) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">
 					<cfelse>
 						<cfif find(',',spec_locality) GT 0>
-							AND upper(geog_auth_rec.spec_locality) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(spec_locality)#" list="yes"> )
+							AND upper(locality.spec_locality) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(spec_locality)#" list="yes"> )
 						<cfelse>
-							AND upper(geog_auth_rec.spec_locality) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spec_locality)#%">
+							AND upper(locality.spec_locality) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spec_locality)#%">
 						</cfif>
 					</cfif>
 				</cfif>
