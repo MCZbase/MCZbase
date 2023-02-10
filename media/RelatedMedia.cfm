@@ -268,7 +268,7 @@
 															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmct.pk#" >
 															and mr.media_relationship <> 'created by agent'
-															and ct.auto_table =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.auto_table#" > 
+															and ct.auto_table ='#spec.auto_table#'
 															</cfquery>
 													<!---thumbnails added below--->
 														<cfset i = 1>
