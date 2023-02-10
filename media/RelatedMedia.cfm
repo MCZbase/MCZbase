@@ -155,9 +155,7 @@
 								</div>
 							</div>	
 						<cfif relatednums.recordcount gt 0>
-							<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-								select media_id as mid, media_relationship as rel from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
-							</cfquery>
+							
 			<!---				<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(m.media_id) as ct
 								from media_relations mr
@@ -180,8 +178,11 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfloop query="mediaids">
-													<cfif len(mediaids.mid) gt 0>
+												<cfloop query="relatednums">
+													<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+														select media_id as mid, media_relationship as rel from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
+													</cfquery>
+	<!---												<cfif len(mediaids.mid) gt 0>
 														<cfif mediaids.rel contains '%publication%'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
@@ -203,23 +204,23 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaids.rel#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
-														</cfif>
+														</cfif>--->
 														<!---thumbnails added below--->
 														<cfset i = 1>
-														<cfloop query="relm">
+														<cfloop query="mediaids">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																<cfif len(media.media_id) gt 0>
-																	<cfif relm.media_id eq '#media.media_id#'> 
+																	<cfif mediaids.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
 																	<cfelse>	
 																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
 																	</cfif>
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
-																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:210px;">
+																			<cfset mediablock= getMediaBlockHtml(media_id="#mediaids.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<div class="#activeimg# image#i#" id="mediaBlock#mediaids.media_id#" style="height:210px;">
 																				<div class="px-0">
-																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #spec.label# <br>(media/#relm.media_id#)
+																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> <!---#spec.label#---> <br>(media/#mediaids.media_id#)
 																					</span> 
 																					#mediablock#
 																				</div>
