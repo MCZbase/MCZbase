@@ -26,64 +26,109 @@
 		WHERE 
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
+	</cfquery>
+	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct ci.collection_object_id
+		from  cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'cataloged_item'
+	</cfquery>
+
+	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
+		from publication p
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join media m on m.media_id = mr.media_id
+		left join citation c on c.publication_id = p.publication_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
+		and ct.description = 'publication'
+		and ct.description <> 'ledger'
+		and m.auto_host <> 'nrs.harvard.edu'
+		UNION
+		select ci.collection_object_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+		from cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'cataloged_item'
+		UNION
+		select ce.collecting_event_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+		from media_relations mr
+		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'collecting_event'
+		UNION
+		select loan.transaction_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+		from loan
+		left join trans on trans.transaction_id = loan.transaction_id
+		left join media_relations mr on loan.transaction_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'loan'
+		UNION
+		select accn.transaction_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+		from accn
+		left join trans on trans.transaction_id = accn.transaction_id
+		left join media_relations mr on accn.transaction_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'accn'
+		UNION
+		select locality.locality_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+		from locality
+		left join media_relations mr on locality.locality_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'locality' 
+		UNION
+		select agent.agent_id as pk, an.agent_name as wlabel, ct.label as label, ct.auto_table
+		from agent_name an
+		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
+		left join media_relations mr on agent.agent_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and an.agent_name_type = 'preferred'
+		and mr.media_relationship <> 'created by agent'
+		and ct.auto_table = 'agent' 
 	</cfquery>	
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
-				<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select distinct ci.collection_object_id as pk
-					from  cataloged_item ci
-					left join media_relations mr on ci.collection_object_id = mr.related_primary_key
-					left join media m on mr.media_id = m.media_id
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					and ct.auto_table = 'cataloged_item'
+				<cfquery name="media_rel_count" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(media_relationship)as ct 
+					from media_relations 
+					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				</cfquery>
-				<cfquery name = "rel" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-					select mr.media_relationship
-					from media_relations mr 
-					left join media m on m.media_id = mr.media_id
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT media_relationship 
+					FROM media_relations
+					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+					and media_relationship <> 'created by agent'
+					ORDER BY media_relationship
 				</cfquery>
-				<cfif len(rel.media_relationship) gt 0>
-					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-						select p.publication_id as pk, mr.media_relationship as rel
-						from publication p
-						left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-						left join media m on m.media_id = mr.media_id
-						left join citation c on c.publication_id = p.publication_id
-						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-						where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.pk#">
-						and ct.description = 'publication'
-						and ct.description <> 'ledger'
-						and m.auto_host <> 'nrs.harvard.edu'
-	union
-						select mr.related_primary_key as pk, mr.media_relationship as rel
-						from media_relations mr
-						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-						where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-						and mr.media_relationship <> 'created by agent'
-					</cfquery>
-				</cfif>
-				<div class="row">
+				<cfset mediarelcount = #media_rel_count.ct#>
+					<div class="row">
 						<div class="col-12 my-3">
-							<h1 class="h3 px-4 mb-0">Media Related to:</h1>
 							<cfif len(media.media_id) gt 0>
-							<div class="col-12 col-md-5 col-xl-2 pt-0 pb-2 float-left">
-								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-3 mb-0 pb-1">
+							<div class="col-12 col-md-5 col-xl-2 pt-1 float-left">
+								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-4 mb-0 pb-1">
 									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionLong")>
 									<div class="mx-auto text-center h4 mb-0 pt-1" id="mediaBlock#media.media_id#"> 
 										#mediablock# 
 									</div>
 									<div class="col-11 float-right mr-4"> 
-										<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 500;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+										<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 3001;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
 											Zoom
 										</button>
-										<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 1;">
+										<aside class="collapse collapseStyle mt-0 border-warning border-top border-right border-bottom border-left" id="collapseFixed">
 											<div class="card card-body p-3">
-												<h3 class="h5 mb-1">Media Zoom </h3>
+												<h3 class="h5 mb-1">Media Zoom</h3>
 												<p class="d-none d-md-block mb-0" style="font-size: .83rem;line-height:.90rem;">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related button on images below to switch images.</p><p class="d-block d-md-none mb-0" style="font-size: .83rem;line-height:.90rem;"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
 											</div>
 										</aside>
@@ -91,16 +136,25 @@
 								</div>
 							</div>
 							</cfif>
-							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-0 pt-3 pb-0">
+							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-2 pt-3 pb-0">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
 								<div id="mediaMetadataBlock#media_id#">
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif relatednums.recordcount gt 0>  
-									<!---specimen records relationships and other possible associations to media on those records--->
+							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(media.media_id) as ct
+								from media_relations mr
+								left join media on mr.media_id = media.media_id
+								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+								and mr.media_relationship <> 'created by agent'
+								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
+								and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							</cfquery>
+						<!---specimen records relationships and other possible associations to media on those records--->
+							<cfif relmct.ct gt 0>  
 								<div class="col-12 px-0 float-left">
-									<div class="search-box mt-3 w-100 mb-3">
+									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
@@ -110,55 +164,46 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfloop query="relatednums">
-													<cfif relatednums.rel contains 'publication'>
-														<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-														select distinct mr.media_id as mid, mr.media_relationship as rel, ct.label 
-														from media_relations mr
-														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
-														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														and mr.media_relationship <> 'created by agent'
-														and ct.description = 'publication'
+												
+												<cfloop query="spec">
+													<cfif len(spec.pk) gt 0>
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id
+															from media_relations mr
+															left join media on mr.media_id = media.media_id
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+															and mr.media_relationship <> 'created by agent'
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
+															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-													<cfelse>
-														<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-														select distinct mr.media_id as mid, mr.media_relationship as rel, ct.label 
-														from media_relations mr
-														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
-														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														and mr.media_relationship <> 'created by agent'
-														</cfquery>
-													</cfif>
+														
 														<!---thumbnails added below--->
-													<cfset i = 1>
-													<cfloop query="mediaids">
-														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-															<cfif len(media.media_id) gt 0>
-																<cfif mediaids.mid eq '#media.media_id#'> 
-																	<cfset activeimg = "highlight_media rounded px-1 pt-1">
-																<cfelse>	
-																	<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																</cfif>
-																<ul class="list-group px-0">
-																	<li class="list-group-item px-0 mx-1">
-																		<cfset mediablock= getMediaBlockHtml(media_id="#mediaids.mid#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																		<div class="#activeimg# image#i#" id="mediaBlock#mediaids.mid#" style="height:210px;">
-																			<div class="px-0">
-																				<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> 
-																				#mediaids.label#	
-																				<br>(media/#mediaids.mid#)
-																				</span> 
-																				#mediablock#
+														<cfset i = 1>
+														<cfloop query="relm">
+															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
+																<cfif len(media.media_id) gt 0>
+																	<cfif relm.media_id eq '#media.media_id#'> 
+																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
+																	<cfelse>	
+																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
+																	</cfif>
+																	<ul class="list-group px-0">
+																		<li class="list-group-item px-0 mx-1">
+																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:210px;">
+																				<div class="px-0">
+																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #spec.label# <br>(media/#relm.media_id#)
+																					</span> 
+																					#mediablock#
+																				</div>
 																			</div>
-																		</div>
-																	</li>
-																</ul>
-															</cfif>
-														</div>
-														<cfset i=i+1>
-													</cfloop>
+																		</li>
+																	</ul>
+																</cfif>
+															</div>
+															<cfset i=i+1>
+														</cfloop>
+													</cfif>
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
@@ -167,12 +212,12 @@
 								</div>
 							<cfelse>
 								<div class="col-auto px-2 float-left">
-									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
+									<h3 class="h4 mt-3 w-100 px-4 font-italic">Not related to other media records </h3>
 								</div>
 							</cfif>
 						</div>
 					</div>
-			</cfloop>
+				</cfloop>
 			</div>
 		</div>
 	</main>
