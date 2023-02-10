@@ -261,7 +261,7 @@
 											<div class="col-12 p-1">
 												<cfloop query="relmct">
 													<cfif len(relmct.pk) gt 0>
-														<cfif spec.rel eq 'publication'>helloo
+														<cfif spec.rel neq 'publication'>helloo
 															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
