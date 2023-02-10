@@ -142,7 +142,7 @@
 								left join media on mr.media_id = media.media_id
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 								and mr.media_relationship <> 'created by agent'
-								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
+								and (mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#"> or mr.media_relationship = 'publication')>
 								and media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
