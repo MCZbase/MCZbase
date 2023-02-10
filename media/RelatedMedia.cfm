@@ -155,7 +155,6 @@
 								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
-						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif relmct.ct gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
@@ -241,6 +240,70 @@
 								and mr.media_relationship <> 'created by agent'
 								and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							</cfquery>
+							<cfif pubscollid.ct gt 0>  
+						<!---specimen records relationships and other possible associations to media on those records--->
+								<div class="col-12 px-0 float-left">
+									<div class="search-box mt-3 w-100 mb-3">
+										<div class="search-box-header px-2 mt-0 mediaTableHeader">
+											<ul class="list-group list-group-horizontal text-white">
+												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
+													Related Media Records  
+												</li>
+											</ul>
+										</div>
+										<div class="row mx-0">
+											<div class="col-12 p-1">
+												<cfloop query="spec">
+													<cfif len(spec.pk) gt 0>
+														<cfif spec.auto_table eq 'publication'>
+															<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct m.media_id
+                                                            from media_relations mr 
+															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
+															left join media m on m.media_id = mr.media_id
+															left join citation c on c.publication_id = p.publication_id
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#">
+															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+															</cfquery>
+														</cfif>
+														<!---thumbnails added below--->
+														<cfset i = 1>
+														<cfloop query="relm_pub">
+															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
+																<cfif len(media.media_id) gt 0>
+																	<cfif relm.media_id eq '#media.media_id#'> 
+																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
+																	<cfelse>	
+																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
+																	</cfif>
+																	<ul class="list-group px-0">
+																		<li class="list-group-item px-0 mx-1">
+																			<cfset mediablock= getMediaBlockHtml(media_id="#relm_pub.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<div class="#activeimg# image#i#" id="mediaBlock#relm_pub.media_id#" style="height:210px;">
+																				<div class="px-0">
+																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #spec.label# <br>(media/#relm_pub.media_id#)
+																					</span> 
+																					#mediablock#
+																				</div>
+																			</div>
+																		</li>
+																	</ul>
+																</cfif>
+															</div>
+															<cfset i=i+1>
+														</cfloop>
+													</cfif>
+													<div id="targetDiv"></div>
+												</cfloop>
+											</div>
+										</div>
+									</div>
+								</div>
+							<cfelse>
+								<div class="col-auto px-2 float-left">
+									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
+								</div>
+							</cfif>
 						</cfif>
 						</div>
 					</div>
