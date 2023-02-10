@@ -98,8 +98,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("ocean_region")><cfset ocean_region=""></cfif>
 						<label for="ocean_region" class="data-entry-label" >Ocean Region</label>
-						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input">
+						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#ocean_region#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('ocean_region','ocean_region');
@@ -107,8 +108,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 						<label for="ocean_subregion" class="data-entry-label">Ocean SubRegion</label>
-						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input">
+						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#ocean_subregion#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
@@ -116,8 +118,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("sea")><cfset sea=""></cfif>
 						<label for="sea" class="data-entry-label">Sea</label>
-						<input type="text" name="sea" id="sea" class="data-entry-input">
+						<input type="text" name="sea" id="sea" class="data-entry-input" value="#sea#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('sea','sea');
@@ -127,8 +130,9 @@
 				</div>
 				<div class="form-row mb-0">
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("island")><cfset island=""></cfif>
 						<label for="island" class="data-entry-label">Island</label>
-						<input type="text" name="island" id="island" class="data-entry-input">
+						<input type="text" name="island" id="island" class="data-entry-input" value="#island#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('island','island');
@@ -136,8 +140,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("island_group")><cfset island_group=""></cfif>
 						<label for="island_group" class="data-entry-label">Island Group</label>
-						<input type="text" name="island_group" id="island_group" class="data-entry-input">
+						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#island_group#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('island_group','island_group');
@@ -145,8 +150,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("feature")><cfset feature=""></cfif>
 						<label for="feature" class="data-entry-label">Land Feature</label>
-						<input type="text" name="feature" id="feature" class="data-entry-input">
+						<input type="text" name="feature" id="feature" class="data-entry-input" value="#feature#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('feature','feature');
@@ -154,8 +160,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("water_feature")><cfset water_feature=""></cfif>
 						<label for="water_feature" class="data-entry-label">Water Feature</label>
-						<input type="text" name="water_feature" id="water_feature" class="data-entry-input">
+						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#water_feature#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('water_feature','water_feature');
@@ -165,8 +172,9 @@
 				</div>
 				<div class="form-row mb-3">
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("country")><cfset country=""></cfif>
 						<label for="country" class="data-entry-label">Country</label>
-						<input type="text" name="country" id="country" class="data-entry-input">
+						<input type="text" name="country" id="country" class="data-entry-input" value="#country#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('country','country');
@@ -174,8 +182,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("state_prov")><cfset state_prov=""></cfif>
 						<label for="state_prov" class="data-entry-label">State or Province</label>
-						<input type="text" name="state_prov" id="state_prov" class="data-entry-input">
+						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#state_prov#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('state_prov','state_prov');
@@ -183,8 +192,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("county")><cfset county=""></cfif>
 						<label for="county" class="data-entry-label">County</label>
-						<input type="text" name="county" id="county" class="data-entry-input">
+						<input type="text" name="county" id="county" class="data-entry-input" value="#county#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('county','county');
@@ -192,8 +202,9 @@
 						</script>
 					</div>
 					<div class="col-12 col-md-3 my-1">
+						<cfif not isDefined("quad")><cfset quad=""></cfif>
 						<label for="quad" class="data-entry-label">Quad</label>
-						<input type="text" name="quad" id="quad" class="data-entry-input">
+						<input type="text" name="quad" id="quad" class="data-entry-input" value="#quad#">
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('quad','quad');
@@ -223,12 +234,14 @@
 				</cfif> 
 				<div class="form-row mx-0 mb-0">
 					<div class="col-12 col-md-8 px-3 mt-md-3 mb-md-3 mt-2 mb-3">
+						<cfif not isDefined("spec_locality")><cfset spec_locality=""></cfif>
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
-						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input">
+						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#spec_locality#">
 					</div>
 					<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
+						<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
-						<input type="text" name="locality_id" id="locality_id" class="data-entry-input">
+						<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#locality_id#">
 					</div>
 					<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 						<label for="locDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Locality</label>
@@ -266,8 +279,9 @@
 					</div>
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-8">
+							<cfif not isDefined("locality_remarks")><cfset locality_remarks=""></cfif>
 							<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
-							<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input">
+							<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#locality_remarks#">
 						</div>
 						<div class="col-12 col-md-4">
 							<label for="sovereign_nation" class="data-entry-label">Sovereign Nation</label>
