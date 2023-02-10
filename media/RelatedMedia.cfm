@@ -108,7 +108,7 @@
 				</cfquery>
 					<div class="row">
 						<div class="col-12 my-3">
-							<h1 class="h3">Media Related to:</h1>
+							<h1 class="h3 px-4 mb-0">Media Related to:</h1>
 							<cfif len(media.media_id) gt 0>
 							<div class="col-12 col-md-5 col-xl-2 pt-1 pb-2 float-left">
 								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-4 mb-0 pb-1">
