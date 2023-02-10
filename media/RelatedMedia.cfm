@@ -37,7 +37,7 @@
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
 	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct ci.collection_object_id as pk
+		select distinct ci.publication_id as pk
 		from  cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join media m on mr.media_id = m.media_id
@@ -300,7 +300,7 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfloop query="relmct">
+												<cfloop query="otherMedia">
 													<cfif len(relmct.pk) gt 0>
 															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, ct.label
