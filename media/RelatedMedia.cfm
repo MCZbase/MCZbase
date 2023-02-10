@@ -100,9 +100,8 @@
 		from  cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join media m on mr.media_id = m.media_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.collection_object_id#">
-		and ct.auto_table = 'publication'
+		and ct.media_relationship like '%publication'
 	</cfquery>
 	<cfquery name="pubs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.auto_table as wlabel, ct.label as label, ct.auto_table
