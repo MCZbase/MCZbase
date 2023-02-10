@@ -59,9 +59,7 @@
 						and ct.description = 'publication'
 						and ct.description <> 'ledger'
 						and m.auto_host <> 'nrs.harvard.edu'
-					</cfquery>
-				<cfelse>
-					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+	union
 						select mr.related_primary_key as pk, mr.media_relationship as rel
 						from media_relations mr
 						left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
