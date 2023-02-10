@@ -233,15 +233,17 @@
 							</cfif>
 						</cfif>
 													
-						<cfif pubscollid.recordcount gt 0>
+						<cfif len(pubscollid.pk) gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						        select distinct ci.collection_object_id as pk
-								from  cataloged_item ci
-								left join media_relations mr on ci.collection_object_id = mr.related_primary_key
-								left join media m on mr.media_id = m.media_id
+						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
+								from publication p
+								left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+								left join media m on m.media_id = mr.media_id
+								left join citation c on c.publication_id = p.publication_id
+								left join cataloged_item ci on c.COLLECTION_OBJECT_ID = ci.collection_object_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-								where ci.collection_object_id = '#spec.pk#'
-									
+								where p.publication_id =   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#">
+								and ct.description = 'publication'
 							</cfquery>
 							<cfif relmct.recordcount gt 0> 
 								Hello
