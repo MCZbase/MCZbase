@@ -125,7 +125,7 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
-				<cfloop query="mediaIDs.mid">		 #mediaIDs.mid#</cfloop>
+				<cfloop query="mediaIDs">		 #mediaIDs.mid#</cfloop>
 				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT media_relationship 
 					FROM media_relations
