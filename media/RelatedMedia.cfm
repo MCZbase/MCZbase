@@ -31,10 +31,10 @@
 		select related_primary_key as pk from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
 	<cfquery name = "mediaIDs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-		select media_id as mid, media_relationship from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.media_id#">
+		select media_id as mid, media_relationship from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.mid#">
 	</cfquery>
 		
-		#relatednums.pk# #mediaIDs.mid#
+
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct ci.collection_object_id
 		from  cataloged_item ci
@@ -125,6 +125,7 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
+				<cfloop query="mediaIDs.mid">		 #mediaIDs.mid#</cfloop>
 				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT media_relationship 
 					FROM media_relations
