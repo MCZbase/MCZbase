@@ -37,14 +37,6 @@
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
 	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct ci.publication_id as pk
-		from  cataloged_item ci
-		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
-		left join media m on mr.media_id = m.media_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = 'publication'
-		UNION
 		select distinct ci.collection_object_id as pk
 		from  cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
@@ -52,6 +44,14 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
+		UNION
+		select distinct ci.collection_object_id as pk
+		from  cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'publication'
 		UNION
 		select ce.collecting_event_id as pk
 		from media_relations mr
@@ -301,31 +301,31 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfloop query="otherMedia">
-													<cfif len(relmct.pk) gt 0>
-															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												
+								<!---							<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, ct.label
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#otherMedia.pk#" >
 															and mr.media_relationship <> 'created by agent'
-															</cfquery>
+															</cfquery>--->
 													<!---thumbnails added below--->
-														<cfset i = 1>
-														<cfloop query="relm1">
+														
+													
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																<cfif len(media.media_id) gt 0>
-																	<cfif relm1.media_id eq '#media.media_id#'> 
+																	<cfif otherMedia.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
 																	<cfelse>	
 																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
 																	</cfif>
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
-																			<cfset mediablock= getMediaBlockHtml(media_id="#relm1.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="#activeimg# image#i#" id="mediaBlock#relm1.media_id#" style="height:210px;">
+																			<cfset mediablock= getMediaBlockHtml(media_id="#otherMedia.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<div class="#activeimg# image#i#" id="mediaBlock#otherMedia.media_id#" style="height:210px;">
 																				<div class="px-0">
-																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #relm1.label# <br>(media/#relm1.media_id#)
+																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #otherMedia.label# <br>(media/#otherMedia.media_id#)
 																					</span> 
 																					#mediablock#
 																				</div>
@@ -334,9 +334,8 @@
 																	</ul>
 																</cfif>
 															</div>
-															<cfset i=i+1>
-														</cfloop>
-													</cfif>
+														
+												
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
