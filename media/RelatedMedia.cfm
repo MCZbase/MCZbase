@@ -180,7 +180,7 @@
 											<div class="col-12 p-1">
 												<cfloop query="relatednums">
 													<cfquery name = "mediaids" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-													select mr.media_id as mid, mr.media_relationship as rel, ct.label 
+													select distinct mr.media_id as mid, mr.media_relationship as rel, ct.label 
 													from media_relations mr
 													left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 													where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
