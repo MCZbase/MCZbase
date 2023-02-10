@@ -147,7 +147,7 @@
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
 							<cfif relmct.ct gt 0>  
-						<!---specimen records relationships and other possible associations to media on those records--->
+									<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -221,8 +221,9 @@
 									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
 								</div>
 							</cfif>
+						<cfelse>
+						 	Related to Publications
 						</cfif>
-				
 						</div>
 					</div>
 				</cfloop>
