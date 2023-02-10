@@ -297,9 +297,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						and geog_auth_rec.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 				</cfif>
 				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
-					<cfif upper(continent_ocean) EQ "NULL">
+					<cfif ucase(continent_ocean) EQ "NULL">
 						and geog_auth_rec.continent_ocean IS NULL
-					<cfelseif upper(continent_ocean) EQ "NOT NULL">
+					<cfelseif ucase(continent_ocean) EQ "NOT NULL">
 						and geog_auth_rec.continent_ocean IS NOT NULL
 					<cfelseif left(continent_ocean,1) is "=">
 						AND upper(geog_auth_rec.continent_ocean) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
@@ -318,9 +318,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("country") AND len(country) gt 0>
-					<cfif upper(country) EQ "NULL">
+					<cfif ucase(country) EQ "NULL">
 						and geog_auth_rec.country IS NULL
-					<cfelseif upper(country) EQ "NOT NULL">
+					<cfelseif ucase(country) EQ "NOT NULL">
 						and geog_auth_rec.country IS NOT NULL
 					<cfelseif left(country,1) is "=">
 						AND upper(geog_auth_rec.country) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
@@ -339,9 +339,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("state_prov") AND len(state_prov) gt 0>
-					<cfif upper(state_prov) EQ "NULL">
+					<cfif ucase(state_prov) EQ "NULL">
 						and geog_auth_rec.state_prov IS NULL
-					<cfelseif upper(state_prov) EQ "NOT NULL">
+					<cfelseif ucase(state_prov) EQ "NOT NULL">
 						and geog_auth_rec.state_prov IS NOT NULL
 					<cfelseif left(state_prov,1) is "=">
 						AND upper(geog_auth_rec.state_prov) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-1))#">
@@ -360,9 +360,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("county") AND len(county) gt 0>
-					<cfif upper(county) EQ "NULL">
+					<cfif ucase(county) EQ "NULL">
 						and geog_auth_rec.county IS NULL
-					<cfelseif upper(county) EQ "NOT NULL">
+					<cfelseif ucase(county) EQ "NOT NULL">
 						and geog_auth_rec.county IS NOT NULL
 					<cfelseif left(county,1) is "=">
 						AND upper(geog_auth_rec.county) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-1))#">
@@ -381,9 +381,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("quad") AND len(quad) gt 0>
-					<cfif upper(quad) EQ "NULL">
+					<cfif ucase(quad) EQ "NULL">
 						and geog_auth_rec.quad IS NULL
-					<cfelseif upper(quad) EQ "NOT NULL">
+					<cfelseif ucase(quad) EQ "NOT NULL">
 						and geog_auth_rec.quad IS NOT NULL
 					<cfelseif left(quad,1) is "=">
 						AND upper(geog_auth_rec.quad) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-1))#">
@@ -402,9 +402,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("feature") AND len(feature) gt 0>
-					<cfif upper(feature) EQ "NULL">
+					<cfif ucase(feature) EQ "NULL">
 						and geog_auth_rec.feature IS NULL
-					<cfelseif upper(feature) EQ "NOT NULL">
+					<cfelseif ucase(feature) EQ "NOT NULL">
 						and geog_auth_rec.feature IS NOT NULL
 					<cfelseif left(feature,1) is "=">
 						AND upper(geog_auth_rec.feature) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-1))#">
@@ -423,9 +423,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("island") AND len(island) gt 0>
-					<cfif upper(island) EQ "NULL">
+					<cfif ucase(island) EQ "NULL">
 						and geog_auth_rec.island IS NULL
-					<cfelseif upper(island) EQ "NOT NULL">
+					<cfelseif ucase(island) EQ "NOT NULL">
 						and geog_auth_rec.island IS NOT NULL
 					<cfelseif left(island,1) is "=">
 						AND upper(geog_auth_rec.island) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-1))#">
@@ -444,9 +444,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("island_group") AND len(island_group) gt 0>
-					<cfif upper(island_group) EQ "NULL">
+					<cfif ucase(island_group) EQ "NULL">
 						and geog_auth_rec.island_group IS NULL
-					<cfelseif upper(island_group) EQ "NOT NULL">
+					<cfelseif ucase(island_group) EQ "NOT NULL">
 						and geog_auth_rec.island_group IS NOT NULL
 					<cfelseif left(island_group,1) is "=">
 						AND upper(geog_auth_rec.island_group) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-1))#">
@@ -465,9 +465,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_region") AND len(ocean_region) gt 0>
-					<cfif upper(ocean_region) EQ "NULL">
+					<cfif ucase(ocean_region) EQ "NULL">
 						and geog_auth_rec.ocean_region IS NULL
-					<cfelseif upper(ocean_region) EQ "NOT NULL">
+					<cfelseif ucase(ocean_region) EQ "NOT NULL">
 						and geog_auth_rec.ocean_region IS NOT NULL
 					<cfelseif left(ocean_region,1) is "=">
 						AND upper(geog_auth_rec.ocean_region) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-1))#">
@@ -486,9 +486,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0>
-					<cfif upper(ocean_subregion) EQ "NULL">
+					<cfif ucase(ocean_subregion) EQ "NULL">
 						and geog_auth_rec.ocean_subregion IS NULL
-					<cfelseif upper(ocean_subregion) EQ "NOT NULL">
+					<cfelseif ucase(ocean_subregion) EQ "NOT NULL">
 						and geog_auth_rec.ocean_subregion IS NOT NULL
 					<cfelseif left(ocean_subregion,1) is "=">
 						AND upper(geog_auth_rec.ocean_subregion) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-1))#">
@@ -507,9 +507,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("sea") AND len(sea) gt 0>
-					<cfif upper(sea) EQ "NULL">
+					<cfif ucase(sea) EQ "NULL">
 						and geog_auth_rec.sea IS NULL
-					<cfelseif upper(sea) EQ "NOT NULL">
+					<cfelseif ucase(sea) EQ "NOT NULL">
 						and geog_auth_rec.sea IS NOT NULL
 					<cfelseif left(sea,1) is "=">
 						AND upper(geog_auth_rec.sea) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-1))#">
@@ -528,9 +528,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("water_feature") AND len(water_feature) gt 0>
-					<cfif upper(water_feature) EQ "NULL">
+					<cfif ucase(water_feature) EQ "NULL">
 						and geog_auth_rec.water_feature IS NULL
-					<cfelseif upper(water_feature) EQ "NOT NULL">
+					<cfelseif ucase(water_feature) EQ "NOT NULL">
 						and geog_auth_rec.water_feature IS NOT NULL
 					<cfelseif left(water_feature,1) is "=">
 						AND upper(geog_auth_rec.water_feature) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-1))#">
@@ -566,9 +566,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0>
-					<cfif upper(highergeographyid) EQ "NULL">
+					<cfif ucase(highergeographyid) EQ "NULL">
 						and geog_auth_rec.highergeographyid IS NULL
-					<cfelseif upper(highergeographyid) EQ "NOT NULL">
+					<cfelseif ucase(highergeographyid) EQ "NOT NULL">
 						and geog_auth_rec.highergeographyid IS NOT NULL
 					<cfelseif left(highergeographyid,1) is "=">
 						AND upper(geog_auth_rec.highergeographyid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-1))#">
@@ -587,9 +587,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0>
-					<cfif upper(highergeographyid_guid_type) EQ "NULL">
+					<cfif ucase(highergeographyid_guid_type) EQ "NULL">
 						and geog_auth_rec.highergeographyid_guid_type IS NULL
-					<cfelseif upper(highergeographyid_guid_type) EQ "NOT NULL">
+					<cfelseif ucase(highergeographyid_guid_type) EQ "NOT NULL">
 						and geog_auth_rec.highergeographyid_guid_type IS NOT NULL
 					<cfelseif left(highergeographyid_guid_type,1) is "=">
 						AND upper(geog_auth_rec.highergeographyid_guid_type) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1))#">
@@ -608,9 +608,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
-					<cfif upper(continent_ocean) EQ "NULL">
+					<cfif ucase(continent_ocean) EQ "NULL">
 						and geog_auth_rec.continent_ocean IS NULL
-					<cfelseif upper(continent_ocean) EQ "NOT NULL">
+					<cfelseif ucase(continent_ocean) EQ "NOT NULL">
 						and geog_auth_rec.continent_ocean IS NOT NULL
 					<cfelseif left(continent_ocean,1) is "=">
 						AND upper(geog_auth_rec.continent_ocean) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
