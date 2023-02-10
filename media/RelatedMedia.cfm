@@ -27,7 +27,33 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
+	<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+		select related_primary_key as pk from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+	</cfquery>
+	<cfquery name = "mediaIDs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+		select media_id as mid, media_relationship from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.media_id#">
+	</cfquery>
+		
+		#relatednums.pk# #mediaIDs.mid#
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct ci.collection_object_id
+		from  cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'cataloged_item'
+	</cfquery>
+	<cfquery name = "pubid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct mr.related_primary_key
+		from  cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'cataloged_item'
+	</cfquery>
+	<cfquery name = "relationid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct ci.collection_object_id
 		from  cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
@@ -224,7 +250,11 @@
 						<cfelse>
 							<cfif spec.recordcount eq 0>
 						 	Related to Publications
-							<cfelse>
+							
+								
+								
+								
+								<cfelse>
 								<div class="col-auto px-2 float-left">
 									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
 								</div>
