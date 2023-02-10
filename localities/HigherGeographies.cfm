@@ -82,7 +82,15 @@ limitations under the License.
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Locality.cfm?Action=editGeog&geog_auth_rec_id=' + rowData['GEOG_AUTH_REC_ID'] + '" target="_blank">'+value+'</a></span>';
+					};
+					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						if (value==0) {
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">None</span>';
+						} else {
+							return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/Specimens.cfm?action=fixedSearch&execute=true&higher_geog==' + rowData['HIGHER_GEOG'] + '" target="_blank">'+value+'</a></span>';
+						}
 					};
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 						var editCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -126,7 +134,8 @@ limitations under the License.
 									{ name: 'WATER_FEATURE', type: 'string' },
 									{ name: 'WKT_POLYGON', type: 'string' },
 									{ name: 'HIGHERGEOGRAPHYID_GUID_TYPE', type: 'string' },
-									{ name: 'HIGHERGEOGRAPHYID', type: 'string' }
+									{ name: 'HIGHERGEOGRAPHYID', type: 'string' },
+									{ name: 'SPECIMEN_COUNT', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									commit(true);
@@ -178,6 +187,7 @@ limitations under the License.
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
+									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
 									{ text: 'Ocean Region', datafield: 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
 									{ text: 'Ocean Subregion', datafield: 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },
@@ -207,7 +217,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/localities/HigherGeographies.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collection');
+								gridLoaded('searchResultsGrid','higher geography record');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
@@ -241,7 +251,7 @@ limitations under the License.
 						$("##overlay").hide();
 						var now = new Date();
 						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-						var filename = searchType + '_results_' + nowstring + '.csv';
+						var filename = searchType.replace(/ /g,'_') + '_results_' + nowstring + '.csv';
 						// display the number of rows found
 						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 						var rowcount = datainformation.rowscount;
