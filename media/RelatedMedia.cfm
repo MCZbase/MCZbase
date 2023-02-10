@@ -28,7 +28,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct ci.collection_object_id
+		select distinct ci.collection_object_id as pk, ct.auto_table
 		from  cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join media m on mr.media_id = m.media_id
@@ -137,12 +137,14 @@
 								</div>
 							</div>	
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(m.media_id) as ct, ct.auto_table
+								select count(m.media_id) as ct
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+								where (mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#"> OR mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collid.pk#">)
 								and mr.media_relationship <> 'created by agent'
+								and (ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.auto_table#"> OR ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.auto_table#">)
+								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif relmct.ct gt 0>  
