@@ -221,7 +221,6 @@
 						<div class="col-12 col-md-3 my-1">
 							<cfif not isDefined("wkt_polygon")><cfset wkt_polygon=""></cfif>
 							<label for="wkt_polygon" class="data-entry-label">Polygon (WKT)</label>
-							<input type="text" name="wkt_polygon" id="wkt_polygon" class="data-entry-input" value="#wkt_polygon#">
 							<select name="wkt_polygon" id="wkt_polygon" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfif ucase(wkt_polygon) EQ "NOT NULL"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
