@@ -57,6 +57,14 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
+		UNION
+		select distinct p.publication_id
+		from  publication p
+		left join media_relations mr on p.publication_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
@@ -127,7 +135,6 @@
 					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 					where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and mr.media_relationship <> 'created by agent'
-		
 				</cfquery>
 				<div class="row">
 						<div class="col-12 my-3">
@@ -159,17 +166,6 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-						<cfif relatednums.recordcount gt 0>
-							
-			<!---				<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(m.media_id) as ct
-								from media_relations mr
-								left join media m on mr.media_id = m.media_id
-								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-								and mr.media_relationship <> 'created by agent'
-								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
-								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							</cfquery>--->
 							<cfif relatednums.recordcount gt 0>  
 									<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
@@ -192,29 +188,6 @@
 													and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													and mr.media_relationship <> 'created by agent'
 													</cfquery>
-	<!---												<cfif len(mediaids.mid) gt 0>
-														<cfif mediaids.rel contains '%publication%'>
-															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct m.media_id
-                                                            from media_relations mr 
-															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
-															left join media m on m.media_id = mr.media_id
-															left join citation c on c.publication_id = p.publication_id
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaids.rel#">
-															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-															</cfquery>
-														<cfelse>
-															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id
-															from media_relations mr
-															left join media on mr.media_id = media.media_id
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#" >
-															and mr.media_relationship <> 'created by agent'
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaids.rel#">
-															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-															</cfquery>
-														</cfif>--->
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="mediaids">
@@ -243,7 +216,6 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-											<!---		</cfif>--->
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
@@ -255,7 +227,6 @@
 									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
 								</div>
 							</cfif>
-						</cfif>
 						</div>
 					</div>
 			</cfloop>
