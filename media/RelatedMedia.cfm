@@ -137,13 +137,13 @@
 								</div>
 							</div>	
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(m.media_id) as ct
+								select count(m.media_id) as ct, ct.auto_table
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 								and mr.media_relationship <> 'created by agent'
-								---and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.auto_table#">
+								and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.auto_table#">
 							</cfquery>
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif relmct.ct gt 0>  
