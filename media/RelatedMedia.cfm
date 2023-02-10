@@ -36,6 +36,15 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
+	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct ci.collection_object_id
+		from  cataloged_item ci
+		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
+		left join media m on mr.media_id = m.media_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'publication'
+	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select p.publication_id as pk, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from publication p
@@ -224,6 +233,14 @@
 							</cfif>
 						<cfelse>
 							Publications
+							<cfquery name="relm_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select distinct media.media_id
+								from media_relations mr
+								left join media on mr.media_id = media.media_id
+								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#" >
+								and mr.media_relationship <> 'created by agent'
+								and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+							</cfquery>
 						</cfif>
 						</div>
 					</div>
