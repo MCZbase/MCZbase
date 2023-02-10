@@ -696,7 +696,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfif return_wkt EQ "true">
 					 geog_auth_rec.wkt_polygon,
 				<cfelse>
-					 nvl2(geog_auth_rec.wkt_polygon,'Yes','No') as wkt_polygon,
+					 nvl2(geog_auth_rec.wkt_polygon,'Yes','No'),
 				</cfif>
 				 geog_auth_rec.highergeographyid_guid_type,
 				 geog_auth_rec.highergeographyid
