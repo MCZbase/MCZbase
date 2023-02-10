@@ -1261,7 +1261,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.locality_id,
 				locality.spec_locality
 			ORDER BY
-				geog_auth_rec.higher_geog
+				geog_auth_rec.higher_geog,
+				locality.spec_locality
 		</cfquery>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
