@@ -180,7 +180,7 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfloop query="mediaIDs">
+												<cfloop query="mediaids">
 													<cfif len(mediaids.mid) gt 0>
 														<cfif mediaids.rel contains '%publication%'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -190,7 +190,7 @@
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaIDs.rel#">
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaids.rel#">
 															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														<cfelse>
@@ -200,7 +200,7 @@
 															left join media on mr.media_id = media.media_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#" >
 															and mr.media_relationship <> 'created by agent'
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaIDs.rel#">
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaids.rel#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														</cfif>
