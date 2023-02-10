@@ -235,7 +235,7 @@
 													
 						<cfif media.recordcount gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select ct.description as descr, m.media_id
+								select m.media_id
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
