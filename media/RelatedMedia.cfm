@@ -149,7 +149,7 @@
 							<cfif relmct.ct gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
-									<div class="search-box mt-2 w-100 mb-3">
+									<div class="search-box mt-3 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
