@@ -27,12 +27,8 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-		select related_primary_key as pk from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-	</cfquery>
-	<cfquery name = "mediaIDs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
-		select media_id as mid, media_relationship from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
-	</cfquery>
+	
+
 		
 
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -125,13 +121,8 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
-				<cfloop query="mediaIDs">		 #mediaIDs.mid#</cfloop>
-				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT media_relationship 
-					FROM media_relations
-					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relationship <> 'created by agent'
-					ORDER BY media_relationship
+				<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+					select related_primary_key as pk from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 				</cfquery>
 					<div class="row">
 						<div class="col-12 my-3">
@@ -163,8 +154,11 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-						<cfif spec.recordcount gt 0>
-							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfif relatednums.recordcount gt 0>
+							<cfquery name = "mediaIDs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+								select media_id as mid, media_relationship as rel from media_relations where related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
+							</cfquery>
+			<!---				<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(m.media_id) as ct
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
@@ -172,8 +166,8 @@
 								and mr.media_relationship <> 'created by agent'
 								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							</cfquery>
-							<cfif relmct.ct gt 0>  
+							</cfquery>--->
+							<cfif relatednums.recordcount gt 0>  
 									<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -186,17 +180,17 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfloop query="spec">
-													<cfif len(spec.pk) gt 0>
-														<cfif spec.auto_table eq 'publication'>
+												<cfloop query="mediaIDs">
+													<cfif len(mediaIDs.mid) gt 0>
+														<cfif mediaIDs.rels like '%publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
                                                             from media_relations mr 
 															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#">
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaIDs.rel#">
 															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														<cfelse>
@@ -204,9 +198,9 @@
 															select distinct media.media_id
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relatednums.pk#" >
 															and mr.media_relationship <> 'created by agent'
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #mediaIDs.rel#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														</cfif>
@@ -244,18 +238,6 @@
 									</div>
 								</div>
 							<cfelse>
-								<div class="col-auto px-2 float-left">
-									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
-								</div>
-							</cfif>
-						<cfelse>
-							<cfif spec.recordcount eq 0>
-						 	Related to Publications
-							
-								
-								
-								
-								<cfelse>
 								<div class="col-auto px-2 float-left">
 									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
 								</div>
