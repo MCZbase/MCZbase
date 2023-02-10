@@ -182,7 +182,7 @@
 											<div class="col-12 p-1">
 												<cfloop query="mediaIDs">
 													<cfif len(mediaIDs.mid) gt 0>
-														<cfif mediaIDs.rels like '%publication'>
+														<cfif mediaIDs.rel like '%publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
                                                             from media_relations mr 
