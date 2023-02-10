@@ -302,7 +302,7 @@
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
 							<cfif relmct.ct eq 0> 
-								<h2>#relmct.recordcount#</h2>
+								<h2>#relmct.ct#</h2>
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
