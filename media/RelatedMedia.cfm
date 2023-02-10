@@ -300,6 +300,7 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
+												<cfset i=1>
 												<cfloop query="otherMedia">
 												hellopo
 								<!---							<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -337,6 +338,7 @@
 														
 												
 													<div id="targetDiv"></div>
+													<cfset i=i+1>
 												</cfloop>
 											</div>
 										</div>
