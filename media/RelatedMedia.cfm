@@ -292,7 +292,7 @@
 						</cfif>
 						<cfif pubs.recordcount gt 0>
 						#pubs.pk#
-								<cfif pubct.ct gt 0>  
+								<cfif pubs.pk gt 0>  
 									<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct media.media_id
 										from media_relations mr
