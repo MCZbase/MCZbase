@@ -43,7 +43,7 @@
 		left join media m on m.media_id = mr.media_id
 		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.collection_object_id#">
+		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
 		and (ct.description = 'publication' OR ct.description = 'cataloged_item')
 		and ct.description <> 'ledger'
 		and m.auto_host <> 'nrs.harvard.edu'
