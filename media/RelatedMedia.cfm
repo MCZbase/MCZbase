@@ -136,6 +136,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
+							<cfif spec.recordcount gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(media.media_id) as ct
 								from media_relations mr
@@ -219,6 +220,10 @@
 								<div class="col-auto px-2 float-left">
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Not related to other media records </h3>
 								</div>
+							</cfif>
+																
+							<cfelse>
+								Publications
 							</cfif>
 						</div>
 					</div>
