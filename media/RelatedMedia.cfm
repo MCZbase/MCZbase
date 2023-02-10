@@ -284,7 +284,7 @@
 								left join citation c on c.publication_id = p.publication_id
 								left join cataloged_item ci on c.COLLECTION_OBJECT_ID = ci.collection_object_id
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#otherMedia.pk#">
+								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#">
 							</cfquery>
 							<cfif relmct.recordcount gt 0> 
 								Hello
