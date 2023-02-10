@@ -40,6 +40,13 @@
 					where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					and ct.auto_table = 'cataloged_item'
 				</cfquery>
+				<cfquery name = "rel" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
+					select mr.media_relationships
+					from media_relations mr 
+					left join media m on m.media_id = mr.media_id
+					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+					where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				</cfquery>
 				<cfif len(media.publinks) gt 0>
 					<cfquery name = "relatednums" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">	
 						select p.publication_id as pk
