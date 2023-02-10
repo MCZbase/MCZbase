@@ -147,7 +147,6 @@
 						<!---specimen records relationships and other possible associations to media on those records--->
 							<cfif relmct.ct gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
-							<cfif spec.recordcount gt 0>  
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-2 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -220,7 +219,6 @@
 								<div class="col-auto px-2 float-left">
 									<h3 class="h4 mt-3 w-100 px-4 font-italic">Not related to other media records </h3>
 								</div>
-							</cfif>
 							</cfif>
 						</div>
 					</div>
