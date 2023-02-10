@@ -232,12 +232,9 @@
 							</cfif>
 						<cfelse>
 							<cfquery name="pubct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(m.media_id) as ct
+								select count(mr.media_id) as ct
 								from media_relations mr
-								left join media m on mr.media_id = m.media_id
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#" >
-								and mr.media_relationship <> 'created by agent'
-								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 							</cfquery>
 								<cfif pubct.ct gt 0>  
 									Publications
