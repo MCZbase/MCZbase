@@ -163,7 +163,7 @@
 								left join media m on mr.media_id = m.media_id
 								where mr.media_relationship <> 'created by agent'
 								and mr.media_relationship like 'publication'
-								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								and m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
 								<cfif relmer.recordcount gt 0> #relmer.related_primary_key# </cfif> 
 							<cfif relmct.recordcount gt 0>  
