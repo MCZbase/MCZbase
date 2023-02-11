@@ -164,7 +164,15 @@
 								where mr.media_relationship <> 'created by agent'
 								and m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
-								<cfif relmer.recordcount gt 0> #relmer.related_primary_key# </cfif> 
+								<cfif relmer.recordcount gt 0>
+									<cfquery name="timg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select mr.media_id
+									from media_relations mr
+									left join media m on mr.media_id = m.media_id
+									where mr.media_relationship <> 'created by agent'
+									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.related_primary_key#">
+									</cfquery>
+									<cfloop query="images">#relmer.related_primary_key# </cfloop>  </cfif> 
 							<cfif relmct.recordcount gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
