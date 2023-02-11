@@ -163,7 +163,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records  
+													Related Media Records  #relmct.related_primary_key#
 												</li>
 											</ul>
 										</div>
@@ -192,7 +192,7 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
-														</cfif>#relmct.related_primary_key#
+														</cfif>
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">
