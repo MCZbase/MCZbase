@@ -242,15 +242,7 @@
 								where mr.media_relationship <> 'created by agent'
 								and m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
-								<cfif relmer.recordcount gt 0>
-									<cfquery name="timg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select mr.media_id
-									from media_relations mr
-									left join media m on mr.media_id = m.media_id
-									where mr.media_relationship <> 'created by agent'
-									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#">
-									</cfquery>
-									<cfloop query="timg">#timg.media_id# </cfloop>  </cfif> 
+					
 <!---							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 								from publication p
@@ -277,7 +269,14 @@
 											<div class="col-12 p-1">
 												<cfloop query="relmer">
 													<cfif len(relmer.pk) gt 0>
-															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select mr.media_id
+															from media_relations mr
+															left join media m on mr.media_id = m.media_id
+															where mr.media_relationship <> 'created by agent'
+															and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#">
+														</cfquery>
+															<!---<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, ct.label
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
@@ -285,7 +284,7 @@
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#" >
 															and mr.media_relationship <> 'created by agent'
 															and ct.auto_table ='#spec.auto_table#'
-															</cfquery>
+															</cfquery>--->
 													<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm1">
