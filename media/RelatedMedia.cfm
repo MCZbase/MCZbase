@@ -234,7 +234,7 @@
 							</cfif>
 						<cfelse>
 													
-							<cfif pubscollid.recordcount gt 0>
+							<cfif media.recordcount gt 0>
 							<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.related_primary_key as pk,ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 								from media_relations mr
