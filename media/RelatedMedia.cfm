@@ -236,7 +236,7 @@
 													
 						<cfif pubscollid.recordcount gt 0>
 							<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select mr.related_primary_key
+								select mr.related_primary_key as pk
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
 								where mr.media_relationship <> 'created by agent'
