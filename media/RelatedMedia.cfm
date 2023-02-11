@@ -236,9 +236,10 @@
 													
 							<cfif pubscollid.recordcount gt 0>
 							<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select mr.related_primary_key as pk
+								select mr.related_primary_key as pk,ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
+								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where mr.media_relationship <> 'created by agent'
 								and m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								UNION
