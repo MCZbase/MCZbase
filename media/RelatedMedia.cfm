@@ -148,7 +148,7 @@
 							</div>	
 						<cfif spec.recordcount gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(m.media_id) as ct
+								select mr.related_primary_key as ct
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
