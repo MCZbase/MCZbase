@@ -750,6 +750,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="return_wkt" type="string" required="no">
 	<cfargument name="locality_id" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
 	<!--- 
    (	"LOCALITY_ID" NUMBER NOT NULL ENABLE, 
 	"GEOG_AUTH_REC_ID" NUMBER NOT NULL ENABLE, 
@@ -807,6 +808,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				geog_auth_rec.highergeographyid,
 				locality.locality_id,
 				locality.spec_locality,
+				locality.locality_remarks,
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
@@ -1234,6 +1236,31 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						</cfif>
 					</cfif>
 				</cfif>
+				<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0>
+					<cfif ucase(locality_remarks) EQ "NULL">
+						and locality.locality_remarks IS NULL
+					<cfelseif ucase(locality_remarks) EQ "NOT NULL">
+						and locality.locality_remarks IS NOT NULL
+					<cfelseif left(locality_remarks,1) is "=">
+						AND upper(locality.locality_remarks) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(locality_remarks,len(locality_remarks)-1))#">
+					<cfelseif left(locality_remarks,1) is "~">
+						AND utl_match.jaro_winkler(locality.locality_remarks, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(locality_remarks,len(locality_remarks)-1)#">) >= 0.90
+					<cfelseif left(locality_remarks,1) is "!~">
+						AND utl_match.jaro_winkler(locality.locality_remarks, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(locality_remarks,len(locality_remarks)-1)#">) < 0.90
+					<cfelseif left(locality_remarks,1) is "$">
+						AND soundex(locality.locality_remarks) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(locality_remarks,len(locality_remarks)-1))#">)
+					<cfelseif left(locality_remarks,2) is "!$">
+						AND soundex(locality.locality_remarks) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(locality_remarks,len(locality_remarks)-2))#">)
+					<cfelseif left(locality_remarks,1) is "!">
+						AND upper(locality.locality_remarks) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(locality_remarks,len(locality_remarks)-1))#">
+					<cfelse>
+						<cfif find(',',locality_remarks) GT 0>
+							AND upper(locality.locality_remarks) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(locality_remarks)#" list="yes"> )
+						<cfelse>
+							AND upper(locality.locality_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(locality_remarks)#%">
+						</cfif>
+					</cfif>
+				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
@@ -1259,7 +1286,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				geog_auth_rec.highergeographyid_guid_type,
 				geog_auth_rec.highergeographyid,
 				locality.locality_id,
-				locality.spec_locality
+				locality.spec_locality,
+				locality.locality_remarks
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
