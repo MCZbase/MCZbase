@@ -146,7 +146,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-						<cfif collid.recordcount gt 0>
+						<cfif spec.recordcount gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(m.media_id) as ct
 								from media_relations mr
