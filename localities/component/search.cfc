@@ -751,6 +751,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="locality_id" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="orig_elev_units" type="string" required="no">
+	<cfargument name="minElevOper" type="string" required="no">
+	<cfargument name="minimum_elevation" type="string" required="no">
+	<cfargument name="maxElevOper" type="string" required="no">
+	<cfargument name="maximum_elevation" type="string" required="no">
 	<!--- 
 	"ORIG_ELEV_UNITS" VARCHAR2(2 CHAR), 
 	"TOWNSHIP" NUMBER, 
@@ -1267,6 +1272,107 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 							AND upper(locality.locality_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(locality_remarks)#%">
 						</cfif>
 					</cfif>
+				</cfif>
+				<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0>
+					<cfif ucase(orig_elev_units) EQ "NULL">
+						and locality.orig_elev_units IS NULL
+					<cfelseif ucase(orig_elev_units) EQ "NOT NULL">
+						and locality.orig_elev_units IS NOT NULL
+					<cfelseif left(orig_elev_units,1) is "=">
+						AND upper(locality.orig_elev_units) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(orig_elev_units,len(orig_elev_units)-1))#">
+					<cfelseif left(orig_elev_units,1) is "~">
+						AND utl_match.jaro_winkler(locality.orig_elev_units, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(orig_elev_units,len(orig_elev_units)-1)#">) >= 0.90
+					<cfelseif left(orig_elev_units,1) is "!~">
+						AND utl_match.jaro_winkler(locality.orig_elev_units, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(orig_elev_units,len(orig_elev_units)-1)#">) < 0.90
+					<cfelseif left(orig_elev_units,1) is "$">
+						AND soundex(locality.orig_elev_units) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(orig_elev_units,len(orig_elev_units)-1))#">)
+					<cfelseif left(orig_elev_units,2) is "!$">
+						AND soundex(locality.orig_elev_units) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(orig_elev_units,len(orig_elev_units)-2))#">)
+					<cfelseif left(orig_elev_units,1) is "!">
+						AND upper(locality.orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(orig_elev_units,len(orig_elev_units)-1))#">
+					<cfelse>
+						<cfif find(',',orig_elev_units) GT 0>
+							AND upper(locality.orig_elev_units) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(orig_elev_units)#" list="yes"> )
+						<cfelse>
+							AND upper(locality.orig_elev_units) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(orig_elev_units)#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
+					<cfif ucase(minimum_elevation) EQ "NULL">
+						and locality.minimum_elevation IS NULL
+					<cfelseif ucase(minimum_elevation) EQ "NOT NULL">
+						and locality.minimum_elevation IS NOT NULL
+					<cfelseif minElevOper EQ "=">
+						and locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
+					<cfelseif minElevOper EQ "<>" OR minElevOper EQ "!"><!--- " --->
+						and locality.minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
+					<cfelseif minElevOper EQ "<">
+						and locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
+					<cfelseif minElevOper EQ ">"><!--- " --->
+						and locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
+					<cfelse>
+						<cfif left(minimum_elevation,1) is "=">
+							AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+						<cfelseif left(minimum_elevation,1) is "!">
+							AND locality.minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+						<cfelseif left(minimum_elevation,2) is ">="><!--- " --->
+							AND locality.minimum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
+						<cfelseif left(minimum_elevation,2) is "<=">
+							AND locality.minimum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
+						<cfelseif left(minimum_elevation,1) is ">"><!--- " --->
+							AND locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+						<cfelseif left(minimum_elevation,1) is "<">
+							AND locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+						<cfelseif find('-',minimum_elevation) GT 1>
+							<cfset bits = listToArray(bits,'-')>
+							<cfif arrayLength(bits) GT 1>
+								AND locality.minimum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
+							<cfelse>
+								AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
+							</cfif>
+						<cfelse>
+							AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
+						<cfif>
+					<cfif>
+				</cfif>
+				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+					<cfif ucase(maximum_elevation) EQ "NULL">
+						and locality.maximum_elevation IS NULL
+					<cfelseif ucase(maximum_elevation) EQ "NOT NULL">
+						and locality.maximum_elevation IS NOT NULL
+					<cfelseif maxElevOper EQ "=">
+						and locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+					<cfelseif maxElevOper EQ "<>" OR maxElevOper EQ "!"><!--- " --->
+						and locality.maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+					<cfelseif maxElevOper EQ "<">
+						and locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+					<cfelseif maxElevOper EQ ">"><!--- " --->
+						and locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+					<cfelse>
+						<cfif left(maximum_elevation,1) is "=">
+							AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+						<cfelseif left(maximum_elevation,1) is "!">
+							AND locality.maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+						<cfelseif left(maximum_elevation,2) is ">="><!--- " --->
+							AND locality.maximum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
+						<cfelseif left(maximum_elevation,2) is "<=">
+							AND locality.maximum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
+						<cfelseif left(maximum_elevation,1) is ">"><!--- " --->
+							AND locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+						<cfelseif left(maximum_elevation,1) is "<">
+							AND locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+						<cfelseif find('-',maximum_elevation) GT 1>
+							<cfset bits = listToArray(bits,'-')>
+							<cfif arrayLength(bits) GT 1>
+								AND locality.maximum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
+							<cfelse>
+								AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
+							</cfif>
+						<cfelse>
+							AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+						<cfif>
+					<cfif>
 				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
