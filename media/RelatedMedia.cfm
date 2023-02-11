@@ -248,7 +248,7 @@
 									from media_relations mr
 									left join media m on mr.media_id = m.media_id
 									where mr.media_relationship <> 'created by agent'
-									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.related_primary_key#">
+									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#">
 									</cfquery>
 									<cfloop query="timg">#timg.media_id# </cfloop>  </cfif> 
 <!---							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -282,7 +282,7 @@
 															from media_relations mr
 															left join media on mr.media_id = media.media_id
 															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmct.pk#" >
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#" >
 															and mr.media_relationship <> 'created by agent'
 															and ct.auto_table ='#spec.auto_table#'
 															</cfquery>
