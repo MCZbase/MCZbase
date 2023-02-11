@@ -808,6 +808,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.maximum_elevation,
 				locality.minimum_elevation,
 				locality.orig_elev_units,
+				locality.curated_fg,
+				locality.sovereign_nation,
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
@@ -827,10 +829,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isDefined("locality_id") and len(locality_id) gt 0>
-						and geog_auth_rec.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						and locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfif>
 				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
 						and geog_auth_rec.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
+				</cfif>
+				<cfif isDefined("curated_fg") and len(valid_catalog_term_fg) gt 0>
+						and locality.curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
+				</cfif>
+				<cfif isDefined("sovereign_nation") and len(valid_catalog_term_fg) gt 0>
+						and locality.sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sovereign_nation#">
 				</cfif>
 				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
 					<cfif ucase(continent_ocean) EQ "NULL">
@@ -1289,7 +1297,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.locality_remarks,
 				locality.maximum_elevation,
 				locality.minimum_elevation,
-				locality.orig_elev_units
+				locality.orig_elev_units,
+				locality.curated_fg,
+				locality.sovereign_nation
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
