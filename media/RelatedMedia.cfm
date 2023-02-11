@@ -161,8 +161,7 @@
 								select mr.related_primary_key
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
-								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#" >
-								and mr.media_relationship <> 'created by agent'
+								where mr.media_relationship <> 'created by agent'
 								and mr.media_relationship like 'publication'
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
