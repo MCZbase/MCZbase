@@ -270,9 +270,10 @@
 												<cfloop query="relmer">
 													<cfif len(relmer.pk) gt 0>
 														<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select mr.media_id
+															select mr.media_id, ct.label
 															from media_relations mr
 															left join media m on mr.media_id = m.media_id
+															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 															where mr.media_relationship <> 'created by agent'
 															and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#">
 														</cfquery>
