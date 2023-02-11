@@ -157,7 +157,6 @@
 								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
-				
 							<cfif relmct.recordcount gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
@@ -233,10 +232,10 @@
 									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
 								</div>
 							</cfif>
-						</cfif>
+						<cfelse>
 													
-						<cfif len(pubscollid.pk) gt 0>
-										<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfif pubscollid.recordcount gt 0>
+							<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.related_primary_key
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
@@ -252,7 +251,7 @@
 									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.related_primary_key#">
 									</cfquery>
 									<cfloop query="timg">#timg.media_id# </cfloop>  </cfif> 
-							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 								from publication p
 								left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
@@ -262,8 +261,8 @@
 								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 								where p.publication_id =   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#">
 								and ct.description = 'publication'
-							</cfquery>
-							<cfif relmct.recordcount gt 0> 
+							</cfquery>--->
+							<cfif relmer.recordcount gt 0> 
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -276,8 +275,8 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfloop query="relmct">
-													<cfif len(relmct.pk) gt 0>
+												<cfloop query="relmer">
+													<cfif len(relmer.pk) gt 0>
 															<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, ct.label
 															from media_relations mr
@@ -299,7 +298,7 @@
 																	</cfif>
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
-																			<cfset mediablock= getMediaBlockHtml(media_id="#relmct.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<cfset mediablock= getMediaBlockHtml(media_id="#relm1.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																			<div class="#activeimg# image#i#" id="mediaBlock#relm1.media_id#" style="height:210px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #relm1.label# <br>(media/#relm1.media_id#)
