@@ -165,6 +165,7 @@
 								and mr.media_relationship like 'publication'
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
+								<cfif relmer.recordcount gt 0> #relmer.related_primary_key# </cfif> 
 							<cfif relmct.recordcount gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
@@ -172,7 +173,7 @@
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
 											<ul class="list-group list-group-horizontal text-white">
 												<li class="col-12 px-1 list-group-item mb-0 h4 font-weight-lessbold">
-													Related Media Records  #relmer.related_primary_key#
+													Related Media Records  
 												</li>
 											</ul>
 										</div>
