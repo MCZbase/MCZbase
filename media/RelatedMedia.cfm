@@ -172,7 +172,7 @@
 									where mr.media_relationship <> 'created by agent'
 									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.related_primary_key#">
 									</cfquery>
-									<cfloop query="timg">#relmer.related_primary_key# </cfloop>  </cfif> 
+									<cfloop query="timg">#timg.media_id# </cfloop>  </cfif> 
 							<cfif relmct.recordcount gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
