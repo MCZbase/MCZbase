@@ -157,22 +157,7 @@
 								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
-							<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select mr.related_primary_key
-								from media_relations mr
-								left join media m on mr.media_id = m.media_id
-								where mr.media_relationship <> 'created by agent'
-								and m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							</cfquery>
-								<cfif relmer.recordcount gt 0>
-									<cfquery name="timg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select mr.media_id
-									from media_relations mr
-									left join media m on mr.media_id = m.media_id
-									where mr.media_relationship <> 'created by agent'
-									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.related_primary_key#">
-									</cfquery>
-									<cfloop query="timg">#timg.media_id# </cfloop>  </cfif> 
+				
 							<cfif relmct.recordcount gt 0>  
 						<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
@@ -251,6 +236,22 @@
 						</cfif>
 													
 						<cfif len(pubscollid.pk) gt 0>
+										<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select mr.related_primary_key
+								from media_relations mr
+								left join media m on mr.media_id = m.media_id
+								where mr.media_relationship <> 'created by agent'
+								and m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							</cfquery>
+								<cfif relmer.recordcount gt 0>
+									<cfquery name="timg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select mr.media_id
+									from media_relations mr
+									left join media m on mr.media_id = m.media_id
+									where mr.media_relationship <> 'created by agent'
+									and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.related_primary_key#">
+									</cfquery>
+									<cfloop query="timg">#timg.media_id# </cfloop>  </cfif> 
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						        select ci.collection_object_id as pk, m.media_id, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 								from publication p
