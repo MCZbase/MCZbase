@@ -752,10 +752,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="spec_locality" type="string" required="no">
 	<cfargument name="locality_remarks" type="string" required="no">
 	<!--- 
-   (	"LOCALITY_ID" NUMBER NOT NULL ENABLE, 
-	"GEOG_AUTH_REC_ID" NUMBER NOT NULL ENABLE, 
-	"MAXIMUM_ELEVATION" NUMBER, 
-	"MINIMUM_ELEVATION" NUMBER, 
 	"ORIG_ELEV_UNITS" VARCHAR2(2 CHAR), 
 	"TOWNSHIP" NUMBER, 
 	"TOWNSHIP_DIRECTION" CHAR(1 CHAR), 
@@ -809,6 +805,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.locality_id,
 				locality.spec_locality,
 				locality.locality_remarks,
+				locality.maximum_elevation,
+				locality.minimum_elevation,
+				locality.orig_elev_units,
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
@@ -1287,7 +1286,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				geog_auth_rec.highergeographyid,
 				locality.locality_id,
 				locality.spec_locality,
-				locality.locality_remarks
+				locality.locality_remarks,
+				locality.maximum_elevation,
+				locality.minimum_elevation,
+				locality.orig_elev_units
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
