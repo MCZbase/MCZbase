@@ -25,7 +25,7 @@ limitations under the License.
 
 	<cfif isdefined("country") AND len(country) gt 0>
 		<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
-		<cfif len(retval["value"]) GT 0>
+		<cfif len(retval["value"]) EQ 0>
 			AND #retval["pre"]# #retval["post"]#
 		<cfelse>
 			AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
@@ -1014,7 +1014,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("country") AND len(country) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
-					<cfif len(retval["value"]) GT 0>
+					<cfif len(retval["value"]) EQ 0>
 						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
 						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
