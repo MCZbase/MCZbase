@@ -756,6 +756,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="minimum_elevation" type="string" required="no">
 	<cfargument name="maxElevOper" type="string" required="no">
 	<cfargument name="maximum_elevation" type="string" required="no">
+	<cfargument name="accentInsenstive" type="string" required="no">
 	<!--- 
 	"ORIG_ELEV_UNITS" VARCHAR2(2 CHAR), 
 	"TOWNSHIP" NUMBER, 
@@ -776,6 +777,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	"SOVEREIGN_NATION" VARCHAR2(255) DEFAULT '[unknown]' NOT NULL ENABLE NOVALIDATE, 
 	"CURATED_FG" NUMBER(1,0) DEFAULT 0, 
 	--->
+	<cfset linguisticFlag = false>
+	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
+		<cfset linguisticFlag=true>
+	</cfif>
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
@@ -810,6 +815,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
+		<cftransaction>
+		<cfif linguisticFlag >
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				geog_auth_rec.geog_auth_rec_id,
@@ -1401,6 +1416,13 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
+		<cfif linguisticFlag >
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cfif>
+		</cftransaction>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
