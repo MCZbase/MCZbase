@@ -28,7 +28,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name = "rels" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select mr.media_relationship from media_relations mr
+		select mr.media_relationship, ct.auto_table from media_relations mr
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id  = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
@@ -61,7 +61,7 @@
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
 			and ct.description = 'publication'
-			and (ct.auto_table = 'publication' or ct.auto_table = 'cataloged_item')
+			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rels.auto_table#">
 			and ct.description <> 'ledger'
 			and m.auto_host <> 'nrs.harvard.edu'
 			UNION
@@ -70,14 +70,14 @@
 			left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-			and ct.auto_table = 'cataloged_item'
+			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rels.auto_table#">
 			UNION
 			select ce.collecting_event_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from media_relations mr
 			left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-			and ct.auto_table = 'collecting_event'
+			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rels.auto_table#">
 			UNION
 			select loan.transaction_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from loan
@@ -85,7 +85,7 @@
 			left join media_relations mr on loan.transaction_id = mr.related_primary_key
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-			and ct.auto_table = 'loan'
+			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rels.auto_table#">
 			UNION
 			select accn.transaction_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from accn
@@ -93,7 +93,7 @@
 			left join media_relations mr on accn.transaction_id = mr.related_primary_key
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-			and ct.auto_table = 'accn'
+			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rels.auto_table#">
 			UNION
 			select locality.locality_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from locality
@@ -110,7 +110,7 @@
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 			and an.agent_name_type = 'preferred'
 			and mr.media_relationship <> 'created by agent'
-			and ct.auto_table = 'agent' 
+			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rels.auto_table#">
 		</cfquery>	
 
 	<main class="container-fluid pb-5" id="content">
