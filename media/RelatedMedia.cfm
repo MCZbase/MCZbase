@@ -233,7 +233,6 @@
 								</div>
 							</cfif>
 						<cfelse>
-													
 							<cfif media.recordcount gt 0>
 							<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.related_primary_key as pk,ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
@@ -359,7 +358,7 @@
 																	<ul class="list-group px-0">
 																		<li class="list-group-item px-0 mx-1">
 																			<cfset mediablock= getMediaBlockHtml(media_id="#relm1.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="#activeimg# image#i#" id="mediaBlock#relm1.media_id#" style="height:210px;">
+																			<div class="#activeimg# image#i#" id="mediaBlock#relm1.media_id#" style="height:220px;">
 																				<div class="px-0">
 																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center"> #relm1.label# <br>(media/#relm1.media_id#)
 																					</span> 
