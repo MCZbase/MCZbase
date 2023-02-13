@@ -28,7 +28,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct ci.collection_object_id as pk
+		select distinct mr.related_primary_key as pk
 		from  cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join media m on mr.media_id = m.media_id
