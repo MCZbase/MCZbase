@@ -1323,7 +1323,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.sovereign_nation,
 				locality.township, locality.township_direction, locality.range, locality.range_direction,
 				locality.section, locality.section_part,
-				concatGeologyAttributeDetail(locality.locality_id) geolAtts
+				concatGeologyAttributeDetail(locality.locality_id)
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
