@@ -46,49 +46,50 @@ limitations under the License.
 	<cfargument name="value" type="string" required="yes">
 	<cfset retval = StructNew()>
 	<cfset pre = "#field#">
+	<cfset outvalue = "">
 	<cfset post = "">
 	<cfset list = "no">
 	<cfif ucase(value) EQ "NULL">
-		<cfset value= "">
+		<cfset outvalue= "">
 		<cfset post= "IS NULL">
 	<cfelseif ucase(value) EQ "NOT NULL">
-		<cfset value= "">
-		<cfset value= "IS NOT NULL">
+		<cfset outvalue= "">
+		<cfset post= "IS NOT NULL">
 	<cfelseif left(value,1) is "=">
-		<cfset pre="#field# =">
-		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset pre="upper(#field#) =">
+		<cfset outvalue="#ucase(right(value,len(value)-1))#">
 	<cfelseif left(value,1) is "~">
-		<cfset pre="utl_match.jaro_winkler(#value#,">
-		<cfset value="#right(value,len(value)-1)#">
+		<cfset pre="utl_match.jaro_winkler(#field#,">
+		<cfset outvalue="#right(value,len(value)-1)#">
 		<cfset post = ") >= 0.90"><!--- " --->
 	<cfelseif left(value,2) is "!~">
-		<cfset pre="utl_match.jaro_winkler(#value#,"> 
-		<cfset value="#right(value,len(value)-2)#">
+		<cfset pre="utl_match.jaro_winkler(#field#,"> 
+		<cfset outvalue="#right(value,len(value)-2)#">
 		<cfset post=") < 0.90">
 	<cfelseif left(value,1) is "$">
-		<cfset pre="soundex(#value#) =  soundex(">
-		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset pre="soundex(#field#) =  soundex(">
+		<cfset outvalue="#ucase(right(value,len(value)-1))#">
 		<cfset post=")">
 	<cfelseif left(value,2) is "!$">
-		<cfset pre="soundex(#value#) <> soundex("><!--- ") --->
-		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset pre="soundex(#field#) <> soundex("><!--- ") --->
+		<cfset outvalue="#ucase(right(value,len(value)-2))#">
 		<cfset post=")">
 	<cfelseif left(value,1) is "!">
-		<cfset pre="upper(#value#) <>"><!--- " --->
-		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset pre="upper(#field#) <>"><!--- " --->
+		<cfset outvalue="#ucase(right(value,len(value)-1))#">
 		<cfset post="">
 	<cfelseif find(',',value) GT 0>
-		<cfset pre="upper(#value#) in (">
-		<cfset value="#ucase(value)#">
+		<cfset pre="upper(#field#) in (">
+		<cfset outvalue="#ucase(value)#">
 		<cfset post = ")">
 		<cfset list="yes">
 	<cfelse>
-		<cfset pre="upper(#value#) LIKE ">
-		<cfset value="%#ucase(value)#%">
+		<cfset pre="upper(#field#) LIKE ">
+		<cfset outvalue="%#ucase(value)#%">
 		<cfset post ="">
 	</cfif>
 	<cfset retval["pre"]=pre>
-	<cfset retval["value"]=value>
+	<cfset retval["value"]=outvalue>
 	<cfset retval["post"]=post>
 	<cfset retval["list"]=list>
 	<cfreturn retval>
