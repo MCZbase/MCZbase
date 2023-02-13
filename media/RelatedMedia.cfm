@@ -40,7 +40,7 @@
 		left join media m on mr.media_id = m.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
+		and ct.auto_table = 'cataloged_item'
 	</cfquery>
 <!---	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct mr.related_primary_key as pk
