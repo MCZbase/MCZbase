@@ -148,7 +148,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-						<cfif len(spec.related_primary_key) gt 0>
+						<cfif len(spec.pk) gt 0>
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.related_primary_key
 								from media_relations mr
