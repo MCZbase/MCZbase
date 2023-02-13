@@ -41,7 +41,7 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 	</cfquery>
-	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct mr.related_primary_key as pk
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
@@ -50,7 +50,7 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (ct.description = 'publication')
-	</cfquery>
+	</cfquery>--->
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select mr.related_primary_key as pk, ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 			from publication p
@@ -61,8 +61,8 @@
 			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
 			and ct.description = 'publication'
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
-			and ct.description <> 'ledger'
-			and m.auto_host <> 'nrs.harvard.edu'
+		<!---	and ct.description <> 'ledger'
+			and m.auto_host <> 'nrs.harvard.edu'--->
 			UNION
 			select mr.related_primary_key as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from cataloged_item ci
