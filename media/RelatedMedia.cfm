@@ -77,7 +77,7 @@
 			left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rels.auto_table#">
+			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#rels.auto_table#">
 			UNION
 			select loan.transaction_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from loan
