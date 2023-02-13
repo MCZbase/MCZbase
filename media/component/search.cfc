@@ -1419,7 +1419,7 @@ imgStyleClass=value
 						</cfif>
 						<cfset output='#output#</p>'>
 						<cfset output='#output#<div class="py-1">'>
-						<cfset showTitleText = trim(title)>
+						<cfset showTitleText = trim(alt)>
 						<cfif len(showTitleText) EQ 0>
 							<cfset showTitleText = trim(subject)>
 						</cfif>
