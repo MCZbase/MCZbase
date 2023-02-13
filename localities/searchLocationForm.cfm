@@ -727,7 +727,7 @@
 					<input type="reset" value="Clear Form" aria-label="reset form values to those on initial page load"
 						class="btn btn-xs btn-warning ml-2">
 					<cfif len(newSearchTarget) GT 0>
-						<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForURL(newSearchTarget)#';">New Search</button>
+						<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
 					</cfif>
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
