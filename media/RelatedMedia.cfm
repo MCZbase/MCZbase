@@ -78,7 +78,7 @@
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#rels.auto_table#">
 			UNION
-			select loan.transaction_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+			select mr.related_primary_key as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from loan
 			left join trans on trans.transaction_id = loan.transaction_id
 			left join media_relations mr on loan.transaction_id = mr.related_primary_key
@@ -86,7 +86,7 @@
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
 			UNION
-			select accn.transaction_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+			select mr.related_primary_key as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from accn
 			left join trans on trans.transaction_id = accn.transaction_id
 			left join media_relations mr on accn.transaction_id = mr.related_primary_key
@@ -94,14 +94,14 @@
 			where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
 			UNION
-			select locality.locality_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+			select mr.related_primary_key as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from locality
 			left join media_relations mr on locality.locality_id = mr.related_primary_key
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#"> 
 			UNION
-			select agent.agent_id as pk, ct.description as rel, an.agent_name as wlabel, ct.label as label, ct.auto_table
+			select mr.related_primary_key as pk, ct.description as rel, an.agent_name as wlabel, ct.label as label, ct.auto_table
 			from agent_name an
 			left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 			left join media_relations mr on agent.agent_id = mr.related_primary_key
@@ -118,13 +118,13 @@
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
 			<cfloop query="media">
-				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<!---		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT media_relationship 
 					FROM media_relations
 					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 					and media_relationship <> 'created by agent'
 					ORDER BY media_relationship
-				</cfquery>
+				</cfquery>--->
 					<div class="row">
 						<div class="col-12 my-3">
 							<h1 class="h3 px-4 mb-0">Media Related to:</h1>
