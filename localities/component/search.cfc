@@ -1311,29 +1311,27 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						and locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					<cfelseif minElevOper EQ ">"><!--- " --->
 						and locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-					<cfelse>
-						<cfif left(minimum_elevation,1) is "=">
-							AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
-						<cfelseif left(minimum_elevation,1) is "!">
-							AND locality.minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
-						<cfelseif left(minimum_elevation,2) is ">="><!--- " --->
-							AND locality.minimum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
-						<cfelseif left(minimum_elevation,2) is "<=">
-							AND locality.minimum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
-						<cfelseif left(minimum_elevation,1) is ">"><!--- " --->
-							AND locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
-						<cfelseif left(minimum_elevation,1) is "<">
-							AND locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
-						<cfelseif find('-',minimum_elevation) GT 1>
-							<cfset bits = listToArray(bits,'-')>
-							<cfif arrayLength(bits) GT 1>
-								AND locality.minimum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
-							<cfelse>
-								AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
-							</cfif>
+					<cfelseif left(minimum_elevation,1) is "=">
+						AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+					<cfelseif left(minimum_elevation,1) is "!">
+						AND locality.minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+					<cfelseif left(minimum_elevation,2) is ">="><!--- " --->
+						AND locality.minimum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
+					<cfelseif left(minimum_elevation,2) is "<=">
+						AND locality.minimum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
+					<cfelseif left(minimum_elevation,1) is ">"><!--- " --->
+						AND locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+					<cfelseif left(minimum_elevation,1) is "<">
+						AND locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
+					<cfelseif find('-',minimum_elevation) GT 1>
+						<cfset bits = listToArray(bits,'-')>
+						<cfif arrayLength(bits) GT 1>
+							AND locality.minimum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
 						<cfelse>
-							AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
+							AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
 						</cfif>
+					<cfelse>
+						AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					</cfif>
 				</cfif>
 				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
@@ -1349,29 +1347,27 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						and locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					<cfelseif maxElevOper EQ ">"><!--- " --->
 						and locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-					<cfelse>
-						<cfif left(maximum_elevation,1) is "=">
-							AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
-						<cfelseif left(maximum_elevation,1) is "!">
-							AND locality.maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
-						<cfelseif left(maximum_elevation,2) is ">="><!--- " --->
-							AND locality.maximum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
-						<cfelseif left(maximum_elevation,2) is "<=">
-							AND locality.maximum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
-						<cfelseif left(maximum_elevation,1) is ">"><!--- " --->
-							AND locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
-						<cfelseif left(maximum_elevation,1) is "<">
-							AND locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
-						<cfelseif find('-',maximum_elevation) GT 1>
-							<cfset bits = listToArray(bits,'-')>
-							<cfif arrayLength(bits) GT 1>
-								AND locality.maximum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
-							<cfelse>
-								AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
-							</cfif>
+					<cfelseif left(maximum_elevation,1) is "=">
+						AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+					<cfelseif left(maximum_elevation,1) is "!">
+						AND locality.maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+					<cfelseif left(maximum_elevation,2) is ">="><!--- " --->
+						AND locality.maximum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
+					<cfelseif left(maximum_elevation,2) is "<=">
+						AND locality.maximum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
+					<cfelseif left(maximum_elevation,1) is ">"><!--- " --->
+						AND locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+					<cfelseif left(maximum_elevation,1) is "<">
+						AND locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
+					<cfelseif find('-',maximum_elevation) GT 1>
+						<cfset bits = listToArray(bits,'-')>
+						<cfif arrayLength(bits) GT 1>
+							AND locality.maximum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
 						<cfelse>
-							AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+							AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
 						</cfif>
+					<cfelse>
+						AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					</cfif>
 				</cfif>
 			GROUP BY
