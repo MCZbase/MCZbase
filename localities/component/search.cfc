@@ -815,7 +815,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
-		<cftransaction>
 		<cfif linguisticFlag >
 			<!--- Set up the session to run an accent insensitive search --->
 			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1422,7 +1421,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				ALTER SESSION SET NLS_COMP = BINARY
 			</cfquery>
 		</cfif>
-		</cftransaction>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
