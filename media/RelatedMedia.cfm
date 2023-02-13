@@ -52,7 +52,15 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (ct.description = 'publication')
 	</cfquery>--->
-	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+	
+		
+
+	<main class="container-fluid pb-5" id="content">
+		<div class="row">
+			<div class="col-12 pb-4 mb-5 pl-md-4">
+			<cfloop query="media">
+					<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select mr.related_primary_key as pk, ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 			from publication p
 			left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
@@ -71,7 +79,7 @@
 			where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
 			UNION
-			select ce.collecting_event_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+			select mr.related_primary_key as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from media_relations mr
 			left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -111,13 +119,6 @@
 			and mr.media_relationship <> 'created by agent'
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
 		</cfquery>	
-	
-		
-
-	<main class="container-fluid pb-5" id="content">
-		<div class="row">
-			<div class="col-12 pb-4 mb-5 pl-md-4">
-			<cfloop query="media">
 		<!---		<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT media_relationship 
 					FROM media_relations
