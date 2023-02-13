@@ -1238,13 +1238,13 @@ imgStyleClass=value
 					<cfset enableIIIF = true>
 					<cfset iiifFull = "">
 					<cfif host EQ "mczbase.mcz.harvard.edu" AND enableIIIF>
-						<!---<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>--->
+						<cfif media_type EQ 'image' AND left(media.mime_type,6) EQ 'image/'>
 							<cfset iiifSchemeServerPrefix = "#Application.protocol#://iiif.mcz.harvard.edu/iiif/3/">
 							<cfset iiifIdentifier = "#encodeForURL(replace(path,'/specimen_images/',''))##encodeForURL(filename)#">
 							<cfset iiifFull = "#iiifSchemeServerPrefix##iiifIdentifier#/full/max/0/default.jpg">
 							<cfset iiifSize = "#iiifSchemeServerPrefix##iiifIdentifier#/full/^#size#,/0/default.jpg">
 							<cfset iiifThumb = "#iiifSchemeServerPrefix##iiifIdentifier#/full/,70/0/default.jpg">
-				<!---		</cfif>--->
+						</cfif>
 					</cfif>
 					<cfset isDisplayable = false>
 					<cfif media_type EQ 'image' AND (media.mime_type EQ 'image/jpeg' OR media.mime_type EQ 'image/png')>
