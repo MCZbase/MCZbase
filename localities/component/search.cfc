@@ -1333,8 +1333,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 							</cfif>
 						<cfelse>
 							AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-						<cfif>
-					<cfif>
+						</cfif>
+					</cfif>
 				</cfif>
 				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
 					<cfif ucase(maximum_elevation) EQ "NULL">
@@ -1371,8 +1371,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 							</cfif>
 						<cfelse>
 							AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-						<cfif>
-					<cfif>
+						</cfif>
+					</cfif>
 				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
