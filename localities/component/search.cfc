@@ -253,10 +253,23 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="return_wkt" type="string" required="no">
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
+	<cfset linguisticFlag = false>
+	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
+		<cfset linguisticFlag=true>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
+		<cfif linguisticFlag >
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				 geog_auth_rec.geog_auth_rec_id,
@@ -703,6 +716,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			ORDER BY
 				geog_auth_rec.higher_geog
 		</cfquery>
+		<cfif linguisticFlag >
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cfif>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
