@@ -325,7 +325,7 @@
 															where mr.media_relationship <> 'created by agent'
 															and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#">
 															and m.media_id <><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-															and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_rel.media_relationship#">
+															and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_rel.media_relationship#">
 														</cfquery>
 															<!---<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id, ct.label
