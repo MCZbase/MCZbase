@@ -234,7 +234,7 @@
 								</div>
 							</cfif>
 						<cfelse>
-							<cfif media.recordcount gt 0>
+							<!---<cfif media.recordcount gt 0>
 								<cfquery name="relmer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select mr.related_primary_key as pk,ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 									from media_relations mr
@@ -312,7 +312,7 @@
 									and ct.auto_table = 'agent' 
 								</cfquery>
 							<cfif relmer.recordcount gt 0> 
-								<!---publication relationships and other possible associations to media on those records--->
+								
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
@@ -335,16 +335,8 @@
 															and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#">
 															and m.media_id <><cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-															<!---<cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct media.media_id, ct.label
-															from media_relations mr
-															left join media on mr.media_id = media.media_id
-															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#relmer.pk#" >
-															and mr.media_relationship <> 'created by agent'
-															and ct.auto_table ='#spec.auto_table#'
-															</cfquery>--->
-													<!---thumbnails added below--->
+										
+													
 														<cfset i = 1>
 														<cfloop query="relm1">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
@@ -382,8 +374,8 @@
 									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records 2</h2>
 								</div>
 							</cfif>
-							</cfif>
-							</cfif>
+							</cfif>--->
+						</cfif>
 						</div>
 					</div>
 				</cfloop>
