@@ -1260,7 +1260,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.minimum_elevation,
 				locality.orig_elev_units,
 				locality.curated_fg,
-				locality.sovereign_nation
+				locality.sovereign_nation,
+				locality.township, locality.township_direction, locality.range, locality.range_direction,
+				locality.section, locality.section_part
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
