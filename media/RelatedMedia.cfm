@@ -61,7 +61,7 @@
 		and ct.description <> 'ledger'
 		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
-		select mr.related_primary_key as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
+		select ci.collection_object_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
