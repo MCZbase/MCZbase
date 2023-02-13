@@ -1619,7 +1619,7 @@ imgStyleClass=value
 				and mczbase.ctmedia_relationship.auto_table = 'accn'
 		</cfquery>
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct p.publication_id as pk
+			select distinct p.publication_id as pk, mr.media_id
 			from publication p
 				left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 				left join media m on m.media_id = mr.media_id
@@ -1725,7 +1725,7 @@ imgStyleClass=value
 									<cfquery name="relm6" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct media.media_id from media_relations left join media on media_relations.media_id = media.media_id where related_primary_key = <cfqueryparam value=#collecting_eventRel.collecting_event_id# CFSQLType="CF_SQL_DECIMAL"></cfquery><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'shows publication'>: 
-									<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct p.publication_title,fp.formatted_publication as pub_long from publication p, formatted_publication fp where p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'long' </cfquery> #relm7.pub_long# <span> &##8226;&##8226; </span></cfloop>
+									<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct p.publication_title,fp.formatted_publication as pub_long from publication p, formatted_publication fp where p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'long' </cfquery><a class="font-weight-lessbold" href="##">#relm7.pub_long# </a><span> &##8226;&##8226; </span> </cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'ledger entry for cataloged_item'> 
 										<!---Removed --->
