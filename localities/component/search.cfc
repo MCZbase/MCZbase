@@ -805,7 +805,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset linguisticFlag=true>
 	</cfif>
 	<cfif isdefined("collection_id") and len(collection_id) gt 0>
-		<cfif not isDefined("collnOper")><cfset collnOper= "usedBy">
+		<cfif not isDefined("collnOper")><cfset collnOper= "usedBy"></cfif>
 	</cfif>
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
 
