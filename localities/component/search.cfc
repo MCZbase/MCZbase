@@ -778,6 +778,34 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	--->
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
+	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+		<cfif NOT isDefined("maxElevOper")><cfset maxElevOper=""></cfif>
+		<cfif left(maximum_elevation,1) is "=">
+			<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
+			<cfset maxElevOper = "=">
+		</cfif>
+		<cfif left(maximum_elevation,1) is "!">
+			<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
+			<cfset maxElevOper = "!">
+		</cfif>
+		<cfif isDefined("maxElevOper") AND maxElevOper EQ "<>"><!--- " --->
+			<cfset maxElevOper = "!">
+		</cfif>
+	</cfif>
+	<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
+		<cfif NOT isDefined("minElevOper")><cfset minElevOper=""></cfif>
+		<cfif left(minimum_elevation,1) is "=">
+			<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
+			<cfset minElevOper = "=">
+		</cfif>
+		<cfif left(minimum_elevation,1) is "!">
+			<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
+			<cfset minElevOper = "!">
+		</cfif>
+		<cfif isDefined("minElevOper") AND minElevOper EQ "<>"><!--- " --->
+			<cfset minElevOper = "!">
+		</cfif>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -862,12 +890,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.continent_ocean) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-2))#">)
 					<cfelseif left(continent_ocean,1) is "!">
 						AND upper(geog_auth_rec.continent_ocean) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
-					<cfelse>
-						<cfif find(',',continent_ocean) GT 0>
+					<cfelseif find(',',continent_ocean) GT 0>
 							AND upper(geog_auth_rec.continent_ocean) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(continent_ocean)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.continent_ocean) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(continent_ocean)#%">
-						</cfif>
+					<cfelse>
+						AND upper(geog_auth_rec.continent_ocean) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(continent_ocean)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("country") AND len(country) gt 0>
@@ -887,12 +913,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.country) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-2))#">)
 					<cfelseif left(country,1) is "!">
 						AND upper(geog_auth_rec.country) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
+					<cfelseif find(',',country) GT 0>
+						AND upper(geog_auth_rec.country) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(country)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',country) GT 0>
-							AND upper(geog_auth_rec.country) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(country)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.country) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(country)#%">
-						</cfif>
+						AND upper(geog_auth_rec.country) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(country)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("state_prov") AND len(state_prov) gt 0>
@@ -912,12 +936,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.state_prov) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-2))#">)
 					<cfelseif left(state_prov,1) is "!">
 						AND upper(geog_auth_rec.state_prov) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-1))#">
+					<cfelseif find(',',state_prov) GT 0>
+						AND upper(geog_auth_rec.state_prov) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(state_prov)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',state_prov) GT 0>
-							AND upper(geog_auth_rec.state_prov) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(state_prov)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.state_prov) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(state_prov)#%">
-						</cfif>
+						AND upper(geog_auth_rec.state_prov) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(state_prov)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("county") AND len(county) gt 0>
@@ -937,12 +959,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.county) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-2))#">)
 					<cfelseif left(county,1) is "!">
 						AND upper(geog_auth_rec.county) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-1))#">
+					<cfelseif find(',',county) GT 0>
+						AND upper(geog_auth_rec.county) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(county)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',county) GT 0>
-							AND upper(geog_auth_rec.county) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(county)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.county) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(county)#%">
-						</cfif>
+						AND upper(geog_auth_rec.county) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(county)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("quad") AND len(quad) gt 0>
@@ -962,12 +982,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.quad) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-2))#">)
 					<cfelseif left(quad,1) is "!">
 						AND upper(geog_auth_rec.quad) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-1))#">
+					<cfelseif find(',',quad) GT 0>
+						AND upper(geog_auth_rec.quad) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(quad)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',quad) GT 0>
-							AND upper(geog_auth_rec.quad) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(quad)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.quad) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(quad)#%">
-						</cfif>
+						AND upper(geog_auth_rec.quad) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(quad)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("feature") AND len(feature) gt 0>
@@ -987,12 +1005,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.feature) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-2))#">)
 					<cfelseif left(feature,1) is "!">
 						AND upper(geog_auth_rec.feature) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-1))#">
+					<cfelseif find(',',feature) GT 0>
+						AND upper(geog_auth_rec.feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(feature)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',feature) GT 0>
-							AND upper(geog_auth_rec.feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(feature)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(feature)#%">
-						</cfif>
+						AND upper(geog_auth_rec.feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(feature)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("island") AND len(island) gt 0>
@@ -1012,12 +1028,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.island) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-2))#">)
 					<cfelseif left(island,1) is "!">
 						AND upper(geog_auth_rec.island) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-1))#">
+					<cfelseif find(',',island) GT 0>
+						AND upper(geog_auth_rec.island) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',island) GT 0>
-							AND upper(geog_auth_rec.island) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.island) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island)#%">
-						</cfif>
+						AND upper(geog_auth_rec.island) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("island_group") AND len(island_group) gt 0>
@@ -1037,12 +1051,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.island_group) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-2))#">)
 					<cfelseif left(island_group,1) is "!">
 						AND upper(geog_auth_rec.island_group) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-1))#">
+					<cfelseif find(',',island_group) GT 0>
+						AND upper(geog_auth_rec.island_group) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island_group)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',island_group) GT 0>
-							AND upper(geog_auth_rec.island_group) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island_group)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.island_group) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island_group)#%">
-						</cfif>
+						AND upper(geog_auth_rec.island_group) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island_group)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_region") AND len(ocean_region) gt 0>
@@ -1062,12 +1074,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.ocean_region) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-2))#">)
 					<cfelseif left(ocean_region,1) is "!">
 						AND upper(geog_auth_rec.ocean_region) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-1))#">
+					<cfelseif find(',',ocean_region) GT 0>
+						AND upper(geog_auth_rec.ocean_region) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_region)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',ocean_region) GT 0>
-							AND upper(geog_auth_rec.ocean_region) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_region)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.ocean_region) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_region)#%">
-						</cfif>
+						AND upper(geog_auth_rec.ocean_region) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_region)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0>
@@ -1087,12 +1097,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.ocean_subregion) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-2))#">)
 					<cfelseif left(ocean_subregion,1) is "!">
 						AND upper(geog_auth_rec.ocean_subregion) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-1))#">
+					<cfelseif find(',',ocean_subregion) GT 0>
+						AND upper(geog_auth_rec.ocean_subregion) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_subregion)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',ocean_subregion) GT 0>
-							AND upper(geog_auth_rec.ocean_subregion) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_subregion)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.ocean_subregion) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_subregion)#%">
-						</cfif>
+						AND upper(geog_auth_rec.ocean_subregion) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_subregion)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("sea") AND len(sea) gt 0>
@@ -1112,12 +1120,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.sea) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-2))#">)
 					<cfelseif left(sea,1) is "!">
 						AND upper(geog_auth_rec.sea) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-1))#">
+					<cfelseif find(',',sea) GT 0>
+						AND upper(geog_auth_rec.sea) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sea)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',sea) GT 0>
-							AND upper(geog_auth_rec.sea) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sea)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.sea) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sea)#%">
-						</cfif>
+						AND upper(geog_auth_rec.sea) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sea)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("water_feature") AND len(water_feature) gt 0>
@@ -1137,12 +1143,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.water_feature) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-2))#">)
 					<cfelseif left(water_feature,1) is "!">
 						AND upper(geog_auth_rec.water_feature) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-1))#">
+					<cfelseif find(',',water_feature) GT 0>
+						AND upper(geog_auth_rec.water_feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(water_feature)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',water_feature) GT 0>
-							AND upper(geog_auth_rec.water_feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(water_feature)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.water_feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(water_feature)#%">
-						</cfif>
+						AND upper(geog_auth_rec.water_feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(water_feature)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("source_authority") AND len(source_authority) gt 0>
@@ -1158,12 +1162,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.source_authority) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-2))#">)
 					<cfelseif left(source_authority,1) is "!">
 						AND upper(geog_auth_rec.source_authority) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-1))#">
+					<cfelseif find(',',source_authority) GT 0>
+						AND upper(geog_auth_rec.source_authority) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(source_authority)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',source_authority) GT 0>
-							AND upper(geog_auth_rec.source_authority) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(source_authority)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.source_authority) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(source_authority)#%">
-						</cfif>
+						AND upper(geog_auth_rec.source_authority) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(source_authority)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0>
@@ -1183,12 +1185,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.highergeographyid) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-2))#">)
 					<cfelseif left(highergeographyid,1) is "!">
 						AND upper(geog_auth_rec.highergeographyid) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-1))#">
+					<cfelseif find(',',highergeographyid) GT 0>
+						AND upper(geog_auth_rec.highergeographyid) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',highergeographyid) GT 0>
-							AND upper(geog_auth_rec.highergeographyid) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.highergeographyid) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid)#%">
-						</cfif>
+						AND upper(geog_auth_rec.highergeographyid) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0>
@@ -1208,12 +1208,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(geog_auth_rec.highergeographyid_guid_type) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-2))#">)
 					<cfelseif left(highergeographyid_guid_type,1) is "!">
 						AND upper(geog_auth_rec.highergeographyid_guid_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1))#">
+					<cfelseif find(',',highergeographyid_guid_type) GT 0>
+						AND upper(geog_auth_rec.highergeographyid_guid_type) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid_guid_type)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',highergeographyid_guid_type) GT 0>
-							AND upper(geog_auth_rec.highergeographyid_guid_type) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid_guid_type)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.highergeographyid_guid_type) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid_guid_type)#%">
-						</cfif>
+						AND upper(geog_auth_rec.highergeographyid_guid_type) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid_guid_type)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("wkt_polygon") AND len(wkt_polygon) gt 0>
@@ -1240,12 +1238,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(locality.spec_locality) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-2))#">)
 					<cfelseif left(spec_locality,1) is "!">
 						AND upper(locality.spec_locality) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">
+					<cfelseif find(',',spec_locality) GT 0>
+						AND upper(locality.spec_locality) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(spec_locality)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',spec_locality) GT 0>
-							AND upper(locality.spec_locality) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(spec_locality)#" list="yes"> )
-						<cfelse>
-							AND upper(locality.spec_locality) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spec_locality)#%">
-						</cfif>
+						AND upper(locality.spec_locality) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spec_locality)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0>
@@ -1265,12 +1261,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(locality.locality_remarks) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(locality_remarks,len(locality_remarks)-2))#">)
 					<cfelseif left(locality_remarks,1) is "!">
 						AND upper(locality.locality_remarks) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(locality_remarks,len(locality_remarks)-1))#">
+					<cfelseif find(',',locality_remarks) GT 0>
+						AND upper(locality.locality_remarks) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(locality_remarks)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',locality_remarks) GT 0>
-							AND upper(locality.locality_remarks) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(locality_remarks)#" list="yes"> )
-						<cfelse>
-							AND upper(locality.locality_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(locality_remarks)#%">
-						</cfif>
+						AND upper(locality.locality_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(locality_remarks)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0>
@@ -1290,27 +1284,13 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND soundex(locality.orig_elev_units) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(orig_elev_units,len(orig_elev_units)-2))#">)
 					<cfelseif left(orig_elev_units,1) is "!">
 						AND upper(locality.orig_elev_units) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(orig_elev_units,len(orig_elev_units)-1))#">
+					<cfelseif find(',',orig_elev_units) GT 0>
+						AND upper(locality.orig_elev_units) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(orig_elev_units)#" list="yes"> )
 					<cfelse>
-						<cfif find(',',orig_elev_units) GT 0>
-							AND upper(locality.orig_elev_units) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(orig_elev_units)#" list="yes"> )
-						<cfelse>
-							AND upper(locality.orig_elev_units) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(orig_elev_units)#%">
-						</cfif>
+						AND upper(locality.orig_elev_units) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(orig_elev_units)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
-					<cfif NOT isDefined("minElevOper")><cfset minElevOper=""></cfif>
-					<cfif left(minimum_elevation,1) is "=">
-						<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
-						<cfset minElevOper = "=">
-					</cfif>
-					<cfif left(minimum_elevation,1) is "!">
-						<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
-						<cfset minElevOper = "!">
-					</cfif>
-					<cfif isDefined("minElevOper") AND minElevOper EQ "<>"><!--- " --->
-						<cfset minElevOper = "!">
-					</cfif>
 					<cfif ucase(minimum_elevation) EQ "NULL">
 						and locality.minimum_elevation IS NULL
 					<cfelseif ucase(minimum_elevation) EQ "NOT NULL">
@@ -1332,7 +1312,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfelseif left(minimum_elevation,1) is "<">
 						AND locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
 					<cfelseif find('-',minimum_elevation) GT 1>
-						<cfset bits = listToArray(bits,'-')>
+						<cfset bits = listToArray(minimum_elevation,'-')>
 						<cfif arrayLength(bits) GT 1>
 							AND locality.minimum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
 						<cfelse>
@@ -1343,18 +1323,6 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
-					<cfif NOT isDefined("maxElevOper")><cfset maxElevOper=""></cfif>
-					<cfif left(maximum_elevation,1) is "=">
-						<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
-						<cfset maxElevOper = "=">
-					</cfif>
-					<cfif left(maximum_elevation,1) is "!">
-						<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
-						<cfset maxElevOper = "!">
-					</cfif>
-					<cfif isDefined("maxElevOper") AND maxElevOper EQ "<>"><!--- " --->
-						<cfset maxElevOper = "!">
-					</cfif>
 					<cfif ucase(maximum_elevation) EQ "NULL">
 						and locality.maximum_elevation IS NULL
 					<cfelseif ucase(maximum_elevation) EQ "NOT NULL">
@@ -1376,7 +1344,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfelseif left(maximum_elevation,1) is "<">
 						AND locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
 					<cfelseif find('-',maximum_elevation) GT 1>
-						<cfset bits = listToArray(bits,'-')>
+						<cfset bits = listToArray(maximum_elevation,'-')>
 						<cfif arrayLength(bits) GT 1>
 							AND locality.maximum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
 						<cfelse>
