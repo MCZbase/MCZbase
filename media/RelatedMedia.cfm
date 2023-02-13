@@ -51,8 +51,7 @@
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and (ct.description = 'publication')
 	</cfquery>
-	<cfloop query = "rels">
-		<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select mr.related_primary_key as pk, ct.description as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 			from publication p
 			left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
@@ -112,6 +111,8 @@
 			and mr.media_relationship <> 'created by agent'
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
 		</cfquery>	
+	
+		
 
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
@@ -399,7 +400,6 @@
 		</div>
 	</main>
 								
-	</cfloop>
 </cfoutput>
 	
 	
