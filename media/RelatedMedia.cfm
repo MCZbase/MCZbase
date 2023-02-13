@@ -67,6 +67,8 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
+		and ct.description <> 'ledger'
+		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
 		select ce.collecting_event_id as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 		from media_relations mr
