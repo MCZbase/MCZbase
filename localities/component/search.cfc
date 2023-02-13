@@ -19,6 +19,81 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- function setupClause setup variables to put into a where clause of a query.
+
+	Expected use: 
+
+	<cfif isdefined("country") AND len(country) gt 0>
+		<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
+		<cfif len(retval["value"]) GT 0>
+			AND #retval["pre"]# #retval["post"]#
+		<cfelse>
+			AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+		</cfif>
+	</cfif>
+	
+
+ @param field the field name, possibly needing to be prefixed by the tablename
+	field must be supplied a string value, not a variable, and must not be supplied 
+   from a user, otherwise could be used for sql injection.
+ @param the value to be queried for, supports the following:
+	NULL, NOT NULL, operators as leading characters =, !, $, !$, ~, !~,
+   and a comma separated list
+ @return a struct with the properties pre, value, list, and post.
+--->
+<cffunction name="setupClause" access="private" returntype="struct">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfset retval = StructNew()>
+	<cfset pre = "#field#">
+	<cfset post = "">
+	<cfset list = "no">
+	<cfif ucase(value) EQ "NULL">
+		<cfset value= "">
+		<cfset post= "IS NULL">
+	<cfelseif ucase(value) EQ "NOT NULL">
+		<cfset value= "">
+		<cfset value= "IS NOT NULL">
+	<cfelseif left(value,1) is "=">
+		<cfset pre="#field# =">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+	<cfelseif left(value,1) is "~">
+		<cfset pre="utl_match.jaro_winkler(#value#,">
+		<cfset value="#right(value,len(value)-1)#">
+		<cfset post = ") >= 0.90"><!--- " --->
+	<cfelseif left(value,2) is "!~">
+		<cfset pre="utl_match.jaro_winkler(#value#,"> 
+		<cfset value="#right(value,len(value)-2)#">
+		<cfset post=") < 0.90">
+	<cfelseif left(value,1) is "$">
+		<cfset pre="soundex(#value#) =  soundex(">
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset post=")">
+	<cfelseif left(value,2) is "!$">
+		<cfset pre="soundex(#value#) <> soundex("><!--- ") --->
+		<cfset value="#ucase(right(value,len(value)-2))#">
+		<cfset post=")">
+	<cfelseif left(value,1) is "!">
+		<cfset pre="upper(#value#) <>"><!--- " --->
+		<cfset value="#ucase(right(value,len(value)-1))#">
+		<cfset post="">
+	<cfelseif find(',',value) GT 0>
+		<cfset pre="upper(#value#) in (">
+		<cfset value="#ucase(value)#">
+		<cfset post = ")">
+		<cfset list="yes">
+	<cfelse>
+		<cfset pre="upper(#value#) LIKE ">
+		<cfset value="%#ucase(value)#%">
+		<cfset post ="">
+	</cfif>
+	<cfset retval["pre"]=pre>
+	<cfset retval["value"]=value>
+	<cfset retval["post"]=post>
+	<cfset retval["list"]=list>
+	<cfreturn retval>
+</cffunction>
+
 <!---
 Function getSpecLocalityAutocomplete.  Search for spec_locality by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
 
@@ -938,26 +1013,11 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("country") AND len(country) gt 0>
-					<cfif ucase(country) EQ "NULL">
-						and geog_auth_rec.country IS NULL
-					<cfelseif ucase(country) EQ "NOT NULL">
-						and geog_auth_rec.country IS NOT NULL
-					<cfelseif left(country,1) is "=">
-						AND upper(geog_auth_rec.country) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
-					<cfelseif left(country,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.country, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(country,len(country)-1)#">) >= 0.90
-					<cfelseif left(country,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.country, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(country,len(country)-1)#">) < 0.90
-					<cfelseif left(country,1) is "$">
-						AND soundex(geog_auth_rec.country) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">)
-					<cfelseif left(country,2) is "!$">
-						AND soundex(geog_auth_rec.country) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-2))#">)
-					<cfelseif left(country,1) is "!">
-						AND upper(geog_auth_rec.country) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
-					<cfelseif find(',',country) GT 0>
-						AND upper(geog_auth_rec.country) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(country)#" list="yes"> )
+					<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
+					<cfif len(retval["value"]) GT 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						AND upper(geog_auth_rec.country) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(country)#%">
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("state_prov") AND len(state_prov) gt 0>
