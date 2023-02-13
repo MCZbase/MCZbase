@@ -871,7 +871,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						and locality.curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
 				</cfif>
 				<cfif isDefined("sovereign_nation") and len(sovereign_nation) gt 0>
-						and locality.sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sovereign_nation#">
+						and locality.sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sovereign_nation#">
 				</cfif>
 				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
 					<cfif ucase(continent_ocean) EQ "NULL">
