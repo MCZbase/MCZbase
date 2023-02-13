@@ -242,7 +242,7 @@
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 								and mr.media_relationship <> 'created by agent'
 								and (mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#"> OR ct.description = 'publication')
-								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 								</cfquery>
 								<cfif relmer.recordcount gt 0> 
 									<!---publication relationships and other possible associations to media on those records--->
