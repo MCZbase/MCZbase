@@ -839,10 +839,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
 						and geog_auth_rec.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 				</cfif>
-				<cfif isDefined("curated_fg") and len(valid_catalog_term_fg) gt 0>
+				<cfif isDefined("curated_fg") and len(curated_fg) gt 0>
 						and locality.curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
 				</cfif>
-				<cfif isDefined("sovereign_nation") and len(valid_catalog_term_fg) gt 0>
+				<cfif isDefined("sovereign_nation") and len(sovereign_nation) gt 0>
 						and locality.sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sovereign_nation#">
 				</cfif>
 				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
