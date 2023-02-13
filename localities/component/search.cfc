@@ -776,6 +776,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="maxElevOper" type="string" required="no">
 	<cfargument name="maximum_elevation" type="string" required="no">
 	<cfargument name="accentInsenstive" type="string" required="no">
+	<cfargument name="collection_id" type="string" required="no">
+	<cfargument name="collnOper" type="string" required="no">
 	<!--- 
 	"ORIG_ELEV_UNITS" VARCHAR2(2 CHAR), 
 	"TOWNSHIP" NUMBER, 
@@ -796,12 +798,18 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	"SOVEREIGN_NATION" VARCHAR2(255) DEFAULT '[unknown]' NOT NULL ENABLE NOVALIDATE, 
 	"CURATED_FG" NUMBER(1,0) DEFAULT 0, 
 	--->
+
+	<!--- set default values where not defined --->
 	<cfset linguisticFlag = false>
 	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
 		<cfset linguisticFlag=true>
 	</cfif>
-
+	<cfif isdefined("collection_id") and len(collection_id) gt 0>
+		<cfif not isDefined("collnOper")><cfset collnOper= "usedBy">
+	</cfif>
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
+
+	<!--- manipulate operators on min/maximum elevation to reduce number of cfelseif clauses --->
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
 		<cfif NOT isDefined("maxElevOper")><cfset maxElevOper=""></cfif>
 		<cfif left(maximum_elevation,1) is "=">
@@ -1385,6 +1393,33 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						</cfif>
 					<cfelse>
 						AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+					</cfif>
+				</cfif>
+				<cfif isdefined("collection_id") and len(collection_id) gt 0>
+					<cfif collnOper is "usedOnlyBy">
+						AND locality.locality_id in
+								(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND locality.locality_id not in
+								(select locality_id from vpd_collection_locality where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					<cfelseif collnOper is "usedBy">
+						AND locality.locality_id in
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					<cfelseif collnOper is "notUsedBy">
+						AND locality.locality_id  not in
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					<cfelseif collnOper is "eventUsedOnlyBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND collecting_event.collecting_event_id not in
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					<cfelseif collnOper is "eventUsedBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					<cfelseif collnOper is "eventSharedOnlyBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 					</cfif>
 				</cfif>
 			GROUP BY
