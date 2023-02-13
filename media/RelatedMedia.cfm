@@ -61,7 +61,6 @@
 			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
 			and ct.description = 'publication'
-			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
 			and ct.description <> 'ledger'
 			and m.auto_host <> 'nrs.harvard.edu'
 			UNION
