@@ -1318,7 +1318,7 @@ imgStyleClass=value
 							<cfelse>
 								<!--- fall back on an svg image of an appropriate generic icon --->
 								<cfif CGI.script_name CONTAINS "/RelatedMedia.cfm">
-									<cfset size = "95"><!---was 200--->
+									<cfset size = "90"><!---was 200--->
 										<cfset styles = "max-height:;width:auto;">
 								<cfelse>
 									<cfset size = "90">
