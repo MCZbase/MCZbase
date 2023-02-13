@@ -61,8 +61,8 @@
 			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
 			and ct.description = 'publication'
 			and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#rels.auto_table#">
-		<!---	and ct.description <> 'ledger'
-			and m.auto_host <> 'nrs.harvard.edu'--->
+			and ct.description <> 'ledger'
+			and m.auto_host <> 'nrs.harvard.edu'
 			UNION
 			select mr.related_primary_key as pk, ct.description as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 			from cataloged_item ci
