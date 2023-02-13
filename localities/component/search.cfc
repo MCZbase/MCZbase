@@ -854,6 +854,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="accentInsenstive" type="string" required="no">
 	<cfargument name="collection_id" type="string" required="no">
 	<cfargument name="collnOper" type="string" required="no">
+	<cfargument name="include_counts" type="string" required="no"><!--- locality counts by collection --->
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
 	<!--- 
 	"TOWNSHIP" NUMBER, 
 	"TOWNSHIP_DIRECTION" CHAR(1 CHAR), 
@@ -880,6 +883,10 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfif not isDefined("collnOper")><cfset collnOper= "usedBy"></cfif>
 	</cfif>
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
+	<cfset includeCounts = false>
+	<cfif isdefined("include_counts") AND include_counts EQ 1 >
+		<cfset includeCounts=true>
+	</cfif>
 
 	<!--- manipulate operators on min/maximum elevation to reduce number of cfelseif clauses --->
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
@@ -957,11 +964,20 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.curated_fg,
 				locality.sovereign_nation,
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+				concatGeologyAttributeDetail(locality.locality_id) geolAtts,
+				<cfif includeCounts >
+					MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality,
+				<cfelse>
+					null as collcountlocality,
+				</cfif>
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on locality.locality_id=flatTableName.locality_id
+				<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
+					left join geology_attributes on locality.locality_id = geology_attributes.locality_id
+				</cfif>
 			WHERE
 				locality.locality_id is not null
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
@@ -1202,6 +1218,36 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					</cfif>
 				</cfif>
+				<cfif isdefined("section") AND len(section) gt 0>
+					<cfif ucase(section) EQ "NULL">
+						and locality.section IS NULL
+					<cfelseif ucase(section) EQ "NOT NULL">
+						and locality.section IS NOT NULL
+					<cfelse>
+						AND locality.section = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#section#">
+					</cfif>
+					<!--- TODO: Generic clause builder for numeric data --->
+				</cfif>
+				<cfif isdefined("township") AND len(township) gt 0>
+					<cfif ucase(township) EQ "NULL">
+						and locality.township IS NULL
+					<cfelseif ucase(township) EQ "NOT NULL">
+						and locality.township IS NOT NULL
+					<cfelse>
+						AND locality.township = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#township#">
+					</cfif>
+					<!--- TODO: Generic clause builder for numeric data --->
+				</cfif>
+				<cfif isdefined("range") AND len(range) gt 0>
+					<cfif ucase(range) EQ "NULL">
+						and locality.range IS NULL
+					<cfelseif ucase(range) EQ "NOT NULL">
+						and locality.range IS NOT NULL
+					<cfelse>
+						AND locality.range = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#range#">
+					</cfif>
+					<!--- TODO: Generic clause builder for numeric data --->
+				</cfif>
 				<cfif isdefined("collection_id") and len(collection_id) gt 0>
 					<cfif collnOper is "usedOnlyBy">
 						AND locality.locality_id in
@@ -1227,6 +1273,20 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 						AND collecting_event.collecting_event_id in
 								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					</cfif>
+				</cfif>
+				<cfif isdefined("geology_attribute") and len(#geology_attribute#) gt 0>
+					AND geology_attributes.geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">
+				</cfif>
+				<cfif isdefined("geo_att_value") and len(#geo_att_value#) gt 0>
+					<cfif isdefined("geology_attribute_hier") and #geology_attribute_hier# is 1>
+						AND geology_attributes.geo_att_value
+							IN ( SELECT attribute_value
+								FROM geology_attribute_hierarchy
+								START WITH upper(attribute_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
+								CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id )
+					<cfelse>
+						AND upper(geology_attributes.geo_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
 					</cfif>
 				</cfif>
 			GROUP BY
@@ -1262,7 +1322,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.curated_fg,
 				locality.sovereign_nation,
 				locality.township, locality.township_direction, locality.range, locality.range_direction,
-				locality.section, locality.section_part
+				locality.section, locality.section_part,
+				concatGeologyAttributeDetail(locality.locality_id) geolAtts,
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality

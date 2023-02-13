@@ -340,8 +340,8 @@
 						<label for="MinElevOper" class="data-entry-label" style="color: transparent">(operator)</label>
 						<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -362,8 +362,8 @@
 						<label for="MaxElevOper" class="data-entry-label" style="color:transparent">Elevation</label>
 						<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -458,8 +458,8 @@
 						<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
 						<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -468,6 +468,25 @@
 						<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input">
 					</div>
 				</div>
+				<cfif #showExtraFields# IS 1>
+					<div class="form-row mb-0">
+						<div class="col-12 col-md-3 my-1">
+							<cfif not isDefined("section")><cfset section=""></cfif>
+							<label for="section" class="data-entry-label">PLSS Section</label>
+							<input type="text" name="section" id="section" class="data-entry-input" value="#section#">
+						</div>
+						<div class="col-12 col-md-3 my-1">
+							<cfif not isDefined("township")><cfset township=""></cfif>
+							<label for="township" class="data-entry-label">PLSS Township</label>
+							<input type="text" name="township" id="township" class="data-entry-input" value="#township#">
+						</div>
+						<div class="col-12 col-md-3 my-1">
+							<cfif not isDefined("range")><cfset range=""></cfif>
+							<label for="range" class="data-entry-label">PLSS Range</label>
+							<input type="text" name="range" id="range" class="data-entry-input" value="#range#">
+						</div>
+					</div>
+				</cfif>
 				<div class="form-row px-3 mt-2 mb-3">
 					<div class="col-12 col-md-4">
 						<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>

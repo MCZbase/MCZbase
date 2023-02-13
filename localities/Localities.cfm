@@ -149,6 +149,8 @@ limitations under the License.
 									{ name: 'MAXIMUM_ELEVATION', type: 'string' },
 									{ name: 'ORIG_ELEV_UNITS', type: 'string' },
 									{ name: 'PLSS', type: 'string' },
+									{ name: 'GEOLATTS', type: 'string' },
+									{ name: 'COLLCOUNTLOCALITY', type: 'string' },
 									{ name: 'LOCALITY_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
@@ -222,6 +224,8 @@ limitations under the License.
 									{ text: 'Feature', datafield: 'FEATURE',width: 100, hideabel: true, hidden: getColHidProp('FEATURE',true)  },
 									{ text: 'Quad', datafield: 'QUAD',width: 100, hideabel: true, hidden: getColHidProp('QUAD',true)  },
 									{ text: 'PLSS', datafield: 'PLSS',width: 100, hideabel: true, hidden: getColHidProp('PLSS',true)  },
+									{ text: 'Geological Attributes', datafield: 'GEOLATTS',width: 250, hideabel: true, hidden: getColHidProp('GEOLATTS',true)  },
+									{ text: 'Departments', datafield: 'COLLCOUNTLOCALITY',width: 100, hideabel: true, hidden: getColHidProp('COLLCOUNTLOCALITY',true)  },
 									{ text: 'Valid', datafield: 'VALID_CATALOG_TERM_FG',width: 50, hideabel: true, hidden: getColHidProp('VALID_CATALOG_TERM_FG',true)  },
 									{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY',width: 100, hideabel: true, hidden: getColHidProp('SOURCE_AUTHORITY',true)  },
 									{ text: 'WKT', datafield: 'WKT_POLYGON',width: 80, hideabel: true, hidden: getColHidProp('WKT_POLYGON',true)  },
