@@ -1299,22 +1299,30 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
+					<cfif NOT isDefined("minElevOper")><cfset minElevOper=""></cfif>
+					<cfif left(minimum_elevation,1) is "=">
+						<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
+						<cfset minElevOper = "=">
+					</cfif>
+					<cfif left(minimum_elevation,1) is "!">
+						<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
+						<cfset minElevOper = "!">
+					</cfif>
+					<cfif isDefined("minElevOper") AND minElevOper EQ "<>"><!--- " --->
+						<cfset minElevOper = "!">
+					</cfif>
 					<cfif ucase(minimum_elevation) EQ "NULL">
 						and locality.minimum_elevation IS NULL
 					<cfelseif ucase(minimum_elevation) EQ "NOT NULL">
 						and locality.minimum_elevation IS NOT NULL
 					<cfelseif minElevOper EQ "=">
 						and locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-					<cfelseif minElevOper EQ "<>" OR minElevOper EQ "!"><!--- " --->
+					<cfelseif minElevOper EQ "!"><!--- " --->
 						and locality.minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					<cfelseif minElevOper EQ "<">
 						and locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
 					<cfelseif minElevOper EQ ">"><!--- " --->
 						and locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-					<cfelseif left(minimum_elevation,1) is "=">
-						AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
-					<cfelseif left(minimum_elevation,1) is "!">
-						AND locality.minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
 					<cfelseif left(minimum_elevation,2) is ">="><!--- " --->
 						AND locality.minimum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
 					<cfelseif left(minimum_elevation,2) is "<=">
@@ -1335,22 +1343,30 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+					<cfif NOT isDefined("maxElevOper")><cfset maxElevOper=""></cfif>
+					<cfif left(maximum_elevation,1) is "=">
+						<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
+						<cfset maxElevOper = "=">
+					</cfif>
+					<cfif left(maximum_elevation,1) is "!">
+						<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
+						<cfset maxElevOper = "!">
+					</cfif>
+					<cfif isDefined("maxElevOper") AND maxElevOper EQ "<>"><!--- " --->
+						<cfset maxElevOper = "!">
+					</cfif>
 					<cfif ucase(maximum_elevation) EQ "NULL">
 						and locality.maximum_elevation IS NULL
 					<cfelseif ucase(maximum_elevation) EQ "NOT NULL">
 						and locality.maximum_elevation IS NOT NULL
 					<cfelseif maxElevOper EQ "=">
 						and locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-					<cfelseif maxElevOper EQ "<>" OR maxElevOper EQ "!"><!--- " --->
+					<cfelseif maxElevOper EQ "!">
 						and locality.maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					<cfelseif maxElevOper EQ "<">
 						and locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
 					<cfelseif maxElevOper EQ ">"><!--- " --->
 						and locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-					<cfelseif left(maximum_elevation,1) is "=">
-						AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
-					<cfelseif left(maximum_elevation,1) is "!">
-						AND locality.maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
 					<cfelseif left(maximum_elevation,2) is ">="><!--- " --->
 						AND locality.maximum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
 					<cfelseif left(maximum_elevation,2) is "<=">
