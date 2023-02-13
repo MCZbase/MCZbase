@@ -45,7 +45,7 @@ limitations under the License.
 						<cfset showLocality=1>
 						<cfset showEvent=0>
 						<cfset showExtraFields=1>
-						<cfset newSearchTarget = "/localities/Locality.cfm"
+						<cfset newSearchTarget = "/localities/Locality.cfm">
 						<input type="hidden" id="method" name="method" value="getLocalities">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
