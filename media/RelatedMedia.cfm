@@ -42,12 +42,9 @@
 		select distinct c.collection_object_id
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-		left join media m on m.media_id = mr.media_id
 		left join citation c on c.publication_id = p.publication_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = 'publication'
-		and mr.media_relationship <> 'created by agent'
+		and mr.media_relationship = 'shows publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		<cfif pubscollid.recordcount gt 0>
@@ -63,17 +60,12 @@
 		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
 		</cfif>
-		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
-		from cataloged_item ci
-        left join citation c on c.publication_id = ci.collection_object_id
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = ci.collection_object_id
-		left join publication p on c.publication_id = p.publication_id
-        left join media m on m.media_id = mr.media_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
-		and ct.description = 'publication'
-		and ct.description <> 'ledger'
-		and m.auto_host <> 'nrs.harvard.edu'
+		select publication.publication_id
+		from publication
+		left join citation on citation.publication_id = publication.publication_id
+		left join media_relations on publication.publication_id = media_relations.RELATED_PRIMARY_KEY
+		where media_relations.media_relationship = 'shows publication'
+		and citation.COLLECTION_OBJECT_ID =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 		UNION
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 		from cataloged_item ci
