@@ -64,6 +64,7 @@
 		from publication
 		left join citation on citation.publication_id = publication.publication_id
 		left join media_relations on publication.publication_id = media_relations.RELATED_PRIMARY_KEY
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where media_relations.media_relationship = 'shows publication'
 		and citation.COLLECTION_OBJECT_ID =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 		UNION
