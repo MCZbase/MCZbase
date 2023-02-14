@@ -63,11 +63,12 @@
 		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
 		</cfif>
-		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
-		from publication p
-		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-		left join media m on m.media_id = mr.media_id
-		left join citation c on c.publication_id = p.publication_id
+		select mr.related_primary_key as pk, c.CITED_TAXON_NAME_ID, c.TYPE_STATUS, ct.media_relationship as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
+		from cataloged_item ci
+        left join citation c on c.publication_id = ci.collection_object_id
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = ci.collection_object_id
+		left join publication p on c.publication_id = p.publication_id
+        left join media m on m.media_id = mr.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
 		and ct.description = 'publication'
