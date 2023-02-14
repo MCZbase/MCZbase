@@ -1626,10 +1626,8 @@ imgStyleClass=value
 				left join citation c on c.publication_id = p.publication_id
 				left join formatted_publication fp on fp.publication_id = p.publication_id
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.pk#">
+			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.description = 'publication'
-				and ct.description <> 'ledger'
-				and m.media_URI not like '%nrs%'
 		</cfquery>
 
 		<cfloop query="media">
