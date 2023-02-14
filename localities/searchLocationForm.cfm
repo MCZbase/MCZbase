@@ -469,18 +469,18 @@
 					</div>
 				</div>
 				<cfif #showExtraFields# IS 1>
-					<div class="form-row mb-0">
-						<div class="col-12 col-md-3 my-1">
+					<div class="form-row px-3 mt-2 mb-3">
+						<div class="col-12 col-md-3">
 							<cfif not isDefined("section")><cfset section=""></cfif>
 							<label for="section" class="data-entry-label">PLSS Section</label>
 							<input type="text" name="section" id="section" class="data-entry-input" value="#section#">
 						</div>
-						<div class="col-12 col-md-3 my-1">
+						<div class="col-12 col-md-3">
 							<cfif not isDefined("township")><cfset township=""></cfif>
 							<label for="township" class="data-entry-label">PLSS Township</label>
 							<input type="text" name="township" id="township" class="data-entry-input" value="#township#">
 						</div>
-						<div class="col-12 col-md-3 my-1">
+						<div class="col-12 col-md-3">
 							<cfif not isDefined("range")><cfset range=""></cfif>
 							<label for="range" class="data-entry-label">PLSS Range</label>
 							<input type="text" name="range" id="range" class="data-entry-input" value="#range#">
