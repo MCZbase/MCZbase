@@ -110,39 +110,32 @@
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
-			<cfloop query="media">
-				<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT media_relationship 
-					FROM media_relations
-					WHERE media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-					and media_relationship <> 'created by agent'
-					ORDER BY media_relationship
-				</cfquery>
+				<cfloop query="media">
 					<div class="row">
 						<div class="col-12 my-3">
 							<h1 class="h3 px-4 mb-0">Media Related to:</h1>
 							<cfif len(media.media_id) gt 0>
-							<div class="col-12 col-md-5 col-xl-2 pt-0 pb-2 float-left">
-								<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-3 mb-0 pb-1">
-									<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionLong")>
-									<div class="mx-auto text-center h4 mb-0 pt-1" id="mediaBlock#media.media_id#"> 
-										#mediablock# 
+								<div class="col-12 col-md-5 col-xl-2 pt-0 pb-2 float-left">
+									<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-3 mb-0 pb-1">
+										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionLong")>
+										<div class="mx-auto text-center h4 mb-0 pt-1" id="mediaBlock#media.media_id#"> 
+											#mediablock# 
+										</div>
+										<cfif media.media_type eq 'image'>
+										<div class="col-11 float-right mr-4"> 
+											<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 500;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+												Zoom
+											</button>
+											<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 5;">
+												<div class="card card-body p-3">
+													<h3 class="h5 mb-1">Media Zoom </h3>
+													<p class="d-none d-md-block mb-0" style="font-size: .83rem;line-height:.90rem;">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related button on images below to switch images.</p><p class="d-block d-md-none mb-0" style="font-size: .83rem;line-height:.90rem;"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
+												</div>
+											</aside>
+										</div>
+										</cfif>
 									</div>
-									<cfif media.media_type eq 'image'>
-									<div class="col-11 float-right mr-4"> 
-										<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 500;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
-											Zoom
-										</button>
-										<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 5;">
-											<div class="card card-body p-3">
-												<h3 class="h5 mb-1">Media Zoom </h3>
-												<p class="d-none d-md-block mb-0" style="font-size: .83rem;line-height:.90rem;">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related button on images below to switch images.</p><p class="d-block d-md-none mb-0" style="font-size: .83rem;line-height:.90rem;"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
-											</div>
-										</aside>
-									</div>
-									</cfif>
 								</div>
-							</div>
 							</cfif>
 							<div id="metadatatable" class="col-12 col-md-7 col-xl-10 float-left my-0 pt-3 pb-0">
 								<cfset mediaMetadataBlock= getMediaMetadata(media_id="#media_id#")>
@@ -236,8 +229,7 @@
 								</div>
 							</cfif>
 						<cfelse>
-						Not in spec query.
-						
+							Not in spec query.
 						</cfif>
 						</div>
 					</div>
