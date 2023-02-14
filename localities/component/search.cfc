@@ -944,11 +944,8 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="township" type="string" required="no">
 	<cfargument name="range" type="string" required="no">
 	<!--- 
-	"TOWNSHIP" NUMBER, 
 	"TOWNSHIP_DIRECTION" CHAR(1 CHAR), 
-	"RANGE" NUMBER, 
 	"RANGE_DIRECTION" CHAR(1 CHAR), 
-	"SECTION" NUMBER, 
 	"SECTION_PART" VARCHAR2(30 CHAR), 
 	"LOCALITY_REMARKS" VARCHAR2(4000 CHAR), 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER, 
@@ -1003,6 +1000,35 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			<cfset minimum_elevation=">#minimum_elevation#"><!--- " --->
 		</cfif>
 	</cfif>
+	<cfif isdefined("maximum_elevation_m") AND len(maximum_elevation_m) gt 0>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ "!" and left(maximum_elevation_m,1) NEQ "!">
+			<cfset maximum_elevation_m="!#maximum_elevation_m#">
+		</cfif>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ "<>" and left(maximum_elevation_m,2) NEQ "<>">
+			<cfset maximum_elevation_m="!#maximum_elevation_m#"><!--- " --->
+		</cfif>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ "<" and left(maximum_elevation_m,1) NEQ "<">
+			<cfset maximum_elevation_m="<#maximum_elevation_m#">
+		</cfif>
+		<cfif isDefined("maxElevOperM") and maxElevOperM EQ ">" and left(maximum_elevation_m,1) NEQ ">">
+			<cfset maximum_elevation_m=">#maximum_elevation_m#"><!--- " --->
+		</cfif>
+	</cfif>
+	<cfif isdefined("minimum_elevation_m") AND len(minimum_elevation_m) gt 0>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ "!" and left(minimum_elevation_m,1) NEQ "!">
+			<cfset minimum_elevation_m="!#minimum_elevation_m#">
+		</cfif>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ "<>" and left(minimum_elevation_m,2) NEQ "<>">
+			<cfset minimum_elevation_m="!#minimum_elevation_m#"><!--- " --->
+		</cfif>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ "<" and left(minimum_elevation_m,1) NEQ "<">
+			<cfset minimum_elevation_m="<#minimum_elevation_m#">
+		</cfif>
+		<cfif isDefined("minElevOperM") and minElevOperM EQ ">" and left(minimum_elevation_m,1) NEQ ">">
+			<cfset minimum_elevation_m=">#minimum_elevation_m#"><!--- " --->
+		</cfif>
+	</cfif>
+
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -1252,8 +1278,32 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("minimum_elevation_m") and len(#minimum_elevation_m#) gt 0>
+					<cfset setup = setupNumericClause(field="TO_METERS(locality.minimum_elevation,locality.orig_elev_units)",value="#minimum_elevation#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
 				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
 					<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("maximum_elevation_m") and len(#maximum_elevation_m#) gt 0>
+					<cfset setup = setupNumericClause(field="TO_METERS(locality.maximum_elevation,locality.orig_elev_units)",value="#maximum_elevation#")>
 					<cfif len(retval["value"]) EQ 0>
 						AND #retval["pre"]# #retval["post"]#
 					<cfelseif len(retval["between"]) EQ "true">
