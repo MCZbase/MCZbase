@@ -46,7 +46,7 @@
 		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = 'publication'
+		and ct.description = 'publication'
 		and mr.media_relationship <> 'created by agent'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -56,7 +56,7 @@
 		left join media m on m.media_id = mr.media_id
 		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where p.publication_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.pk#">
+		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collid.pk#">
 		and ct.description = 'publication'
 	<!---	and ct.description <> 'ledger'--->
 		<!---and m.auto_host <> 'nrs.harvard.edu'--->
