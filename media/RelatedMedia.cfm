@@ -178,7 +178,7 @@
 														<cfif spec.auto_table eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
-                                                            from media_relations mr 
+															from media_relations mr 
 															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
@@ -193,7 +193,7 @@
 															left join media on mr.media_id = media.media_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 															and mr.media_relationship <> 'created by agent'
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.media_relationship#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														</cfif>
