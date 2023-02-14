@@ -1599,7 +1599,7 @@ imgStyleClass=value
 			from media_relations
 				left join collecting_event on media_relations.related_primary_key = collecting_event.collecting_event_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-				and media_relations.media_relationship = 'shows collecting_event'
+				and media_relations.media_relationship like '% collecting_event'
 		</cfquery>
 		<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct transaction_id
