@@ -63,10 +63,10 @@
 		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from publication
 		left join citation on citation.publication_id = publication.publication_id
-		left join media_relations on publication.publication_id = media_relations.RELATED_PRIMARY_KEY
+		left join media_relations mr on publication.publication_id = mr.RELATED_PRIMARY_KEY
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where media_relations.media_relationship = 'shows publication'
-		and citation.COLLECTION_OBJECT_ID =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
+		and citation.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 		UNION
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 		from cataloged_item ci
