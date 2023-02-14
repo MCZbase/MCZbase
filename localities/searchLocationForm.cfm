@@ -287,29 +287,39 @@
 				<div id="locDetail" class="" style="#locDetailStyle#">
 					<div class="form-row px-3 my-2">
 						<div class="col-12 col-md-4">
+							<cfif not isDefined("collnOper")><cfset collnOper=""></cfif>
 							<label for="collnOper" class="data-entry-label">Use</label>
 							<select name="collnOper" id="collnOper" size="1" class="data-entry-select">
-								<option value=""></option>
-								<option value="usedOnlyBy">used only by</option>
-								<option value="usedBy">used by</option>
-								<option value="notUsedBy">not used by</option>
+								<cfif len(collnOper) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="" #selected#></option>
+								<cfif collnOper EQ "usedOnlyBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="usedOnlyBy" #selected#>used only by</option>
+								<cfif collnOper EQ "usedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="usedBy" #selected#>used by</option>
+								<cfif collnOper EQ "notUsedBy"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="notUsedBy" #selected#>not used by</option>
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
+							<cfif not isDefined("collection_id")><cfset collection_id=""></cfif>
 							<label for="collection_id" class="data-entry-label">Collection</label>
 							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctcollection">
-									<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+									<cfif collection_id EQ ctcollection.collection_id><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
 								</cfloop>
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
+							<cfif not isDefined("curated_fg")><cfset curated_fg=""></cfif>
 							<label for="curated_fg" class="data-entry-label">Vetted</label>
 							<select name="curated_fg" id="curated_fg" class="data-entry-select">
 								<option value=""></option>
-								<option value="0">No</option>
-								<option value="1">Yes *</option>
+								<cfif curated_fg EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="0" #selected#>No</option>
+								<cfif curated_fg EQ 1><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="1" #selected#>Yes *</option>
 							</select>
 						</div>
 					</div>
