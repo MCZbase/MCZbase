@@ -43,7 +43,7 @@
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
-		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mr.media_relationship = 'shows publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -60,7 +60,7 @@
 		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
 		</cfif>
-		select publication.publication_id
+		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from publication
 		left join citation on citation.publication_id = publication.publication_id
 		left join media_relations on publication.publication_id = media_relations.RELATED_PRIMARY_KEY
