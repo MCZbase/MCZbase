@@ -1626,7 +1626,7 @@ imgStyleClass=value
 				left join citation c on c.publication_id = p.publication_id
 				left join formatted_publication fp on fp.publication_id = p.publication_id
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-			where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+			where m.media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and ct.media_relationship like '%publication'
 		</cfquery>
 
