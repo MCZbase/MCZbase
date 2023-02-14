@@ -487,20 +487,49 @@
 				</div>
 				<cfif #showExtraFields# IS 1>
 					<div class="form-row px-3 mt-2 mb-3">
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
+							<cfif not isDefined("section_part")><cfset section_part=""></cfif>
+							<label for="section_part" class="data-entry-label">PLSS Section Part</label>
+							<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#section_part#">
+						</div>
+						<div class="col-12 col-md-2">
 							<cfif not isDefined("section")><cfset section=""></cfif>
 							<label for="section" class="data-entry-label">PLSS Section</label>
 							<input type="text" name="section" id="section" class="data-entry-input" value="#section#">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
 							<cfif not isDefined("township")><cfset township=""></cfif>
 							<label for="township" class="data-entry-label">PLSS Township</label>
 							<input type="text" name="township" id="township" class="data-entry-input" value="#township#">
 						</div>
-						<div class="col-12 col-md-3">
+						<div class="col-12 col-md-2">
+							<cfif not isDefined("township_direction")><cfset township_direction=""></cfif>
+							<label for="township_direction" class="data-entry-label">Township Direction</label>
+							<select name="township_direction" id="" size="1" class="data-entry-select">
+								<cfif len(township_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="" #selected#></option>
+								<cfif ucase(township_direction) EQ "N"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="N" #selected#>N</option>
+								<cfif ucase(township_direction) EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="S" #selected#>S</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-2">
 							<cfif not isDefined("range")><cfset range=""></cfif>
 							<label for="range" class="data-entry-label">PLSS Range</label>
 							<input type="text" name="range" id="range" class="data-entry-input" value="#range#">
+						</div>
+						<div class="col-12 col-md-2">
+							<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
+							<label for="range_direction" class="data-entry-label">Township Direction</label>
+							<select name="range_direction" id="" size="1" class="data-entry-select">
+								<cfif len(range_direction) EQ 0><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="" #selected#></option>
+								<cfif ucase(range_direction) EQ "N"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="N" #selected#>N</option>
+								<cfif ucase(range_direction) EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="S" #selected#>S</option>
+							</select>
 						</div>
 					</div>
 				</cfif>

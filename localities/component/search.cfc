@@ -1350,6 +1350,32 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("township_direction") AND len(township_direction) gt 0>
+					<cfif ucase(township_direction) EQ "NULL">
+						and locality.township_direction IS NULL
+					<cfelseif ucase(township_direction) EQ "NOT NULL">
+						and locality.township_direction IS NOT NULL	
+					<cfelse>
+						AND upper(locality.township_direction) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#township_direction#">
+					</cfif>
+				</cfif>
+				<cfif isdefined("range_direction") AND len(range_direction) gt 0>
+					<cfif ucase(range_direction) EQ "NULL">
+						and locality.range_direction IS NULL
+					<cfelseif ucase(range_direction) EQ "NOT NULL">
+						and locality.range_direction IS NOT NULL	
+					<cfelse>
+						AND upper(locality.range_direction) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#range_direction#">
+					</cfif>
+				</cfif>
+				<cfif isdefined("section_part") AND len(section_part) gt 0>
+					<cfset setup = setupClause(field="locality.section_part",value="#section_part#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
 				<cfif isdefined("collection_id") and len(collection_id) gt 0>
 					<cfif collnOper is "usedOnlyBy">
 						AND locality.locality_id in
