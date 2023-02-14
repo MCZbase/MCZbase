@@ -108,7 +108,6 @@
 		and mr.media_relationship <> 'created by agent'
 		and ct.auto_table = 'agent' 
 	</cfquery>	
-
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -161,7 +160,7 @@
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
 							<cfif relmct.recordcount gt 0>  
-						<!---specimen records relationships and other possible associations to media on those records--->
+								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
 										<div class="search-box-header px-2 mt-0 mediaTableHeader">
