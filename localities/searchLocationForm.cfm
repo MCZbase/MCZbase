@@ -320,14 +320,17 @@
 							<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#locality_remarks#">
 						</div>
 						<div class="col-12 col-md-4">
+							<cfif not isDefined("sovereign_nation")><cfset sovereign_nation_val=""><cfelse><cfset sovereign_nation_val="#sovereign_nation#"></cfif>
 							<label for="sovereign_nation" class="data-entry-label">Sovereign Nation</label>
 							<select name="sovereign_nation" id="sovereign_nation" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctsovereign_nation">
-									<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
+									<cfif sovereign_nation_val EQ ctsovereign_nation.sovereign_nation><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="#ctsovereign_nation.sovereign_nation#" #selected# >#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
 								</cfloop>
 								<cfloop query="ctsovereign_nation" startRow="1">
-									<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
+									<cfif sovereign_nation_val EQ "!#ctsovereign_nation.sovereign_nation#"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<option value="!#ctsovereign_nation.sovereign_nation#" #sovereign_nation#>!#ctsovereign_nation.sovereign_nation#</option>
 								</cfloop>
 							</select>
 						</div>
@@ -347,7 +350,8 @@
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="minimum_elevation" class="data-entry-label">Minimum Elevation</label>
-						<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input">
+						<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
+						<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#minimum_elevation#">
 					</div>
 					<div class="col-12 col-md-2">
 						<label for="orig_elev_units" class="data-entry-label">Elevation Units</label>
@@ -368,6 +372,7 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif not isDefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 						<label for="maximum_elevation" class="data-entry-label">Maximum Elevation</label>
 						<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input">
 					</div>
@@ -423,8 +428,9 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("minimum_elevation_m")><cfset minimum_elevation_m=""></cfif>
 						<label for="minimum_elevation_m" class="data-entry-label">Minimum</label>
-						<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input">
+						<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input" value="#minimum_elevation_m#">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
@@ -436,8 +442,9 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("maximum_elevation_m")><cfset maximum_elevation_m=""></cfif>
 						<label for="maximum_elevation_m" class="data-entry-label">Maximum</label>
-						<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input">
+						<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input" value="#maximum_elevation_m#">
 					</div>
 				</div>
 				<div class="form-row px-3 my-2">

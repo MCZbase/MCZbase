@@ -25,10 +25,10 @@ limitations under the License.
 
 	<cfif isdefined("country") AND len(country) gt 0>
 		<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
-		<cfif len(retval["value"]) EQ 0>
-			AND #retval["pre"]# #retval["post"]#
+		<cfif len(setup["value"]) EQ 0>
+			AND #setup["pre"]# #setup["post"]#
 		<cfelse>
-			AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+			AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 		</cfif>
 	</cfif>
 	
@@ -103,14 +103,14 @@ limitations under the License.
 
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
 		<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
-		<cfif len(retval["value"]) EQ 0>
-			AND #retval["pre"]# #retval["post"]#
-		<cfelseif len(retval["between"]) EQ "true">
-			AND #retval["pre"]# 
-				BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-				AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+		<cfif len(setup["value"]) EQ 0>
+			AND #setup["pre"]# #setup["post"]#
+		<cfelseif len(setup["between"]) EQ "true">
+			AND #setup["pre"]# 
+				BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+				AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 		<cfelse>
-			AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+			AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 		</cfif>
 	</cfif>
 
@@ -1015,16 +1015,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfif>
 	</cfif>
 	<cfif isdefined("minimum_elevation_m") AND len(minimum_elevation_m) gt 0>
-		<cfif isDefined("minElevOperM") and minElevOperM EQ "!" and left(minimum_elevation_m,1) NEQ "!">
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ "!" and left(minimum_elevation_m,1) NEQ "!">
 			<cfset minimum_elevation_m="!#minimum_elevation_m#">
 		</cfif>
-		<cfif isDefined("minElevOperM") and minElevOperM EQ "<>" and left(minimum_elevation_m,2) NEQ "<>">
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ "<>" and left(minimum_elevation_m,2) NEQ "<>">
 			<cfset minimum_elevation_m="!#minimum_elevation_m#"><!--- " --->
 		</cfif>
-		<cfif isDefined("minElevOperM") and minElevOperM EQ "<" and left(minimum_elevation_m,1) NEQ "<">
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ "<" and left(minimum_elevation_m,1) NEQ "<">
 			<cfset minimum_elevation_m="<#minimum_elevation_m#">
 		</cfif>
-		<cfif isDefined("minElevOperM") and minElevOperM EQ ">" and left(minimum_elevation_m,1) NEQ ">">
+		<cfif isDefined("MinElevOperM") and minElevOperM EQ ">" and left(minimum_elevation_m,1) NEQ ">">
 			<cfset minimum_elevation_m=">#minimum_elevation_m#"><!--- " --->
 		</cfif>
 	</cfif>
@@ -1117,122 +1117,122 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.continent_ocean",value="#continent_ocean#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("country") AND len(country) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("state_prov") AND len(state_prov) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.state_prov",value="#state_prov#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("county") AND len(county) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.county",value="#county#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("quad") AND len(quad) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.quad",value="#quad#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("feature") AND len(feature) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.feature",value="#feature#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("island") AND len(island) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.island",value="#island#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("island_group") AND len(island_group) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.island_group",value="#island_group#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_region") AND len(ocean_region) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.ocean_region",value="#ocean_region#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.ocean_subregion",value="#ocean_subregion#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("sea") AND len(sea) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.sea",value="#sea#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("water_feature") AND len(water_feature) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.water_feature",value="#water_feature#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("source_authority") AND len(source_authority) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.source_authority",value="#source_authority#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.highergeographyid",value="#highergeographyid#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0>
 					<cfset setup = setupClause(field="geog_auth_rec.highergeographyid_guid_type",value="#highergeographyid_guid_type#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("wkt_polygon") AND len(wkt_polygon) gt 0>
@@ -1244,110 +1244,110 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("spec_locality") AND len(spec_locality) gt 0>
 					<cfset setup = setupClause(field="locality.spec_locality",value="#spec_locality#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0>
 					<cfset setup = setupClause(field="locality.locality_remarks",value="#locality_remarks#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0>
 					<cfset setup = setupClause(field="locality.orig_elev_units",value="#orig_elev_units#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
 					<cfset setup = setupNumericClause(field="locality.minimum_elevation",value="#minimum_elevation#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
-					<cfelseif len(retval["between"]) EQ "true">
-						AND #retval["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("minimum_elevation_m") and len(#minimum_elevation_m#) gt 0>
 					<cfset setup = setupNumericClause(field="TO_METERS(locality.minimum_elevation,locality.orig_elev_units)",value="#minimum_elevation#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
-					<cfelseif len(retval["between"]) EQ "true">
-						AND #retval["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
 					<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
-					<cfelseif len(retval["between"]) EQ "true">
-						AND #retval["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("maximum_elevation_m") and len(#maximum_elevation_m#) gt 0>
 					<cfset setup = setupNumericClause(field="TO_METERS(locality.maximum_elevation,locality.orig_elev_units)",value="#maximum_elevation#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
-					<cfelseif len(retval["between"]) EQ "true">
-						AND #retval["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("section") AND len(section) gt 0>
 					<cfset setup = setupNumericClause(field="locality.section",value="#section#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
-					<cfelseif len(retval["between"]) EQ "true">
-						AND #retval["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("township") AND len(township) gt 0>
 					<cfset setup = setupNumericClause(field="locality.township",value="#township#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
-					<cfelseif len(retval["between"]) EQ "true">
-						AND #retval["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("range") AND len(range) gt 0>
 					<cfset setup = setupNumericClause(field="locality.range",value="#range#")>
-					<cfif len(retval["value"]) EQ 0>
-						AND #retval["pre"]# #retval["post"]#
-					<cfelseif len(retval["between"]) EQ "true">
-						AND #retval["pre"]# 
-						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
-						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
 					<cfelse>
-						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("collection_id") and len(collection_id) gt 0>
