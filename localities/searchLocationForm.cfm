@@ -1,15 +1,22 @@
 <cfif not isdefined("showLocality")>
+	<!--- display the form with the locality fields included --->
 	<cfset showLocality=0>
 </cfif>
 <cfif not isdefined("showEvent")>
+	<!--- display the form with the locality and event fields included --->
 	<cfset showEvent=0>
 </cfif>
 <cfif not isdefined("showExtraFields")>
 	<!--- support rendering form with fields not supported in findLocality custom tag. --->
 	<cfset showExtraFields=0>
 </cfif>
-<cfif not isdefined("showSpecimenCounts")><!--- show or hide the specimen counts control, show by default if locality section is included --->
+<cfif not isdefined("showSpecimenCounts")>
+	<!--- show or hide the specimen counts control, show by default if locality section is included --->
 	<cfset showSpecimenCounts = true>
+</cfif>
+<cfif not isdefined("newSearchTarget")>
+	<!--- if newSearchTarget has a value, the New Search button will be shown with an onclick event that reloads to the specified newSearchTarget --->
+	<cfset newSearchTarget="">
 </cfif>
 <cfquery name="ctElevUnit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select orig_elev_units from ctorig_elev_units order by orig_elev_units
@@ -333,8 +340,8 @@
 						<label for="MinElevOper" class="data-entry-label" style="color: transparent">(operator)</label>
 						<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -355,8 +362,8 @@
 						<label for="MaxElevOper" class="data-entry-label" style="color:transparent">Elevation</label>
 						<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -451,8 +458,8 @@
 						<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
 						<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -461,6 +468,25 @@
 						<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input">
 					</div>
 				</div>
+				<cfif #showExtraFields# IS 1>
+					<div class="form-row px-3 mt-2 mb-3">
+						<div class="col-12 col-md-3">
+							<cfif not isDefined("section")><cfset section=""></cfif>
+							<label for="section" class="data-entry-label">PLSS Section</label>
+							<input type="text" name="section" id="section" class="data-entry-input" value="#section#">
+						</div>
+						<div class="col-12 col-md-3">
+							<cfif not isDefined("township")><cfset township=""></cfif>
+							<label for="township" class="data-entry-label">PLSS Township</label>
+							<input type="text" name="township" id="township" class="data-entry-input" value="#township#">
+						</div>
+						<div class="col-12 col-md-3">
+							<cfif not isDefined("range")><cfset range=""></cfif>
+							<label for="range" class="data-entry-label">PLSS Range</label>
+							<input type="text" name="range" id="range" class="data-entry-input" value="#range#">
+						</div>
+					</div>
+				</cfif>
 				<div class="form-row px-3 mt-2 mb-3">
 					<div class="col-12 col-md-4">
 						<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
@@ -715,10 +741,13 @@
 				</div>
 
 				<div class="col-12 col-md-6 px-0 pt-3 pt-md-0">
-					<input type="submit" value="Search"
-						class="btn btn-xs btn-primary px-2 float-left px-xl-3">
-					<input type="reset" value="Clear Form"
+					<input type="submit" value="Search" aria-label="execute a search with the current search form parameters"
+						class="btn btn-xs btn-primary px-2 px-xl-3">
+					<input type="reset" value="Clear Form" aria-label="reset form values to those on initial page load"
 						class="btn btn-xs btn-warning ml-2">
+					<cfif len(newSearchTarget) GT 0>
+						<button type="button" class="btn btn-xs btn-warning mr-2 my-1" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl##encodeForHTML(newSearchTarget)#';">New Search</button>
+					</cfif>
 					<cfif showLocality is 1 AND showSpecimenCounts >
 						<label for="include_counts">Include Specimen Counts?</label>
 						<select name="include_counts" id="include_counts">

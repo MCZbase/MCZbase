@@ -19,6 +19,168 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
+<!--- function setupClause setup variables to put into a where clause of a query for a text field.
+
+	Expected use: 
+
+	<cfif isdefined("country") AND len(country) gt 0>
+		<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
+		<cfif len(retval["value"]) EQ 0>
+			AND #retval["pre"]# #retval["post"]#
+		<cfelse>
+			AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+		</cfif>
+	</cfif>
+	
+
+ @param field the field name, possibly needing to be prefixed by the tablename
+	field must be supplied a string value, not a variable, and must not be supplied 
+   from a user, otherwise could be used for sql injection.
+ @param the value to be queried for, supports the following:
+	NULL, NOT NULL, operators as leading characters =, !, $, !$, ~, !~,
+   and a comma separated list
+ @return a struct with the properties pre, value, list, and post.
+ @see setupNumericClause for numeric fields.
+--->
+<cffunction name="setupClause" access="private" returntype="struct">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfset retval = StructNew()>
+	<cfset pre = "#field#">
+	<cfset outvalue = "">
+	<cfset post = "">
+	<cfset list = "no">
+	<cfif ucase(value) EQ "NULL">
+		<cfset outvalue= "">
+		<cfset post= "IS NULL">
+	<cfelseif ucase(value) EQ "NOT NULL">
+		<cfset outvalue= "">
+		<cfset post= "IS NOT NULL">
+	<cfelseif left(value,1) is "=">
+		<cfset pre="upper(#field#) =">
+		<cfset outvalue="#ucase(right(value,len(value)-1))#">
+	<cfelseif left(value,1) is "~">
+		<cfset pre="utl_match.jaro_winkler(#field#,">
+		<cfset outvalue="#right(value,len(value)-1)#">
+		<cfset post = ") >= 0.90"><!--- " --->
+	<cfelseif left(value,2) is "!~">
+		<cfset pre="utl_match.jaro_winkler(#field#,"> 
+		<cfset outvalue="#right(value,len(value)-2)#">
+		<cfset post=") < 0.90">
+	<cfelseif left(value,1) is "$">
+		<cfset pre="soundex(#field#) =  soundex(">
+		<cfset outvalue="#ucase(right(value,len(value)-1))#">
+		<cfset post=")">
+	<cfelseif left(value,2) is "!$">
+		<cfset pre="soundex(#field#) <> soundex("><!--- ") --->
+		<cfset outvalue="#ucase(right(value,len(value)-2))#">
+		<cfset post=")">
+	<cfelseif left(value,1) is "!">
+		<cfset pre="upper(#field#) <>"><!--- " --->
+		<cfset outvalue="#ucase(right(value,len(value)-1))#">
+		<cfset post="">
+	<cfelseif find(',',value) GT 0>
+		<cfset pre="upper(#field#) in (">
+		<cfset outvalue="#ucase(value)#">
+		<cfset post = ")">
+		<cfset list="yes">
+	<cfelse>
+		<cfset pre="upper(#field#) LIKE ">
+		<cfset outvalue="%#ucase(value)#%">
+		<cfset post ="">
+	</cfif>
+	<cfset retval["pre"]=pre>
+	<cfset retval["value"]=outvalue>
+	<cfset retval["post"]=post>
+	<cfset retval["list"]=list>
+	<cfreturn retval>
+</cffunction>
+
+<!--- function setupNumericClause setup variables to put into a where clause of a query for a
+  numeric field.
+
+	Example use, note the between clause
+
+	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+		<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
+		<cfif len(retval["value"]) EQ 0>
+			AND #retval["pre"]# #retval["post"]#
+		<cfelseif len(retval["between"]) EQ "true">
+			AND #retval["pre"]# 
+				BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+				AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+		<cfelse>
+			AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+		</cfif>
+	</cfif>
+
+ @param field the field name, possibly needing to be prefixed by the tablename
+	field must be supplied a string value, not a variable, and must not be supplied 
+   from a user, otherwise could be used for sql injection.
+ @param the value to be queried for, supports the following:
+	NULL, NOT NULL, operators as leading characters =, !, <, <=, >, >=, 
+   between two values and a comma separated list
+ @return a struct with the properties pre, value, list, between, and post.
+ @see setupClause for preparing text queries.
+--->
+<cffunction name="setupNumericClause" access="private" returntype="struct">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfset retval = StructNew()>
+	<cfset pre = "#field#">
+	<cfset outvalue = "">
+	<cfset outvalue2 = "">
+	<cfset post = "">
+	<cfset list = "no">
+	<cfset between = "false">
+	<cfif ucase(value) EQ "NULL">
+		<cfset outvalue= "">
+		<cfset post= "IS NULL">
+	<cfelseif ucase(value) EQ "NOT NULL">
+		<cfset outvalue= "">
+		<cfset post= "IS NOT NULL">
+	<cfelseif left(value,1) is "=">
+		<cfset pre = "#field# = ">
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif left(value,1) is "!">
+		<cfset pre = "#field# <> "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif left(value,2) is "<=" or left(value,2) IS "=<">
+		<cfset pre = "#field# <= "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-2)#">
+	<cfelseif left(value,2) is ">=" or left(value,2) IS "=>"><!--- " --->
+		<cfset pre = "#field# >= "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-2)#">
+	<cfelseif left(value,1) is "<">
+		<cfset pre = "#field# < ">
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif left(value,1) is ">"><!--- " --->
+		<cfset pre = "#field# > "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif find('-',maximum_elevation) GT 1>
+		<cfset bits = listToArray(maximum_elevation,'-')>
+		<cfif arrayLength(bits) GT 1>
+			<cfset pre = "#field# = ">
+			<cfset between="true">
+			<cfset outvalue="#bits[1]#">
+			<cfset outvalue2="#bits[2]#">
+		<cfelse>
+			<cfset pre = "#field# = ">
+			<cfset outvalue="#bits[1]#">
+		</cfif>
+	<cfelse>
+		<cfset pre = "#field# = ">
+		<cfset outvalue="#value#">
+	</cfif>
+	<cfset retval["pre"]=pre>
+	<cfset retval["value"]=outvalue>
+	<cfset retval["value2"]=outvalue2>
+	<cfset retval["post"]=post>
+	<cfset retval["list"]=list>
+	<cfset retval["between"]=between>
+	<cfreturn retval>
+</cffunction>
+
 <!---
 Function getSpecLocalityAutocomplete.  Search for spec_locality by name with a substring match on name, returning json suitable for jquery-ui autocomplete.
 
@@ -253,10 +415,23 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="return_wkt" type="string" required="no">
 
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
+	<cfset linguisticFlag = false>
+	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
+		<cfset linguisticFlag=true>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
+		<cfif linguisticFlag >
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				 geog_auth_rec.geog_auth_rec_id,
@@ -703,6 +878,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			ORDER BY
 				geog_auth_rec.higher_geog
 		</cfquery>
+		<cfif linguisticFlag >
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cfif>
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
@@ -750,19 +931,25 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="return_wkt" type="string" required="no">
 	<cfargument name="locality_id" type="string" required="no">
 	<cfargument name="spec_locality" type="string" required="no">
+	<cfargument name="locality_remarks" type="string" required="no">
+	<cfargument name="orig_elev_units" type="string" required="no">
+	<cfargument name="minElevOper" type="string" required="no">
+	<cfargument name="minimum_elevation" type="string" required="no">
+	<cfargument name="maxElevOper" type="string" required="no">
+	<cfargument name="maximum_elevation" type="string" required="no">
+	<cfargument name="accentInsenstive" type="string" required="no">
+	<cfargument name="collection_id" type="string" required="no">
+	<cfargument name="collnOper" type="string" required="no">
+	<cfargument name="include_counts" type="string" required="no"><!--- locality counts by collection --->
+	<cfargument name="township" type="string" required="no">
+	<cfargument name="range" type="string" required="no">
 	<!--- 
-   (	"LOCALITY_ID" NUMBER NOT NULL ENABLE, 
-	"GEOG_AUTH_REC_ID" NUMBER NOT NULL ENABLE, 
-	"MAXIMUM_ELEVATION" NUMBER, 
-	"MINIMUM_ELEVATION" NUMBER, 
-	"ORIG_ELEV_UNITS" VARCHAR2(2 CHAR), 
 	"TOWNSHIP" NUMBER, 
 	"TOWNSHIP_DIRECTION" CHAR(1 CHAR), 
 	"RANGE" NUMBER, 
 	"RANGE_DIRECTION" CHAR(1 CHAR), 
 	"SECTION" NUMBER, 
 	"SECTION_PART" VARCHAR2(30 CHAR), 
-	"SPEC_LOCALITY" VARCHAR2(400 CHAR), 
 	"LOCALITY_REMARKS" VARCHAR2(4000 CHAR), 
 	"LEGACY_SPEC_LOCALITY_FG" NUMBER, 
 	"DEPTH_UNITS" VARCHAR2(20 CHAR), 
@@ -771,15 +958,64 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	"NOGEOREFBECAUSE" VARCHAR2(500), 
 	"GEOREF_UPDATED_DATE" DATE, 
 	"GEOREF_BY" VARCHAR2(50 CHAR), 
-	"SOVEREIGN_NATION" VARCHAR2(255) DEFAULT '[unknown]' NOT NULL ENABLE NOVALIDATE, 
-	"CURATED_FG" NUMBER(1,0) DEFAULT 0, 
 	--->
 
+	<!--- set default values where not defined --->
+	<cfset linguisticFlag = false>
+	<cfif isdefined("accentInsensitive") AND accentInsensitive EQ 1>
+		<cfset linguisticFlag=true>
+	</cfif>
+	<cfif isdefined("collection_id") and len(collection_id) gt 0>
+		<cfif not isDefined("collnOper")><cfset collnOper= "usedBy"></cfif>
+	</cfif>
 	<cfif NOT isDefined("return_wkt")><cfset return_wkt=""></cfif>
+	<cfset includeCounts = false>
+	<cfif isdefined("include_counts") AND include_counts EQ 1 >
+		<cfset includeCounts=true>
+	</cfif>
+
+	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
+	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "!" and left(maximum_elevation,1) NEQ "!">
+			<cfset maximum_elevation="!#maximum_elevation#">
+		</cfif>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "<>" and left(maximum_elevation,2) NEQ "<>">
+			<cfset maximum_elevation="!#maximum_elevation#"><!--- " --->
+		</cfif>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "<" and left(maximum_elevation,1) NEQ "<">
+			<cfset maximum_elevation="<#maximum_elevation#">
+		</cfif>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ ">" and left(maximum_elevation,1) NEQ ">">
+			<cfset maximum_elevation=">#maximum_elevation#"><!--- " --->
+		</cfif>
+	</cfif>
+	<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
+		<cfif isDefined("minElevOper") and minElevOper EQ "!" and left(minimum_elevation,1) NEQ "!">
+			<cfset minimum_elevation="!#minimum_elevation#">
+		</cfif>
+		<cfif isDefined("minElevOper") and minElevOper EQ "<>" and left(minimum_elevation,2) NEQ "<>">
+			<cfset minimum_elevation="!#minimum_elevation#"><!--- " --->
+		</cfif>
+		<cfif isDefined("minElevOper") and minElevOper EQ "<" and left(minimum_elevation,1) NEQ "<">
+			<cfset minimum_elevation="<#minimum_elevation#">
+		</cfif>
+		<cfif isDefined("minElevOper") and minElevOper EQ ">" and left(minimum_elevation,1) NEQ ">">
+			<cfset minimum_elevation=">#minimum_elevation#"><!--- " --->
+		</cfif>
+	</cfif>
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
+		<cfif linguisticFlag >
+			<!--- Set up the session to run an accent insensitive search --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = LINGUISTIC
+			</cfquery>
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_SORT = GENERIC_M_AI
+			</cfquery>
+		</cfif>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				geog_auth_rec.geog_auth_rec_id,
@@ -807,11 +1043,27 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				geog_auth_rec.highergeographyid,
 				locality.locality_id,
 				locality.spec_locality,
+				locality.locality_remarks,
+				locality.maximum_elevation,
+				locality.minimum_elevation,
+				locality.orig_elev_units,
+				locality.curated_fg,
+				locality.sovereign_nation,
+				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
+				concatGeologyAttributeDetail(locality.locality_id) geolAtts,
+				<cfif includeCounts >
+					MCZBASE.get_collcodes_for_locality(locality.locality_id)  as collcountlocality,
+				<cfelse>
+					null as collcountlocality,
+				</cfif>
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on locality.locality_id=flatTableName.locality_id
+				<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
+					left join geology_attributes on locality.locality_id = geology_attributes.locality_id
+				</cfif>
 			WHERE
 				locality.locality_id is not null
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
@@ -826,380 +1078,135 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isDefined("locality_id") and len(locality_id) gt 0>
-						and geog_auth_rec.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
+						and locality.locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfif>
 				<cfif isDefined("valid_catalog_term_fg") and len(valid_catalog_term_fg) gt 0>
 						and geog_auth_rec.valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 				</cfif>
+				<cfif isDefined("curated_fg") and len(curated_fg) gt 0>
+						and locality.curated_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#curated_fg#">
+				</cfif>
+				<cfif isDefined("sovereign_nation") and len(sovereign_nation) gt 0>
+						and locality.sovereign_nation = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#sovereign_nation#">
+				</cfif>
 				<cfif isdefined("continent_ocean") AND len(continent_ocean) gt 0>
-					<cfif ucase(continent_ocean) EQ "NULL">
-						and geog_auth_rec.continent_ocean IS NULL
-					<cfelseif ucase(continent_ocean) EQ "NOT NULL">
-						and geog_auth_rec.continent_ocean IS NOT NULL
-					<cfelseif left(continent_ocean,1) is "=">
-						AND upper(geog_auth_rec.continent_ocean) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
-					<cfelseif left(continent_ocean,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.continent_ocean, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(continent_ocean,len(continent_ocean)-1)#">) >= 0.90
-					<cfelseif left(continent_ocean,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.continent_ocean, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(continent_ocean,len(continent_ocean)-1)#">) < 0.90
-					<cfelseif left(continent_ocean,1) is "$">
-						AND soundex(geog_auth_rec.continent_ocean) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">)
-					<cfelseif left(continent_ocean,2) is "!$">
-						AND soundex(geog_auth_rec.continent_ocean) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-2))#">)
-					<cfelseif left(continent_ocean,1) is "!">
-						AND upper(geog_auth_rec.continent_ocean) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.continent_ocean",value="#continent_ocean#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',continent_ocean) GT 0>
-							AND upper(geog_auth_rec.continent_ocean) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(continent_ocean)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.continent_ocean) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(continent_ocean)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("country") AND len(country) gt 0>
-					<cfif ucase(country) EQ "NULL">
-						and geog_auth_rec.country IS NULL
-					<cfelseif ucase(country) EQ "NOT NULL">
-						and geog_auth_rec.country IS NOT NULL
-					<cfelseif left(country,1) is "=">
-						AND upper(geog_auth_rec.country) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
-					<cfelseif left(country,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.country, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(country,len(country)-1)#">) >= 0.90
-					<cfelseif left(country,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.country, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(country,len(country)-1)#">) < 0.90
-					<cfelseif left(country,1) is "$">
-						AND soundex(geog_auth_rec.country) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">)
-					<cfelseif left(country,2) is "!$">
-						AND soundex(geog_auth_rec.country) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-2))#">)
-					<cfelseif left(country,1) is "!">
-						AND upper(geog_auth_rec.country) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(country,len(country)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.country",value="#country#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',country) GT 0>
-							AND upper(geog_auth_rec.country) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(country)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.country) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(country)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("state_prov") AND len(state_prov) gt 0>
-					<cfif ucase(state_prov) EQ "NULL">
-						and geog_auth_rec.state_prov IS NULL
-					<cfelseif ucase(state_prov) EQ "NOT NULL">
-						and geog_auth_rec.state_prov IS NOT NULL
-					<cfelseif left(state_prov,1) is "=">
-						AND upper(geog_auth_rec.state_prov) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-1))#">
-					<cfelseif left(state_prov,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.state_prov, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(state_prov,len(state_prov)-1)#">) >= 0.90
-					<cfelseif left(state_prov,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.state_prov, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(state_prov,len(state_prov)-1)#">) < 0.90
-					<cfelseif left(state_prov,1) is "$">
-						AND soundex(geog_auth_rec.state_prov) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-1))#">)
-					<cfelseif left(state_prov,2) is "!$">
-						AND soundex(geog_auth_rec.state_prov) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-2))#">)
-					<cfelseif left(state_prov,1) is "!">
-						AND upper(geog_auth_rec.state_prov) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(state_prov,len(state_prov)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.state_prov",value="#state_prov#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',state_prov) GT 0>
-							AND upper(geog_auth_rec.state_prov) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(state_prov)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.state_prov) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(state_prov)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("county") AND len(county) gt 0>
-					<cfif ucase(county) EQ "NULL">
-						and geog_auth_rec.county IS NULL
-					<cfelseif ucase(county) EQ "NOT NULL">
-						and geog_auth_rec.county IS NOT NULL
-					<cfelseif left(county,1) is "=">
-						AND upper(geog_auth_rec.county) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-1))#">
-					<cfelseif left(county,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.county, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(county,len(county)-1)#">) >= 0.90
-					<cfelseif left(county,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.county, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(county,len(county)-1)#">) < 0.90
-					<cfelseif left(county,1) is "$">
-						AND soundex(geog_auth_rec.county) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-1))#">)
-					<cfelseif left(county,2) is "!$">
-						AND soundex(geog_auth_rec.county) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-2))#">)
-					<cfelseif left(county,1) is "!">
-						AND upper(geog_auth_rec.county) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(county,len(county)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.county",value="#county#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',county) GT 0>
-							AND upper(geog_auth_rec.county) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(county)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.county) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(county)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("quad") AND len(quad) gt 0>
-					<cfif ucase(quad) EQ "NULL">
-						and geog_auth_rec.quad IS NULL
-					<cfelseif ucase(quad) EQ "NOT NULL">
-						and geog_auth_rec.quad IS NOT NULL
-					<cfelseif left(quad,1) is "=">
-						AND upper(geog_auth_rec.quad) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-1))#">
-					<cfelseif left(quad,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.quad, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(quad,len(quad)-1)#">) >= 0.90
-					<cfelseif left(quad,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.quad, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(quad,len(quad)-1)#">) < 0.90
-					<cfelseif left(quad,1) is "$">
-						AND soundex(geog_auth_rec.quad) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-1))#">)
-					<cfelseif left(quad,2) is "!$">
-						AND soundex(geog_auth_rec.quad) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-2))#">)
-					<cfelseif left(quad,1) is "!">
-						AND upper(geog_auth_rec.quad) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(quad,len(quad)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.quad",value="#quad#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',quad) GT 0>
-							AND upper(geog_auth_rec.quad) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(quad)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.quad) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(quad)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("feature") AND len(feature) gt 0>
-					<cfif ucase(feature) EQ "NULL">
-						and geog_auth_rec.feature IS NULL
-					<cfelseif ucase(feature) EQ "NOT NULL">
-						and geog_auth_rec.feature IS NOT NULL
-					<cfelseif left(feature,1) is "=">
-						AND upper(geog_auth_rec.feature) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-1))#">
-					<cfelseif left(feature,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(feature,len(feature)-1)#">) >= 0.90
-					<cfelseif left(feature,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(feature,len(feature)-1)#">) < 0.90
-					<cfelseif left(feature,1) is "$">
-						AND soundex(geog_auth_rec.feature) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-1))#">)
-					<cfelseif left(feature,2) is "!$">
-						AND soundex(geog_auth_rec.feature) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-2))#">)
-					<cfelseif left(feature,1) is "!">
-						AND upper(geog_auth_rec.feature) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(feature,len(feature)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.feature",value="#feature#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',feature) GT 0>
-							AND upper(geog_auth_rec.feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(feature)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(feature)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("island") AND len(island) gt 0>
-					<cfif ucase(island) EQ "NULL">
-						and geog_auth_rec.island IS NULL
-					<cfelseif ucase(island) EQ "NOT NULL">
-						and geog_auth_rec.island IS NOT NULL
-					<cfelseif left(island,1) is "=">
-						AND upper(geog_auth_rec.island) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-1))#">
-					<cfelseif left(island,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.island, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island,len(island)-1)#">) >= 0.90
-					<cfelseif left(island,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.island, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island,len(island)-1)#">) < 0.90
-					<cfelseif left(island,1) is "$">
-						AND soundex(geog_auth_rec.island) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-1))#">)
-					<cfelseif left(island,2) is "!$">
-						AND soundex(geog_auth_rec.island) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-2))#">)
-					<cfelseif left(island,1) is "!">
-						AND upper(geog_auth_rec.island) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island,len(island)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.island",value="#island#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',island) GT 0>
-							AND upper(geog_auth_rec.island) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.island) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("island_group") AND len(island_group) gt 0>
-					<cfif ucase(island_group) EQ "NULL">
-						and geog_auth_rec.island_group IS NULL
-					<cfelseif ucase(island_group) EQ "NOT NULL">
-						and geog_auth_rec.island_group IS NOT NULL
-					<cfelseif left(island_group,1) is "=">
-						AND upper(geog_auth_rec.island_group) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-1))#">
-					<cfelseif left(island_group,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.island_group, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island_group,len(island_group)-1)#">) >= 0.90
-					<cfelseif left(island_group,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.island_group, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(island_group,len(island_group)-1)#">) < 0.90
-					<cfelseif left(island_group,1) is "$">
-						AND soundex(geog_auth_rec.island_group) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-1))#">)
-					<cfelseif left(island_group,2) is "!$">
-						AND soundex(geog_auth_rec.island_group) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-2))#">)
-					<cfelseif left(island_group,1) is "!">
-						AND upper(geog_auth_rec.island_group) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(island_group,len(island_group)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.island_group",value="#island_group#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',island_group) GT 0>
-							AND upper(geog_auth_rec.island_group) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(island_group)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.island_group) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(island_group)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_region") AND len(ocean_region) gt 0>
-					<cfif ucase(ocean_region) EQ "NULL">
-						and geog_auth_rec.ocean_region IS NULL
-					<cfelseif ucase(ocean_region) EQ "NOT NULL">
-						and geog_auth_rec.ocean_region IS NOT NULL
-					<cfelseif left(ocean_region,1) is "=">
-						AND upper(geog_auth_rec.ocean_region) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-1))#">
-					<cfelseif left(ocean_region,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.ocean_region, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_region,len(ocean_region)-1)#">) >= 0.90
-					<cfelseif left(ocean_region,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.ocean_region, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_region,len(ocean_region)-1)#">) < 0.90
-					<cfelseif left(ocean_region,1) is "$">
-						AND soundex(geog_auth_rec.ocean_region) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-1))#">)
-					<cfelseif left(ocean_region,2) is "!$">
-						AND soundex(geog_auth_rec.ocean_region) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-2))#">)
-					<cfelseif left(ocean_region,1) is "!">
-						AND upper(geog_auth_rec.ocean_region) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_region,len(ocean_region)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.ocean_region",value="#ocean_region#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',ocean_region) GT 0>
-							AND upper(geog_auth_rec.ocean_region) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_region)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.ocean_region) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_region)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("ocean_subregion") AND len(ocean_subregion) gt 0>
-					<cfif ucase(ocean_subregion) EQ "NULL">
-						and geog_auth_rec.ocean_subregion IS NULL
-					<cfelseif ucase(ocean_subregion) EQ "NOT NULL">
-						and geog_auth_rec.ocean_subregion IS NOT NULL
-					<cfelseif left(ocean_subregion,1) is "=">
-						AND upper(geog_auth_rec.ocean_subregion) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-1))#">
-					<cfelseif left(ocean_subregion,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.ocean_subregion, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_subregion,len(ocean_subregion)-1)#">) >= 0.90
-					<cfelseif left(ocean_subregion,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.ocean_subregion, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(ocean_subregion,len(ocean_subregion)-1)#">) < 0.90
-					<cfelseif left(ocean_subregion,1) is "$">
-						AND soundex(geog_auth_rec.ocean_subregion) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-1))#">)
-					<cfelseif left(ocean_subregion,2) is "!$">
-						AND soundex(geog_auth_rec.ocean_subregion) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-2))#">)
-					<cfelseif left(ocean_subregion,1) is "!">
-						AND upper(geog_auth_rec.ocean_subregion) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(ocean_subregion,len(ocean_subregion)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.ocean_subregion",value="#ocean_subregion#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',ocean_subregion) GT 0>
-							AND upper(geog_auth_rec.ocean_subregion) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(ocean_subregion)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.ocean_subregion) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ocean_subregion)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("sea") AND len(sea) gt 0>
-					<cfif ucase(sea) EQ "NULL">
-						and geog_auth_rec.sea IS NULL
-					<cfelseif ucase(sea) EQ "NOT NULL">
-						and geog_auth_rec.sea IS NOT NULL
-					<cfelseif left(sea,1) is "=">
-						AND upper(geog_auth_rec.sea) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-1))#">
-					<cfelseif left(sea,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.sea, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(sea,len(sea)-1)#">) >= 0.90
-					<cfelseif left(sea,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.sea, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(sea,len(sea)-1)#">) < 0.90
-					<cfelseif left(sea,1) is "$">
-						AND soundex(geog_auth_rec.sea) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-1))#">)
-					<cfelseif left(sea,2) is "!$">
-						AND soundex(geog_auth_rec.sea) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-2))#">)
-					<cfelseif left(sea,1) is "!">
-						AND upper(geog_auth_rec.sea) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(sea,len(sea)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.sea",value="#sea#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',sea) GT 0>
-							AND upper(geog_auth_rec.sea) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(sea)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.sea) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sea)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("water_feature") AND len(water_feature) gt 0>
-					<cfif ucase(water_feature) EQ "NULL">
-						and geog_auth_rec.water_feature IS NULL
-					<cfelseif ucase(water_feature) EQ "NOT NULL">
-						and geog_auth_rec.water_feature IS NOT NULL
-					<cfelseif left(water_feature,1) is "=">
-						AND upper(geog_auth_rec.water_feature) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-1))#">
-					<cfelseif left(water_feature,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.water_feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(water_feature,len(water_feature)-1)#">) >= 0.90
-					<cfelseif left(water_feature,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.water_feature, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(water_feature,len(water_feature)-1)#">) < 0.90
-					<cfelseif left(water_feature,1) is "$">
-						AND soundex(geog_auth_rec.water_feature) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-1))#">)
-					<cfelseif left(water_feature,2) is "!$">
-						AND soundex(geog_auth_rec.water_feature) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-2))#">)
-					<cfelseif left(water_feature,1) is "!">
-						AND upper(geog_auth_rec.water_feature) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(water_feature,len(water_feature)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.water_feature",value="#water_feature#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',water_feature) GT 0>
-							AND upper(geog_auth_rec.water_feature) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(water_feature)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.water_feature) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(water_feature)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("source_authority") AND len(source_authority) gt 0>
-					<cfif left(source_authority,1) is "=">
-						AND upper(geog_auth_rec.source_authority) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-1))#">
-					<cfelseif left(source_authority,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.source_authority, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(source_authority,len(source_authority)-1)#">) >= 0.90
-					<cfelseif left(source_authority,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.source_authority, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(source_authority,len(source_authority)-1)#">) < 0.90
-					<cfelseif left(source_authority,1) is "$">
-						AND soundex(geog_auth_rec.source_authority) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-1))#">)
-					<cfelseif left(source_authority,2) is "!$">
-						AND soundex(geog_auth_rec.source_authority) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-2))#">)
-					<cfelseif left(source_authority,1) is "!">
-						AND upper(geog_auth_rec.source_authority) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(source_authority,len(source_authority)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.source_authority",value="#source_authority#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',source_authority) GT 0>
-							AND upper(geog_auth_rec.source_authority) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(source_authority)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.source_authority) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(source_authority)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid") AND len(highergeographyid) gt 0>
-					<cfif ucase(highergeographyid) EQ "NULL">
-						and geog_auth_rec.highergeographyid IS NULL
-					<cfelseif ucase(highergeographyid) EQ "NOT NULL">
-						and geog_auth_rec.highergeographyid IS NOT NULL
-					<cfelseif left(highergeographyid,1) is "=">
-						AND upper(geog_auth_rec.highergeographyid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-1))#">
-					<cfelseif left(highergeographyid,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid,len(highergeographyid)-1)#">) >= 0.90
-					<cfelseif left(highergeographyid,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid,len(highergeographyid)-1)#">) < 0.90
-					<cfelseif left(highergeographyid,1) is "$">
-						AND soundex(geog_auth_rec.highergeographyid) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-1))#">)
-					<cfelseif left(highergeographyid,2) is "!$">
-						AND soundex(geog_auth_rec.highergeographyid) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-2))#">)
-					<cfelseif left(highergeographyid,1) is "!">
-						AND upper(geog_auth_rec.highergeographyid) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid,len(highergeographyid)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.highergeographyid",value="#highergeographyid#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',highergeographyid) GT 0>
-							AND upper(geog_auth_rec.highergeographyid) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.highergeographyid) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("highergeographyid_guid_type") AND len(highergeographyid_guid_type) gt 0>
-					<cfif ucase(highergeographyid_guid_type) EQ "NULL">
-						and geog_auth_rec.highergeographyid_guid_type IS NULL
-					<cfelseif ucase(highergeographyid_guid_type) EQ "NOT NULL">
-						and geog_auth_rec.highergeographyid_guid_type IS NOT NULL
-					<cfelseif left(highergeographyid_guid_type,1) is "=">
-						AND upper(geog_auth_rec.highergeographyid_guid_type) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1))#">
-					<cfelseif left(highergeographyid_guid_type,1) is "~">
-						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid_guid_type, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1)#">) >= 0.90
-					<cfelseif left(highergeographyid_guid_type,1) is "!~">
-						AND utl_match.jaro_winkler(geog_auth_rec.highergeographyid_guid_type, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1)#">) < 0.90
-					<cfelseif left(highergeographyid_guid_type,1) is "$">
-						AND soundex(geog_auth_rec.highergeographyid_guid_type) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1))#">)
-					<cfelseif left(highergeographyid_guid_type,2) is "!$">
-						AND soundex(geog_auth_rec.highergeographyid_guid_type) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-2))#">)
-					<cfelseif left(highergeographyid_guid_type,1) is "!">
-						AND upper(geog_auth_rec.highergeographyid_guid_type) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(highergeographyid_guid_type,len(highergeographyid_guid_type)-1))#">
+					<cfset setup = setupClause(field="geog_auth_rec.highergeographyid_guid_type",value="#highergeographyid_guid_type#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',highergeographyid_guid_type) GT 0>
-							AND upper(geog_auth_rec.highergeographyid_guid_type) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(highergeographyid_guid_type)#" list="yes"> )
-						<cfelse>
-							AND upper(geog_auth_rec.highergeographyid_guid_type) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(highergeographyid_guid_type)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("wkt_polygon") AND len(wkt_polygon) gt 0>
@@ -1210,28 +1217,128 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("spec_locality") AND len(spec_locality) gt 0>
-					<cfif ucase(spec_locality) EQ "NULL">
-						and locality.spec_locality IS NULL
-					<cfelseif ucase(spec_locality) EQ "NOT NULL">
-						and locality.spec_locality IS NOT NULL
-					<cfelseif left(spec_locality,1) is "=">
-						AND upper(locality.spec_locality) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">
-					<cfelseif left(spec_locality,1) is "~">
-						AND utl_match.jaro_winkler(locality.spec_locality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(spec_locality,len(spec_locality)-1)#">) >= 0.90
-					<cfelseif left(spec_locality,1) is "!~">
-						AND utl_match.jaro_winkler(locality.spec_locality, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(spec_locality,len(spec_locality)-1)#">) < 0.90
-					<cfelseif left(spec_locality,1) is "$">
-						AND soundex(locality.spec_locality) = soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">)
-					<cfelseif left(spec_locality,2) is "!$">
-						AND soundex(locality.spec_locality) <> soundex(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-2))#">)
-					<cfelseif left(spec_locality,1) is "!">
-						AND upper(locality.spec_locality) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(spec_locality,len(spec_locality)-1))#">
+					<cfset setup = setupClause(field="locality.spec_locality",value="#spec_locality#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
 					<cfelse>
-						<cfif find(',',spec_locality) GT 0>
-							AND upper(locality.spec_locality) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(spec_locality)#" list="yes"> )
-						<cfelse>
-							AND upper(locality.spec_locality) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(spec_locality)#%">
-						</cfif>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("locality_remarks") AND len(locality_remarks) gt 0>
+					<cfset setup = setupClause(field="locality.locality_remarks",value="#locality_remarks#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("orig_elev_units") AND len(orig_elev_units) gt 0>
+					<cfset setup = setupClause(field="locality.orig_elev_units",value="#orig_elev_units#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
+					<cfset setup = setupNumericClause(field="locality.minimum_elevation",value="#minimum_elevation#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+					<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("section") AND len(section) gt 0>
+					<cfset setup = setupNumericClause(field="locality.section",value="#section#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("township") AND len(township) gt 0>
+					<cfset setup = setupNumericClause(field="locality.township",value="#township#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("range") AND len(range) gt 0>
+					<cfset setup = setupNumericClause(field="locality.range",value="#range#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+					<cfelse>
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("collection_id") and len(collection_id) gt 0>
+					<cfif collnOper is "usedOnlyBy">
+						AND locality.locality_id in
+								(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND locality.locality_id not in
+								(select locality_id from vpd_collection_locality where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					<cfelseif collnOper is "usedBy">
+						AND locality.locality_id in
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					<cfelseif collnOper is "notUsedBy">
+						AND locality.locality_id  not in
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					<cfelseif collnOper is "eventUsedOnlyBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND collecting_event.collecting_event_id not in
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					<cfelseif collnOper is "eventUsedBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					<cfelseif collnOper is "eventSharedOnlyBy">
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+						AND collecting_event.collecting_event_id in
+								(select collecting_event_id from cataloged_item where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
+					</cfif>
+				</cfif>
+				<cfif isdefined("geology_attribute") and len(#geology_attribute#) gt 0>
+					AND geology_attributes.geology_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#geology_attribute#">
+				</cfif>
+				<cfif isdefined("geo_att_value") and len(#geo_att_value#) gt 0>
+					<cfif isdefined("geology_attribute_hier") and #geology_attribute_hier# is 1>
+						AND geology_attributes.geo_att_value
+							IN ( SELECT attribute_value
+								FROM geology_attribute_hierarchy
+								START WITH upper(attribute_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
+								CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id )
+					<cfelse>
+						AND upper(geology_attributes.geo_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
 					</cfif>
 				</cfif>
 			GROUP BY
@@ -1259,7 +1366,16 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				geog_auth_rec.highergeographyid_guid_type,
 				geog_auth_rec.highergeographyid,
 				locality.locality_id,
-				locality.spec_locality
+				locality.spec_locality,
+				locality.locality_remarks,
+				locality.maximum_elevation,
+				locality.minimum_elevation,
+				locality.orig_elev_units,
+				locality.curated_fg,
+				locality.sovereign_nation,
+				locality.township, locality.township_direction, locality.range, locality.range_direction,
+				locality.section, locality.section_part,
+				concatGeologyAttributeDetail(locality.locality_id)
 			ORDER BY
 				geog_auth_rec.higher_geog,
 				locality.spec_locality
@@ -1275,6 +1391,12 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
+		<cfif linguisticFlag >
+			<!--- Reset NLS_COMP back to the default, or the session will keep using the generic_m_ai comparison/sort on subsequent searches. --->
+			<cfquery datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				ALTER SESSION SET NLS_COMP = BINARY
+			</cfquery>
+		</cfif>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>

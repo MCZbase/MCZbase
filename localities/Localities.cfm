@@ -45,6 +45,7 @@ limitations under the License.
 						<cfset showLocality=1>
 						<cfset showEvent=0>
 						<cfset showExtraFields=1>
+						<cfset newSearchTarget = "/localities/Localities.cfm">
 						<input type="hidden" id="method" name="method" value="getLocalities">
 						<cfinclude template = "/localities/searchLocationForm.cfm">
 					</form>
@@ -141,7 +142,16 @@ limitations under the License.
 									{ name: 'HIGHERGEOGRAPHYID', type: 'string' },
 									{ name: 'SPECIMEN_COUNT', type: 'string' },
 									{ name: 'LOCALITY_ID', type: 'string' },
-									{ name: 'SPEC_LOCALITY', type: 'string' }
+									{ name: 'SPEC_LOCALITY', type: 'string' },
+									{ name: 'CURATED_FG', type: 'string' },
+									{ name: 'SOVEREIGN_NATION', type: 'string' },
+									{ name: 'MINIMUM_ELEVATION', type: 'string' },
+									{ name: 'MAXIMUM_ELEVATION', type: 'string' },
+									{ name: 'ORIG_ELEV_UNITS', type: 'string' },
+									{ name: 'PLSS', type: 'string' },
+									{ name: 'GEOLATTS', type: 'string' },
+									{ name: 'COLLCOUNTLOCALITY', type: 'string' },
+									{ name: 'LOCALITY_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
 									commit(true);
@@ -195,6 +205,11 @@ limitations under the License.
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',false)  },
+									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
+									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',false)  },
+									{ text: 'Min Elevation', datafield: 'MINIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MINIMUM_ELEVATION',false)  },
+									{ text: 'Max Elevation', datafield: 'MAXIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MAXIMUM_ELEVATION',false)  },
+									{ text: 'Elev Units', datafield: 'ORIG_ELEV_UNITS',width: 100, hideabel: true, hidden: getColHidProp('ORIG_ELEV_UNITS',false)  },
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
 									{ text: 'Ocean Region', datafield: 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
 									{ text: 'Ocean Subregion', datafield: 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },
@@ -203,13 +218,17 @@ limitations under the License.
 									{ text: 'Island Group', datafield: 'ISLAND_GROUP',width: 100, hideabel: true, hidden: getColHidProp('ISLAND_GROUP',true)  },
 									{ text: 'Island', datafield: 'ISLAND',width: 100, hideabel: true, hidden: getColHidProp('ISLAND',true)  },
 									{ text: 'Country', datafield: 'COUNTRY',width: 100, hideabel: true, hidden: getColHidProp('COUNTRY',true)  },
+									{ text: 'Sovereign Nation', datafield: 'SOVEREIGN_NATION',width: 100, hideabel: true, hidden: getColHidProp('SOVEREIGN_NATION',true)  },
 									{ text: 'State/Province', datafield: 'STATE_PROV',width: 100, hideabel: true, hidden: getColHidProp('STATE_PROF',true)  },
 									{ text: 'County', datafield: 'COUNTY',width: 100, hideabel: true, hidden: getColHidProp('COUNTY',true)  },
 									{ text: 'Feature', datafield: 'FEATURE',width: 100, hideabel: true, hidden: getColHidProp('FEATURE',true)  },
 									{ text: 'Quad', datafield: 'QUAD',width: 100, hideabel: true, hidden: getColHidProp('QUAD',true)  },
-									{ text: 'Valid', datafield: 'VALID_CATALOG_TERM_FG',width: 100, hideabel: true, hidden: getColHidProp('VALID_CATALOG_TERM_FG',true)  },
+									{ text: 'PLSS', datafield: 'PLSS',width: 100, hideabel: true, hidden: getColHidProp('PLSS',true)  },
+									{ text: 'Geological Attributes', datafield: 'GEOLATTS',width: 250, hideabel: true, hidden: getColHidProp('GEOLATTS',true)  },
+									{ text: 'Departments', datafield: 'COLLCOUNTLOCALITY',width: 100, hideabel: true, hidden: getColHidProp('COLLCOUNTLOCALITY',true)  },
+									{ text: 'Valid', datafield: 'VALID_CATALOG_TERM_FG',width: 50, hideabel: true, hidden: getColHidProp('VALID_CATALOG_TERM_FG',true)  },
 									{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY',width: 100, hideabel: true, hidden: getColHidProp('SOURCE_AUTHORITY',true)  },
-									{ text: 'WKT', datafield: 'WKT_POLYGON',width: 100, hideabel: true, hidden: getColHidProp('WKT_POLYGON',true)  },
+									{ text: 'WKT', datafield: 'WKT_POLYGON',width: 80, hideabel: true, hidden: getColHidProp('WKT_POLYGON',true)  },
 									{ text: 'GUID Type', datafield: 'HIGHERGEOGRAPHYID_GUID_TYPE',width: 100, hideabel: true, hidden: getColHidProp('HIGHERGEOGRPAHYID_GUID_TYPE',true)  },
 									{ text: 'GUID', datafield: 'HIGHERGEOGRAPHYID',width: 100, hideabel: true, hidden: getColHidProp('HIGHERGEOGRAPHYID',true)  }, 
 									{ text: 'Higher Geography', datafield: 'HIGHER_GEOG', hideabel: true, hidden: getColHidProp('HIGHER_GEOG',false) }
