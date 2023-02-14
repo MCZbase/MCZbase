@@ -19,7 +19,7 @@ limitations under the License.
 <cfcomponent>
 <cfinclude template="/shared/component/error_handler.cfc" runOnce="true">
 
-<!--- function setupClause setup variables to put into a where clause of a query.
+<!--- function setupClause setup variables to put into a where clause of a query for a text field.
 
 	Expected use: 
 
@@ -40,6 +40,7 @@ limitations under the License.
 	NULL, NOT NULL, operators as leading characters =, !, $, !$, ~, !~,
    and a comma separated list
  @return a struct with the properties pre, value, list, and post.
+ @see setupNumericClause for numeric fields.
 --->
 <cffunction name="setupClause" access="private" returntype="struct">
 	<cfargument name="field" type="string" required="yes">
@@ -92,6 +93,91 @@ limitations under the License.
 	<cfset retval["value"]=outvalue>
 	<cfset retval["post"]=post>
 	<cfset retval["list"]=list>
+	<cfreturn retval>
+</cffunction>
+
+<!--- function setupNumericClause setup variables to put into a where clause of a query for a
+  numeric field.
+
+	Example use, note the between clause
+
+	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
+		<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
+		<cfif len(retval["value"]) EQ 0>
+			AND #retval["pre"]# #retval["post"]#
+		<cfelseif len(retval["between"]) EQ "true">
+			AND #retval["pre"]# 
+				BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+				AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
+		<cfelse>
+			AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
+		</cfif>
+	</cfif>
+
+ @param field the field name, possibly needing to be prefixed by the tablename
+	field must be supplied a string value, not a variable, and must not be supplied 
+   from a user, otherwise could be used for sql injection.
+ @param the value to be queried for, supports the following:
+	NULL, NOT NULL, operators as leading characters =, !, <, <=, >, >=, 
+   between two values and a comma separated list
+ @return a struct with the properties pre, value, list, between, and post.
+ @see setupClause for preparing text queries.
+--->
+<cffunction name="setupNumericClause" access="private" returntype="struct">
+	<cfargument name="field" type="string" required="yes">
+	<cfargument name="value" type="string" required="yes">
+	<cfset retval = StructNew()>
+	<cfset pre = "#field#">
+	<cfset outvalue = "">
+	<cfset outvalue = "2">
+	<cfset post = "">
+	<cfset list = "no">
+	<cfset between = "false">
+	<cfif ucase(value) EQ "NULL">
+		<cfset outvalue= "">
+		<cfset post= "IS NULL">
+	<cfelseif ucase(value) EQ "NOT NULL">
+		<cfset outvalue= "">
+		<cfset post= "IS NOT NULL">
+	<cfelseif left(value,1) is "=">
+		<cfset pre = "#field# = ">
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif left(value,1) is "!">
+		<cfset pre = "#field# <> "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif left(value,2) is "<=" or left(value,2) IS "=<">
+		<cfset pre = "#field# <= "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-2)#">
+	<cfelseif left(value,2) is ">=" or left(value,2) IS "=>"><!--- " --->
+		<cfset pre = "#field# >= "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-2)#">
+	<cfelseif left(value,1) is "<">
+		<cfset pre = "#field# < ">
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif left(value,1) is ">"><!--- " --->
+		<cfset pre = "#field# > "><!--- " --->
+		<cfset outvalue="#right(value,len(value)-1)#">
+	<cfelseif find('-',maximum_elevation) GT 1>
+		<cfset bits = listToArray(maximum_elevation,'-')>
+		<cfif arrayLength(bits) GT 1>
+			<cfset pre = "#field# = ">
+			<cfset between="true">
+			<cfset outvalue="#bits[1]#">
+			<cfset outvalue2="#bits[2]#">
+		<cfelse>
+			<cfset pre = "#field# = ">
+			<cfset outvalue="#bits[1]#">
+		</cfif>
+	<cfelse>
+		<cfset pre = "#field# = ">
+		<cfset outvalue="#value#">
+	</cfif>
+	<cfset retval["pre"]=pre>
+	<cfset retval["value"]=outvalue>
+	<cfset retval["value2"]=outvalue2>
+	<cfset retval["post"]=post>
+	<cfset retval["list"]=list>
+	<cfset retval["between"]=between>
 	<cfreturn retval>
 </cffunction>
 
@@ -888,33 +974,33 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		<cfset includeCounts=true>
 	</cfif>
 
-	<!--- manipulate operators on min/maximum elevation to reduce number of cfelseif clauses --->
+	<!--- convert min/max ElevOper variables to operators as leading characters of min/max elevation --->
 	<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
-		<cfif NOT isDefined("maxElevOper")><cfset maxElevOper=""></cfif>
-		<cfif left(maximum_elevation,1) is "=">
-			<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
-			<cfset maxElevOper = "=">
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "!" and left(maximum_elevation,1) NEQ "!">
+			<cfset maximum_elevation="!#maximum_elevation#">
 		</cfif>
-		<cfif left(maximum_elevation,1) is "!">
-			<cfset maximum_elevation = "#right(maximum_elevation,len(maximum_elevation)-1)#">
-			<cfset maxElevOper = "!">
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "<>" and left(maximum_elevation,2) NEQ "<>">
+			<cfset maximum_elevation="!#maximum_elevation#"><!--- " --->
 		</cfif>
-		<cfif isDefined("maxElevOper") AND maxElevOper EQ "<>"><!--- " --->
-			<cfset maxElevOper = "!">
+		<cfif isDefined("maxElevOper") and maxElevOper EQ "<" and left(maximum_elevation,1) NEQ "<">
+			<cfset maximum_elevation="<#maximum_elevation#">
+		</cfif>
+		<cfif isDefined("maxElevOper") and maxElevOper EQ ">" and left(maximum_elevation,1) NEQ ">">
+			<cfset maximum_elevation=">#maximum_elevation#"><!--- " --->
 		</cfif>
 	</cfif>
 	<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
-		<cfif NOT isDefined("minElevOper")><cfset minElevOper=""></cfif>
-		<cfif left(minimum_elevation,1) is "=">
-			<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
-			<cfset minElevOper = "=">
+		<cfif isDefined("minElevOper") and minElevOper EQ "!" and left(minimum_elevation,1) NEQ "!">
+			<cfset minimum_elevation="!#minimum_elevation#">
 		</cfif>
-		<cfif left(minimum_elevation,1) is "!">
-			<cfset minimum_elevation = "#right(minimum_elevation,len(minimum_elevation)-1)#">
-			<cfset minElevOper = "!">
+		<cfif isDefined("minElevOper") and minElevOper EQ "<>" and left(minimum_elevation,2) NEQ "<>">
+			<cfset minimum_elevation="!#minimum_elevation#"><!--- " --->
 		</cfif>
-		<cfif isDefined("minElevOper") AND minElevOper EQ "<>"><!--- " --->
-			<cfset minElevOper = "!">
+		<cfif isDefined("minElevOper") and minElevOper EQ "<" and left(minimum_elevation,1) NEQ "<">
+			<cfset minimum_elevation="<#minimum_elevation#">
+		</cfif>
+		<cfif isDefined("minElevOper") and minElevOper EQ ">" and left(minimum_elevation,1) NEQ ">">
+			<cfset minimum_elevation=">#minimum_elevation#"><!--- " --->
 		</cfif>
 	</cfif>
 
@@ -1155,98 +1241,64 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("minimum_elevation") AND len(minimum_elevation) gt 0>
-					<cfif ucase(minimum_elevation) EQ "NULL">
-						and locality.minimum_elevation IS NULL
-					<cfelseif ucase(minimum_elevation) EQ "NOT NULL">
-						and locality.minimum_elevation IS NOT NULL
-					<cfelseif minElevOper EQ "=">
-						and locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-					<cfelseif minElevOper EQ "!"><!--- " --->
-						and locality.minimum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-					<cfelseif minElevOper EQ "<">
-						and locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-					<cfelseif minElevOper EQ ">"><!--- " --->
-						and locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
-					<cfelseif left(minimum_elevation,2) is ">="><!--- " --->
-						AND locality.minimum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
-					<cfelseif left(minimum_elevation,2) is "<=">
-						AND locality.minimum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-2)#">
-					<cfelseif left(minimum_elevation,1) is ">"><!--- " --->
-						AND locality.minimum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
-					<cfelseif left(minimum_elevation,1) is "<">
-						AND locality.minimum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(minimum_elevation,len(minimum_elevation)-1)#">
-					<cfelseif find('-',minimum_elevation) GT 1>
-						<cfset bits = listToArray(minimum_elevation,'-')>
-						<cfif arrayLength(bits) GT 1>
-							AND locality.minimum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
-						<cfelse>
-							AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
-						</cfif>
+					<cfset setup = setupNumericClause(field="locality.minimum_elevation",value="#minimum_elevation#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
 					<cfelse>
-						AND locality.minimum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#minimum_elevation#">
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("maximum_elevation") AND len(maximum_elevation) gt 0>
-					<cfif ucase(maximum_elevation) EQ "NULL">
-						and locality.maximum_elevation IS NULL
-					<cfelseif ucase(maximum_elevation) EQ "NOT NULL">
-						and locality.maximum_elevation IS NOT NULL
-					<cfelseif maxElevOper EQ "=">
-						and locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-					<cfelseif maxElevOper EQ "!">
-						and locality.maximum_elevation <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-					<cfelseif maxElevOper EQ "<">
-						and locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-					<cfelseif maxElevOper EQ ">"><!--- " --->
-						and locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
-					<cfelseif left(maximum_elevation,2) is ">="><!--- " --->
-						AND locality.maximum_elevation >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
-					<cfelseif left(maximum_elevation,2) is "<=">
-						AND locality.maximum_elevation <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-2)#">
-					<cfelseif left(maximum_elevation,1) is ">"><!--- " --->
-						AND locality.maximum_elevation > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
-					<cfelseif left(maximum_elevation,1) is "<">
-						AND locality.maximum_elevation < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(maximum_elevation,len(maximum_elevation)-1)#">
-					<cfelseif find('-',maximum_elevation) GT 1>
-						<cfset bits = listToArray(maximum_elevation,'-')>
-						<cfif arrayLength(bits) GT 1>
-							AND locality.maximum_elevation between <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#"> AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[2]#">
-						<cfelse>
-							AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bits[1]#">
-						</cfif>
+					<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
 					<cfelse>
-						AND locality.maximum_elevation = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#maximum_elevation#">
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
 				</cfif>
 				<cfif isdefined("section") AND len(section) gt 0>
-					<cfif ucase(section) EQ "NULL">
-						and locality.section IS NULL
-					<cfelseif ucase(section) EQ "NOT NULL">
-						and locality.section IS NOT NULL
+					<cfset setup = setupNumericClause(field="locality.section",value="#section#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
 					<cfelse>
-						AND locality.section = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#section#">
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
-					<!--- TODO: Generic clause builder for numeric data --->
 				</cfif>
 				<cfif isdefined("township") AND len(township) gt 0>
-					<cfif ucase(township) EQ "NULL">
-						and locality.township IS NULL
-					<cfelseif ucase(township) EQ "NOT NULL">
-						and locality.township IS NOT NULL
+					<cfset setup = setupNumericClause(field="locality.township",value="#township#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
 					<cfelse>
-						AND locality.township = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#township#">
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
-					<!--- TODO: Generic clause builder for numeric data --->
 				</cfif>
 				<cfif isdefined("range") AND len(range) gt 0>
-					<cfif ucase(range) EQ "NULL">
-						and locality.range IS NULL
-					<cfelseif ucase(range) EQ "NOT NULL">
-						and locality.range IS NOT NULL
+					<cfset setup = setupNumericClause(field="locality.range",value="#range#")>
+					<cfif len(retval["value"]) EQ 0>
+						AND #retval["pre"]# #retval["post"]#
+					<cfelseif len(retval["between"]) EQ "true">
+						AND #retval["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value2']#"> 
 					<cfelse>
-						AND locality.range = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#range#">
+						AND #retval["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#retval['value']#" list="#retval['list']#"> #retval["post"]#
 					</cfif>
-					<!--- TODO: Generic clause builder for numeric data --->
 				</cfif>
 				<cfif isdefined("collection_id") and len(collection_id) gt 0>
 					<cfif collnOper is "usedOnlyBy">
