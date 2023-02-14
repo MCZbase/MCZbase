@@ -129,7 +129,7 @@ limitations under the License.
 	<cfset retval = StructNew()>
 	<cfset pre = "#field#">
 	<cfset outvalue = "">
-	<cfset outvalue = "2">
+	<cfset outvalue2 = "">
 	<cfset post = "">
 	<cfset list = "no">
 	<cfset between = "false">
