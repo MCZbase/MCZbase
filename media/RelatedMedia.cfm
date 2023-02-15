@@ -204,19 +204,18 @@
 														and ct.auto_table = 'publication'
 														</cfquery>
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id
-														from media_relations mr
-														left join media on mr.media_id = media.media_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-														and mr.media_relationship <> 'created by agent'
-														and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.at#">
-														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct mr.media_id
+														from media_relations mr 
+														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#">
+														and mr.media_relationship = 'shows publication'
+														and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-																<cfif len(media.media_id) gt 0>
+																<cfif len(relm.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
 																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
 																	<cfelse>	
@@ -238,15 +237,6 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-													<cfelse>
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct mr.media_id
-															from media_relations mr 
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.pk#">
-															and mr.media_relationship = 'shows publication'
-															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														</cfquery>
-													</cfif>
 													<div id="targetDiv"></div>
 												</cfloop>
 												</cfif>
