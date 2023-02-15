@@ -182,7 +182,7 @@
 														</cfloop>
 													</cfloop>
 												</cfif>
-												<cfif pubscollid.recordcount gt 0>
+												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
 														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct c.collection_object_id
