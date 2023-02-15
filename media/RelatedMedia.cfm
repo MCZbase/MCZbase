@@ -192,7 +192,7 @@
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 														and ct.auto_table = 'publication'
-														</cfquery>#pubs.pk#
+														</cfquery>#pubscollid.collection_object_id#
 														
 														<!---thumbnails added below--->
 														<cfset i = 1>
