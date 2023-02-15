@@ -130,17 +130,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-					
-						<!---	<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select mr.related_primary_key
-								from media_relations mr
-								left join media m on mr.media_id = m.media_id
-								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-								and mr.media_relationship <> 'created by agent'
-								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
-								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							</cfquery>--->
-							<cfif spec.recordcount gt 0 OR pubs.recordcount gt 0>  
+							<cfif media.recordcount gt 0>  
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
