@@ -350,12 +350,18 @@
 						<label class="data-entry-label">Elevation <span class="small">(Original Units)</span></label>
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif not isDefined("MinElevOper")><cfset MinElevOper="="></cfif>
+						<cfif MinElevOper IS "!"><cfset MinElevOper="<>"></cfif>
 						<label for="MinElevOper" class="data-entry-label" style="color: transparent">(operator)</label>
 						<select name="MinElevOper" id="MinElevOper" size="1" class="data-entry-select">
-							<option value="=">is</option>
-							<option value="<>">is not</option><!--- " --->
-							<option value=">">more than</option><!--- " --->
-							<option value="<">less than</option>
+							<cfif MinElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="=" #selected#>is</option>
+							<cfif MinElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<>" #selected#>is not</option><!--- " --->
+							<cfif MinElevOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value=">" #selected#>more than</option><!--- " --->
+							<cfif MinElevOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<" #selected#>less than</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
@@ -373,12 +379,18 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif not isDefined("MaxElevOper")><cfset MaxElevOper="="></cfif>
+						<cfif MaxElevOper IS "!"><cfset MaxElevOper="<>"></cfif>
 						<label for="MaxElevOper" class="data-entry-label" style="color:transparent">Elevation</label>
 						<select name="MaxElevOper" id="MaxElevOper" size="1" class="data-entry-select">
-							<option value="=">is</option>
-							<option value="<>">is not</option><!--- " --->
-							<option value=">">more than</option><!--- " --->
-							<option value="<">less than</option>
+							<cfif MaxElevOper IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="=" #selected#>is</option>
+							<cfif MaxElevOper IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<>" #selected#>is not</option><!--- " --->
+							<cfif MaxElevOper IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value=">" #selected#>more than</option><!--- " --->
+							<cfif MaxElevOper IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<" #selected#>less than</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
@@ -395,8 +407,8 @@
 						<label for="minDepthOper" class="data-entry-label" style="color: transparent">Operator</label>
 						<select name="minDepthOper" id="MinDepthOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -417,8 +429,8 @@
 						<label for="MaxDepthOper" class="data-entry-label" style="color:transparent">operator</label>
 						<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select">
 							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
+							<option value="<>">is not</option><!--- " --->
+							<option value=">">more than</option><!--- " --->
 							<option value="<">less than</option>
 						</select>
 					</div>
@@ -429,12 +441,18 @@
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("MinElevOperM")><cfset MinElevOperM="="></cfif>
+						<cfif MinElevOperM IS "!"><cfset MinElevOperM="<>"></cfif>
 						<label for="MinElevOperM" class="data-entry-label">Minimum Elevation (in Meters)</label>
 						<select name="MinElevOperM" id="MinElevOperM" size="1" class="data-entry-select">
-							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
-							<option value="<">less than</option>
+							<cfif MinElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="=" #selected#>is</option>
+							<cfif MinElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<>" #selected#>is not</option><!--- " --->
+							<cfif MinElevOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value=">" #selected#>more than</option><!--- " --->
+							<cfif MinElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<" #selected#>less than</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
@@ -443,12 +461,18 @@
 						<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input" value="#minimum_elevation_m#">
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
+						<cfif MaxElevOperM IS "!"><cfset MaxElevOperM="<>"></cfif>
 						<label for="MaxElevOperM" class="data-entry-label">Maximum Elevation (in meters)</label>
 						<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="data-entry-select">
-							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
-							<option value="<">less than</option>
+							<cfif MaxElevOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="=" #selected#>is</option>
+							<cfif MaxElevOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<>" #selected#>is not</option><!--- " --->
+							<cfif MaxElevOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value=">" #selected#>more than</option><!--- " --->
+							<cfif MaxElevOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<" #selected#>less than</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
@@ -535,17 +559,20 @@
 				</cfif>
 				<div class="form-row px-3 mt-2 mb-3">
 					<div class="col-12 col-md-4">
+						<cfif isDefined("geology_attribute")><cfset geology_attribute_val="#geology_attribute#"><cfelse><cfset geology_attribute_val=""></cfif>
 						<label for="geology_attribute" class="data-entry-label">Geology Attribute</label>
 						<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="ctgeology_attribute">
-								<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
+								<cfif ctgeology_attribute EQ geology_attribute_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value = "#ctgeology_attribute.geology_attribute#" #selected#>#ctgeology_attribute.geology_attribute#</option>
 							</cfloop>
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("geo_att_value")><cfset geo_att_value=""></cfif>
 						<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
-						<input type="text" name="geo_att_value" class="data-entry-input">
+						<input type="text" name="geo_att_value" class="data-entry-input" value="#geo_att_value#">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
