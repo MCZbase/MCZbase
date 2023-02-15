@@ -192,7 +192,7 @@
 														where mr.media_relationship = 'shows publication'
 														and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 														</cfquery>
-														<cfloop query="pubscollid">
+														<cfloop query="pubscollid">Test: #pubscollid.collection_object_id#
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct mr.media_id
 															from media_relations mr 
