@@ -55,8 +55,6 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 		and ct.description = 'publication'
-	<!---	and ct.description <> 'ledger'
-		and m.auto_host <> 'nrs.harvard.edu'--->
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
@@ -143,7 +141,7 @@
 								</div>
 							</div>	
 						<cfif spec.recordcount gt 0>
-							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<!---	<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.related_primary_key
 								from media_relations mr
 								left join media m on mr.media_id = m.media_id
@@ -151,8 +149,8 @@
 								and mr.media_relationship <> 'created by agent'
 								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-							</cfquery>
-							<cfif relmct.recordcount gt 0>  
+							</cfquery>--->
+			<!---				<cfif relmct.recordcount gt 0> ---> 
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -167,7 +165,6 @@
 											<div class="col-12 p-1">
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
-														There
 														<cfif spec.at eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
@@ -216,7 +213,7 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-													</cfif>
+										<!---			</cfif>--->
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
