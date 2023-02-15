@@ -47,7 +47,7 @@
 		and mr.media_relationship = 'shows publication'
 	</cfquery>
 	<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table
+		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join media m on m.media_id = mr.media_id
@@ -172,8 +172,8 @@
 															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.at#">
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #pubs.at#">
 															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														<cfelse>
