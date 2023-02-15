@@ -47,7 +47,6 @@
 		and mr.media_relationship = 'shows publication'
 	</cfquery>
 	<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		<cfif pubscollid.recordcount gt 0>
 		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
@@ -59,7 +58,6 @@
 		and ct.description <> 'ledger'
 		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
-		</cfif>
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
