@@ -149,7 +149,7 @@
 								left join media m on mr.media_id = m.media_id
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 								and mr.media_relationship <> 'created by agent'
-								and mr. <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
+								and mr. <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
 							<cfif relmct.recordcount gt 0>  
@@ -168,7 +168,7 @@
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														There
-														<cfif spec.auto_table eq 'publication'>
+														<cfif spec.at eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
 															from media_relations mr 
@@ -176,7 +176,7 @@
 															left join media m on m.media_id = mr.media_id
 															left join citation c on c.publication_id = p.publication_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
-															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
+															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.at#">
 															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														<cfelse>
