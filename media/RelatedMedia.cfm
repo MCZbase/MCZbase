@@ -39,7 +39,7 @@
 		and mr.media_relationship <> 'created by agent'
 	</cfquery>
 	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct c.collection_object_id as pk
+		select distinct c.collection_object_id
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
@@ -181,7 +181,7 @@
 														</cfloop>
 													</cfloop>
 												</cfif>
-												<cfif len(pubscollid.pk) gt 0>test 2
+												<cfif len(pubscollid.collection_object_id) gt 0>test 2
 													<cfloop query="pubscollid">
 														<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
