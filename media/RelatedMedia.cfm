@@ -39,7 +39,7 @@
 		and mr.media_relationship <> 'created by agent'
 	</cfquery>
 	<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct c.collection_object_id
+		select distinct c.collection_object_id as pk
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
