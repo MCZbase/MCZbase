@@ -47,7 +47,7 @@
 		and mr.media_relationship = 'shows publication'
 	</cfquery>
 	<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct mr.related_primary_key
+		select distinct mr.related_primary_key as pk
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
@@ -190,14 +190,15 @@
 													</cfloop>
 												</cfif>
 												<cfif pubscollid.recordcount gt 0>test 1
-													<cfloop query="pubs">
+													<cfloop query="pubscollid">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id
 														from media_relations mr 
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
 														and mr.media_relationship = 'shows publication'
 														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														</cfquery>#relm.media_id#
+														</cfquery>
+														<cfloop query="pubs">#pubs.pk#
 														<cfset i = 1>
 														<cfloop query="relm">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
@@ -222,6 +223,7 @@
 																</cfif>
 															</div>
 															<cfset i=i+1>
+														</cfloop>
 														</cfloop>
 													</cfloop>
 												</cfif>
