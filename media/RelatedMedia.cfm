@@ -140,7 +140,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-						<cfif spec.recordcount gt 0>
+					
 						<!---	<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.related_primary_key
 								from media_relations mr
@@ -150,7 +150,7 @@
 								and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>--->
-			<!---				<cfif relmct.recordcount gt 0> ---> 
+							<cfif spec.recordcount gt 0>  
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -225,9 +225,7 @@
 									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
 								</div>
 							</cfif>
-						<cfelse>
-							Not in spec query.
-						</cfif>
+					
 						</div>
 					</div>
 				</cfloop>
