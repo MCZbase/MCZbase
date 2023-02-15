@@ -54,7 +54,7 @@
 		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
-		and ct.description = 'publication'
+		and ct.auto_table = 'publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
@@ -167,13 +167,10 @@
 													<cfif len(spec.pk) gt 0>
 														<cfif spec.at eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-															select distinct m.media_id
+															select distinct mr.media_id
 															from media_relations mr 
-															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
-															left join media m on m.media_id = mr.media_id
-															left join citation c on c.publication_id = p.publication_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
-															and mr.media_relationship = 'publication'
+															and mr.media_relationship = 'shows publication'
 															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														<cfelse>
