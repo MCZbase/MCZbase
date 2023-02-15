@@ -167,9 +167,8 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfloop query="spec">
-													<cfif len(spec.pk) gt 0>
-														There
-														<cfif spec.auto_table eq 'publication'>
+													There
+														<cfif spec.at eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
 															from media_relations mr 
@@ -217,7 +216,7 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-													</cfif>
+												
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
