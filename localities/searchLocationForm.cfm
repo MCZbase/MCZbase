@@ -80,12 +80,12 @@
 						</span>
 					</label>
 					<cfif not isDefined("higher_geog")><cfset higher_geog=""></cfif>
-					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value="#higher_geog#"> 
+					<input type="text" name="higher_geog" id="higher_geog" class="data-entry-input" value="#encodeForHtml(higher_geog)#> 
 				</div>
 				<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
 					<label for="geog_auth_rec_id" class="data-entry-label">Geog Auth Rec ID</label>
 					<cfif not isDefined("geog_auth_rec_id")><cfset geog_auth_rec_id=""></cfif>
-					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input" value="#geog_auth_rec_id#">
+					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="data-entry-input" value="#encodeForHtml(geog_auth_rec_id)#>
 				</div>
 				<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 					<label for="geogDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Geography</label>
@@ -101,7 +101,7 @@
 							</span>
 						</label>
 						<cfif not isDefined("continent_ocean")><cfset continent_ocean=""></cfif>
-						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#continent_ocean#">
+						<input type="text" name="continent_ocean" id="continent_ocean" class="data-entry-input" value="#encodeForHtml(continent_ocean)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('continent_ocean','continent_ocean');
@@ -111,7 +111,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("ocean_region")><cfset ocean_region=""></cfif>
 						<label for="ocean_region" class="data-entry-label" >Ocean Region</label>
-						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#ocean_region#">
+						<input type="text" name="ocean_region" id="ocean_region" class="data-entry-input" value="#encodeForHtml(ocean_region)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('ocean_region','ocean_region');
@@ -121,7 +121,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("ocean_subregion")><cfset ocean_subregion=""></cfif>
 						<label for="ocean_subregion" class="data-entry-label">Ocean SubRegion</label>
-						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#ocean_subregion#">
+						<input type="text" name="ocean_subregion" id="ocean_subregion" class="data-entry-input" value="#encodeForHtml(ocean_subregion)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('ocean_subregion','ocean_subregion');
@@ -131,7 +131,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("sea")><cfset sea=""></cfif>
 						<label for="sea" class="data-entry-label">Sea</label>
-						<input type="text" name="sea" id="sea" class="data-entry-input" value="#sea#">
+						<input type="text" name="sea" id="sea" class="data-entry-input" value="#encodeForHtml(sea)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('sea','sea');
@@ -143,7 +143,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("island")><cfset island=""></cfif>
 						<label for="island" class="data-entry-label">Island</label>
-						<input type="text" name="island" id="island" class="data-entry-input" value="#island#">
+						<input type="text" name="island" id="island" class="data-entry-input" value="#encodeForHtml(island)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('island','island');
@@ -153,7 +153,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("island_group")><cfset island_group=""></cfif>
 						<label for="island_group" class="data-entry-label">Island Group</label>
-						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#island_group#">
+						<input type="text" name="island_group" id="island_group" class="data-entry-input" value="#encodeForHtml(island_group)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('island_group','island_group');
@@ -163,7 +163,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("feature")><cfset feature=""></cfif>
 						<label for="feature" class="data-entry-label">Land Feature</label>
-						<input type="text" name="feature" id="feature" class="data-entry-input" value="#feature#">
+						<input type="text" name="feature" id="feature" class="data-entry-input" value="#encodeForHtml(feature)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('feature','feature');
@@ -173,7 +173,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("water_feature")><cfset water_feature=""></cfif>
 						<label for="water_feature" class="data-entry-label">Water Feature</label>
-						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#water_feature#">
+						<input type="text" name="water_feature" id="water_feature" class="data-entry-input" value="#encodeForHtml(water_feature)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('water_feature','water_feature');
@@ -185,7 +185,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("country")><cfset country=""></cfif>
 						<label for="country" class="data-entry-label">Country</label>
-						<input type="text" name="country" id="country" class="data-entry-input" value="#country#">
+						<input type="text" name="country" id="country" class="data-entry-input" value="#encodeForHtml(country)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('country','country');
@@ -195,7 +195,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("state_prov")><cfset state_prov=""></cfif>
 						<label for="state_prov" class="data-entry-label">State or Province</label>
-						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#state_prov#">
+						<input type="text" name="state_prov" id="state_prov" class="data-entry-input" value="#encodeForHtml(state_prov)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('state_prov','state_prov');
@@ -205,7 +205,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("county")><cfset county=""></cfif>
 						<label for="county" class="data-entry-label">County</label>
-						<input type="text" name="county" id="county" class="data-entry-input" value="#county#">
+						<input type="text" name="county" id="county" class="data-entry-input" value="#encodeForHtml(county)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('county','county');
@@ -215,7 +215,7 @@
 					<div class="col-12 col-md-3 my-1">
 						<cfif not isDefined("quad")><cfset quad=""></cfif>
 						<label for="quad" class="data-entry-label">Quad</label>
-						<input type="text" name="quad" id="quad" class="data-entry-input" value="#quad#">
+						<input type="text" name="quad" id="quad" class="data-entry-input" value="#encodeForHtml(quad)#>
 						<script>
 							jQuery(document).ready(function() {
 								makeGeogSearchAutocomplete('quad','quad');
@@ -239,7 +239,7 @@
 						<div class="col-12 col-md-3 my-1">
 							<cfif not isDefined("highergeographyid")><cfset highergeographyid=""></cfif>
 							<label for="highergeographyid" class="data-entry-label">dwc:higherGeographyID</label>
-							<input type="text" name="highergeographyid" id="highergeographyid" class="data-entry-input" value="#highergeographyid#">
+							<input type="text" name="highergeographyid" id="highergeographyid" class="data-entry-input" value="#encodeForHtml(highergeographyid)#>
 							<script>
 								jQuery(document).ready(function() {
 									makeGeogSearchAutocomplete('highergeographyid','highergeographyid');
@@ -272,12 +272,12 @@
 					<div class="col-12 col-md-8 px-3 mt-md-3 mb-md-3 mt-2 mb-3">
 						<cfif not isDefined("spec_locality")><cfset spec_locality=""></cfif>
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
-						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#spec_locality#">
+						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(encodeForHtml(spec_locality))#>
 					</div>
 					<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
 						<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
-						<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#locality_id#">
+						<input type="text" name="locality_id" id="locality_id" class="data-entry-input" value="#encodeForHtml(encodeForHtml(locality_id))#>
 					</div>
 					<div class="col-12 col-md-2 px-3 mt-sm-3 mb-md-3 mt-0 mb-3">
 						<label for="locDetailCtl" class="data-entry-label d-sm-none d-md-inline float-left" style="color: transparent">Locality</label>
@@ -327,7 +327,7 @@
 						<div class="col-12 col-md-8">
 							<cfif not isDefined("locality_remarks")><cfset locality_remarks=""></cfif>
 							<label for="locality_remarks" class="data-entry-label">Locality Remarks</label>
-							<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#locality_remarks#">
+							<input type="text" name="locality_remarks" id="locality_remarks" class="data-entry-input" value="#encodeForHtml(locality_remarks)#>
 						</div>
 						<div class="col-12 col-md-4">
 							<cfif not isDefined("sovereign_nation")><cfset sovereign_nation_val=""><cfelse><cfset sovereign_nation_val="#sovereign_nation#"></cfif>
@@ -367,14 +367,16 @@
 					<div class="col-12 col-md-2">
 						<label for="minimum_elevation" class="data-entry-label">Minimum Elevation</label>
 						<cfif not isDefined("minimum_elevation")><cfset minimum_elevation=""></cfif>
-						<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#minimum_elevation#">
+						<input type="text" name="minimum_elevation" id="minimum_elevation" class="data-entry-input" value="#encodeForHtml(minimum_elevation)#>
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif isDefined("orig_elev_units")><cfset orig_elev_units_val="#orig_elev_units#"><cfelse><cfset orig_elev_units_val=""></cfif>
 						<label for="orig_elev_units" class="data-entry-label">Elevation Units</label>
 						<select name="orig_elev_units" id="orig_elev_units" size="1" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="ctElevUnit">
-								<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
+								<cfif ctElevUnit.orig_elev_units EQ orig_elev_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="#ctElevUnit.orig_elev_units#" #selected#>#ctElevUnit.orig_elev_units#</option>
 							</cfloop>
 						</select>
 					</div>
@@ -396,7 +398,7 @@
 					<div class="col-12 col-md-2">
 						<cfif not isDefined("maximum_elevation")><cfset maximum_elevation=""></cfif>
 						<label for="maximum_elevation" class="data-entry-label">Maximum Elevation</label>
-						<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input">
+						<input type="text" name="maximum_elevation" id="maximum_elevation" class="data-entry-input" value="#encodeForHtml(maximum_elevation)#">
 					</div>
 				</div>
 				<div class="form-row px-3 my-2">
@@ -413,30 +415,39 @@
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif not isDefined("min_depth")><cfset min_depth=""></cfif>
 						<label for="min_depth" class="data-entry-label">Minimum Depth</label>
-						<input type="text" name="min_depth" id="min_depth" class="data-entry-input">
+						<input type="text" name="min_depth" id="min_depth" class="data-entry-input" value="#encodeForHtml(min_depth)#">
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif isDefined("depth_units")><cfset depth_units_val="#depth_units#"><cfelse><cfset depth_units_val=""></cfif>
 						<label for="depth_units" class="data-entry-label">Depth Units</label>
 						<select name="depth_units" id="depth_units" size="1" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="ctDepthUnit">
-								<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
+								<cfif ctDepthUnit.Depth_units EQ depth_units_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<option value="#ctDepthUnit.Depth_units#" #selected#>#ctDepthUnit.Depth_units#</option>
 							</cfloop>
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif isDefined("MaxDepthOper")><cfset MaxDepthOper="#MaxDepthOper#"><cfelse><cfset MaxDepthOper=""></cfif>
 						<label for="MaxDepthOper" class="data-entry-label" style="color:transparent">operator</label>
 						<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="data-entry-select">
-							<option value="=">is</option>
-							<option value="<>">is not</option><!--- " --->
-							<option value=">">more than</option><!--- " --->
-							<option value="<">less than</option>
+							<cfif MaxDepthOper EQ "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="=" #selected#>is</option>
+							<cfif MaxDepthOper EQ "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<>" #selected#>is not</option><!--- " --->
+							<cfif MaxDepthOper EQ ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value=">" #selected#>more than</option><!--- " --->
+							<cfif MaxDepthOper EQ "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<" #selected#>less than</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-2">
+						<cfif not isDefined("max_depth")><cfset max_depth=""></cfif>
 						<label for="max_depth" class="data-entry-label">Maximum Depth</label>
-						<input type="text" name="max_depth" id="max_depth" class="data-entry-input">
+						<input type="text" name="max_depth" id="max_depth" class="data-entry-input" value="#encodeForHtml(max_depth)#">
 					</div>
 				</div>
 				<div class="form-row px-3 my-2">
@@ -458,7 +469,7 @@
 					<div class="col-12 col-md-3">
 						<cfif not isDefined("minimum_elevation_m")><cfset minimum_elevation_m=""></cfif>
 						<label for="minimum_elevation_m" class="data-entry-label">Minimum</label>
-						<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input" value="#minimum_elevation_m#">
+						<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="data-entry-input" value="#encodeForHtml(minimum_elevation_m)#>
 					</div>
 					<div class="col-12 col-md-3">
 						<cfif not isDefined("MaxElevOperM")><cfset MaxElevOperM="="></cfif>
@@ -478,35 +489,47 @@
 					<div class="col-12 col-md-3">
 						<cfif not isDefined("maximum_elevation_m")><cfset maximum_elevation_m=""></cfif>
 						<label for="maximum_elevation_m" class="data-entry-label">Maximum</label>
-						<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input" value="#maximum_elevation_m#">
+						<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="data-entry-input" value="#encodeForHtml(maximum_elevation_m)#>
 					</div>
 				</div>
 				<div class="form-row px-3 my-2">
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("minDepthOperM")><cfset minDepthOperM="="></cfif>
 						<label for="minDepthOperM" class="data-entry-label">Minimum Depth (in meters)</label>
 						<select name="minDepthOperM" id="MinDepthOperM" size="1" class="data-entry-select">
-							<option value="=">is</option>
-							<option value="<>">is not</option>
-							<option value=">">more than</option>
-							<option value="<">less than</option>
+							<cfif minDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="=" #selected#>is</option>
+							<cfif minDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<>" #selected#>is not</option><!--- " --->
+							<cfif minDepthOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value=">" #selected#>more than</option><!--- " --->
+							<cfif minDepthOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<" #selected#>less than</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("min_depth_m")><cfset min_depth_m=""></cfif>
 						<label for="min_depth_m" class="data-entry-label">Maximum</label>
-						<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input">
+						<input type="text" name="min_depth_m" id="min_depth_m" class="data-entry-input" value="#encodeForHtml(min_depth_m)#">
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("MaxDepthOperM")><cfset MaxDepthOperM="="></cfif>
 						<label for="MaxDepthOperM" class="data-entry-label">Maximum Depth (in meters)</label>
 						<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="data-entry-select">
-							<option value="=">is</option>
-							<option value="<>">is not</option><!--- " --->
-							<option value=">">more than</option><!--- " --->
-							<option value="<">less than</option>
+							<cfif MaxDepthOperM IS "="><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="=" #selected#>is</option>
+							<cfif MaxDepthOperM IS "<>"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<>" #selected#>is not</option><!--- " --->
+							<cfif MaxDepthOperM IS ">"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value=">" #selected#>more than</option><!--- " --->
+							<cfif MaxDepthOperM IS "<"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+							<option value="<" #selected#>less than</option>
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
+						<cfif not isDefined("max_depth_m")><cfset max_depth_m=""></cfif>
 						<label for="max_depth_m" class="data-entry-label">Maximum</label>
-						<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input">
+						<input type="text" name="max_depth_m" id="max_depth_m" class="data-entry-input" value="#encodeForHtml(max_depth_m)#">
 					</div>
 				</div>
 				<cfif #showExtraFields# IS 1>
@@ -514,17 +537,17 @@
 						<div class="col-12 col-md-2">
 							<cfif not isDefined("section_part")><cfset section_part=""></cfif>
 							<label for="section_part" class="data-entry-label">PLSS Section Part</label>
-							<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#section_part#">
+							<input type="text" name="section_part" id="section_part" class="data-entry-input" value="#encodeForHtml(section_part)#>
 						</div>
 						<div class="col-12 col-md-2">
 							<cfif not isDefined("section")><cfset section=""></cfif>
 							<label for="section" class="data-entry-label">PLSS Section</label>
-							<input type="text" name="section" id="section" class="data-entry-input" value="#section#">
+							<input type="text" name="section" id="section" class="data-entry-input" value="#encodeForHtml(section)#>
 						</div>
 						<div class="col-12 col-md-2">
 							<cfif not isDefined("township")><cfset township=""></cfif>
 							<label for="township" class="data-entry-label">PLSS Township</label>
-							<input type="text" name="township" id="township" class="data-entry-input" value="#township#">
+							<input type="text" name="township" id="township" class="data-entry-input" value="#encodeForHtml(township)#>
 						</div>
 						<div class="col-12 col-md-2">
 							<cfif not isDefined("township_direction")><cfset township_direction=""></cfif>
@@ -541,7 +564,7 @@
 						<div class="col-12 col-md-2">
 							<cfif not isDefined("range")><cfset range=""></cfif>
 							<label for="range" class="data-entry-label">PLSS Range</label>
-							<input type="text" name="range" id="range" class="data-entry-input" value="#range#">
+							<input type="text" name="range" id="range" class="data-entry-input" value="#encodeForHtml(range)#>
 						</div>
 						<div class="col-12 col-md-2">
 							<cfif not isDefined("range_direction")><cfset range_direction=""></cfif>
@@ -572,7 +595,7 @@
 					<div class="col-12 col-md-3">
 						<cfif not isDefined("geo_att_value")><cfset geo_att_value=""></cfif>
 						<label for="geo_att_value" class="data-entry-label">Attribute Value</label>
-						<input type="text" name="geo_att_value" class="data-entry-input" value="#geo_att_value#">
+						<input type="text" name="geo_att_value" class="data-entry-input" value="#encodeForHtml(geo_att_value)#>
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="geology_attribute_hier" class="data-entry-label">Traverse Hierarchies?</label>
