@@ -18,11 +18,12 @@ limitations under the License.
 
 --->
 <cfinclude template = "/shared/_header.cfm">
+<link rel="stylesheet" href="/dataentry/css/data_entry_styles.css">
 <cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 	<cfthrow message="Not for production use yet.">
 </cfif>
 <style>
-	body {
+	/*body {
 		background-color: #deebec;
 	}
 .tilt.right {
@@ -91,7 +92,7 @@ limitations under the License.
 		left:15px;
 		z-index:100;
 	}
-}
+}*/
 </style>
 
 
