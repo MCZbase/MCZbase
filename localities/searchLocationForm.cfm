@@ -246,6 +246,16 @@
 								});
 							</script>
 						</div>
+						<div class="col-12 col-md-3 my-1">
+							<cfif not isDefined("source_authority")><cfset source_authority=""></cfif>
+							<label for="source_authority" class="data-entry-label">Source Authority</label>
+							<input type="text" name="source_authority" id="source_authority" class="data-entry-input" value="#encodeForHtml(source_authority)#">
+							<script>
+								jQuery(document).ready(function() {
+									makeGeogSearchAutocomplete('source_authority','source_authority');
+								});
+							</script>
+						</div>
 					</div>
 				</cfif>
 			</div>
