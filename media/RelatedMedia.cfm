@@ -146,13 +146,13 @@
 							<cfquery name="relmct" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select mr.related_primary_key
 								from media_relations mr
-								left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+								left join media m on mr.media_id = m.media_id
 								where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 								and mr.media_relationship <> 'created by agent'
-								and ct.auto_table = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.at#">
-								and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+								and mr. <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.auto_table#">
+								and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 							</cfquery>
-							<cfif relmct.recordcount gt 0> 
+							<cfif relmct.recordcount gt 0>  
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
@@ -166,8 +166,9 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfloop query="spec">
-												
-														<cfif spec.at eq 'publication'>
+													<cfif len(spec.pk) gt 0>
+														There
+														<cfif spec.auto_table eq 'publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
 															from media_relations mr 
@@ -215,7 +216,7 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-												
+													</cfif>
 													<div id="targetDiv"></div>
 												</cfloop>
 											</div>
