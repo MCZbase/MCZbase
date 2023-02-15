@@ -55,8 +55,8 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 		and ct.description = 'publication'
-		and ct.description <> 'ledger'
-		and m.auto_host <> 'nrs.harvard.edu'
+	<!---	and ct.description <> 'ledger'
+		and m.auto_host <> 'nrs.harvard.edu'--->
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
@@ -168,7 +168,7 @@
 												<cfloop query="spec">
 													<cfif len(spec.pk) gt 0>
 														<cfif spec.auto_table eq 'publication'>
-															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														<!---	<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct m.media_id
 															from media_relations mr 
 															left join publication p on mr.RELATED_PRIMARY_KEY = p.publication_id 
@@ -177,7 +177,7 @@
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.auto_table#">
 															and m.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-															</cfquery>
+															</cfquery>--->
 														<cfelse>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
