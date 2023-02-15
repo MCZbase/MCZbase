@@ -564,7 +564,7 @@
 						<select name="geology_attribute" id="geology_attribute" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="ctgeology_attribute">
-								<cfif ctgeology_attribute EQ geology_attribute_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+								<cfif ctgeology_attribute.geology_attribute EQ geology_attribute_val><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value = "#ctgeology_attribute.geology_attribute#" #selected#>#ctgeology_attribute.geology_attribute#</option>
 							</cfloop>
 						</select>
