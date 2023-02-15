@@ -824,6 +824,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.maximum_elevation,
 				locality.minimum_elevation,
 				locality.orig_elev_units,
+				locality.max_depth,
+				locality.min_depth,
+				locality.depth_units,
 				locality.curated_fg,
 				locality.sovereign_nation,
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
@@ -833,11 +836,20 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				<cfelse>
 					null as collcountlocality,
 				</cfif>
+  				accepted_lat_long.LAT_LONG_ID,
+				accepted_lat_long.dec_lat,
+				accepted_lat_long.dec_long,
+				accepted_lat_long.datum,
+				accepted_lat_long.max_error_distance,
+				accepted_lat_long.extent,
+				accepted_lat_long.verificationstatus,
+				accepted_lat_long.georefmethod,
 				count(flatTableName.collection_object_id) as specimen_count
 			FROM 
 				locality
 				join geog_auth_rec on locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id
 				left join <cfif ucase(#session.flatTableName#) EQ 'FLAT'>flat<cfelse>filtered_flat</cfif> flatTableName on locality.locality_id=flatTableName.locality_id
+				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
 				<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
 					left join geology_attributes on locality.locality_id = geology_attributes.locality_id
 				</cfif>
@@ -1168,6 +1180,34 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND upper(geology_attributes.geo_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
 					</cfif>
 				</cfif>
+				<cfif isdefined("NoGeorefBecause") AND len(#NoGeorefBecause#) gt 0>
+					AND upper(NoGeorefBecause) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(NoGeorefBecause)#%">
+				</cfif>
+				<cfif isdefined("VerificationStatus") AND len(#VerificationStatus#) gt 0>
+					AND VerificationStatus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#VerificationStatus#">
+				</cfif>
+				<cfif isdefined("GeorefMethod") AND len(#GeorefMethod#) gt 0>
+					AND GeorefMethod = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#GeorefMethod#">
+				</cfif>
+				<cfif isdefined("nullNoGeorefBecause") and len(#nullNoGeorefBecause#) gt 0>
+					AND NoGeorefBecause IS NULL
+				</cfif>
+				<cfif isdefined("isIncomplete") AND len(#isIncomplete#) gt 0>
+					AND ( GPSACCURACY IS NULL OR EXTENT IS NULL OR MAX_ERROR_DISTANCE = 0 or MAX_ERROR_DISTANCE IS NULL )
+				</cfif>
+				<cfif isdefined("findNoAccGeoRef") and len(#findNoAccGeoRef#) gt 0>
+					AND locality.locality_id IN (select locality_id from lat_long)
+					AND locality.locality_id NOT IN (select locality_id from lat_long where accepted_lat_long_fg=1)
+				</cfif>
+				<cfif isdefined("findNoAccGeoRefStrict") and len(#findNoAccGeoRefStrict#) gt 0>
+					AND locality.locality_id NOT IN (select locality_id from lat_long where accepted_lat_long_fg=1)
+				</cfif>
+				<cfif isdefined("findNoGeoRef") and len(#findNoGeoRef#) gt 0>
+					AND locality.locality_id NOT IN (select locality_id from lat_long)
+				</cfif>
+				<cfif isdefined("findHasGeoRef") and len(#findHasGeoRef#) gt 0>
+					AND locality.locality_id IN (select locality_id from lat_long)
+				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
 				geog_auth_rec.continent_ocean,
@@ -1198,10 +1238,21 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.maximum_elevation,
 				locality.minimum_elevation,
 				locality.orig_elev_units,
+				locality.max_depth,
+				locality.min_depth,
+				locality.depth_units,
 				locality.curated_fg,
 				locality.sovereign_nation,
 				locality.township, locality.township_direction, locality.range, locality.range_direction,
 				locality.section, locality.section_part,
+  				accepted_lat_long.LAT_LONG_ID,
+				accepted_lat_long.dec_lat,
+				accepted_lat_long.dec_long,
+				accepted_lat_long.datum,
+				accepted_lat_long.max_error_distance,
+				accepted_lat_long.extent,
+				accepted_lat_long.verificationstatus,
+				accepted_lat_long.georefmethod,
 				concatGeologyAttributeDetail(locality.locality_id)
 			ORDER BY
 				geog_auth_rec.higher_geog,
