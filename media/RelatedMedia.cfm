@@ -181,7 +181,7 @@
 														</cfloop>
 													</cfloop>
 												</cfif>
-												<cfif len(pubscollid.collection_object_id) gt 0>test 1
+												<cfif pubscollid.recordcount gt 0>test 1
 													<cfloop query="pubscollid">test 2
 														<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
@@ -192,7 +192,7 @@
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 														and ct.auto_table = 'publication'
-														</cfquery>
+														</cfquery>#pubs.pk#
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id
 														from media_relations mr 
