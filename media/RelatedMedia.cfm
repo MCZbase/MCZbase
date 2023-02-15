@@ -245,11 +245,9 @@
 									</div>
 								</div>
 							<cfelse>
-								<div class="col-auto px-2 float-left">
-									<h2 class="h3 mt-3 w-100 px-4 font-italic">Not related to other media records </h2>
-								</div>
+								Not related to other media records
 							</cfif>
-					
+								
 						</div>
 					</div>
 				</cfloop>
