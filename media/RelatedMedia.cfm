@@ -184,7 +184,7 @@
 												<cfif pubscollid.recordcount gt 0>test 1
 													<!---thumbnails added below--->
 													<cfset i = 1>
-													<cfloop query="pubscollid">test2
+													<cfloop query="pubscollid">test2: #pubscollid.collection_object_id#
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id
 														from media_relations mr 
