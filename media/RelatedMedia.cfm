@@ -189,15 +189,13 @@
 														from publication p
 														left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 														left join citation c on c.publication_id = p.publication_id
-														where mr.media_relationship = 'shows publication'
-														and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
+														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 														</cfquery>
 														<cfloop query="pubscollid">Test: #pubscollid.collection_object_id#
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct mr.media_id
 															from media_relations mr 
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
-															and mr.media_relationship = 'shows publication'
 															and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 															<cfset i = 1>
