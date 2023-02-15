@@ -199,7 +199,7 @@
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 														and mr.media_relationship = 'shows publication'
 														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														</cfquery>
+														</cfquery>#relm.media_id#
 														<!---thumbnails added below--->
 														<cfset i = 1>
 														<cfloop query="relm">test 3
