@@ -231,7 +231,7 @@
 									</div>
 								</div>
 							<cfelse>
-								Not related to other media records
+								<h2 class="h3">Not related to other media records</h2>
 							</cfif>
 								
 						</div>
