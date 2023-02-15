@@ -182,9 +182,6 @@
 													</cfloop>
 												</cfif>
 												<cfif pubscollid.recordcount gt 0>test 1
-													<!---thumbnails added below--->
-													<cfset i = 1>
-													<cfloop query="relm">test2: #pubscollid.collection_object_id#
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id
 														from media_relations mr 
@@ -192,6 +189,10 @@
 														and mr.media_relationship = 'shows publication'
 														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
+													<!---thumbnails added below--->
+													<cfset i = 1>
+													<cfloop query="relm">test2: #pubscollid.collection_object_id#
+										
 													<!---	<cfloop query="relm">--->
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																<cfif len(relm.media_id) gt 0>
