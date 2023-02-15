@@ -46,7 +46,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and mr.media_relationship = 'shows publication'
 	</cfquery>
-	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		<cfif pubscollid.recordcount gt 0>
 		select mr.related_primary_key as pk, ct.media_relationship as rel, ct.media_relationship as wlabel, ct.label as label, ct.auto_table
 		from publication p
@@ -60,6 +60,8 @@
 		and m.auto_host <> 'nrs.harvard.edu'
 		UNION
 		</cfif>
+	</cfquery>
+	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
