@@ -57,7 +57,6 @@
 		and ct.description = 'publication'
 		and ct.description <> 'ledger'
 		and m.auto_host <> 'nrs.harvard.edu'
-		UNION
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.auto_table as wlabel, ct.label as label, ct.auto_table
