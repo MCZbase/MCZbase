@@ -193,6 +193,10 @@
 														where c.collection_object_id =<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#pubscollid.collection_object_id#">
 														and ct.auto_table = 'publication'
 														</cfquery>#pubs.pk#
+														
+														<!---thumbnails added below--->
+														<cfset i = 1>
+														<cfloop query="pubs">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id
 														from media_relations mr 
@@ -200,9 +204,6 @@
 														and mr.media_relationship = 'shows publication'
 														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>#relm.media_id#
-														<!---thumbnails added below--->
-														<cfset i = 1>
-														<cfloop query="relm">test 3
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																<cfif len(relm.media_id) gt 0>
 																	<cfif relm.media_id eq '#media.media_id#'> 
