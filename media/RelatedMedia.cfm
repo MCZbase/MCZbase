@@ -236,7 +236,7 @@
 																select mr.media_id
 																from media_relations mr 
 																where mr.related_primary_key = <cfqueryparam value="#pubscollid.collection_object_id#">
-																	and media.media_id <> <cfqueryparam  value="#media.media_id#">
+																	and media.media_id <> #media.media_id#
 																</cfquery>
 																<cfset i = 1>
 																<cfloop query="relm">
