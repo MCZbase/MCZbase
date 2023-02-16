@@ -192,7 +192,6 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif spec.recordcount gt 0 OR pubs.recordcount gt 0>
 													<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -277,13 +276,12 @@
 														</cfif>
 														</cfif>
 													</cfloop>
-												<cfelse>
-													<h3 class="h4 px-2 pt-2 ml-1">No related publication records. </h3>
-												</cfif>
 											</div>
 										</div>
 									</div>
 								</div>
+							<cfelse>
+								<h3 class="h4 px-2 ml-1 pt-2">No related media records.</h3>
 							</cfif>
 						</div>
 					</div>
