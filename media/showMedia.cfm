@@ -37,14 +37,12 @@
 						<div class="col-12 px-0 border-bottom border-dark my-3">
 							<h1 class="h2 my-2 py-2 px-2"> Media Record 	
 							<cfif media.media_uri contains 'mczbase'>
-								<cfif media.media_type eq 'image'>
+								<cfif media.recordcount gt 0>
 								<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/RelatedMedia.cfm?media_id=#media_id#'">Related Media</button>
-								<cfelse>
-									<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#">Media File</a>
 								</cfif>
 							<cfelse>
 								<button class="btn float-right btn-xs btn-primary" onclick="location.href='/media/RelatedMedia.cfm?media_id=#media_id#'">Related Media</button>
-								<a class="btn float-right btn-xs btn-primary" href="#media.media_uri#>">External Viewer <img src="/images/linkOut.gif" alt="arrow out"></a>
+								<a class="btn float-right btn-xs btn-primary mx-2" href="#media.media_uri#>">External Viewer <img src="/images/linkOut.gif" alt="arrow out"></a>
 							</cfif>
 							</h1>
 						</div>
