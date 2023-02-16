@@ -214,8 +214,8 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-															<cfelse>
-																#spec.recordcount#
+														<cfelse>
+																#relm.recordcount#
 														</cfif>
 													</cfloop>
 												</cfif>
