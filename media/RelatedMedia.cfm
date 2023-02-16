@@ -199,7 +199,7 @@
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															and mr.media_relationship = 'show publication'
 															</cfquery>
-															<cfloop query="pubscollid">
+															<cfloop query="pubscollid">#pubscollid.collection_object_id#
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select mr.media_id
 																from media_relations mr 
