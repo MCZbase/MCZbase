@@ -65,7 +65,7 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'accn'
-		UNION
+<!---		UNION
 		select deaccession.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from deaccession
 		left join trans on trans.transaction_id = deaccession.transaction_id
@@ -101,7 +101,7 @@
 		left join media_relations mr on project.project_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
-		and ct.auto_table = 'project'
+		and ct.auto_table = 'project'--->
 <!---		UNION
 		select specimen_part.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from specimen_part
