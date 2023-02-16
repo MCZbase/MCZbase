@@ -239,13 +239,12 @@
 																	<cfset i = 1>
 																	<cfloop query="relm">
 																		<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-																			<cfif len(relm.media_id) gt 0>
-																				<cfif relm.media_id eq '#media.media_id#'> 
+																			<cfif relm.media_id eq '#media.media_id#'> 
 																					<cfset activeimg = "highlight_media rounded px-1 pt-1">
 																				<cfelse>	
 																					<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
 																				</cfif>
-																				<ul class="list-group px-0">
+																			<ul class="list-group px-0">
 																					<li class="list-group-item px-0 mx-1">
 																						<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																						<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:220px;">
@@ -257,20 +256,20 @@
 																						</div>
 																					</li>
 																				</ul>
-																			</cfif>
 																		</div>
 																		<cfset i=i+1>
 																	</cfloop>
+																<cfelse>
+																	#message# here
 																</cfif>
 															</cfloop>
 														<cfelse>
-															No related media records to this publication.
+															<cfset message = "no related records">
 														</cfif>
 													</cfloop>
 												</cfif>
 											</div>
 										</div>
-										<cfif pubscollid.recordcount eq 0 and spec.recordcount eq 0>No related records.</cfif>
 									</div>
 								</div>
 							</cfif>
