@@ -217,9 +217,9 @@
 														</cfloop>
 													</cfloop>
 												<cfelse>
-													<h2 class="h4 px-3 pt-2">There are no related media records (spec).</h2>
+												 spec
 												</cfif>
-												<cfif pubs.recordcount gt 0> test1: #pubs.pk#
+												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
 														<cfif pubs.recordcount gt 0>
 														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -230,7 +230,7 @@
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 														</cfquery>
 														</cfif>
-														<cfif pubscollid.recordcount gt 0>test 2: #pubscollid.collection_object_id#
+														<cfif pubscollid.recordcount gt 0>
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select mr.media_id
@@ -265,15 +265,15 @@
 																		<cfset i=i+1>
 																	</cfloop>
 																<cfelse>
-																<h2 class="h4 px-3 pt-2">There are no related media records (pub).</h2>
+																<h2 class="h4 px-3 pt-2">There are no related publication media records.</h2>
 																</cfif>
 															</cfloop>
 														<cfelse>
-															<h2 class="h4 px-3 pt-2">There are no related #spec.label##pubs.label# media records (pubscollid).</h2>
+															<h2 class="h4 px-3 pt-2">pubscollid</h2>
 														</cfif>
 													</cfloop>
 												<cfelse>
-													<h2 class="h4 px-3 pt-2">There are no related media records (pubs q).</h2>
+													pubs
 												</cfif>
 											</div>
 										</div>
