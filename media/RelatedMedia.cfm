@@ -217,10 +217,10 @@
 																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
 																			<div class="px-0">
-																				<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#spec.label# <cfif spec.label eq 'Shows Cataloged Item'>#spec.pk#
-																					<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																				<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#spec.label# <cfif spec.label eq 'Shows Cataloged Item'>
+																					<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																					select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat  where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-																					</cfquery>
+																					</cfquery>#guidi.guid#
 																				</cfif> 
 																				<br>(media/#relm.media_id#)
 																				</span> 
