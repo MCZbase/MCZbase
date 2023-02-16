@@ -225,13 +225,17 @@
 														left join citation c on c.publication_id = p.publication_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 														</cfquery>
-														<cfloop query="pubscollid">Test: #pubscollid.collection_object_id#
+														<cfloop query="pubscollid">
+															<cfif len(pubscollid.collection_object_id) gt 0>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct mr.media_id
 															from media_relations mr 
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
 															
 															</cfquery>
+															<cfelse>
+															This query pubscollid is a problem.
+															</cfif>
 															<cfset i = 1>
 															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
