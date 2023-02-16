@@ -219,7 +219,7 @@
 												<cfelse>
 													<h2 class="h4 px-3 pt-2">There are no related media records (spec).</h2>
 												</cfif>
-												<cfif pubs.recordcount gt 0>
+												<cfif pubs.recordcount gt 0> test1: #pubs.pk#
 													<cfloop query="pubs">
 														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct c.collection_object_id
