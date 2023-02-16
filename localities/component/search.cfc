@@ -856,7 +856,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 			WHERE
 				locality.locality_id is not null
-				<cfif isDefined("any_geography") and len(geog_auth_rec_id) gt 0>
+				<cfif isDefined("any_geography") and len(any_geography) gt 0>
 					locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0);
 				</cfif>
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
