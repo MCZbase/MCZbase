@@ -28,7 +28,7 @@
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
 	<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		select distinct p.publication_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
@@ -37,7 +37,7 @@
 		and ct.auto_table = 'publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		select distinct ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
@@ -223,14 +223,14 @@
 															left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 															left join citation c on c.publication_id = p.publication_id
 															left join media on mr.media_id = media.media_id
-															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														</cfif>
 														<cfif pubscollid.recordcount gt 0>
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select mr.media_id
+																select distinct mr.media_id
 																from media_relations mr 
 																where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
 																	and mr.media_id <> <cfqueryparam  value="#media.media_id#">
