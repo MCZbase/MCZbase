@@ -258,7 +258,7 @@
 																<cfset i=i+1>
 															</cfloop>
 															<cfelse>
-																<h2 class="h3">There are no related media records.</h2>
+																<h2 class="h4 px-3">There are no related media records.</h2>
 															</cfif>
 														</cfloop>
 													</cfloop>
