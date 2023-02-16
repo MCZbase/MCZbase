@@ -233,7 +233,7 @@
 															left join media on mr.media_id = media.media_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 															</cfquery>
-														</cfif>
+														
 														<cfif pubs.recordcount gt 1>#pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -267,6 +267,7 @@
 																	</cfloop>
 																</cfif>
 															</cfloop>
+														</cfif>
 														</cfif>
 													</cfloop>
 												<cfelse>
