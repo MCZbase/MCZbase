@@ -263,6 +263,8 @@
 																	</cfloop>
 																</cfif>
 															</cfloop>
+														<cfelse>
+															No related media records to this publication.
 														</cfif>
 													</cfloop>
 												</cfif>
