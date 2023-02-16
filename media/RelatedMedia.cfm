@@ -221,6 +221,7 @@
 												</cfif>
 												<cfif pubs.recordcount gt 0> test1: #pubs.pk#
 													<cfloop query="pubs">
+														<cfif pubs.recordcount gt 0>
 														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct c.collection_object_id
 														from publication p
@@ -228,6 +229,7 @@
 														left join citation c on c.publication_id = p.publication_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 														</cfquery>
+														</cfif>
 														<cfif pubscollid.recordcount gt 0>test 2: #pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
