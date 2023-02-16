@@ -189,7 +189,7 @@
 														and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-														<cfif len(relm.media_id) gt 0>
+													
 														<cfset i = 1>
 														<cfloop query="relm">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
@@ -215,10 +215,9 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-														<cfelse>
-															<h2 class="h4 px-3 pt-2">There are no related media records.</h2>
-														</cfif>
 													</cfloop>
+												<cfelse>
+													<h2 class="h4 px-3 pt-2">There are no related media records.</h2>
 												</cfif>
 												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
