@@ -189,31 +189,34 @@
 														and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
+														<cfif relm.recordcount gt 0>
 														<cfset i = 1>
 														<cfloop query="relm">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-																<cfif len(media.media_id) gt 0>
-																	<cfif relm.media_id eq '#media.media_id#'> 
-																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
-																	<cfelse>	
-																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																	</cfif>
-																	<ul class="list-group px-0">
-																		<li class="list-group-item px-0 mx-1">
-																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
-																				<div class="px-0">
-																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#spec.label# <br>(media/#relm.media_id#)
-																					</span> 
-																					#mediablock#
-																				</div>
-																			</div>
-																		</li>
-																	</ul>
+																<cfif relm.media_id eq '#media.media_id#'> 
+																	<cfset activeimg = "highlight_media rounded px-1 pt-1">
+																<cfelse>	
+																	<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
 																</cfif>
+																<ul class="list-group px-0">
+																	<li class="list-group-item px-0 mx-1">
+																		<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																		<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
+																			<div class="px-0">
+																				<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#spec.label# <br>(media/#relm.media_id#)
+																				</span> 
+																				#mediablock#
+																			</div>
+																		</div>
+																	</li>
+																</ul>
+															
 															</div>
 															<cfset i=i+1>
 														</cfloop>
+														<cfelse>
+															No related Records
+														</cfif>
 													</cfloop>
 												</cfif>
 												<cfif pubs.recordcount gt 0>
