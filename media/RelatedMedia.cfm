@@ -143,17 +143,17 @@
 											#mediablock# 
 										</div>
 										<cfif media.media_type eq 'image'>
-										<div class="col-11 float-right mr-4"> 
-											<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 500;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
-												Zoom
-											</button>
-											<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 5;">
-												<div class="card card-body p-3">
-													<h3 class="h5 mb-1">Media Zoom </h3>
-													<p class="d-none d-md-block mb-0 small85 line90">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related link on media below to switch images.</p><p class="d-block d-md-none mb-0 small85 line90"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
-												</div>
-											</aside>
-										</div>
+											<div class="col-11 float-right mr-4"> 
+												<button class="btn btn-xs btn-dark help-btn border-0" style="right: -31px; top:-17px;transform:none; z-index: 500;" type="button" data-toggle="collapse" data-target="##collapseFixed" aria-expanded="false" aria-controls="collapseFixed">
+													Zoom
+												</button>
+												<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 5;">
+													<div class="card card-body p-3">
+														<h3 class="h5 mb-1">Media Zoom </h3>
+														<p class="d-none d-md-block mb-0 small85 line90">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related link on media below to switch images.</p><p class="d-block d-md-none mb-0 small85 line90"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
+													</div>
+												</aside>
+											</div>
 										</cfif>
 									</div>
 								</div>
@@ -189,7 +189,6 @@
 														and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
-													
 														<cfset i = 1>
 														<cfloop query="relm">
 															<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
@@ -216,19 +215,17 @@
 															<cfset i=i+1>
 														</cfloop>
 													</cfloop>
-												<cfelse>
-												 spec
 												</cfif>
 												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
 														<cfif pubs.recordcount gt 0>
-														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct c.collection_object_id
-														from publication p
-														left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-														left join citation c on c.publication_id = p.publication_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
-														</cfquery>
+															<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct c.collection_object_id
+															from publication p
+															left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+															left join citation c on c.publication_id = p.publication_id
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
+															</cfquery>
 														</cfif>
 														<cfif pubscollid.recordcount gt 0>
 															<cfloop query="pubscollid">
@@ -239,7 +236,7 @@
 																	and mr.media_id <> <cfqueryparam  value="#media.media_id#">
 																</cfquery>
 																<cfif relm.recordcount gt 0>
-																<cfset i = 1>
+																	<cfset i = 1>
 																	<cfloop query="relm">
 																		<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 																			<cfif len(relm.media_id) gt 0>
@@ -264,25 +261,16 @@
 																		</div>
 																		<cfset i=i+1>
 																	</cfloop>
-																<cfelse>
-																<h2 class="h4 px-3 pt-2">There are no related publication media records.</h2>
 																</cfif>
 															</cfloop>
-														<cfelse>
-															<h2 class="h4 px-3 pt-2">pubscollid</h2>
 														</cfif>
 													</cfloop>
-												<cfelse>
-													pubs
 												</cfif>
 											</div>
 										</div>
 									</div>
 								</div>
-							<cfelse>
-								Issue
 							</cfif>
-								
 						</div>
 					</div>
 				</cfloop>
