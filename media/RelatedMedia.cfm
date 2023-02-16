@@ -200,7 +200,7 @@
 														left join media on mr.media_id = media.media_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 														and mr.media_relationship <> 'created by agent'
-														and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.rel#">
+														and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														</cfquery>
 														<cfif len(relm.media_id) gt 0>
@@ -221,7 +221,9 @@
 																					<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																					select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 																					</cfquery>#guidi.guid#
-																				</cfif> 
+																				<cfelse>
+																					#spec.pk#
+																				</cfif>
 																				<br>(media/#relm.media_id#)
 																				</span> 
 																				#mediablock#
