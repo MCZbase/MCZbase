@@ -234,7 +234,7 @@
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 															</cfquery>
 														
-														<cfif pubscollid.recordcount gt 1>#pubscollid.collection_object_id#
+														<cfif pubscollid.recordcount gt 0>#pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct mr.media_id
