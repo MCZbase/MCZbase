@@ -232,40 +232,44 @@
 														</cfif>
 														<cfif pubscollid.recordcount gt 0>test 2: #pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
-																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select mr.media_id
-																from media_relations mr 
-																where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
-																	and mr.media_id <> <cfqueryparam  value="#media.media_id#">
-																</cfquery>
+																<cfif relm.recordcount gt 0>
+																	<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																	select mr.media_id
+																	from media_relations mr 
+																	where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
+																		and mr.media_id <> <cfqueryparam  value="#media.media_id#">
+																	</cfquery>
 																<cfset i = 1>
-																<cfloop query="relm">
-																	<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-																		<cfif len(relm.media_id) gt 0>
-																			<cfif relm.media_id eq '#media.media_id#'> 
-																				<cfset activeimg = "highlight_media rounded px-1 pt-1">
-																			<cfelse>	
-																				<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																			</cfif>
-																			<ul class="list-group px-0">
-																				<li class="list-group-item px-0 mx-1">
-																					<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																					<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:220px;">
-																						<div class="px-0">
-																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#pubs.label# <br>(media/#relm.media_id#)
-																							</span> 
-																							#mediablock#
+																	<cfloop query="relm">
+																		<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
+																			<cfif len(relm.media_id) gt 0>
+																				<cfif relm.media_id eq '#media.media_id#'> 
+																					<cfset activeimg = "highlight_media rounded px-1 pt-1">
+																				<cfelse>	
+																					<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
+																				</cfif>
+																				<ul class="list-group px-0">
+																					<li class="list-group-item px-0 mx-1">
+																						<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																						<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:220px;">
+																							<div class="px-0">
+																								<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#pubs.label# <br>(media/#relm.media_id#)
+																								</span> 
+																								#mediablock#
+																							</div>
 																						</div>
-																					</div>
-																				</li>
-																			</ul>
-																		</cfif>
-																	</div>
-																	<cfset i=i+1>
-																</cfloop>
+																					</li>
+																				</ul>
+																			</cfif>
+																		</div>
+																		<cfset i=i+1>
+																	</cfloop>
+																<cfelse>
+																<h2 class="h4 px-3 pt-2">There are no related media records.</h2>
+																</cfif>
 															</cfloop>
 														<cfelse>
-															<h2 class="h4 px-3 pt-2">There are no related media records (pubs).</h2>
+															<h2 class="h4 px-3 pt-2">There are no related media records (pubscollid).</h2>
 														</cfif>
 													</cfloop>
 												<cfelse>
