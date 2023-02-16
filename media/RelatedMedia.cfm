@@ -260,7 +260,7 @@
 																		<cfset i=i+1>
 																	</cfloop>
 																<cfelse>
-																	#message# here
+																	No related records here
 																</cfif>
 															</cfloop>
 														<cfelse>
