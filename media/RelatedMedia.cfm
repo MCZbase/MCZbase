@@ -222,7 +222,7 @@
 												</cfif>
 												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
-														<cfif pubs.recordcount gt 0>
+														<cfif pubs.recordcount gt 0>Test 1 #pubs.pk#
 															<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct c.collection_object_id
 															from publication p
@@ -233,7 +233,7 @@
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														</cfif>
-														<cfif pubscollid.recordcount gt 0>
+														<cfif pubscollid.recordcount gt 0>Test 2 #pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select mr.media_id
@@ -241,7 +241,7 @@
 																where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
 																	and mr.media_id <> <cfqueryparam  value="#media.media_id#">
 																</cfquery>
-																<cfif relm.recordcount gt 0>
+																<cfif relm.recordcount gt 0>Test 3  #relm.media_id#
 																	<cfset i = 1>
 																	<cfloop query="relm">
 																		<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
