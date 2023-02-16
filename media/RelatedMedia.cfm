@@ -33,7 +33,7 @@
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#media_id#">
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto = 'shows publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -41,14 +41,14 @@
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'cataloged_item'
 		UNION
 		select ce.collecting_event_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from media_relations mr
 		left join collecting_event ce on mr.related_primary_key = ce.collecting_event_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'collecting_event'
 		UNION
 		select loan.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
@@ -56,7 +56,7 @@
 		left join trans on trans.transaction_id = loan.transaction_id
 		left join media_relations mr on loan.transaction_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'loan'
 		UNION
 		select accn.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
@@ -64,7 +64,7 @@
 		left join trans on trans.transaction_id = accn.transaction_id
 		left join media_relations mr on accn.transaction_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'accn'
 		UNION
 		select deaccession.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
@@ -72,7 +72,7 @@
 		left join trans on trans.transaction_id = deaccession.transaction_id
 		left join media_relations mr on deaccession.transaction_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'deaccession'
 		UNION
 		select borrow.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
@@ -80,42 +80,42 @@
 		left join trans on trans.transaction_id = borrow.transaction_id
 		left join media_relations mr on borrow.transaction_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'borrow'
 		UNION
 		select media.media_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from media
 		left join media_relations mr on media.media_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'media'
 		UNION
 		select permit.permit_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from permit
 		left join media_relations mr on permit.permit_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'permit'
 		UNION
 		select project.project_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from project
 		left join media_relations mr on project.project_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'project'
 		UNION
 		select specimen_part.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from specimen_part
 		left join media_relations mr on specimen_part.collection_object_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'specimen_part'
 		UNION
 		select locality.locality_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from locality
 		left join media_relations mr on locality.locality_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'locality' 
 		UNION
 		select agent.agent_id as pk, ct.media_relationship as rel, ct.label as label, an.agent_name as at
@@ -123,7 +123,7 @@
 		left join agent on an.AGENT_name_ID = agent.preferred_agent_name_id
 		left join media_relations mr on agent.agent_id = mr.related_primary_key
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship <> 'created by agent'
 		and ct.auto_table = 'agent' 
