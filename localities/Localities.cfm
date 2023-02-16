@@ -87,6 +87,31 @@ limitations under the License.
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
 					};
+					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var spec_locality = rowData['SPEC_LOCALITY'];
+						var id = rowData['LOCALITY_ID'];
+						var locality_remarks = rowData['LOCALITY_REMARKS'];
+						var curated_fg = rowData['CURATED_FG'];
+						var sovereign_nation = rowData['SOVEREIGN_NATION'];
+						var minimum_elevation = rowData['MINIMUM_ELEVATION'];
+						var maximum_elevation = rowData['MAXIMUM_ELEVATION'];
+						var orig_elevation_units = rowData['ORIG_ELEV_UNITS'];
+						var min_depth = rowData['MIN_DEPTH'];
+						var max_depth = rowData['MAX_DEPTH'];
+						var depth_units = rowData['DEPTH_UNITS'];
+						var plss = rowData['PLSS'];
+						var geolatts = rowData['GEOLATTS'];
+						var dec_lat = rowData['LOCALITY_ID'];
+						var dec_long = rowData['LOCALITY_ID'];
+						var datum = rowData['LOCALITY_ID'];
+						var max_error_distance = rowData['LOCALITY_ID'];
+						var extent = rowData['LOCALITY_ID'];
+						var verificationstatus = rowData['LOCALITY_ID'];
+						var georefmethod = rowData['LOCALITY_ID'];
+						var data = spec_locality + ' (' + id + ')' + curated_fg + ' ' + sovereign_nation;
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
+					};
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						if (value==0) {
@@ -197,7 +222,7 @@ limitations under the License.
 								pageable: true,
 								editable: false,
 								pagesize: '50',
-								pagesizeoptions: ['5','50','100'],
+								pagesizeoptions: ['5','10','25','50','100'],
 								showaggregates: true,
 								columnsresize: true,
 								autoshowfiltericon: true,
@@ -209,20 +234,20 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{ text: 'ID', datafield: 'LOCALITY_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
+									{ text: 'ID', datafield: 'LOCALITY_ID',width: 300, hideabel: true, hidden: getColHidProp('LOCALITY_ID'), cellsrenderer: summaryCellRenderer  },
 									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',false)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
-									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',false)  },
-									{ text: 'Min Depth', datafield: 'MIN_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MIN_DEPTH',false)  },
-									{ text: 'Max Depth', datafield: 'MAX_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MAX_DEPTH',false)  },
-									{ text: 'Depth Units', datafield: 'DEPTH_UNITS',width: 100, hideabel: true, hidden: getColHidProp('DEPTH_UNITS',false)  },
-									{ text: 'Min Elevation', datafield: 'MINIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MINIMUM_ELEVATION',false)  },
-									{ text: 'Max Elevation', datafield: 'MAXIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MAXIMUM_ELEVATION',false)  },
-									{ text: 'Elev Units', datafield: 'ORIG_ELEV_UNITS',width: 100, hideabel: true, hidden: getColHidProp('ORIG_ELEV_UNITS',false)  },
+									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
+									{ text: 'Min Depth', datafield: 'MIN_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MIN_DEPTH',true)  },
+									{ text: 'Max Depth', datafield: 'MAX_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MAX_DEPTH',true)  },
+									{ text: 'Depth Units', datafield: 'DEPTH_UNITS',width: 100, hideabel: true, hidden: getColHidProp('DEPTH_UNITS',true)  },
+									{ text: 'Min Elevation', datafield: 'MINIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MINIMUM_ELEVATION',true)  },
+									{ text: 'Max Elevation', datafield: 'MAXIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MAXIMUM_ELEVATION',true)  },
+									{ text: 'Elev Units', datafield: 'ORIG_ELEV_UNITS',width: 100, hideabel: true, hidden: getColHidProp('ORIG_ELEV_UNITS',true)  },
 									{ text: 'Lat.', datafield: 'DEC_LAT', width: 100, hideable: true, hidden: getColHidProp('DEC_LAT',true) },
 									{ text: 'Long.', datafield: 'DEC_LONG', width: 100, hideable: true, hidden: getColHidProp('DEC_LONG',true) },
 									{ text: 'Datum', datafield: 'DATUM', width: 100, hideable: true, hidden: getColHidProp('DATUM',true) },
@@ -308,9 +333,13 @@ limitations under the License.
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount],pagesize: 50});
 						} else if (rowcount > 50) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount],pagesize:50});
+						} else if (rowcount > 25) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount],pagesize:25});
+						} else if (rowcount > 10) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10', rowcount],pagesize:rowcount});
 						} else { 
 							$('##' + gridId).jqxGrid({ pageable: false });
 						}
