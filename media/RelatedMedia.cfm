@@ -227,7 +227,7 @@
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														</cfif>
-														<cfif pubscollid.recordcount gt 0>
+														<cfif pubscollid.recordcount gt 0>#pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct mr.media_id
