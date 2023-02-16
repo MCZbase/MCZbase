@@ -230,7 +230,7 @@
 																	</cfloop>
 																</cfif>
 															</cfloop>
-														<cfelse>
+														<cfelseif spec.rel neq 'shows publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -240,7 +240,6 @@
 															and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
-															<cfif len(relm.media_id) gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
 																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
@@ -264,7 +263,8 @@
 																</div>
 																<cfset i=i+1>
 															</cfloop>
-															</cfif>
+														<cfelse>
+															<h3 class="h4 px-2 pt-2 ml-1">No related records. </h3>
 														</cfif>
 													</cfloop>
 									<!---				<cfloop query="pubs">
@@ -315,8 +315,8 @@
 															</cfloop>
 														</cfif>	</cfif>
 													</cfloop>--->
-												<cfelse>
-													<h3 class="h4 px-2 pt-2 ml-1">No related publication records. </h3>
+											
+													
 												</cfif>
 											</div>
 										</div>
