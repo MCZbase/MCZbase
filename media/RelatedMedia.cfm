@@ -188,7 +188,7 @@
 												<cfif spec.recordcount gt 0>
 													<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
-														<cfif spec.rel eq 'shows publication'>#spec.rel#
+														<cfif spec.rel eq 'shows publication'>
 															<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct c.collection_object_id
 															from publication p
@@ -196,7 +196,6 @@
 															left join citation c on c.publication_id = p.publication_id
 															left join media on mr.media_id = media.media_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#">
-															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															and mr.media_relationship = 'show publication'
 															</cfquery>
 															<cfloop query="pubscollid">#pubscollid.collection_object_id#
@@ -206,7 +205,7 @@
 																where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
 																	and mr.media_id <> <cfqueryparam  value="#media.media_id#">
 																</cfquery>
-																<cfif relm.recordcount gt 0>
+																<cfif relm.recordcount gt 0>#relm.media_id#
 																	<cfset i = 1>
 																	<cfloop query="relm">
 																		<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
