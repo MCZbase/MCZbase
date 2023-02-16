@@ -214,10 +214,11 @@
 															</div>
 															<cfset i=i+1>
 														</cfloop>
-														<cfelse>
-															No related records.
+														
 														</cfif>
 													</cfloop>
+													<cfelse>
+															No related records.
 												</cfif>
 												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
