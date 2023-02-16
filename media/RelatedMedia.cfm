@@ -9,7 +9,6 @@
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
-<cfset maxMedia = 8>
 <cfoutput>
 	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct 
