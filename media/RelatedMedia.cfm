@@ -239,7 +239,7 @@
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct mr.media_id
 																from media_relations mr 
-																where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
+																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
 																</cfquery>
 																<cfif relm.recordcount gt 0>
 																	<cfset i = 1>
