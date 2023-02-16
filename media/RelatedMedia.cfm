@@ -234,8 +234,7 @@
 														</div>
 														<cfset i=i+1>
 													</cfloop>
-													<cfelse>
-														No related media records.
+											
 													</cfif>
 												</cfloop>
 												<cfloop query="pubs">
