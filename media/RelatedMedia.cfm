@@ -245,7 +245,7 @@
 														left join citation c on c.publication_id = p.publication_id
 														left join media on mr.media_id = media.media_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
-														and MCZBASE.is_media_encumbered(media_id)  < 1 
+														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 														</cfquery>
 														<cfif pubscollid.recordcount gt 0>
 															<cfloop query="pubscollid">
