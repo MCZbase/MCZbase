@@ -139,7 +139,7 @@
 								<div class="col-12 col-md-5 col-xl-2 pt-0 pb-2 float-left">
 									<div id="zoom" class="rounded highlight_media float-left pt-2 px-2 mt-3 mb-0 pb-1">
 										<cfset mediablock= getMediaBlockHtml(media_id="#media_id#",size="300",captionAs="textCaptionLong")>
-										<div class="mx-auto text-center h4 mb-0 pt-1" id="mediaBlock#media.media_id#"> 
+										<div class="mx-auto text-center h4 mb-0 pb-1 pt-1" id="mediaBlock#media.media_id#"> 
 											#mediablock# 
 										</div>
 										<cfif media.media_type eq 'image'>
