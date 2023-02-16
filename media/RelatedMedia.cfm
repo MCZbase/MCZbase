@@ -188,7 +188,7 @@
 												<cfif spec.recordcount gt 0>
 													<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
-														<cfif spec.rel eq 'shows publication'>
+														<cfif spec.rel eq 'shows publication'>#spec.rel#
 															<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct c.collection_object_id
 															from publication p
