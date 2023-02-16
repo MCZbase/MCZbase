@@ -224,7 +224,6 @@
 															left join citation c on c.publication_id = p.publication_id
 															left join media on mr.media_id = media.media_id
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
-															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
 														</cfif>
 														<cfif pubscollid.recordcount gt 1>#pubscollid.collection_object_id#
