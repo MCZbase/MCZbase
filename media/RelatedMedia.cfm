@@ -177,7 +177,7 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
-												<cfif len(spec.pk) gt 1>
+												<cfif len(spec.pk) gt 0>
 													<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -217,8 +217,8 @@
 														
 														</cfif>
 													</cfloop>
-													<cfelse>
-															No related records.
+												<cfelse>
+													No related records.
 												</cfif>
 												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
@@ -266,7 +266,7 @@
 																		<cfset i=i+1>
 																	</cfloop>
 																<cfelse>
-																	<h3 class="h4 px-2 pt-2 ml-1">No related records </h3>
+																	<h3 class="h4 px-2 pt-2 ml-1">No related pub records </h3>
 																</cfif>
 															</cfloop>
 														<cfelse>
