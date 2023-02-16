@@ -27,18 +27,6 @@
 			media.media_id IN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">
 			AND MCZBASE.is_media_encumbered(media_id)  < 1 
 	</cfquery>
-	
-	<cfquery name = "collid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct mr.related_primary_key as pk
-		from  cataloged_item ci
-		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
-		left join media m on mr.media_id = m.media_id
-		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where m.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		and ct.auto_table = 'cataloged_item'
-		and mr.media_relationship <> 'created by agent'
-	</cfquery>
-
 	<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct mr.related_primary_key as pk
 		from publication p
@@ -77,6 +65,50 @@
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
 		and ct.auto_table = 'accn'
+		UNION
+		select deaccession.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from deaccession
+		left join trans on trans.transaction_id = deaccession.transaction_id
+		left join media_relations mr on deaccession.transaction_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'deaccession'
+		UNION
+		select borrow.transaction_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from borrow
+		left join trans on trans.transaction_id = borrow.transaction_id
+		left join media_relations mr on borrow.transaction_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'borrow'
+		UNION
+		select media.media_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from media
+		left join media_relations mr on media.media_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'media'
+		UNION
+		select permit.permit_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from permit
+		left join media_relations mr on permit.permit_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'permit'
+		UNION
+		select project.project_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from project
+		left join media_relations mr on project.project_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'project'
+		UNION
+		select specimen_part.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from specimen_part
+		left join media_relations mr on specimen_part.collection_object_id = mr.related_primary_key
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_id#">
+		and ct.auto_table = 'specimen_part'
 		UNION
 		select locality.locality_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from locality
@@ -117,7 +149,7 @@
 											<aside class="collapse collapseStyle mt-0 border-warning rounded border-top border-right border-bottom border-left" id="collapseFixed" style="z-index: 5;">
 												<div class="card card-body p-3">
 													<h3 class="h5 mb-1">Media Zoom </h3>
-													<p class="d-none d-md-block mb-0" style="font-size: .83rem;line-height:.90rem;">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related link on media below to switch images.</p><p class="d-block d-md-none mb-0" style="font-size: .83rem;line-height:.90rem;"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
+													<p class="d-none d-md-block mb-0 small85 line90">Hover over the image to show a larger version at zoom level 2. Place cursor in top left corner of media and zoom in with mousewheel or touchpad to see a larger version of the image (up to zoom level 10).  Click on different parts of image if it goes beyond your screen size. Use the related link on media below to switch images.</p><p class="d-block d-md-none mb-0 small85 line90"> Tap the image and swipe left to see larger version. Place two fingers on the touchpad and pinch in or stretch out to zoom in on the image. Tap area off the image to close.  </p>
 												</div>
 											</aside>
 										</div>
@@ -145,6 +177,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<cfif len(spec.pk) gt 0>
+													<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession,--->
 													<cfloop query="spec">
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct media.media_id

@@ -31,6 +31,12 @@ input.goodPick, select.goodPick, textarea.goodPick {
 .font-weight-lessbold {
 	font-weight: 500;
 }
+.small85 {
+	font-size: .85rem;
+}
+.line90 {
+	line-height: .90rem;
+}
 .text-muted {
 	color: #6a737b!important;
 }
