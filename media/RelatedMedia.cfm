@@ -226,7 +226,7 @@
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 															</cfquery>
-														</cfif>
+													
 														<cfif pubscollid.recordcount gt 0>
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -261,7 +261,7 @@
 																	</cfloop>
 																</cfif>
 															</cfloop>
-														</cfif>
+														</cfif>	</cfif>
 													</cfloop>
 												<cfelse>
 													<h3 class="h4 px-2 pt-2 ml-1">No related publication records. </h3>
