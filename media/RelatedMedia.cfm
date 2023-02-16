@@ -220,7 +220,7 @@
 												<cfelse>
 													No related records.
 												</cfif>
-												<cfif pubs.recordcount gt 0>
+												<cfif pubs.recordcount gt 1>
 													<cfloop query="pubs">
 														<cfif pubs.recordcount gt 0>Test 1 #pubs.pk#
 															<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -270,6 +270,7 @@
 																</cfif>
 															</cfloop>
 														<cfelse>
+															<h3 class="h4 px-2 pt-2 ml-1">No related pub records </h3>
 														</cfif>
 													</cfloop>
 												</cfif>
