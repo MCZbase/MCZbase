@@ -216,6 +216,7 @@ limitations under the License.
 							$("##searchResultsGrid").jqxGrid({
 								width: '100%',
 								autoheight: 'true',
+								autorowheight: 'true', // for text to wrap in cells
 								source: dataAdapter,
 								filterable: true,
 								sortable: true,
@@ -238,8 +239,8 @@ limitations under the License.
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
-									{ text: 'ID', datafield: 'LOCALITY_ID',width: 300, hideabel: true, hidden: getColHidProp('LOCALITY_ID'), cellsrenderer: summaryCellRenderer  },
-									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',false)  },
+									{ text: 'Locality', datafield: 'LOCALITY_ID',width: 300, hideabel: true, hidden: getColHidProp('LOCALITY_ID',false), cellsrenderer: summaryCellRenderer  },
+									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
 									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
 									{ text: 'Min Depth', datafield: 'MIN_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MIN_DEPTH',true)  },
