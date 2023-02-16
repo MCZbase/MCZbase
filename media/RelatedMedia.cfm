@@ -228,12 +228,14 @@
 														left join citation c on c.publication_id = p.publication_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
 														</cfquery>
+														<cfif pubscollid.recordcount gt 0>
 														<cfloop query="pubscollid">
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct mr.media_id
 															from media_relations mr 
 															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
 															</cfquery>
+															
 															<cfif len(relm.media_id) gt 0>
 															<cfset i = 1>
 															<cfloop query="relm">
@@ -264,6 +266,9 @@
 																<h2 class="h4 px-3 pt-2">There are no related media records (pubs).</h2>
 															</cfif>
 														</cfloop>
+														<cfelse>
+															Something wrong in pubscollid.
+														</cfif>
 													</cfloop>
 												</cfif>
 											</div>
