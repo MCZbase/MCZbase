@@ -266,6 +266,8 @@
 															<h2 class="h4 px-3 pt-2">There are no related media records (pubs).</h2>
 														</cfif>
 													</cfloop>
+												<cfelse>
+													<h2 class="h4 px-3 pt-2">There are no related media records (pubs).</h2>
 												</cfif>
 											</div>
 										</div>
