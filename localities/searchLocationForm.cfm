@@ -281,7 +281,7 @@
 				<div class="form-row mx-0 mb-0">
 					<cfif #showExtraFields# IS 1>
 						<cfset spec_loc_class = "col-md-4">
-					<cfelse
+					<cfelse>
 						<cfset spec_loc_class = "col-md-8">
 					</cfif>
 					<div class="col-12 #spec_loc_class# px-3 mt-3 mt-md-3 mb-3 mb-md-3">
