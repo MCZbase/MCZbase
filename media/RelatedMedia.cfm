@@ -260,11 +260,10 @@
 																		<cfset i=i+1>
 																	</cfloop>
 																<cfelse>
-																	No related records here
+																	<h3 class="h4 px-2 pt-2">No related records </h3>
 																</cfif>
 															</cfloop>
 														<cfelse>
-															<cfset message = "no related records">
 														</cfif>
 													</cfloop>
 												</cfif>
