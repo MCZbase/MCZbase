@@ -203,7 +203,6 @@
 																from media_relations mr 
 																where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubscollid.collection_object_id#">
 																	and mr.media_id <> <cfqueryparam  value="#media.media_id#">
-																and mr.media_relationship ='shows publication'
 																</cfquery>
 																<cfif relm.recordcount gt 0>
 																	<cfset i = 1>
