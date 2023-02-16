@@ -191,7 +191,7 @@
 												<cfif spec.recordcount gt 0>
 													<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 													<cfloop query="spec">
-														<cfif spec.rel neq 'shows publication' OR spec.rel eq 'ledger entry for cataloged_item'>
+														<cfif spec.rel eq 'shows publication' OR spec.rel eq 'ledger entry for cataloged_item'>
 															<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct c.collection_object_id
 															from publication p
@@ -233,7 +233,7 @@
 																	</cfloop>
 																</cfif>
 															</cfloop>
-														<cfelse>
+														<cfelseif spec.rel neq 'shows publication'>
 															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select distinct media.media_id
 															from media_relations mr
@@ -266,8 +266,8 @@
 																</div>
 																<cfset i=i+1>
 															</cfloop>
-														<!---<cfelse>
-															<h3 class="h4 px-2 pt-2 ml-1">No related records. </h3>--->
+														<cfelse>
+															<h3 class="h4 px-2 pt-2 ml-1">No related records. </h3>
 														</cfif>
 													</cfloop>
 									<!---				<cfloop query="pubs">
