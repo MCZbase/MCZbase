@@ -270,7 +270,7 @@
 														</cfif>
 													</cfloop>
 												<cfelse>
-													<h3 class="h4 px-2 pt-2 ml-1">No related publication records </h3>
+													<h3 class="h4 px-2 pt-2 ml-1">No related publication records. </h3>
 												</cfif>
 											</div>
 										</div>
