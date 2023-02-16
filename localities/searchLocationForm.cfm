@@ -311,12 +311,12 @@
 							</select>
 						</div>
 						<div class="col-12 col-md-4">
-							<cfif not isDefined("collection_id")><cfset collection_id=""></cfif>
+							<cfif isDefined("collection_id")><cfset collection_id_val="#collection_id#"><cfelse><cfset collection_id_val=""></cfif>
 							<label for="collection_id" class="data-entry-label">Collection</label>
 							<select name="collection_id" id="collection_id" size="1" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="ctcollection">
-									<cfif collection_id EQ ctcollection.collection_id><cfset selected="selected"><cfelse><cfset selected=""></cfif>
+									<cfif collection_id_val EQ ctcollection.collection_id><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 									<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
 								</cfloop>
 							</select>
