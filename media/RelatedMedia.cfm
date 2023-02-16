@@ -178,7 +178,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif media.recordcount gt 0> #spec.recordcount#, #pubs.recordcount#
+							<cfif media.recordcount gt 0> #spec.recordcount# from spec, #pubs.recordcount# from pubs
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
