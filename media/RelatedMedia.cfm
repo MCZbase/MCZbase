@@ -36,7 +36,7 @@
 		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		and ct.auto_table = 'publication'
 	</cfquery>
-	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"></cfquery>
+	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
