@@ -279,11 +279,23 @@
 					<cfset locButton = "Fewer Fields">
 				</cfif> 
 				<div class="form-row mx-0 mb-0">
-					<div class="col-12 col-md-8 px-3 mt-md-3 mb-md-3 mt-2 mb-3">
+					<cfif #showExtraFields# IS 1>
+						<cfset spec_loc_class = "col-md-4">
+					<cfelse
+						<cfset spec_loc_class = "col-md-8">
+					</cfif>
+					<div class="col-12 #spec_loc_class# px-3 mt-3 mt-md-3 mb-3 mb-md-3">
 						<cfif not isDefined("spec_locality")><cfset spec_locality=""></cfif>
 						<label for="spec_locality" class="data-entry-label">Specific Locality</label>
 						<input type="text" name="spec_locality" id="spec_locality" class="data-entry-input" value="#encodeForHtml(encodeForHtml(spec_locality))#">
 					</div>
+					<cfif #showExtraFields# IS 1>
+						<div class="col-12 col-md-4 mt-3 mt-md-3 mb-3 mb-md-3">
+							<cfif not isDefined("any_geography")><cfset any_geography=""></cfif>
+							<label for="any_geography" class="data-entry-label">Any Geography (keyword)</label>
+							<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
+						</div>
+					</cfif>
 					<div class="col-12 col-md-2 px-3 px-md-0 mt-md-3 mb-md-3 mt-2 mb-0">
 						<cfif not isDefined("locality_id")><cfset locality_id=""></cfif>
 						<label for="locality_id" class="data-entry-label">Locality ID</label>
@@ -587,11 +599,6 @@
 								<cfif ucase(range_direction) EQ "S"><cfset selected="selected"><cfelse><cfset selected=""></cfif>
 								<option value="S" #selected#>S</option>
 							</select>
-						</div>
-						<div class="col-12 col-md-4">
-							<cfif not isDefined("any_geography")><cfset any_geography=""></cfif>
-							<label for="any_geography" class="data-entry-label">Any Geography (keyword)</label>
-							<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
 						</div>
 					</div>
 				</cfif>
