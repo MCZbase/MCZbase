@@ -217,7 +217,7 @@
 														</cfloop>
 													</cfloop>
 												<cfelse>
-													<h2 class="h4 px-3 pt-2">There are no related media records.</h2>
+													<h2 class="h4 px-3 pt-2">There are no related media records (spec).</h2>
 												</cfif>
 												<cfif pubs.recordcount gt 0>
 													<cfloop query="pubs">
@@ -261,7 +261,7 @@
 																<cfset i=i+1>
 															</cfloop>
 															<cfelse>
-																<h2 class="h4 px-3 pt-2">There are no related media records.</h2>
+																<h2 class="h4 px-3 pt-2">There are no related media records (pubs).</h2>
 															</cfif>
 														</cfloop>
 													</cfloop>
