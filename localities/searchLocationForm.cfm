@@ -588,6 +588,11 @@
 								<option value="S" #selected#>S</option>
 							</select>
 						</div>
+						<div class="col-12 col-md-4">
+							<cfif not isDefined("any_geography")><cfset any_geography=""></cfif>
+							<label for="any_geography" class="data-entry-label">Any Geography (keyword)</label>
+							<input type="text" name="any_geography" id="any_geography" class="data-entry-input" value="#encodeForHtml(any_geography)#">
+						</div>
 					</div>
 				</cfif>
 				<div class="form-row px-3 mt-2 mb-3">

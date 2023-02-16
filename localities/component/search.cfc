@@ -663,6 +663,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	@return json containing data about localities matching specified search criteria.
 --->
 <cffunction name="getLocalities" access="remote" returntype="any" returnformat="json">
+	<cfargument name="any_geography" type="string" required="no"><!--- keyword index search --->
 	<cfargument name="higher_geog" type="string" required="no">
 	<cfargument name="geog_auth_rec_id" type="string" required="no">
 	<cfargument name="continent_ocean" type="string" required="no">
@@ -855,6 +856,9 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 			WHERE
 				locality.locality_id is not null
+				<cfif isDefined("any_geography") and len(geog_auth_rec_id) gt 0>
+					locality_id in (select locality_id from flat where contains(HIGHER_GEOG,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#any_geography#">,1) > 0);
+				</cfif>
 				<cfif isDefined("geog_auth_rec_id") and len(geog_auth_rec_id) gt 0>
 						and geog_auth_rec.geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 				<cfelse>
