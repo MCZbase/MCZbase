@@ -269,7 +269,7 @@
 																</cfif>
 															</cfloop>
 														<cfelse>
-															<h2 class="h4 px-3 pt-2">There are no related media records (pubscollid).</h2>
+															<h2 class="h4 px-3 pt-2">There are no related #spec.label##pubs.label# media records (pubscollid).</h2>
 														</cfif>
 													</cfloop>
 												<cfelse>
