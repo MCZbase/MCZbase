@@ -31,7 +31,7 @@
 		select media_relationship from media_relations where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">	
 	</cfquery>
 	<cfquery name = "pubs" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct mr.related_primary_key as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		select distinct p.publication_id, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from publication p
 		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 		left join citation c on c.publication_id = p.publication_id
@@ -54,7 +54,7 @@
 		left join citation c on c.publication_id = p.publication_id
 		left join media on mr.media_id = media.media_id
 		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.pk#">
+		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 		and mr.media_relationship = 'shows publication'
 		UNION
 		select ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
