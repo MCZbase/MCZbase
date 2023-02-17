@@ -134,7 +134,16 @@
 		and an.agent_name_type = 'preferred'
 		and mr.media_relationship <> 'created by agent'
 		and ct.auto_table = 'agent' 
-	</cfquery>	
+	</cfquery>
+	<cfquery name="mediact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select count(media.media_id) as ct
+	from media_relations mr
+	left join media on mr.media_id = media.media_id
+	where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+	and mr.media_relationship <> 'created by agent'
+	and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
+	and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+	</cfquery>
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
@@ -171,7 +180,7 @@
 									#mediaMetadataBlock#
 								</div>
 							</div>	
-							<cfif media.recordcount gt 0> #spec.recordcount# from spec, #pubs.recordcount# from pubs
+							<cfif media.recordcount gt 0> #spec.recordcount# items: #mediact.recordcount# media records, #pubs.recordcount# from pubs
 								<!---specimen records relationships and other possible associations to media on those records--->
 								<div class="col-12 px-0 float-left">
 									<div class="search-box mt-3 w-100 mb-3">
