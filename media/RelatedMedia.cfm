@@ -211,7 +211,7 @@
 														from media_relations mr 
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 														</cfquery>
 													</cfif>
