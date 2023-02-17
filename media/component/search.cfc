@@ -1611,7 +1611,7 @@ imgStyleClass=value
 				and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
 		<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct transaction_id
+			select distinct transaction_id, loan.loan_number
 			from media_relations
 				left join loan on media_relations.related_primary_key = loan.transaction_id
 				left join mczbase.ctmedia_relationship on mczbase.ctmedia_relationship.media_relationship = media_relations.media_relationship
@@ -1722,6 +1722,8 @@ imgStyleClass=value
 							<cfloop query="media_rel"><span class="text-capitalize">#media_rel.label#</span>
 								<div class="comma2 d-inline">
 									<cfif media_rel.auto_table eq 'cataloged_item'>: <cfloop query="spec"><a class="font-weight-lessbold" href="/guid/#spec.guid#">#spec.guid#</a><span>, </span></cfloop>
+									</cfif>
+									<cfif media_rel.media_relationship like '%loan'>:<cfloop query="agents1"><a class="font-weight-lessbold" href="/transactions/Loan.cfm?action=editLoan&transaction_id=#loan.transaction_id#"> #agents1.agent_name#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship eq 'created by agent'>:<cfloop query="agents1"><cfquery name="relm1" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#"> select m.media_id,an.agent_id from agent_name an left join media_relations m on an.agent_id=m.related_primary_key where agent_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#agents1.agent_name#" /> and m.media_relationship = 'created by agent'</cfquery><a class="font-weight-lessbold" href="/agents/Agent.cfm?agent_id=#relm1.agent_id#"> #agents1.agent_name#</a><span>, </span></cfloop>
 									</cfif>
