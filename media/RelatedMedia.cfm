@@ -38,15 +38,13 @@
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		<cfif pubs.recordcount gt 0>
-			
-			select distinct c.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
-			from publication p
-			left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-			left join citation c on c.publication_id = p.publication_id
-			left join media on mr.media_id = media.media_id
-			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-			where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
-			and ct.auto_table = 'publication'
+		select distinct p.publication_id, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
+		from publication p
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join citation c on c.publication_id = p.publication_id
+		left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+		where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		and ct.auto_table = 'publication'
 			UNION
 		</cfif>
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
