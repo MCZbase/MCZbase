@@ -1655,15 +1655,16 @@ imgStyleClass=value
 			</cfquery>
 				<!---adding related_primary_key to this query mess up the ledger display since it is listed multiple times.--->
 			<cfquery name="media_rel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
+				<cfif publication.recordcount gt 0>select distinct mr.media_relationship,ct.Label as label, ct.auto_table
 				from media_relations mr
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-				UNION
+				<cfelse>
 				select distinct mr.media_relationship,ct.Label as label, ct.auto_table
 				from media_relations mr
 				left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 				where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#publication.pk#">
+				</cfif>
 			</cfquery>		
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
 				<table class="table table-responsive-sm mb-3 border-none small90">
