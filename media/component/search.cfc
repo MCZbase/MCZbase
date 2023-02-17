@@ -1601,7 +1601,7 @@ imgStyleClass=value
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and media_relations.media_relationship like '% collecting_event'
 		</cfquery>
-		<cfquery name="local" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="locali" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct locality.spec_locality,locality.locality_ID, lat_long.dec_lat, lat_long.dec_long, lat_long.datum, lat_long.max_error_distance as error, lat_long.max_error_units as units
 			from media_relations
 				left join locality on media_relations.related_primary_key = locality.locality_id
@@ -1735,11 +1735,7 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship contains 'collecting_event'>:<cfloop query="collecting_eventRel">
 									<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&collecting_event_id=#collecting_eventRel.collecting_event_id#">#collecting_eventRel.verbatim_locality#  #collecting_eventRel.collecting_source# #collecting_eventRel.verbatim_date# <cfif collecting_eventRel.ended_date gt 0>(#collecting_eventRel.ended_date#)</cfif>  </a><span>, </span></cfloop>
 									</cfif>
-									<cfif media_rel.media_relationship eq 'shows locality'>:
-										<cfloop query="local">
-										<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#local.locality_id#">
-											#local.spec_locality#  #local.dec_lat# #local.dec_long# #local.error# #local.units#  </a><span>, </span>
-										</cfloop>
+									<cfif media_rel.media_relationship eq 'shows locality'>:<cfloop query="locali"><a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#locali.locality_id#">#locali.spec_locality# #locali.dec_lat# #locali.dec_long# #locali.error# #locali.units#</a><span>, </span></cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'publication'>: 
 									<cfloop query="publication"><cfquery name="relm7" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">select distinct fp.formatted_publication as pub_short, p.publication_title, m.media_uri from publication p, formatted_publication fp, media_relations mr,media m where mr.related_primary_key = p.publication_id and mr.media_id = m.media_id and p.publication_id = fp.publication_id and p.publication_id = <cfqueryparam value=#publication.pk# CFSQLType="CF_SQL_VARCHAR"> and fp.format_style = 'short' and m.media_id = <cfqueryparam value=#media.media_id# CFSQLType="CF_SQL_decimal"></cfquery><a class="font-weight-lessbold" href="#relm7.media_uri#">#relm7.pub_short#, #relm7.publication_title# </a><span> &##8226;&##8226; </span> </cfloop>
