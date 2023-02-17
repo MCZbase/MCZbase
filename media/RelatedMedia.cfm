@@ -243,7 +243,7 @@
 														<cfif pubscollid.recordcount gt 0>test 2 |#pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select distinct mr.media_id, mr.media_relationship
+																select distinct mr.media_id, ct.label
 																from media_relations mr 
 																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
@@ -262,7 +262,7 @@
 																					<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																					<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
 																						<div class="px-0">
-																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#relm.media_relationship# <br>(media/#relm.media_id#)
+																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#relm.label# <br>(media/#relm.media_id#)
 																							</span> 
 																							#mediablock#
 																						</div>
