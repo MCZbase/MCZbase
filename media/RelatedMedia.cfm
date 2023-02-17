@@ -246,7 +246,7 @@
 																select distinct mr.media_id, ct.label
 																from media_relations mr 
 																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
+																where mr.related_primary_key = <cfqueryparam  value="#pubs.publication_id#">
 																</cfquery>
 																<cfif relm.recordcount gt 0>#relm.media_id#
 																	<cfset i = 1>
