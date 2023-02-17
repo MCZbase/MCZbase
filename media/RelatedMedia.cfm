@@ -251,59 +251,10 @@
 														</div>
 														<cfset i=i+1>
 													</cfloop>
-<!---													<cfelse>
-														<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>--->
+													<cfelse>
+														<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
 													</cfif>
 												</cfloop>
-									<!---			<cfloop query="pubs">
-													<cfif pubs.recordcount gt 0>
-														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct c.collection_object_id
-														from publication p
-														left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
-														left join citation c on c.publication_id = p.publication_id
-														left join media on mr.media_id = media.media_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
-														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-														</cfquery>
-														<cfif pubscollid.recordcount gt 0>
-															<cfloop query="pubscollid">
-																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select distinct mr.media_id, ct.label
-																from media_relations mr 
-																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
-															
-																</cfquery>
-																<cfif relm.recordcount gt 0>
-																	<cfset i = 1>
-																	<cfloop query="relm">
-																		<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-																			<cfif relm.media_id eq '#media.media_id#'> 
-																				<cfset activeimg = "highlight_media rounded px-1 pt-1">
-																			<cfelse>	
-																				<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-																			</cfif>
-																			<ul class="list-group px-0">
-																				<li class="list-group-item px-0 mx-1">
-																					<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																					<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
-																						<div class="px-0">
-																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#relm.label# <br>(media/#relm.media_id#)
-																							</span> 
-																							#mediablock#
-																						</div>
-																					</div>
-																				</li>
-																			</ul>
-																		</div>
-																		<cfset i=i+1>
-																	</cfloop>
-																</cfif>
-															</cfloop>
-														</cfif>
-													</cfif>
-												</cfloop>--->
 											</div>
 										</div>
 									</div>
