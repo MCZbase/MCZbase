@@ -1738,7 +1738,7 @@ imgStyleClass=value
 									<cfif media_rel.media_relationship eq 'shows locality'>:
 										<cfloop query="local">
 										<a class="font-weight-lessbold" href="/showLocality.cfm?action=srch&locality_id=#local.locality_id#">
-											#local.spec_locality#  #local.dec_lat# #local.dec_long# #local.error# #units#  </a><span>, </span>
+											#local.spec_locality#  #local.dec_lat# #local.dec_long# #local.error# #local.units#  </a><span>, </span>
 										</cfloop>
 									</cfif>
 									<cfif media_rel.media_relationship contains 'publication'>: 
