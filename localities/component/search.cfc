@@ -105,7 +105,7 @@ limitations under the License.
 		<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
 		<cfif len(setup["value"]) EQ 0>
 			AND #setup["pre"]# #setup["post"]#
-		<cfelseif len(setup["between"]) EQ "true">
+		<cfelseif setup["between"] EQ "true">
 			AND #setup["pre"]# 
 				BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 				AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1106,7 +1106,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="locality.minimum_elevation",value="#minimum_elevation#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1118,7 +1118,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="TO_METERS(locality.minimum_elevation,locality.orig_elev_units)",value="#minimum_elevation_m#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1130,7 +1130,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="locality.maximum_elevation",value="#maximum_elevation#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1142,7 +1142,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="TO_METERS(locality.maximum_elevation,locality.orig_elev_units)",value="#maximum_elevation_m#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1162,7 +1162,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="locality.min_depth",value="#min_depth#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1174,7 +1174,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="TO_METERS(locality.min_depth,locality.depth_units)",value="#min_depth_m#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1186,7 +1186,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="locality.max_depth",value="#max_depth#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1198,7 +1198,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="TO_METERS(locality.max_depth,locality.depth_units)",value="#max_depth_m#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1210,7 +1210,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="locality.section",value="#section#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1222,7 +1222,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="locality.township",value="#township#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1234,7 +1234,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="locality.range",value="#range#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1341,7 +1341,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="accepted_lat_long.dec_lat",value="#dec_lat#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1353,7 +1353,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="accepted_lat_long.dec_long",value="#dec_long#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
@@ -1373,7 +1373,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					<cfset setup = setupNumericClause(field="accepted_lat_long.max_error_distance",value="#max_error_distance#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
-					<cfelseif len(setup["between"]) EQ "true">
+					<cfelseif setup["between"] EQ "true">
 						AND #setup["pre"]# 
 						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
 						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
