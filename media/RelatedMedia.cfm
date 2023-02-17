@@ -192,13 +192,13 @@
 													left join media on mr.media_id = media.media_id
 													where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 													and mr.media_relationship <> 'created by agent'
-													and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
+													and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.at#">
 													and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 													</cfquery>
 													<cfif len(relm.media_id) gt 0>
 													<cfset i = 1>
-													<cfloop query="relm">
+													<cfloop query="relm">#relm.media_id#
 														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 															<cfif relm.media_id eq '#media.media_id#'> 
 																<cfset activeimg = "highlight_media rounded px-1 pt-1">
