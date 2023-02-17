@@ -217,7 +217,7 @@
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 														</cfquery>
 													</cfif>
-													<cfif len(relm.media_id) gt 0>
+													<cfif relm.recordcount gt 0 and oneOfUs eq 1 >
 													<cfset i = 1>
 													<cfloop query="relm">
 														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
