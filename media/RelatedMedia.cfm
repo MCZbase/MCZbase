@@ -239,7 +239,7 @@
 														left join media on mr.media_id = media.media_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-														and mr.media_relationship <> 'ledger entry for cataloged_item'
+				
 														</cfquery>
 														<cfif pubscollid.recordcount gt 0>
 															<cfloop query="pubscollid">
@@ -248,7 +248,6 @@
 																from media_relations mr 
 																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
-																and mr.media_relationship <> 'ledger entry for cataloged_item'
 																</cfquery>
 																<cfif relm.recordcount gt 0>
 																	<cfset i = 1>
