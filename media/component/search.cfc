@@ -1659,11 +1659,6 @@ imgStyleClass=value
 					select distinct mr.media_relationship,ct.Label as label, ct.auto_table
 					from media_relations mr
 					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-					where mr.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-					UNION
-					select distinct mr.media_relationship,ct.Label as label, ct.auto_table
-					from media_relations mr
-					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 					where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#publication.pk#">
 					and mr.media_relationship <> 'ledger entry for cataloged_item'
 				</cfquery>
