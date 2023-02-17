@@ -37,7 +37,6 @@
 		and ct.auto_table = 'publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
@@ -195,6 +194,7 @@
 													and mr.media_relationship <> 'created by agent'
 													and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 													and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 													</cfquery>
 													<cfif len(relm.media_id) gt 0>
 													<cfset i = 1>
