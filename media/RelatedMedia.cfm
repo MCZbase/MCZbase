@@ -37,6 +37,15 @@
 		and ct.auto_table = 'publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select distinct c.collection_object_id
+		from publication p
+		left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+		left join citation c on c.publication_id = p.publication_id
+		left join media on mr.media_id = media.media_id
+		where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
+		and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+		</cfquery>
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
@@ -186,16 +195,25 @@
 											<div class="col-12 p-1">
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
 												<cfloop query="spec">
-													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select distinct media.media_id
-													from media_relations mr
-													left join media on mr.media_id = media.media_id
-													where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-													and mr.media_relationship <> 'created by agent'
-													and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.rel#">
-													and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-													and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-													</cfquery>
+													<cfif pubs.recordcount gt 0>
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct media.media_id
+														from media_relations mr
+														left join media on mr.media_id = media.media_id
+														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+														and mr.media_relationship <> 'created by agent'
+														and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.rel#">
+														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+														</cfquery>
+													<cfelse>
+														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select distinct mr.media_id, ct.label
+														from media_relations mr 
+														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+														where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
+														</cfquery>
+													</cfif>
 													<cfif len(relm.media_id) gt 0>
 													<cfset i = 1>
 													<cfloop query="relm">
@@ -234,7 +252,7 @@
 														<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>--->
 													</cfif>
 												</cfloop>
-												<cfloop query="pubs">
+									<!---			<cfloop query="pubs">
 													<cfif pubs.recordcount gt 0>
 														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct c.collection_object_id
@@ -252,8 +270,7 @@
 																from media_relations mr 
 																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
-																<!---and mr.media_relationship <> 'ledger entry for cataloged_item'--->
-																	<!---Do we want to have ledgers show for records attached to media?  They are now duplicated since there are several cataloged items attached to each collection_object_id that is related.--->
+															
 																</cfquery>
 																<cfif relm.recordcount gt 0>
 																	<cfset i = 1>
@@ -283,7 +300,7 @@
 															</cfloop>
 														</cfif>
 													</cfif>
-												</cfloop>
+												</cfloop>--->
 											</div>
 										</div>
 									</div>
