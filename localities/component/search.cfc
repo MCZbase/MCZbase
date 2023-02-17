@@ -687,26 +687,37 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 	<cfargument name="orig_elev_units" type="string" required="no">
 	<cfargument name="minElevOper" type="string" required="no">
 	<cfargument name="minimum_elevation" type="string" required="no">
+	<cfargument name="minimum_elevation_m" type="string" required="no">
 	<cfargument name="maxElevOper" type="string" required="no">
 	<cfargument name="maximum_elevation" type="string" required="no">
+	<cfargument name="maximum_elevation_m" type="string" required="no">
+	<cfargument name="depth_units" type="string" required="no">
+	<cfargument name="minDepthOper" type="string" required="no">
+	<cfargument name="min_depth" type="string" required="no">
+	<cfargument name="min_depth_m" type="string" required="no">
+	<cfargument name="maxDepthOper" type="string" required="no">
+	<cfargument name="max_depth" type="string" required="no">
+	<cfargument name="max_depth_m" type="string" required="no">
 	<cfargument name="accentInsenstive" type="string" required="no">
 	<cfargument name="collection_id" type="string" required="no">
 	<cfargument name="collnOper" type="string" required="no">
 	<cfargument name="include_counts" type="string" required="no"><!--- locality counts by collection --->
 	<cfargument name="township" type="string" required="no">
 	<cfargument name="range" type="string" required="no">
+	<cfargument name="township_direction" type="string" required="no">
+	<cfargument name="range_direction" type="string" required="no">
+	<cfargument name="section" type="string" required="no">
+	<cfargument name="section_part" type="string" required="no">
+	<cfargument name="dec_lat" type="string" required="no">
+	<cfargument name="dec_long" type="string" required="no">
+	<cfargument name="datum" type="string" required="no">
+	<cfargument name="max_error_distance" type="string" required="no">
 	<!--- 
-	"TOWNSHIP_DIRECTION" CHAR(1 CHAR), 
-	"RANGE_DIRECTION" CHAR(1 CHAR), 
-	"SECTION_PART" VARCHAR2(30 CHAR), 
-	"LOCALITY_REMARKS" VARCHAR2(4000 CHAR), 
-	"LEGACY_SPEC_LOCALITY_FG" NUMBER, 
-	"DEPTH_UNITS" VARCHAR2(20 CHAR), 
-	"MIN_DEPTH" NUMBER, 
-	"MAX_DEPTH" NUMBER, 
-	"NOGEOREFBECAUSE" VARCHAR2(500), 
 	"GEOREF_UPDATED_DATE" DATE, 
 	"GEOREF_BY" VARCHAR2(50 CHAR), 
+	--->
+	<!--- 
+	"LEGACY_SPEC_LOCALITY_FG" NUMBER,  Unused
 	--->
 
 	<!--- set default values where not defined --->
@@ -778,6 +789,63 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 		</cfif>
 		<cfif isDefined("MinElevOperM") and minElevOperM EQ ">" and left(minimum_elevation_m,1) NEQ ">">
 			<cfset minimum_elevation_m=">#minimum_elevation_m#"><!--- " --->
+		</cfif>
+	</cfif>
+	<!--- convert min/max DepthOper variables to operators as leading characters of min/max depth --->
+	<cfif isdefined("max_depth") AND len(max_depth) gt 0>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ "!" and left(max_depth,1) NEQ "!">
+			<cfset max_depth="!#max_depth#">
+		</cfif>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ "<>" and left(max_depth,2) NEQ "<>">
+			<cfset max_depth="!#max_depth#"><!--- " --->
+		</cfif>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ "<" and left(max_depth,1) NEQ "<">
+			<cfset max_depth="<#max_depth#">
+		</cfif>
+		<cfif isDefined("maxDepthOper") and maxDepthOper EQ ">" and left(max_depth,1) NEQ ">">
+			<cfset max_depth=">#max_depth#"><!--- " --->
+		</cfif>
+	</cfif>
+	<cfif isdefined("min_depth") AND len(min_depth) gt 0>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ "!" and left(min_depth,1) NEQ "!">
+			<cfset min_depth="!#min_depth#">
+		</cfif>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ "<>" and left(min_depth,2) NEQ "<>">
+			<cfset min_depth="!#min_depth#"><!--- " --->
+		</cfif>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ "<" and left(min_depth,1) NEQ "<">
+			<cfset min_depth="<#min_depth#">
+		</cfif>
+		<cfif isDefined("minDepthOper") and minDepthOper EQ ">" and left(min_depth,1) NEQ ">">
+			<cfset min_depth=">#min_depth#"><!--- " --->
+		</cfif>
+	</cfif>
+	<cfif isdefined("max_depth_m") AND len(max_depth_m) gt 0>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ "!" and left(max_depth_m,1) NEQ "!">
+			<cfset max_depth_m="!#max_depth_m#">
+		</cfif>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ "<>" and left(max_depth_m,2) NEQ "<>">
+			<cfset max_depth_m="!#max_depth_m#"><!--- " --->
+		</cfif>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ "<" and left(max_depth_m,1) NEQ "<">
+			<cfset max_depth_m="<#max_depth_m#">
+		</cfif>
+		<cfif isDefined("maxDepthOperM") and maxDepthOperM EQ ">" and left(max_depth_m,1) NEQ ">">
+			<cfset max_depth_m=">#max_depth_m#"><!--- " --->
+		</cfif>
+	</cfif>
+	<cfif isdefined("min_depth_m") AND len(min_depth_m) gt 0>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "!" and left(min_depth_m,1) NEQ "!">
+			<cfset min_depth_m="!#min_depth_m#">
+		</cfif>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "<>" and left(min_depth_m,2) NEQ "<>">
+			<cfset min_depth_m="!#min_depth_m#"><!--- " --->
+		</cfif>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ "<" and left(min_depth_m,1) NEQ "<">
+			<cfset min_depth_m="<#min_depth_m#">
+		</cfif>
+		<cfif isDefined("MinDepthOperM") and minDepthOperM EQ ">" and left(min_depth_m,1) NEQ ">">
+			<cfset min_depth_m=">#min_depth_m#"><!--- " --->
 		</cfif>
 	</cfif>
 
@@ -1082,6 +1150,62 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
 					</cfif>
 				</cfif>
+				<cfif isdefined("depth_units") AND len(depth_units) gt 0>
+					<cfset setup = setupClause(field="locality.depth_units",value="#depth_units#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("min_depth") AND len(min_depth) gt 0>
+					<cfset setup = setupNumericClause(field="locality.min_depth",value="#min_depth#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("min_depth_m") and len(#min_depth_m#) gt 0>
+					<cfset setup = setupNumericClause(field="TO_METERS(locality.min_depth,locality.depth_units)",value="#min_depth_m#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("max_depth") AND len(max_depth) gt 0>
+					<cfset setup = setupNumericClause(field="locality.max_depth",value="#max_depth#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("max_depth_m") and len(#max_depth_m#) gt 0>
+					<cfset setup = setupNumericClause(field="TO_METERS(locality.max_depth,locality.depth_units)",value="#max_depth_m#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
 				<cfif isdefined("section") AND len(section) gt 0>
 					<cfset setup = setupNumericClause(field="locality.section",value="#section#")>
 					<cfif len(setup["value"]) EQ 0>
@@ -1212,6 +1336,50 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				</cfif>
 				<cfif isdefined("findHasGeoRef") and len(#findHasGeoRef#) gt 0>
 					AND locality.locality_id IN (select locality_id from lat_long)
+				</cfif>
+				<cfif isdefined("dec_lat") and len(#dec_lat#) gt 0>
+					<cfset setup = setupNumericClause(field="lat_long.dec_lat",value="#dec_lat#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("dec_long") and len(#dec_long#) gt 0>
+					<cfset setup = setupNumericClause(field="lat_long.dec_long",value="#dec_long#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("datum") AND len(datum) gt 0>
+					<cfset setup = setupClause(field="lat_long.datum",value="#datum#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
+				</cfif>
+				<cfif isdefined("max_error_distance") and len(#max_error_distance#) gt 0>
+					<cfset setup = setupNumericClause(field="lat_long.max_error_distance",value="#max_error_distance#")>
+					<cfif len(setup["value"]) EQ 0>
+						AND #setup["pre"]# #setup["post"]#
+					<cfelseif len(setup["between"]) EQ "true">
+						AND #setup["pre"]# 
+						BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" > 
+						AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value2']#"> 
+					<cfelse>
+						AND #setup["pre"]# <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#setup['value']#" list="#setup['list']#"> #setup["post"]#
+					</cfif>
 				</cfif>
 			GROUP BY
 				geog_auth_rec.geog_auth_rec_id,
