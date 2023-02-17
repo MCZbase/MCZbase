@@ -240,6 +240,7 @@
 														left join media on mr.media_id = media.media_id
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+														and mr.media_relationship <> 'ledger entry for cataloged_item'
 														</cfquery>
 														<cfif pubscollid.recordcount gt 0>
 															<cfloop query="pubscollid">
@@ -249,6 +250,7 @@
 																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
 																and mr.media_relationship <> 'ledger entry for cataloged_item'
+																	<!---Do we want to have ledgers show for records attached to media?  They are now duplicated since there are several cataloged items attached to each cat num that is related.--->
 																</cfquery>
 																<cfif relm.recordcount gt 0>
 																	<cfset i = 1>
