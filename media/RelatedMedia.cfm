@@ -135,6 +135,7 @@
 		and mr.media_relationship <> 'created by agent'
 		and ct.auto_table = 'agent' 
 	</cfquery>
+	<cfloop query="spec">
 	<cfquery name="mediact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(media.media_id) as ct
 	from media_relations mr
@@ -144,6 +145,7 @@
 	and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 	and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 	</cfquery>
+	</cfloop>
 	<main class="container-fluid pb-5" id="content">
 		<div class="row">
 			<div class="col-12 pb-4 mb-5 pl-md-4">
