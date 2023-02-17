@@ -248,6 +248,7 @@
 																from media_relations mr 
 																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
+																and mr.media_relationship <> 'ledger entry for cataloged_item'
 																</cfquery>
 																<cfif relm.recordcount gt 0>
 																	<cfset i = 1>
