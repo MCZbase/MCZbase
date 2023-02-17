@@ -192,75 +192,74 @@
 										</div>
 										<div class="row mx-0">
 											<div class="col-12 p-1">
+												<cfif spec.recordcount gt 0>
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
-												<cfloop query="spec">
-													<cfif pubs.recordcount gt 0>
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct media.media_id
-														from media_relations mr
-														left join media on mr.media_id = media.media_id
-														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-														and mr.media_relationship <> 'created by agent'
-														and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.rel#">
-														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-														</cfquery>
-													<cfelse>
-														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct mr.media_id, ct.label
-														from media_relations mr 
-														left join media on mr.media_id = media.media_id
-														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
-														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
-														and mr.media_relationship <> 'created by agent'
-														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
-														</cfquery>
-													</cfif>
-													<cfif relm.recordcount gt 0 and oneOfUs eq 1 >
-													<cfset i = 1>
-													<cfloop query="relm">
-														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
-															<cfif relm.media_id eq '#media.media_id#'> 
-																<cfset activeimg = "highlight_media rounded px-1 pt-1">
-															<cfelse>	
-																<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
-															</cfif>
-															<ul class="list-group px-0">
-																<li class="list-group-item px-0 mx-1">
-																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
-																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
-																		<div class="px-0">
-																			<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
-																				#spec.label# 
-																			<cfif spec.label eq 'Shows Cataloged Item'>
-																				<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																				select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-																				</cfquery>
-																				#guidi.guid#
-																			<cfelse>
-																				#spec.pk#
-																			</cfif>
-																			<br>(media/#relm.media_id#)
-																			</span> 
-																			#mediablock#
-																		</div>
-																	</div>
-																</li>
-															</ul>
-														</div>
-														<cfset i=i+1>
+													<cfloop query="spec">
+														<cfif pubs.recordcount gt 0>
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct media.media_id
+															from media_relations mr
+															left join media on mr.media_id = media.media_id
+															where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+															and mr.media_relationship <> 'created by agent'
+															and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.rel#">
+															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+															and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+															</cfquery>
+														<cfelse>
+															<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+															select distinct mr.media_id, ct.label
+															from media_relations mr 
+															left join media on mr.media_id = media.media_id
+															left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
+															where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
+															and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+															and mr.media_relationship <> 'created by agent'
+															and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+															</cfquery>
+														</cfif>
+														<cfset i = 1>
+															<cfloop query="relm">
+																<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
+																	<cfif relm.media_id eq '#media.media_id#'> 
+																		<cfset activeimg = "highlight_media rounded px-1 pt-1">
+																	<cfelse>	
+																		<cfset activeimg = "border-wide-ltgrey rounded bg-white px-1 py-1">
+																	</cfif>
+																	<ul class="list-group px-0">
+																		<li class="list-group-item px-0 mx-1">
+																			<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
+																			<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
+																				<div class="px-0">
+																					<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
+																						#spec.label# 
+																					<cfif spec.label eq 'Shows Cataloged Item'>
+																						<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+																						select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
+																						</cfquery>
+																						#guidi.guid#
+																					<cfelse>
+																						#spec.pk#
+																					</cfif>
+																					<br>(media/#relm.media_id#)
+																					</span> 
+																					#mediablock#
+																				</div>
+																			</div>
+																		</li>
+																	</ul>
+																</div>
+																<cfset i=i+1>
+															</cfloop>
+														</cfif>
 													</cfloop>
-													<cfelse>
-														<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
-													</cfif>
-												</cfloop>
+												<cfelse>
+													<h3 class="h4 px-2 ml-1 pt-2 onlyfirst">None</h3>
+												</cfif>
 											</div>
 										</div>
 									</div>
 								</div>
-							<cfelse>
-								<h3 class="h4 px-2 ml-1 pt-2">No related media records.</h3>
 							</cfif>
 						</div>
 					</div>
