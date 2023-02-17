@@ -245,6 +245,7 @@
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct mr.media_id, mr.media_relationship
 																from media_relations mr 
+																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
 																</cfquery>
 																<cfif relm.recordcount gt 0>#relm.media_id#
