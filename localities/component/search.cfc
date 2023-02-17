@@ -160,7 +160,7 @@ limitations under the License.
 	<cfelseif find('-',value) GT 1>
 		<cfset bits = listToArray(value,'-')>
 		<cfif arrayLen(bits) GT 1>
-			<cfset pre = "#field# = ">
+			<cfset pre = "#field# ">
 			<cfset between="true">
 			<cfset outvalue="#bits[1]#">
 			<cfset outvalue2="#bits[2]#">
