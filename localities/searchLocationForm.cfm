@@ -650,7 +650,7 @@
 							</div>
 							<div class="col-12 col-md-3">
 								<cfif not isDefined("dec_long")><cfset dec_long=""></cfif>
-								<label for="dec_long" class="data-entry-label">Latitude</label>
+								<label for="dec_long" class="data-entry-label">Longitude</label>
 								<input type="text" name="dec_long" class="data-entry-input" value="#encodeForHtml(dec_long)#">
 							</div>
 							<div class="col-12 col-md-2">
