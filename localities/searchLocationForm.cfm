@@ -658,7 +658,7 @@
   									select datum from ctdatum order by datum
 								</cfquery>
 								<cfif isDefined("datum")><cfset datum_val="#datum#"><cfelse><cfset datum_val=""></cfif>
-								<label for="datum" class="data-entry-label">Depth Units</label>
+								<label for="datum" class="data-entry-label">Datum</label>
 								<select name="datum" id="datum" size="1" class="data-entry-select">
 									<option value=""></option>
 									<cfloop query="ctDatum">
