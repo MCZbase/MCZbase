@@ -37,6 +37,17 @@
 		and ct.auto_table = 'publication'
 	</cfquery>
 	<cfquery name="spec" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfif pubs.recordcount gt 0>
+			<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct c.collection_object_id
+			from publication p
+			left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
+			left join citation c on c.publication_id = p.publication_id
+			left join media on mr.media_id = media.media_id
+			where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
+			and MCZBASE.is_media_encumbered(media.media_id)  < 1 
+			</cfquery>
+		</cfif>
 		select distinct  ci.collection_object_id as pk, ct.media_relationship as rel, ct.label as label, ct.auto_table as at
 		from cataloged_item ci
 		left join media_relations mr on ci.collection_object_id = mr.related_primary_key
