@@ -185,7 +185,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
-												<cfloop query="spec">
+												<cfloop query="spec">#spec.pk# #spec.rel#
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct media.media_id
 													from media_relations mr
@@ -194,6 +194,7 @@
 													and mr.media_relationship <> 'created by agent'
 													and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#spec.at#">
 													and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+													and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 													</cfquery>
 													<cfif len(relm.media_id) gt 0>
 													<cfset i = 1>
