@@ -830,6 +830,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.depth_units,
 				locality.curated_fg,
 				locality.sovereign_nation,
+				locality.nogeorefbecause,
 				trim(upper(section_part) || ' ' || nvl2(section,'S','') || section ||  nvl2(township,' T',' ') || township || upper(township_direction) || nvl2(range,' R',' ') || range || upper(range_direction)) as plss,
 				concatGeologyAttributeDetail(locality.locality_id) geolAtts,
 				<cfif includeCounts >
@@ -1247,6 +1248,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 				locality.depth_units,
 				locality.curated_fg,
 				locality.sovereign_nation,
+				locality.nogeorefbecause,
 				locality.township, locality.township_direction, locality.range, locality.range_direction,
 				locality.section, locality.section_part,
   				accepted_lat_long.LAT_LONG_ID,

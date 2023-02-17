@@ -92,24 +92,59 @@ limitations under the License.
 						var spec_locality = rowData['SPEC_LOCALITY'];
 						var id = rowData['LOCALITY_ID'];
 						var locality_remarks = rowData['LOCALITY_REMARKS'];
+						if (locality_remarks) { remarks = " remarks: " + locality_remarks + " "; } else { remarks = ""; }
 						var curated_fg = rowData['CURATED_FG'];
+						if (curated_fg=="1") { curated = "*"; } else { curated = ""; }
 						var sovereign_nation = rowData['SOVEREIGN_NATION'];
 						var minimum_elevation = rowData['MINIMUM_ELEVATION'];
 						var maximum_elevation = rowData['MAXIMUM_ELEVATION'];
 						var orig_elevation_units = rowData['ORIG_ELEV_UNITS'];
+						if (minimum_elevation) { 
+							elevation = " Elev: " + minimum_elevation;
+							if (maximum_elevation && maximum_elevation != minimum_elevation) {
+								elevation = elevation + "-" + maximum_elevation;
+							}
+							elevation = elevation + " " + orig_elev_units + " ";
+						} else {
+							elevation = "";
+						}
 						var min_depth = rowData['MIN_DEPTH'];
 						var max_depth = rowData['MAX_DEPTH'];
 						var depth_units = rowData['DEPTH_UNITS'];
+						if (min_depth) { 
+							depth = " Depth: " + min_depth;
+							if (max_depth && max_depth != min_depth) {
+								depth = depth + "-" + max_depth;
+							}
+							depth = depth + " " + depth_units + " ";
+						} else {
+							depth = "";
+						}
 						var plss = rowData['PLSS'];
 						var geolatts = rowData['GEOLATTS'];
-						var dec_lat = rowData['LOCALITY_ID'];
-						var dec_long = rowData['LOCALITY_ID'];
-						var datum = rowData['LOCALITY_ID'];
-						var max_error_distance = rowData['LOCALITY_ID'];
-						var extent = rowData['LOCALITY_ID'];
-						var verificationstatus = rowData['LOCALITY_ID'];
-						var georefmethod = rowData['LOCALITY_ID'];
-						var data = spec_locality + ' (' + id + ')' + curated_fg + ' ' + sovereign_nation;
+						if (geolatts) { geology = " [" + geolatts + "] "; } else { geology = ""; } 
+						var dec_lat = rowData['DEC_LAT'];
+						var dec_long = rowData['DEC_LONG'];
+						var datum = rowData['DATUM'];
+						var max_error_distance = rowData['MAX_ERROR_DISTANCE'];
+						var extent = rowData['EXTENT'];
+						var verificationstatus = rowData['VERIFICATIONSTATUS'];
+						var georefmethod = rowData['GEOREFMETHOD'];
+						var nogeorefbecause = rowData['NOGEOREFBECAUSE'];
+						if (dec_lat) { 
+							coordinates = " " + dec_lat + ", " dec_long + " " + datum + " ±" + max_error_distance + " " + verificationstatus + " " 
+						} else { 
+							coordinates = " " + nogeorefbecause + " "; }
+						}
+						if (sovereign_nation) {
+							if (sovereign_nation=="[unknown]") { 
+								sovereign_nation = " Sovereign Nation: " + sovereign_nation + " ";
+							} else {
+								sovereign_nation = " " + sovereign_nation + " ";
+							}
+						}
+						if (plss) { plss = " " + plss + " "; } 
+						var data = spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates + remarks + " (" + id + ")" + curated;
 						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
 					};
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -186,6 +221,7 @@ limitations under the License.
 									{ name: 'EXTENT', type: 'string' },
 									{ name: 'VERIFICATIONSTATUS', type: 'string' },
 									{ name: 'GEOREFMETHOD', type: 'string' },
+									{ name: 'NOGEOREFBECAUSE', type: 'string' },
 									{ name: 'LOCALITY_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
@@ -256,6 +292,7 @@ limitations under the License.
 									{ text: 'Extent', datafield: 'EXTENT', width: 100, hideable: true, hidden: getColHidProp('EXTENT',true) },
 									{ text: 'Verification', datafield: 'VERIFICATIONSTATUS', width: 100, hideable: true, hidden: getColHidProp('VERIFICATIONSTATUS',true) },
 									{ text: 'GeoRef Method', datafield: 'GEOREFMETHOD', width: 100, hideable: true, hidden: getColHidProp('GEOREFMETHOD',true) },
+									{ text: 'NotGeoreferenced', datafield: 'NOGEOREFBECAUSE', width: 100, hideable: true, hidden: getColHidProp('GEOREFMETHOD',true) },
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
 									{ text: 'Ocean Region', datafield: 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
 									{ text: 'Ocean Subregion', datafield: 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },
