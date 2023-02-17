@@ -252,7 +252,7 @@
 																from media_relations mr 
 																left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
-																and mr.media_relationship <> 'ledger entry for cataloged_item'
+																---and mr.media_relationship <> 'ledger entry for cataloged_item'
 																	<!---Do we want to have ledgers show for records attached to media?  They are now duplicated since there are several cataloged items attached to each collection_object_id that is related.--->
 																</cfquery>
 																<cfif relm.recordcount gt 0>
