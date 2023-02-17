@@ -1338,7 +1338,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					AND locality.locality_id IN (select locality_id from lat_long)
 				</cfif>
 				<cfif isdefined("dec_lat") and len(#dec_lat#) gt 0>
-					<cfset setup = setupNumericClause(field="lat_long.dec_lat",value="#dec_lat#")>
+					<cfset setup = setupNumericClause(field="accepted_lat_long.dec_lat",value="#dec_lat#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelseif len(setup["between"]) EQ "true">
@@ -1350,7 +1350,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("dec_long") and len(#dec_long#) gt 0>
-					<cfset setup = setupNumericClause(field="lat_long.dec_long",value="#dec_long#")>
+					<cfset setup = setupNumericClause(field="accepted_lat_long.dec_long",value="#dec_long#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelseif len(setup["between"]) EQ "true">
@@ -1362,7 +1362,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("datum") AND len(datum) gt 0>
-					<cfset setup = setupClause(field="lat_long.datum",value="#datum#")>
+					<cfset setup = setupClause(field="accepted_lat_long.datum",value="#datum#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelse>
@@ -1370,7 +1370,7 @@ Function getGeogAutocomplete.  Search for distinct values of a particular higher
 					</cfif>
 				</cfif>
 				<cfif isdefined("max_error_distance") and len(#max_error_distance#) gt 0>
-					<cfset setup = setupNumericClause(field="lat_long.max_error_distance",value="#max_error_distance#")>
+					<cfset setup = setupNumericClause(field="accepted_lat_long.max_error_distance",value="#max_error_distance#")>
 					<cfif len(setup["value"]) EQ 0>
 						AND #setup["pre"]# #setup["post"]#
 					<cfelseif len(setup["between"]) EQ "true">
