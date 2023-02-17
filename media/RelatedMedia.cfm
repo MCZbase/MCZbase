@@ -226,6 +226,7 @@
 														</div>
 														<cfset i=i+1>
 													</cfloop>
+													<cfelse>None
 													</cfif>
 												</cfloop>
 												<cfloop query="pubs">
