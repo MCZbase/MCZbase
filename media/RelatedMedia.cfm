@@ -185,7 +185,7 @@
 										<div class="row mx-0">
 											<div class="col-12 p-1">
 												<!---If media relations are show or document: cataloged_item, accn, ledger, deaccession, etc.--->
-												<cfloop query="spec">#spec.pk# #spec.rel#
+												<cfloop query="spec">
 													<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select distinct media.media_id
 													from media_relations mr
@@ -198,7 +198,7 @@
 													</cfquery>
 													<cfif len(relm.media_id) gt 0>
 													<cfset i = 1>
-													<cfloop query="relm">#relm.media_id#
+													<cfloop query="relm">
 														<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
 															<cfif relm.media_id eq '#media.media_id#'> 
 																<cfset activeimg = "highlight_media rounded px-1 pt-1">
