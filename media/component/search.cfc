@@ -1608,7 +1608,7 @@ imgStyleClass=value
 				left join lat_long on lat_long.locality_id = locality.locality_id
 			where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 				and media_relations.media_relationship like '% locality'
-				and locality.accepted_lat_long_fg = 1
+				and lat_long.accepted_lat_long_fg = 1
 		</cfquery>
 		<cfquery name="loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct transaction_id
