@@ -209,9 +209,11 @@
 														<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct mr.media_id, ct.label
 														from media_relations mr 
+														left join media on mr.media_id = media.media_id
 														left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 														where mr.related_primary_key = <cfqueryparam  value="#spec.pk#">
-														and mr.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
+														and mr.media_relationship <> 'created by agent'
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 														</cfquery>
 													</cfif>
