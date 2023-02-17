@@ -1677,6 +1677,7 @@ imgStyleClass=value
 					from media_relations mr
 					left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 					where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_varchar" value="#publication.pk#">
+					and mr.media_relationship <> 'ledger entry for cataloged_item'
 				</cfquery>
 			</cfif>
 				<h3 class="mx-2 h4 float-left">Metadata <span class="mb-0">(Media ID: <a href="/media/#media_id#">media/#media_id#</a>)</span></h3>
