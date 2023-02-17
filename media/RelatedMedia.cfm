@@ -230,7 +230,7 @@
 													</cfif>
 												</cfloop>
 												<cfloop query="pubs">
-													<cfif pubs.recordcount gt 0>#pubs.publication_id#
+													<cfif pubs.recordcount gt 0>tes1: #pubs.publication_id# |
 														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct c.collection_object_id
 														from publication p
@@ -240,7 +240,7 @@
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 														</cfquery>
-														<cfif pubscollid.recordcount gt 0>#pubscollid.collection_object_id#
+														<cfif pubscollid.recordcount gt 0>test 2 |#pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																select distinct mr.media_id, mr.media_relationship
@@ -261,7 +261,7 @@
 																					<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																					<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
 																						<div class="px-0">
-																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#pubs.label# <br>(media/#relm.media_id#)
+																							<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#relm.media_relationship# <br>(media/#relm.media_id#)
 																							</span> 
 																							#mediablock#
 																						</div>
