@@ -192,7 +192,7 @@
 													left join media on mr.media_id = media.media_id
 													where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
 													and mr.media_relationship <> 'created by agent'
-													and mr.media_relationship like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="% #spec.at#">
+													and mr.media_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#spec.rel#">
 													and media.media_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media.media_id#">
 													and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 													</cfquery>
@@ -210,10 +210,13 @@
 																	<cfset mediablock= getMediaBlockHtml(media_id="#relm.media_id#",displayAs="thumb",size='70',captionAs="textCaptionLong")>
 																	<div class="#activeimg# image#i#" id="mediaBlock#relm.media_id#" style="height:230px;">
 																		<div class="px-0">
-																			<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">#spec.label# <cfif spec.label eq 'Shows Cataloged Item'>
+																			<span class="px-2 d-block mt-1 small90 font-weight-lessbold text-center">
+																				#spec.label# 
+																			<cfif spec.label eq 'Shows Cataloged Item'>
 																				<cfquery name="guidi" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 																				select guid from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> flat, media_relations mr where mr.related_primary_key = flat.collection_object_id and mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#spec.pk#" >
-																				</cfquery>#guidi.guid#
+																				</cfquery>
+																				#guidi.guid#
 																			<cfelse>
 																				#spec.pk#
 																			</cfif>
