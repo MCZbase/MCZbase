@@ -230,7 +230,7 @@
 													</cfif>
 												</cfloop>
 												<cfloop query="pubs">
-													<cfif pubs.recordcount gt 0>
+													<cfif pubs.recordcount gt 0>#pubs.publication_id#
 														<cfquery name = "pubscollid" datasource= "user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct c.collection_object_id
 														from publication p
@@ -240,14 +240,14 @@
 														where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 														and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 														</cfquery>
-														<cfif pubscollid.recordcount gt 0>
+														<cfif pubscollid.recordcount gt 0>#pubscollid.collection_object_id#
 															<cfloop query="pubscollid">
 																<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-																select distinct mr.media_id
+																select distinct mr.media_id, mr.media_relationship
 																from media_relations mr 
 																where mr.related_primary_key = <cfqueryparam  value="#pubscollid.collection_object_id#">
 																</cfquery>
-																<cfif relm.recordcount gt 0>
+																<cfif relm.recordcount gt 0>#relm.media_id#
 																	<cfset i = 1>
 																	<cfloop query="relm">
 																		<div class="col-md-4 col-lg-3 col-xl-2 px-1 float-left multizoom thumbs">
