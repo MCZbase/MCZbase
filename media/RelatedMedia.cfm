@@ -44,6 +44,7 @@
 			left join media_relations mr on mr.RELATED_PRIMARY_KEY = p.publication_id 
 			left join citation c on c.publication_id = p.publication_id
 			left join media on mr.media_id = media.media_id
+			left join mczbase.ctmedia_relationship ct on mr.media_relationship = ct.media_relationship
 			where mr.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pubs.publication_id#">
 			and MCZBASE.is_media_encumbered(media.media_id)  < 1 
 			UNION
