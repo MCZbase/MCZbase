@@ -132,9 +132,9 @@ limitations under the License.
 						var georefmethod = rowData['GEOREFMETHOD'];
 						var nogeorefbecause = rowData['NOGEOREFBECAUSE'];
 						if (dec_lat) { 
-							coordinates = " " + dec_lat + ", " dec_long + " " + datum + " ±" + max_error_distance + " " + verificationstatus + " " 
+							coordinates = " " + dec_lat + ", " dec_long + " " + datum + " ±" + max_error_distance + " " + verificationstatus + " ";
 						} else { 
-							coordinates = " " + nogeorefbecause + " "; }
+							coordinates = " " + nogeorefbecause + " ";
 						}
 						if (sovereign_nation) {
 							if (sovereign_nation=="[unknown]") { 
