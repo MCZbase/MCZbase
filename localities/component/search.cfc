@@ -157,9 +157,9 @@ limitations under the License.
 	<cfelseif left(value,1) is ">"><!--- " --->
 		<cfset pre = "#field# > "><!--- " --->
 		<cfset outvalue="#right(value,len(value)-1)#">
-	<cfelseif find('-',maximum_elevation) GT 1>
-		<cfset bits = listToArray(maximum_elevation,'-')>
-		<cfif arrayLength(bits) GT 1>
+	<cfelseif find('-',value) GT 1>
+		<cfset bits = listToArray(value,'-')>
+		<cfif arrayLen(bits) GT 1>
 			<cfset pre = "#field# = ">
 			<cfset between="true">
 			<cfset outvalue="#bits[1]#">
