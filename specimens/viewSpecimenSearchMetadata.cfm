@@ -559,8 +559,20 @@ limitations under the License.
 								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 								var result = "";
 								var category = rowData['SEARCH_CATEGORY'];
-								if (category=='Accessions' || category=='Attributes' || category=='Cataloged Item' ) {
+								if (category=='Accessions' || category=='Attributes' || category=='Cataloged Item' || category=='Collecting Events' ) {
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/documentation/er_diagrams/'+value.toLowerCase().replace(' ','_')+'.svg" target="blank">'+value+'</a></span>';
+								} else { 
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+								}
+								return result;
+							};
+							var tableCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+								var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+								var result = "";
+								var category = rowData['SEARCH_CATEGORY'];
+								var tablename = rowData['TABLE_NAME'];
+								if (category=='Collecting Events' && ( tablename == 'LAT_LONG' || tablename == 'LOCALITY' || tablename == 'GEOG_AUTH_REC' ) ) {
+									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/documentation/er_diagrams/localities.svg" target="blank">'+value+'</a></span>';
 								} else { 
 									result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 								}
@@ -637,7 +649,7 @@ limitations under the License.
 									{text: 'Example Values', datafield: 'EXAMPLE_VALUES', width: 240, hideable: true, hidden: getColHidProp('EXAMPLE_VALUES', false) },
 									{text: 'Autocomplete', datafield: 'UI_FUNCTION', width: 60, hideable: true, hidden: getColHidProp('UI_FUNCTION', false), cellsrenderer: autocompleteCellRenderer },
 									{text: 'Field Definition', datafield: 'DEFINITION', width: 200, hideable: true, hidden: getColHidProp('DEFINITION', false) },
-									{text: 'Table Name', datafield: 'TABLE_NAME', width: 140, hideable: true, hidden: getColHidProp('TABLE_NAME', false) },
+									{text: 'Table Name', datafield: 'TABLE_NAME', width: 140, hideable: true, hidden: getColHidProp('TABLE_NAME', false), cellsrenderer: tableCellRenderer },
 									{text: 'Column Name', datafield: 'COLUMN_NAME', width: 150, hideable: true, hidden: getColHidProp('COLUMN_NAME', false) },
 									{text: 'Data Type', datafield: 'DATA_TYPE', width: 80, hideable: true, hidden: getColHidProp('DATA_TYPE', false) },
 									{text: 'Access Role', datafield: 'ACCESS_ROLE', hideable: true, hidden: getColHidProp('ACCESS_ROLE', false) }
