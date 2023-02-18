@@ -87,6 +87,66 @@ limitations under the License.
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/editLocality.cfm?locality_id=' + rowData['LOCALITY_ID'] + '" target="_blank">'+value+'</a></span>';
 					};
+					var summaryCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var spec_locality = rowData['SPEC_LOCALITY'];
+						var id = rowData['LOCALITY_ID'];
+						var locality_remarks = rowData['LOCALITY_REMARKS'];
+						if (locality_remarks) { remarks = " remarks: " + locality_remarks + " "; } else { remarks = ""; }
+						var curated_fg = rowData['CURATED_FG'];
+						if (curated_fg=="1") { curated = "*"; } else { curated = ""; }
+						var sovereign_nation = rowData['SOVEREIGN_NATION'];
+						var minimum_elevation = rowData['MINIMUM_ELEVATION'];
+						var maximum_elevation = rowData['MAXIMUM_ELEVATION'];
+						var orig_elevation_units = rowData['ORIG_ELEV_UNITS'];
+						if (minimum_elevation) { 
+							elevation = " Elev: " + minimum_elevation;
+							if (maximum_elevation && maximum_elevation != minimum_elevation) {
+								elevation = elevation + "-" + maximum_elevation;
+							}
+							elevation = elevation + " " + orig_elev_units + " ";
+						} else {
+							elevation = "";
+						}
+						var min_depth = rowData['MIN_DEPTH'];
+						var max_depth = rowData['MAX_DEPTH'];
+						var depth_units = rowData['DEPTH_UNITS'];
+						if (min_depth) { 
+							depth = " Depth: " + min_depth;
+							if (max_depth && max_depth != min_depth) {
+								depth = depth + "-" + max_depth;
+							}
+							depth = depth + " " + depth_units + " ";
+						} else {
+							depth = "";
+						}
+						var plss = rowData['PLSS'];
+						var geolatts = rowData['GEOLATTS'];
+						if (geolatts) { geology = " [" + geolatts + "] "; } else { geology = ""; } 
+						var dec_lat = rowData['DEC_LAT'];
+						var dec_long = rowData['DEC_LONG'];
+						var datum = rowData['DATUM'];
+						var max_error_distance = rowData['MAX_ERROR_DISTANCE'];
+						var extent = rowData['EXTENT'];
+						var verificationstatus = rowData['VERIFICATIONSTATUS'];
+						var georefmethod = rowData['GEOREFMETHOD'];
+						var nogeorefbecause = rowData['NOGEOREFBECAUSE'];
+						if (dec_lat) { 
+							coordinates = " " + dec_lat + ", " + dec_long + " " + datum + " ±" + max_error_distance + " " + verificationstatus + " ";
+						} else { 
+							coordinates = " " + nogeorefbecause + " ";
+						}
+						if (sovereign_nation) {
+							if (sovereign_nation=="[unknown]") { 
+								sovereign_nation = " Sovereign Nation: " + sovereign_nation + " ";
+							} else {
+								sovereign_nation = " " + sovereign_nation + " ";
+							}
+						}
+						if (plss) { plss = " " + plss + " "; } 
+						var data = spec_locality + geology +  elevation + depth + sovereign_nation + plss + coordinates + remarks + " (" + id + ")" + curated;
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + data + '</span>';
+					};
 					var specimensCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						if (value==0) {
@@ -148,9 +208,20 @@ limitations under the License.
 									{ name: 'MINIMUM_ELEVATION', type: 'string' },
 									{ name: 'MAXIMUM_ELEVATION', type: 'string' },
 									{ name: 'ORIG_ELEV_UNITS', type: 'string' },
+									{ name: 'MIN_DEPTH', type: 'string' },
+									{ name: 'MAX_DEPTH', type: 'string' },
+									{ name: 'DEPTH_UNITS', type: 'string' },
 									{ name: 'PLSS', type: 'string' },
 									{ name: 'GEOLATTS', type: 'string' },
 									{ name: 'COLLCOUNTLOCALITY', type: 'string' },
+									{ name: 'DEC_LAT', type: 'string' },
+									{ name: 'DEC_LONG', type: 'string' },
+									{ name: 'DATUM', type: 'string' },
+									{ name: 'MAX_ERROR_DISTANCE', type: 'string' },
+									{ name: 'EXTENT', type: 'string' },
+									{ name: 'VERIFICATIONSTATUS', type: 'string' },
+									{ name: 'GEOREFMETHOD', type: 'string' },
+									{ name: 'NOGEOREFBECAUSE', type: 'string' },
 									{ name: 'LOCALITY_REMARKS', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
@@ -181,13 +252,14 @@ limitations under the License.
 							$("##searchResultsGrid").jqxGrid({
 								width: '100%',
 								autoheight: 'true',
+								autorowheight: 'true', // for text to wrap in cells
 								source: dataAdapter,
 								filterable: true,
 								sortable: true,
 								pageable: true,
 								editable: false,
 								pagesize: '50',
-								pagesizeoptions: ['5','50','100'],
+								pagesizeoptions: ['5','10','25','50','100'],
 								showaggregates: true,
 								columnsresize: true,
 								autoshowfiltericon: true,
@@ -199,17 +271,28 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{ text: 'ID', datafield: 'LOCALITY_ID',width: 100, hideabel: false, cellsrenderer: linkIdCellRenderer  },
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										{text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', hideable: false, cellsrenderer: editCellRenderer},
 									</cfif>
 									{ text: 'Cat.Items', datafield: 'SPECIMEN_COUNT',width: 100, hideabel: true, hidden: getColHidProp('SPECIMEN_COUNT',false), cellsrenderer: specimensCellRenderer  },
-									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',false)  },
+									{ text: 'Locality', datafield: 'LOCALITY_ID',width: 500, hideabel: true, hidden: getColHidProp('LOCALITY_ID',false), cellsrenderer: summaryCellRenderer  },
+									{ text: 'Specific Locality', datafield: 'SPEC_LOCALITY',width: 200, hideabel: true, hidden: getColHidProp('SPEC_LOCALITY',true)  },
 									{ text: 'Vetted', datafield: 'CURATED_FG',width: 50, hideabel: true, hidden: getColHidProp('CURATED_FG',false)  },
-									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',false)  },
-									{ text: 'Min Elevation', datafield: 'MINIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MINIMUM_ELEVATION',false)  },
-									{ text: 'Max Elevation', datafield: 'MAXIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MAXIMUM_ELEVATION',false)  },
-									{ text: 'Elev Units', datafield: 'ORIG_ELEV_UNITS',width: 100, hideabel: true, hidden: getColHidProp('ORIG_ELEV_UNITS',false)  },
+									{ text: 'Locality Remarks', datafield: 'LOCALITY_REMARKS',width: 100, hideabel: true, hidden: getColHidProp('LOCALITY_REMARKS',true)  },
+									{ text: 'Min Depth', datafield: 'MIN_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MIN_DEPTH',true)  },
+									{ text: 'Max Depth', datafield: 'MAX_DEPTH',width: 100, hideabel: true, hidden: getColHidProp('MAX_DEPTH',true)  },
+									{ text: 'Depth Units', datafield: 'DEPTH_UNITS',width: 100, hideabel: true, hidden: getColHidProp('DEPTH_UNITS',true)  },
+									{ text: 'Min Elevation', datafield: 'MINIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MINIMUM_ELEVATION',true)  },
+									{ text: 'Max Elevation', datafield: 'MAXIMUM_ELEVATION',width: 100, hideabel: true, hidden: getColHidProp('MAXIMUM_ELEVATION',true)  },
+									{ text: 'Elev Units', datafield: 'ORIG_ELEV_UNITS',width: 100, hideabel: true, hidden: getColHidProp('ORIG_ELEV_UNITS',true)  },
+									{ text: 'Lat.', datafield: 'DEC_LAT', width: 100, hideable: true, hidden: getColHidProp('DEC_LAT',true) },
+									{ text: 'Long.', datafield: 'DEC_LONG', width: 100, hideable: true, hidden: getColHidProp('DEC_LONG',true) },
+									{ text: 'Datum', datafield: 'DATUM', width: 100, hideable: true, hidden: getColHidProp('DATUM',true) },
+									{ text: 'Error Radius', datafield: 'MAX_ERROR_DISTANCE', width: 100, hideable: true, hidden: getColHidProp('MAX_ERROR_DISTANCE',true) },
+									{ text: 'Extent', datafield: 'EXTENT', width: 100, hideable: true, hidden: getColHidProp('EXTENT',true) },
+									{ text: 'Verification', datafield: 'VERIFICATIONSTATUS', width: 100, hideable: true, hidden: getColHidProp('VERIFICATIONSTATUS',true) },
+									{ text: 'GeoRef Method', datafield: 'GEOREFMETHOD', width: 100, hideable: true, hidden: getColHidProp('GEOREFMETHOD',true) },
+									{ text: 'NotGeoreferenced', datafield: 'NOGEOREFBECAUSE', width: 100, hideable: true, hidden: getColHidProp('GEOREFMETHOD',true) },
 									{ text: 'Continent/Ocean', datafield: 'CONTINENT_OCEAN',width: 100, hideabel: true, hidden: getColHidProp('CONTINENT_OCEAN',true)  },
 									{ text: 'Ocean Region', datafield: 'OCEAN_REGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_REGION',true)  },
 									{ text: 'Ocean Subregion', datafield: 'OCEAN_SUBREGION',width: 100, hideabel: true, hidden: getColHidProp('OCEAN_SUBREGION',true)  },
@@ -288,9 +371,13 @@ limitations under the License.
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', '100', rowcount],pagesize: 50});
 						} else if (rowcount > 50) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25','50', rowcount],pagesize:50});
+						} else if (rowcount > 25) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10','25', rowcount],pagesize:25});
+						} else if (rowcount > 10) { 
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','10', rowcount],pagesize:rowcount});
 						} else { 
 							$('##' + gridId).jqxGrid({ pageable: false });
 						}
